@@ -31,7 +31,7 @@ export class ItemPanelPreviewComponent extends PanelBaseComponent implements OnI
 
   ngOnInit() {
     // Handle virtual content
-    if (this.item.contentType === ContentType.ContentItem) {
+    if (this.item.contentType === ContentType.Virtual) {
       this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
       return;
     }

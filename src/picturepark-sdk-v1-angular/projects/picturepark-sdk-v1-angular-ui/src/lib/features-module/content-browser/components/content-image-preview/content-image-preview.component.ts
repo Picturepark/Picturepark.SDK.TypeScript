@@ -186,7 +186,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
                 isAudio: s.contentSchemaId === 'AudioMetadata',
                 isImage: s.contentSchemaId === 'ImageMetadata',
                 isPdf: pdfOutput !== undefined,
-                isBinary: s.contentType !== ContentType.ContentItem,
+                isBinary: s.contentType !== ContentType.Virtual,
 
                 previewUrl: previewOutput ? previewOutput.viewUrl : originalOutput &&
                             s.contentSchemaId === 'ImageMetadata' ? originalOutput.viewUrl : s.iconUrl,

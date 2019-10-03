@@ -28560,7 +28560,7 @@ export enum ContentType {
     Database = "Database",
     Cad = "Cad",
     Model3d = "Model3d",
-    ContentItem = "ContentItem",
+    Virtual = "Virtual",
 }
 
 export class ContentBackupFailedException extends PictureparkBusinessException implements IContentBackupFailedException {
@@ -35009,14 +35009,11 @@ export interface IBusinessRuleAction {
 export class AssignLayerAction extends BusinessRuleAction implements IAssignLayerAction {
     /** The ID of the layer. */
     layerId?: string | undefined;
-    /** A dictionary containing default values (used for example to populate required fields). */
-    defaultValues?: DataDictionary | undefined;
+    /** An object containing default values (used for example to populate required fields). */
+    defaultValues?: any | undefined;
 
     constructor(data?: IAssignLayerAction) {
         super(data);
-        if (data) {
-            this.defaultValues = data.defaultValues && !(<any>data.defaultValues).toJSON ? new DataDictionary(data.defaultValues) : <DataDictionary>this.defaultValues; 
-        }
         this._discriminator = "AssignLayerAction";
     }
 
@@ -35024,7 +35021,7 @@ export class AssignLayerAction extends BusinessRuleAction implements IAssignLaye
         super.init(data);
         if (data) {
             this.layerId = data["layerId"];
-            this.defaultValues = data["defaultValues"] ? DataDictionary.fromJS(data["defaultValues"]) : <any>undefined;
+            this.defaultValues = data["defaultValues"];
         }
     }
 
@@ -35038,7 +35035,7 @@ export class AssignLayerAction extends BusinessRuleAction implements IAssignLaye
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["layerId"] = this.layerId;
-        data["defaultValues"] = this.defaultValues ? this.defaultValues.toJSON() : <any>undefined;
+        data["defaultValues"] = this.defaultValues;
         super.toJSON(data);
         return data; 
     }
@@ -35048,52 +35045,8 @@ export class AssignLayerAction extends BusinessRuleAction implements IAssignLaye
 export interface IAssignLayerAction extends IBusinessRuleAction {
     /** The ID of the layer. */
     layerId?: string | undefined;
-    /** A dictionary containing default values (used for example to populate required fields). */
-    defaultValues?: IDataDictionary | undefined;
-}
-
-export class DataDictionary implements IDataDictionary {
-
-    [key: string]: any; 
-
-    constructor(data?: IDataDictionary) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    this[property] = data[property];
-            }
-        }
-    }
-
-    static fromJS(data: any): DataDictionary {
-        data = typeof data === 'object' ? data : {};
-        let result = new DataDictionary();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
-        return data; 
-    }
-}
-
-export interface IDataDictionary {
-
-    [key: string]: any; 
+    /** An object containing default values (used for example to populate required fields). */
+    defaultValues?: any | undefined;
 }
 
 /** Removes a layer */
@@ -36935,34 +36888,45 @@ export interface IChannelUpdateRequest {
     viewForAll: boolean;
 }
 
-/** A content detail. */
+/** Content detail */
 export class ContentDetail implements IContentDetail {
-    /** Audit data with information regarding document creation and modification. */
-    audit?: UserAuditDetail | undefined;
-    /** The content data */
-    content!: any;
-    /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    contentPermissionSetIds?: string[] | undefined;
-    /** The id of the content schema */
+    /** The ID of the content schema. The SchemaType of the specified schema must be Content.
+The schema specifies the structure of the Content dictionary. */
     contentSchemaId!: string;
-    /** The type of content */
-    contentType!: ContentType;
-    /** Contains language specific display values, rendered according to the content schema's
-             display pattern configuration. */
-    displayValues?: DisplayValueDictionary | undefined;
-    /** The content id. */
+    /** An optional list of IDs of the schemas that form the layers of the content.
+The SchemaType of the specified schemas must be Layer. */
+    layerSchemaIds?: string[] | undefined;
+    /** All the IDs of the referenced list items (tagboxes) that do not exist in the system. */
+    brokenReferenceIds?: string[] | undefined;
+    /** All the IDs of the indirectly referenced list items (tagboxes) that do not exist in the system.
+They are referenced list items that reference at least a list item that do not exist in the system. */
+    brokenIndirectReferenceIds?: string[] | undefined;
+    /** All the IDs of the contents or list items target of a relation that do not exist in the system. */
+    brokenRelationTargetIds?: string[] | undefined;
+    /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified.
+by the ContentSchemaId property. */
+    content?: any | undefined;
+    /** The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
+    /** The content ID. */
     id!: string;
-    /** An optional list of layer schemas ids */
-    layerSchemaIds!: string[];
-    /** The metadata dictionary */
-    metadata?: DataDictionary | undefined;
-    /** A list of rendering outputs for underlying digital file. */
+    /** An optional list of content permission set IDs which control content permissions. These permissions control content accessibility for the users that do not own the content. */
+    contentPermissionSetIds?: string[] | undefined;
+    /** The Outputs generated from the content. They identifies the rendered files generated by the system.
+They are available only for file base contents, and they depends on the output formats configured in the system. */
     outputs?: Output[] | undefined;
+    /** Audit information. */
+    audit?: UserAuditDetail | undefined;
     /** The owner token ID. Defines the content owner. */
     ownerTokenId!: string;
     /** The resolved owner. */
     owner?: User | undefined;
-    /** The lifecycle of the content. */
+    /** Content type. */
+    contentType!: ContentType;
+    /** Contains language specific display values. They are calculated values based on the template stored in the Content schema DisplayPatterns property. */
+    displayValues?: DisplayValueDictionary | undefined;
+    /** The actual lifecycle value of the content. Becomes Inactive when the content is deleted. */
     lifeCycle!: LifeCycle;
     /** List of content rights the user has on this content */
     contentRights?: ContentRight[] | undefined;
@@ -36974,41 +36938,58 @@ export class ContentDetail implements IContentDetail {
                     (<any>this)[property] = (<any>data)[property];
             }
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit; 
-            this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
-            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
             this.owner = data.owner && !(<any>data.owner).toJSON ? new User(data.owner) : <User>this.owner; 
-        }
-        if (!data) {
-            this.layerSchemaIds = [];
+            this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            this.audit = data["audit"] ? UserAuditDetail.fromJS(data["audit"]) : <any>undefined;
-            this.content = data["content"];
-            if (Array.isArray(data["contentPermissionSetIds"])) {
-                this.contentPermissionSetIds = [] as any;
-                for (let item of data["contentPermissionSetIds"])
-                    this.contentPermissionSetIds!.push(item);
-            }
             this.contentSchemaId = data["contentSchemaId"];
-            this.contentType = data["contentType"];
-            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
-            this.id = data["id"];
             if (Array.isArray(data["layerSchemaIds"])) {
                 this.layerSchemaIds = [] as any;
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds!.push(item);
             }
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
+            if (Array.isArray(data["brokenReferenceIds"])) {
+                this.brokenReferenceIds = [] as any;
+                for (let item of data["brokenReferenceIds"])
+                    this.brokenReferenceIds!.push(item);
+            }
+            if (Array.isArray(data["brokenIndirectReferenceIds"])) {
+                this.brokenIndirectReferenceIds = [] as any;
+                for (let item of data["brokenIndirectReferenceIds"])
+                    this.brokenIndirectReferenceIds!.push(item);
+            }
+            if (Array.isArray(data["brokenRelationTargetIds"])) {
+                this.brokenRelationTargetIds = [] as any;
+                for (let item of data["brokenRelationTargetIds"])
+                    this.brokenRelationTargetIds!.push(item);
+            }
+            this.content = data["content"];
+            if (data["metadata"]) {
+                this.metadata = {} as any;
+                for (let key in data["metadata"]) {
+                    if (data["metadata"].hasOwnProperty(key))
+                        this.metadata![key] = data["metadata"][key];
+                }
+            }
+            this.id = data["id"];
+            if (Array.isArray(data["contentPermissionSetIds"])) {
+                this.contentPermissionSetIds = [] as any;
+                for (let item of data["contentPermissionSetIds"])
+                    this.contentPermissionSetIds!.push(item);
+            }
             if (Array.isArray(data["outputs"])) {
                 this.outputs = [] as any;
                 for (let item of data["outputs"])
                     this.outputs!.push(Output.fromJS(item));
             }
+            this.audit = data["audit"] ? UserAuditDetail.fromJS(data["audit"]) : <any>undefined;
             this.ownerTokenId = data["ownerTokenId"];
             this.owner = data["owner"] ? User.fromJS(data["owner"]) : <any>undefined;
+            this.contentType = data["contentType"];
+            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
             this.lifeCycle = data["lifeCycle"];
             if (Array.isArray(data["contentRights"])) {
                 this.contentRights = [] as any;
@@ -37027,30 +37008,51 @@ export class ContentDetail implements IContentDetail {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["content"] = this.content;
-        if (Array.isArray(this.contentPermissionSetIds)) {
-            data["contentPermissionSetIds"] = [];
-            for (let item of this.contentPermissionSetIds)
-                data["contentPermissionSetIds"].push(item);
-        }
         data["contentSchemaId"] = this.contentSchemaId;
-        data["contentType"] = this.contentType;
-        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
-        data["id"] = this.id;
         if (Array.isArray(this.layerSchemaIds)) {
             data["layerSchemaIds"] = [];
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
+        if (Array.isArray(this.brokenReferenceIds)) {
+            data["brokenReferenceIds"] = [];
+            for (let item of this.brokenReferenceIds)
+                data["brokenReferenceIds"].push(item);
+        }
+        if (Array.isArray(this.brokenIndirectReferenceIds)) {
+            data["brokenIndirectReferenceIds"] = [];
+            for (let item of this.brokenIndirectReferenceIds)
+                data["brokenIndirectReferenceIds"].push(item);
+        }
+        if (Array.isArray(this.brokenRelationTargetIds)) {
+            data["brokenRelationTargetIds"] = [];
+            for (let item of this.brokenRelationTargetIds)
+                data["brokenRelationTargetIds"].push(item);
+        }
+        data["content"] = this.content;
+        if (this.metadata) {
+            data["metadata"] = {};
+            for (let key in this.metadata) {
+                if (this.metadata.hasOwnProperty(key))
+                    data["metadata"][key] = this.metadata[key];
+            }
+        }
+        data["id"] = this.id;
+        if (Array.isArray(this.contentPermissionSetIds)) {
+            data["contentPermissionSetIds"] = [];
+            for (let item of this.contentPermissionSetIds)
+                data["contentPermissionSetIds"].push(item);
+        }
         if (Array.isArray(this.outputs)) {
             data["outputs"] = [];
             for (let item of this.outputs)
                 data["outputs"].push(item.toJSON());
         }
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         data["ownerTokenId"] = this.ownerTokenId;
         data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
+        data["contentType"] = this.contentType;
+        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         data["lifeCycle"] = this.lifeCycle;
         if (Array.isArray(this.contentRights)) {
             data["contentRights"] = [];
@@ -37061,203 +37063,48 @@ export class ContentDetail implements IContentDetail {
     }
 }
 
-/** A content detail. */
+/** Content detail */
 export interface IContentDetail {
-    /** Audit data with information regarding document creation and modification. */
-    audit?: IUserAuditDetail | undefined;
-    /** The content data */
-    content: any;
-    /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    contentPermissionSetIds?: string[] | undefined;
-    /** The id of the content schema */
+    /** The ID of the content schema. The SchemaType of the specified schema must be Content.
+The schema specifies the structure of the Content dictionary. */
     contentSchemaId: string;
-    /** The type of content */
-    contentType: ContentType;
-    /** Contains language specific display values, rendered according to the content schema's
-             display pattern configuration. */
-    displayValues?: IDisplayValueDictionary | undefined;
-    /** The content id. */
+    /** An optional list of IDs of the schemas that form the layers of the content.
+The SchemaType of the specified schemas must be Layer. */
+    layerSchemaIds?: string[] | undefined;
+    /** All the IDs of the referenced list items (tagboxes) that do not exist in the system. */
+    brokenReferenceIds?: string[] | undefined;
+    /** All the IDs of the indirectly referenced list items (tagboxes) that do not exist in the system.
+They are referenced list items that reference at least a list item that do not exist in the system. */
+    brokenIndirectReferenceIds?: string[] | undefined;
+    /** All the IDs of the contents or list items target of a relation that do not exist in the system. */
+    brokenRelationTargetIds?: string[] | undefined;
+    /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified.
+by the ContentSchemaId property. */
+    content?: any | undefined;
+    /** The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
+    /** The content ID. */
     id: string;
-    /** An optional list of layer schemas ids */
-    layerSchemaIds: string[];
-    /** The metadata dictionary */
-    metadata?: IDataDictionary | undefined;
-    /** A list of rendering outputs for underlying digital file. */
+    /** An optional list of content permission set IDs which control content permissions. These permissions control content accessibility for the users that do not own the content. */
+    contentPermissionSetIds?: string[] | undefined;
+    /** The Outputs generated from the content. They identifies the rendered files generated by the system.
+They are available only for file base contents, and they depends on the output formats configured in the system. */
     outputs?: Output[] | undefined;
+    /** Audit information. */
+    audit?: IUserAuditDetail | undefined;
     /** The owner token ID. Defines the content owner. */
     ownerTokenId: string;
     /** The resolved owner. */
     owner?: IUser | undefined;
-    /** The lifecycle of the content. */
+    /** Content type. */
+    contentType: ContentType;
+    /** Contains language specific display values. They are calculated values based on the template stored in the Content schema DisplayPatterns property. */
+    displayValues?: IDisplayValueDictionary | undefined;
+    /** The actual lifecycle value of the content. Becomes Inactive when the content is deleted. */
     lifeCycle: LifeCycle;
     /** List of content rights the user has on this content */
     contentRights?: ContentRight[] | undefined;
-}
-
-/** Audit information */
-export class UserAuditDetail implements IUserAuditDetail {
-    /** The date on which the document was created. */
-    creationDate!: Date;
-    /** The last date on which the document was modified. */
-    modificationDate!: Date;
-    /** ID of the user who created the document. */
-    createdByUser?: User | undefined;
-    /** ID of the last user who modified the document. */
-    modifiedByUser?: User | undefined;
-
-    constructor(data?: IUserAuditDetail) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.createdByUser = data.createdByUser && !(<any>data.createdByUser).toJSON ? new User(data.createdByUser) : <User>this.createdByUser; 
-            this.modifiedByUser = data.modifiedByUser && !(<any>data.modifiedByUser).toJSON ? new User(data.modifiedByUser) : <User>this.modifiedByUser; 
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.creationDate = data["creationDate"] ? new Date(data["creationDate"].toString()) : <any>undefined;
-            this.modificationDate = data["modificationDate"] ? new Date(data["modificationDate"].toString()) : <any>undefined;
-            this.createdByUser = data["createdByUser"] ? User.fromJS(data["createdByUser"]) : <any>undefined;
-            this.modifiedByUser = data["modifiedByUser"] ? User.fromJS(data["modifiedByUser"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): UserAuditDetail {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserAuditDetail();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["creationDate"] = this.creationDate ? this.creationDate.toISOString() : <any>undefined;
-        data["modificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
-        data["createdByUser"] = this.createdByUser ? this.createdByUser.toJSON() : <any>undefined;
-        data["modifiedByUser"] = this.modifiedByUser ? this.modifiedByUser.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-/** Audit information */
-export interface IUserAuditDetail {
-    /** The date on which the document was created. */
-    creationDate: Date;
-    /** The last date on which the document was modified. */
-    modificationDate: Date;
-    /** ID of the user who created the document. */
-    createdByUser?: IUser | undefined;
-    /** ID of the last user who modified the document. */
-    modifiedByUser?: IUser | undefined;
-}
-
-export class User implements IUser {
-    /** User's Picturepark ID. */
-    id?: string | undefined;
-    /** User's first name. */
-    firstName?: string | undefined;
-    /** User's last name. */
-    lastName?: string | undefined;
-    /** Email address of the user (doubles as username). */
-    emailAddress!: string;
-    /** Marks a user that was deleted from the system. */
-    isDeleted!: boolean;
-
-    constructor(data?: IUser) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.firstName = data["firstName"];
-            this.lastName = data["lastName"];
-            this.emailAddress = data["emailAddress"];
-            this.isDeleted = data["isDeleted"];
-        }
-    }
-
-    static fromJS(data: any): User {
-        data = typeof data === 'object' ? data : {};
-        let result = new User();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["firstName"] = this.firstName;
-        data["lastName"] = this.lastName;
-        data["emailAddress"] = this.emailAddress;
-        data["isDeleted"] = this.isDeleted;
-        return data; 
-    }
-}
-
-export interface IUser {
-    /** User's Picturepark ID. */
-    id?: string | undefined;
-    /** User's first name. */
-    firstName?: string | undefined;
-    /** User's last name. */
-    lastName?: string | undefined;
-    /** Email address of the user (doubles as username). */
-    emailAddress: string;
-    /** Marks a user that was deleted from the system. */
-    isDeleted: boolean;
-}
-
-export class DisplayValueDictionary implements IDisplayValueDictionary {
-
-    [key: string]: string | any; 
-
-    constructor(data?: IDisplayValueDictionary) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    this[property] = data[property];
-            }
-        }
-    }
-
-    static fromJS(data: any): DisplayValueDictionary {
-        data = typeof data === 'object' ? data : {};
-        let result = new DisplayValueDictionary();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
-        return data; 
-    }
-}
-
-export interface IDisplayValueDictionary {
-
-    [key: string]: string | any; 
 }
 
 /** Output */
@@ -37780,6 +37627,172 @@ export class OutputDetail extends Output implements IOutputDetail {
 export interface IOutputDetail extends IOutput {
 }
 
+/** Audit information */
+export class UserAuditDetail implements IUserAuditDetail {
+    /** The date on which the document was created. */
+    creationDate!: Date;
+    /** The last date on which the document was modified. */
+    modificationDate!: Date;
+    /** ID of the user who created the document. */
+    createdByUser?: User | undefined;
+    /** ID of the last user who modified the document. */
+    modifiedByUser?: User | undefined;
+
+    constructor(data?: IUserAuditDetail) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.createdByUser = data.createdByUser && !(<any>data.createdByUser).toJSON ? new User(data.createdByUser) : <User>this.createdByUser; 
+            this.modifiedByUser = data.modifiedByUser && !(<any>data.modifiedByUser).toJSON ? new User(data.modifiedByUser) : <User>this.modifiedByUser; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.creationDate = data["creationDate"] ? new Date(data["creationDate"].toString()) : <any>undefined;
+            this.modificationDate = data["modificationDate"] ? new Date(data["modificationDate"].toString()) : <any>undefined;
+            this.createdByUser = data["createdByUser"] ? User.fromJS(data["createdByUser"]) : <any>undefined;
+            this.modifiedByUser = data["modifiedByUser"] ? User.fromJS(data["modifiedByUser"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UserAuditDetail {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserAuditDetail();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["creationDate"] = this.creationDate ? this.creationDate.toISOString() : <any>undefined;
+        data["modificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
+        data["createdByUser"] = this.createdByUser ? this.createdByUser.toJSON() : <any>undefined;
+        data["modifiedByUser"] = this.modifiedByUser ? this.modifiedByUser.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Audit information */
+export interface IUserAuditDetail {
+    /** The date on which the document was created. */
+    creationDate: Date;
+    /** The last date on which the document was modified. */
+    modificationDate: Date;
+    /** ID of the user who created the document. */
+    createdByUser?: IUser | undefined;
+    /** ID of the last user who modified the document. */
+    modifiedByUser?: IUser | undefined;
+}
+
+export class User implements IUser {
+    /** User's Picturepark ID. */
+    id?: string | undefined;
+    /** User's first name. */
+    firstName?: string | undefined;
+    /** User's last name. */
+    lastName?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress!: string;
+    /** Marks a user that was deleted from the system. */
+    isDeleted!: boolean;
+
+    constructor(data?: IUser) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.firstName = data["firstName"];
+            this.lastName = data["lastName"];
+            this.emailAddress = data["emailAddress"];
+            this.isDeleted = data["isDeleted"];
+        }
+    }
+
+    static fromJS(data: any): User {
+        data = typeof data === 'object' ? data : {};
+        let result = new User();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["emailAddress"] = this.emailAddress;
+        data["isDeleted"] = this.isDeleted;
+        return data; 
+    }
+}
+
+export interface IUser {
+    /** User's Picturepark ID. */
+    id?: string | undefined;
+    /** User's first name. */
+    firstName?: string | undefined;
+    /** User's last name. */
+    lastName?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress: string;
+    /** Marks a user that was deleted from the system. */
+    isDeleted: boolean;
+}
+
+export class DisplayValueDictionary implements IDisplayValueDictionary {
+
+    [key: string]: string | any; 
+
+    constructor(data?: IDisplayValueDictionary) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    this[property] = data[property];
+            }
+        }
+    }
+
+    static fromJS(data: any): DisplayValueDictionary {
+        data = typeof data === 'object' ? data : {};
+        let result = new DisplayValueDictionary();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        return data; 
+    }
+}
+
+export interface IDisplayValueDictionary {
+
+    [key: string]: string | any; 
+}
+
 /** Lifecycle */
 export enum LifeCycle {
     Draft = "Draft",
@@ -38020,7 +38033,7 @@ export class Content implements IContent {
     audit?: UserAudit | undefined;
     /** The id of the schema with schema type content. */
     contentSchemaId!: string;
-    /** The content type of this content. All except ContentItem are binary files. */
+    /** The content type of this content. All except Virtual are binary files. */
     contentType!: ContentType;
     /** An optional id list of schemas with schema type layer. */
     layerSchemaIds?: string[] | undefined;
@@ -38132,7 +38145,7 @@ export interface IContent {
     audit?: IUserAudit | undefined;
     /** The id of the schema with schema type content. */
     contentSchemaId: string;
-    /** The content type of this content. All except ContentItem are binary files. */
+    /** The content type of this content. All except Virtual are binary files. */
     contentType: ContentType;
     /** An optional id list of schemas with schema type layer. */
     layerSchemaIds?: string[] | undefined;
@@ -39511,17 +39524,21 @@ export enum ThumbnailSize {
     Large = "Large",
 }
 
-/** A request structure for creating a content document. */
+/** Request to create a content */
 export class ContentCreateRequest implements IContentCreateRequest {
-    /** The id of a schema with schema type content. */
-    contentSchemaId?: string | undefined;
-    /** An optional id list of schemas with schema type layer. */
+    /** The ID of the content schema. The SchemaType of the specified schema must be Content.
+The schema specifies the structure of the Content dictionary. */
+    contentSchemaId!: string;
+    /** An optional list of IDs of the schemas that form the layers of the content.
+The SchemaType of the specified schemas must be Layer. */
     layerSchemaIds?: string[] | undefined;
-    /** The content data of the content document. */
+    /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified by the ContentSchemaId property. */
     content?: any | undefined;
-    /** The layer metadata of the content document. */
-    metadata?: DataDictionary | undefined;
-    /** An optional id list of content permission sets.  */
+    /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
+The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
+    /** An optional list of content permission set IDs which control content permissions. These permissions control content accessibility for the users that do not own the content. */
     contentPermissionSetIds?: string[] | undefined;
     /** Optional client reference for this request.
 Will be returned back in response to make easier for clients to match request items with the respective results.
@@ -39534,7 +39551,6 @@ It is not persisted anywhere and it is ignored in single operations. */
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
         }
     }
 
@@ -39547,7 +39563,13 @@ It is not persisted anywhere and it is ignored in single operations. */
                     this.layerSchemaIds!.push(item);
             }
             this.content = data["content"];
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
+            if (data["metadata"]) {
+                this.metadata = {} as any;
+                for (let key in data["metadata"]) {
+                    if (data["metadata"].hasOwnProperty(key))
+                        this.metadata![key] = data["metadata"][key];
+                }
+            }
             if (Array.isArray(data["contentPermissionSetIds"])) {
                 this.contentPermissionSetIds = [] as any;
                 for (let item of data["contentPermissionSetIds"])
@@ -39573,7 +39595,13 @@ It is not persisted anywhere and it is ignored in single operations. */
                 data["layerSchemaIds"].push(item);
         }
         data["content"] = this.content;
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
+        if (this.metadata) {
+            data["metadata"] = {};
+            for (let key in this.metadata) {
+                if (this.metadata.hasOwnProperty(key))
+                    data["metadata"][key] = this.metadata[key];
+            }
+        }
         if (Array.isArray(this.contentPermissionSetIds)) {
             data["contentPermissionSetIds"] = [];
             for (let item of this.contentPermissionSetIds)
@@ -39584,17 +39612,21 @@ It is not persisted anywhere and it is ignored in single operations. */
     }
 }
 
-/** A request structure for creating a content document. */
+/** Request to create a content */
 export interface IContentCreateRequest {
-    /** The id of a schema with schema type content. */
-    contentSchemaId?: string | undefined;
-    /** An optional id list of schemas with schema type layer. */
+    /** The ID of the content schema. The SchemaType of the specified schema must be Content.
+The schema specifies the structure of the Content dictionary. */
+    contentSchemaId: string;
+    /** An optional list of IDs of the schemas that form the layers of the content.
+The SchemaType of the specified schemas must be Layer. */
     layerSchemaIds?: string[] | undefined;
-    /** The content data of the content document. */
+    /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified by the ContentSchemaId property. */
     content?: any | undefined;
-    /** The layer metadata of the content document. */
-    metadata?: IDataDictionary | undefined;
-    /** An optional id list of content permission sets.  */
+    /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
+The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
+    /** An optional list of content permission set IDs which control content permissions. These permissions control content accessibility for the users that do not own the content. */
     contentPermissionSetIds?: string[] | undefined;
     /** Optional client reference for this request.
 Will be returned back in response to make easier for clients to match request items with the respective results.
@@ -39602,12 +39634,12 @@ It is not persisted anywhere and it is ignored in single operations. */
     requestId?: string | undefined;
 }
 
-/** A request structure for creating multiple content documents. */
+/** Request to create multiple contents */
 export class ContentCreateManyRequest implements IContentCreateManyRequest {
-    /** Allow storing references to missing list items / contents */
+    /** Allows creating contents that refer to list items or contents that don't exist in the system. */
     allowMissingDependencies!: boolean;
-    /** Create items */
-    items?: ContentCreateRequest[] | undefined;
+    /** Items to be created. */
+    items!: ContentCreateRequest[];
 
     constructor(data?: IContentCreateManyRequest) {
         if (data) {
@@ -39622,6 +39654,9 @@ export class ContentCreateManyRequest implements IContentCreateManyRequest {
                     this.items[i] = item && !(<any>item).toJSON ? new ContentCreateRequest(item) : <ContentCreateRequest>item;
                 }
             }
+        }
+        if (!data) {
+            this.items = [];
         }
     }
 
@@ -39655,12 +39690,12 @@ export class ContentCreateManyRequest implements IContentCreateManyRequest {
     }
 }
 
-/** A request structure for creating multiple content documents. */
+/** Request to create multiple contents */
 export interface IContentCreateManyRequest {
-    /** Allow storing references to missing list items / contents */
+    /** Allows creating contents that refer to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
-    /** Create items */
-    items?: IContentCreateRequest[] | undefined;
+    /** Items to be created. */
+    items: IContentCreateRequest[];
 }
 
 /** Request to delete multiple contents. */
@@ -39986,16 +40021,16 @@ export class ContentMetadataUpdateRequest implements IContentMetadataUpdateReque
     /** An optional list of IDs of the schemas that should be updated/replaced based on the options below and Metadata provided.
 The SchemaType of the specified schemas must be Layer. */
     layerSchemaIds?: string[] | undefined;
-    /** The content data of the content. It's a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+    /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified by
 the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-whose ContentType is ContentItem).
+whose ContentType is Virtual).
 Update of content data will be done only if this attribute has any data, i.e. if it's not null or empty. */
-    content?: DataDictionary | undefined;
+    content?: any | undefined;
     /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
 The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
 by the LayerSchemaIds property.
 If there are no data for a specified LayerSchemaId, it is treated as empty. */
-    metadata?: DataDictionary | undefined;
+    metadata?: { [key: string] : any; } | undefined;
     /** Options to modify the behavior for updating the layers.
 Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
 and the ones already existing; existing assigned layers not specified in the property are kept and missing layers are assigned.
@@ -40017,8 +40052,6 @@ Defaults to Merge. */
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.content = data.content && !(<any>data.content).toJSON ? new DataDictionary(data.content) : <DataDictionary>this.content; 
-            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
         }
     }
 
@@ -40029,8 +40062,14 @@ Defaults to Merge. */
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds!.push(item);
             }
-            this.content = data["content"] ? DataDictionary.fromJS(data["content"]) : <any>undefined;
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
+            this.content = data["content"];
+            if (data["metadata"]) {
+                this.metadata = {} as any;
+                for (let key in data["metadata"]) {
+                    if (data["metadata"].hasOwnProperty(key))
+                        this.metadata![key] = data["metadata"][key];
+                }
+            }
             this.layerSchemasUpdateOptions = data["layerSchemasUpdateOptions"];
             this.schemaFieldsUpdateOptions = data["schemaFieldsUpdateOptions"];
         }
@@ -40050,8 +40089,14 @@ Defaults to Merge. */
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        data["content"] = this.content ? this.content.toJSON() : <any>undefined;
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
+        data["content"] = this.content;
+        if (this.metadata) {
+            data["metadata"] = {};
+            for (let key in this.metadata) {
+                if (this.metadata.hasOwnProperty(key))
+                    data["metadata"][key] = this.metadata[key];
+            }
+        }
         data["layerSchemasUpdateOptions"] = this.layerSchemasUpdateOptions;
         data["schemaFieldsUpdateOptions"] = this.schemaFieldsUpdateOptions;
         return data; 
@@ -40063,16 +40108,16 @@ export interface IContentMetadataUpdateRequest {
     /** An optional list of IDs of the schemas that should be updated/replaced based on the options below and Metadata provided.
 The SchemaType of the specified schemas must be Layer. */
     layerSchemaIds?: string[] | undefined;
-    /** The content data of the content. It's a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+    /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified by
 the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-whose ContentType is ContentItem).
+whose ContentType is Virtual).
 Update of content data will be done only if this attribute has any data, i.e. if it's not null or empty. */
-    content?: IDataDictionary | undefined;
+    content?: any | undefined;
     /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
 The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
 by the LayerSchemaIds property.
 If there are no data for a specified LayerSchemaId, it is treated as empty. */
-    metadata?: IDataDictionary | undefined;
+    metadata?: { [key: string] : any; } | undefined;
     /** Options to modify the behavior for updating the layers.
 Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
 and the ones already existing; existing assigned layers not specified in the property are kept and missing layers are assigned.
@@ -40658,24 +40703,18 @@ export interface IMetadataValuesChangeCommandBase {
 
 /** Updates schema values */
 export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeCommandBase implements IMetadataValuesSchemaUpdateCommand {
-    /** The dictionary containing the metadata values to add / update. */
-    value!: DataDictionary;
+    /** An object containing the metadata values to add / update. */
+    value!: any;
 
     constructor(data?: IMetadataValuesSchemaUpdateCommand) {
         super(data);
-        if (data) {
-            this.value = data.value && !(<any>data.value).toJSON ? new DataDictionary(data.value) : <DataDictionary>this.value; 
-        }
-        if (!data) {
-            this.value = new DataDictionary();
-        }
         this._discriminator = "MetadataValuesSchemaUpdateCommand";
     }
 
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
+            this.value = data["value"];
         }
     }
 
@@ -40688,7 +40727,7 @@ export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeComma
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["value"] = this.value ? this.value.toJSON() : <any>undefined;
+        data["value"] = this.value;
         super.toJSON(data);
         return data; 
     }
@@ -40696,30 +40735,24 @@ export class MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeComma
 
 /** Updates schema values */
 export interface IMetadataValuesSchemaUpdateCommand extends IMetadataValuesChangeCommandBase {
-    /** The dictionary containing the metadata values to add / update. */
-    value: IDataDictionary;
+    /** An object containing the metadata values to add / update. */
+    value: any;
 }
 
 /** Adds or updates schema values */
 export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeCommandBase implements IMetadataValuesSchemaUpsertCommand {
-    /** The dictionary containing the metadata values to add / update. */
-    value!: DataDictionary;
+    /** An object containing the metadata values to add / update. */
+    value!: any;
 
     constructor(data?: IMetadataValuesSchemaUpsertCommand) {
         super(data);
-        if (data) {
-            this.value = data.value && !(<any>data.value).toJSON ? new DataDictionary(data.value) : <DataDictionary>this.value; 
-        }
-        if (!data) {
-            this.value = new DataDictionary();
-        }
         this._discriminator = "MetadataValuesSchemaUpsertCommand";
     }
 
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
+            this.value = data["value"];
         }
     }
 
@@ -40732,7 +40765,7 @@ export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeComma
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["value"] = this.value ? this.value.toJSON() : <any>undefined;
+        data["value"] = this.value;
         super.toJSON(data);
         return data; 
     }
@@ -40740,8 +40773,8 @@ export class MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeComma
 
 /** Adds or updates schema values */
 export interface IMetadataValuesSchemaUpsertCommand extends IMetadataValuesChangeCommandBase {
-    /** The dictionary containing the metadata values to add / update. */
-    value: IDataDictionary;
+    /** An object containing the metadata values to add / update. */
+    value: any;
 }
 
 /** Removes schema and all its values */
@@ -40776,24 +40809,18 @@ export interface IMetadataValuesSchemaRemoveCommand extends IMetadataValuesChang
 
 /** Replaces schema values */
 export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeCommandBase implements IMetadataValuesSchemaReplaceCommand {
-    /** The dictionary containing the metadata values for the schema. The existing dictionary will be entirely overwritten. */
-    value!: DataDictionary;
+    /** An object containing the metadata values for the schema. The existing dictionary will be entirely overwritten. */
+    value!: any;
 
     constructor(data?: IMetadataValuesSchemaReplaceCommand) {
         super(data);
-        if (data) {
-            this.value = data.value && !(<any>data.value).toJSON ? new DataDictionary(data.value) : <DataDictionary>this.value; 
-        }
-        if (!data) {
-            this.value = new DataDictionary();
-        }
         this._discriminator = "MetadataValuesSchemaReplaceCommand";
     }
 
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.value = data["value"] ? DataDictionary.fromJS(data["value"]) : new DataDictionary();
+            this.value = data["value"];
         }
     }
 
@@ -40806,7 +40833,7 @@ export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeComm
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["value"] = this.value ? this.value.toJSON() : <any>undefined;
+        data["value"] = this.value;
         super.toJSON(data);
         return data; 
     }
@@ -40814,8 +40841,8 @@ export class MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeComm
 
 /** Replaces schema values */
 export interface IMetadataValuesSchemaReplaceCommand extends IMetadataValuesChangeCommandBase {
-    /** The dictionary containing the metadata values for the schema. The existing dictionary will be entirely overwritten. */
-    value: IDataDictionary;
+    /** An object containing the metadata values for the schema. The existing dictionary will be entirely overwritten. */
+    value: any;
 }
 
 /** Removes a field and its value from the values of the specified schema */
@@ -43145,17 +43172,25 @@ export interface IVersionInfo {
     release?: string | undefined;
 }
 
-/** The detail view item for the list item. */
+/** List item detail */
 export class ListItemDetail implements IListItemDetail {
-    /** The content data of the list item. */
+    /** The list item ID. */
+    id!: string;
+    /** The ID of the content schema. The SchemaType of the specified schema must be List. */
+    contentSchemaId!: string;
+    /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema specified
+by the ContentSchemaId property. */
     content?: any | undefined;
-    /** The id of the schema with schema type list. */
-    contentSchemaId?: string | undefined;
-    /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
+    /** Contains language specific display values. They are calculated values based on the template stored in the Content schema DisplayPatterns property. */
     displayValues?: DisplayValueDictionary | undefined;
-    /** The list item id. */
-    id?: string | undefined;
-    /** Audit data with information regarding document creation and modification. */
+    /** All the IDs of the referenced list items (tagboxes) that do not exist in the system. */
+    brokenReferenceIds?: string[] | undefined;
+    /** All the IDs of the contents or list items target of a relation that do not exist in the system. */
+    brokenRelationTargetIds?: string[] | undefined;
+    /** All the IDs of the indirectly referenced list items (tagboxes) that do not exist in the system.
+They are referenced list items that reference at least a list item that do not exist in the system. */
+    brokenIndirectReferenceIds?: string[] | undefined;
+    /** Audit information. */
     audit?: UserAuditDetail | undefined;
 
     constructor(data?: IListItemDetail) {
@@ -43171,10 +43206,25 @@ export class ListItemDetail implements IListItemDetail {
 
     init(data?: any) {
         if (data) {
-            this.content = data["content"];
-            this.contentSchemaId = data["contentSchemaId"];
-            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
             this.id = data["id"];
+            this.contentSchemaId = data["contentSchemaId"];
+            this.content = data["content"];
+            this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
+            if (Array.isArray(data["brokenReferenceIds"])) {
+                this.brokenReferenceIds = [] as any;
+                for (let item of data["brokenReferenceIds"])
+                    this.brokenReferenceIds!.push(item);
+            }
+            if (Array.isArray(data["brokenRelationTargetIds"])) {
+                this.brokenRelationTargetIds = [] as any;
+                for (let item of data["brokenRelationTargetIds"])
+                    this.brokenRelationTargetIds!.push(item);
+            }
+            if (Array.isArray(data["brokenIndirectReferenceIds"])) {
+                this.brokenIndirectReferenceIds = [] as any;
+                for (let item of data["brokenIndirectReferenceIds"])
+                    this.brokenIndirectReferenceIds!.push(item);
+            }
             this.audit = data["audit"] ? UserAuditDetail.fromJS(data["audit"]) : <any>undefined;
         }
     }
@@ -43188,26 +43238,49 @@ export class ListItemDetail implements IListItemDetail {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["content"] = this.content;
-        data["contentSchemaId"] = this.contentSchemaId;
-        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         data["id"] = this.id;
+        data["contentSchemaId"] = this.contentSchemaId;
+        data["content"] = this.content;
+        data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
+        if (Array.isArray(this.brokenReferenceIds)) {
+            data["brokenReferenceIds"] = [];
+            for (let item of this.brokenReferenceIds)
+                data["brokenReferenceIds"].push(item);
+        }
+        if (Array.isArray(this.brokenRelationTargetIds)) {
+            data["brokenRelationTargetIds"] = [];
+            for (let item of this.brokenRelationTargetIds)
+                data["brokenRelationTargetIds"].push(item);
+        }
+        if (Array.isArray(this.brokenIndirectReferenceIds)) {
+            data["brokenIndirectReferenceIds"] = [];
+            for (let item of this.brokenIndirectReferenceIds)
+                data["brokenIndirectReferenceIds"].push(item);
+        }
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         return data; 
     }
 }
 
-/** The detail view item for the list item. */
+/** List item detail */
 export interface IListItemDetail {
-    /** The content data of the list item. */
+    /** The list item ID. */
+    id: string;
+    /** The ID of the content schema. The SchemaType of the specified schema must be List. */
+    contentSchemaId: string;
+    /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema specified
+by the ContentSchemaId property. */
     content?: any | undefined;
-    /** The id of the schema with schema type list. */
-    contentSchemaId?: string | undefined;
-    /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
+    /** Contains language specific display values. They are calculated values based on the template stored in the Content schema DisplayPatterns property. */
     displayValues?: IDisplayValueDictionary | undefined;
-    /** The list item id. */
-    id?: string | undefined;
-    /** Audit data with information regarding document creation and modification. */
+    /** All the IDs of the referenced list items (tagboxes) that do not exist in the system. */
+    brokenReferenceIds?: string[] | undefined;
+    /** All the IDs of the contents or list items target of a relation that do not exist in the system. */
+    brokenRelationTargetIds?: string[] | undefined;
+    /** All the IDs of the indirectly referenced list items (tagboxes) that do not exist in the system.
+They are referenced list items that reference at least a list item that do not exist in the system. */
+    brokenIndirectReferenceIds?: string[] | undefined;
+    /** Audit information. */
     audit?: IUserAuditDetail | undefined;
 }
 
@@ -43290,8 +43363,52 @@ export interface IBaseResultOfListItem {
     pageToken?: string | undefined;
 }
 
-/** Encapsulates the result of a list item search. */
-export class ListItemSearchResult extends BaseResultOfListItem implements IListItemSearchResult {
+export class SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem implements ISearchBehaviorBaseResultOfListItem {
+    searchString?: string | undefined;
+    isSearchStringRewritten!: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
+
+    constructor(data?: ISearchBehaviorBaseResultOfListItem) {
+        super(data);
+        if (data) {
+            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.searchString = data["searchString"];
+            this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): SearchBehaviorBaseResultOfListItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorBaseResultOfListItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISearchBehaviorBaseResultOfListItem extends IBaseResultOfListItem {
+    searchString?: string | undefined;
+    isSearchStringRewritten: boolean;
+    queryDebugInformation?: IQueryDebugInformation | undefined;
+}
+
+/** Result for list item search operation */
+export class ListItemSearchResult extends SearchBehaviorBaseResultOfListItem implements IListItemSearchResult {
 
     constructor(data?: IListItemSearchResult) {
         super(data);
@@ -43315,22 +43432,27 @@ export class ListItemSearchResult extends BaseResultOfListItem implements IListI
     }
 }
 
-/** Encapsulates the result of a list item search. */
-export interface IListItemSearchResult extends IBaseResultOfListItem {
+/** Result for list item search operation */
+export interface IListItemSearchResult extends ISearchBehaviorBaseResultOfListItem {
 }
 
-/** A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema. */
 export class ListItem implements IListItem {
-    /** The content data of the list item. */
-    content?: any | undefined;
+    /** Audit information. */
+    audit?: UserAudit | undefined;
+    /** The list item id. */
+    id: string;
     /** The id of the schema with schema type list. */
     contentSchemaId?: string | undefined;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
     displayValues?: DisplayValueDictionary | undefined;
-    /** The list item id. */
-    id: string;
-    /** Audit data with information regarding document creation and modification. */
-    audit?: UserAudit | undefined;
+    /** The content data of the list item. */
+    content?: any | undefined;
+    /** All the ids of the broken references (tagboxes) */
+    brokenReferenceIds?: string[] | undefined;
+    /** All the target ids of the broken relations */
+    brokenRelationTargetIds?: string[] | undefined;
+    /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
+    brokenIndirectReferenceIds?: string[] | undefined;
 
     constructor(data?: IListItem) {
         if (data) {
@@ -43338,18 +43460,33 @@ export class ListItem implements IListItem {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
+            this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
         }
     }
 
     init(data?: any) {
         if (data) {
-            this.content = data["content"];
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
+            this.id = data["id"];
             this.contentSchemaId = data["contentSchemaId"];
             this.displayValues = data["displayValues"] ? DisplayValueDictionary.fromJS(data["displayValues"]) : <any>undefined;
-            this.id = data["id"];
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
+            this.content = data["content"];
+            if (Array.isArray(data["brokenReferenceIds"])) {
+                this.brokenReferenceIds = [] as any;
+                for (let item of data["brokenReferenceIds"])
+                    this.brokenReferenceIds!.push(item);
+            }
+            if (Array.isArray(data["brokenRelationTargetIds"])) {
+                this.brokenRelationTargetIds = [] as any;
+                for (let item of data["brokenRelationTargetIds"])
+                    this.brokenRelationTargetIds!.push(item);
+            }
+            if (Array.isArray(data["brokenIndirectReferenceIds"])) {
+                this.brokenIndirectReferenceIds = [] as any;
+                for (let item of data["brokenIndirectReferenceIds"])
+                    this.brokenIndirectReferenceIds!.push(item);
+            }
         }
     }
 
@@ -43362,27 +43499,47 @@ export class ListItem implements IListItem {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["content"] = this.content;
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        data["id"] = this.id;
         data["contentSchemaId"] = this.contentSchemaId;
         data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
-        data["id"] = this.id;
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        data["content"] = this.content;
+        if (Array.isArray(this.brokenReferenceIds)) {
+            data["brokenReferenceIds"] = [];
+            for (let item of this.brokenReferenceIds)
+                data["brokenReferenceIds"].push(item);
+        }
+        if (Array.isArray(this.brokenRelationTargetIds)) {
+            data["brokenRelationTargetIds"] = [];
+            for (let item of this.brokenRelationTargetIds)
+                data["brokenRelationTargetIds"].push(item);
+        }
+        if (Array.isArray(this.brokenIndirectReferenceIds)) {
+            data["brokenIndirectReferenceIds"] = [];
+            for (let item of this.brokenIndirectReferenceIds)
+                data["brokenIndirectReferenceIds"].push(item);
+        }
         return data; 
     }
 }
 
-/** A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema. */
 export interface IListItem {
-    /** The content data of the list item. */
-    content?: any | undefined;
+    /** Audit information. */
+    audit?: IUserAudit | undefined;
+    /** The list item id. */
+    id?: string | undefined;
     /** The id of the schema with schema type list. */
     contentSchemaId?: string | undefined;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
     displayValues?: IDisplayValueDictionary | undefined;
-    /** The list item id. */
-    id?: string | undefined;
-    /** Audit data with information regarding document creation and modification. */
-    audit?: IUserAudit | undefined;
+    /** The content data of the list item. */
+    content?: any | undefined;
+    /** All the ids of the broken references (tagboxes) */
+    brokenReferenceIds?: string[] | undefined;
+    /** All the target ids of the broken relations */
+    brokenRelationTargetIds?: string[] | undefined;
+    /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
+    brokenIndirectReferenceIds?: string[] | undefined;
 }
 
 /** Request to search list items */
@@ -43691,12 +43848,12 @@ If not specified, all metadata languages defined in the system are used. */
     lifeCycleFilter: LifeCycleFilter;
 }
 
-/** A request structure for creating a list item document. */
+/** Request to create a list item */
 export class ListItemCreateRequest implements IListItemCreateRequest {
-    /** The content data of the list item. */
+    /** The ID of the content schema. The SchemaType of the specified schema must be List. */
+    contentSchemaId!: string;
+    /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema. */
     content?: any | undefined;
-    /** The id of the schema with schema type list. */
-    contentSchemaId?: string | undefined;
     /** Optional client reference for this request.
 Will be returned back in response to make easier for clients to match request items with the respective results.
 It is not persisted anywhere and it is ignored in single operations. */
@@ -43713,8 +43870,8 @@ It is not persisted anywhere and it is ignored in single operations. */
 
     init(data?: any) {
         if (data) {
-            this.content = data["content"];
             this.contentSchemaId = data["contentSchemaId"];
+            this.content = data["content"];
             this.requestId = data["requestId"];
         }
     }
@@ -43728,31 +43885,31 @@ It is not persisted anywhere and it is ignored in single operations. */
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["content"] = this.content;
         data["contentSchemaId"] = this.contentSchemaId;
+        data["content"] = this.content;
         data["requestId"] = this.requestId;
         return data; 
     }
 }
 
-/** A request structure for creating a list item document. */
+/** Request to create a list item */
 export interface IListItemCreateRequest {
-    /** The content data of the list item. */
+    /** The ID of the content schema. The SchemaType of the specified schema must be List. */
+    contentSchemaId: string;
+    /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema. */
     content?: any | undefined;
-    /** The id of the schema with schema type list. */
-    contentSchemaId?: string | undefined;
     /** Optional client reference for this request.
 Will be returned back in response to make easier for clients to match request items with the respective results.
 It is not persisted anywhere and it is ignored in single operations. */
     requestId?: string | undefined;
 }
 
-/** A request structure for creating multiple list items. */
+/** Request to create multiple list items */
 export class ListItemCreateManyRequest implements IListItemCreateManyRequest {
-    /** Allow storing references to missing list items / contents */
+    /** Allows creating list items that refer to list items or contents that don't exist in the system. */
     allowMissingDependencies!: boolean;
-    /** Create items */
-    items?: ListItemCreateRequest[] | undefined;
+    /** Items to be created. */
+    items!: ListItemCreateRequest[];
 
     constructor(data?: IListItemCreateManyRequest) {
         if (data) {
@@ -43767,6 +43924,9 @@ export class ListItemCreateManyRequest implements IListItemCreateManyRequest {
                     this.items[i] = item && !(<any>item).toJSON ? new ListItemCreateRequest(item) : <ListItemCreateRequest>item;
                 }
             }
+        }
+        if (!data) {
+            this.items = [];
         }
     }
 
@@ -43800,17 +43960,17 @@ export class ListItemCreateManyRequest implements IListItemCreateManyRequest {
     }
 }
 
-/** A request structure for creating multiple list items. */
+/** Request to create multiple list items */
 export interface IListItemCreateManyRequest {
-    /** Allow storing references to missing list items / contents */
+    /** Allows creating list items that refer to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
-    /** Create items */
-    items?: IListItemCreateRequest[] | undefined;
+    /** Items to be created. */
+    items: IListItemCreateRequest[];
 }
 
-/** A request structure for updating a list item. */
+/** Request to update an existing list item */
 export class ListItemUpdateRequest implements IListItemUpdateRequest {
-    /** The content data of the list item. */
+    /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema of the list item. */
     content?: any | undefined;
 
     constructor(data?: IListItemUpdateRequest) {
@@ -43842,18 +44002,18 @@ export class ListItemUpdateRequest implements IListItemUpdateRequest {
     }
 }
 
-/** A request structure for updating a list item. */
+/** Request to update an existing list item */
 export interface IListItemUpdateRequest {
-    /** The content data of the list item. */
+    /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema of the list item. */
     content?: any | undefined;
 }
 
-/** A request structure for updating multiple list items. */
+/** Request to update multiple list items */
 export class ListItemUpdateManyRequest implements IListItemUpdateManyRequest {
-    /** Allow storing references to missing list items / contents */
+    /** Allows updating list items with references to list items or contents that don't exist in the system. */
     allowMissingDependencies!: boolean;
-    /** Update items */
-    items?: ListItemUpdateItem[] | undefined;
+    /** Items to be updated. */
+    items!: ListItemUpdateItem[];
 
     constructor(data?: IListItemUpdateManyRequest) {
         if (data) {
@@ -43861,6 +44021,9 @@ export class ListItemUpdateManyRequest implements IListItemUpdateManyRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.items = [];
         }
     }
 
@@ -43894,17 +44057,17 @@ export class ListItemUpdateManyRequest implements IListItemUpdateManyRequest {
     }
 }
 
-/** A request structure for updating multiple list items. */
+/** Request to update multiple list items */
 export interface IListItemUpdateManyRequest {
-    /** Allow storing references to missing list items / contents */
+    /** Allows updating list items with references to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
-    /** Update items */
-    items?: ListItemUpdateItem[] | undefined;
+    /** Items to be updated. */
+    items: ListItemUpdateItem[];
 }
 
 export class ListItemUpdateItem extends ListItemUpdateRequest implements IListItemUpdateItem {
     /** The list item id. */
-    id?: string | undefined;
+    id!: string;
 
     constructor(data?: IListItemUpdateItem) {
         super(data);
@@ -43934,7 +44097,7 @@ export class ListItemUpdateItem extends ListItemUpdateRequest implements IListIt
 
 export interface IListItemUpdateItem extends IListItemUpdateRequest {
     /** The list item id. */
-    id?: string | undefined;
+    id: string;
 }
 
 /** Request to delete multiple list items */
@@ -49056,7 +49219,7 @@ export interface IFieldGeoPoint extends IFieldBase {
     boost: number;
 }
 
-/** A field that can be triggered, and store in such occasion the id of the user and the time that triggered it. The last user who triggered it and the last time in which it was triggered can be used for filtering or for simple search (if enabled on the field). Such information are stored in two inner fields: "triggeredBy" and "triggeredOn". In order to be triggered in a Content or ListItem metadata dictionary, the special '"_trigger": true' should be sent in the DataDictionary of the field itself. */
+/** A field that can be triggered, and store in such occasion the id of the user and the time that triggered it. The last user who triggered it and the last time in which it was triggered can be used for filtering or for simple search (if enabled on the field). Such information are stored in two inner fields: "triggeredBy" and "triggeredOn". In order to be triggered in a Content or ListItem metadata dictionary, the special '"_trigger": true' should be sent in the data of the field itself. */
 export class FieldTrigger extends FieldBase implements IFieldTrigger {
     /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
     boost!: number;
@@ -49088,7 +49251,7 @@ export class FieldTrigger extends FieldBase implements IFieldTrigger {
     }
 }
 
-/** A field that can be triggered, and store in such occasion the id of the user and the time that triggered it. The last user who triggered it and the last time in which it was triggered can be used for filtering or for simple search (if enabled on the field). Such information are stored in two inner fields: "triggeredBy" and "triggeredOn". In order to be triggered in a Content or ListItem metadata dictionary, the special '"_trigger": true' should be sent in the DataDictionary of the field itself. */
+/** A field that can be triggered, and store in such occasion the id of the user and the time that triggered it. The last user who triggered it and the last time in which it was triggered can be used for filtering or for simple search (if enabled on the field). Such information are stored in two inner fields: "triggeredBy" and "triggeredOn". In order to be triggered in a Content or ListItem metadata dictionary, the special '"_trigger": true' should be sent in the data of the field itself. */
 export interface IFieldTrigger extends IFieldBase {
     /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
     boost: number;
@@ -52847,10 +53010,12 @@ export class ShareContentDetail implements IShareContentDetail {
     contentSchemaId!: string;
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
-    /** The content data. */
-    content!: DataDictionary;
-    /** The metadata dictionary. */
-    metadata?: DataDictionary | undefined;
+    /** The content data. It's an object of dynamic metadata whose structure is defined in the Content schema specified
+by the ContentSchemaId property. */
+    content!: any;
+    /** The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
     /** Content ID. */
     id!: string;
     /** List of shared outputs for this content. */
@@ -52868,12 +53033,9 @@ export class ShareContentDetail implements IShareContentDetail {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.content = data.content && !(<any>data.content).toJSON ? new DataDictionary(data.content) : <DataDictionary>this.content; 
-            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
             this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
         }
         if (!data) {
-            this.content = new DataDictionary();
             this.outputs = [];
             this.displayValues = new DisplayValueDictionary();
         }
@@ -52887,8 +53049,14 @@ export class ShareContentDetail implements IShareContentDetail {
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds!.push(item);
             }
-            this.content = data["content"] ? DataDictionary.fromJS(data["content"]) : new DataDictionary();
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
+            this.content = data["content"];
+            if (data["metadata"]) {
+                this.metadata = {} as any;
+                for (let key in data["metadata"]) {
+                    if (data["metadata"].hasOwnProperty(key))
+                        this.metadata![key] = data["metadata"][key];
+                }
+            }
             this.id = data["id"];
             if (Array.isArray(data["outputs"])) {
                 this.outputs = [] as any;
@@ -52916,8 +53084,14 @@ export class ShareContentDetail implements IShareContentDetail {
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        data["content"] = this.content ? this.content.toJSON() : <any>undefined;
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
+        data["content"] = this.content;
+        if (this.metadata) {
+            data["metadata"] = {};
+            for (let key in this.metadata) {
+                if (this.metadata.hasOwnProperty(key))
+                    data["metadata"][key] = this.metadata[key];
+            }
+        }
         data["id"] = this.id;
         if (Array.isArray(this.outputs)) {
             data["outputs"] = [];
@@ -52937,10 +53111,12 @@ export interface IShareContentDetail {
     contentSchemaId: string;
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
-    /** The content data. */
-    content: IDataDictionary;
-    /** The metadata dictionary. */
-    metadata?: IDataDictionary | undefined;
+    /** The content data. It's an object of dynamic metadata whose structure is defined in the Content schema specified
+by the ContentSchemaId property. */
+    content: any;
+    /** The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
     /** Content ID. */
     id: string;
     /** List of shared outputs for this content. */
@@ -56491,7 +56667,9 @@ export interface IFileTransferDeleteRequest {
 export class ImportTransferRequest implements IImportTransferRequest {
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
-    metadata?: DataDictionary | undefined;
+    /** The metadata to be assigned to the imported content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
     contentPermissionSetIds?: string[] | undefined;
 
@@ -56501,7 +56679,6 @@ export class ImportTransferRequest implements IImportTransferRequest {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
         }
     }
 
@@ -56512,7 +56689,13 @@ export class ImportTransferRequest implements IImportTransferRequest {
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds!.push(item);
             }
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
+            if (data["metadata"]) {
+                this.metadata = {} as any;
+                for (let key in data["metadata"]) {
+                    if (data["metadata"].hasOwnProperty(key))
+                        this.metadata![key] = data["metadata"][key];
+                }
+            }
             if (Array.isArray(data["contentPermissionSetIds"])) {
                 this.contentPermissionSetIds = [] as any;
                 for (let item of data["contentPermissionSetIds"])
@@ -56535,7 +56718,13 @@ export class ImportTransferRequest implements IImportTransferRequest {
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
+        if (this.metadata) {
+            data["metadata"] = {};
+            for (let key in this.metadata) {
+                if (this.metadata.hasOwnProperty(key))
+                    data["metadata"][key] = this.metadata[key];
+            }
+        }
         if (Array.isArray(this.contentPermissionSetIds)) {
             data["contentPermissionSetIds"] = [];
             for (let item of this.contentPermissionSetIds)
@@ -56548,7 +56737,9 @@ export class ImportTransferRequest implements IImportTransferRequest {
 export interface IImportTransferRequest {
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
-    metadata?: IDataDictionary | undefined;
+    /** The metadata to be assigned to the imported content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
     contentPermissionSetIds?: string[] | undefined;
 }
@@ -56608,7 +56799,9 @@ export class FileTransferCreateItem implements IFileTransferCreateItem {
     fileId?: string | undefined;
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
-    metadata?: DataDictionary | undefined;
+    /** The metadata to be assigned to the imported content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
     contentPermissionSetIds?: string[] | undefined;
 
@@ -56618,7 +56811,6 @@ export class FileTransferCreateItem implements IFileTransferCreateItem {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.metadata = data.metadata && !(<any>data.metadata).toJSON ? new DataDictionary(data.metadata) : <DataDictionary>this.metadata; 
         }
     }
 
@@ -56630,7 +56822,13 @@ export class FileTransferCreateItem implements IFileTransferCreateItem {
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds!.push(item);
             }
-            this.metadata = data["metadata"] ? DataDictionary.fromJS(data["metadata"]) : <any>undefined;
+            if (data["metadata"]) {
+                this.metadata = {} as any;
+                for (let key in data["metadata"]) {
+                    if (data["metadata"].hasOwnProperty(key))
+                        this.metadata![key] = data["metadata"][key];
+                }
+            }
             if (Array.isArray(data["contentPermissionSetIds"])) {
                 this.contentPermissionSetIds = [] as any;
                 for (let item of data["contentPermissionSetIds"])
@@ -56654,7 +56852,13 @@ export class FileTransferCreateItem implements IFileTransferCreateItem {
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        data["metadata"] = this.metadata ? this.metadata.toJSON() : <any>undefined;
+        if (this.metadata) {
+            data["metadata"] = {};
+            for (let key in this.metadata) {
+                if (this.metadata.hasOwnProperty(key))
+                    data["metadata"][key] = this.metadata[key];
+            }
+        }
         if (Array.isArray(this.contentPermissionSetIds)) {
             data["contentPermissionSetIds"] = [];
             for (let item of this.contentPermissionSetIds)
@@ -56668,7 +56872,9 @@ export interface IFileTransferCreateItem {
     fileId?: string | undefined;
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
-    metadata?: IDataDictionary | undefined;
+    /** The metadata to be assigned to the imported content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
     contentPermissionSetIds?: string[] | undefined;
 }
@@ -58027,6 +58233,50 @@ export class UserRoleDeleteManyRequest implements IUserRoleDeleteManyRequest {
 export interface IUserRoleDeleteManyRequest {
     /** IDs of the user roles to delete. */
     ids: string[];
+}
+
+export class DataDictionary implements IDataDictionary {
+
+    [key: string]: any; 
+
+    constructor(data?: IDataDictionary) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    this[property] = data[property];
+            }
+        }
+    }
+
+    static fromJS(data: any): DataDictionary {
+        data = typeof data === 'object' ? data : {};
+        let result = new DataDictionary();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        return data; 
+    }
+}
+
+export interface IDataDictionary {
+
+    [key: string]: any; 
 }
 
 export interface FileParameter {

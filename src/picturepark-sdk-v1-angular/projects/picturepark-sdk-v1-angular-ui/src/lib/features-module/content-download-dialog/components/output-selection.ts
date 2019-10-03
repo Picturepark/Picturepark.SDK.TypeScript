@@ -42,13 +42,13 @@ export class OutputSelection {
             this.selection = {};
 
             contents.forEach(content => {
-                const isBinary = content.contentType !== ContentType.ContentItem;
-                const schemaId = isBinary ? content.contentSchemaId : ContentType.ContentItem.toString();
+                const isBinary = content.contentType !== ContentType.Virtual;
+                const schemaId = isBinary ? content.contentSchemaId : ContentType.Virtual.toString();
                 const schemaItems = this.selection[schemaId] = this.selection[schemaId] ||
                     {
                         id: schemaId,
                         contents: isBinary ? contents.filter(i => i.contentSchemaId === schemaId) :
-                                      contents.filter(i => i.contentType === ContentType.ContentItem),
+                                      contents.filter(i => i.contentType === ContentType.Virtual),
                         outputs: {},
                         name: translationService.translate(`ContentDownloadDialog.${schemaId}`)
                     };
