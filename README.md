@@ -19,6 +19,8 @@ Contains Angular service classes and UI components to access the Picturepark API
 
 NPM package: `@picturepark/sdk-v1-angular`
 
+
+
 **[picturepark-sdk-v1-fetch](docs/picturepark-sdk-v1-fetch/README.md)**
 
 Contains client classes to access the Picturepark API with `window.fetch`. 
@@ -37,7 +39,7 @@ Contains widgets to embed Picturepark content into other websites.
 
 ## Samples
 
-- [picturepark-sdk-v1-sample-angular7](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular7)
+- [picturepark-sdk-v1-sample-angular8](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular8)
     - picturepark-sdk-v1-angular
 - [picturepark-sdk-v1-sample-reactredux](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-reactredux)
     - picturepark-sdk-v1-fetch
