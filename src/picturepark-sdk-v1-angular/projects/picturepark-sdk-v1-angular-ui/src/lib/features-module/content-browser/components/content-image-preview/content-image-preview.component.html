@@ -1,8 +1,11 @@
 <div class="content-image-preview-container">
     <div class="content-image-preview-content" *ngIf="!isLoading">
-        <img [src]="thumbnailUrlSafe" (click)="showFullscreen()" (error)="updateUrl($event)" *ngIf="thumbnailUrlSafe && !playing"/>
+        <img [src]="thumbnailUrlSafe" (click)="showFullscreen()" (error)="updateUrl($event)" *ngIf="thumbnailUrlSafe && !playing && !pdfUrl"/>
     </div>
     <div class="video-player" *ngIf="playing"></div>
+    <div class="pdf-viewer" *ngIf="pdfUrl">
+        <iframe [src]="pdfUrl" frameBorder=0></iframe>
+    </div>
     <div class="loader" *ngIf="isLoading">
         <mat-spinner></mat-spinner>
     </div>

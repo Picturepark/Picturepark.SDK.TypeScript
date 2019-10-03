@@ -49,7 +49,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   }
 
   loadSchemas(): void {
-    this.schemaService.getMany(this.content.layerSchemaIds.concat(this.content.contentSchemaId)).subscribe(schemas => {
+    this.schemaService.getMany(this.content.layerSchemaIds!.concat(this.content.contentSchemaId)).subscribe(schemas => {
       this.schemas = schemas;
     });
   }
