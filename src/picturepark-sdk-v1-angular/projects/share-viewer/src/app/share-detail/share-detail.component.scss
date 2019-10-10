@@ -9,6 +9,10 @@
             font-size: 13px;
             color: #727272;
             line-height: 38px;
+
+            &.expiration {
+                color: red;
+            }
         }
 
         &.settings-menu {
@@ -25,8 +29,10 @@
         white-space: pre-wrap;
         font-size: 13px;
     }
+}
 
-    .expiration {
-        color: red;
-    }
+.expired-box {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 13px;
 }
