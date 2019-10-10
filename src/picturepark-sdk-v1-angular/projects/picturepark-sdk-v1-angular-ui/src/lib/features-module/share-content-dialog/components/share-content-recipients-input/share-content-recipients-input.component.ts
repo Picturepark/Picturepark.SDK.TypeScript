@@ -3,7 +3,7 @@ import { Component, Input, ElementRef, HostListener, OnInit } from '@angular/cor
 import { MatChipInputEvent } from '@angular/material/chips';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { TermsAggregator, ShareService, ShareAggregationRequest, SearchBehavior } from '@picturepark/sdk-v1-angular';
+import { TermsAggregator, ShareService, ShareAggregationRequest, SearchBehavior, NestedAggregator } from '@picturepark/sdk-v1-angular';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 
@@ -45,14 +45,20 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
       debounceTime(300),
       tap(() => this.isLoading = true),
       switchMap(value => this.shareService.aggregate(new ShareAggregationRequest({
-        searchString: value,
-        searchBehaviors: [SearchBehavior.WildcardOnEveryTerm],
         aggregators: [
-           new TermsAggregator({
-            name: 'recipientsAutocomplete',
-            field: 'data.mailRecipients.userEmail.emailAddress',
-            size: 20
-           })
+          new NestedAggregator({
+            path: 'data.recipientEmailAddresses',
+            name: 'recipientsAutocomplete-wrap',
+            aggregators: [
+              new TermsAggregator({
+                name: 'recipientsAutocomplete',
+                field: 'data.recipientEmailAddresses.emailAddress',
+                searchString: value,
+                searchFields: ['data.recipientEmailAddresses.*'],
+                size: 20
+              })
+            ]
+          })
         ]
        }))
       .pipe(
@@ -61,7 +67,7 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
       )
     )
     .subscribe(users => {
-      this.recipientsAutocomplete = users.aggregationResults[0]!.aggregationResultItems!.map(i => i.name);
+      this.recipientsAutocomplete = users.aggregationResults[0]!.aggregationResultItems![0].aggregationResults![0].aggregationResultItems!.map(i => i.name);
     });
   }
 

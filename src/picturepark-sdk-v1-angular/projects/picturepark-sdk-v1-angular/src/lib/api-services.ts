@@ -5792,6 +5792,209 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
 @Injectable({
     providedIn: 'root'
 })
+export class DisplayValueService extends PictureparkServiceBase {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
+    }
+
+    /**
+     * Re-render the display values
+     * @return VersionInfo
+     */
+    rerender(): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/displayvalues/rerender";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processRerender(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRerender(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRerender(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Get status
+     * @return VersionInfo
+     */
+    getStatus(): Observable<DisplayValueStatus> {
+        let url_ = this.baseUrl + "/v1/displayvalues/status";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetStatus(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStatus(<any>response_);
+                } catch (e) {
+                    return <Observable<DisplayValueStatus>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DisplayValueStatus>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStatus(response: HttpResponseBase): Observable<DisplayValueStatus> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DisplayValueStatus.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DisplayValueStatus>(<any>null);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class DocumentHistoryService extends PictureparkServiceBase {
     private http: HttpClient;
     private baseUrl: string;
@@ -6529,6 +6732,100 @@ export class InfoService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<VersionInfo>(<any>null);
+    }
+
+    /**
+     * Get status
+     * @return VersionInfo
+     */
+    getStatus(): Observable<SystemStatus> {
+        let url_ = this.baseUrl + "/v1/info/status";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetStatus(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStatus(<any>response_);
+                } catch (e) {
+                    return <Observable<SystemStatus>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SystemStatus>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStatus(response: HttpResponseBase): Observable<SystemStatus> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SystemStatus.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SystemStatus>(<any>null);
     }
 }
 
@@ -19290,6 +19587,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DisplayValueRerenderingInProgressException") {
+            let result = new DisplayValueRerenderingInProgressException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkException();
         result.init(data);
         return result;
@@ -20530,6 +20832,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DisplayValueRerenderingInProgressException") {
+            let result = new DisplayValueRerenderingInProgressException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkBusinessException();
         result.init(data);
         return result;
@@ -21376,6 +21683,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException") {
             let result = new SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "DisplayValueRerenderingInProgressException") {
+            let result = new DisplayValueRerenderingInProgressException();
             result.init(data);
             return result;
         }
@@ -31070,6 +31382,34 @@ export class OutputNotAvailableException extends PictureparkBusinessException im
 }
 
 export interface IOutputNotAvailableException extends IPictureparkBusinessException {
+}
+
+export class DisplayValueRerenderingInProgressException extends PictureparkValidationException implements IDisplayValueRerenderingInProgressException {
+
+    constructor(data?: IDisplayValueRerenderingInProgressException) {
+        super(data);
+        this._discriminator = "DisplayValueRerenderingInProgressException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): DisplayValueRerenderingInProgressException {
+        data = typeof data === 'object' ? data : {};
+        let result = new DisplayValueRerenderingInProgressException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IDisplayValueRerenderingInProgressException extends IPictureparkValidationException {
 }
 
 /** Search request to search for business processes */
@@ -42367,6 +42707,78 @@ If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
 }
 
+export class DisplayValueStatus implements IDisplayValueStatus {
+    /** The schema ids (of type Content or Layer) for which the re-rendering of the display values is needed. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) for which the re-rendering of the display values is needed. */
+    listSchemaIds?: string[] | undefined;
+    /** The state of the display values compared to the schema structure (UpToDate = ok, Outdated = re-rendering needed). */
+    state!: DisplayValuesState;
+
+    constructor(data?: IDisplayValueStatus) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["contentOrLayerSchemaIds"])) {
+                this.contentOrLayerSchemaIds = [] as any;
+                for (let item of data["contentOrLayerSchemaIds"])
+                    this.contentOrLayerSchemaIds!.push(item);
+            }
+            if (Array.isArray(data["listSchemaIds"])) {
+                this.listSchemaIds = [] as any;
+                for (let item of data["listSchemaIds"])
+                    this.listSchemaIds!.push(item);
+            }
+            this.state = data["state"];
+        }
+    }
+
+    static fromJS(data: any): DisplayValueStatus {
+        data = typeof data === 'object' ? data : {};
+        let result = new DisplayValueStatus();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.contentOrLayerSchemaIds)) {
+            data["contentOrLayerSchemaIds"] = [];
+            for (let item of this.contentOrLayerSchemaIds)
+                data["contentOrLayerSchemaIds"].push(item);
+        }
+        if (Array.isArray(this.listSchemaIds)) {
+            data["listSchemaIds"] = [];
+            for (let item of this.listSchemaIds)
+                data["listSchemaIds"].push(item);
+        }
+        data["state"] = this.state;
+        return data; 
+    }
+}
+
+export interface IDisplayValueStatus {
+    /** The schema ids (of type Content or Layer) for which the re-rendering of the display values is needed. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) for which the re-rendering of the display values is needed. */
+    listSchemaIds?: string[] | undefined;
+    /** The state of the display values compared to the schema structure (UpToDate = ok, Outdated = re-rendering needed). */
+    state: DisplayValuesState;
+}
+
+export enum DisplayValuesState {
+    UpToDate = "UpToDate",
+    Outdated = "Outdated",
+    RerenderingInProgress = "RerenderingInProgress",
+}
+
 export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory {
     totalResults!: number;
     results!: DocumentHistory[];
@@ -43170,6 +43582,166 @@ export interface IVersionInfo {
     contractVersion?: string | undefined;
     /** The bamboo release version. Only provided on bamboo deployments. */
     release?: string | undefined;
+}
+
+export class SystemStatus implements ISystemStatus {
+    /** The status of the search indices. */
+    searchIndicesStatus?: StatusOfSearchIndexState[] | undefined;
+    /** The status of the display values. */
+    displayValuesStatus?: StatusOfDisplayValuesState[] | undefined;
+
+    constructor(data?: ISystemStatus) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.searchIndicesStatus) {
+                this.searchIndicesStatus = [];
+                for (let i = 0; i < data.searchIndicesStatus.length; i++) {
+                    let item = data.searchIndicesStatus[i];
+                    this.searchIndicesStatus[i] = item && !(<any>item).toJSON ? new StatusOfSearchIndexState(item) : <StatusOfSearchIndexState>item;
+                }
+            }
+            if (data.displayValuesStatus) {
+                this.displayValuesStatus = [];
+                for (let i = 0; i < data.displayValuesStatus.length; i++) {
+                    let item = data.displayValuesStatus[i];
+                    this.displayValuesStatus[i] = item && !(<any>item).toJSON ? new StatusOfDisplayValuesState(item) : <StatusOfDisplayValuesState>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["searchIndicesStatus"])) {
+                this.searchIndicesStatus = [] as any;
+                for (let item of data["searchIndicesStatus"])
+                    this.searchIndicesStatus!.push(StatusOfSearchIndexState.fromJS(item));
+            }
+            if (Array.isArray(data["displayValuesStatus"])) {
+                this.displayValuesStatus = [] as any;
+                for (let item of data["displayValuesStatus"])
+                    this.displayValuesStatus!.push(StatusOfDisplayValuesState.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SystemStatus {
+        data = typeof data === 'object' ? data : {};
+        let result = new SystemStatus();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.searchIndicesStatus)) {
+            data["searchIndicesStatus"] = [];
+            for (let item of this.searchIndicesStatus)
+                data["searchIndicesStatus"].push(item.toJSON());
+        }
+        if (Array.isArray(this.displayValuesStatus)) {
+            data["displayValuesStatus"] = [];
+            for (let item of this.displayValuesStatus)
+                data["displayValuesStatus"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface ISystemStatus {
+    /** The status of the search indices. */
+    searchIndicesStatus?: IStatusOfSearchIndexState[] | undefined;
+    /** The status of the display values. */
+    displayValuesStatus?: IStatusOfDisplayValuesState[] | undefined;
+}
+
+export class StatusOfSearchIndexState implements IStatusOfSearchIndexState {
+    id?: string | undefined;
+    state!: SearchIndexState;
+
+    constructor(data?: IStatusOfSearchIndexState) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.state = data["state"];
+        }
+    }
+
+    static fromJS(data: any): StatusOfSearchIndexState {
+        data = typeof data === 'object' ? data : {};
+        let result = new StatusOfSearchIndexState();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["state"] = this.state;
+        return data; 
+    }
+}
+
+export interface IStatusOfSearchIndexState {
+    id?: string | undefined;
+    state: SearchIndexState;
+}
+
+export enum SearchIndexState {
+    Green = "Green",
+    Yellow = "Yellow",
+    Red = "Red",
+}
+
+export class StatusOfDisplayValuesState implements IStatusOfDisplayValuesState {
+    id?: string | undefined;
+    state!: DisplayValuesState;
+
+    constructor(data?: IStatusOfDisplayValuesState) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.state = data["state"];
+        }
+    }
+
+    static fromJS(data: any): StatusOfDisplayValuesState {
+        data = typeof data === 'object' ? data : {};
+        let result = new StatusOfDisplayValuesState();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["state"] = this.state;
+        return data; 
+    }
+}
+
+export interface IStatusOfDisplayValuesState {
+    id?: string | undefined;
+    state: DisplayValuesState;
 }
 
 /** List item detail */
@@ -54430,29 +55002,18 @@ export interface IShareContent {
 
 export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements IShareBasicCreateRequest {
     /** List of external mail recipients which are no Picturepark users. */
-    recipientsEmail?: UserEmail[] | undefined;
-    /** List of internal recipients which are Picturepark users. */
-    recipientsUser?: User[] | undefined;
-    /** List of user roles. All assignees of these roles receive the share. */
-    recipientsGroup?: UserRole[] | undefined;
+    recipientEmails?: UserEmail[] | undefined;
     /** System language used for share (mail and detail page). en or de. */
     languageCode!: string;
 
     constructor(data?: IShareBasicCreateRequest) {
         super(data);
         if (data) {
-            if (data.recipientsEmail) {
-                this.recipientsEmail = [];
-                for (let i = 0; i < data.recipientsEmail.length; i++) {
-                    let item = data.recipientsEmail[i];
-                    this.recipientsEmail[i] = item && !(<any>item).toJSON ? new UserEmail(item) : <UserEmail>item;
-                }
-            }
-            if (data.recipientsUser) {
-                this.recipientsUser = [];
-                for (let i = 0; i < data.recipientsUser.length; i++) {
-                    let item = data.recipientsUser[i];
-                    this.recipientsUser[i] = item && !(<any>item).toJSON ? new User(item) : <User>item;
+            if (data.recipientEmails) {
+                this.recipientEmails = [];
+                for (let i = 0; i < data.recipientEmails.length; i++) {
+                    let item = data.recipientEmails[i];
+                    this.recipientEmails[i] = item && !(<any>item).toJSON ? new UserEmail(item) : <UserEmail>item;
                 }
             }
         }
@@ -54462,20 +55023,10 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
     init(data?: any) {
         super.init(data);
         if (data) {
-            if (Array.isArray(data["recipientsEmail"])) {
-                this.recipientsEmail = [] as any;
-                for (let item of data["recipientsEmail"])
-                    this.recipientsEmail!.push(UserEmail.fromJS(item));
-            }
-            if (Array.isArray(data["recipientsUser"])) {
-                this.recipientsUser = [] as any;
-                for (let item of data["recipientsUser"])
-                    this.recipientsUser!.push(User.fromJS(item));
-            }
-            if (Array.isArray(data["recipientsGroup"])) {
-                this.recipientsGroup = [] as any;
-                for (let item of data["recipientsGroup"])
-                    this.recipientsGroup!.push(UserRole.fromJS(item));
+            if (Array.isArray(data["recipientEmails"])) {
+                this.recipientEmails = [] as any;
+                for (let item of data["recipientEmails"])
+                    this.recipientEmails!.push(UserEmail.fromJS(item));
             }
             this.languageCode = data["languageCode"];
         }
@@ -54490,20 +55041,10 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.recipientsEmail)) {
-            data["recipientsEmail"] = [];
-            for (let item of this.recipientsEmail)
-                data["recipientsEmail"].push(item.toJSON());
-        }
-        if (Array.isArray(this.recipientsUser)) {
-            data["recipientsUser"] = [];
-            for (let item of this.recipientsUser)
-                data["recipientsUser"].push(item.toJSON());
-        }
-        if (Array.isArray(this.recipientsGroup)) {
-            data["recipientsGroup"] = [];
-            for (let item of this.recipientsGroup)
-                data["recipientsGroup"].push(item.toJSON());
+        if (Array.isArray(this.recipientEmails)) {
+            data["recipientEmails"] = [];
+            for (let item of this.recipientEmails)
+                data["recipientEmails"].push(item.toJSON());
         }
         data["languageCode"] = this.languageCode;
         super.toJSON(data);
@@ -54513,109 +55054,9 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
 
 export interface IShareBasicCreateRequest extends IShareBaseCreateRequest {
     /** List of external mail recipients which are no Picturepark users. */
-    recipientsEmail?: IUserEmail[] | undefined;
-    /** List of internal recipients which are Picturepark users. */
-    recipientsUser?: IUser[] | undefined;
-    /** List of user roles. All assignees of these roles receive the share. */
-    recipientsGroup?: UserRole[] | undefined;
+    recipientEmails?: IUserEmail[] | undefined;
     /** System language used for share (mail and detail page). en or de. */
     languageCode: string;
-}
-
-/** Represents a user role, which associates users with user rights. */
-export class UserRoleEditable implements IUserRoleEditable {
-    /** Language specific user role names. */
-    names!: TranslatedStringDictionary;
-    /** All user rights for this user role. */
-    userRights!: UserRight[];
-
-    constructor(data?: IUserRoleEditable) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-        }
-        if (!data) {
-            this.names = new TranslatedStringDictionary();
-            this.userRights = [];
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
-            if (Array.isArray(data["userRights"])) {
-                this.userRights = [] as any;
-                for (let item of data["userRights"])
-                    this.userRights!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): UserRoleEditable {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserRoleEditable();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.userRights)) {
-            data["userRights"] = [];
-            for (let item of this.userRights)
-                data["userRights"].push(item);
-        }
-        return data; 
-    }
-}
-
-/** Represents a user role, which associates users with user rights. */
-export interface IUserRoleEditable {
-    /** Language specific user role names. */
-    names: ITranslatedStringDictionary;
-    /** All user rights for this user role. */
-    userRights: UserRight[];
-}
-
-/** Represents a user role, which associates users with user rights. */
-export class UserRole extends UserRoleEditable implements IUserRole {
-    /** User role ID. */
-    id?: string | undefined;
-
-    constructor(data?: IUserRole) {
-        super(data);
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): UserRole {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserRole();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** Represents a user role, which associates users with user rights. */
-export interface IUserRole extends IUserRoleEditable {
-    /** User role ID. */
-    id?: string | undefined;
 }
 
 /** Create request for embed share */
@@ -57078,6 +57519,102 @@ export interface IOwnerToken {
     id?: string | undefined;
     /** The id of the user to whom this ownertoken currently belongs to. */
     userId?: string | undefined;
+}
+
+/** Represents a user role, which associates users with user rights. */
+export class UserRoleEditable implements IUserRoleEditable {
+    /** Language specific user role names. */
+    names!: TranslatedStringDictionary;
+    /** All user rights for this user role. */
+    userRights!: UserRight[];
+
+    constructor(data?: IUserRoleEditable) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+        }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+            this.userRights = [];
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
+            if (Array.isArray(data["userRights"])) {
+                this.userRights = [] as any;
+                for (let item of data["userRights"])
+                    this.userRights!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): UserRoleEditable {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRoleEditable();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        if (Array.isArray(this.userRights)) {
+            data["userRights"] = [];
+            for (let item of this.userRights)
+                data["userRights"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Represents a user role, which associates users with user rights. */
+export interface IUserRoleEditable {
+    /** Language specific user role names. */
+    names: ITranslatedStringDictionary;
+    /** All user rights for this user role. */
+    userRights: UserRight[];
+}
+
+/** Represents a user role, which associates users with user rights. */
+export class UserRole extends UserRoleEditable implements IUserRole {
+    /** User role ID. */
+    id?: string | undefined;
+
+    constructor(data?: IUserRole) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): UserRole {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRole();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Represents a user role, which associates users with user rights. */
+export interface IUserRole extends IUserRoleEditable {
+    /** User role ID. */
+    id?: string | undefined;
 }
 
 /** Holds information needed for user creation. */

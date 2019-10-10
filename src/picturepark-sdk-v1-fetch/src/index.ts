@@ -4721,6 +4721,168 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
     }
 }
 
+export class DisplayValueClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    /**
+     * Re-render the display values
+     * @return VersionInfo
+     */
+    rerender(): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/displayvalues/rerender";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processRerender(_response);
+        });
+    }
+
+    protected processRerender(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Get status
+     * @return VersionInfo
+     */
+    getStatus(): Promise<DisplayValueStatus> {
+        let url_ = this.baseUrl + "/v1/displayvalues/status";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetStatus(_response);
+        });
+    }
+
+    protected processGetStatus(response: Response): Promise<DisplayValueStatus> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <DisplayValueStatus>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<DisplayValueStatus>(<any>null);
+    }
+}
+
 export class DocumentHistoryClient extends PictureparkClientBase {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -5322,6 +5484,81 @@ export class InfoClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<VersionInfo>(<any>null);
+    }
+
+    /**
+     * Get status
+     * @return VersionInfo
+     */
+    getStatus(): Promise<SystemStatus> {
+        let url_ = this.baseUrl + "/v1/info/status";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetStatus(_response);
+        });
+    }
+
+    protected processGetStatus(response: Response): Promise<SystemStatus> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <SystemStatus>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<SystemStatus>(<any>null);
     }
 }
 
@@ -15557,6 +15794,9 @@ export interface NoTagsFoundException extends PictureparkBusinessException {
 export interface OutputNotAvailableException extends PictureparkBusinessException {
 }
 
+export interface DisplayValueRerenderingInProgressException extends PictureparkValidationException {
+}
+
 /** Search request to search for business processes */
 export interface BusinessProcessSearchRequest {
     /** Limits the document count of the result set. */
@@ -17439,6 +17679,21 @@ If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
 }
 
+export interface DisplayValueStatus {
+    /** The schema ids (of type Content or Layer) for which the re-rendering of the display values is needed. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) for which the re-rendering of the display values is needed. */
+    listSchemaIds?: string[] | undefined;
+    /** The state of the display values compared to the schema structure (UpToDate = ok, Outdated = re-rendering needed). */
+    state: DisplayValuesState;
+}
+
+export enum DisplayValuesState {
+    UpToDate = <any>"UpToDate",
+    Outdated = <any>"Outdated",
+    RerenderingInProgress = <any>"RerenderingInProgress",
+}
+
 export interface BaseResultOfDocumentHistory {
     totalResults: number;
     results: DocumentHistory[];
@@ -17574,6 +17829,29 @@ export interface VersionInfo {
     contractVersion?: string | undefined;
     /** The bamboo release version. Only provided on bamboo deployments. */
     release?: string | undefined;
+}
+
+export interface SystemStatus {
+    /** The status of the search indices. */
+    searchIndicesStatus?: StatusOfSearchIndexState[] | undefined;
+    /** The status of the display values. */
+    displayValuesStatus?: StatusOfDisplayValuesState[] | undefined;
+}
+
+export interface StatusOfSearchIndexState {
+    id?: string | undefined;
+    state: SearchIndexState;
+}
+
+export enum SearchIndexState {
+    Green = <any>"Green",
+    Yellow = <any>"Yellow",
+    Red = <any>"Red",
+}
+
+export interface StatusOfDisplayValuesState {
+    id?: string | undefined;
+    state: DisplayValuesState;
 }
 
 /** List item detail */
@@ -19499,27 +19777,9 @@ export interface ShareContent {
 
 export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
     /** List of external mail recipients which are no Picturepark users. */
-    recipientsEmail?: UserEmail[] | undefined;
-    /** List of internal recipients which are Picturepark users. */
-    recipientsUser?: User[] | undefined;
-    /** List of user roles. All assignees of these roles receive the share. */
-    recipientsGroup?: UserRole[] | undefined;
+    recipientEmails?: UserEmail[] | undefined;
     /** System language used for share (mail and detail page). en or de. */
     languageCode: string;
-}
-
-/** Represents a user role, which associates users with user rights. */
-export interface UserRoleEditable {
-    /** Language specific user role names. */
-    names: TranslatedStringDictionary;
-    /** All user rights for this user role. */
-    userRights: UserRight[];
-}
-
-/** Represents a user role, which associates users with user rights. */
-export interface UserRole extends UserRoleEditable {
-    /** User role ID. */
-    id?: string | undefined;
 }
 
 /** Create request for embed share */
@@ -19931,6 +20191,20 @@ export interface OwnerToken {
     id?: string | undefined;
     /** The id of the user to whom this ownertoken currently belongs to. */
     userId?: string | undefined;
+}
+
+/** Represents a user role, which associates users with user rights. */
+export interface UserRoleEditable {
+    /** Language specific user role names. */
+    names: TranslatedStringDictionary;
+    /** All user rights for this user role. */
+    userRights: UserRight[];
+}
+
+/** Represents a user role, which associates users with user rights. */
+export interface UserRole extends UserRoleEditable {
+    /** User role ID. */
+    id?: string | undefined;
 }
 
 /** Holds information needed for user creation. */
