@@ -1,5 +1,5 @@
 // LIBRARIES
-import { Content, Output, ContentType } from '@picturepark/sdk-v1-angular';
+import { Content, Output, ContentType, OutputDataBase } from '@picturepark/sdk-v1-angular';
 
 // SERVICES
 import { TranslationService, IOutputFormatTranslations } from '../../../shared-module/services/translations/translation.service';
@@ -53,8 +53,19 @@ export class OutputSelection {
                         name: translationService.translate(`ContentDownloadDialog.${schemaId}`)
                     };
 
-                const contentOutputs = isBinary ? outputs.filter(i => i.contentId === content.id) :
-                      [{ outputFormatId: 'Original', contentId: content.id, detail: { fileSizeInBytes: 100 } } as Output];
+                let contentOutputs: Output[];
+                if (isBinary) {
+                    contentOutputs = outputs.filter(i => i.contentId === content.id);
+                } else {
+                    let output = outputs.find(i => i.contentId === content.id);
+                    if (!output) {
+                        output = { outputFormatId: 'Original', contentId: content.id, detail: { fileSizeInBytes: 100 } } as Output;
+                    } else {
+                        // In case there is a virtual content defined in the outputs (share), set only the filesize
+                        output.detail = { fileSizeInBytes: 100 } as OutputDataBase;
+                    }
+                    contentOutputs = [output];
+                }
 
                 contentOutputs.forEach(output => {
                     const outputFormatItems = schemaItems.outputs[output.outputFormatId] = schemaItems.outputs[output.outputFormatId] ||
