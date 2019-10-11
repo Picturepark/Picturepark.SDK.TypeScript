@@ -1,5 +1,8 @@
 <div class="dialog-container" #contentContainer>
-    <h3>{{ options.title }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
+    <h3>
+        <span>{{ options.title }}</span>
+        <mat-icon (click)="closeDialog()">close</mat-icon>
+    </h3>
 
     <mat-dialog-content>
         <div>

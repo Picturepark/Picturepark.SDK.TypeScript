@@ -13,6 +13,7 @@ export class AppComponent {
   public shareDetail: ShareDetail;
   public mailRecipients: IMailRecipient[];
   public showSearchBox = !environment.production;
+  public showConsent = !window.localStorage.getItem('Picturepark.ShareCookieConsent');
 
   constructor(
     private route: ActivatedRoute,
@@ -24,5 +25,10 @@ export class AppComponent {
     if (searchString) {
       this.router.navigate([searchString], { relativeTo: this.route });
     }
+  }
+
+  confirmConsent(): void {
+    window.localStorage.setItem('Picturepark.ShareCookieConsent', 'true');
+    this.showConsent = false;
   }
 }

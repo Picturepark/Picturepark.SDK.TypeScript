@@ -16,21 +16,17 @@ $pp-dialog-base: (
             mat-icon { color: mat-color($primary, light-font); }
         }
     
-        mat-dialog-content { background-color: mat-color($primary, dialog-background); }
+        mat-dialog-content {
+            background-color: mat-color($primary, dialog-background);
+            border-bottom: 1px solid mat-contrast($primary, dialog-background); 
+        }
     
         .loader-container { 
             background-color: mat-color($primary, dialog-background); 
         }
     
         mat-dialog-actions { 
-            border-top: 1px solid mat-contrast($primary, dialog-background); 
             background-color: mat-color($primary, white-background);
-            button { 
-                color: mat-color($primary, white-font); background: mat-color($primary, button);
-                &.active { background-color: mat-color($primary, base); }
-                &.option { background-color: mat-color($primary, white-background); color: mat-color($primary, button); border: 1px solid mat-color($primary, button); }
-                &.cancel { background-color: mat-color($primary, white-background); color: mat-color($primary, button); }
-            }
         }
     }
 

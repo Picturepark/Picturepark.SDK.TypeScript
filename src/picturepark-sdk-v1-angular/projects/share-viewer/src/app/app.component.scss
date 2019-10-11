@@ -47,4 +47,19 @@ body {
             }
         }
     }
+
+    .consent {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        display: flex;
+        flex-direction: row;
+
+        .text {
+            flex: 1;
+        }
+
+        button {
+            color: white;
+        }
+    }
 }

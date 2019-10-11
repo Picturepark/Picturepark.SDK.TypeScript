@@ -318,7 +318,7 @@ export let TRANSLATIONS = {
       en: 'Documents',
       de: 'Dokumente'
     },
-    ContentItem: {
+    Virtual: {
       en: 'Virtual content',
       de: 'Virtueller content'
     },

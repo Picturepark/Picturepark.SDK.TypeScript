@@ -11,9 +11,9 @@
         </div>
 
         <ul class="settings-menu">
-            <li>Creation date</li>
-            <li *ngIf="shareDetail.expirationDate">Expiration date</li>
-            <li>Creator</li>
+            <li>{{ 'ShareViewer.CreationDate' | pptranslate }}</li>
+            <li *ngIf="shareDetail.expirationDate">{{ 'ShareViewer.ExpirationDate' | pptranslate }}</li>
+            <li>{{ 'ShareViewer.Creator' | pptranslate }}</li>
         </ul>
         <ul class="settings-info">
             <li>{{ shareDetail.audit.creationDate | date: 'yyyy-MM-dd HH:mm': undefined: 'en-US' }}</li> <!-- TODO: Add support for more locales -->
@@ -38,5 +38,3 @@
     [shareDetail]="shareDetail"
     (showDetail)="showDetail($event)">
 </pp-share-items-panel>
-
-<pp-owner-panel [title]="'Sender'" [shareUser]="shareDetail.creator" [userId]="shareDetail.audit.createdByUser" id="owner" *ngIf="shareDetail"></pp-owner-panel>
