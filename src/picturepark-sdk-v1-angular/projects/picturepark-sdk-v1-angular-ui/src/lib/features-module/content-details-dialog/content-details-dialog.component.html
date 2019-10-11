@@ -31,7 +31,7 @@
         <mat-tab label="{{'ContentDetailsDialog.Overview' | pptranslate}}">
           <ng-template matTabContent>
             <div class="overview-wrap" *ngIf="content">
-              <div class="content-preview">
+              <div class="content-preview" *ngIf="content.contentType !== 'Virtual'">
                 <pp-content-image-preview [content]="content" [shareDetail]="data.shareDetail" [shareContent]="data.shareContent" width="700" height="600" (playChange)="playing = $event"></pp-content-image-preview>
               </div>
               <div class="content-info" *ngIf="!playing">

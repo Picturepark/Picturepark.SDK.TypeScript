@@ -29,14 +29,26 @@ translations['ShareViewer'] = {
   OK: {
     en: 'OK',
     de: 'OK'
+  },
+  CreationDate: {
+    en: 'Creation date',
+    de: 'Erstellungsdatum'
+  },
+  ExpirationDate: {
+    en: 'Expiration date',
+    de: 'Ablaufdatum'
+  },
+  Creator: {
+    en: 'From',
+    de: 'Von'
   }
 };
 
 export function PictureparkConfigurationFactory() {
   if (!environment.production) {
     return <PictureparkAccessTokenAuthConfiguration>{
-      apiServer: 'http://localhost:8085',
-      customerAlias: 'bro',
+      apiServer: 'https://api.08.qa-picturepark.com',
+      customerAlias: 'localtest',
       accessToken: ''
     };
   }

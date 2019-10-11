@@ -1,6 +1,20 @@
 .dialog-container {
-    h3 { margin: 0 -24px 0 -24px; padding: 0px 24px 24px 24px;
-        mat-icon { cursor: pointer; float: right; }
+    h3 {
+        display: flex;
+        margin: 0 -24px 0 -24px;
+        padding: 0px 24px 24px 24px;
+
+        span {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        mat-icon {
+            cursor: pointer;
+            float: right;
+        }
     }
     ::ng-deep .notification-container {
         left: -24px !important;
@@ -24,10 +38,8 @@
     }
 
     mat-dialog-actions { 
-        justify-content: flex-end; margin: 0px -24px -24px -24px; position: relative; z-index: 25;
-        button { 
-           border-radius: 4px; cursor: pointer; border: 0px; float: right; padding: 7px 9px; line-height: 21px; min-width: 100px; margin: 0px 24px 0px 0px;
-           &.option { margin: 0px 0px 0px 26px; }
-        }
+        justify-content: flex-end;
+        position: relative;
+        z-index: 25;
     }
 }

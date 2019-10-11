@@ -1,5 +1,8 @@
 <div class="dialog-container" #contentContainer>
-  <h3>{{ title | pptranslate }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
+  <h3>
+    <span>{{ title | pptranslate }}</span>
+    <mat-icon (click)="closeDialog()">close</mat-icon>
+  </h3>
   <pp-notification [notification]="notification"></pp-notification>
   <mat-dialog-content *ngIf="selection">
     <form *ngIf="!noOutputs">
@@ -45,7 +48,7 @@
       <span *ngIf="advancedMode">{{ 'ContentDownloadDialog.Simple' | pptranslate }}</span>
     </button>
     <span class="spacer"></span>
-    <button class="cancel" mat-button mat-dialog-close>{{ 'ContentDownloadDialog.Cancel' | pptranslate }}</button>
-    <button class="active" *ngIf="!noOutputs" (click)="download()" [disabled]="fileSize === 0 && !hasDynamicOutputs">{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
+    <button mat-button mat-dialog-close>{{ 'ContentDownloadDialog.Cancel' | pptranslate }}</button>
+    <button mat-flat-button color="accent" *ngIf="!noOutputs" (click)="download()" [disabled]="fileSize === 0 && !hasDynamicOutputs">{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
   </mat-dialog-actions>
 </div>
