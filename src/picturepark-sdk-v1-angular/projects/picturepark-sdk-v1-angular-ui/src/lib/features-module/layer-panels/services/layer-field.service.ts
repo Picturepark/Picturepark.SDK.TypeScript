@@ -201,7 +201,7 @@ export class LayerFieldService {
       ThumbnailSize.Small,
       null,
       null).pipe(map(response =>
-        new RelationFieldInfo(response.fileName,
+        new RelationFieldInfo(targetId, response.fileName,
           this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data))
         )));
 

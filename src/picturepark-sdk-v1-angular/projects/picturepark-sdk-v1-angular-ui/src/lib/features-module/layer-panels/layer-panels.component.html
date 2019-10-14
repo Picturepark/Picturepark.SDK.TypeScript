@@ -4,7 +4,7 @@
   </mat-card-title>
   <mat-card-content>
     <div *ngFor="let field of layer.fields;" class="fields">
-      <pp-layer-fields [field]="field"></pp-layer-fields>
+      <pp-layer-fields [field]="field" (relationClick)="relationClickHandler($event)"></pp-layer-fields>
     </div>
   </mat-card-content>
 </mat-card>

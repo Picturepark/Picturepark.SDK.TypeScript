@@ -36,7 +36,7 @@
 
   <div class="value" *ngIf="field.relationFields?.length">
     <ng-container *ngFor="let relationField of field.relationFields">
-      <div class="relation field" *ngIf="relationField.info | async as info">
+      <div class="relation field" *ngIf="relationField.info | async as info" (click)="relationClickHandler(info)">
         <img [src]="info.fileUrl" />
         <div class="relationFields">
           <div class="field">{{info.fileName}}</div>

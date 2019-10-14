@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ContentDetail, SchemaDetail, SchemaService } from '@picturepark/sdk-v1-angular';
 import { take } from 'rxjs/operators';
 
 import { Layer } from './models/layer';
 import { LayerFieldService } from './services/layer-field.service';
+import { RelationFieldInfo } from './models/relation-field-info';
 
 @Component({
   selector: 'pp-layer-panels',
@@ -19,6 +20,9 @@ export class LayerPanelsComponent implements OnInit {
 
   @Input()
   public showContentSchema = false;
+
+  @Output()
+  public relationClick = new EventEmitter<RelationFieldInfo>();
 
   public layers: Layer[] = [];
   private allSchemas: SchemaDetail[];
@@ -71,6 +75,10 @@ export class LayerPanelsComponent implements OnInit {
           this.layers.push(layer);
         });
       });
+  }
+
+  public relationClickHandler(relationInfo: RelationFieldInfo) {
+    this.relationClick.emit(relationInfo);
   }
 
   toLowerCamel(value: string): string {
