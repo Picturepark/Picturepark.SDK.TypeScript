@@ -4,6 +4,7 @@
 
 .raw, .relation {
   display: flex;
+  padding-bottom: 6px;
 }
 
 .label {
@@ -16,6 +17,8 @@
 
 .value {
   flex: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .relationFields {
