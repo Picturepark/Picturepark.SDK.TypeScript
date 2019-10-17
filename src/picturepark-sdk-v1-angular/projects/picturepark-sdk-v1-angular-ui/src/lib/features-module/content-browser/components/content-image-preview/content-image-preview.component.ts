@@ -10,6 +10,7 @@ import {
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 import { FullscreenService, IShareItem } from '../../../content-details-dialog/fullscreen.service';
+import { LazyGetter } from 'lazy-get-decorator';
 
 @Component({
     selector: 'pp-content-image-preview',
@@ -40,6 +41,16 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
       private fullscreenService: FullscreenService,
       private cdr: ChangeDetectorRef) {
       super();
+    }
+
+    @LazyGetter()
+    protected get scriptsPath() {
+      const base = document.getElementsByTagName('base');
+      if (base.length > 0) {
+        const url = base[0].href;
+        return url.endsWith('/') ? url.slice(0, -1) : url;
+      }
+      return '';
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -225,7 +236,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
 
     showPdf(item: IShareItem): void {
       this.playChange.emit(true);
-      const url = '/assets/picturepark-sdk-v1-widgets/pdfjs/web/viewer.html?file=' + item.pdfUrl + '&closeButton=false';
+      const url = this.scriptsPath + '/assets/picturepark-sdk-v1-widgets/pdfjs/web/viewer.html?file=' + item.pdfUrl + '&closeButton=false';
       this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
 
