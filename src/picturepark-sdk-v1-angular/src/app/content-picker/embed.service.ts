@@ -16,10 +16,10 @@ export class EmbedService {
   constructor(private shareService: ShareService) {
   }
 
-  async embed(selectedItems: ContentModel<Content>[], postUrl: string) {
+  async embed(selectedItems: Content[], postUrl: string) {
     if (selectedItems.length > 0) {
       const contentItems = selectedItems.map(i => new ShareContent({
-        contentId: i.item.id,
+        contentId: i.id,
         outputFormatIds: ['Original']
       }));
 
