@@ -12,6 +12,7 @@ export interface PictureparkUIConfiguration {
 }
 
 export const PICTUREPARK_UI_CONFIGURATION = new InjectionToken<string>('PICTUREPARK_UI_CONFIGURATION');
+export const PICTUREPARK_UI_SCRIPTPATH = new InjectionToken<string>('PICTUREPARK_UI_SCRIPTPATH');
 
 export function PictureparkUIConfigurationFactory() {
     return<PictureparkUIConfiguration> {

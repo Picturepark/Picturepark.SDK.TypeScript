@@ -4,7 +4,7 @@
     </div>
     <div class="video-player" *ngIf="playing"></div>
     <div class="pdf-viewer" *ngIf="pdfUrl">
-        <iframe [src]="pdfUrl" frameBorder=0></iframe>
+        <iframe [src]="pdfUrl" frameBorder=0 allowfullscreen webkitallowfullscreen></iframe>
     </div>
     <div class="loader" *ngIf="isLoading">
         <mat-spinner></mat-spinner>

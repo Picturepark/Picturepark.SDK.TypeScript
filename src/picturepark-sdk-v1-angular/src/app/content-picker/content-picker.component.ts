@@ -25,7 +25,7 @@ import { ContentDetailDialogOptions } from 'projects/picturepark-sdk-v1-angular-
 export class ContentPickerComponent implements OnInit, OnDestroy {
   public basketItemsCount = 0;
 
-  public selectedItems: ContentModel<Content>[] = [];
+  public selectedItems: Content[] = [];
 
   public searchText = '';
   public selectedChannel: Channel | null = null;
@@ -96,7 +96,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  public selectionChange(items: ContentModel<Content>[]): void {
+  public selectionChange(items: Content[]): void {
     this.selectedItems = items;
   }
 

@@ -1,4 +1,4 @@
-import { Input, Component, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Input, Component, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, Inject, Optional } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
@@ -10,6 +10,8 @@ import {
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 import { FullscreenService, IShareItem } from '../../../content-details-dialog/fullscreen.service';
+import { LazyGetter } from 'lazy-get-decorator';
+import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
 
 @Component({
     selector: 'pp-content-image-preview',
@@ -35,11 +37,27 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
     playing = false;
 
     constructor(
+      @Optional() @Inject(PICTUREPARK_UI_SCRIPTPATH) private uiScriptPath: string,
       private contentService: ContentService,
       private sanitizer: DomSanitizer,
       private fullscreenService: FullscreenService,
       private cdr: ChangeDetectorRef) {
       super();
+    }
+
+    /** Gets the script path from either configured PICTUREPARK_UI_SCRIPTPATH or fallback to the configured base href */
+    @LazyGetter()
+    protected get scriptsPath() {
+      if (this.uiScriptPath) {
+        return this.uiScriptPath;
+      }
+
+      const base = document.getElementsByTagName('base');
+      if (base.length > 0) {
+        const url = base[0].href;
+        return url.endsWith('/') ? url.slice(0, -1) : url;
+      }
+      return '';
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -225,7 +243,7 @@ import { FullscreenService, IShareItem } from '../../../content-details-dialog/f
 
     showPdf(item: IShareItem): void {
       this.playChange.emit(true);
-      const url = '/assets/picturepark-sdk-v1-widgets/pdfjs/web/viewer.html?file=' + item.pdfUrl + '&closeButton=false';
+      const url = this.scriptsPath + '/assets/picturepark-sdk-v1-widgets/pdfjs/web/viewer.html?file=' + item.pdfUrl + '&closeButton=false';
       this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
 
