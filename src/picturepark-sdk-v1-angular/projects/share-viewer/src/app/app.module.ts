@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShareDetailModule } from './share-detail/share-detail.module';
 import { environment } from '../environments/environment';
 import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/translations';
+import { PICTUREPARK_UI_SCRIPTPATH } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/configuration';
 
 const translations = TRANSLATIONS;
 translations['ShareViewer'] = {
@@ -61,6 +62,11 @@ export function PictureparkConfigurationFactory() {
   };
 }
 
+export function PictureparkUIScriptPathFactory() {
+  const appRootTag = document.getElementsByTagName('app-root')[0];
+  return appRootTag.getAttribute('picturepark-script-path');
+}
+
 // Get locale from the config provided
 export function LocaleFactory() {
   const appRootTag = document.getElementsByTagName('app-root')[0];
@@ -87,6 +93,7 @@ export function LocaleFactory() {
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },
     { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
+    { provide: PICTUREPARK_UI_SCRIPTPATH, useFactory: PictureparkUIScriptPathFactory },
     { provide: LOCALE_ID, useFactory: LocaleFactory }
   ],
   bootstrap: [AppComponent]

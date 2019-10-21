@@ -1,4 +1,4 @@
-import { Input, Component, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Input, Component, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, Inject, Optional } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
@@ -11,6 +11,7 @@ import {
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 import { FullscreenService, IShareItem } from '../../../content-details-dialog/fullscreen.service';
 import { LazyGetter } from 'lazy-get-decorator';
+import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
 
 @Component({
     selector: 'pp-content-image-preview',
@@ -36,6 +37,7 @@ import { LazyGetter } from 'lazy-get-decorator';
     playing = false;
 
     constructor(
+      @Optional() @Inject(PICTUREPARK_UI_SCRIPTPATH) private uiScriptPath: string,
       private contentService: ContentService,
       private sanitizer: DomSanitizer,
       private fullscreenService: FullscreenService,
@@ -43,8 +45,13 @@ import { LazyGetter } from 'lazy-get-decorator';
       super();
     }
 
+    /** Gets the script path from either configured PICTUREPARK_UI_SCRIPTPATH or fallback to the configured base href */
     @LazyGetter()
     protected get scriptsPath() {
+      if (this.uiScriptPath) {
+        return this.uiScriptPath;
+      }
+
       const base = document.getElementsByTagName('base');
       if (base.length > 0) {
         const url = base[0].href;
