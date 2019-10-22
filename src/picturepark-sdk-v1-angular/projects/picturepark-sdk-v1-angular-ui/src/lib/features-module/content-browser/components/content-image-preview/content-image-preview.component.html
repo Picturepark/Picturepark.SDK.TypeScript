@@ -1,6 +1,7 @@
 <div class="content-image-preview-container">
-    <div class="content-image-preview-content" *ngIf="!isLoading">
-        <img [src]="thumbnailUrlSafe" (click)="showFullscreen()" (error)="updateUrl($event)" *ngIf="thumbnailUrlSafe && !playing && !pdfUrl"/>
+    <div class="content-image-preview-content" *ngIf="!isLoading" (click)="showFullscreen()">
+        <img [src]="thumbnailUrlSafe" (error)="updateUrl($event)" *ngIf="thumbnailUrlSafe && !playing && !pdfUrl"/>
+        <mat-icon *ngIf="(isVideo || isAudio) && !playing && !pdfUrl">play_arrow</mat-icon>
     </div>
     <div class="video-player" *ngIf="playing"></div>
     <div class="pdf-viewer" *ngIf="pdfUrl">
