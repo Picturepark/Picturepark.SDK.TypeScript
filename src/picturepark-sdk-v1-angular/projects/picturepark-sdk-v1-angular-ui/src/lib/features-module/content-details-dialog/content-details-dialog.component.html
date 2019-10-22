@@ -13,16 +13,16 @@
             {{'ContentDetailsDialog.Download' | pptranslate}}
           </button>
         </div>
-        <div>
+        <div *ngIf="data.next || data.previous">
           <mat-divider [vertical]="true"></mat-divider>
         </div>
-        <div>
-          <button mat-stroked-button aria-label="previous" class="navigation" [disabled]="!data.hasPrevious()" *ngIf="data.previous" (click)="previous()">
+        <div *ngIf="data.previous">
+          <button mat-stroked-button aria-label="previous" class="navigation" [disabled]="!data.hasPrevious()" (click)="previous()">
             <mat-icon>keyboard_arrow_left</mat-icon>
           </button>
         </div>
-        <div>
-          <button mat-stroked-button aria-label="next" class="navigation" [disabled]="!data.hasNext()" *ngIf="data.next" (click)="next()">
+        <div *ngIf="data.next">
+          <button mat-stroked-button aria-label="next" class="navigation" [disabled]="!data.hasNext()" (click)="next()">
             <mat-icon>keyboard_arrow_right</mat-icon>
           </button>
         </div>

@@ -71,7 +71,8 @@ export class ShareDetailComponent implements OnInit {
         autoFocus: false,
         width: '980px',
         height: '700px',
-        maxWidth: '95vw'
+        maxWidth: '98vw',
+        maxHeight: '99vh'
       }
     );
   }
