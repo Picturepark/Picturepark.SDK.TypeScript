@@ -37,12 +37,15 @@
   <div class="value" *ngIf="field.relationFields?.length">
     <ng-container *ngFor="let relationField of field.relationFields">
       <div class="relation field" *ngIf="relationField.info | async as info" (click)="relationClickHandler(info)">
-        <img [src]="info.fileUrl" />
+        <div class="image-wrap"><img [src]="info.fileUrl" /></div>
         <div class="relationFields">
-          <div class="field">{{info.fileName}}</div>
+          <div class="field relation-title" [innerHTML]="info.name"></div>
+          <div class="field relation-description" [innerHTML]="info.list"></div>
+          <!--
           <ng-container *ngFor="let layerField of relationField.fields">
             <pp-layer-fields [field]="layerField"></pp-layer-fields>
           </ng-container>
+          -->
         </div>
       </div>
     </ng-container>

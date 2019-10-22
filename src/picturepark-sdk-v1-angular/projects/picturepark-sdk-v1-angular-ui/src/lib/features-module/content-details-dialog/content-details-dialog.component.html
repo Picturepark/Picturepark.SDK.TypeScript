@@ -45,7 +45,7 @@
         <mat-tab label="Metadata" *ngIf="data.showMetadata">
           <ng-template matTabContent>
             <div class="metadata-wrap" *ngIf="content">
-              <pp-layer-panels *ngIf="schemas" [content]="content" [schemas]="schemas" [showContentSchema]="true"></pp-layer-panels>
+              <pp-layer-panels *ngIf="schemas" [content]="content" [schemas]="schemas" [showContentSchema]="true" (relationClick)="setContent($event.contentId)"></pp-layer-panels>
             </div>
           </ng-template>
         </mat-tab>
