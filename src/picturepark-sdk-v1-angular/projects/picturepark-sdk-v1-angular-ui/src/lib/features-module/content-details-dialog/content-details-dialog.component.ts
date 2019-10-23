@@ -93,9 +93,9 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     const contentGetSubscription = this.contentService.get(this.contentId, [
       ContentResolveBehavior.Content,
       ContentResolveBehavior.Metadata,
-      ContentResolveBehavior.LinkedListItems,
       ContentResolveBehavior.InnerDisplayValueName,
       ContentResolveBehavior.InnerDisplayValueList,
+      ContentResolveBehavior.InnerDisplayValueThumbnail,
       ContentResolveBehavior.OuterDisplayValueName,
       ContentResolveBehavior.OuterDisplayValueDetail,
       ContentResolveBehavior.Outputs

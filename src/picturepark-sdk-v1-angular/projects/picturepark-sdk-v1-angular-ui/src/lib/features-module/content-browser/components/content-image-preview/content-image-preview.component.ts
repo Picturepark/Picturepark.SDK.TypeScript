@@ -60,6 +60,14 @@ import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
       return '';
     }
 
+    get isVideo(): boolean {
+      return this.content.contentType === ContentType.Video;
+    }
+
+    get isAudio(): boolean {
+      return this.content.contentType === ContentType.Audio;
+    }
+
     ngOnChanges(changes: SimpleChanges) {
       if (changes.content && changes.content.currentValue) {
 
@@ -105,11 +113,8 @@ import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
 
     showFullscreen() {
         let isPdf = this.content.contentType === ContentType.InterchangeDocument;
-        const isAudio = this.content.contentType === ContentType.Audio;
-        const isVideo = this.content.contentType === ContentType.Video;
 
-        const isMovie = isVideo;
-        const isImage = !isMovie && !isPdf;
+        const isImage = !this.isVideo && !isPdf;
 
         if (!this.shareContent) {
           const outputs = this.content.outputs!;
@@ -119,8 +124,8 @@ import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
 
           const previewOutput =
             isPdf ? outputs.filter(o => o.outputFormatId === 'Pdf')[0] :
-              isAudio ? outputs.filter(o => o.outputFormatId === 'AudioSmall')[0] :
-                isVideo ? outputs.filter(o => o.outputFormatId === 'VideoSmall')[0] :
+              this.isAudio ? outputs.filter(o => o.outputFormatId === 'AudioSmall')[0] :
+                this.isVideo ? outputs.filter(o => o.outputFormatId === 'VideoSmall')[0] :
                   outputs.filter(o => o.outputFormatId === 'Preview')[0];
 
           const request = new ContentDownloadLinkCreateRequest({
@@ -138,11 +143,11 @@ import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
 
               isPdf: isPdf,
               isImage: isImage,
-              isMovie: isMovie,
-              isAudio: isAudio,
+              isMovie: this.isVideo,
+              isAudio: this.isAudio,
               isBinary: false,
-              videoUrl: isMovie ? response.downloadUrl : '',
-              audioUrl: isAudio ? response.downloadUrl : '',
+              videoUrl: this.isVideo ? response.downloadUrl : '',
+              audioUrl: this.isAudio ? response.downloadUrl : '',
               pdfUrl: isPdf ? response.downloadUrl : '',
 
               displayValues: {},
