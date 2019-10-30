@@ -44,6 +44,10 @@ export class ShareDetailComponent implements OnInit {
     });
   }
 
+  downloadAll(): void {
+    window.location.replace(this.shareDetail.data!.url);
+  }
+
   showDetail(item: ShareContentDetail): void {
     let index = this.shareDetail.contentSelections.indexOf(item);
     this.dialog.open(ContentDetailsDialogComponent,

@@ -42,6 +42,10 @@ translations['ShareViewer'] = {
   Creator: {
     en: 'From',
     de: 'Von'
+  },
+  DownloadAll: {
+    en: 'Download all',
+    de: 'Alles herunterladen'
   }
 };
 
