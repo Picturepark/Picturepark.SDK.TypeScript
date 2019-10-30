@@ -6,20 +6,29 @@
     *ngIf="shareDetail"
     class="settings"
     [title]="shareDetail.name">
-    <div pp-panel-content>
-        <div *ngIf="shareDetail.description" [innerHTML]="shareDetail.description" class="description">
-        </div>
+    <div pp-panel-content class="settings-wrap">
+        <div class="left">
+            <div *ngIf="shareDetail.description" [innerHTML]="shareDetail.description" class="description">
+            </div>
 
-        <ul class="settings-menu">
-            <li>{{ 'ShareViewer.CreationDate' | pptranslate }}</li>
-            <li *ngIf="shareDetail.expirationDate">{{ 'ShareViewer.ExpirationDate' | pptranslate }}</li>
-            <li>{{ 'ShareViewer.Creator' | pptranslate }}</li>
-        </ul>
-        <ul class="settings-info">
-            <li>{{ shareDetail.audit.creationDate | date: 'yyyy-MM-dd HH:mm': undefined: 'en-US' }}</li> <!-- TODO: Add support for more locales -->
-            <li *ngIf="shareDetail.expirationDate" class="expiration">{{ shareDetail.expirationDate | date: 'yyyy-MM-dd HH:mm': undefined: 'en-US' }}</li>
-            <li>{{ shareDetail.creator.displayName }}</li>
-        </ul>
+            <ul class="settings-menu">
+                <li>{{ 'ShareViewer.CreationDate' | pptranslate }}</li>
+                <li *ngIf="shareDetail.expirationDate">{{ 'ShareViewer.ExpirationDate' | pptranslate }}</li>
+                <li>{{ 'ShareViewer.Creator' | pptranslate }}</li>
+            </ul>
+            <ul class="settings-info">
+                <li>{{ shareDetail.audit.creationDate | date: 'yyyy-MM-dd HH:mm': undefined: 'en-US' }}</li> <!-- TODO: Add support for more locales -->
+                <li *ngIf="shareDetail.expirationDate" class="expiration">{{ shareDetail.expirationDate | date: 'yyyy-MM-dd HH:mm': undefined: 'en-US' }}</li>
+                <li>{{ shareDetail.creator.displayName }}</li>
+            </ul>
+        </div>
+        <div class="right">
+            <div class="download">
+                <button mat-flat-button aria-label="Download" color="accent" *ngIf="shareDetail.data!.url" (click)="downloadAll()">
+                    {{ 'ShareViewer.DownloadAll' | pptranslate }}
+                </button>
+            </div>
+        </div>
     </div>
 </pp-panel>
 
