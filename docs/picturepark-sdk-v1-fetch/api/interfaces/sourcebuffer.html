@@ -66,6 +66,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A chunk of media to be passed into an HTMLMediaElement and played, via a MediaSource object. This can be made up of one or several media segments.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -92,6 +99,11 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#audiotracks" class="tsd-kind-icon">audio<wbr>Tracks</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#buffered" class="tsd-kind-icon">buffered</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#mode" class="tsd-kind-icon">mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#onabort" class="tsd-kind-icon">onabort</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#onerror" class="tsd-kind-icon">onerror</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#onupdate" class="tsd-kind-icon">onupdate</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#onupdateend" class="tsd-kind-icon">onupdateend</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#onupdatestart" class="tsd-kind-icon">onupdatestart</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#texttracks" class="tsd-kind-icon">text<wbr>Tracks</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#timestampoffset" class="tsd-kind-icon">timestamp<wbr>Offset</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#updating" class="tsd-kind-icon">updating</a></li>
@@ -102,12 +114,11 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#abort" class="tsd-kind-icon">abort</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#addeventlistener" class="tsd-kind-icon">add<wbr>Event<wbr>Listener</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-overwrite tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#addeventlistener" class="tsd-kind-icon">add<wbr>Event<wbr>Listener</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#appendbuffer" class="tsd-kind-icon">append<wbr>Buffer</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#appendstream" class="tsd-kind-icon">append<wbr>Stream</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#dispatchevent" class="tsd-kind-icon">dispatch<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#remove" class="tsd-kind-icon">remove</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#removeeventlistener" class="tsd-kind-icon">remove<wbr>Event<wbr>Listener</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-overwrite tsd-is-external tsd-is-not-exported"><a href="sourcebuffer.html#removeeventlistener" class="tsd-kind-icon">remove<wbr>Event<wbr>Listener</a></li>
 							</ul>
 						</section>
 					</div>
@@ -121,7 +132,7 @@
 					<div class="tsd-signature tsd-kind-icon">Event<wbr>Target<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4963</li>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5233</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -136,7 +147,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4964</li>
+												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5234</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-returns-title">Returns <a href="eventtarget.html" class="tsd-signature-type">EventTarget</a></h4>
@@ -154,7 +165,7 @@
 					<div class="tsd-signature tsd-kind-icon">append<wbr>Window<wbr>End<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14095</li>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14822</li>
 						</ul>
 					</aside>
 				</section>
@@ -164,7 +175,7 @@
 					<div class="tsd-signature tsd-kind-icon">append<wbr>Window<wbr>Start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14096</li>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14823</li>
 						</ul>
 					</aside>
 				</section>
@@ -174,7 +185,7 @@
 					<div class="tsd-signature tsd-kind-icon">audio<wbr>Tracks<span class="tsd-signature-symbol">:</span> <a href="audiotracklist.html" class="tsd-signature-type">AudioTrackList</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14097</li>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14824</li>
 						</ul>
 					</aside>
 				</section>
@@ -184,7 +195,7 @@
 					<div class="tsd-signature tsd-kind-icon">buffered<span class="tsd-signature-symbol">:</span> <a href="timeranges.html" class="tsd-signature-type">TimeRanges</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14098</li>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14825</li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +205,57 @@
 					<div class="tsd-signature tsd-kind-icon">mode<span class="tsd-signature-symbol">:</span> <a href="../globals.html#appendmode" class="tsd-signature-type">AppendMode</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14099</li>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14826</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+					<a name="onabort" class="tsd-anchor"></a>
+					<h3>onabort</h3>
+					<div class="tsd-signature tsd-kind-icon">onabort<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14827</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+					<a name="onerror" class="tsd-anchor"></a>
+					<h3>onerror</h3>
+					<div class="tsd-signature tsd-kind-icon">onerror<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14828</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+					<a name="onupdate" class="tsd-anchor"></a>
+					<h3>onupdate</h3>
+					<div class="tsd-signature tsd-kind-icon">onupdate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14829</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+					<a name="onupdateend" class="tsd-anchor"></a>
+					<h3>onupdateend</h3>
+					<div class="tsd-signature tsd-kind-icon">onupdateend<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14830</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+					<a name="onupdatestart" class="tsd-anchor"></a>
+					<h3>onupdatestart</h3>
+					<div class="tsd-signature tsd-kind-icon">onupdatestart<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14831</li>
 						</ul>
 					</aside>
 				</section>
@@ -204,7 +265,7 @@
 					<div class="tsd-signature tsd-kind-icon">text<wbr>Tracks<span class="tsd-signature-symbol">:</span> <a href="texttracklist.html" class="tsd-signature-type">TextTrackList</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14100</li>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14832</li>
 						</ul>
 					</aside>
 				</section>
@@ -214,7 +275,7 @@
 					<div class="tsd-signature tsd-kind-icon">timestamp<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14101</li>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14833</li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +285,7 @@
 					<div class="tsd-signature tsd-kind-icon">updating<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14102</li>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14834</li>
 						</ul>
 					</aside>
 				</section>
@@ -234,7 +295,7 @@
 					<div class="tsd-signature tsd-kind-icon">video<wbr>Tracks<span class="tsd-signature-symbol">:</span> <a href="videotracklist.html" class="tsd-signature-type">VideoTrackList</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14103</li>
+							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14835</li>
 						</ul>
 					</aside>
 				</section>
@@ -251,46 +312,83 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14104</li>
+									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14836</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-overwrite tsd-is-external tsd-is-not-exported">
 					<a name="addeventlistener" class="tsd-anchor"></a>
 					<h3>add<wbr>Event<wbr>Listener</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../globals.html#eventlisteneroreventlistenerobject" class="tsd-signature-type">EventListenerOrEventListenerObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="addeventlisteneroptions.html" class="tsd-signature-type">AddEventListenerOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-overwrite tsd-is-external tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener&lt;K&gt;<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="addeventlisteneroptions.html" class="tsd-signature-type">AddEventListenerOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../globals.html#eventlisteneroreventlistenerobject" class="tsd-signature-type">EventListenerOrEventListenerObject</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="addeventlisteneroptions.html" class="tsd-signature-type">AddEventListenerOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#addeventlistener">addEventListener</a></p>
+								<p>Overrides <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#addeventlistener">addEventListener</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4951</li>
+									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14839</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Appends an event listener for events whose type attribute value is type. The callback argument sets the callback that will be invoked when the event is dispatched.
-										The options argument sets listener-specific options. For compatibility this can be a
-										boolean, in which case the method behaves exactly as if the value was specified as options&#39;s capture.
-										When set to true, options&#39;s capture prevents callback from being invoked when the event&#39;s eventPhase attribute value is BUBBLING_PHASE. When false (or not present), callback will not be invoked when event&#39;s eventPhase attribute value is CAPTURING_PHASE. Either way, callback will be invoked if event&#39;s eventPhase attribute value is AT_TARGET.
-										When set to true, options&#39;s passive indicates that the callback will not cancel the event by invoking preventDefault(). This is used to enable performance optimizations described in §2.8 Observing event listeners.
-										When set to true, options&#39;s once indicates that the callback will only be invoked once after which the event listener will
-										be removed.
-									The event listener is appended to target&#39;s event listener list and is not appended if it has the same type, callback, and capture.</p>
-								</div>
-							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof SourceBufferEventMap</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>type: <span class="tsd-signature-type">K</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><a href="sourcebuffer.html" class="tsd-signature-type">SourceBuffer</a>, ev<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SourceBufferEventMap[K]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>this: <a href="sourcebuffer.html" class="tsd-signature-type">SourceBuffer</a></h5>
+														</li>
+														<li>
+															<h5>ev: <span class="tsd-signature-type">SourceBufferEventMap[K]</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="addeventlisteneroptions.html" class="tsd-signature-type">AddEventListenerOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#addeventlistener">addEventListener</a></p>
+								<ul>
+									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14840</li>
+								</ul>
+							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>type: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>listener: <a href="../globals.html#eventlisteneroreventlistenerobject" class="tsd-signature-type">EventListenerOrEventListenerObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>listener: <a href="../globals.html#eventlisteneroreventlistenerobject" class="tsd-signature-type">EventListenerOrEventListenerObject</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="addeventlisteneroptions.html" class="tsd-signature-type">AddEventListenerOptions</a></h5>
@@ -304,45 +402,19 @@
 					<a name="appendbuffer" class="tsd-anchor"></a>
 					<h3>append<wbr>Buffer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">append<wbr>Buffer<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="arraybuffer.html" class="tsd-signature-type">ArrayBuffer</a><span class="tsd-signature-symbol"> | </span><a href="int8array.html" class="tsd-signature-type">Int8Array</a><span class="tsd-signature-symbol"> | </span><a href="int16array.html" class="tsd-signature-type">Int16Array</a><span class="tsd-signature-symbol"> | </span><a href="int32array.html" class="tsd-signature-type">Int32Array</a><span class="tsd-signature-symbol"> | </span><a href="uint8array.html" class="tsd-signature-type">Uint8Array</a><span class="tsd-signature-symbol"> | </span><a href="uint16array.html" class="tsd-signature-type">Uint16Array</a><span class="tsd-signature-symbol"> | </span><a href="uint32array.html" class="tsd-signature-type">Uint32Array</a><span class="tsd-signature-symbol"> | </span><a href="uint8clampedarray.html" class="tsd-signature-type">Uint8ClampedArray</a><span class="tsd-signature-symbol"> | </span><a href="float32array.html" class="tsd-signature-type">Float32Array</a><span class="tsd-signature-symbol"> | </span><a href="float64array.html" class="tsd-signature-type">Float64Array</a><span class="tsd-signature-symbol"> | </span><a href="dataview.html" class="tsd-signature-type">DataView</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">append<wbr>Buffer<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="../globals.html#buffersource" class="tsd-signature-type">BufferSource</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14105</li>
+									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14837</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>data: <a href="arraybuffer.html" class="tsd-signature-type">ArrayBuffer</a><span class="tsd-signature-symbol"> | </span><a href="int8array.html" class="tsd-signature-type">Int8Array</a><span class="tsd-signature-symbol"> | </span><a href="int16array.html" class="tsd-signature-type">Int16Array</a><span class="tsd-signature-symbol"> | </span><a href="int32array.html" class="tsd-signature-type">Int32Array</a><span class="tsd-signature-symbol"> | </span><a href="uint8array.html" class="tsd-signature-type">Uint8Array</a><span class="tsd-signature-symbol"> | </span><a href="uint16array.html" class="tsd-signature-type">Uint16Array</a><span class="tsd-signature-symbol"> | </span><a href="uint32array.html" class="tsd-signature-type">Uint32Array</a><span class="tsd-signature-symbol"> | </span><a href="uint8clampedarray.html" class="tsd-signature-type">Uint8ClampedArray</a><span class="tsd-signature-symbol"> | </span><a href="float32array.html" class="tsd-signature-type">Float32Array</a><span class="tsd-signature-symbol"> | </span><a href="float64array.html" class="tsd-signature-type">Float64Array</a><span class="tsd-signature-symbol"> | </span><a href="dataview.html" class="tsd-signature-type">DataView</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-					<a name="appendstream" class="tsd-anchor"></a>
-					<h3>append<wbr>Stream</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">append<wbr>Stream<span class="tsd-signature-symbol">(</span>stream<span class="tsd-signature-symbol">: </span><a href="msstream.html" class="tsd-signature-type">MSStream</a>, maxSize<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14106</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>stream: <a href="msstream.html" class="tsd-signature-type">MSStream</a></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> maxSize: <span class="tsd-signature-type">number</span></h5>
+									<h5>data: <a href="../globals.html#buffersource" class="tsd-signature-type">BufferSource</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -360,7 +432,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4956</li>
+									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5226</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -389,7 +461,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14107</li>
+									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14838</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -405,35 +477,79 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-overwrite tsd-is-external tsd-is-not-exported">
 					<a name="removeeventlistener" class="tsd-anchor"></a>
 					<h3>remove<wbr>Event<wbr>Listener</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../globals.html#eventlisteneroreventlistenerobject" class="tsd-signature-type">EventListenerOrEventListenerObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, options<span class="tsd-signature-symbol">?: </span><a href="eventlisteneroptions.html" class="tsd-signature-type">EventListenerOptions</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-overwrite tsd-is-external tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener&lt;K&gt;<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="eventlisteneroptions.html" class="tsd-signature-type">EventListenerOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><a href="../globals.html#eventlisteneroreventlistenerobject" class="tsd-signature-type">EventListenerOrEventListenerObject</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="eventlisteneroptions.html" class="tsd-signature-type">EventListenerOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#removeeventlistener">removeEventListener</a></p>
+								<p>Overrides <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#removeeventlistener">removeEventListener</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4960</li>
+									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14841</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes the event listener in target&#39;s event listener list with the same type, callback, and options.</p>
-								</div>
-							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof SourceBufferEventMap</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>type: <span class="tsd-signature-type">K</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><a href="sourcebuffer.html" class="tsd-signature-type">SourceBuffer</a>, ev<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SourceBufferEventMap[K]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>this: <a href="sourcebuffer.html" class="tsd-signature-type">SourceBuffer</a></h5>
+														</li>
+														<li>
+															<h5>ev: <span class="tsd-signature-type">SourceBufferEventMap[K]</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="eventlisteneroptions.html" class="tsd-signature-type">EventListenerOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#removeeventlistener">removeEventListener</a></p>
+								<ul>
+									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:14842</li>
+								</ul>
+							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>type: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>callback: <a href="../globals.html#eventlisteneroreventlistenerobject" class="tsd-signature-type">EventListenerOrEventListenerObject</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>listener: <a href="../globals.html#eventlisteneroreventlistenerobject" class="tsd-signature-type">EventListenerOrEventListenerObject</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="eventlisteneroptions.html" class="tsd-signature-type">EventListenerOptions</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><a href="eventlisteneroptions.html" class="tsd-signature-type">EventListenerOptions</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -476,6 +592,21 @@
 								<a href="sourcebuffer.html#mode" class="tsd-kind-icon">mode</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+								<a href="sourcebuffer.html#onabort" class="tsd-kind-icon">onabort</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+								<a href="sourcebuffer.html#onerror" class="tsd-kind-icon">onerror</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+								<a href="sourcebuffer.html#onupdate" class="tsd-kind-icon">onupdate</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+								<a href="sourcebuffer.html#onupdateend" class="tsd-kind-icon">onupdateend</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+								<a href="sourcebuffer.html#onupdatestart" class="tsd-kind-icon">onupdatestart</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 								<a href="sourcebuffer.html#texttracks" class="tsd-kind-icon">text<wbr>Tracks</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
@@ -490,14 +621,11 @@
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 								<a href="sourcebuffer.html#abort" class="tsd-kind-icon">abort</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-overwrite tsd-is-external tsd-is-not-exported">
 								<a href="sourcebuffer.html#addeventlistener" class="tsd-kind-icon">add<wbr>Event<wbr>Listener</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 								<a href="sourcebuffer.html#appendbuffer" class="tsd-kind-icon">append<wbr>Buffer</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-								<a href="sourcebuffer.html#appendstream" class="tsd-kind-icon">append<wbr>Stream</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 								<a href="sourcebuffer.html#dispatchevent" class="tsd-kind-icon">dispatch<wbr>Event</a>
@@ -505,7 +633,7 @@
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 								<a href="sourcebuffer.html#remove" class="tsd-kind-icon">remove</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-has-type-parameter tsd-is-overwrite tsd-is-external tsd-is-not-exported">
 								<a href="sourcebuffer.html#removeeventlistener" class="tsd-kind-icon">remove<wbr>Event<wbr>Listener</a>
 							</li>
 						</ul>
@@ -529,6 +657,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -577,7 +706,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
