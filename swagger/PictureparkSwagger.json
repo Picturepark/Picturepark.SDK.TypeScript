@@ -11,7 +11,7 @@
     },
     "version": "1.0",
     "x-logo": {
-      "url": "/docs/rest/picturepark-logo.png",
+      "url": "https://picturepark.github.io/Picturepark.SDK.DotNet/api/picturepark-logo.png",
       "backgroundColor": "#FFFFFF"
     }
   },
@@ -9860,6 +9860,201 @@
         ]
       }
     },
+    "/v1/outputFormats/{id}/downloadFileNamePatterns": {
+      "put": {
+        "tags": [
+          "OutputFormat"
+        ],
+        "summary": "Sets the download file name patterns for an output format",
+        "description": "This is allowed for both static and dynamic formats.",
+        "operationId": "OutputFormat_SetDownloadFileNamePatterns",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the output format.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "patterns",
+          "description": "Dictionary containing patterns per metadata language.\nIf this is set, at least the customer's default language is required.\nSet any other language to an empty string and a fallback to the default language will occur.\nSet parameter to null to clear any already set patterns.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranslatedStringDictionary"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "Business process",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessProcess"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkNotFoundException"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkConflictException"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkValidationException"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "outputformat_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/outputFormats/many/downloadFileNamePatterns": {
+      "put": {
+        "tags": [
+          "OutputFormat"
+        ],
+        "summary": "Sets the download file name patterns for multiple output formats",
+        "description": "This is allowed for both static and dynamic formats.",
+        "operationId": "OutputFormat_SetDownloadFileNamePatternsMany",
+        "requestBody": {
+          "x-name": "request",
+          "description": "The request containing the patterns for each output format.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OutputFormatDownloadFileNamePatternUpdateManyRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Business process",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessProcess"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkNotFoundException"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkConflictException"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkValidationException"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "outputformat_write"
+            ]
+          }
+        ]
+      }
+    },
     "/v1/profile": {
       "get": {
         "tags": [
@@ -14237,6 +14432,7 @@
           "Transfer"
         ],
         "summary": "Delete transfer",
+        "description": "A transfer cannot be deleted if it's currently in the UploadInProgress or ImportInProgress state.",
         "operationId": "Transfer_Delete",
         "parameters": [
           {
@@ -14409,7 +14605,7 @@
           "Transfer"
         ],
         "summary": "Cancel transfer",
-        "description": "Requests cancellation of transfer.",
+        "description": "Requests cancellation of transfer.\nNote: Transfers can only be cancelled when state is UploadInProgress.",
         "operationId": "Transfer_CancelTransfer",
         "parameters": [
           {
@@ -14492,6 +14688,7 @@
           "Transfer"
         ],
         "summary": "Create transfer",
+        "description": "For transfers of type FileUpload or FileUploadAutoImport, after creating the transfer, wait for the returned BusinessProcess to hit the \"Created\" state before attempting to upload files.",
         "operationId": "Transfer_Create",
         "requestBody": {
           "x-name": "request",
@@ -14612,7 +14809,7 @@
             "name": "fileTransferId",
             "in": "path",
             "required": true,
-            "description": "ID of filetransfer.",
+            "description": "ID of file transfer.",
             "schema": {
               "type": "string"
             },
@@ -14698,7 +14895,7 @@
         "operationId": "Transfer_SearchFiles",
         "requestBody": {
           "x-name": "request",
-          "description": "The filetransfer search request",
+          "description": "The file transfer search request",
           "content": {
             "application/json": {
               "schema": {
@@ -14866,7 +15063,7 @@
         "operationId": "Transfer_DeleteFiles",
         "requestBody": {
           "x-name": "request",
-          "description": "The filetransfer delete request",
+          "description": "The file transfer delete request",
           "content": {
             "application/json": {
               "schema": {
@@ -14946,7 +15143,7 @@
           "Transfer"
         ],
         "summary": "Import transfer",
-        "description": "This triggers the import of a Transfer, creating Contents. All items in the Transfer will be enqueued for rendering.\n\nWait for completion on the Business process ID that is returned to wait for import completion.",
+        "description": "This triggers the import of a Transfer, creating Contents. All items in the Transfer will be enqueued for rendering.\n\nWait for completion on the Business process ID that is returned to wait for import completion.\nNote: Before attempting to import a Transfer, the transfer has to be in the TransferReady state.",
         "operationId": "Transfer_ImportTransfer",
         "parameters": [
           {
@@ -15049,7 +15246,7 @@
           "Transfer"
         ],
         "summary": "Import transfer partially",
-        "description": "This triggers the import of selected items in a Transfer, creating contents. All imported items will be enqueued for rendering.\n\nWait for TransferReady, ImportCompleted states on the Business process ID that is returned to wait for partial import completion.\n\nIf no files remain to be imported in the Transfer it will be marked as ImportCompleted.",
+        "description": "This triggers the import of selected items in a Transfer, creating contents. All imported items will be enqueued for rendering.\n\nWait for completion on the Business process ID that is returned to wait for import completion.\n\nTransfer will transition to state ImportDone if no files of the transfer remain for import.\nTransfer will transition to state TransferReady if any files of the transfer remain for import.",
         "operationId": "Transfer_PartialImport",
         "parameters": [
           {
@@ -15152,7 +15349,7 @@
           "Transfer"
         ],
         "summary": "Upload file",
-        "description": "Uploads the specified chunk data.\n\nUse `Content-Type: multipart/form-data` for uploading chunk data.",
+        "description": "Uploads the specified chunk data.\n\nUse `Content-Type: multipart/form-data` for uploading chunk data.\nThe chunk data should be uploaded using the name `formFile`.\n            \nTo upload a file, split it into chunks of reasonable size (accepted range is 1MB-100MB). The last chunk may be smaller than 1MB.",
         "operationId": "Transfer_UploadFile",
         "parameters": [
           {
@@ -15168,17 +15365,6 @@
             "nullable": true
           },
           {
-            "name": "relativePath",
-            "in": "query",
-            "required": true,
-            "description": "Relative path of the uploading file.",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
             "name": "chunkNumber",
             "in": "query",
             "required": true,
@@ -15187,7 +15373,7 @@
               "type": "integer",
               "format": "int64"
             },
-            "x-position": 2
+            "x-position": 1
           },
           {
             "name": "currentChunkSize",
@@ -15198,7 +15384,7 @@
               "type": "integer",
               "format": "int64"
             },
-            "x-position": 3
+            "x-position": 2
           },
           {
             "name": "totalSize",
@@ -15209,7 +15395,7 @@
               "type": "integer",
               "format": "int64"
             },
-            "x-position": 4
+            "x-position": 3
           },
           {
             "name": "totalChunks",
@@ -15220,7 +15406,7 @@
               "type": "integer",
               "format": "int64"
             },
-            "x-position": 5
+            "x-position": 4
           },
           {
             "name": "transferId",
@@ -15230,7 +15416,7 @@
             "schema": {
               "type": "string"
             },
-            "x-position": 6
+            "x-position": 5
           },
           {
             "name": "requestId",
@@ -15240,7 +15426,7 @@
             "schema": {
               "type": "string"
             },
-            "x-position": 7
+            "x-position": 6
           }
         ],
         "responses": {
@@ -17688,6 +17874,7 @@
                 "UserRoleAssignedException": "#/components/schemas/UserRoleAssignedException",
                 "UserNotFoundException": "#/components/schemas/UserNotFoundException",
                 "UserInactiveOrDeletedException": "#/components/schemas/UserInactiveOrDeletedException",
+                "InactiveOrDeletedUserRefusedAccessException": "#/components/schemas/InactiveOrDeletedUserRefusedAccessException",
                 "TermsOfServiceNotNewestException": "#/components/schemas/TermsOfServiceNotNewestException",
                 "IllegalAuthorizationStateTransitionException": "#/components/schemas/IllegalAuthorizationStateTransitionException",
                 "TermsOfServiceConsentRequiredException": "#/components/schemas/TermsOfServiceConsentRequiredException",
@@ -17749,6 +17936,7 @@
                 "CustomerNotFoundException": "#/components/schemas/CustomerNotFoundException",
                 "CustomerNotActiveException": "#/components/schemas/CustomerNotActiveException",
                 "CustomerBoostValuesInvalidException": "#/components/schemas/CustomerBoostValuesInvalidException",
+                "SnapshotRetentionTimeTooShortException": "#/components/schemas/SnapshotRetentionTimeTooShortException",
                 "ConfigurationIndexNotFoundException": "#/components/schemas/ConfigurationIndexNotFoundException",
                 "DuplicateSearchIndexDocException": "#/components/schemas/DuplicateSearchIndexDocException",
                 "SearchIndexDocNotFoundException": "#/components/schemas/SearchIndexDocNotFoundException",
@@ -17796,6 +17984,7 @@
                 "WrongChunkSizeException": "#/components/schemas/WrongChunkSizeException",
                 "ChunkSizeOutOfRangeException": "#/components/schemas/ChunkSizeOutOfRangeException",
                 "MaximumTransferSizeException": "#/components/schemas/MaximumTransferSizeException",
+                "FileIdDuplicatedException": "#/components/schemas/FileIdDuplicatedException",
                 "MissingDependenciesException": "#/components/schemas/MissingDependenciesException",
                 "RelationSelfReferencingException": "#/components/schemas/RelationSelfReferencingException",
                 "InvalidChangeCommandFieldTypeInvalidException": "#/components/schemas/InvalidChangeCommandFieldTypeInvalidException",
@@ -17812,6 +18001,8 @@
                 "ReferenceUpdateException": "#/components/schemas/ReferenceUpdateException",
                 "ReferencesUpdateException": "#/components/schemas/ReferencesUpdateException",
                 "DuplicatedItemAssignedException": "#/components/schemas/DuplicatedItemAssignedException",
+                "InvalidDataTypeException": "#/components/schemas/InvalidDataTypeException",
+                "LayerAssignmentInvalidException": "#/components/schemas/LayerAssignmentInvalidException",
                 "SchemaFieldOverwriteTypeMismatchException": "#/components/schemas/SchemaFieldOverwriteTypeMismatchException",
                 "SchemaFieldOverwriteIdException": "#/components/schemas/SchemaFieldOverwriteIdException",
                 "SchemaFieldIdDuplicatedException": "#/components/schemas/SchemaFieldIdDuplicatedException",
@@ -17863,6 +18054,7 @@
                 "SchemaFieldAnalyzerInvalidException": "#/components/schemas/SchemaFieldAnalyzerInvalidException",
                 "SchemaFieldRelationMultipleTypesException": "#/components/schemas/SchemaFieldRelationMultipleTypesException",
                 "SchemaFieldNotRequirableException": "#/components/schemas/SchemaFieldNotRequirableException",
+                "DisplayPatternTypeNotSupportedException": "#/components/schemas/DisplayPatternTypeNotSupportedException",
                 "DeleteContentsWithReferencesException": "#/components/schemas/DeleteContentsWithReferencesException",
                 "ContentMetadataUpdateManyException": "#/components/schemas/ContentMetadataUpdateManyException",
                 "ContentNotFoundException": "#/components/schemas/ContentNotFoundException",
@@ -17938,7 +18130,9 @@
                 "SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException": "#/components/schemas/SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException",
                 "NoTagsFoundException": "#/components/schemas/NoTagsFoundException",
                 "OutputNotAvailableException": "#/components/schemas/OutputNotAvailableException",
-                "DisplayValueRerenderingInProgressException": "#/components/schemas/DisplayValueRerenderingInProgressException"
+                "DisplayValueRerenderingInProgressException": "#/components/schemas/DisplayValueRerenderingInProgressException",
+                "OutputFormatNotFoundException": "#/components/schemas/OutputFormatNotFoundException",
+                "OutputFormatSourceNotDefinedException": "#/components/schemas/OutputFormatSourceNotDefinedException"
               }
             },
             "additionalProperties": false,
@@ -18146,6 +18340,17 @@
         ]
       },
       "UserInactiveOrDeletedException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "InactiveOrDeletedUserRefusedAccessException": {
         "allOf": [
           {
             "$ref": "#/components/schemas/PictureparkForbiddenException"
@@ -19130,6 +19335,31 @@
           {
             "type": "object",
             "additionalProperties": false
+          }
+        ]
+      },
+      "SnapshotRetentionTimeTooShortException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "snapshotRetentionTime",
+              "minimumRetentionTime"
+            ],
+            "properties": {
+              "snapshotRetentionTime": {
+                "type": "string",
+                "format": "time-span"
+              },
+              "minimumRetentionTime": {
+                "type": "string",
+                "format": "time-span"
+              }
+            }
           }
         ]
       },
@@ -20160,6 +20390,23 @@
           }
         ]
       },
+      "FileIdDuplicatedException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fileId": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
       "MissingDependenciesException": {
         "allOf": [
           {
@@ -20550,6 +20797,42 @@
               },
               "itemPath": {
                 "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "InvalidDataTypeException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "LayerAssignmentInvalidException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "layerId": {
+                "type": "string",
+                "nullable": true
+              },
+              "value": {
                 "nullable": true
               }
             }
@@ -21605,13 +21888,15 @@
           "Thumbnail",
           "List",
           "Detail",
-          "Name"
+          "Name",
+          "DownloadFileName"
         ],
         "enum": [
           "Thumbnail",
           "List",
           "Detail",
-          "Name"
+          "Name",
+          "DownloadFileName"
         ]
       },
       "SchemaViewForAllException": {
@@ -21738,6 +22023,27 @@
                 "nullable": true
               },
               "schemaId": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "DisplayPatternTypeNotSupportedException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "schemaId": {
+                "type": "string",
+                "nullable": true
+              },
+              "displayPatternId": {
                 "type": "string",
                 "nullable": true
               }
@@ -23191,6 +23497,40 @@
           {
             "type": "object",
             "additionalProperties": false
+          }
+        ]
+      },
+      "OutputFormatNotFoundException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkNotFoundException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "outputFormatId": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "OutputFormatSourceNotDefinedException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "outputFormatId": {
+                "type": "string",
+                "nullable": true
+              }
+            }
           }
         ]
       },
@@ -25113,7 +25453,8 @@
             "TakeArrayValueTransformation": "#/components/schemas/TakeArrayValueTransformation",
             "JoinByTransformation": "#/components/schemas/JoinByTransformation",
             "LookupCacheTransformation": "#/components/schemas/LookupCacheTransformation",
-            "NGramTransformation": "#/components/schemas/NGramTransformation"
+            "NGramTransformation": "#/components/schemas/NGramTransformation",
+            "ProjectionTransformation": "#/components/schemas/ProjectionTransformation"
           }
         },
         "description": "Business rule transformation",
@@ -25233,6 +25574,28 @@
                 "description": "Maximum length of a word to be considered.",
                 "format": "int32",
                 "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "ProjectionTransformation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BusinessRuleTransformation"
+          },
+          {
+            "type": "object",
+            "description": "Transforms a list by applying a set of transformation for each item in the list.",
+            "additionalProperties": false,
+            "properties": {
+              "transformations": {
+                "type": "array",
+                "description": "Transformations to apply.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/BusinessRuleTransformation"
+                }
               }
             }
           }
@@ -26603,11 +26966,6 @@
             "description": "The extension of the file.",
             "nullable": true
           },
-          "fileName": {
-            "type": "string",
-            "description": "The name of the file.",
-            "nullable": true
-          },
           "filePath": {
             "type": "string",
             "description": "The path where the file is stored.",
@@ -26622,6 +26980,11 @@
           "sha1Hash": {
             "type": "string",
             "description": "The SHA-1 hash of the file.",
+            "nullable": true
+          },
+          "originalFileName": {
+            "type": "string",
+            "description": "The original filename of the file.",
             "nullable": true
           },
           "kind": {
@@ -29509,6 +29872,7 @@
           "name",
           "customerAlias",
           "identityServerUrl",
+          "apiUrl",
           "enableQueryDetails",
           "languageConfiguration",
           "languages",
@@ -29534,7 +29898,12 @@
           },
           "identityServerUrl": {
             "type": "string",
-            "description": "The base url of identity server to authenticate the user using OpenID Connect.",
+            "description": "The base URL of identity server to authenticate the user using OpenID Connect.",
+            "minLength": 1
+          },
+          "apiUrl": {
+            "type": "string",
+            "description": "The base API URL.",
             "minLength": 1
           },
           "enableQueryDetails": {
@@ -30741,7 +31110,8 @@
           "TransferCleanup",
           "ImportCompletedWithErrors",
           "UploadCompletedWithErrors",
-          "UploadCancellationInProgress"
+          "UploadCancellationInProgress",
+          "ImportDone"
         ],
         "enum": [
           "Draft",
@@ -30759,7 +31129,8 @@
           "TransferCleanup",
           "ImportCompletedWithErrors",
           "UploadCompletedWithErrors",
-          "UploadCancellationInProgress"
+          "UploadCancellationInProgress",
+          "ImportDone"
         ]
       },
       "ReindexEvent": {
@@ -31696,6 +32067,15 @@
             "type": "string",
             "description": "How long should the dynamic outputs created from this format be kept.",
             "format": "time-span"
+          },
+          "downloadFileNamePatterns": {
+            "description": "Optional patterns (liquid syntax) that produce the filename for item of this output format.\nIf set, the customer's default language is required.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TranslatedStringDictionary"
+              }
+            ]
           }
         }
       },
@@ -32684,6 +33064,47 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "OutputFormatDownloadFileNamePatternUpdateManyRequest": {
+        "type": "object",
+        "description": "Used to change the download file name pattern for multiple formats at once.",
+        "additionalProperties": false,
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "Download file name update requests to be processed.",
+            "items": {
+              "$ref": "#/components/schemas/OutputFormatDownloadFileNamePatternUpdateRequestItem"
+            }
+          }
+        }
+      },
+      "OutputFormatDownloadFileNamePatternUpdateRequestItem": {
+        "type": "object",
+        "description": "Represents a change to the download file name pattern to one output format.",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the output format to set pattern for.",
+            "minLength": 1
+          },
+          "patterns": {
+            "description": "The patterns to use per metadata language.\nThe customer's default language is required.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TranslatedStringDictionary"
+              }
+            ]
           }
         }
       },
@@ -36652,7 +37073,7 @@
           },
           "files": {
             "type": "array",
-            "description": "Files uploaded in transfer.",
+            "description": "Files uploaded in transfer.\nThe client is responsible for uploading files to backend.\nRequired when TransferType is FileUpload or FileUploadAutoImport.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TransferUploadFile"
@@ -36660,7 +37081,7 @@
           },
           "webLinks": {
             "type": "array",
-            "description": "Weblinks downloaded in transfer.",
+            "description": "Weblinks downloaded in transfer.\nThe backend will download files using HTTP, therefore public access to files is needed.\nRequired when TransferType is WebDownload.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/TransferWebLink"
@@ -36673,7 +37094,7 @@
           },
           "createCollection": {
             "type": "boolean",
-            "description": "A value indicating whether to create a Collection after importing the transfer."
+            "description": "A value indicating whether to create a collection after importing the transfer."
           }
         }
       },
@@ -36734,6 +37155,11 @@
                 "type": "string",
                 "description": "URL of the item.",
                 "minLength": 1
+              },
+              "fileName": {
+                "type": "string",
+                "description": "Optional target filename of the file.",
+                "nullable": true
               }
             }
           }
@@ -37641,10 +38067,13 @@
       "FileTransferCreateItem": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "fileId"
+        ],
         "properties": {
           "fileId": {
             "type": "string",
-            "nullable": true
+            "minLength": 1
           },
           "layerSchemaIds": {
             "type": "array",
@@ -38559,7 +38988,7 @@
     },
     {
       "name": "Transfer",
-      "description": "Endpoints to work with transfers.\r\n\r\nUsual process to import file as content:\r\n- Create transfer\r\n- Upload files to this transfer\r\n- ImportTransfer or PartialImportTransfer\r\n\r\n[Code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/TransferTests.cs)\r\n"
+      "description": "Endpoints to work with transfers.\r\n\r\nTo import a set of files into CP:\r\n\r\n1. Create transfer\r\n2. Wait for transfer creation to complete (WaitForStates \"Created\" on BusinessProcess)\r\n3. Upload files to this transfer\r\n4. Wait for transfer to be ready (WaitForCompletion on BusinessProcess)\r\n5. Import transfer using ImportTransfer or ImportTransferPartial\r\n6. Wait for import to complete (WaitForCompletion on BusinessProcess)\r\n\r\nConsult the [code examples](https://github.com/Picturepark/Picturepark.SDK.DotNet/blob/master/src/Picturepark.SDK.V1.Tests/Clients/TransferTests.cs) or the docs of the endpoints mentioned above for more details.\r\n"
     },
     {
       "name": "User",

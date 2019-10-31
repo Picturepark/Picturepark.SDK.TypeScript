@@ -8163,6 +8163,173 @@ export class OutputFormatClient extends PictureparkClientBase {
         }
         return Promise.resolve<BusinessProcess>(<any>null);
     }
+
+    /**
+     * Sets the download file name patterns for an output format
+     * @param id ID of the output format.
+     * @param patterns Dictionary containing patterns per metadata language.
+    If this is set, at least the customer's default language is required.
+    Set any other language to an empty string and a fallback to the default language will occur.
+    Set parameter to null to clear any already set patterns.
+     * @return Business process
+     */
+    setDownloadFileNamePatterns(id: string | null, patterns: { [key: string] : string; }): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/outputFormats/{id}/downloadFileNamePatterns";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(patterns);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processSetDownloadFileNamePatterns(_response);
+        });
+    }
+
+    protected processSetDownloadFileNamePatterns(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Sets the download file name patterns for multiple output formats
+     * @param request The request containing the patterns for each output format.
+     * @return Business process
+     */
+    setDownloadFileNamePatternsMany(request: OutputFormatDownloadFileNamePatternUpdateManyRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/outputFormats/many/downloadFileNamePatterns";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processSetDownloadFileNamePatternsMany(_response);
+        });
+    }
+
+    protected processSetDownloadFileNamePatternsMany(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
 }
 
 export class ProfileClient extends PictureparkClientBase {
@@ -11970,7 +12137,7 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Get file
-     * @param fileTransferId ID of filetransfer.
+     * @param fileTransferId ID of file transfer.
      * @return FileTransferDetail
      */
     getFile(fileTransferId: string): Promise<FileTransferDetail> {
@@ -12049,7 +12216,7 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Search for files
-     * @param request The filetransfer search request
+     * @param request The file transfer search request
      * @return FileTransferSearchResult
      */
     searchFiles(request: FileTransferSearchRequest): Promise<FileTransferSearchResult> {
@@ -12204,7 +12371,7 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Delete files
-     * @param request The filetransfer delete request
+     * @param request The file transfer delete request
      */
     deleteFiles(request: FileTransferDeleteRequest): Promise<void> {
         let url_ = this.baseUrl + "/v1/transfers/files/delete";
@@ -12448,7 +12615,6 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Upload file
-     * @param relativePath Relative path of the uploading file.
      * @param chunkNumber Current chunk number. Starts at 1.
      * @param currentChunkSize Size in bytes of the current chunk.
      * @param totalSize Total size in bytes of the uploading file.
@@ -12458,7 +12624,7 @@ export class TransferClient extends PictureparkClientBase {
      * @param formFile (optional) Gets or sets the form file.
      * @return OK
      */
-    uploadFile(relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, requestId: string, formFile?: FileParameter | null | undefined): Promise<void> {
+    uploadFile(chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, requestId: string, formFile?: FileParameter | null | undefined): Promise<void> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/files/{requestId}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -12466,10 +12632,6 @@ export class TransferClient extends PictureparkClientBase {
         if (requestId === undefined || requestId === null)
             throw new Error("The parameter 'requestId' must be defined.");
         url_ = url_.replace("{requestId}", encodeURIComponent("" + requestId)); 
-        if (relativePath === undefined)
-            throw new Error("The parameter 'relativePath' must be defined.");
-        else
-            url_ += "relativePath=" + encodeURIComponent("" + relativePath) + "&"; 
         if (chunkNumber === undefined || chunkNumber === null)
             throw new Error("The parameter 'chunkNumber' must be defined and cannot be null.");
         else
@@ -14557,7 +14719,10 @@ export interface UserNotFoundException extends PictureparkBusinessException {
     missingUserId?: string | undefined;
 }
 
-export interface UserInactiveOrDeletedException extends PictureparkForbiddenException {
+export interface UserInactiveOrDeletedException extends PictureparkValidationException {
+}
+
+export interface InactiveOrDeletedUserRefusedAccessException extends PictureparkForbiddenException {
 }
 
 export interface TermsOfServiceNotNewestException extends PictureparkBusinessException {
@@ -14797,6 +14962,11 @@ export interface CustomerNotActiveException extends PictureparkException {
 }
 
 export interface CustomerBoostValuesInvalidException extends PictureparkValidationException {
+}
+
+export interface SnapshotRetentionTimeTooShortException extends PictureparkValidationException {
+    snapshotRetentionTime: string;
+    minimumRetentionTime: string;
 }
 
 export interface ConfigurationIndexNotFoundException extends PictureparkException {
@@ -15057,6 +15227,10 @@ export interface MaximumTransferSizeException extends PictureparkException {
     transferId?: string | undefined;
 }
 
+export interface FileIdDuplicatedException extends PictureparkValidationException {
+    fileId?: string | undefined;
+}
+
 export interface MissingDependenciesException extends PictureparkValidationException {
     itemIds?: string | undefined;
 }
@@ -15151,6 +15325,15 @@ export interface ReferenceUpdateException extends PictureparkBusinessException {
 export interface DuplicatedItemAssignedException extends PictureparkValidationException {
     itemId?: string | undefined;
     itemPath?: string | undefined;
+}
+
+export interface InvalidDataTypeException extends PictureparkValidationException {
+    value?: any | undefined;
+}
+
+export interface LayerAssignmentInvalidException extends PictureparkValidationException {
+    layerId?: string | undefined;
+    value?: any | undefined;
 }
 
 export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
@@ -15400,6 +15583,7 @@ export enum DisplayPatternType {
     List = <any>"List",
     Detail = <any>"Detail",
     Name = <any>"Name",
+    DownloadFileName = <any>"DownloadFileName",
 }
 
 export interface SchemaViewForAllException extends PictureparkValidationException {
@@ -15434,6 +15618,11 @@ export interface SchemaFieldRelationMultipleTypesException extends PictureparkVa
 export interface SchemaFieldNotRequirableException extends PictureparkValidationException {
     fieldId?: string | undefined;
     schemaId?: string | undefined;
+}
+
+export interface DisplayPatternTypeNotSupportedException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    displayPatternId?: string | undefined;
 }
 
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
@@ -15795,6 +15984,14 @@ export interface OutputNotAvailableException extends PictureparkBusinessExceptio
 }
 
 export interface DisplayValueRerenderingInProgressException extends PictureparkValidationException {
+}
+
+export interface OutputFormatNotFoundException extends PictureparkNotFoundException {
+    outputFormatId?: string | undefined;
+}
+
+export interface OutputFormatSourceNotDefinedException extends PictureparkValidationException {
+    outputFormatId?: string | undefined;
 }
 
 /** Search request to search for business processes */
@@ -16417,6 +16614,12 @@ Settings this to 3 will produce unigrams, bigrams, trigrams. */
     maxWordLength?: number | undefined;
 }
 
+/** Transforms a list by applying a set of transformation for each item in the list. */
+export interface ProjectionTransformation extends BusinessRuleTransformation {
+    /** Transformations to apply. */
+    transformations?: BusinessRuleTransformation[] | undefined;
+}
+
 /** Action to be performed by a business rule */
 export interface BusinessRuleAction {
 }
@@ -16824,14 +17027,14 @@ export enum OutputRenderingState {
 export interface OutputDataBase {
     /** The extension of the file. */
     fileExtension?: string | undefined;
-    /** The name of the file. */
-    fileName?: string | undefined;
     /** The path where the file is stored. */
     filePath?: string | undefined;
     /** The size of the file in bytes. */
     fileSizeInBytes?: number | undefined;
     /** The SHA-1 hash of the file. */
     sha1Hash?: string | undefined;
+    /** The original filename of the file. */
+    originalFileName?: string | undefined;
 }
 
 /** Output information for an image file. */
@@ -17766,8 +17969,10 @@ export interface CustomerInfo {
     name: string;
     /** Alias of the customer instance. */
     customerAlias: string;
-    /** The base url of identity server to authenticate the user using OpenID Connect. */
+    /** The base URL of identity server to authenticate the user using OpenID Connect. */
     identityServerUrl: string;
+    /** The base API URL. */
+    apiUrl: string;
     /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails: boolean;
     /** Configured languages of customer instance (system, metadata, default). */
@@ -18164,6 +18369,7 @@ export enum TransferState {
     ImportCompletedWithErrors = <any>"ImportCompletedWithErrors",
     UploadCompletedWithErrors = <any>"UploadCompletedWithErrors",
     UploadCancellationInProgress = <any>"UploadCancellationInProgress",
+    ImportDone = <any>"ImportDone",
 }
 
 export interface ReindexEvent extends ApplicationEvent {
@@ -18383,6 +18589,9 @@ export interface OutputFormatEditable {
     format?: FormatBase | undefined;
     /** How long should the dynamic outputs created from this format be kept. */
     retentionTime: string;
+    /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
+If set, the customer's default language is required. */
+    downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
 }
 
 /** Represents an output format. */
@@ -18673,6 +18882,21 @@ export interface OutputFormatUpdateManyRequestItem extends OutputFormatEditable 
 export interface OutputFormatDeleteManyRequest {
     /** List of IDs of output formats to remove. */
     ids?: string[] | undefined;
+}
+
+/** Used to change the download file name pattern for multiple formats at once. */
+export interface OutputFormatDownloadFileNamePatternUpdateManyRequest {
+    /** Download file name update requests to be processed. */
+    items: OutputFormatDownloadFileNamePatternUpdateRequestItem[];
+}
+
+/** Represents a change to the download file name pattern to one output format. */
+export interface OutputFormatDownloadFileNamePatternUpdateRequestItem {
+    /** ID of the output format to set pattern for. */
+    id: string;
+    /** The patterns to use per metadata language.
+The customer's default language is required. */
+    patterns?: TranslatedStringDictionary | undefined;
 }
 
 /** User profile. */
@@ -19879,13 +20103,17 @@ export interface CreateTransferRequest {
     name: string;
     /** Type of transfer. */
     transferType: TransferType;
-    /** Files uploaded in transfer. */
+    /** Files uploaded in transfer.
+The client is responsible for uploading files to backend.
+Required when TransferType is FileUpload or FileUploadAutoImport. */
     files?: TransferUploadFile[] | undefined;
-    /** Weblinks downloaded in transfer. */
+    /** Weblinks downloaded in transfer.
+The backend will download files using HTTP, therefore public access to files is needed.
+Required when TransferType is WebDownload. */
     webLinks?: TransferWebLink[] | undefined;
     /** Name of collection created after transfer. */
     collectionName?: string | undefined;
-    /** A value indicating whether to create a Collection after importing the transfer. */
+    /** A value indicating whether to create a collection after importing the transfer. */
     createCollection: boolean;
 }
 
@@ -19907,6 +20135,8 @@ export interface TransferUploadFile extends TransferFile {
 export interface TransferWebLink extends TransferFile {
     /** URL of the item. */
     url: string;
+    /** Optional target filename of the file. */
+    fileName?: string | undefined;
 }
 
 /** Representation of a file transfer. */
@@ -20146,7 +20376,7 @@ export interface ImportTransferPartialRequest {
 }
 
 export interface FileTransferCreateItem {
-    fileId?: string | undefined;
+    fileId: string;
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
     /** The metadata to be assigned to the imported content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
