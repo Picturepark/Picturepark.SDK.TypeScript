@@ -10040,6 +10040,211 @@ export class OutputFormatService extends PictureparkServiceBase {
         }
         return _observableOf<BusinessProcess>(<any>null);
     }
+
+    /**
+     * Sets the download file name patterns for an output format
+     * @param id ID of the output format.
+     * @param patterns Dictionary containing patterns per metadata language.
+    If this is set, at least the customer's default language is required.
+    Set any other language to an empty string and a fallback to the default language will occur.
+    Set parameter to null to clear any already set patterns.
+     * @return Business process
+     */
+    setDownloadFileNamePatterns(id: string | null, patterns: { [key: string] : string; }): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/outputFormats/{id}/downloadFileNamePatterns";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(patterns);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processSetDownloadFileNamePatterns(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSetDownloadFileNamePatterns(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSetDownloadFileNamePatterns(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Sets the download file name patterns for multiple output formats
+     * @param request The request containing the patterns for each output format.
+     * @return Business process
+     */
+    setDownloadFileNamePatternsMany(request: OutputFormatDownloadFileNamePatternUpdateManyRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/outputFormats/many/downloadFileNamePatterns";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processSetDownloadFileNamePatternsMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSetDownloadFileNamePatternsMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSetDownloadFileNamePatternsMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
 }
 
 @Injectable({
@@ -14758,7 +14963,7 @@ export class TransferService extends PictureparkServiceBase {
 
     /**
      * Get file
-     * @param fileTransferId ID of filetransfer.
+     * @param fileTransferId ID of file transfer.
      * @return FileTransferDetail
      */
     getFile(fileTransferId: string): Observable<FileTransferDetail> {
@@ -14856,7 +15061,7 @@ export class TransferService extends PictureparkServiceBase {
 
     /**
      * Search for files
-     * @param request The filetransfer search request
+     * @param request The file transfer search request
      * @return FileTransferSearchResult
      */
     searchFiles(request: FileTransferSearchRequest): Observable<FileTransferSearchResult> {
@@ -15049,7 +15254,7 @@ export class TransferService extends PictureparkServiceBase {
 
     /**
      * Delete files
-     * @param request The filetransfer delete request
+     * @param request The file transfer delete request
      */
     deleteFiles(request: FileTransferDeleteRequest): Observable<void> {
         let url_ = this.baseUrl + "/v1/transfers/files/delete";
@@ -15350,7 +15555,6 @@ export class TransferService extends PictureparkServiceBase {
     /**
      * Upload file
      * @param formFile (optional) Gets or sets the form file.
-     * @param relativePath Relative path of the uploading file.
      * @param chunkNumber Current chunk number. Starts at 1.
      * @param currentChunkSize Size in bytes of the current chunk.
      * @param totalSize Total size in bytes of the uploading file.
@@ -15359,7 +15563,7 @@ export class TransferService extends PictureparkServiceBase {
      * @param requestId Identifier of file.
      * @return OK
      */
-    uploadFile(formFile: FileParameter | null | undefined, relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, requestId: string): Observable<void> {
+    uploadFile(formFile: FileParameter | null | undefined, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, requestId: string): Observable<void> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/files/{requestId}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -15367,10 +15571,6 @@ export class TransferService extends PictureparkServiceBase {
         if (requestId === undefined || requestId === null)
             throw new Error("The parameter 'requestId' must be defined.");
         url_ = url_.replace("{requestId}", encodeURIComponent("" + requestId)); 
-        if (relativePath === undefined)
-            throw new Error("The parameter 'relativePath' must be defined.");
-        else
-            url_ += "relativePath=" + encodeURIComponent("" + relativePath) + "&"; 
         if (chunkNumber === undefined || chunkNumber === null)
             throw new Error("The parameter 'chunkNumber' must be defined and cannot be null.");
         else
@@ -18337,6 +18537,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "InactiveOrDeletedUserRefusedAccessException") {
+            let result = new InactiveOrDeletedUserRefusedAccessException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "TermsOfServiceNotNewestException") {
             let result = new TermsOfServiceNotNewestException();
             result.init(data);
@@ -18642,6 +18847,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SnapshotRetentionTimeTooShortException") {
+            let result = new SnapshotRetentionTimeTooShortException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ConfigurationIndexNotFoundException") {
             let result = new ConfigurationIndexNotFoundException();
             result.init(data);
@@ -18877,6 +19087,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "FileIdDuplicatedException") {
+            let result = new FileIdDuplicatedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "MissingDependenciesException") {
             let result = new MissingDependenciesException();
             result.init(data);
@@ -18954,6 +19169,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "DuplicatedItemAssignedException") {
             let result = new DuplicatedItemAssignedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidDataTypeException") {
+            let result = new InvalidDataTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "LayerAssignmentInvalidException") {
+            let result = new LayerAssignmentInvalidException();
             result.init(data);
             return result;
         }
@@ -19209,6 +19434,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SchemaFieldNotRequirableException") {
             let result = new SchemaFieldNotRequirableException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "DisplayPatternTypeNotSupportedException") {
+            let result = new DisplayPatternTypeNotSupportedException();
             result.init(data);
             return result;
         }
@@ -19592,6 +19822,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputFormatNotFoundException") {
+            let result = new OutputFormatNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputFormatSourceNotDefinedException") {
+            let result = new OutputFormatSourceNotDefinedException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkException();
         result.init(data);
         return result;
@@ -19684,6 +19924,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "UserInactiveOrDeletedException") {
             let result = new UserInactiveOrDeletedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InactiveOrDeletedUserRefusedAccessException") {
+            let result = new InactiveOrDeletedUserRefusedAccessException();
             result.init(data);
             return result;
         }
@@ -19917,6 +20162,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SnapshotRetentionTimeTooShortException") {
+            let result = new SnapshotRetentionTimeTooShortException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DuplicateSearchIndexDocException") {
             let result = new DuplicateSearchIndexDocException();
             result.init(data);
@@ -20132,6 +20382,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "FileIdDuplicatedException") {
+            let result = new FileIdDuplicatedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "MissingDependenciesException") {
             let result = new MissingDependenciesException();
             result.init(data);
@@ -20209,6 +20464,16 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "DuplicatedItemAssignedException") {
             let result = new DuplicatedItemAssignedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidDataTypeException") {
+            let result = new InvalidDataTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "LayerAssignmentInvalidException") {
+            let result = new LayerAssignmentInvalidException();
             result.init(data);
             return result;
         }
@@ -20464,6 +20729,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SchemaFieldNotRequirableException") {
             let result = new SchemaFieldNotRequirableException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "DisplayPatternTypeNotSupportedException") {
+            let result = new DisplayPatternTypeNotSupportedException();
             result.init(data);
             return result;
         }
@@ -20837,6 +21107,16 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputFormatNotFoundException") {
+            let result = new OutputFormatNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputFormatSourceNotDefinedException") {
+            let result = new OutputFormatSourceNotDefinedException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkBusinessException();
         result.init(data);
         return result;
@@ -20883,6 +21163,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "UserRoleAssignedException") {
             let result = new UserRoleAssignedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserInactiveOrDeletedException") {
+            let result = new UserInactiveOrDeletedException();
             result.init(data);
             return result;
         }
@@ -20993,6 +21278,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "CustomerBoostValuesInvalidException") {
             let result = new CustomerBoostValuesInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SnapshotRetentionTimeTooShortException") {
+            let result = new SnapshotRetentionTimeTooShortException();
             result.init(data);
             return result;
         }
@@ -21111,6 +21401,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "FileIdDuplicatedException") {
+            let result = new FileIdDuplicatedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "MissingDependenciesException") {
             let result = new MissingDependenciesException();
             result.init(data);
@@ -21158,6 +21453,16 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "DuplicatedItemAssignedException") {
             let result = new DuplicatedItemAssignedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidDataTypeException") {
+            let result = new InvalidDataTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "LayerAssignmentInvalidException") {
+            let result = new LayerAssignmentInvalidException();
             result.init(data);
             return result;
         }
@@ -21393,6 +21698,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaFieldNotRequirableException") {
             let result = new SchemaFieldNotRequirableException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "DisplayPatternTypeNotSupportedException") {
+            let result = new DisplayPatternTypeNotSupportedException();
             result.init(data);
             return result;
         }
@@ -21691,6 +22001,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputFormatSourceNotDefinedException") {
+            let result = new OutputFormatSourceNotDefinedException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkValidationException();
         result.init(data);
         return result;
@@ -21816,8 +22131,8 @@ export class PictureparkForbiddenException extends PictureparkBusinessException 
 
     static fromJS(data: any): PictureparkForbiddenException {
         data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "UserInactiveOrDeletedException") {
-            let result = new UserInactiveOrDeletedException();
+        if (data["kind"] === "InactiveOrDeletedUserRefusedAccessException") {
+            let result = new InactiveOrDeletedUserRefusedAccessException();
             result.init(data);
             return result;
         }
@@ -21948,7 +22263,7 @@ export interface IUserNotFoundException extends IPictureparkBusinessException {
     missingUserId?: string | undefined;
 }
 
-export class UserInactiveOrDeletedException extends PictureparkForbiddenException implements IUserInactiveOrDeletedException {
+export class UserInactiveOrDeletedException extends PictureparkValidationException implements IUserInactiveOrDeletedException {
 
     constructor(data?: IUserInactiveOrDeletedException) {
         super(data);
@@ -21973,7 +22288,35 @@ export class UserInactiveOrDeletedException extends PictureparkForbiddenExceptio
     }
 }
 
-export interface IUserInactiveOrDeletedException extends IPictureparkForbiddenException {
+export interface IUserInactiveOrDeletedException extends IPictureparkValidationException {
+}
+
+export class InactiveOrDeletedUserRefusedAccessException extends PictureparkForbiddenException implements IInactiveOrDeletedUserRefusedAccessException {
+
+    constructor(data?: IInactiveOrDeletedUserRefusedAccessException) {
+        super(data);
+        this._discriminator = "InactiveOrDeletedUserRefusedAccessException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): InactiveOrDeletedUserRefusedAccessException {
+        data = typeof data === 'object' ? data : {};
+        let result = new InactiveOrDeletedUserRefusedAccessException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IInactiveOrDeletedUserRefusedAccessException extends IPictureparkForbiddenException {
 }
 
 export class TermsOfServiceNotNewestException extends PictureparkBusinessException implements ITermsOfServiceNotNewestException {
@@ -22164,6 +22507,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "EnvironmentProcessNotFoundException") {
             let result = new EnvironmentProcessNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputFormatNotFoundException") {
+            let result = new OutputFormatNotFoundException();
             result.init(data);
             return result;
         }
@@ -24086,6 +24434,44 @@ export class CustomerBoostValuesInvalidException extends PictureparkValidationEx
 export interface ICustomerBoostValuesInvalidException extends IPictureparkValidationException {
 }
 
+export class SnapshotRetentionTimeTooShortException extends PictureparkValidationException implements ISnapshotRetentionTimeTooShortException {
+    snapshotRetentionTime!: string;
+    minimumRetentionTime!: string;
+
+    constructor(data?: ISnapshotRetentionTimeTooShortException) {
+        super(data);
+        this._discriminator = "SnapshotRetentionTimeTooShortException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.snapshotRetentionTime = data["snapshotRetentionTime"];
+            this.minimumRetentionTime = data["minimumRetentionTime"];
+        }
+    }
+
+    static fromJS(data: any): SnapshotRetentionTimeTooShortException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SnapshotRetentionTimeTooShortException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["snapshotRetentionTime"] = this.snapshotRetentionTime;
+        data["minimumRetentionTime"] = this.minimumRetentionTime;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISnapshotRetentionTimeTooShortException extends IPictureparkValidationException {
+    snapshotRetentionTime: string;
+    minimumRetentionTime: string;
+}
+
 export class ConfigurationIndexNotFoundException extends PictureparkException implements IConfigurationIndexNotFoundException {
     configurationIndex?: string | undefined;
 
@@ -25858,6 +26244,40 @@ export interface IMaximumTransferSizeException extends IPictureparkException {
     transferId?: string | undefined;
 }
 
+export class FileIdDuplicatedException extends PictureparkValidationException implements IFileIdDuplicatedException {
+    fileId?: string | undefined;
+
+    constructor(data?: IFileIdDuplicatedException) {
+        super(data);
+        this._discriminator = "FileIdDuplicatedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.fileId = data["fileId"];
+        }
+    }
+
+    static fromJS(data: any): FileIdDuplicatedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new FileIdDuplicatedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fileId"] = this.fileId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IFileIdDuplicatedException extends IPictureparkValidationException {
+    fileId?: string | undefined;
+}
+
 export class MissingDependenciesException extends PictureparkValidationException implements IMissingDependenciesException {
     itemIds?: string | undefined;
 
@@ -26583,6 +27003,78 @@ export class DuplicatedItemAssignedException extends PictureparkValidationExcept
 export interface IDuplicatedItemAssignedException extends IPictureparkValidationException {
     itemId?: string | undefined;
     itemPath?: string | undefined;
+}
+
+export class InvalidDataTypeException extends PictureparkValidationException implements IInvalidDataTypeException {
+    value?: any | undefined;
+
+    constructor(data?: IInvalidDataTypeException) {
+        super(data);
+        this._discriminator = "InvalidDataTypeException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.value = data["value"];
+        }
+    }
+
+    static fromJS(data: any): InvalidDataTypeException {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvalidDataTypeException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["value"] = this.value;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IInvalidDataTypeException extends IPictureparkValidationException {
+    value?: any | undefined;
+}
+
+export class LayerAssignmentInvalidException extends PictureparkValidationException implements ILayerAssignmentInvalidException {
+    layerId?: string | undefined;
+    value?: any | undefined;
+
+    constructor(data?: ILayerAssignmentInvalidException) {
+        super(data);
+        this._discriminator = "LayerAssignmentInvalidException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.layerId = data["layerId"];
+            this.value = data["value"];
+        }
+    }
+
+    static fromJS(data: any): LayerAssignmentInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new LayerAssignmentInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["layerId"] = this.layerId;
+        data["value"] = this.value;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ILayerAssignmentInvalidException extends IPictureparkValidationException {
+    layerId?: string | undefined;
+    value?: any | undefined;
 }
 
 export class SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException implements ISchemaFieldOverwriteTypeMismatchException {
@@ -28435,6 +28927,7 @@ export enum DisplayPatternType {
     List = "List",
     Detail = "Detail",
     Name = "Name",
+    DownloadFileName = "DownloadFileName",
 }
 
 export class SchemaViewForAllException extends PictureparkValidationException implements ISchemaViewForAllException {
@@ -28650,6 +29143,44 @@ export class SchemaFieldNotRequirableException extends PictureparkValidationExce
 export interface ISchemaFieldNotRequirableException extends IPictureparkValidationException {
     fieldId?: string | undefined;
     schemaId?: string | undefined;
+}
+
+export class DisplayPatternTypeNotSupportedException extends PictureparkValidationException implements IDisplayPatternTypeNotSupportedException {
+    schemaId?: string | undefined;
+    displayPatternId?: string | undefined;
+
+    constructor(data?: IDisplayPatternTypeNotSupportedException) {
+        super(data);
+        this._discriminator = "DisplayPatternTypeNotSupportedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            this.displayPatternId = data["displayPatternId"];
+        }
+    }
+
+    static fromJS(data: any): DisplayPatternTypeNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new DisplayPatternTypeNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["displayPatternId"] = this.displayPatternId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IDisplayPatternTypeNotSupportedException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    displayPatternId?: string | undefined;
 }
 
 export class DeleteContentsWithReferencesException extends PictureparkValidationException implements IDeleteContentsWithReferencesException {
@@ -31410,6 +31941,74 @@ export class DisplayValueRerenderingInProgressException extends PictureparkValid
 }
 
 export interface IDisplayValueRerenderingInProgressException extends IPictureparkValidationException {
+}
+
+export class OutputFormatNotFoundException extends PictureparkNotFoundException implements IOutputFormatNotFoundException {
+    outputFormatId?: string | undefined;
+
+    constructor(data?: IOutputFormatNotFoundException) {
+        super(data);
+        this._discriminator = "OutputFormatNotFoundException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.outputFormatId = data["outputFormatId"];
+        }
+    }
+
+    static fromJS(data: any): OutputFormatNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["outputFormatId"] = this.outputFormatId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputFormatNotFoundException extends IPictureparkNotFoundException {
+    outputFormatId?: string | undefined;
+}
+
+export class OutputFormatSourceNotDefinedException extends PictureparkValidationException implements IOutputFormatSourceNotDefinedException {
+    outputFormatId?: string | undefined;
+
+    constructor(data?: IOutputFormatSourceNotDefinedException) {
+        super(data);
+        this._discriminator = "OutputFormatSourceNotDefinedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.outputFormatId = data["outputFormatId"];
+        }
+    }
+
+    static fromJS(data: any): OutputFormatSourceNotDefinedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatSourceNotDefinedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["outputFormatId"] = this.outputFormatId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputFormatSourceNotDefinedException extends IPictureparkValidationException {
+    outputFormatId?: string | undefined;
 }
 
 /** Search request to search for business processes */
@@ -35048,6 +35647,11 @@ export abstract class BusinessRuleTransformation implements IBusinessRuleTransfo
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ProjectionTransformation") {
+            let result = new ProjectionTransformation();
+            result.init(data);
+            return result;
+        }
         throw new Error("The abstract class 'BusinessRuleTransformation' cannot be instantiated.");
     }
 
@@ -35264,6 +35868,52 @@ Settings this to 3 will produce unigrams, bigrams, trigrams. */
     minWordLength: number;
     /** Maximum length of a word to be considered. */
     maxWordLength?: number | undefined;
+}
+
+/** Transforms a list by applying a set of transformation for each item in the list. */
+export class ProjectionTransformation extends BusinessRuleTransformation implements IProjectionTransformation {
+    /** Transformations to apply. */
+    transformations?: BusinessRuleTransformation[] | undefined;
+
+    constructor(data?: IProjectionTransformation) {
+        super(data);
+        this._discriminator = "ProjectionTransformation";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["transformations"])) {
+                this.transformations = [] as any;
+                for (let item of data["transformations"])
+                    this.transformations!.push(BusinessRuleTransformation.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ProjectionTransformation {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProjectionTransformation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.transformations)) {
+            data["transformations"] = [];
+            for (let item of this.transformations)
+                data["transformations"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Transforms a list by applying a set of transformation for each item in the list. */
+export interface IProjectionTransformation extends IBusinessRuleTransformation {
+    /** Transformations to apply. */
+    transformations?: BusinessRuleTransformation[] | undefined;
 }
 
 /** Action to be performed by a business rule */
@@ -37557,14 +38207,14 @@ export enum OutputRenderingState {
 export abstract class OutputDataBase implements IOutputDataBase {
     /** The extension of the file. */
     fileExtension?: string | undefined;
-    /** The name of the file. */
-    fileName?: string | undefined;
     /** The path where the file is stored. */
     filePath?: string | undefined;
     /** The size of the file in bytes. */
     fileSizeInBytes?: number | undefined;
     /** The SHA-1 hash of the file. */
     sha1Hash?: string | undefined;
+    /** The original filename of the file. */
+    originalFileName?: string | undefined;
 
     protected _discriminator: string;
 
@@ -37581,10 +38231,10 @@ export abstract class OutputDataBase implements IOutputDataBase {
     init(data?: any) {
         if (data) {
             this.fileExtension = data["fileExtension"];
-            this.fileName = data["fileName"];
             this.filePath = data["filePath"];
             this.fileSizeInBytes = data["fileSizeInBytes"];
             this.sha1Hash = data["sha1Hash"];
+            this.originalFileName = data["originalFileName"];
         }
     }
 
@@ -37622,10 +38272,10 @@ export abstract class OutputDataBase implements IOutputDataBase {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
         data["fileExtension"] = this.fileExtension;
-        data["fileName"] = this.fileName;
         data["filePath"] = this.filePath;
         data["fileSizeInBytes"] = this.fileSizeInBytes;
         data["sha1Hash"] = this.sha1Hash;
+        data["originalFileName"] = this.originalFileName;
         return data; 
     }
 }
@@ -37634,14 +38284,14 @@ export abstract class OutputDataBase implements IOutputDataBase {
 export interface IOutputDataBase {
     /** The extension of the file. */
     fileExtension?: string | undefined;
-    /** The name of the file. */
-    fileName?: string | undefined;
     /** The path where the file is stored. */
     filePath?: string | undefined;
     /** The size of the file in bytes. */
     fileSizeInBytes?: number | undefined;
     /** The SHA-1 hash of the file. */
     sha1Hash?: string | undefined;
+    /** The original filename of the file. */
+    originalFileName?: string | undefined;
 }
 
 /** Output information for an image file. */
@@ -43146,8 +43796,10 @@ export class CustomerInfo implements ICustomerInfo {
     name!: string;
     /** Alias of the customer instance. */
     customerAlias!: string;
-    /** The base url of identity server to authenticate the user using OpenID Connect. */
+    /** The base URL of identity server to authenticate the user using OpenID Connect. */
     identityServerUrl!: string;
+    /** The base API URL. */
+    apiUrl!: string;
     /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails!: boolean;
     /** Configured languages of customer instance (system, metadata, default). */
@@ -43205,6 +43857,7 @@ export class CustomerInfo implements ICustomerInfo {
             this.name = data["name"];
             this.customerAlias = data["customerAlias"];
             this.identityServerUrl = data["identityServerUrl"];
+            this.apiUrl = data["apiUrl"];
             this.enableQueryDetails = data["enableQueryDetails"];
             this.languageConfiguration = data["languageConfiguration"] ? LanguageConfiguration.fromJS(data["languageConfiguration"]) : new LanguageConfiguration();
             if (Array.isArray(data["languages"])) {
@@ -43244,6 +43897,7 @@ export class CustomerInfo implements ICustomerInfo {
         data["name"] = this.name;
         data["customerAlias"] = this.customerAlias;
         data["identityServerUrl"] = this.identityServerUrl;
+        data["apiUrl"] = this.apiUrl;
         data["enableQueryDetails"] = this.enableQueryDetails;
         data["languageConfiguration"] = this.languageConfiguration ? this.languageConfiguration.toJSON() : <any>undefined;
         if (Array.isArray(this.languages)) {
@@ -43279,8 +43933,10 @@ export interface ICustomerInfo {
     name: string;
     /** Alias of the customer instance. */
     customerAlias: string;
-    /** The base url of identity server to authenticate the user using OpenID Connect. */
+    /** The base URL of identity server to authenticate the user using OpenID Connect. */
     identityServerUrl: string;
+    /** The base API URL. */
+    apiUrl: string;
     /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails: boolean;
     /** Configured languages of customer instance (system, metadata, default). */
@@ -45569,6 +46225,7 @@ export enum TransferState {
     ImportCompletedWithErrors = "ImportCompletedWithErrors",
     UploadCompletedWithErrors = "UploadCompletedWithErrors",
     UploadCancellationInProgress = "UploadCancellationInProgress",
+    ImportDone = "ImportDone",
 }
 
 export class ReindexEvent extends ApplicationEvent implements IReindexEvent {
@@ -46968,6 +47625,9 @@ export class OutputFormatEditable implements IOutputFormatEditable {
     format?: FormatBase | undefined;
     /** How long should the dynamic outputs created from this format be kept. */
     retentionTime!: string;
+    /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
+If set, the customer's default language is required. */
+    downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
 
     constructor(data?: IOutputFormatEditable) {
         if (data) {
@@ -46977,6 +47637,7 @@ export class OutputFormatEditable implements IOutputFormatEditable {
             }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
             this.sourceOutputFormats = data.sourceOutputFormats && !(<any>data.sourceOutputFormats).toJSON ? new SourceOutputFormats(data.sourceOutputFormats) : <SourceOutputFormats>this.sourceOutputFormats; 
+            this.downloadFileNamePatterns = data.downloadFileNamePatterns && !(<any>data.downloadFileNamePatterns).toJSON ? new TranslatedStringDictionary(data.downloadFileNamePatterns) : <TranslatedStringDictionary>this.downloadFileNamePatterns; 
         }
     }
 
@@ -46986,6 +47647,7 @@ export class OutputFormatEditable implements IOutputFormatEditable {
             this.sourceOutputFormats = data["sourceOutputFormats"] ? SourceOutputFormats.fromJS(data["sourceOutputFormats"]) : <any>undefined;
             this.format = data["format"] ? FormatBase.fromJS(data["format"]) : <any>undefined;
             this.retentionTime = data["retentionTime"];
+            this.downloadFileNamePatterns = data["downloadFileNamePatterns"] ? TranslatedStringDictionary.fromJS(data["downloadFileNamePatterns"]) : <any>undefined;
         }
     }
 
@@ -47002,6 +47664,7 @@ export class OutputFormatEditable implements IOutputFormatEditable {
         data["sourceOutputFormats"] = this.sourceOutputFormats ? this.sourceOutputFormats.toJSON() : <any>undefined;
         data["format"] = this.format ? this.format.toJSON() : <any>undefined;
         data["retentionTime"] = this.retentionTime;
+        data["downloadFileNamePatterns"] = this.downloadFileNamePatterns ? this.downloadFileNamePatterns.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -47016,6 +47679,9 @@ export interface IOutputFormatEditable {
     format?: FormatBase | undefined;
     /** How long should the dynamic outputs created from this format be kept. */
     retentionTime: string;
+    /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
+If set, the customer's default language is required. */
+    downloadFileNamePatterns?: ITranslatedStringDictionary | undefined;
 }
 
 /** Represents an output format. */
@@ -48618,6 +49284,113 @@ export class OutputFormatDeleteManyRequest implements IOutputFormatDeleteManyReq
 export interface IOutputFormatDeleteManyRequest {
     /** List of IDs of output formats to remove. */
     ids?: string[] | undefined;
+}
+
+/** Used to change the download file name pattern for multiple formats at once. */
+export class OutputFormatDownloadFileNamePatternUpdateManyRequest implements IOutputFormatDownloadFileNamePatternUpdateManyRequest {
+    /** Download file name update requests to be processed. */
+    items!: OutputFormatDownloadFileNamePatternUpdateRequestItem[];
+
+    constructor(data?: IOutputFormatDownloadFileNamePatternUpdateManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.items) {
+                this.items = [];
+                for (let i = 0; i < data.items.length; i++) {
+                    let item = data.items[i];
+                    this.items[i] = item && !(<any>item).toJSON ? new OutputFormatDownloadFileNamePatternUpdateRequestItem(item) : <OutputFormatDownloadFileNamePatternUpdateRequestItem>item;
+                }
+            }
+        }
+        if (!data) {
+            this.items = [];
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["items"])) {
+                this.items = [] as any;
+                for (let item of data["items"])
+                    this.items!.push(OutputFormatDownloadFileNamePatternUpdateRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): OutputFormatDownloadFileNamePatternUpdateManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatDownloadFileNamePatternUpdateManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Used to change the download file name pattern for multiple formats at once. */
+export interface IOutputFormatDownloadFileNamePatternUpdateManyRequest {
+    /** Download file name update requests to be processed. */
+    items: IOutputFormatDownloadFileNamePatternUpdateRequestItem[];
+}
+
+/** Represents a change to the download file name pattern to one output format. */
+export class OutputFormatDownloadFileNamePatternUpdateRequestItem implements IOutputFormatDownloadFileNamePatternUpdateRequestItem {
+    /** ID of the output format to set pattern for. */
+    id!: string;
+    /** The patterns to use per metadata language.
+The customer's default language is required. */
+    patterns?: TranslatedStringDictionary | undefined;
+
+    constructor(data?: IOutputFormatDownloadFileNamePatternUpdateRequestItem) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.patterns = data.patterns && !(<any>data.patterns).toJSON ? new TranslatedStringDictionary(data.patterns) : <TranslatedStringDictionary>this.patterns; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.patterns = data["patterns"] ? TranslatedStringDictionary.fromJS(data["patterns"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): OutputFormatDownloadFileNamePatternUpdateRequestItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatDownloadFileNamePatternUpdateRequestItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["patterns"] = this.patterns ? this.patterns.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Represents a change to the download file name pattern to one output format. */
+export interface IOutputFormatDownloadFileNamePatternUpdateRequestItem {
+    /** ID of the output format to set pattern for. */
+    id: string;
+    /** The patterns to use per metadata language.
+The customer's default language is required. */
+    patterns?: ITranslatedStringDictionary | undefined;
 }
 
 /** User profile. */
@@ -55628,13 +56401,17 @@ export class CreateTransferRequest implements ICreateTransferRequest {
     name!: string;
     /** Type of transfer. */
     transferType!: TransferType;
-    /** Files uploaded in transfer. */
+    /** Files uploaded in transfer.
+The client is responsible for uploading files to backend.
+Required when TransferType is FileUpload or FileUploadAutoImport. */
     files?: TransferUploadFile[] | undefined;
-    /** Weblinks downloaded in transfer. */
+    /** Weblinks downloaded in transfer.
+The backend will download files using HTTP, therefore public access to files is needed.
+Required when TransferType is WebDownload. */
     webLinks?: TransferWebLink[] | undefined;
     /** Name of collection created after transfer. */
     collectionName?: string | undefined;
-    /** A value indicating whether to create a Collection after importing the transfer. */
+    /** A value indicating whether to create a collection after importing the transfer. */
     createCollection!: boolean;
 
     constructor(data?: ICreateTransferRequest) {
@@ -55698,13 +56475,17 @@ export interface ICreateTransferRequest {
     name: string;
     /** Type of transfer. */
     transferType: TransferType;
-    /** Files uploaded in transfer. */
+    /** Files uploaded in transfer.
+The client is responsible for uploading files to backend.
+Required when TransferType is FileUpload or FileUploadAutoImport. */
     files?: TransferUploadFile[] | undefined;
-    /** Weblinks downloaded in transfer. */
+    /** Weblinks downloaded in transfer.
+The backend will download files using HTTP, therefore public access to files is needed.
+Required when TransferType is WebDownload. */
     webLinks?: TransferWebLink[] | undefined;
     /** Name of collection created after transfer. */
     collectionName?: string | undefined;
-    /** A value indicating whether to create a Collection after importing the transfer. */
+    /** A value indicating whether to create a collection after importing the transfer. */
     createCollection: boolean;
 }
 
@@ -55793,6 +56574,8 @@ export interface ITransferUploadFile extends ITransferFile {
 export class TransferWebLink extends TransferFile implements ITransferWebLink {
     /** URL of the item. */
     url!: string;
+    /** Optional target filename of the file. */
+    fileName?: string | undefined;
 
     constructor(data?: ITransferWebLink) {
         super(data);
@@ -55802,6 +56585,7 @@ export class TransferWebLink extends TransferFile implements ITransferWebLink {
         super.init(data);
         if (data) {
             this.url = data["url"];
+            this.fileName = data["fileName"];
         }
     }
 
@@ -55815,6 +56599,7 @@ export class TransferWebLink extends TransferFile implements ITransferWebLink {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["url"] = this.url;
+        data["fileName"] = this.fileName;
         super.toJSON(data);
         return data; 
     }
@@ -55824,6 +56609,8 @@ export class TransferWebLink extends TransferFile implements ITransferWebLink {
 export interface ITransferWebLink extends ITransferFile {
     /** URL of the item. */
     url: string;
+    /** Optional target filename of the file. */
+    fileName?: string | undefined;
 }
 
 /** Representation of a file transfer. */
@@ -57237,7 +58024,7 @@ export interface IImportTransferPartialRequest {
 }
 
 export class FileTransferCreateItem implements IFileTransferCreateItem {
-    fileId?: string | undefined;
+    fileId!: string;
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
     /** The metadata to be assigned to the imported content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
@@ -57310,7 +58097,7 @@ by the LayerSchemaIds property. */
 }
 
 export interface IFileTransferCreateItem {
-    fileId?: string | undefined;
+    fileId: string;
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
     /** The metadata to be assigned to the imported content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified

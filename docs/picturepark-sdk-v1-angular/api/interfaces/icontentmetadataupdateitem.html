@@ -115,18 +115,18 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="content" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content</h3>
-					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <a href="idatadictionary.html" class="tsd-signature-type">IDataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="icontentmetadataupdaterequest.html">IContentMetadataUpdateRequest</a>.<a href="icontentmetadataupdaterequest.html#content">content</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37267">lib/api-services.ts:37267</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L41105">lib/api-services.ts:41105</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The content data of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+							<p>The content data of the content. It&#39;s an object of dynamic metadata whose structure is defined in the Content schema identified by
 								the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-								whose ContentType is ContentItem).
+								whose ContentType is Virtual).
 							Update of content data will be done only if this attribute has any data, i.e. if it&#39;s not null or empty.</p>
 						</div>
 					</div>
@@ -137,7 +137,7 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37436">lib/api-services.ts:37436</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L41274">lib/api-services.ts:41274</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -153,7 +153,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="icontentmetadataupdaterequest.html">IContentMetadataUpdateRequest</a>.<a href="icontentmetadataupdaterequest.html#layerschemaids">layerSchemaIds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37262">lib/api-services.ts:37262</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L41100">lib/api-services.ts:41100</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -170,7 +170,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="icontentmetadataupdaterequest.html">IContentMetadataUpdateRequest</a>.<a href="icontentmetadataupdaterequest.html#layerschemasupdateoptions">layerSchemasUpdateOptions</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37279">lib/api-services.ts:37279</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L41117">lib/api-services.ts:41117</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -187,11 +187,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="metadata" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> metadata</h3>
-					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <a href="idatadictionary.html" class="tsd-signature-type">IDataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="icontentmetadataupdaterequest.html">IContentMetadataUpdateRequest</a>.<a href="icontentmetadataupdaterequest.html#metadata">metadata</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37272">lib/api-services.ts:37272</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L41110">lib/api-services.ts:41110</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -210,7 +210,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="icontentmetadataupdaterequest.html">IContentMetadataUpdateRequest</a>.<a href="icontentmetadataupdaterequest.html#schemafieldsupdateoptions">schemaFieldsUpdateOptions</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37286">lib/api-services.ts:37286</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L41124">lib/api-services.ts:41124</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -280,6 +280,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -328,7 +329,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

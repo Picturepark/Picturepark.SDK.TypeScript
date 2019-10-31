@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A content detail.</p>
+						<p>Content detail</p>
 					</div>
 				</div>
 			</section>
@@ -95,6 +95,9 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#audit" class="tsd-kind-icon">audit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#brokenindirectreferenceids" class="tsd-kind-icon">broken<wbr>Indirect<wbr>Reference<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#brokenreferenceids" class="tsd-kind-icon">broken<wbr>Reference<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#brokenrelationtargetids" class="tsd-kind-icon">broken<wbr>Relation<wbr>Target<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#content" class="tsd-kind-icon">content</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#contentpermissionsetids" class="tsd-kind-icon">content<wbr>Permission<wbr>Set<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentdetail.html#contentrights" class="tsd-kind-icon">content<wbr>Rights</a></li>
@@ -121,27 +124,74 @@
 					<div class="tsd-signature tsd-kind-icon">audit<span class="tsd-signature-symbol">:</span> <a href="iuserauditdetail.html" class="tsd-signature-type">IUserAuditDetail</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34276">lib/api-services.ts:34276</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38085">lib/api-services.ts:38085</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Audit data with information regarding document creation and modification.</p>
+							<p>Audit information.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="brokenindirectreferenceids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> broken<wbr>Indirect<wbr>Reference<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">broken<wbr>Indirect<wbr>Reference<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38068">lib/api-services.ts:38068</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>All the IDs of the indirectly referenced list items (tagboxes) that do not exist in the system.
+							They are referenced list items that reference at least a list item that do not exist in the system.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="brokenreferenceids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> broken<wbr>Reference<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">broken<wbr>Reference<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38065">lib/api-services.ts:38065</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>All the IDs of the referenced list items (tagboxes) that do not exist in the system.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="brokenrelationtargetids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> broken<wbr>Relation<wbr>Target<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">broken<wbr>Relation<wbr>Target<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38070">lib/api-services.ts:38070</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>All the IDs of the contents or list items target of a relation that do not exist in the system.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="content" class="tsd-anchor"></a>
-					<h3>content</h3>
-					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content</h3>
+					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34278">lib/api-services.ts:34278</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38073">lib/api-services.ts:38073</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The content data</p>
+							<p>The content data of the content. It&#39;s an object of dynamic metadata whose structure is defined in the Content schema identified.
+							by the ContentSchemaId property.</p>
 						</div>
 					</div>
 				</section>
@@ -151,12 +201,12 @@
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Permission<wbr>Set<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34280">lib/api-services.ts:34280</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38080">lib/api-services.ts:38080</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional id list of content permission sets. Controls content accessibility outside of content ownership.</p>
+							<p>An optional list of content permission set IDs which control content permissions. These permissions control content accessibility for the users that do not own the content.</p>
 						</div>
 					</div>
 				</section>
@@ -166,7 +216,7 @@
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Rights<span class="tsd-signature-symbol">:</span> <a href="../enums/contentright.html" class="tsd-signature-type">ContentRight</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34303">lib/api-services.ts:34303</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38097">lib/api-services.ts:38097</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -181,12 +231,13 @@
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Schema<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34282">lib/api-services.ts:34282</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38060">lib/api-services.ts:38060</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The id of the content schema</p>
+							<p>The ID of the content schema. The SchemaType of the specified schema must be Content.
+							The schema specifies the structure of the Content dictionary.</p>
 						</div>
 					</div>
 				</section>
@@ -196,12 +247,12 @@
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/contenttype.html" class="tsd-signature-type">ContentType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34284">lib/api-services.ts:34284</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38091">lib/api-services.ts:38091</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The type of content</p>
+							<p>Content type.</p>
 						</div>
 					</div>
 				</section>
@@ -211,13 +262,12 @@
 					<div class="tsd-signature tsd-kind-icon">display<wbr>Values<span class="tsd-signature-symbol">:</span> <a href="idisplayvaluedictionary.html" class="tsd-signature-type">IDisplayValueDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34287">lib/api-services.ts:34287</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38093">lib/api-services.ts:38093</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Contains language specific display values, rendered according to the content schema&#39;s
-							display pattern configuration.</p>
+							<p>Contains language specific display values. They are calculated values based on the template stored in the Content schema DisplayPatterns property.</p>
 						</div>
 					</div>
 				</section>
@@ -227,27 +277,28 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34289">lib/api-services.ts:34289</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38078">lib/api-services.ts:38078</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The content id.</p>
+							<p>The content ID.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="layerschemaids" class="tsd-anchor"></a>
-					<h3>layer<wbr>Schema<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">layer<wbr>Schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> layer<wbr>Schema<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">layer<wbr>Schema<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34291">lib/api-services.ts:34291</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38063">lib/api-services.ts:38063</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional list of layer schemas ids</p>
+							<p>An optional list of IDs of the schemas that form the layers of the content.
+							The SchemaType of the specified schemas must be Layer.</p>
 						</div>
 					</div>
 				</section>
@@ -257,27 +308,28 @@
 					<div class="tsd-signature tsd-kind-icon">life<wbr>Cycle<span class="tsd-signature-symbol">:</span> <a href="../enums/lifecycle.html" class="tsd-signature-type">LifeCycle</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34301">lib/api-services.ts:34301</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38095">lib/api-services.ts:38095</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The lifecycle of the content.</p>
+							<p>The actual lifecycle value of the content. Becomes Inactive when the content is deleted.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="metadata" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> metadata</h3>
-					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <a href="idatadictionary.html" class="tsd-signature-type">IDataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34293">lib/api-services.ts:34293</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38076">lib/api-services.ts:38076</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The metadata dictionary</p>
+							<p>The metadata belonging to the layers of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+							by the LayerSchemaIds property.</p>
 						</div>
 					</div>
 				</section>
@@ -287,12 +339,13 @@
 					<div class="tsd-signature tsd-kind-icon">outputs<span class="tsd-signature-symbol">:</span> <a href="../classes/output.html" class="tsd-signature-type">Output</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34295">lib/api-services.ts:34295</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38083">lib/api-services.ts:38083</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A list of rendering outputs for underlying digital file.</p>
+							<p>The Outputs generated from the content. They identifies the rendered files generated by the system.
+							They are available only for file base contents, and they depends on the output formats configured in the system.</p>
 						</div>
 					</div>
 				</section>
@@ -302,7 +355,7 @@
 					<div class="tsd-signature tsd-kind-icon">owner<span class="tsd-signature-symbol">:</span> <a href="iuser.html" class="tsd-signature-type">IUser</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34299">lib/api-services.ts:34299</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38089">lib/api-services.ts:38089</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -317,7 +370,7 @@
 					<div class="tsd-signature tsd-kind-icon">owner<wbr>Token<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L34297">lib/api-services.ts:34297</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L38087">lib/api-services.ts:38087</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -345,6 +398,15 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="icontentdetail.html#audit" class="tsd-kind-icon">audit</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="icontentdetail.html#brokenindirectreferenceids" class="tsd-kind-icon">broken<wbr>Indirect<wbr>Reference<wbr>Ids</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="icontentdetail.html#brokenreferenceids" class="tsd-kind-icon">broken<wbr>Reference<wbr>Ids</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="icontentdetail.html#brokenrelationtargetids" class="tsd-kind-icon">broken<wbr>Relation<wbr>Target<wbr>Ids</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="icontentdetail.html#content" class="tsd-kind-icon">content</a>
@@ -406,6 +468,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -454,7 +517,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
