@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
-import { BreakpointObserver } from '@angular/cdk/layout';
 
 // LIBRARIES
 import {
