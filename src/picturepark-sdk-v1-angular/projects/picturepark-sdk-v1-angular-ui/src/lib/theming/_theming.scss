@@ -4,6 +4,7 @@
 @import '../shared-module/components/browser-item-base/browser-item-base.component.theme.scss';
 @import '../features-module/dialog/components/dialog-base/dialog-base.component.theme.scss'; // TODO: Move to shared module
 @import '../features-module/panel/components/panel-base/panel-base.component.theme.scss'; // TODO: Move to shared module
+@import '../styles/global_styles.theme.scss'; 
 
 // Feature themes
 @import '../features-module/application-header/application-header.component.theme.scss';
@@ -23,7 +24,6 @@
 @import '../features-module/share-browser/components/share-browser-item/share-browser-item.component.theme.scss';
 @import '../features-module/share-content-dialog/components/share-content-dialog-item/share-content-dialog-item.component.theme.scss';
 @import '../features-module/share-content-dialog/components/share-content-recipients-input/share-content-recipients-input.component.theme.scss';
-@import '../features-module/share-preview/share-preview.component.theme.scss';
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
 @mixin picturepark-theme($theme) {
@@ -48,5 +48,5 @@
     @include pp-share-content-dialog-item-theme($theme);
     @include pp-share-content-recipients-input-theme($theme);
     @include pp-panel-base-theme($theme);
-    @include pp-share-preview-theme($theme);
+    @include pp-global-theme($theme)
 }

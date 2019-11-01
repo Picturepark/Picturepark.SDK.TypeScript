@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 // LIBRARIES
 import {
   ApplicationHeaderModule, BasketModule, ContentAggregationListModule, ChannelPickerModule,
-  ContentBrowserModule, SearchBoxModule, SharedModule, LayerPanelsModule
+  ContentBrowserModule, SearchBoxModule, SharedModule, LayerPanelsModule, SearchSuggestBoxModule
 } from '@picturepark/sdk-v1-angular-ui';
 
 // MODULES
@@ -28,6 +28,7 @@ import { ContentPickerComponent } from './content-picker.component';
     ChannelPickerModule,
     ContentBrowserModule,
     SearchBoxModule,
+    SearchSuggestBoxModule
   ]
 })
 export class ContentPickerModule { }

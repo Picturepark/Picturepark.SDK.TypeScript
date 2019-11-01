@@ -23,12 +23,15 @@ import {
   FieldTranslatedString,
   SchemaDetail,
   ThumbnailSize,
+  ContentResolveBehavior,
 } from '@picturepark/sdk-v1-angular';
 import * as moment_ from 'moment';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { LayerField } from '../models/layer-field';
 import { RelationFieldInfo } from '../models/relation-field-info';
+import { forkJoin } from 'rxjs';
+import { LiquidRenderingService } from '../../../shared-module/services/liquid-rendering/liquid-rendering.service';
 
 const moment = moment_;
 
@@ -38,7 +41,8 @@ const moment = moment_;
 export class LayerFieldService {
 
   constructor(private sanitizer: DomSanitizer,
-    private contentService: ContentService) { }
+    private contentService: ContentService,
+    private liquidRenderingService: LiquidRenderingService) { }
 
   public generate(field: FieldBase, schemaMetadata: any, allSchemas: SchemaDetail[]): LayerField | null {
     const fieldValue = schemaMetadata[field.id];
@@ -196,14 +200,24 @@ export class LayerFieldService {
       }).filter(x => x);
     }
 
-    const relationFieldInfo = this.contentService.downloadThumbnail(
-      targetId,
-      ThumbnailSize.Small,
-      null,
-      null).pipe(map(response =>
-        new RelationFieldInfo(response.fileName,
-          this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data))
-        )));
+    const thumbnailDownload = this.contentService.downloadThumbnail(targetId, ThumbnailSize.Small, null, null);
+    const contentDetail = this.contentService.get(targetId, [ContentResolveBehavior.OuterDisplayValueName, ContentResolveBehavior.OuterDisplayValueList]);
+
+    const relationFieldInfo = forkJoin([thumbnailDownload, contentDetail])
+      .pipe(
+        switchMap(async response => {
+          await this.liquidRenderingService.renderNestedDisplayValues(response[1]);
+          return response;
+        }),
+        map(response => {
+          return new RelationFieldInfo(
+            targetId,
+            response[1].displayValues!['name'],
+            response[1].displayValues!['list'],
+            this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response[0].data))
+          );
+        })
+      );
 
     return { fields: relationfields, info: relationFieldInfo };
   }

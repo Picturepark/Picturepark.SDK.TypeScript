@@ -1,16 +1,18 @@
 import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatTabChangeEvent } from '@angular/material';
 import {
   ContentDetail,
   ContentResolveBehavior,
   ContentService,
   SchemaDetail,
-  SchemaService,
+  SchemaService
 } from '@picturepark/sdk-v1-angular';
 
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
 import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
+import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
+import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
 @Component({
   selector: 'pp-content-details-dialog',
@@ -24,24 +26,76 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
   contentId: string;
   schemas: SchemaDetail[];
+  playing = false;
 
   constructor(
     private contentService: ContentService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: ContentDetailDialogOptions,
     protected dialogRef: MatDialogRef<ContentDetailsDialogComponent>,
     private liquidRenderingService: LiquidRenderingService,
     protected injector: Injector,
     private schemaService: SchemaService,
+    private contentDownloadDialogService: ContentDownloadDialogService
   ) {
     super(data, dialogRef, injector);
 
-    this.contentId = data;
+    const shareContent = this.data.shareContent;
+    if (shareContent) {
+      this.content = shareContent as any;
+      return;
+    }
+
+    this.loadContent(data.id);
+  }
+
+  loadSchemas(): void {
+    this.schemaService.getMany(this.content.layerSchemaIds!.concat(this.content.contentSchemaId)).subscribe(schemas => {
+      this.schemas = schemas;
+    });
+  }
+
+  tabChange(event: MatTabChangeEvent): void {
+    // Load schemas if we change to metadata tab
+    if (event.index === 1 && !this.schemas) {
+      this.loadSchemas();
+    }
+  }
+
+  public downloadItem() {
+    this.contentDownloadDialogService.showDialog({
+      mode: 'single',
+      contents: [this.content as any]
+    });
+  }
+
+  public async next(): Promise<void> {
+    this.setContent(this.data.next() as any);
+  }
+
+  public async previous(): Promise<void> {
+      this.setContent(this.data.previous() as any);
+  }
+
+  setContent(detail: ContentDetail | string) {
+    this.content = null as any;
+    this.playing = false;
+    setTimeout(() => {
+      if (typeof detail === 'string') {
+        this.loadContent(detail);
+      } else {
+        this.content = detail;
+      }
+    });
+  }
+
+  loadContent(id: string) {
+    this.contentId = id;
     const contentGetSubscription = this.contentService.get(this.contentId, [
       ContentResolveBehavior.Content,
       ContentResolveBehavior.Metadata,
-      ContentResolveBehavior.LinkedListItems,
       ContentResolveBehavior.InnerDisplayValueName,
       ContentResolveBehavior.InnerDisplayValueList,
+      ContentResolveBehavior.InnerDisplayValueThumbnail,
       ContentResolveBehavior.OuterDisplayValueName,
       ContentResolveBehavior.OuterDisplayValueDetail,
       ContentResolveBehavior.Outputs
@@ -49,7 +103,6 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
       await this.liquidRenderingService.renderNestedDisplayValues(content);
       if (content) {
         this.content = content;
-        this.schemas = await this.schemaService.getMany(this.content.layerSchemaIds.concat(this.content.contentSchemaId)).toPromise();
       }
     });
 

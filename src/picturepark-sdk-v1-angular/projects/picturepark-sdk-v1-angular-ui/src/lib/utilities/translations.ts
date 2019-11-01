@@ -217,7 +217,13 @@ export let TRANSLATIONS = {
     TextSelectedMultiple: {
       en: 'You have selected {0} items.',
       de: 'Sie haben {0} Items ausgewählt.'
-    }
+    },
+    SelectedItem: {
+      en: '1 item'
+    },
+    SelectedItems: {
+      en: '{0} items'
+    },
   },
   ContentPickerDetails: {
     ButtonBack: {
@@ -312,12 +318,15 @@ export let TRANSLATIONS = {
       en: 'Documents',
       de: 'Dokumente'
     },
-    ContentItem: {
+    Virtual: {
       en: 'Virtual content',
       de: 'Virtueller content'
     },
     FileSize: {
       en: 'Download size: ~'
+    },
+    FileSizeDynamicOutputs: {
+      en: 'Download size (without dynamic formats): ~'
     },
     Title: {
       en: 'Download'
@@ -421,6 +430,16 @@ export let TRANSLATIONS = {
     },
     ErrorNotification: {
       en: 'There was an error sharing your content, please try again'
+    }
+  },
+  ContentDetailsDialog: {
+    Download: {
+      en: 'Download',
+      de: 'Herunterladen'
+    },
+    Overview: {
+      en: 'Overview',
+      de: 'Übersicht'
     }
   }
 };

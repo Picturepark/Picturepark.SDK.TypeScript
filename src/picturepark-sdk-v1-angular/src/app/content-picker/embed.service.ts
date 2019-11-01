@@ -7,7 +7,7 @@ import {
   ShareContent,
   Content
 } from '@picturepark/sdk-v1-angular';
-import { ContentModel } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/models/content-model';
+import { ContentModel } from '@picturepark/sdk-v1-angular-ui';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +16,10 @@ export class EmbedService {
   constructor(private shareService: ShareService) {
   }
 
-  async embed(selectedItems: ContentModel<Content>[], postUrl: string) {
+  async embed(selectedItems: Content[], postUrl: string) {
     if (selectedItems.length > 0) {
       const contentItems = selectedItems.map(i => new ShareContent({
-        contentId: i.item.id,
+        contentId: i.id,
         outputFormatIds: ['Original']
       }));
 

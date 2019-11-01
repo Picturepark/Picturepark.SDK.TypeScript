@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'pp-application-menu',
@@ -8,8 +9,10 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/co
 export class ApplicationMenuComponent implements OnInit {
 
   @ViewChild('labelNameElement', { static: true }) labelNameElement: ElementRef;
+  private localStorageThemeKey = 'isLightTheme';
 
   labelName: string | undefined;
+  isLightTheme: boolean;
 
   menuOptions: any[] = [{
     name: 'Search',
@@ -22,9 +25,13 @@ export class ApplicationMenuComponent implements OnInit {
     link: 'collections'
   }, */
   {
-    name: 'Shares',
+    name: 'Share manager',
     icon: 'share',
     link: 'share-manager'
+  }, {
+    name: 'Share viewer',
+    icon: 'share',
+    link: 'share-viewer'
   }, /*
   {
     name: 'Transfers',
@@ -98,6 +105,22 @@ export class ApplicationMenuComponent implements OnInit {
     this.labelName = undefined;
   }
 
-  ngOnInit() {}
+  onThemeChange() {
+    this.isLightTheme = !this.isLightTheme;
+    localStorage.setItem(this.localStorageThemeKey, `${this.isLightTheme}`);
+    this.applyTheme();
+  }
 
+  private applyTheme() {
+    if (this.isLightTheme) {
+      document.body.classList.remove('dark-theme');
+    } else {
+      document.body.classList.add('dark-theme');
+    }
+  }
+
+  ngOnInit() {
+    this.isLightTheme = localStorage.getItem(this.localStorageThemeKey) === 'true';
+    this.applyTheme();
+  }
 }

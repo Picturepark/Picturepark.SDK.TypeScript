@@ -11,14 +11,7 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body class="mat-typography">
-  <!-- TODO: move configuration to config file. -->
-  <app-root picturepark-api-server="https://api.08.qa-picturepark.com"
-            picturepark-sts-server="https://identity.08.qa-picturepark.com"
-            picturepark-redirect-server="http://localhost:4300"
-            picturepark-scope="openid profile picturepark_api all_scopes"
-            picturepark-client-id="0eb08290aada40b8a5efd60504630754"
-            picturepark-customer-id="5262a204cbf54038b5ffa856fa46002f"
-            picturepark-customer-alias="localtest">
+  <app-root picturepark-api-server="" picturepark-sts-server="" picturepark-redirect-server="" picturepark-scope="openid profile picturepark_api all_scopes" picturepark-client-id="" picturepark-customer-id="" picturepark-customer-alias="">
     <div class="app-root-container">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
       <div class="app-root-content">
@@ -26,6 +19,5 @@
       </div>
     </div>
   </app-root>
-  <script src="/assets/picturepark-sdk-v1-widgets/picturepark-widgets.js" async></script>
 </body>
 </html>

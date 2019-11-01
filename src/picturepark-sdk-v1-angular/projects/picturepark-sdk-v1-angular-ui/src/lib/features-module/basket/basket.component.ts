@@ -9,7 +9,8 @@ import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions
 
 // COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
-import { ContentDownloadDialogComponent } from '../dialog/components/content-download-dialog/content-download-dialog.component';
+import { ContentDownloadDialogComponent } from '../content-download-dialog/content-download-dialog.component';
+import { ContentDownloadDialogOptions } from '../content-download-dialog/content-download-dialog.interfaces';
 import {
   ShareContentDialogComponent
 } from '../../features-module/share-content-dialog/share-content-dialog.component';
@@ -56,9 +57,10 @@ export class BasketComponent extends BaseComponent implements OnInit {
       contentSearch.unsubscribe();
 
       const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
-        data: data.results,
+        data: { contents: data.results } as ContentDownloadDialogOptions,
         autoFocus: false
       });
+
       dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
     });
 

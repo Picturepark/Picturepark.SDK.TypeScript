@@ -1,0 +1,12 @@
+// LIBRARY GLOBAL STYLES (keep on top)
+@import '../../picturepark-sdk-v1-angular-ui/src/lib/styles/styles_lib.scss';
+@import '../../picturepark-sdk-v1-angular-ui/src/lib/theming/_theming.scss';
+
+// CUSTOM THEME
+@import "theme.scss";
+
+@include angular-material-theme($picturepark-app-theme);
+@include picturepark-theme($picturepark-app-theme);
+
+// GLOBAL STYLES (keep at bottom)
+@import '../../picturepark-sdk-v1-angular-ui/src/lib/styles/global_styles.scss';

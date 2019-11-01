@@ -1,13 +1,55 @@
+import { LayoutModule } from '@angular/cdk/layout';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CdkTableModule } from '@angular/cdk/table';
 import { NgModule } from '@angular/core';
-
-// MATERIAL MODULES
 import {
+  MatSlideToggleModule,
+  MatAutocompleteModule,
+  MatBadgeModule,
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSortModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule,
+  MatRadioModule,
+} from '@angular/material';
+
+const modules = [
+  MatSlideToggleModule,
   MatChipsModule,
   MatMenuModule,
   MatDatepickerModule,
+  MatToolbarModule,
   MatTabsModule,
+  MatTableModule,
+  MatSortModule,
+  MatButtonModule,
+  MatDialogModule,
+  MatBadgeModule,
+  MatButtonModule,
+  MatCardModule,
   MatNativeDateModule,
   MatInputModule,
+  MatFormFieldModule,
   MatIconModule,
   MatExpansionModule,
   MatListModule,
@@ -17,88 +59,22 @@ import {
   MatGridListModule,
   MatDividerModule,
   MatProgressBarModule,
-  MatTableModule,
   MatTooltipModule,
   MatCheckboxModule,
-  MatBadgeModule,
-  MatDialogModule,
-  MatButtonModule,
-  MatCardModule,
-  MatToolbarModule,
-  MatSortModule,
-  MatSidenavModule
-} from '@angular/material';
-
-// CDK MODULES
-import { LayoutModule } from '@angular/cdk/layout';
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { CdkTableModule } from '@angular/cdk/table';
+  MatSidenavModule,
+  MatRadioModule,
+  // CDK
+  CdkTableModule,
+  LayoutModule,
+  ScrollingModule];
 
 @NgModule({
   declarations: [],
   imports: [
-    MatChipsModule,
-    MatMenuModule,
-    MatDatepickerModule,
-    MatToolbarModule,
-    MatTabsModule,
-    MatTableModule,
-    MatSortModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatBadgeModule,
-    MatButtonModule,
-    MatCardModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatIconModule,
-    MatExpansionModule,
-    MatListModule,
-    MatSelectModule,
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatGridListModule,
-    MatDividerModule,
-    MatProgressBarModule,
-    MatTooltipModule,
-    MatCheckboxModule,
-    MatSidenavModule,
-    // CDK
-    CdkTableModule,
-    LayoutModule,
-    ScrollingModule
+    ...modules
   ],
   exports: [
-    MatChipsModule,
-    MatMenuModule,
-    MatDatepickerModule,
-    MatToolbarModule,
-    MatTableModule,
-    MatSortModule,
-    MatTabsModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatBadgeModule,
-    MatButtonModule,
-    MatCardModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatIconModule,
-    MatExpansionModule,
-    MatListModule,
-    MatSelectModule,
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatGridListModule,
-    MatDividerModule,
-    MatProgressBarModule,
-    MatTooltipModule,
-    MatCheckboxModule,
-    MatSidenavModule,
-    // CDK
-    CdkTableModule,
-    LayoutModule,
-    ScrollingModule
+    ...modules
   ]
 })
 export class MaterialsModule { }

@@ -7,5 +7,9 @@
       <li class="avatar"><img src="{{ user.emailAddress | ppavatar }}"></li>
       <li class="user-info">{{ user.firstName }} {{ user.lastName }}</li>
     </ul>
+    <ul *ngIf="shareUser">
+        <li class="avatar"><img src="{{ shareUser.emailHash | ppavatarhashed }}"></li>
+        <li class="user-info">{{ shareUser.displayName }}</li>
+      </ul>
   </div>
 </div>

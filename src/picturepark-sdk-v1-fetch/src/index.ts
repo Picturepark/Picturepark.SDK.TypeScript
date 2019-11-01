@@ -303,15 +303,20 @@ export class BusinessProcessClient extends PictureparkClientBase {
      * Wait for completion
      * @param processId The business process id.
      * @param timeout (optional) The timeout to wait for completion.
+     * @param waitForContinuationCompletion (optional) Waits for the completion of the continuation business process (if existing, recursively). Default to true.
      * @return BusinessProcessWaitResult
      */
-    waitForCompletion(processId: string, timeout?: string | null | undefined): Promise<BusinessProcessWaitForLifeCycleResult> {
+    waitForCompletion(processId: string, timeout?: string | null | undefined, waitForContinuationCompletion?: boolean | undefined): Promise<BusinessProcessWaitForLifeCycleResult> {
         let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/waitCompletion?";
         if (processId === undefined || processId === null)
             throw new Error("The parameter 'processId' must be defined.");
         url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitForContinuationCompletion === null)
+            throw new Error("The parameter 'waitForContinuationCompletion' cannot be null.");
+        else if (waitForContinuationCompletion !== undefined)
+            url_ += "waitForContinuationCompletion=" + encodeURIComponent("" + waitForContinuationCompletion) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -458,6 +463,416 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<BusinessProcessDetails>(<any>null);
+    }
+
+    /**
+     * Get business process
+     * @param processId The business process id.
+     * @return BusinessProcess
+     */
+    get(processId: string): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Create business process
+     * @param request The business process create request.
+     * @return BusinessProcess
+     */
+    create(request: BusinessProcessCreateRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/businessProcesses";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCreate(_response);
+        });
+    }
+
+    protected processCreate(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Change business process state
+     * @param processId The business process id.
+     * @param request The business process state change request.
+     * @return BusinessProcess
+     */
+    changeState(processId: string, request: BusinessProcessStateChangeRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/state";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processChangeState(_response);
+        });
+    }
+
+    protected processChangeState(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <BusinessProcessNotExternalException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result403);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Update business process notification
+     * @param processId The business process id.
+     * @param request The business process notification update request.
+     */
+    updateNotification(processId: string, request: BusinessProcessNotificationUpdateRequest): Promise<void> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/notification";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdateNotification(_response);
+        });
+    }
+
+    protected processUpdateNotification(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <BusinessProcessNotExternalException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result403);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
+    }
+
+    /**
+     * Cancel business process
+     * @param processId The business process id.
+     */
+    cancel(processId: string): Promise<void> {
+        let url_ = this.baseUrl + "/v1/businessProcesses/{processId}/cancel";
+        if (processId === undefined || processId === null)
+            throw new Error("The parameter 'processId' must be defined.");
+        url_ = url_.replace("{processId}", encodeURIComponent("" + processId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCancel(_response);
+        });
+    }
+
+    protected processCancel(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
     }
 }
 
@@ -1133,9 +1548,11 @@ export class ContentClient extends PictureparkClientBase {
      * @param forceReferenceRemoval (optional) A value indicating whether references to the content should be removed.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return Ok
      */
-    delete(contentId: string, forceReferenceRemoval?: boolean | null | undefined, timeout?: string | null | undefined): Promise<void> {
+    delete(contentId: string, forceReferenceRemoval?: boolean | null | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<void> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -1144,6 +1561,10 @@ export class ContentClient extends PictureparkClientBase {
             url_ += "forceReferenceRemoval=" + encodeURIComponent("" + forceReferenceRemoval) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -1300,9 +1721,11 @@ export class ContentClient extends PictureparkClientBase {
      * @param allowMissingDependencies (optional) Allows creating contents that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return The content details
      */
-    create(contentCreateRequest: ContentCreateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ContentDetail> {
+    create(contentCreateRequest: ContentCreateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents?";
         if (resolveBehaviors !== undefined)
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
@@ -1312,6 +1735,10 @@ export class ContentClient extends PictureparkClientBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(contentCreateRequest);
@@ -2306,9 +2733,11 @@ export class ContentClient extends PictureparkClientBase {
      * @param allowMissingDependencies (optional) Allows restoring contents that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return Ok
      */
-    restore(contentId: string, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<void> {
+    restore(contentId: string, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<void> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/restore?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -2319,6 +2748,10 @@ export class ContentClient extends PictureparkClientBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -2557,9 +2990,11 @@ export class ContentClient extends PictureparkClientBase {
      * @param allowMissingDependencies (optional) Allows storing references to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return Content detail
      */
-    updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ContentDetail> {
+    updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/metadata?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -2572,6 +3007,10 @@ export class ContentClient extends PictureparkClientBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
@@ -2652,9 +3091,11 @@ export class ContentClient extends PictureparkClientBase {
      * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return Content detail
      */
-    updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, timeout?: string | null | undefined): Promise<ContentDetail> {
+    updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/permissions?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -2663,6 +3104,10 @@ export class ContentClient extends PictureparkClientBase {
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
@@ -2902,15 +3347,21 @@ export class ContentClient extends PictureparkClientBase {
      * @param updateRequest Content ownership transfer request.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return Ok
      */
-    transferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest, timeout?: string | null | undefined): Promise<void> {
+    transferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<void> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}/ownership?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId)); 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
@@ -4270,6 +4721,168 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
     }
 }
 
+export class DisplayValueClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    /**
+     * Re-render the display values
+     * @return VersionInfo
+     */
+    rerender(): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/displayvalues/rerender";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processRerender(_response);
+        });
+    }
+
+    protected processRerender(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Get status
+     * @return VersionInfo
+     */
+    getStatus(): Promise<DisplayValueStatus> {
+        let url_ = this.baseUrl + "/v1/displayvalues/status";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetStatus(_response);
+        });
+    }
+
+    protected processGetStatus(response: Response): Promise<DisplayValueStatus> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <DisplayValueStatus>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<DisplayValueStatus>(<any>null);
+    }
+}
+
 export class DocumentHistoryClient extends PictureparkClientBase {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -4872,6 +5485,81 @@ export class InfoClient extends PictureparkClientBase {
         }
         return Promise.resolve<VersionInfo>(<any>null);
     }
+
+    /**
+     * Get status
+     * @return VersionInfo
+     */
+    getStatus(): Promise<SystemStatus> {
+        let url_ = this.baseUrl + "/v1/info/status";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetStatus(_response);
+        });
+    }
+
+    protected processGetStatus(response: Response): Promise<SystemStatus> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <SystemStatus>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<SystemStatus>(<any>null);
+    }
 }
 
 export class JsonSchemaClient extends PictureparkClientBase {
@@ -5066,9 +5754,11 @@ export class ListItemClient extends PictureparkClientBase {
      * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return List item detail
      */
-    update(listItemId: string, updateRequest: ListItemUpdateRequest, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ListItemDetail> {
+    update(listItemId: string, updateRequest: ListItemUpdateRequest, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -5081,6 +5771,10 @@ export class ListItemClient extends PictureparkClientBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
@@ -5160,9 +5854,11 @@ export class ListItemClient extends PictureparkClientBase {
      * @param forceReferenceRemoval (optional) A value indicating whether references to the list item should be removed.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return Ok
      */
-    delete(listItemId: string, forceReferenceRemoval?: boolean | null | undefined, timeout?: string | null | undefined): Promise<void> {
+    delete(listItemId: string, forceReferenceRemoval?: boolean | null | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<void> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -5171,6 +5867,10 @@ export class ListItemClient extends PictureparkClientBase {
             url_ += "forceReferenceRemoval=" + encodeURIComponent("" + forceReferenceRemoval) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -5327,9 +6027,11 @@ export class ListItemClient extends PictureparkClientBase {
      * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return List item detail
      */
-    create(listItemCreateRequest: ListItemCreateRequest, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ListItemDetail> {
+    create(listItemCreateRequest: ListItemCreateRequest, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<ListItemDetail> {
         let url_ = this.baseUrl + "/v1/listItems?";
         if (resolveBehaviors !== undefined)
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
@@ -5339,6 +6041,10 @@ export class ListItemClient extends PictureparkClientBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(listItemCreateRequest);
@@ -5898,9 +6604,11 @@ export class ListItemClient extends PictureparkClientBase {
      * @param allowMissingDependencies (optional) Allows restoring list items that refer to list items or contents that don't exist in the system.
      * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                 Only the waiting is aborted, and the calls returned.
+     * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
      * @return Ok
      */
-    restore(listItemId: string, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<void> {
+    restore(listItemId: string, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<void> {
         let url_ = this.baseUrl + "/v1/listItems/{listItemId}/restore?";
         if (listItemId === undefined || listItemId === null)
             throw new Error("The parameter 'listItemId' must be defined.");
@@ -5911,6 +6619,10 @@ export class ListItemClient extends PictureparkClientBase {
             url_ += "allowMissingDependencies=" + encodeURIComponent("" + allowMissingDependencies) + "&"; 
         if (timeout !== undefined)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
+        if (waitSearchDocCreation === null)
+            throw new Error("The parameter 'waitSearchDocCreation' cannot be null.");
+        else if (waitSearchDocCreation !== undefined)
+            url_ += "waitSearchDocCreation=" + encodeURIComponent("" + waitSearchDocCreation) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -6895,9 +7607,9 @@ export class OutputFormatClient extends PictureparkClientBase {
      * Update output format
      * @param id ID of output format to update
      * @param request The request containing information needed to update the output format.
-     * @return Updated output format
+     * @return Business process
      */
-    update(id: string, request: OutputFormatEditable): Promise<OutputFormatDetail> {
+    update(id: string, request: OutputFormatEditable): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -6922,13 +7634,13 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processUpdate(response: Response): Promise<OutputFormatDetail> {
+    protected processUpdate(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <OutputFormatDetail>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -6972,15 +7684,15 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<OutputFormatDetail>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 
     /**
      * Delete output format
      * @param id ID of the output format that should be deleted.
-     * @return OK
+     * @return Business process
      */
-    delete(id: string): Promise<void> {
+    delete(id: string): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -6990,6 +7702,7 @@ export class OutputFormatClient extends PictureparkClientBase {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
+                "Accept": "application/json"
             }
         };
 
@@ -7000,12 +7713,14 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processDelete(response: Response): Promise<void> {
+    protected processDelete(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            return;
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7048,15 +7763,15 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<void>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 
     /**
      * Create output format
      * @param request The request containing information needed to create new output format.
-     * @return Output format
+     * @return Business process
      */
-    create(request: OutputFormat): Promise<OutputFormatDetail> {
+    create(request: OutputFormat): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7078,13 +7793,13 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processCreate(response: Response): Promise<OutputFormatDetail> {
+    protected processCreate(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <OutputFormatDetail>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -7128,7 +7843,7 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<OutputFormatDetail>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 
     /**
@@ -7212,9 +7927,9 @@ export class OutputFormatClient extends PictureparkClientBase {
     /**
      * Create multiple output formats
      * @param request The request containing information needed to create new output formats.
-     * @return Bulk response with information about created output formats
+     * @return Business process
      */
-    createMany(request: OutputFormatCreateManyRequest): Promise<BulkResponse> {
+    createMany(request: OutputFormatCreateManyRequest): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/many";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7236,13 +7951,13 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processCreateMany(response: Response): Promise<BulkResponse> {
+    protected processCreateMany(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <BulkResponse>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -7286,15 +8001,15 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BulkResponse>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 
     /**
      * Update multiple output formats
      * @param request The request containing information needed to update the output format.
-     * @return Bulk response with information about updated output formats
+     * @return Business process
      */
-    updateMany(request: OutputFormatUpdateManyRequest): Promise<BulkResponse> {
+    updateMany(request: OutputFormatUpdateManyRequest): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/many";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7316,13 +8031,13 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processUpdateMany(response: Response): Promise<BulkResponse> {
+    protected processUpdateMany(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <BulkResponse>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -7366,15 +8081,15 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BulkResponse>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 
     /**
      * Delete multiple output formats
      * @param request The request with output formats IDs to delete.
-     * @return Bulk response with information about success or failure
+     * @return Business process
      */
-    deleteMany(request: OutputFormatDeleteManyRequest): Promise<BulkResponse> {
+    deleteMany(request: OutputFormatDeleteManyRequest): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/outputFormats/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -7396,13 +8111,13 @@ export class OutputFormatClient extends PictureparkClientBase {
         });
     }
 
-    protected processDeleteMany(response: Response): Promise<BulkResponse> {
+    protected processDeleteMany(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <BulkResponse>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 500) {
@@ -7446,7 +8161,174 @@ export class OutputFormatClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BulkResponse>(<any>null);
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Sets the download file name patterns for an output format
+     * @param id ID of the output format.
+     * @param patterns Dictionary containing patterns per metadata language.
+    If this is set, at least the customer's default language is required.
+    Set any other language to an empty string and a fallback to the default language will occur.
+    Set parameter to null to clear any already set patterns.
+     * @return Business process
+     */
+    setDownloadFileNamePatterns(id: string | null, patterns: { [key: string] : string; }): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/outputFormats/{id}/downloadFileNamePatterns";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(patterns);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processSetDownloadFileNamePatterns(_response);
+        });
+    }
+
+    protected processSetDownloadFileNamePatterns(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Sets the download file name patterns for multiple output formats
+     * @param request The request containing the patterns for each output format.
+     * @return Business process
+     */
+    setDownloadFileNamePatternsMany(request: OutputFormatDownloadFileNamePatternUpdateManyRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/outputFormats/many/downloadFileNamePatterns";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processSetDownloadFileNamePatternsMany(_response);
+        });
+    }
+
+    protected processSetDownloadFileNamePatternsMany(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 }
 
@@ -11255,7 +12137,7 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Get file
-     * @param fileTransferId ID of filetransfer.
+     * @param fileTransferId ID of file transfer.
      * @return FileTransferDetail
      */
     getFile(fileTransferId: string): Promise<FileTransferDetail> {
@@ -11334,7 +12216,7 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Search for files
-     * @param request The filetransfer search request
+     * @param request The file transfer search request
      * @return FileTransferSearchResult
      */
     searchFiles(request: FileTransferSearchRequest): Promise<FileTransferSearchResult> {
@@ -11489,7 +12371,7 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Delete files
-     * @param request The filetransfer delete request
+     * @param request The file transfer delete request
      */
     deleteFiles(request: FileTransferDeleteRequest): Promise<void> {
         let url_ = this.baseUrl + "/v1/transfers/files/delete";
@@ -11733,7 +12615,6 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Upload file
-     * @param relativePath Relative path of the uploading file.
      * @param chunkNumber Current chunk number. Starts at 1.
      * @param currentChunkSize Size in bytes of the current chunk.
      * @param totalSize Total size in bytes of the uploading file.
@@ -11743,7 +12624,7 @@ export class TransferClient extends PictureparkClientBase {
      * @param formFile (optional) Gets or sets the form file.
      * @return OK
      */
-    uploadFile(relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, requestId: string, formFile?: FileParameter | null | undefined): Promise<void> {
+    uploadFile(chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, requestId: string, formFile?: FileParameter | null | undefined): Promise<void> {
         let url_ = this.baseUrl + "/v1/transfers/{transferId}/files/{requestId}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -11751,10 +12632,6 @@ export class TransferClient extends PictureparkClientBase {
         if (requestId === undefined || requestId === null)
             throw new Error("The parameter 'requestId' must be defined.");
         url_ = url_.replace("{requestId}", encodeURIComponent("" + requestId)); 
-        if (relativePath === undefined)
-            throw new Error("The parameter 'relativePath' must be defined.");
-        else
-            url_ += "relativePath=" + encodeURIComponent("" + relativePath) + "&"; 
         if (chunkNumber === undefined || chunkNumber === null)
             throw new Error("The parameter 'chunkNumber' must be defined and cannot be null.");
         else
@@ -13747,6 +14624,8 @@ export interface BusinessProcess {
     currentState?: string | undefined;
     /** Timestamp when the business process last reported progress. */
     lastReportedProgress?: Date | undefined;
+    /** Id of the business process that will be automatically started after the completion of the current one, if any. */
+    continuationBusinessProcessId?: string | undefined;
 }
 
 /** Scope of the business process */
@@ -13840,7 +14719,10 @@ export interface UserNotFoundException extends PictureparkBusinessException {
     missingUserId?: string | undefined;
 }
 
-export interface UserInactiveOrDeletedException extends PictureparkForbiddenException {
+export interface UserInactiveOrDeletedException extends PictureparkValidationException {
+}
+
+export interface InactiveOrDeletedUserRefusedAccessException extends PictureparkForbiddenException {
 }
 
 export interface TermsOfServiceNotNewestException extends PictureparkBusinessException {
@@ -13950,6 +14832,9 @@ export interface UnableToCreateOrModifyStaticOutputFormatException extends Pictu
 export interface NotSupportedFileMappingException extends PictureparkValidationException {
 }
 
+export interface NotSupportedFileMappingForDynamicFormatException extends NotSupportedFileMappingException {
+}
+
 export interface NotSupportedFileExtensionException extends PictureparkValidationException {
 }
 
@@ -14038,6 +14923,9 @@ export interface ItemIdDuplicatedException extends PictureparkValidationExceptio
     id?: string | undefined;
 }
 
+export interface RequestSizeLimitExceededException extends PictureparkValidationException {
+}
+
 export interface CustomerViolationException extends PictureparkException {
     expectedCustomerId?: string | undefined;
     currentCustomerId?: string | undefined;
@@ -14074,6 +14962,11 @@ export interface CustomerNotActiveException extends PictureparkException {
 }
 
 export interface CustomerBoostValuesInvalidException extends PictureparkValidationException {
+}
+
+export interface SnapshotRetentionTimeTooShortException extends PictureparkValidationException {
+    snapshotRetentionTime: string;
+    minimumRetentionTime: string;
 }
 
 export interface ConfigurationIndexNotFoundException extends PictureparkException {
@@ -14168,36 +15061,6 @@ export interface ObjectStoreException extends PictureparkBusinessException {
 
 export interface QueryException extends PictureparkBusinessException {
     debugInformation?: string | undefined;
-    serverError?: StorageServerError | undefined;
-}
-
-export interface StorageServerError {
-    error?: StorageError | undefined;
-    status: number;
-}
-
-export interface StorageError {
-    index?: string | undefined;
-    reason?: string | undefined;
-    resourceId?: string | undefined;
-    resourceType?: string | undefined;
-    type?: string | undefined;
-    rootCause?: StorageRootCause[] | undefined;
-    causedBy?: StorageCausedBy | undefined;
-}
-
-export interface StorageRootCause {
-    index?: string | undefined;
-    reason?: string | undefined;
-    resourceId?: string | undefined;
-    resourceType?: string | undefined;
-    type?: string | undefined;
-}
-
-export interface StorageCausedBy {
-    reason?: string | undefined;
-    type?: string | undefined;
-    innerCausedBy?: StorageCausedBy | undefined;
 }
 
 export interface PermissionOwnershipTransferException extends PictureparkValidationException {
@@ -14225,6 +15088,7 @@ export enum UserRight {
     ManageDocumentHistory = <any>"ManageDocumentHistory",
     ManageAllShares = <any>"ManageAllShares",
     ManageOutputFormats = <any>"ManageOutputFormats",
+    ManageBusinessProcesses = <any>"ManageBusinessProcesses",
 }
 
 export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
@@ -14363,6 +15227,10 @@ export interface MaximumTransferSizeException extends PictureparkException {
     transferId?: string | undefined;
 }
 
+export interface FileIdDuplicatedException extends PictureparkValidationException {
+    fileId?: string | undefined;
+}
+
 export interface MissingDependenciesException extends PictureparkValidationException {
     itemIds?: string | undefined;
 }
@@ -14457,6 +15325,15 @@ export interface ReferenceUpdateException extends PictureparkBusinessException {
 export interface DuplicatedItemAssignedException extends PictureparkValidationException {
     itemId?: string | undefined;
     itemPath?: string | undefined;
+}
+
+export interface InvalidDataTypeException extends PictureparkValidationException {
+    value?: any | undefined;
+}
+
+export interface LayerAssignmentInvalidException extends PictureparkValidationException {
+    layerId?: string | undefined;
+    value?: any | undefined;
 }
 
 export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
@@ -14671,6 +15548,9 @@ export interface SchemaNotFoundException extends PictureparkNotFoundException {
     schemaId?: string | undefined;
 }
 
+export interface SchemaCountLimitReachedException extends PictureparkBusinessException {
+}
+
 export interface SystemSchemaInvalidModificationException extends PictureparkValidationException {
     schemaId?: string | undefined;
 }
@@ -14703,6 +15583,7 @@ export enum DisplayPatternType {
     List = <any>"List",
     Detail = <any>"Detail",
     Name = <any>"Name",
+    DownloadFileName = <any>"DownloadFileName",
 }
 
 export interface SchemaViewForAllException extends PictureparkValidationException {
@@ -14737,6 +15618,11 @@ export interface SchemaFieldRelationMultipleTypesException extends PictureparkVa
 export interface SchemaFieldNotRequirableException extends PictureparkValidationException {
     fieldId?: string | undefined;
     schemaId?: string | undefined;
+}
+
+export interface DisplayPatternTypeNotSupportedException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    displayPatternId?: string | undefined;
 }
 
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
@@ -14786,7 +15672,7 @@ export enum ContentType {
     Database = <any>"Database",
     Cad = <any>"Cad",
     Model3d = <any>"Model3d",
-    ContentItem = <any>"ContentItem",
+    Virtual = <any>"Virtual",
 }
 
 export interface ContentBackupFailedException extends PictureparkBusinessException {
@@ -14820,6 +15706,20 @@ export interface BusinessProcessDefinitionNotFoundException extends PictureparkN
 
 export interface BusinessProcessDefinitionCreateException extends PictureparkBusinessException {
     processDefinitionIds?: string[] | undefined;
+}
+
+export interface BusinessProcessNotExternalException extends PictureparkForbiddenException {
+    businessProcessId?: string | undefined;
+}
+
+export interface BusinessProcessCancellationNotSupportedException extends PictureparkValidationException {
+    businessProcessId?: string | undefined;
+}
+
+export interface BusinessProcessContinuationException extends PictureparkBusinessException {
+    continuationBusinessProcessId?: string | undefined;
+    precedingBusinessProcessId?: string | undefined;
+    precedingBusinessProcessException?: PictureparkException | undefined;
 }
 
 export interface SchemaFieldImportMismatchException extends PictureparkValidationException {
@@ -15007,6 +15907,91 @@ export interface BusinessRuleFieldIdInvalidException extends PictureparkValidati
 }
 
 export interface BusinessRuleContentPermissionSetIdsMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleFieldPathInvalidException extends PictureparkValidationException {
+    fieldPath?: string | undefined;
+}
+
+export interface BusinessRulePolygonInvalidException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleArrayIndexInvalidException extends PictureparkValidationException {
+    index?: string | undefined;
+}
+
+export interface BusinessRuleDictionaryKeyInvalidException extends PictureparkValidationException {
+    key?: string | undefined;
+}
+
+export interface BusinessRuleProjectionTransformationsMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleInvalidVariableNameException extends PictureparkValidationException {
+    name?: string | undefined;
+}
+
+export interface BusinessRuleTransformationGroupTransformationsMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleTransformationGroupInputsMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleNamedCacheNameInvalidException extends PictureparkValidationException {
+    cacheName?: string | undefined;
+}
+
+export interface BusinessRuleNGramTransformationSizeInvalidException extends PictureparkValidationException {
+    size: number;
+    minSize: number;
+    maxSize: number;
+}
+
+export interface BusinessRuleNGramTransformationMinWordLengthInvalidException extends PictureparkValidationException {
+    minWordLength: number;
+}
+
+export interface BusinessRuleNGramTransformationMaxWordLengthInvalidException extends PictureparkValidationException {
+    maxWordLength: number;
+}
+
+export interface NamedCacheConfigurationException extends PictureparkValidationException {
+    innerExceptions?: PictureparkValidationException[] | undefined;
+}
+
+export interface NamedCacheNameMissingException extends PictureparkValidationException {
+}
+
+export interface NamedCacheNameDuplicationException extends PictureparkValidationException {
+    name?: string | undefined;
+}
+
+export interface ListItemNamedCacheSchemaIdInvalidException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface ListItemNamedCacheKeyFieldsInvalidException extends PictureparkValidationException {
+}
+
+export interface SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface NoTagsFoundException extends PictureparkBusinessException {
+}
+
+export interface OutputNotAvailableException extends PictureparkBusinessException {
+}
+
+export interface DisplayValueRerenderingInProgressException extends PictureparkValidationException {
+}
+
+export interface OutputFormatNotFoundException extends PictureparkNotFoundException {
+    outputFormatId?: string | undefined;
+}
+
+export interface OutputFormatSourceNotDefinedException extends PictureparkValidationException {
+    outputFormatId?: string | undefined;
 }
 
 /** Search request to search for business processes */
@@ -15337,12 +16322,61 @@ export interface ContentImportResult {
     error?: ErrorResponse | undefined;
 }
 
+/** Create request to create a BusinessProcess. */
+export interface BusinessProcessCreateRequest {
+    /** Indicates if the system starting the business process supports cancellation. */
+    supportsCancellation: boolean;
+    /** Notification data to send to the user when creating the business process.
+Set to null to not create a notification. */
+    notification?: BusinessProcessNotificationUpdate | undefined;
+    /** Initial state of the business process. */
+    initialState: string;
+}
+
+/** Notification update for a business process. */
+export interface BusinessProcessNotificationUpdate {
+    /** The title the message that is shown to the user should have. */
+    title: TranslatedStringDictionary;
+    /** The message shown to the user. */
+    message: TranslatedStringDictionary;
+    /** An optional navigation link that allows the user to jump to a page giving more information
+about the process. */
+    navigationLink?: string | undefined;
+    /** The event type of the notification. */
+    eventType: NotificationEventType;
+}
+
+export enum NotificationEventType {
+    Pending = <any>"Pending",
+    InProgress = <any>"InProgress",
+    Success = <any>"Success",
+    Error = <any>"Error",
+    Warning = <any>"Warning",
+    Information = <any>"Information",
+}
+
+/** Transitions the business process to a new state and/or life cycle. */
+export interface BusinessProcessStateChangeRequest {
+    /** The new state of the business process. */
+    state: string;
+    /** The new life cycle of the business process. */
+    lifeCycle: BusinessProcessLifeCycle;
+    /** An optional notification update to be posted together with the transition. */
+    notification?: BusinessProcessNotificationUpdate | undefined;
+}
+
+/** Updates the notification of a business process without changing the state or the life cycle. */
+export interface BusinessProcessNotificationUpdateRequest extends BusinessProcessNotificationUpdate {
+}
+
 /** Represents the business rule configuration. */
 export interface BusinessRuleConfiguration {
     /** Disables the rule completely. */
     disableRuleEngine: boolean;
     /** Rules */
     rules?: BusinessRule[] | undefined;
+    /** Named caches. */
+    caches?: NamedCacheConfigurationBase[] | undefined;
 }
 
 /** A business rule */
@@ -15373,6 +16407,8 @@ export interface BusinessRuleTriggerPoint {
 export interface BusinessRuleConfigurable extends BusinessRule {
     /** The condition that makes this rule trigger. */
     condition?: BusinessRuleCondition | undefined;
+    /** Optional transformations to apply. */
+    transformationGroups?: BusinessRuleTransformationGroup[] | undefined;
     /** The actions that are performed when this rule triggers. */
     actions?: BusinessRuleAction[] | undefined;
 }
@@ -15433,6 +16469,8 @@ export interface MatchRegexCondition extends BusinessRuleCondition {
     fieldPath?: string | undefined;
     /** Regular expression */
     regex?: string | undefined;
+    /** Optional variable name to store the matched regex groups in */
+    storeIn?: string | undefined;
 }
 
 /** Matches when a tag in a tagbox matching the field path string (JSON path) is newly assigned. */
@@ -15457,6 +16495,131 @@ export interface ContentSchemaCondition extends BusinessRuleCondition {
     schemaId?: string | undefined;
 }
 
+export interface NumberCompareCondition extends BusinessRuleCondition {
+    /** JSON path to the field. */
+    fieldPath?: string | undefined;
+    /** Mode to use for comparison. */
+    mode: BusinessRuleNumberCompareConditionMode;
+    /** Value to compare to. */
+    value: number;
+}
+
+export enum BusinessRuleNumberCompareConditionMode {
+    LessThan = <any>"LessThan",
+    LessThanEqual = <any>"LessThanEqual",
+    Equal = <any>"Equal",
+    GreaterThanEqual = <any>"GreaterThanEqual",
+    GreaterThan = <any>"GreaterThan",
+}
+
+/** Matches when a relationship entry in a relationship field matching the field path string (JSON path) is newly assigned. */
+export interface ContentRelationItemAssignedCondition extends BusinessRuleCondition {
+    /** Content id that should be matched against. */
+    contentId?: string | undefined;
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Matches when a relationship entry in a relationship field matching the field path string (JSON path) is removed. */
+export interface ContentRelationItemUnassignedCondition extends BusinessRuleCondition {
+    /** Content id that should be matched against. */
+    contentId?: string | undefined;
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Matches when the geo point from the field specified by the field path is inside the specified polygon. */
+export interface GeoPointWithinPolygonCondition extends BusinessRuleCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+    /** List of points that form the polygon for the geo fence.
+Must include at least 3 points. */
+    polygon?: LatLon[] | undefined;
+}
+
+/** Stores a coordinate */
+export interface LatLon {
+    /** Latitude */
+    lat: number;
+    /** Longitude */
+    lon: number;
+}
+
+/** Matches whenever the assigned content permission sets changed. */
+export interface ContentPermissionSetsChangedCondition extends BusinessRuleCondition {
+}
+
+/** Matches whenever the assigned content(s) in a relationship field changed. */
+export interface ContentRelationItemsChangedCondition extends BusinessRuleCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Matches whenever the assigned layers of a content changed. */
+export interface LayersChangedCondition extends BusinessRuleCondition {
+}
+
+/** Matches whenever the assigned item(s) in a tagbox changed. */
+export interface TagboxItemsChangedCondition extends BusinessRuleCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+}
+
+/** Business rule transformation group: A group of transformations to run for the specified inputs */
+export interface BusinessRuleTransformationGroup {
+    /** The inputs of the transformation group. */
+    inputs?: string[] | undefined;
+    /** A list of transformations to apply. */
+    transformations?: BusinessRuleTransformation[] | undefined;
+    /** Variable name where the final result should be stored in. */
+    storeIn?: string | undefined;
+}
+
+/** Business rule transformation */
+export interface BusinessRuleTransformation {
+}
+
+/** Takes an item from a dictionary by its key. */
+export interface TakeDictionaryValueTransformation extends BusinessRuleTransformation {
+    /** Key of the item. */
+    key?: string | undefined;
+}
+
+/** Takes an item from an array by its index. */
+export interface TakeArrayValueTransformation extends BusinessRuleTransformation {
+    /** Index of the item. */
+    index?: string | undefined;
+}
+
+/** Joins the input by a configurable separator */
+export interface JoinByTransformation extends BusinessRuleTransformation {
+    /** Separator to use. */
+    separator?: string | undefined;
+}
+
+/** Uses a named cache to lookup a value. */
+export interface LookupCacheTransformation extends BusinessRuleTransformation {
+    /** Name of the cache to use. */
+    namedCache?: string | undefined;
+}
+
+/** Produces N-grams based on splitting a text on whitespace characters. Removes punctuation as well. */
+export interface NGramTransformation extends BusinessRuleTransformation {
+    /** Maximum size of n-grams to produce.
+Settings this to 3 will produce unigrams, bigrams, trigrams. */
+    size: number;
+    /** Minimum length of a word to be considered. */
+    minWordLength: number;
+    /** Maximum length of a word to be considered. */
+    maxWordLength?: number | undefined;
+}
+
+/** Transforms a list by applying a set of transformation for each item in the list. */
+export interface ProjectionTransformation extends BusinessRuleTransformation {
+    /** Transformations to apply. */
+    transformations?: BusinessRuleTransformation[] | undefined;
+}
+
 /** Action to be performed by a business rule */
 export interface BusinessRuleAction {
 }
@@ -15465,13 +16628,8 @@ export interface BusinessRuleAction {
 export interface AssignLayerAction extends BusinessRuleAction {
     /** The ID of the layer. */
     layerId?: string | undefined;
-    /** A dictionary containing default values (used for example to populate required fields). */
-    defaultValues?: DataDictionary | undefined;
-}
-
-export interface DataDictionary {
-
-    [key: string]: any; 
+    /** An object containing default values (used for example to populate required fields). */
+    defaultValues?: any | undefined;
 }
 
 /** Removes a layer */
@@ -15501,7 +16659,7 @@ export interface AssignTagboxItemsAction extends BusinessRuleAction {
     /** ID of the tagbox field. */
     fieldId?: string | undefined;
     /** List of refIds of the items that should be assigned. */
-    refIds?: string[] | undefined;
+    refIds?: any | undefined;
     /** Indicates whether all the already assigned tags get replaced by the set specified in the action.
 If false, the not already assigned tags get added, the rest is left as is. */
     replace: boolean;
@@ -15514,13 +16672,13 @@ export interface UnassignTagboxItemsAction extends BusinessRuleAction {
     /** ID of the tagbox field. */
     fieldId?: string | undefined;
     /** List of refIds of the items that should be removed. */
-    refIds?: string[] | undefined;
+    refIds?: any | undefined;
 }
 
 /** Assigns one or more permission sets to a content. */
 export interface AssignContentPermissionSetsAction extends BusinessRuleAction {
     /** IDs of the permission sets to assign. */
-    permissionSetIds?: string[] | undefined;
+    permissionSetIds?: any | undefined;
     /** Indicates whether the already assigned permissions should be replaced or merged. */
     replace: boolean;
 }
@@ -15528,10 +16686,21 @@ export interface AssignContentPermissionSetsAction extends BusinessRuleAction {
 /** Removes one or more permission sets from a content. */
 export interface UnassignContentPermissionSetsAction extends BusinessRuleAction {
     /** IDs of the permission sets to unassign. */
-    permissionSetIds?: string[] | undefined;
+    permissionSetIds?: any | undefined;
 }
 
 export interface ProduceMessageAction extends BusinessRuleAction {
+}
+
+/** Assigns a set of list item ids to all multi tag boxes in a layer where the filter defined on the tagbox does allow assignment of the ID. */
+export interface AssignTagboxItemsInLayerAction extends BusinessRuleAction {
+    /** Named cache to use for lookup, should be of type SchemaTagboxFilterLookupNamedCacheConfiguration */
+    namedCache?: string | undefined;
+    /** List of refIds of the items that should be assigned. */
+    refIds?: any | undefined;
+    /** Indicates where the assignment should be additive to the already assigned tags
+or if existing tags should be replaced. */
+    replace: boolean;
 }
 
 /** A business rule expressed as a script */
@@ -15540,12 +16709,40 @@ export interface BusinessRuleScript extends BusinessRule {
     script?: string | undefined;
 }
 
+/** Named cache configuration */
+export interface NamedCacheConfigurationBase {
+    /** Name of named cache. */
+    name?: string | undefined;
+    /** Indicates if the lookup should be cache sensitive. */
+    caseSensitive: boolean;
+}
+
+/** List item named cache */
+export interface ListItemNamedCacheConfiguration extends NamedCacheConfigurationBase {
+    /** ID of the schema to cache (should have SchemaType = List) */
+    schemaId?: string | undefined;
+    /** List of IDs of fields to use as a composite key */
+    keyFields?: string[] | undefined;
+    /** An optional filter to narrow down the cached list items */
+    filter?: FilterBase | undefined;
+    /** Include child schemas when caching list items */
+    includeAllSchemaChildren: boolean;
+}
+
+/** Creates a cache for all multi tag boxes in a schema Lookup key is then in the format [ fieldId, refId ], returns the refId if matched by the filter */
+export interface SchemaTagboxFilterLookupNamedCacheConfiguration extends NamedCacheConfigurationBase {
+    /** The layer id. */
+    schemaId?: string | undefined;
+}
+
 /** Update request for changing business rule configuration */
 export interface BusinessRuleConfigurationUpdateRequest {
     /** Disables the rule engine completely. */
     disableRuleEngine: boolean;
-    /** Rules */
+    /** Rules. */
     rules?: BusinessRule[] | undefined;
+    /** Named caches. */
+    caches?: NamedCacheConfigurationBase[] | undefined;
 }
 
 export interface Channel {
@@ -15751,71 +16948,54 @@ export interface ChannelUpdateRequest {
     viewForAll: boolean;
 }
 
-/** A content detail. */
+/** Content detail */
 export interface ContentDetail {
-    /** Audit data with information regarding document creation and modification. */
-    audit?: UserAuditDetail | undefined;
-    /** The content data */
-    content: any;
-    /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-    contentPermissionSetIds?: string[] | undefined;
-    /** The id of the content schema */
+    /** The ID of the content schema. The SchemaType of the specified schema must be Content.
+The schema specifies the structure of the Content dictionary. */
     contentSchemaId: string;
-    /** The type of content */
-    contentType: ContentType;
-    /** Contains language specific display values, rendered according to the content schema's
-             display pattern configuration. */
-    displayValues?: DisplayValueDictionary | undefined;
-    /** The content id. */
+    /** An optional list of IDs of the schemas that form the layers of the content.
+The SchemaType of the specified schemas must be Layer. */
+    layerSchemaIds?: string[] | undefined;
+    /** All the IDs of the referenced list items (tagboxes) that do not exist in the system. */
+    brokenReferenceIds?: string[] | undefined;
+    /** All the IDs of the indirectly referenced list items (tagboxes) that do not exist in the system.
+They are referenced list items that reference at least a list item that do not exist in the system. */
+    brokenIndirectReferenceIds?: string[] | undefined;
+    /** All the IDs of the contents or list items target of a relation that do not exist in the system. */
+    brokenRelationTargetIds?: string[] | undefined;
+    /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified.
+by the ContentSchemaId property. */
+    content?: any | undefined;
+    /** The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
+    /** The content ID. */
     id: string;
-    /** An optional list of layer schemas ids */
-    layerSchemaIds: string[];
-    /** The metadata dictionary */
-    metadata?: DataDictionary | undefined;
-    /** A list of rendering outputs for underlying digital file. */
+    /** An optional list of content permission set IDs which control content permissions. These permissions control content accessibility for the users that do not own the content. */
+    contentPermissionSetIds?: string[] | undefined;
+    /** The Outputs generated from the content. They identifies the rendered files generated by the system.
+They are available only for file base contents, and they depends on the output formats configured in the system. */
     outputs?: Output[] | undefined;
+    /** Audit information. */
+    audit?: UserAuditDetail | undefined;
     /** The owner token ID. Defines the content owner. */
     ownerTokenId: string;
     /** The resolved owner. */
     owner?: User | undefined;
-    /** The lifecycle of the content. */
+    /** Content type. */
+    contentType: ContentType;
+    /** Contains language specific display values. They are calculated values based on the template stored in the Content schema DisplayPatterns property. */
+    displayValues?: DisplayValueDictionary | undefined;
+    /** The actual lifecycle value of the content. Becomes Inactive when the content is deleted. */
     lifeCycle: LifeCycle;
     /** List of content rights the user has on this content */
     contentRights?: ContentRight[] | undefined;
 }
 
-/** Audit information */
-export interface UserAuditDetail {
-    /** The date on which the document was created. */
-    creationDate: Date;
-    /** The last date on which the document was modified. */
-    modificationDate: Date;
-    /** ID of the user who created the document. */
-    createdByUser?: User | undefined;
-    /** ID of the last user who modified the document. */
-    modifiedByUser?: User | undefined;
-}
-
-export interface User {
-    /** User's Picturepark ID. */
-    id?: string | undefined;
-    /** User's first name. */
-    firstName?: string | undefined;
-    /** User's last name. */
-    lastName?: string | undefined;
-    /** Email address of the user (doubles as username). */
-    emailAddress: string;
-}
-
-export interface DisplayValueDictionary {
-
-    [key: string]: string | any; 
-}
-
 /** Output */
 export interface Output {
-    /** The ID of the output. */
-    id: string;
+    /** The ID of the output. Can be null for dynamic outputs which are not rendered yet. */
+    id?: string | undefined;
     /** The ID of the output format this output represents. */
     outputFormatId: string;
     /** The ID of the content for which this output has been created. */
@@ -15830,6 +17010,8 @@ export interface Output {
     attemptsLeft: number;
     /** Version counter incremented every time this output is rendered (or in case of Original when new original is uploaded). */
     fileVersion: number;
+    /** Whether this Output belongs to a dynamic OutputFormat */
+    dynamicRendering: boolean;
 }
 
 export enum OutputRenderingState {
@@ -15845,14 +17027,14 @@ export enum OutputRenderingState {
 export interface OutputDataBase {
     /** The extension of the file. */
     fileExtension?: string | undefined;
-    /** The name of the file. */
-    fileName?: string | undefined;
     /** The path where the file is stored. */
     filePath?: string | undefined;
     /** The size of the file in bytes. */
     fileSizeInBytes?: number | undefined;
     /** The SHA-1 hash of the file. */
     sha1Hash?: string | undefined;
+    /** The original filename of the file. */
+    originalFileName?: string | undefined;
 }
 
 /** Output information for an image file. */
@@ -15909,6 +17091,36 @@ export interface OutputDataDefault extends OutputDataBase {
 
 /** Output detail */
 export interface OutputDetail extends Output {
+}
+
+/** Audit information */
+export interface UserAuditDetail {
+    /** The date on which the document was created. */
+    creationDate: Date;
+    /** The last date on which the document was modified. */
+    modificationDate: Date;
+    /** ID of the user who created the document. */
+    createdByUser?: User | undefined;
+    /** ID of the last user who modified the document. */
+    modifiedByUser?: User | undefined;
+}
+
+export interface User {
+    /** User's Picturepark ID. */
+    id?: string | undefined;
+    /** User's first name. */
+    firstName?: string | undefined;
+    /** User's last name. */
+    lastName?: string | undefined;
+    /** Email address of the user (doubles as username). */
+    emailAddress: string;
+    /** Marks a user that was deleted from the system. */
+    isDeleted: boolean;
+}
+
+export interface DisplayValueDictionary {
+
+    [key: string]: string | any; 
 }
 
 /** Lifecycle */
@@ -15968,7 +17180,7 @@ export interface Content {
     audit?: UserAudit | undefined;
     /** The id of the schema with schema type content. */
     contentSchemaId: string;
-    /** The content type of this content. All except ContentItem are binary files. */
+    /** The content type of this content. All except Virtual are binary files. */
     contentType: ContentType;
     /** An optional id list of schemas with schema type layer. */
     layerSchemaIds?: string[] | undefined;
@@ -16243,17 +17455,21 @@ export enum ThumbnailSize {
     Large = <any>"Large",
 }
 
-/** A request structure for creating a content document. */
+/** Request to create a content */
 export interface ContentCreateRequest {
-    /** The id of a schema with schema type content. */
-    contentSchemaId?: string | undefined;
-    /** An optional id list of schemas with schema type layer. */
+    /** The ID of the content schema. The SchemaType of the specified schema must be Content.
+The schema specifies the structure of the Content dictionary. */
+    contentSchemaId: string;
+    /** An optional list of IDs of the schemas that form the layers of the content.
+The SchemaType of the specified schemas must be Layer. */
     layerSchemaIds?: string[] | undefined;
-    /** The content data of the content document. */
+    /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified by the ContentSchemaId property. */
     content?: any | undefined;
-    /** The layer metadata of the content document. */
-    metadata?: DataDictionary | undefined;
-    /** An optional id list of content permission sets.  */
+    /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
+The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
+    /** An optional list of content permission set IDs which control content permissions. These permissions control content accessibility for the users that do not own the content. */
     contentPermissionSetIds?: string[] | undefined;
     /** Optional client reference for this request.
 Will be returned back in response to make easier for clients to match request items with the respective results.
@@ -16261,12 +17477,12 @@ It is not persisted anywhere and it is ignored in single operations. */
     requestId?: string | undefined;
 }
 
-/** A request structure for creating multiple content documents. */
+/** Request to create multiple contents */
 export interface ContentCreateManyRequest {
-    /** Allow storing references to missing list items / contents */
+    /** Allows creating contents that refer to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
-    /** Create items */
-    items?: ContentCreateRequest[] | undefined;
+    /** Items to be created. */
+    items: ContentCreateRequest[];
 }
 
 /** Request to delete multiple contents. */
@@ -16329,16 +17545,16 @@ export interface ContentMetadataUpdateRequest {
     /** An optional list of IDs of the schemas that should be updated/replaced based on the options below and Metadata provided.
 The SchemaType of the specified schemas must be Layer. */
     layerSchemaIds?: string[] | undefined;
-    /** The content data of the content. It's a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+    /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified by
 the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-whose ContentType is ContentItem).
+whose ContentType is Virtual).
 Update of content data will be done only if this attribute has any data, i.e. if it's not null or empty. */
-    content?: DataDictionary | undefined;
+    content?: any | undefined;
     /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
 The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
 by the LayerSchemaIds property.
 If there are no data for a specified LayerSchemaId, it is treated as empty. */
-    metadata?: DataDictionary | undefined;
+    metadata?: { [key: string] : any; } | undefined;
     /** Options to modify the behavior for updating the layers.
 Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
 and the ones already existing; existing assigned layers not specified in the property are kept and missing layers are assigned.
@@ -16436,14 +17652,14 @@ export interface MetadataValuesChangeCommandBase {
 
 /** Updates schema values */
 export interface MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeCommandBase {
-    /** The dictionary containing the metadata values to add / update. */
-    value: DataDictionary;
+    /** An object containing the metadata values to add / update. */
+    value: any;
 }
 
 /** Adds or updates schema values */
 export interface MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeCommandBase {
-    /** The dictionary containing the metadata values to add / update. */
-    value: DataDictionary;
+    /** An object containing the metadata values to add / update. */
+    value: any;
 }
 
 /** Removes schema and all its values */
@@ -16452,8 +17668,8 @@ export interface MetadataValuesSchemaRemoveCommand extends MetadataValuesChangeC
 
 /** Replaces schema values */
 export interface MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeCommandBase {
-    /** The dictionary containing the metadata values for the schema. The existing dictionary will be entirely overwritten. */
-    value: DataDictionary;
+    /** An object containing the metadata values for the schema. The existing dictionary will be entirely overwritten. */
+    value: any;
 }
 
 /** Removes a field and its value from the values of the specified schema */
@@ -16666,6 +17882,21 @@ If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
 }
 
+export interface DisplayValueStatus {
+    /** The schema ids (of type Content or Layer) for which the re-rendering of the display values is needed. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) for which the re-rendering of the display values is needed. */
+    listSchemaIds?: string[] | undefined;
+    /** The state of the display values compared to the schema structure (UpToDate = ok, Outdated = re-rendering needed). */
+    state: DisplayValuesState;
+}
+
+export enum DisplayValuesState {
+    UpToDate = <any>"UpToDate",
+    Outdated = <any>"Outdated",
+    RerenderingInProgress = <any>"RerenderingInProgress",
+}
+
 export interface BaseResultOfDocumentHistory {
     totalResults: number;
     results: DocumentHistory[];
@@ -16738,8 +17969,10 @@ export interface CustomerInfo {
     name: string;
     /** Alias of the customer instance. */
     customerAlias: string;
-    /** The base url of identity server to authenticate the user using OpenID Connect. */
+    /** The base URL of identity server to authenticate the user using OpenID Connect. */
     identityServerUrl: string;
+    /** The base API URL. */
+    apiUrl: string;
     /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails: boolean;
     /** Configured languages of customer instance (system, metadata, default). */
@@ -16803,17 +18036,48 @@ export interface VersionInfo {
     release?: string | undefined;
 }
 
-/** The detail view item for the list item. */
-export interface ListItemDetail {
-    /** The content data of the list item. */
-    content?: any | undefined;
-    /** The id of the schema with schema type list. */
-    contentSchemaId?: string | undefined;
-    /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
-    displayValues?: DisplayValueDictionary | undefined;
-    /** The list item id. */
+export interface SystemStatus {
+    /** The status of the search indices. */
+    searchIndicesStatus?: StatusOfSearchIndexState[] | undefined;
+    /** The status of the display values. */
+    displayValuesStatus?: StatusOfDisplayValuesState[] | undefined;
+}
+
+export interface StatusOfSearchIndexState {
     id?: string | undefined;
-    /** Audit data with information regarding document creation and modification. */
+    state: SearchIndexState;
+}
+
+export enum SearchIndexState {
+    Green = <any>"Green",
+    Yellow = <any>"Yellow",
+    Red = <any>"Red",
+}
+
+export interface StatusOfDisplayValuesState {
+    id?: string | undefined;
+    state: DisplayValuesState;
+}
+
+/** List item detail */
+export interface ListItemDetail {
+    /** The list item ID. */
+    id: string;
+    /** The ID of the content schema. The SchemaType of the specified schema must be List. */
+    contentSchemaId: string;
+    /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema specified
+by the ContentSchemaId property. */
+    content?: any | undefined;
+    /** Contains language specific display values. They are calculated values based on the template stored in the Content schema DisplayPatterns property. */
+    displayValues?: DisplayValueDictionary | undefined;
+    /** All the IDs of the referenced list items (tagboxes) that do not exist in the system. */
+    brokenReferenceIds?: string[] | undefined;
+    /** All the IDs of the contents or list items target of a relation that do not exist in the system. */
+    brokenRelationTargetIds?: string[] | undefined;
+    /** All the IDs of the indirectly referenced list items (tagboxes) that do not exist in the system.
+They are referenced list items that reference at least a list item that do not exist in the system. */
+    brokenIndirectReferenceIds?: string[] | undefined;
+    /** Audit information. */
     audit?: UserAuditDetail | undefined;
 }
 
@@ -16837,22 +18101,33 @@ export interface BaseResultOfListItem {
     pageToken?: string | undefined;
 }
 
-/** Encapsulates the result of a list item search. */
-export interface ListItemSearchResult extends BaseResultOfListItem {
+export interface SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem {
+    searchString?: string | undefined;
+    isSearchStringRewritten: boolean;
+    queryDebugInformation?: QueryDebugInformation | undefined;
 }
 
-/** A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema. */
+/** Result for list item search operation */
+export interface ListItemSearchResult extends SearchBehaviorBaseResultOfListItem {
+}
+
 export interface ListItem {
-    /** The content data of the list item. */
-    content?: any | undefined;
+    /** Audit information. */
+    audit?: UserAudit | undefined;
+    /** The list item id. */
+    id?: string | undefined;
     /** The id of the schema with schema type list. */
     contentSchemaId?: string | undefined;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
     displayValues?: DisplayValueDictionary | undefined;
-    /** The list item id. */
-    id?: string | undefined;
-    /** Audit data with information regarding document creation and modification. */
-    audit?: UserAudit | undefined;
+    /** The content data of the list item. */
+    content?: any | undefined;
+    /** All the ids of the broken references (tagboxes) */
+    brokenReferenceIds?: string[] | undefined;
+    /** All the target ids of the broken relations */
+    brokenRelationTargetIds?: string[] | undefined;
+    /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
+    brokenIndirectReferenceIds?: string[] | undefined;
 }
 
 /** Request to search list items */
@@ -16914,43 +18189,43 @@ If not specified, all metadata languages defined in the system are used. */
     lifeCycleFilter: LifeCycleFilter;
 }
 
-/** A request structure for creating a list item document. */
+/** Request to create a list item */
 export interface ListItemCreateRequest {
-    /** The content data of the list item. */
+    /** The ID of the content schema. The SchemaType of the specified schema must be List. */
+    contentSchemaId: string;
+    /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema. */
     content?: any | undefined;
-    /** The id of the schema with schema type list. */
-    contentSchemaId?: string | undefined;
     /** Optional client reference for this request.
 Will be returned back in response to make easier for clients to match request items with the respective results.
 It is not persisted anywhere and it is ignored in single operations. */
     requestId?: string | undefined;
 }
 
-/** A request structure for creating multiple list items. */
+/** Request to create multiple list items */
 export interface ListItemCreateManyRequest {
-    /** Allow storing references to missing list items / contents */
+    /** Allows creating list items that refer to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
-    /** Create items */
-    items?: ListItemCreateRequest[] | undefined;
+    /** Items to be created. */
+    items: ListItemCreateRequest[];
 }
 
-/** A request structure for updating a list item. */
+/** Request to update an existing list item */
 export interface ListItemUpdateRequest {
-    /** The content data of the list item. */
+    /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema of the list item. */
     content?: any | undefined;
 }
 
-/** A request structure for updating multiple list items. */
+/** Request to update multiple list items */
 export interface ListItemUpdateManyRequest {
-    /** Allow storing references to missing list items / contents */
+    /** Allows updating list items with references to list items or contents that don't exist in the system. */
     allowMissingDependencies: boolean;
-    /** Update items */
-    items?: ListItemUpdateItem[] | undefined;
+    /** Items to be updated. */
+    items: ListItemUpdateItem[];
 }
 
 export interface ListItemUpdateItem extends ListItemUpdateRequest {
     /** The list item id. */
-    id?: string | undefined;
+    id: string;
 }
 
 /** Request to delete multiple list items */
@@ -17094,6 +18369,7 @@ export enum TransferState {
     ImportCompletedWithErrors = <any>"ImportCompletedWithErrors",
     UploadCompletedWithErrors = <any>"UploadCompletedWithErrors",
     UploadCancellationInProgress = <any>"UploadCancellationInProgress",
+    ImportDone = <any>"ImportDone",
 }
 
 export interface ReindexEvent extends ApplicationEvent {
@@ -17195,6 +18471,10 @@ export interface BusinessRuleFiredEventDetail {
     documentId?: string | undefined;
     documentType?: string | undefined;
     ruleIds?: string[] | undefined;
+}
+
+export interface BusinessProcessCancellationRequestedEvent extends ApplicationEvent {
+    businessProcessId?: string | undefined;
 }
 
 export interface ConsoleMessage extends Message {
@@ -17309,6 +18589,9 @@ export interface OutputFormatEditable {
     format?: FormatBase | undefined;
     /** How long should the dynamic outputs created from this format be kept. */
     retentionTime: string;
+    /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
+If set, the customer's default language is required. */
+    downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
 }
 
 /** Represents an output format. */
@@ -17601,6 +18884,21 @@ export interface OutputFormatDeleteManyRequest {
     ids?: string[] | undefined;
 }
 
+/** Used to change the download file name pattern for multiple formats at once. */
+export interface OutputFormatDownloadFileNamePatternUpdateManyRequest {
+    /** Download file name update requests to be processed. */
+    items: OutputFormatDownloadFileNamePatternUpdateRequestItem[];
+}
+
+/** Represents a change to the download file name pattern to one output format. */
+export interface OutputFormatDownloadFileNamePatternUpdateRequestItem {
+    /** ID of the output format to set pattern for. */
+    id: string;
+    /** The patterns to use per metadata language.
+The customer's default language is required. */
+    patterns?: TranslatedStringDictionary | undefined;
+}
+
 /** User profile. */
 export interface UserProfile {
     /** ID of the user. */
@@ -17821,7 +19119,7 @@ export interface FieldGeoPoint extends FieldBase {
     boost: number;
 }
 
-/** A field that can be triggered, and store in such occasion the id of the user and the time that triggered it. The last user who triggered it and the last time in which it was triggered can be used for filtering or for simple search (if enabled on the field). Such information are stored in two inner fields: "triggeredBy" and "triggeredOn". In order to be triggered in a Content or ListItem metadata dictionary, the special '"_trigger": true' should be sent in the DataDictionary of the field itself. */
+/** A field that can be triggered, and store in such occasion the id of the user and the time that triggered it. The last user who triggered it and the last time in which it was triggered can be used for filtering or for simple search (if enabled on the field). Such information are stored in two inner fields: "triggeredBy" and "triggeredOn". In order to be triggered in a Content or ListItem metadata dictionary, the special '"_trigger": true' should be sent in the data of the field itself. */
 export interface FieldTrigger extends FieldBase {
     /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
     boost: number;
@@ -18244,7 +19542,7 @@ has to be unique across the schema hierarchy. */
 }
 
 export interface SchemaOwnershipTransferRequest {
-    /** The id of the user to whom the schema has to be transfered to. */
+    /** The id of the user to whom the schema has to be transferred to. */
     transferUserId?: string | undefined;
 }
 
@@ -18340,7 +19638,7 @@ export interface SchemaDeleteResult {
 export interface SchemaOwnershipTransferManyRequest {
     /** The schema ids. */
     schemaIds?: string[] | undefined;
-    /** The id of user to whom the schemas have to be transfered to. */
+    /** The id of user to whom the schemas have to be transferred to. */
     transferUserId?: string | undefined;
 }
 
@@ -18480,10 +19778,12 @@ export interface ShareContentDetail {
     contentSchemaId: string;
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
-    /** The content data. */
-    content: DataDictionary;
-    /** The metadata dictionary. */
-    metadata?: DataDictionary | undefined;
+    /** The content data. It's an object of dynamic metadata whose structure is defined in the Content schema specified
+by the ContentSchemaId property. */
+    content: any;
+    /** The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
     /** Content ID. */
     id: string;
     /** List of shared outputs for this content. */
@@ -18508,6 +19808,8 @@ export interface ShareOutputBase {
     downloadUrl?: string | undefined;
     /** Output details. */
     detail?: OutputDataBase | undefined;
+    /** Whether this Output belongs to a dynamic OutputFormat */
+    dynamicRendering: boolean;
 }
 
 /** Shared output for basic share */
@@ -18699,27 +20001,9 @@ export interface ShareContent {
 
 export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
     /** List of external mail recipients which are no Picturepark users. */
-    recipientsEmail?: UserEmail[] | undefined;
-    /** List of internal recipients which are Picturepark users. */
-    recipientsUser?: User[] | undefined;
-    /** List of user roles. All assignees of these roles receive the share. */
-    recipientsGroup?: UserRole[] | undefined;
+    recipientEmails?: UserEmail[] | undefined;
     /** System language used for share (mail and detail page). en or de. */
     languageCode: string;
-}
-
-/** Represents a user role, which associates users with user rights. */
-export interface UserRoleEditable {
-    /** Language specific user role names. */
-    names: TranslatedStringDictionary;
-    /** All user rights for this user role. */
-    userRights: UserRight[];
-}
-
-/** Represents a user role, which associates users with user rights. */
-export interface UserRole extends UserRoleEditable {
-    /** User role ID. */
-    id?: string | undefined;
 }
 
 /** Create request for embed share */
@@ -18819,13 +20103,17 @@ export interface CreateTransferRequest {
     name: string;
     /** Type of transfer. */
     transferType: TransferType;
-    /** Files uploaded in transfer. */
+    /** Files uploaded in transfer.
+The client is responsible for uploading files to backend.
+Required when TransferType is FileUpload or FileUploadAutoImport. */
     files?: TransferUploadFile[] | undefined;
-    /** Weblinks downloaded in transfer. */
+    /** Weblinks downloaded in transfer.
+The backend will download files using HTTP, therefore public access to files is needed.
+Required when TransferType is WebDownload. */
     webLinks?: TransferWebLink[] | undefined;
     /** Name of collection created after transfer. */
     collectionName?: string | undefined;
-    /** A value indicating whether to create a Collection after importing the transfer. */
+    /** A value indicating whether to create a collection after importing the transfer. */
     createCollection: boolean;
 }
 
@@ -18847,6 +20135,8 @@ export interface TransferUploadFile extends TransferFile {
 export interface TransferWebLink extends TransferFile {
     /** URL of the item. */
     url: string;
+    /** Optional target filename of the file. */
+    fileName?: string | undefined;
 }
 
 /** Representation of a file transfer. */
@@ -19074,7 +20364,9 @@ export interface FileTransferDeleteRequest {
 export interface ImportTransferRequest {
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
-    metadata?: DataDictionary | undefined;
+    /** The metadata to be assigned to the imported content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
     contentPermissionSetIds?: string[] | undefined;
 }
@@ -19084,10 +20376,12 @@ export interface ImportTransferPartialRequest {
 }
 
 export interface FileTransferCreateItem {
-    fileId?: string | undefined;
+    fileId: string;
     /** An optional id list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
-    metadata?: DataDictionary | undefined;
+    /** The metadata to be assigned to the imported content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+by the LayerSchemaIds property. */
+    metadata?: { [key: string] : any; } | undefined;
     /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
     contentPermissionSetIds?: string[] | undefined;
 }
@@ -19127,6 +20421,20 @@ export interface OwnerToken {
     id?: string | undefined;
     /** The id of the user to whom this ownertoken currently belongs to. */
     userId?: string | undefined;
+}
+
+/** Represents a user role, which associates users with user rights. */
+export interface UserRoleEditable {
+    /** Language specific user role names. */
+    names: TranslatedStringDictionary;
+    /** All user rights for this user role. */
+    userRights: UserRight[];
+}
+
+/** Represents a user role, which associates users with user rights. */
+export interface UserRole extends UserRoleEditable {
+    /** User role ID. */
+    id?: string | undefined;
 }
 
 /** Holds information needed for user creation. */
@@ -19312,6 +20620,11 @@ export interface UserRoleUpdateManyRequest {
 export interface UserRoleDeleteManyRequest {
     /** IDs of the user roles to delete. */
     ids: string[];
+}
+
+export interface DataDictionary {
+
+    [key: string]: any; 
 }
 
 export interface FileParameter {

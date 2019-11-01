@@ -66,11 +66,23 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The XPathEvaluator interface allows to compile and evaluate XPath expressions.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">XPathEvaluator</span>
+						<a href="xpathevaluatorbase.html" class="tsd-signature-type">XPathEvaluatorBase</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">XPathEvaluator</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -78,30 +90,31 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-external tsd-is-not-exported">
+						<section class="tsd-index-section tsd-is-inherited tsd-is-external tsd-is-not-exported">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="xpathevaluator.html#createexpression" class="tsd-kind-icon">create<wbr>Expression</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="xpathevaluator.html#creatensresolver" class="tsd-kind-icon">createNSResolver</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="xpathevaluator.html#evaluate" class="tsd-kind-icon">evaluate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported"><a href="xpathevaluator.html#createexpression" class="tsd-kind-icon">create<wbr>Expression</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported"><a href="xpathevaluator.html#creatensresolver" class="tsd-kind-icon">createNSResolver</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported"><a href="xpathevaluator.html#evaluate" class="tsd-kind-icon">evaluate</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-external tsd-is-not-exported">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-external tsd-is-not-exported">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 					<a name="createexpression" class="tsd-anchor"></a>
 					<h3>create<wbr>Expression</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Expression<span class="tsd-signature-symbol">(</span>expression<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, resolver<span class="tsd-signature-symbol">: </span><a href="xpathnsresolver.html" class="tsd-signature-type">XPathNSResolver</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="xpathexpression.html" class="tsd-signature-type">XPathExpression</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Expression<span class="tsd-signature-symbol">(</span>expression<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, resolver<span class="tsd-signature-symbol">?: </span><a href="../globals.html#xpathnsresolver" class="tsd-signature-type">XPathNSResolver</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="xpathexpression.html" class="tsd-signature-type">XPathExpression</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="xpathevaluatorbase.html">XPathEvaluatorBase</a>.<a href="xpathevaluatorbase.html#createexpression">createExpression</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:16773</li>
+									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17593</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -110,47 +123,49 @@
 									<h5>expression: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>resolver: <a href="xpathnsresolver.html" class="tsd-signature-type">XPathNSResolver</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> resolver: <a href="../globals.html#xpathnsresolver" class="tsd-signature-type">XPathNSResolver</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="xpathexpression.html" class="tsd-signature-type">XPathExpression</a></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 					<a name="creatensresolver" class="tsd-anchor"></a>
 					<h3>createNSResolver</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">createNSResolver<span class="tsd-signature-symbol">(</span>nodeResolver<span class="tsd-signature-symbol">?: </span><a href="node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="xpathnsresolver.html" class="tsd-signature-type">XPathNSResolver</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">createNSResolver<span class="tsd-signature-symbol">(</span>nodeResolver<span class="tsd-signature-symbol">: </span><a href="node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#xpathnsresolver" class="tsd-signature-type">XPathNSResolver</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="xpathevaluatorbase.html">XPathEvaluatorBase</a>.<a href="xpathevaluatorbase.html#creatensresolver">createNSResolver</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:16774</li>
+									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17594</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> nodeResolver: <a href="node.html" class="tsd-signature-type">Node</a></h5>
+									<h5>nodeResolver: <a href="node.html" class="tsd-signature-type">Node</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="xpathnsresolver.html" class="tsd-signature-type">XPathNSResolver</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../globals.html#xpathnsresolver" class="tsd-signature-type">XPathNSResolver</a></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 					<a name="evaluate" class="tsd-anchor"></a>
 					<h3>evaluate</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">evaluate<span class="tsd-signature-symbol">(</span>expression<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, contextNode<span class="tsd-signature-symbol">: </span><a href="node.html" class="tsd-signature-type">Node</a>, resolver<span class="tsd-signature-symbol">: </span><a href="xpathnsresolver.html" class="tsd-signature-type">XPathNSResolver</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, result<span class="tsd-signature-symbol">: </span><a href="xpathresult.html" class="tsd-signature-type">XPathResult</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="xpathresult.html" class="tsd-signature-type">XPathResult</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">evaluate<span class="tsd-signature-symbol">(</span>expression<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, contextNode<span class="tsd-signature-symbol">: </span><a href="node.html" class="tsd-signature-type">Node</a>, resolver<span class="tsd-signature-symbol">?: </span><a href="../globals.html#xpathnsresolver" class="tsd-signature-type">XPathNSResolver</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, type<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, result<span class="tsd-signature-symbol">?: </span><a href="xpathresult.html" class="tsd-signature-type">XPathResult</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="xpathresult.html" class="tsd-signature-type">XPathResult</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="xpathevaluatorbase.html">XPathEvaluatorBase</a>.<a href="xpathevaluatorbase.html#evaluate">evaluate</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:16775</li>
+									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17595</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -162,13 +177,13 @@
 									<h5>contextNode: <a href="node.html" class="tsd-signature-type">Node</a></h5>
 								</li>
 								<li>
-									<h5>resolver: <a href="xpathnsresolver.html" class="tsd-signature-type">XPathNSResolver</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> resolver: <a href="../globals.html#xpathnsresolver" class="tsd-signature-type">XPathNSResolver</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 								<li>
-									<h5>type: <span class="tsd-signature-type">number</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> type: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>result: <a href="xpathresult.html" class="tsd-signature-type">XPathResult</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> result: <a href="xpathresult.html" class="tsd-signature-type">XPathResult</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="xpathresult.html" class="tsd-signature-type">XPathResult</a></h4>
@@ -192,13 +207,13 @@
 					<li class="current tsd-kind-interface tsd-is-external tsd-is-not-exported">
 						<a href="xpathevaluator.html" class="tsd-kind-icon">XPath<wbr>Evaluator</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 								<a href="xpathevaluator.html#createexpression" class="tsd-kind-icon">create<wbr>Expression</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 								<a href="xpathevaluator.html#creatensresolver" class="tsd-kind-icon">createNSResolver</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 								<a href="xpathevaluator.html#evaluate" class="tsd-kind-icon">evaluate</a>
 							</li>
 						</ul>
@@ -222,6 +237,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -270,7 +286,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

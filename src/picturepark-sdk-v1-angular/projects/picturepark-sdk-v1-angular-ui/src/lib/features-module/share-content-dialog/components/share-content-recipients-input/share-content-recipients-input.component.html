@@ -24,10 +24,10 @@
         </ng-container>
       </mat-autocomplete>    
   </mat-form-field>
-  <div class="chip-input-error" [ngClass]="{ active: parentForm.controls['recipients'].touched && parentForm.controls['recipients'].hasError('required') && recipients.length === 0 }">
+  <div class="chip-input-error active" *ngIf="parentForm.controls['recipients'].touched && parentForm.controls['recipients'].hasError('required') && recipients.length === 0">
     Please, add a recipient for sharing the images
   </div>
-  <div class="chip-input-error" [ngClass]="{ active: parentForm.controls['recipients'].touched && parentForm.controls['recipients'].errors?.error && !parentForm.controls['recipients'].hasError('required') }">
+  <div class="chip-input-error active" *ngIf="parentForm.controls['recipients'].touched && parentForm.controls['recipients'].errors?.error && !parentForm.controls['recipients'].hasError('required')">
     Sorry, but this is not an email
   </div>
 </div>

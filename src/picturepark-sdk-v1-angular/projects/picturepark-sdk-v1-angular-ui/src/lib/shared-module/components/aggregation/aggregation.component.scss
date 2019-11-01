@@ -15,18 +15,15 @@
     &__option-title {
       display: flex;
       flex-wrap: nowrap;
-      color: #727272;
+      justify-content: space-between;
     }
     &__option-name {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
-      margin-right: 10px;
     }
-    &__option-number {
-      position: absolute;
-      right: 5px;
-  
+    &__option-number {  
+      padding-left: 5px;
     }
     .mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
       height: 28px;

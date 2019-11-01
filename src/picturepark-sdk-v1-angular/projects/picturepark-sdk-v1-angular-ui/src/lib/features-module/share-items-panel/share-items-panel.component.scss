@@ -1,0 +1,93 @@
+pp-item-panel-preview {
+    cursor: pointer;
+}
+
+.list {
+    padding: 20px 0;
+
+    > .item {
+        padding-top: 0px;
+        border-bottom: 1px solid rgba(0,0,0,.12);
+        overflow: hidden;
+        display: flex;
+
+        &:hover {
+            background-color: #eeeeee; // TODO: Move to theme
+        }
+        
+        & ul { 
+            list-style: none;
+            padding-left: 8px;
+    
+            li {
+                color: #727272;
+                font-size: 13px;
+                line-height: 21px;
+            }
+            .title {
+                color: #2f2f2f;
+                font-size: 14px;
+            }
+        }
+
+        &:hover {
+            .item-funcs {
+                & ul {
+                    display: inherit;
+                }
+            }
+        }
+
+        .thumbnail {
+            padding: 4px;
+            float: left;
+            width: 200px;
+            height: 200px;
+            background-color: #eeeeee; // TODO: Move to theme
+        }
+        .item-info {
+            float: left;
+            flex: 1;
+            cursor: pointer;
+        }
+        .item-funcs {
+            width: 100px;
+            & ul {
+                display: none;
+                position: relative; top: 15px; float: right;
+                & li {
+                    float: left;
+                    margin: 0px;
+                    width: 40px;
+                    & i { font-size: 21px; cursor: pointer; }
+                }
+            }
+        }
+    }
+}
+
+.grid {
+    padding: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
+    grid-gap: 20px;
+
+    > .item {
+        height: 200px;
+        background-color: #eeeeee; // TODO: Move to theme
+        padding: 4px;
+        border-radius: 4px;
+
+        .thumbnail {
+            height: 100%;
+        }
+
+        .item-info {
+            display: none;
+        }
+        .item-funcs {
+            display: none;
+        }
+    }
+}

@@ -1,61 +1,83 @@
 <div class="wrap">
-  <mat-toolbar class="navbar" color="primary">
-    <pp-channel-picker [(channel)]="selectedChannel"></pp-channel-picker>
+  <mat-toolbar class="navbar" color="primary" *ngIf="deviceBreakpoint">
+    <button mat-icon-button class="menu" (click)="snav.toggle()" [matBadge]="basketItemsCount"
+      [matBadgeHidden]="basketItemsCount<1">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-toolbar class="navbar" color="primary" *ngIf="!deviceBreakpoint">
+    <pp-channel-picker [channel]="selectedChannel" (channelChange)="changeChannel($event)"></pp-channel-picker>
 
     <span class="spacer"></span>
 
-    <pp-search-box [(searchString)]="searchText">
-    </pp-search-box>
+    <pp-search-suggest-box [searchString]="searchText" (searchStringChange)="changeSearchQuery($event)" *ngIf="selectedChannel" [aggregations]="selectedChannel?.aggregations" [aggregate]="aggregate">
+    </pp-search-suggest-box>
   </mat-toolbar>
 
-  <div class="content-picker-content" [ngClass]="{ active: expandedContent }">
-    <div class="content">
-      <pp-content-browser 
-        #contentBrowser
-        [channel]="selectedChannel"
-        [filter]="selectedFilter"
-        [searchString]="searchText"
-        (previewItemChange)="openDetails($event)"
-        (selectedItemsChange)="selectionChange($event)">
-      </pp-content-browser>
-      <div class="expand-browser" *ngIf="expandedContent" (click)="expand()">
-        <i class="material-icons">keyboard_arrow_left</i>
-      </div>
-    </div>
-
-    <div class="filters">
-      <mat-tab-group>
-        <mat-tab label="Filters">
-          <pp-content-aggregation-list 
-            [searchString]="searchText" 
-            [channelId]="selectedChannel?.id" 
-            [aggregators]="selectedChannel?.aggregations"
-            (filterChange)="selectedFilter = $event">
-          </pp-content-aggregation-list>
-        </mat-tab>
-        <mat-tab label="Basket">
-          <ng-template mat-tab-label>
-            <span [matBadge]="basketItemsCount" matBadgeOverlap="false" [matBadgeHidden]="!basketItemsCount">Basket</span>
-          </ng-template>
-          <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>
-        </mat-tab>
-      </mat-tab-group>
-      <div class="expand" *ngIf="!expandedContent" (click)="expand()">
-        <i class="material-icons">keyboard_arrow_right</i>
-      </div>
-    </div>
+  <div class="content-picker-content">
+    <mat-sidenav-container style="width:100%">
+      <mat-sidenav #snav [mode]="deviceBreakpoint ? 'over' : 'side'" disableClose="true" position="end"
+        [fixedInViewport]="deviceBreakpoint ? false : true" fixedTopGap="64"
+        [opened]="deviceBreakpoint ? false : true" style="width: 375px;">
+        <mat-toolbar-row *ngIf="deviceBreakpoint">
+          <pp-channel-picker style="width: 100%" [channel]="selectedChannel" (channelChange)="changeChannel($event)">
+          </pp-channel-picker>
+        </mat-toolbar-row>
+        <mat-toolbar-row *ngIf="deviceBreakpoint">
+          <pp-search-box style="width: 100%; font-size: 16px;" [searchString]="searchText"
+            (searchStringChange)="changeSearchQuery($event)"></pp-search-box>
+        </mat-toolbar-row>
+        <mat-tab-group class="right-panel filters">
+          <mat-tab label="Filters">
+            <pp-content-aggregation-list [searchString]="searchText" [channelId]="selectedChannel?.id"
+              [aggregators]="selectedChannel?.aggregations" (filterChange)="selectedFilter = $event">
+            </pp-content-aggregation-list>
+          </mat-tab>
+          <mat-tab label="Basket">
+            <ng-template mat-tab-label>
+              <span [matBadge]="basketItemsCount" matBadgeOverlap="false"
+                [matBadgeHidden]="!basketItemsCount">Basket</span>
+            </ng-template>
+            <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>
+          </mat-tab>
+        </mat-tab-group>
+        <div class="expand filters" (click)="snav.toggle()" *ngIf="snav.opened && !deviceBreakpoint">
+          <i class="material-icons">keyboard_arrow_right</i>
+        </div>
+      </mat-sidenav>
+      <mat-sidenav-content class="content">
+        <pp-content-browser #contentBrowser [channel]="selectedChannel" [filter]="selectedFilter"
+          [searchString]="searchText" (previewItemChange)="openDetails($event)"
+          (selectedItemsChange)="selectionChange($event)">
+        </pp-content-browser>
+        <div class="expand-browser" *ngIf="!snav.opened && !deviceBreakpoint" (click)="snav.toggle()">
+          <i class="material-icons">keyboard_arrow_left</i>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
 
     <div class="footer" [ngClass]="{ active: selectedItems.length > 0 }">
       <div class="mat-typography title">
-        <ng-container *ngIf="selectedItems.length === 1">
-          {{'ContentPicker.TextSelectedSingle' | pptranslate: selectedItems.length }}
+        <ng-container *ngIf="deviceBreakpoint; else noMobile">
+          <ng-container *ngIf="selectedItems.length === 1">
+            {{'ContentPicker.SelectedItem' | pptranslate: selectedItems.length }}
+          </ng-container>
+          <ng-container *ngIf="selectedItems.length != 1">
+            {{'ContentPicker.SelectedItems' | pptranslate: selectedItems.length }}
+          </ng-container>
         </ng-container>
-        <ng-container *ngIf="selectedItems.length != 1">
-          {{'ContentPicker.TextSelectedMultiple' | pptranslate: selectedItems.length }}
-        </ng-container>
+
+        <ng-template #noMobile>
+          <ng-container *ngIf="selectedItems.length === 1">
+            {{'ContentPicker.TextSelectedSingle' | pptranslate: selectedItems.length }}
+          </ng-container>
+          <ng-container *ngIf="selectedItems.length != 1">
+            {{'ContentPicker.TextSelectedMultiple' | pptranslate: selectedItems.length }}
+          </ng-container>
+        </ng-template>
       </div>
       <div class="action-buttons">
-        <button mat-button (click)="cancel()">
+        <button mat-button (click)="contentBrowser.cancel()">
           {{'ContentPicker.ButtonCancel' | pptranslate }}
         </button>
         <button mat-button [disabled]="selectedItems.length === 0 || loading" (click)="embed()">

@@ -6,7 +6,7 @@ import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
-
+import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
 import { FilterBase, IEntityBase, ThumbnailSize } from '@picturepark/sdk-v1-angular';
@@ -44,6 +44,10 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     protected get dialog(): MatDialog {
         return this.injector.get(MatDialog);
     }
+    @LazyGetter()
+    protected get breakpointObserver(): BreakpointObserver {
+        return this.injector.get(BreakpointObserver);
+    }
 
     public self: BaseBrowserComponent<TEntity>;
 
@@ -60,6 +64,10 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public views: IBrowserView[];
     public activeView: IBrowserView;
     public activeThumbnailSize?: ThumbnailSize = ThumbnailSize.Medium;
+
+    public get deviceBreakpoint(): boolean {
+        return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
+    }
 
     protected scrollDebounceTime = 0;
 
@@ -80,7 +88,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     abstract getSearchRequest(): Observable<{results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
-    constructor(protected componentName: string, protected injector: Injector) {
+    constructor(protected componentName: string,
+        protected injector: Injector) {
         super();
 
         this.self = this;
@@ -195,7 +204,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public itemClicked($event: MouseEvent, index: number): void {
         const itemModel = this.items[index];
 
-        if ($event.ctrlKey) {
+        if ($event.ctrlKey || $event.type === 'tap') {
             this.lastSelectedIndex = index;
 
             if (itemModel.isSelected === true) {

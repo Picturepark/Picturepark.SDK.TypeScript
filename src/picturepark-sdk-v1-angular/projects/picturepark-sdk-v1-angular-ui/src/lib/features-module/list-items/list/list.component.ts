@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, flatMap, map, take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -17,6 +17,7 @@ import {
   SchemaService,
 } from '@picturepark/sdk-v1-angular';
 import { groupBy } from '../../../utilities/helper';
+import { ListBrowserComponent } from '../../list-browser/list-browser.component';
 
 @Component({
   selector: 'pp-list',
@@ -25,7 +26,7 @@ import { groupBy } from '../../../utilities/helper';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent implements OnInit, OnDestroy {
-
+  @ViewChild(ListBrowserComponent, { static: false }) listBrowserComponent: ListBrowserComponent;
   @Input() activeSchema: Subject<SchemaDetail | null>;
   @Output() queryChange = new EventEmitter<Params>();
 
@@ -36,7 +37,6 @@ export class ListComponent implements OnInit, OnDestroy {
   public aggregations: AggregatorBase[] = [];
   public schemaDetail: SchemaDetail;
   public schema: Observable<SchemaDetail>;
-  public deselectAll: Subject<void> = new Subject<void>();
   public schemaId: string;
   public selectedItems: string[];
 
@@ -69,7 +69,7 @@ export class ListComponent implements OnInit, OnDestroy {
       this.route.paramMap,
       this.route.queryParamMap
     ]).pipe(take(1)).subscribe(
-        ([schemaDetail, paramMap, queryParamMap]) => {
+      ([schemaDetail, paramMap, queryParamMap]) => {
         this.activeSchema.next(schemaDetail);
         this.schemaDetail = schemaDetail;
         this.aggregations = schemaDetail.aggregations!;
@@ -153,6 +153,8 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   private deselectSelectedItems() {
-    this.deselectAll.next();
+    if (this.listBrowserComponent) {
+      this.listBrowserComponent.deselectAll();
+    }
   }
 }

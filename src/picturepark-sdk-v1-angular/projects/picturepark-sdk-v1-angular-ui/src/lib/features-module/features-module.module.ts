@@ -19,12 +19,13 @@ import { ListBrowserModule } from './list-browser/list-browser.module';
 import { ListItemAggregationListModule } from './list-item-aggregation-list/list-item-aggregation-list.module';
 import { NotificationModule } from './notification/notification.module';
 import { PanelModule } from './panel/panel.module';
-import { SharePreviewModule } from './share-preview/share-preview.module';
 import { SearchBoxModule } from './search-box/search-box.module';
 import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
 import { ShareBrowserModule } from './share-browser/share-browser.module';
 import { ShareContentDialogModule } from './share-content-dialog/share-content-dialog.module';
 import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
+import { ShareItemsPanelModule } from './share-items-panel/share-items-panel.module';
+import { ContentDownloadDialogModule } from './content-download-dialog/content-download-dialog.module';
 
 @NgModule({
   declarations: [],
@@ -50,8 +51,9 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     ShareBrowserModule,
     ShareContentDialogModule,
     PanelModule,
-    SharePreviewModule,
     ItemToolBarModule,
+    ShareItemsPanelModule,
+    ContentDownloadDialogModule
   ],
   exports: [
     ApplicationMenuModule,
@@ -74,8 +76,9 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
     ShareBrowserModule,
     ShareContentDialogModule,
     PanelModule,
-    SharePreviewModule,
     ItemToolBarModule,
+    ShareItemsPanelModule,
+    ContentDownloadDialogModule
   ]
 })
 export class FeaturesModule { }

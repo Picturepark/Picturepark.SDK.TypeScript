@@ -8,5 +8,26 @@
 @include angular-material-theme($picturepark-app-theme);
 @include picturepark-theme($picturepark-app-theme);
 
+.dark-theme{
+    @include angular-material-theme($picturepark-app-theme-dark);
+    @include picturepark-theme($picturepark-app-theme-dark);
+}
+
 // GLOBAL STYLES (keep at bottom)
 @import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/global_styles.scss';
+
+
+// define classes for current application in case of dark theme
+.dark-theme {
+    div.wrap {
+      .mat-toolbar {
+        background-color: #444;
+        color: white;
+      }
+    }
+  }
+
+  .dark-theme .application-header-container{
+    background-color: #444;
+    color: white;
+  }

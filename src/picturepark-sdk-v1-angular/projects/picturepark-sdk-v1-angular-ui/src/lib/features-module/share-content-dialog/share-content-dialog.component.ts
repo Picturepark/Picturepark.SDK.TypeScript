@@ -115,7 +115,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       const response = await this.shareService.create(new ShareBasicCreateRequest({
         name: this.sharedContentForm.get('share_name')!.value,
-        recipientsEmail: recipientsEmails,
+        recipientEmails: recipientsEmails,
         contents: contentItems,
         outputAccess: OutputAccess.Full,
         languageCode: 'en',

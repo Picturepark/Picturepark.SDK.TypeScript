@@ -1,5 +1,8 @@
 <div class="dialog-container" #contentContainer>
-  <h3>{{ title | pptranslate }}<mat-icon (click)="closeDialog()">close</mat-icon></h3>
+  <h3>
+    <span>{{ title | pptranslate }}</span>
+    <mat-icon (click)="closeDialog()">close</mat-icon>
+  </h3>
   <pp-notification [notification]="notification"></pp-notification>
 
   <form [formGroup]="sharedContentForm" class="example-form" autocomplete="false">
@@ -16,14 +19,14 @@
             (sharedContentForm.controls['share_name'].hasError('required') || 
             sharedContentForm.controls['share_name'].errors?.maxlength ||
             sharedContentForm.controls['share_name'].errors?.minlength) 
-          }" autocomplete="pp-share-name">
-          <div class="share-name-error" [ngClass]="{active: sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].hasError('required') }">
+          }" autocomplete="pp-share-name ">
+          <div class="share-name-error active" *ngIf="sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].hasError('required')">
             {{ 'ShareContentDialog.AddShareNameError' | pptranslate }}
           </div>
-          <div class="share-name-error" [ngClass]="{active: sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].errors?.maxlength }">
+          <div class="share-name-error active" *ngIf="sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].errors?.maxlength">
             {{ 'ShareContentDialog.ShareNameTooLongError' | pptranslate }}
           </div>
-          <div class="share-name-error" [ngClass]="{active: sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].errors?.minlength }">
+          <div class="share-name-error active" *ngIf="sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].errors?.minlength">
             {{ 'ShareContentDialog.ShareNameTooShortError' | pptranslate }}
           </div>
         </li>
@@ -88,9 +91,9 @@
     </div>
     
     <mat-dialog-actions>
-      <button mat-button class="cancel" (click)="closeDialog()" *ngIf="recipients.length === 0">{{ 'ShareContentDialog.CancelShare' | pptranslate }}</button>
-      <button mat-button class="cancel" (click)="closeDialog()" *ngIf="recipients.length > 0">{{ 'ShareContentDialog.CloseDialog' | pptranslate }}</button>
-      <button mat-button [ngClass]="{'active': sharedContentForm.valid }" (click)="onFormSubmit()" *ngIf="recipients.length === 0">{{ 'ShareContentDialog.ShareContent' | pptranslate }}</button>
+      <button mat-button (click)="closeDialog()" *ngIf="recipients.length === 0">{{ 'ShareContentDialog.CancelShare' | pptranslate }}</button>
+      <button mat-button (click)="closeDialog()" *ngIf="recipients.length > 0">{{ 'ShareContentDialog.CloseDialog' | pptranslate }}</button>
+      <button mat-flat-button color="accent" [ngClass]="{'active': sharedContentForm.valid }" (click)="onFormSubmit()" *ngIf="recipients.length === 0">{{ 'ShareContentDialog.ShareContent' | pptranslate }}</button>
     </mat-dialog-actions>
 
   </form>

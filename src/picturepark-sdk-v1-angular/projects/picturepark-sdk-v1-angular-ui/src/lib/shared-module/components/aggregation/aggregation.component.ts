@@ -101,7 +101,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
   }
 
   public searchAggregator(searchString: string): Observable<AggregationResultItem[]> {
-
+    this.searchString = searchString;
     if (searchString === '') {
       return from([]);
     }

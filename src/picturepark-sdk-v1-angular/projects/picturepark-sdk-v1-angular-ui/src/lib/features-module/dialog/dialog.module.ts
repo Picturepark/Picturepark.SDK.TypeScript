@@ -9,11 +9,11 @@ import { NotificationModule } from '../notification/notification.module';
 import { SharedModule } from '../../shared-module/shared-module.module';
 
 // COMPONENTS
-import { ContentDownloadDialogComponent } from './components/content-download-dialog/content-download-dialog.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
-    ContentDownloadDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,
@@ -23,11 +23,10 @@ import { ContentDownloadDialogComponent } from './components/content-download-di
     SharedModule
   ],
   exports: [
-    ContentDownloadDialogComponent,
-
+    NotificationModule
   ],
   entryComponents: [
-    ContentDownloadDialogComponent,
+    ConfirmDialogComponent
     // ShareContentRecipientsInputComponent
   ]
 })
