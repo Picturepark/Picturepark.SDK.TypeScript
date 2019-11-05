@@ -111,10 +111,11 @@ import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
       this.isLoading = false;
     }
 
-    showFullscreen() {
+    async showFullscreen(): Promise<void> {
         let isPdf = this.content.contentType === ContentType.InterchangeDocument;
-
         const isImage = !this.isVideo && !isPdf;
+        let item: IShareItem;
+        let items: IShareItem[] = [];
 
         if (!this.shareContent) {
           const outputs = this.content.outputs!;
@@ -137,44 +138,31 @@ import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
             ]
           });
 
-          const linkSubscription = this.contentService.createDownloadLink(request).subscribe(response => {
-            const item: IShareItem = {
-              id: this.content.id!,
+          const response = await this.contentService.createDownloadLink(request).toPromise();
+          item = {
+            id: this.content.id,
 
-              isPdf: isPdf,
-              isImage: isImage,
-              isMovie: this.isVideo,
-              isAudio: this.isAudio,
-              isBinary: false,
-              videoUrl: this.isVideo ? response.downloadUrl : '',
-              audioUrl: this.isAudio ? response.downloadUrl : '',
-              pdfUrl: isPdf ? response.downloadUrl : '',
+            isPdf: isPdf,
+            isImage: isImage,
+            isMovie: this.isVideo,
+            isAudio: this.isAudio,
+            isBinary: false,
+            videoUrl: this.isVideo ? response.downloadUrl : '',
+            audioUrl: this.isAudio ? response.downloadUrl : '',
+            pdfUrl: isPdf ? response.downloadUrl : '',
 
-              displayValues: {},
-              previewUrl: isImage ? response.downloadUrl! : this.thumbnailUrl,
+            displayValues: {},
+            previewUrl: isImage ? response.downloadUrl! : this.thumbnailUrl,
 
-              originalUrl: response.downloadUrl!,
-              outputs: this.content.outputs! as any[],
+            originalUrl: response.downloadUrl!,
+            outputs: this.content.outputs! as any[],
 
-              detail: {
-                width: (<any>previewOutput.detail).width,
-                height: (<any>previewOutput.detail).height,
-              }
-            };
-
-            if (item.isMovie || item.isAudio) {
-              this.playMedia(true, item);
-              return;
+            detail: {
+              width: (<any>previewOutput.detail).width,
+              height: (<any>previewOutput.detail).height,
             }
-
-            if (item.isPdf) {
-              this.showPdf(item);
-              return;
-            }
-
-            this.fullscreenService.showDetailById(item.id, [item]);
-          });
-          this.subscription.add(linkSubscription);
+          };
+          items = [item];
         } else {
           let index = 0;
           const share = {
@@ -184,26 +172,17 @@ import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
             creator: this.shareDetail!.creator,
             description: this.shareDetail!.description,
             items: this.shareDetail!.contentSelections.map(s => {
-              const outputs = s.outputs.map(o => {
-                return {
-                  contentId: s.id,
-                  outputFormatId: o.outputFormatId,
-                  fileExtension: o.detail ? o.detail.fileExtension : null,
-                  viewUrl: o.viewUrl,
-                  downloadUrl: o.downloadUrl,
-                  detail: o.detail
-                };
-              });
-              const previewOutput = outputs.find(o => o.outputFormatId === 'Preview');
 
-              const originalOutput = outputs.find(o => o.outputFormatId === 'Original');
+              const previewOutput = s.outputs.find(o => o.outputFormatId === 'Preview');
+              const originalOutput = s.outputs.find(o => o.outputFormatId === 'Original');
+              const detail = originalOutput ? originalOutput.detail : previewOutput ? previewOutput.detail : null;
 
               const pdfOutput = s.outputs.find(i => i.outputFormatId === 'Pdf');
-              return <any>{
+              return <IShareItem>{
                 id: s.id,
                 index: index++,
                 displayValues: s.displayValues,
-                detail: originalOutput ? originalOutput.detail : null,
+                detail: detail,
 
                 isMovie: s.contentSchemaId === 'VideoMetadata',
                 isAudio: s.contentSchemaId === 'AudioMetadata',
@@ -213,37 +192,33 @@ import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
 
                 previewUrl: previewOutput ? previewOutput.viewUrl : originalOutput &&
                             s.contentSchemaId === 'ImageMetadata' ? originalOutput.viewUrl : s.iconUrl,
-                previewOutputFormatId: previewOutput ? previewOutput.outputFormatId : null,
 
                 originalUrl: originalOutput ? originalOutput.downloadUrl : null,
-                originalOutputFormatId: originalOutput ? originalOutput.outputFormatId : null,
-
                 pdfUrl: pdfOutput ? pdfOutput.downloadUrl : null,
                 videoUrl:
                   s.outputs.find(i => i.outputFormatId === 'VideoLarge') ? s.outputs!.find(i => i.outputFormatId! === 'VideoLarge')!.downloadUrl :
                   s.outputs.find(i => i.outputFormatId === 'VideoSmall') ? s.outputs!.find(i => i.outputFormatId! === 'VideoSmall')!.downloadUrl : null,
                 audioUrl:
                   s.outputs.find(i => i.outputFormatId === 'AudioSmall') ? s.outputs!.find(i => i.outputFormatId! === 'AudioSmall')!.viewUrl : null,
-                outputs: outputs
+                outputs: s.outputs
               };
             })
           };
 
-          const item = share.items.find(i => i.id === this.content.id);
-
-          if (item.isMovie || item.isAudio) {
-            this.playMedia(true, item);
-            return;
-          }
-
-          if (item.isPdf) {
-            this.showPdf(item);
-            return;
-          }
-
-          this.fullscreenService.showDetailById(item.id, share.items);
+          item = share.items.find(i => i.id === this.content.id)!;
       }
 
+      if (item.isMovie || item.isAudio) {
+        this.playMedia(true, item);
+        return;
+      }
+
+      if (item.isPdf) {
+        this.showPdf(item);
+        return;
+      }
+
+      this.fullscreenService.showDetailById(item.id, items);
     }
 
     showPdf(item: IShareItem): void {
@@ -258,6 +233,6 @@ import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
       this.cdr.detectChanges();
 
       const element = document.getElementsByClassName('video-player')[0];
-      this.fullscreenService.renderVideoPlayer(element, item, item.detail.width, item.detail.height);
+      this.fullscreenService.renderVideoPlayer(element, item, item.detail!.width, item.detail!.height);
     }
 }
