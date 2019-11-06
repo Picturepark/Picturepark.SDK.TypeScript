@@ -98,7 +98,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     });
 
     this.selection = selection;
-    this.noOutputs = outputs.length === 0;
+    this.noOutputs = !selection.getFileFormats().some(i => selection.getOutputs(i).length > 0);
   }
 
   public download(): void {

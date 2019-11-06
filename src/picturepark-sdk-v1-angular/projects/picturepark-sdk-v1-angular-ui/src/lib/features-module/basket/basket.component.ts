@@ -57,7 +57,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
       contentSearch.unsubscribe();
 
       const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
-        data: { contents: data.results } as ContentDownloadDialogOptions,
+        data: { contents: data.results, mode: 'multi' } as ContentDownloadDialogOptions,
         autoFocus: false
       });
 

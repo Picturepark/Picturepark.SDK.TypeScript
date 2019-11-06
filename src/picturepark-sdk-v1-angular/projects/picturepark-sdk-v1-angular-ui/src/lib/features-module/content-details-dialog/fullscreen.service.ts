@@ -346,7 +346,7 @@ export interface IShareItem {
   audioUrl: string;
   pdfUrl: string;
 
-  detail: {
+  detail?: {
     width: number;
     height: number;
   };
