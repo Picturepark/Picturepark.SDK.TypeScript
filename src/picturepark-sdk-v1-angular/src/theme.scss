@@ -81,7 +81,8 @@ $mat-picturepark-primary: (
     contrast: (
         light-background: #d8d8d8,
         dialog-background: #eee,
-    )
+    ),
+    text: red
 );
 
 $picturepark-app-primary: mat-palette($mat-picturepark-primary);
@@ -95,12 +96,12 @@ $mat-picturepark-primary-dark: (
     dialog-background: #444,
     light-background: #444,
     white-background: #808080,
-    white-font: #fff,
-    dark-font: #fff,
-    light-font: #fff,
-    light-border: #d8d8d8,
+    white-font: #d3d3d3,
+    dark-font: #d3d3d3,
+    light-font: #d3d3d3,
+    light-border: #a9a9a9,
     icon-selected-color: #2f2f2f,
-    image-slot-background-color: #dcdcdc,
+    image-slot-background-color: #a9a9a9,
     button: #aaa,
     button-active: $base,
     progress-bar: $base,
@@ -110,7 +111,7 @@ $mat-picturepark-primary-dark: (
     contrast: (
         light-background: #d8d8d8,
         dialog-background: #eee,
-    )
+    ),
 );
 
 $picturepark-app-primary-dark: mat-palette($mat-picturepark-primary-dark);

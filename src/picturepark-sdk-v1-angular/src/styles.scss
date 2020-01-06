@@ -8,26 +8,114 @@
 @include angular-material-theme($picturepark-app-theme);
 @include picturepark-theme($picturepark-app-theme);
 
-.dark-theme{
-    @include angular-material-theme($picturepark-app-theme-dark);
-    @include picturepark-theme($picturepark-app-theme-dark);
+.dark-theme {
+  @include angular-material-theme($picturepark-app-theme-dark);
+  @include picturepark-theme($picturepark-app-theme-dark);
 }
 
-// GLOBAL STYLES (keep at bottom)
-@import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/global_styles.scss';
+
 
 
 // define classes for current application in case of dark theme
 .dark-theme {
-    div.wrap {
-      .mat-toolbar {
-        background-color: #444;
+  div.wrap {
+    .mat-toolbar {
+      background-color: mat-color($mat-picturepark-primary-dark, dialog-background);
+      color: mat-color($mat-picturepark-primary-dark, light-font);
+    }
+
+    .navbar {
+      border-bottom: 1px solid mat-color($mat-picturepark-primary-dark, light-border);
+    }
+  }
+
+  .mat-dialog-content {
+    .action-buttons {
+      color: mat-color($mat-picturepark-primary-dark, light-font);
+    }
+
+    .mat-tab-body-content {
+      .content-info {
+        color: mat-color($mat-picturepark-primary-dark, light-font);
+      }
+    }
+
+    pp-layer-panels {
+      mat-card {
+        color: mat-color($mat-picturepark-primary-dark, light-font);
+      }
+    }
+
+    mat-expansion-panel {
+      color: mat-color($mat-picturepark-primary-dark, light-font);
+    }
+
+    pp-content-details-dialog {
+      .dialog-container {
+        h3 {
+          border-bottom: 1px solid mat-color($mat-picturepark-primary-dark, light-border);
+        }
+      }
+    }
+  }
+
+  .mat-tab-labels {
+    .mat-tab-label {
+      opacity: 1;
+
+      .mat-tab-label-content {
+        color: mat-color($mat-picturepark-primary-dark, light-font);
+      }
+    }
+
+    .mat-tab-label-active {
+      opacity: 1;
+
+      .mat-tab-label-content {
         color: white;
       }
     }
   }
 
-  .dark-theme .application-header-container{
-    background-color: #444;
-    color: white;
+  pp-channel-picker {
+    color: mat-color($mat-picturepark-primary-dark, light-font);
+
   }
+
+
+  .application-header-container {
+    background-color: mat-color($mat-picturepark-primary-dark, dialog-background);
+    border-bottom: 1px solid mat-color($mat-picturepark-primary-dark, light-border);
+  }
+
+
+  pp-aggregation-item {
+    mat-form-field.search {
+      .search-icon {
+        color: mat-color($mat-picturepark-primary-dark, light-font);
+      }
+    }
+  }
+}
+
+// .navbar {
+//   border-bottom: 1px solid mat-color($primary, light-border) !important;
+// }
+
+// .browser-item__image-slot {
+//   background-color: darkgray !important;
+// }
+//   .dark-theme .application-header-container{
+//     background-color: #444;
+//     color: white;
+//   }
+
+
+//   .dark-theme .browser-toolbar-container {
+//     background-color: #444 !important;
+//     border-bottom: 1px solid darkgray !important;
+// }
+
+
+// GLOBAL STYLES (keep at bottom)
+@import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/global_styles.scss';
