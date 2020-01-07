@@ -10,7 +10,7 @@ $pp-browser-toolbar: (contrast: ());
   // BROWSER TOOLBAR MODULE
   .browser-toolbar-container {
     background-color: mat-color($primary, light-background);
-    border-bottom: 1px solid mat-contrast($primary, light-background);
+    border-color: mat-color($primary, light-border);
 
     .browser-toolbar-content {
       .select {
@@ -61,7 +61,8 @@ $pp-browser-toolbar: (contrast: ());
 
   .mat-menu-content {
 
-    .mat-menu-item,
+    .mat-menu-item, 
+    .mat-menu-item .mat-icon,
     .menu-title {
       color: mat-color($primary, light-font);
     }

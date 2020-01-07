@@ -18,11 +18,11 @@
 
 // define classes for current application in case of dark theme
 .dark-theme {
+  .mat-toolbar {
+    background-color: mat-color($mat-picturepark-primary-dark, dialog-background);
+    color: mat-color($mat-picturepark-primary-dark, light-font);
+  }
   div.wrap {
-    .mat-toolbar {
-      background-color: mat-color($mat-picturepark-primary-dark, dialog-background);
-      color: mat-color($mat-picturepark-primary-dark, light-font);
-    }
 
     .navbar {
       border-bottom: 1px solid mat-color($mat-picturepark-primary-dark, light-border);
@@ -96,26 +96,29 @@
       }
     }
   }
+
+  .table-container .mat-header-cell, .table-container .mat-cell {
+    color: mat-color($mat-picturepark-primary-dark, light-font);
+    background-color: mat-color($mat-picturepark-primary-dark, dialog-background );
+  }
+
+  .table-container tr.selected .mat-cell {
+    color: white;
+    background-color: mat-color($mat-picturepark-primary-dark, light-border);
+  }
+
+  .basket .basket__empty {
+    color: mat-color($mat-picturepark-primary-dark, light-font);
+  }
+
+  .browser__header .browser__empty-result {
+    color: mat-color($mat-picturepark-primary-dark, light-font);
+  }
+
+  .share-manager-item-container {
+    background-color: mat-color($mat-picturepark-primary-dark, light-border) !important;
+  }
 }
-
-// .navbar {
-//   border-bottom: 1px solid mat-color($primary, light-border) !important;
-// }
-
-// .browser-item__image-slot {
-//   background-color: darkgray !important;
-// }
-//   .dark-theme .application-header-container{
-//     background-color: #444;
-//     color: white;
-//   }
-
-
-//   .dark-theme .browser-toolbar-container {
-//     background-color: #444 !important;
-//     border-bottom: 1px solid darkgray !important;
-// }
-
 
 // GLOBAL STYLES (keep at bottom)
 @import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/global_styles.scss';

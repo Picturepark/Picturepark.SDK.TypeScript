@@ -1,5 +1,4 @@
 .panel-container { 
-    background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 0 0 rgba(0,0,0,.12);
     margin: 20px 0px;
@@ -7,7 +6,8 @@
     .panel-header {
         position: relative;
         padding: 0px 30px;
-        border-bottom: 1px solid #eee;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
         overflow: hidden;
 
         h3 { 
@@ -37,7 +37,9 @@
                     border: 2px solid gray;
                     box-shadow: 0 0 3px #3fb3b1;
                 }
-                &.square { border: 2px solid #3fb3b1; }
+                &.square { 
+                    border-width: 2px;
+                    border-style: solid;}
 
                 & mat-icon {
                     font-size: 18px;

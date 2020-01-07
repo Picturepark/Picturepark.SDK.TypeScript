@@ -1,0 +1,19 @@
+@import '~@angular/material/theming';
+
+// SHARE BROWSER ITEM VARS
+$pp-share-items-panel-theme: (
+  contrast: ()
+);
+
+@mixin pp-share-items-panel-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  .grid {
+
+    > .item {
+
+      background-color: mat-color($primary, light-border); 
+    }
+  }
+ 
+}
