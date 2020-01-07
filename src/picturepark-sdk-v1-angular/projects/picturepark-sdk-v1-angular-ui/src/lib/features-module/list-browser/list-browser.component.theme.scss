@@ -25,6 +25,10 @@ $pp-list-browser: (
       }
     }
   }
+
+  .browser__header .browser__empty-result {
+    color: mat-color($primary, dark-font);
+  }
   .table-container {
     background: mat-color($primary, white-background);
 

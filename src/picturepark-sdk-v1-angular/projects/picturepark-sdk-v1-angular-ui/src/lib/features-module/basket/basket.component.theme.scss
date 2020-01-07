@@ -26,5 +26,9 @@ $pp-basket: (
                   }
               }
         }
+
+        .basket__empty {
+          color: mat-color($primary, dark-font);
+        }
     }
 }
