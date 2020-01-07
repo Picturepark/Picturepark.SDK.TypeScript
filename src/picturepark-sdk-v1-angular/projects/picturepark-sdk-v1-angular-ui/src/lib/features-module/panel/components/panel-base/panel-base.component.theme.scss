@@ -10,7 +10,7 @@ $pp-panel-base: (
     $primary: map-get($theme, primary);
 
     .panel-container { 
-        background-color: mat-color($primary, white-background) ;
+        background-color: mat-color($primary, dialog-background) ;
         .panel-header {
             border-bottom-color: mat-color($primary, light-border);
             h3 { 

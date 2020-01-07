@@ -48,11 +48,11 @@ $pp-list-browser: (
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: mat-contrast($primary, light-background) !important;
-      outline: 1px solid mat-contrast($primary, light-background) !important;
+      background-color: mat-contrast($primary, light-background);
+      outline: 1px solid mat-contrast($primary, light-background);
     }
     .mat-row:hover {
-      background-color: mat-color($primary, light-background) !important;
+      background-color: mat-color($primary, light-background) ;
     }
   }
   .icons {
