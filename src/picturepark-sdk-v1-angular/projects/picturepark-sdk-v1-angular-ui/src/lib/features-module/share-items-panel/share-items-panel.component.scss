@@ -11,21 +11,16 @@ pp-item-panel-preview {
         overflow: hidden;
         display: flex;
 
-        &:hover {
-            background-color: #eeeeee; // TODO: Move to theme
-        }
         
         & ul { 
             list-style: none;
             padding-left: 8px;
     
             li {
-                color: #727272;
                 font-size: 13px;
                 line-height: 21px;
             }
             .title {
-                color: #2f2f2f;
                 font-size: 14px;
             }
         }
@@ -43,8 +38,8 @@ pp-item-panel-preview {
             float: left;
             width: 200px;
             height: 200px;
-            background-color: #eeeeee; // TODO: Move to theme
         }
+        
         .item-info {
             float: left;
             flex: 1;
