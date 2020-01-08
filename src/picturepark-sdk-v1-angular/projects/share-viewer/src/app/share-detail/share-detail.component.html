@@ -48,5 +48,5 @@
         (showDetail)="showDetail($event)">
     </pp-share-items-panel>
     
-    <img src="../service/info/customer/logo/name" width="160">
+    <img *ngIf="logoUrl" [src]="logoUrl" width="160">
 </ng-container>
