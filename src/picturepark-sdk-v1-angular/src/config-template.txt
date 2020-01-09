@@ -1,6 +1,6 @@
 
 /*
-    This is the template file for the config.ts file. The config.ts file should be 
+    This is the template file for the config.ts file. The config.ts file should be
     local only and not in any kind of source controll
 
     If when running the project the following error appears:
@@ -8,7 +8,7 @@
         ERROR in app/app.module.ts:19:39 - error TS2307: Cannot find module 'src/config'.
         import { PictureparkAppSetting } from 'src/config';
     ```
-    Then the config.ts file is probably not there and needs to be added manually 
+    Then the config.ts file is probably not there and needs to be added manually
 */
 
 
