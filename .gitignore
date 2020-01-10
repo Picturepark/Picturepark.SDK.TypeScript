@@ -3,3 +3,5 @@ node_modules
 /samples/picturepark-sdk-v1-sample-reactredux/build
 assets/~$$angular-diagram.~vsdx
 .vs/
+
+config.ts
