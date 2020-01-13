@@ -21,13 +21,13 @@
     
     .mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
       .mat-pseudo-checkbox {
-        border: 1px solid mat-color($primary, button) !important;
+        border-color:mat-color($primary, button);
       }
     }
 
     .expand-filters {
       button {
-        color: mat-color($primary, base) !important;
+        color: mat-color($primary, base);
       }
     }
   }
@@ -49,6 +49,7 @@
             }
         }
     }
+    
     mat-form-field.search { 
         background-color: mat-color($primary, white-background); 
         .search-icon {

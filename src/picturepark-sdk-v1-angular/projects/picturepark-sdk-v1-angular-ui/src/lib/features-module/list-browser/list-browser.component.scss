@@ -20,16 +20,8 @@
     text-overflow: ellipsis;
     max-width: 350px;
   }
-  .mat-row:hover {
-    background-color: lightgray;
-  }
 
   &::-webkit-scrollbar {
     width: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: darkgrey;
-    outline: 1px solid slategrey;
   }
 }

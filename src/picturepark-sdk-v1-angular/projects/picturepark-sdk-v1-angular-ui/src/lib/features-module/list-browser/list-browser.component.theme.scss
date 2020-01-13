@@ -25,6 +25,10 @@ $pp-list-browser: (
       }
     }
   }
+
+  .browser__header .browser__empty-result {
+    color: mat-color($primary, dark-font);
+  }
   .table-container {
     background: mat-color($primary, white-background);
 
@@ -44,11 +48,11 @@ $pp-list-browser: (
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: mat-contrast($primary, light-background) !important;
-      outline: 1px solid mat-contrast($primary, light-background) !important;
+      background-color: mat-contrast($primary, light-background);
+      outline: 1px solid mat-contrast($primary, light-background);
     }
     .mat-row:hover {
-      background-color: mat-color($primary, light-background) !important;
+      background-color: mat-color($primary, light-background) ;
     }
   }
   .icons {

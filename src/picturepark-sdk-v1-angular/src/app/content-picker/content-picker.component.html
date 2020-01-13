@@ -1,11 +1,11 @@
 <div class="wrap">
-  <mat-toolbar class="navbar" color="primary" *ngIf="deviceBreakpoint">
+  <mat-toolbar class="navbar" *ngIf="deviceBreakpoint">
     <button mat-icon-button class="menu" (click)="snav.toggle()" [matBadge]="basketItemsCount"
       [matBadgeHidden]="basketItemsCount<1">
       <mat-icon>menu</mat-icon>
     </button>
   </mat-toolbar>
-  <mat-toolbar class="navbar" color="primary" *ngIf="!deviceBreakpoint">
+  <mat-toolbar class="navbar" *ngIf="!deviceBreakpoint">
     <pp-channel-picker [channel]="selectedChannel" (channelChange)="changeChannel($event)"></pp-channel-picker>
 
     <span class="spacer"></span>

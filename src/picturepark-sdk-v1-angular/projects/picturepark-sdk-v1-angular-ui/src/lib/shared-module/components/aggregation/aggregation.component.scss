@@ -58,7 +58,8 @@
       .mat-pseudo-checkbox {
         height: 15px;
         width: 15px;
-        border: 2px solid #aaa;
+        border-style: solid;
+        border-width: 2px;
         margin: 0px 5px 0px 0px;
         &.mat-pseudo-checkbox-checked {
           border: 2px solid #5cbebd;
@@ -69,7 +70,6 @@
     .expand-filters {
       button {
         text-align: left;
-        color: #39acaa;
         width: 100%;
         border-radius: 0px;
         padding: 0px 20px;

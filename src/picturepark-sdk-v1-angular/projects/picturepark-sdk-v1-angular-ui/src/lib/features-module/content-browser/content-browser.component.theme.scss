@@ -21,4 +21,8 @@
         }   
     }
 
+    .browser__header .browser__empty-result {
+        color: mat-color($primary, dark-font);
+    }
+
 }
