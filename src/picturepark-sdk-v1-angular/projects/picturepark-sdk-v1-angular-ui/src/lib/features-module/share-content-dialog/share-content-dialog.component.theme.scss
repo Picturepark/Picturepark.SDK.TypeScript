@@ -1,10 +1,8 @@
 @import '~@angular/material/theming';
 
 // SHARE CONTENT DIALOG
-$pp-share-content-dialog: (
-  input-focus-border-color: #444,
-  contrast: ()
-);
+$pp-share-content-dialog: (input-focus-border-color: #444,
+  contrast: ());
 
 @mixin pp-share-content-dialog-theme($theme) {
 
@@ -13,31 +11,45 @@ $pp-share-content-dialog: (
 
   .share-content-dialog-container {
     ul {
-      color: mat-color($primary, light-font) !important;
-      font-size: mat-font-size($custom-typography, display-1) !important;
-      li { 
+      color: mat-color($primary, light-font);
+      font-size: mat-font-size($custom-typography, display-1);
+
+      li {
         input {
-          font-size: mat-font-size($custom-typography, display-1) !important;
-          color: mat-color($primary, dark-font) !important;
-          &:focus { border: 1px solid mat-color($pp-share-content-dialog, input-focus-border-color) !important; }
+          font-size: mat-font-size($custom-typography, display-1);
+          color: mat-color($primary, dark-font);
+
+          &:focus {
+            border-color: mat-color($pp-share-content-dialog, input-focus-border-color);
+          }
         }
       }
     }
-    #share-name.error-active { border: 1px solid mat-color($warn) !important; }
-    .share-name-error { 
-      color: mat-color($warn) !important; font-size: mat-font-size($custom-typography, caption) !important;
+
+    #share-name.error-active {
+      border-color: mat-color($warn);
     }
+
+    .share-name-error {
+      color: mat-color($warn);
+      font-size: mat-font-size($custom-typography, caption);
+    }
+
     .share-content-confirmation-container {
-      .share-content-confirmation { 
-        border-bottom: 1px solid mat-contrast($primary, dialog-background) !important;
-        .user-info-container { 
-          ul { 
-            li { 
-                mat-icon { 
-                  font-size: mat-font-size($custom-typography, subheading-2) !important;
-                  color:  mat-color($primary, light-font) !important;
-                }
-                a { color:  mat-color($primary, light-font) !important; }
+      .share-content-confirmation {
+        border-bottom-color: mat-contrast($primary, dialog-background);
+
+        .user-info-container {
+          ul {
+            li {
+              mat-icon {
+                font-size: mat-font-size($custom-typography, subheading-2);
+                color: mat-color($primary, light-font);
+              }
+
+              a {
+                color: mat-color($primary, light-font);
+              }
             }
           }
         }

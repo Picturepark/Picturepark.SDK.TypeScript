@@ -19,6 +19,34 @@ $pp-dialog-base: (
         mat-dialog-content {
             background-color: mat-color($primary, dialog-background);
             border-bottom: 1px solid mat-contrast($primary, dialog-background); 
+
+            .action-buttons {
+                color: mat-color($primary, dark-font);
+            }
+            
+            .mat-tab-body-content {
+                .content-info {
+                    color: mat-color($primary, dark-font);
+                }
+            }
+        
+            pp-layer-panels {
+                mat-card {
+                    color: mat-color($primary, dark-font);
+                }
+            }
+        
+            mat-expansion-panel {
+                color: mat-color($primary, dark-font);
+            }
+        
+            pp-content-details-dialog {
+                .dialog-container {
+                    h3 {
+                        border-bottom: 1px solid mat-color($primary, light-border);
+                    }
+                }
+            }
         }
     
         .loader-container { 

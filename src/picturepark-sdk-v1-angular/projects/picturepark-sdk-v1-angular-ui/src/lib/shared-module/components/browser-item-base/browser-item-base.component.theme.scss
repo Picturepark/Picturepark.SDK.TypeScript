@@ -14,21 +14,21 @@ $pp-browser-item: (
       $self: &;
       &--selected {
         // use primary color.
-        box-shadow: 0 0 0 2px mat-color($pp-browser-item, selected-background) !important;
+        box-shadow: 0 0 0 2px mat-color($pp-browser-item, selected-background);
     
         #{ $self }__title {
-          background-color: mat-color($pp-browser-item, selected-background) !important;
-          color: mat-color($primary, white-font) !important;
+          background-color: mat-color($pp-browser-item, selected-background);
+          color: mat-color($primary, white-font);
         }
     
       }
 
       &--list-view {
         #{ $self }__title {
-          background-color: transparent !important;
+          background-color: transparent;
 
           .mat-subheading-1 {
-            color: mat-color($primary, light-font) !important;
+            color: mat-color($primary, light-font);
           }
         }
         #{ $self }__actions {
@@ -37,7 +37,7 @@ $pp-browser-item: (
       }
     
       &__title {
-        color: mat-color($primary, light-font) !important;
+        color: mat-color($primary, light-font);
       }
       
       &__actions {
@@ -46,21 +46,21 @@ $pp-browser-item: (
             float: left; 
             button {
               mat-icon {     
-                font-size: mat-font-size($custom-typography, display-1) !important;
-                color: mat-color($primary, white-font) !important;
+                font-size: mat-font-size($custom-typography, display-1);
+                color: mat-color($primary, white-font);
               }
             }
             .material-icons {
-              font-size: mat-font-size($custom-typography, display-2) !important;
-              color: mat-color($primary, white-font) !important;
+              font-size: mat-font-size($custom-typography, display-2);
+              color: mat-color($primary, white-font);
             }
           }
         }
       }
     
       &__thumbnail-overlay {
-        color: mat-color($primary, white-font) !important;
-        font-size: mat-font-size($custom-typography, caption) !important;
+        color: mat-color($primary, white-font);
+        font-size: mat-font-size($custom-typography, caption);
       }
     }
 }

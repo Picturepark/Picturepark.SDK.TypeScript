@@ -13,16 +13,9 @@
 
   &--selected {
     // use primary color.
-    box-shadow: 0 0 0 2px #6f6f6f;
     #{ $self }__actions {
       visibility: initial;
     }
-
-    #{ $self }__title {
-      background-color: #6f6f6f;
-      color: #d8d8d8;
-    }
-
   }
   
   &--list-view {
@@ -45,7 +38,6 @@
     #{ $self }__title {
       flex-grow: 1;
       margin: 10px;
-      background-color: transparent !important;
       width: 50%;
       &__title-content {
         color: #2f2f2f;
@@ -130,7 +122,6 @@
     text-overflow: ellipsis;
     margin: 0px;
     line-height: 28px;
-    color: #727272;
     padding: 0px 5px;
 
     &__title-content {
@@ -163,11 +154,6 @@
           height: 24px;
           line-height: 14px;
         }
-        .material-icons {
-          font-size: 15px;
-          color: white;
-          
-        }
       }
     }
   }
@@ -176,8 +162,6 @@
     position: absolute;
     left: 10px;
     bottom: 5px;
-    font-size: 10px;
-    color: white;
     z-index: 100;
   }
 }
