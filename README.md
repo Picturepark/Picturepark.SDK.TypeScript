@@ -15,11 +15,21 @@ Links:
 
 **[picturepark-sdk-v1-angular](docs/picturepark-sdk-v1-angular/README.md)** 
 
-Contains Angular service classes and UI components to access the Picturepark API.
+Contains Angular service classes to access the Picturepark API.
 
 NPM package: `@picturepark/sdk-v1-angular`
 
+**[picturepark-sdk-v1-angular-oidc](docs/picturepark-sdk-v1-angular/README.md)** 
 
+Contains Angular service classes to access the Picturepark authentication endpoints.
+
+NPM package: `@picturepark/sdk-v1-angular-oidc`
+
+**[picturepark-sdk-v1-angular-ui](docs/picturepark-sdk-v1-angular/README.md)** 
+
+Contains Angular UI components based on Angular Material.
+
+NPM package: `@picturepark/sdk-v1-angular-ui`
 
 **[picturepark-sdk-v1-fetch](docs/picturepark-sdk-v1-fetch/README.md)**
 
@@ -52,9 +62,11 @@ Contains widgets to embed Picturepark content into other websites.
 | `1.0.x`     | `10.0.x`               |
 | `1.1.x`     | `10.1.x`               |
 | `1.2.x`     | `10.2.x`               |
-| `1.3.x`     | `10.3.x`               |	
+| `1.3.x`     | `10.3.x`               |
+| `1.4.x`     | `10.4.x`               |
+| `1.5.x`     | `10.5.x`               |
 	
-## SDK Development
+SDK Development
 
 Links: 
 
@@ -75,24 +87,41 @@ For more information, see [NSwag](http://nswag.org).
 1. Change package versions in the following projects and delete all `package-lock.json` files: 
 
 - picturepark-sdk-v1-angular
+- picturepark-sdk-v1-angular-oidc
+- picturepark-sdk-v1-angular-ui
 - picturepark-sdk-v1-fetch
 - picturepark-sdk-v1-pickers
+
+> NOTE:   
+For pre-release packages, the version should include the "pre" identifier.  
+Ex: 1.5.0-pre.0
 
 2. Run the following command to regenerate the `package-lock.json` files and build all projects:
 
     npm run build
 
-3. Commit and push changes, then merge into the "release" branch. The NPM packages are now [automatically published by AppVeyor](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript).
+3. Commit and push changes, then merge into the "pre-release" or "release" branch. The NPM packages are now [automatically published by AppVeyor](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript).
+
+> NOTE:  
+"pre-release - to generate pre-release packages  
+"release" - to generate release packages
 
 ### CI Builds
 
 Branch: master
 
-- AppVeyor CI Build: https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript-hgo7c
+- AppVeyor CI Build: [Picturepark.SDK.TypeScript CI](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript-hgo7c)
+
+### Pre-Release Builds
+
+Branch: pre-release
+
+- NPM Feed: https://www.npmjs.com/~picturepark
+- AppVeyor Build: [Picturepark.SDK.TypeScript PRE](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript-pre)
 
 ### Release Builds
 
 Branch: release
 
 - NPM Feed: https://www.npmjs.com/~picturepark
-- AppVeyor Build: https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript
+- AppVeyor Build: [Picturepark.SDK.TypeScript](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript)
