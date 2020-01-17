@@ -93,8 +93,8 @@ For more information, see [NSwag](http://nswag.org).
 - picturepark-sdk-v1-pickers
 
 > NOTE:   
-For pre-release packages, the version should include the "rc" (release candidate) identifier.  
-Ex: 1.5.0-rc.0
+For pre-release packages, the version should include the "pre" identifier.  
+Ex: 1.5.0-pre.0
 
 2. Run the following command to regenerate the `package-lock.json` files and build all projects:
 
