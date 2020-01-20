@@ -111,7 +111,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       limit: this.pageSize,
       searchString: this.searchString,
       searchType: ContentSearchType.MetadataAndFullText,
-      searchBehaviors: [
+      // Set default searchBehaviors
+      searchBehaviors: this.searchBehaviors || [
         SearchBehavior.SimplifiedSearch,
         SearchBehavior.DropInvalidCharactersOnFailure,
         SearchBehavior.WildcardOnSingleTerm

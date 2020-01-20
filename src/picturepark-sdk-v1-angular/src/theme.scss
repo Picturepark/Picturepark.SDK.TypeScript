@@ -82,6 +82,8 @@ $mat-picturepark-primary: (
         light-background: #d8d8d8,
         dialog-background: #eee,
     ),
+    form-dark-background: #808080,
+    form-light-background: #a9a9a9,
 );
 
 $picturepark-app-primary: mat-palette($mat-picturepark-primary);
@@ -111,6 +113,8 @@ $mat-picturepark-primary-dark: (
         light-background: #d8d8d8,
         dialog-background: #a9a9a9,
     ),
+    form-dark-background: #808080,
+    form-light-background: #a9a9a9,
 );
 
 $picturepark-app-primary-dark: mat-palette($mat-picturepark-primary-dark);
