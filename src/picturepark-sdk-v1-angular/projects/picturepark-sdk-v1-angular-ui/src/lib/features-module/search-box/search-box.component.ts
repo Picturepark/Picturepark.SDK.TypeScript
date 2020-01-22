@@ -17,8 +17,12 @@ export class SearchBoxComponent implements OnChanges, OnInit {
   @Input()
   public searchString = '';
 
+  /**
+   * Must accept type string because using undefined as the correspondent to 'AdvancedSearch'
+   * is liable to cause problems
+   */
   @Input()
-  public searchBehavior: SearchBehavior | undefined = SearchBehavior.SimplifiedSearch;
+  public searchBehavior: SearchBehavior | string;
 
   @Input()
   public showSearchBehaviorPicker = false;
@@ -28,12 +32,6 @@ export class SearchBoxComponent implements OnChanges, OnInit {
 
   @Output()
   public searchBehaviorChange = new EventEmitter<string>();
-
-  public searchBehaviorMapper = {
-    'simple-all': SearchBehavior.SimplifiedSearch,
-    'simple-any': SearchBehavior.SimplifiedSearchOr,
-    'advanced': undefined
-  };
 
   ngOnInit(): void {
     this.searchBehaviorChange.emit(this.searchBehavior);
@@ -56,25 +54,8 @@ export class SearchBoxComponent implements OnChanges, OnInit {
     this.searchString = '';
   }
 
-  public setSearchBehavior(searchType) {
-    this.searchBehavior = this.searchBehaviorMapper[searchType];
+  public setSearchBehavior(searchBehavior) {
+    this.searchBehavior = searchBehavior;
+    this.searchBehaviorChange.emit(this.searchBehavior);
   }
-
-  public checkSearchBehavior() {
-    if (this.searchBehavior === SearchBehavior.SimplifiedSearch) {
-      return 'simple-all';
-    } else if (this.searchBehavior === SearchBehavior.SimplifiedSearchOr) {
-      return 'simple-any';
-    } else if (!this.searchBehavior) {
-      return 'advanced';
-    }
-  }
-
-  //   export declare enum SearchBehavior {
-  //     DropInvalidCharactersOnFailure = "DropInvalidCharactersOnFailure",
-  //     WildcardOnSingleTerm = "WildcardOnSingleTerm",
-  //     SimplifiedSearch = "SimplifiedSearch",
-  //     WildcardOnEveryTerm = "WildcardOnEveryTerm",
-  //     SimplifiedSearchOr = "SimplifiedSearchOr"
-  // }
 }

@@ -14,12 +14,10 @@
     <button mat-icon-button [matMenuTriggerFor]="searchOptions"><mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" role="img" aria-hidden="true">menu</mat-icon></button>
     
     <mat-menu #searchOptions="matMenu" xPosition="after">
-      <button mat-menu-item  (click)="setSearchBehavior('simple-any')" [class.active]="checkSearchBehavior() === 'simple-any'">Simple (any)</button>
-      <button mat-menu-item (click)="setSearchBehavior('simple-all')" [class.active]="checkSearchBehavior() === 'simple-all'">Simple (all)</button>
-      <button mat-menu-item (click)="setSearchBehavior('advanced')" [class.active]="checkSearchBehavior() === 'advanced'">Advanced</button>
+    <button mat-menu-item  (click)="setSearchBehavior('SimplifiedSearchOr')" [class.active]="searchBehavior === 'SimplifiedSearchOr'">{{ 'SearchBox.SimpleAnySearch' | pptranslate }}</button>
+      <button mat-menu-item (click)="setSearchBehavior('SimplifiedSearch')" [class.active]="searchBehavior === 'SimplifiedSearch'">{{ 'SearchBox.SimpleAllSearch' | pptranslate }}</button>
+      <button mat-menu-item (click)="setSearchBehavior('AdvancedSearch')" [class.active]="searchBehavior === 'AdvancedSearch'">{{ 'SearchBox.AdvancedSearch' | pptranslate }}</button>
       <!-- {{ 'ContentBrowser.DeselectAll' | pptranslate }} -->
     </mat-menu>
   </div>
-
-
 </div>

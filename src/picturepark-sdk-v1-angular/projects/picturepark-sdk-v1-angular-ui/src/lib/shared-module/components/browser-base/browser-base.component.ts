@@ -77,17 +77,13 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     @Input() public searchString = '';
     /**
-    * ### SearchBehaviors to be passed on the search request
-    * #### default values
+    * ### SearchBehavior to be passed on the search request
+    * default value
     * ``` javascript
-    *  [
-    *       SearchBehavior.SimplifiedSearch,
-    *       SearchBehavior.DropInvalidCharactersOnFailure,
-    *       SearchBehavior.WildcardOnSingleTerm
-    *   ]
+    *       SearchBehavior.SimplifiedSearch
     * ```
     */
-    @Input() public searchBehaviors: SearchBehavior[];
+    @Input() public searchBehavior = SearchBehavior.SimplifiedSearch;
     @Input() public filter: FilterBase | null = null;
 
     private _totalResults: number | null = null;
