@@ -42,6 +42,9 @@ export class SearchBoxComponent implements OnChanges, OnInit {
       this.search();
     }
     if (changes['searchBehavior']) {
+      if (!this.searchBehavior) {
+        this.searchBehavior = SearchBehavior.SimplifiedSearch;
+      }
       this.searchBehaviorChange.emit(this.searchBehavior);
     }
   }
