@@ -41,14 +41,13 @@ export class ShareDetailComponent implements OnInit {
     this.isLoading = true;
 
     const shareInfo = forkJoin({
-      shareDetail: this.shareService.getShareJson(searchString),
+      shareDetail: this.shareService.getShareJson(searchString, null),
       customerInfo: this.infoService.getInfo()
     });
 
     shareInfo.subscribe({
       next: (values) => {
-        // [SANTEST] - Unomment when the backend is returning the logoUrl
-        // this.logoUrl = values.customerInfo.logoUrl;
+        this.logoUrl = values.customerInfo.logosUrl;
         this.shareDetail = ShareDetail.fromJS(values.shareDetail);
         this.liquidRenderingService.renderNestedDisplayValues(this.shareDetail);
         this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients!;
