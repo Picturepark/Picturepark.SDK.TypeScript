@@ -1,7 +1,9 @@
 .item-panel-preview-container {
     height: 100%;
-    width: 100%;
+    width: fit-content;
+    margin: auto;
 
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     display: flex;
