@@ -1,10 +1,10 @@
 {
   "name": "@picturepark/sdk-v1-angular-oidc",
-  "version": "1.5.0-pre.3",
+  "version": "1.5.0-pre.4",
   "peerDependencies": {
     "@angular/common": "^8.2.7",
     "@angular/core": "^8.2.7",
     "oidc-client": "^1.6.1",
-    "@picturepark/sdk-v1-angular": "^1.5.0-pre.3"
+    "@picturepark/sdk-v1-angular": "^1.5.0-pre.4"
   }
 }
