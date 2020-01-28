@@ -34,23 +34,20 @@ export class SearchBoxComponent implements OnChanges, OnInit {
   public searchBehaviorChange = new EventEmitter<string>();
 
   ngOnInit(): void {
+    this.searchBehavior = SearchBehavior.SimplifiedSearch;
     this.searchBehaviorChange.emit(this.searchBehavior);
   }
 
   public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
     if (changes['searchString']) {
-      this.search();
+      this.onValuesChange();
     }
     if (changes['searchBehavior']) {
       if (!this.searchBehavior) {
         this.searchBehavior = SearchBehavior.SimplifiedSearch;
       }
-      this.searchBehaviorChange.emit(this.searchBehavior);
+      this.onValuesChange();
     }
-  }
-
-  public search() {
-    this.searchStringChange.emit(this.searchString);
   }
 
   public clear() {
@@ -59,6 +56,11 @@ export class SearchBoxComponent implements OnChanges, OnInit {
 
   public setSearchBehavior(searchBehavior) {
     this.searchBehavior = searchBehavior;
+    this.onValuesChange();
+  }
+
+  public onValuesChange() {
     this.searchBehaviorChange.emit(this.searchBehavior);
+    this.searchStringChange.emit(this.searchString);
   }
 }
