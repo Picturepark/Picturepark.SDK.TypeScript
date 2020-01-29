@@ -5,6 +5,8 @@
   </h3>
   <pp-notification [notification]="notification"></pp-notification>
   <mat-dialog-content *ngIf="selection">
+    <div *ngIf="!singleItem" class="note-dynamic">Note: For downloading dynamic formats, please select a single item
+      only.</div>
     <form *ngIf="!noOutputs">
       <div *ngFor="let filetype of selection.getFileFormats()">
         <fieldset *ngIf="selection.hasOutputs(filetype)">
@@ -19,7 +21,8 @@
           <div *ngIf="data.mode === 'single'">
             <mat-radio-group>
               <div *ngFor="let output of selection.getOutputs(filetype)">
-                <mat-radio-button *ngIf="!output.hidden && output.values.length" [value]="filetype.id + '-' + output.id" [checked]="output.selected" (change)="radioChange(output, filetype)">
+                <mat-radio-button *ngIf="!output.hidden && output.values.length" [value]="filetype.id + '-' + output.id"
+                  [checked]="output.selected" (change)="radioChange(output, filetype)">
                   {{ output.name }} ({{ output.values.length }})
                 </mat-radio-button>
               </div>
@@ -29,10 +32,10 @@
       </div>
     </form>
     <div *ngIf="noOutputs">{{ 'ContentDownloadDialog.NoAccess' | pptranslate }}</div>
-    <div class="filesize" *ngIf="fileSize || hasDynamicOutputs" align="end">
-        <span *ngIf="!hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}</span>
-        <span *ngIf="hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSizeDynamicOutputs' | pptranslate }}</span>
-        {{ fileSize | filesize }}
+    <div class="filesize" *ngIf="fileSize || hasDynamicOutputs">
+      <span *ngIf="!hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}</span>
+      <span *ngIf="hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSizeDynamicOutputs' | pptranslate }}</span>
+      {{ fileSize | filesize }}
     </div>
   </mat-dialog-content>
 
@@ -41,7 +44,7 @@
       <mat-spinner></mat-spinner>
     </div>
   </div>
-  
+
   <mat-dialog-actions align="end">
     <button mat-button class="option" (click)="toggleAdvanced()" *ngIf="enableAdvanced">
       <span *ngIf="!advancedMode">{{ 'ContentDownloadDialog.Advanced' | pptranslate }}</span>
@@ -49,6 +52,7 @@
     </button>
     <span class="spacer"></span>
     <button mat-button mat-dialog-close>{{ 'ContentDownloadDialog.Cancel' | pptranslate }}</button>
-    <button mat-flat-button color="accent" *ngIf="!noOutputs" (click)="download()" [disabled]="fileSize === 0 && !hasDynamicOutputs">{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
+    <button mat-flat-button color="accent" *ngIf="!noOutputs" (click)="download()"
+      [disabled]="fileSize === 0 && !hasDynamicOutputs">{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
   </mat-dialog-actions>
 </div>

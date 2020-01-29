@@ -1,6 +1,10 @@
 .dialog-container {
-  position: relative; min-width: 500px;
-  mat-dialog-content { padding: 24px; }
+  position: relative;
+  min-width: 500px;
+
+  mat-dialog-content {
+    padding: 24px;
+  }
 }
 
 fieldset {
@@ -20,17 +24,28 @@ legend {
 @media (max-width: 600px) {
   .dialog-container {
     min-width: unset;
-    mat-dialog-content { padding: 16px; }
+
+    mat-dialog-content {
+      padding: 16px;
+    }
 
     .mat-dialog-actions {
       button.option {
-      width: 100%;
-      margin: 0px 16px 10px 16px; 
+        width: 100%;
+        margin: 0px 16px 10px 16px;
       }
     }
 
-    button { 
-     margin: 5px;
+    button {
+      margin: 5px;
     }
   }
+}
+
+.filesize {
+  text-align: right;
+}
+
+.note-dynamic {
+  padding-bottom: 16px;
 }
