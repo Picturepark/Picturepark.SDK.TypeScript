@@ -40,7 +40,7 @@ export class SearchBoxComponent implements OnChanges, OnInit {
 
   public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
     if (changes['searchString']) {
-      this.onValuesChange();
+      this.search();
     }
     if (changes['searchBehavior']) {
       if (!this.searchBehavior) {
@@ -48,6 +48,10 @@ export class SearchBoxComponent implements OnChanges, OnInit {
       }
       this.onValuesChange();
     }
+  }
+
+  public search() {
+    this.onValuesChange();
   }
 
   public clear() {
