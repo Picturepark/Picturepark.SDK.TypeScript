@@ -24,11 +24,12 @@ describe('ShareService', () => {
         outputFormatIds: ['Original']
       }));
 
-      const result = await shareService.create(new ShareBasicCreateRequest({
+      const result = await shareService.create( null, new ShareBasicCreateRequest({
         name: 'Share',
         languageCode: 'en',
         contents: contents,
-        outputAccess: OutputAccess.Full
+        outputAccess: OutputAccess.Full,
+        suppressNotifications: false
       })).toPromise();
 
       const share = await shareService.get(result.shareId!).toPromise();

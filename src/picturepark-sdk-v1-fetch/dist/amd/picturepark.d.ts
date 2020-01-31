@@ -48,9 +48,10 @@
          * Wait for completion
          * @param processId The business process id.
          * @param timeout (optional) The timeout to wait for completion.
+         * @param waitForContinuationCompletion (optional) Waits for the completion of the continuation business process (if existing, recursively). Default to true.
          * @return BusinessProcessWaitResult
          */
-        waitForCompletion(processId: string, timeout?: string | null | undefined): Promise<BusinessProcessWaitForLifeCycleResult>;
+        waitForCompletion(processId: string, timeout?: string | null | undefined, waitForContinuationCompletion?: boolean | undefined): Promise<BusinessProcessWaitForLifeCycleResult>;
         protected processWaitForCompletion(response: Response): Promise<BusinessProcessWaitForLifeCycleResult>;
         /**
          * Get details
@@ -59,6 +60,41 @@
          */
         getDetails(processId: string): Promise<BusinessProcessDetails>;
         protected processGetDetails(response: Response): Promise<BusinessProcessDetails>;
+        /**
+         * Get business process
+         * @param processId The business process id.
+         * @return BusinessProcess
+         */
+        get(processId: string): Promise<BusinessProcess>;
+        protected processGet(response: Response): Promise<BusinessProcess>;
+        /**
+         * Create business process
+         * @param request The business process create request.
+         * @return BusinessProcess
+         */
+        create(request: BusinessProcessCreateRequest): Promise<BusinessProcess>;
+        protected processCreate(response: Response): Promise<BusinessProcess>;
+        /**
+         * Change business process state
+         * @param processId The business process id.
+         * @param request The business process state change request.
+         * @return BusinessProcess
+         */
+        changeState(processId: string, request: BusinessProcessStateChangeRequest): Promise<BusinessProcess>;
+        protected processChangeState(response: Response): Promise<BusinessProcess>;
+        /**
+         * Update business process notification
+         * @param processId The business process id.
+         * @param request The business process notification update request.
+         */
+        updateNotification(processId: string, request: BusinessProcessNotificationUpdateRequest): Promise<void>;
+        protected processUpdateNotification(response: Response): Promise<void>;
+        /**
+         * Cancel business process
+         * @param processId The business process id.
+         */
+        cancel(processId: string): Promise<void>;
+        protected processCancel(response: Response): Promise<void>;
     }
     export class BusinessRuleClient extends PictureparkClientBase {
         private http;
@@ -145,9 +181,11 @@
          * @param forceReferenceRemoval (optional) A value indicating whether references to the content should be removed.
          * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                     Only the waiting is aborted, and the calls returned.
+         * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                    By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
          * @return Ok
          */
-        delete(contentId: string, forceReferenceRemoval?: boolean | null | undefined, timeout?: string | null | undefined): Promise<void>;
+        delete(contentId: string, forceReferenceRemoval?: boolean | null | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<void>;
         protected processDelete(response: Response): Promise<void>;
         /**
          * Get multiple contents
@@ -164,9 +202,11 @@
          * @param allowMissingDependencies (optional) Allows creating contents that refer to list items or contents that don't exist in the system.
          * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                     Only the waiting is aborted, and the calls returned.
+         * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                    By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
          * @return The content details
          */
-        create(contentCreateRequest: ContentCreateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ContentDetail>;
+        create(contentCreateRequest: ContentCreateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<ContentDetail>;
         protected processCreate(response: Response): Promise<ContentDetail>;
         /**
          * Search contents
@@ -259,9 +299,11 @@
          * @param allowMissingDependencies (optional) Allows restoring contents that refer to list items or contents that don't exist in the system.
          * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                     Only the waiting is aborted, and the calls returned.
+         * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                    By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
          * @return Ok
          */
-        restore(contentId: string, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<void>;
+        restore(contentId: string, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<void>;
         protected processRestore(response: Response): Promise<void>;
         /**
          * Restore multiple contents
@@ -286,9 +328,11 @@
          * @param allowMissingDependencies (optional) Allows storing references to list items or contents that don't exist in the system.
          * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                     Only the waiting is aborted, and the calls returned.
+         * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                    By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
          * @return Content detail
          */
-        updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ContentDetail>;
+        updateMetadata(contentId: string, updateRequest: ContentMetadataUpdateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<ContentDetail>;
         protected processUpdateMetadata(response: Response): Promise<ContentDetail>;
         /**
          * Update content permissions
@@ -297,9 +341,11 @@
          * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
          * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                     Only the waiting is aborted, and the calls returned.
+         * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                    By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
          * @return Content detail
          */
-        updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, timeout?: string | null | undefined): Promise<ContentDetail>;
+        updatePermissions(contentId: string, updateRequest: ContentPermissionsUpdateRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<ContentDetail>;
         protected processUpdatePermissions(response: Response): Promise<ContentDetail>;
         /**
          * Update multiple content metadata
@@ -321,9 +367,11 @@
          * @param updateRequest Content ownership transfer request.
          * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                     Only the waiting is aborted, and the calls returned.
+         * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                    By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
          * @return Ok
          */
-        transferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest, timeout?: string | null | undefined): Promise<void>;
+        transferOwnership(contentId: string, updateRequest: ContentOwnershipTransferRequest, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<void>;
         protected processTransferOwnership(response: Response): Promise<void>;
         /**
          * Transfer multiple contents ownerships
@@ -448,6 +496,26 @@
         search(request: PermissionSetSearchRequest): Promise<PermissionSetSearchResult>;
         protected processSearch(response: Response): Promise<PermissionSetSearchResult>;
     }
+    export class DisplayValueClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        /**
+         * Re-render the display values
+         * @return VersionInfo
+         */
+        rerender(): Promise<BusinessProcess>;
+        protected processRerender(response: Response): Promise<BusinessProcess>;
+        /**
+         * Get status
+         * @return VersionInfo
+         */
+        getStatus(): Promise<DisplayValueStatus>;
+        protected processGetStatus(response: Response): Promise<DisplayValueStatus>;
+    }
     export class DocumentHistoryClient extends PictureparkClientBase {
         private http;
         private baseUrl;
@@ -518,6 +586,12 @@
          */
         getVersion(): Promise<VersionInfo>;
         protected processGetVersion(response: Response): Promise<VersionInfo>;
+        /**
+         * Get status
+         * @return SystemStatus
+         */
+        getStatus(): Promise<SystemStatus>;
+        protected processGetStatus(response: Response): Promise<SystemStatus>;
     }
     export class JsonSchemaClient extends PictureparkClientBase {
         private http;
@@ -557,9 +631,11 @@
          * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
          * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                     Only the waiting is aborted, and the calls returned.
+         * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                    By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
          * @return List item detail
          */
-        update(listItemId: string, updateRequest: ListItemUpdateRequest, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ListItemDetail>;
+        update(listItemId: string, updateRequest: ListItemUpdateRequest, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<ListItemDetail>;
         protected processUpdate(response: Response): Promise<ListItemDetail>;
         /**
          * Delete list item
@@ -567,9 +643,11 @@
          * @param forceReferenceRemoval (optional) A value indicating whether references to the list item should be removed.
          * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                     Only the waiting is aborted, and the calls returned.
+         * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                    By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
          * @return Ok
          */
-        delete(listItemId: string, forceReferenceRemoval?: boolean | null | undefined, timeout?: string | null | undefined): Promise<void>;
+        delete(listItemId: string, forceReferenceRemoval?: boolean | null | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<void>;
         protected processDelete(response: Response): Promise<void>;
         /**
          * Get multiple list items
@@ -586,9 +664,11 @@
          * @param allowMissingDependencies (optional) Allows creating list items that refer to list items or contents that don't exist in the system.
          * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                     Only the waiting is aborted, and the calls returned.
+         * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                    By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
          * @return List item detail
          */
-        create(listItemCreateRequest: ListItemCreateRequest, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<ListItemDetail>;
+        create(listItemCreateRequest: ListItemCreateRequest, resolveBehaviors?: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<ListItemDetail>;
         protected processCreate(response: Response): Promise<ListItemDetail>;
         /**
          * Search list items
@@ -638,9 +718,11 @@
          * @param allowMissingDependencies (optional) Allows restoring list items that refer to list items or contents that don't exist in the system.
          * @param timeout (optional) Maximum time to wait for the operation to complete. If timeout is exceeded, the operation is not aborted but continues anyhow.
                     Only the waiting is aborted, and the calls returned.
+         * @param waitSearchDocCreation (optional) Wait for the creation of the search document and the rendered display values.
+                    By default the endpoint waits for the search document creation. Passing false, the endpoint will return when the main entity has been created and the creation of the search document has been enqueued but not yet performed.
          * @return Ok
          */
-        restore(listItemId: string, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined): Promise<void>;
+        restore(listItemId: string, allowMissingDependencies?: boolean | undefined, timeout?: string | null | undefined, waitSearchDocCreation?: boolean | undefined): Promise<void>;
         protected processRestore(response: Response): Promise<void>;
         /**
          * Restore multiple list items
@@ -701,6 +783,25 @@
         search(request: LiveStreamSearchRequest): Promise<LiveStreamSearchResult>;
         protected processSearch(response: Response): Promise<LiveStreamSearchResult>;
     }
+    export class MetadataClient extends PictureparkClientBase {
+        private http;
+        private baseUrl;
+        protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+        constructor(configuration: AuthClient, baseUrl?: string, http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        });
+        /**
+         * Get status
+         * @return MetadataStatus
+         */
+        getStatus(): Promise<MetadataStatus>;
+        protected processGetStatus(response: Response): Promise<MetadataStatus>;
+        /**
+         * Update outdated
+         */
+        updateOutdated(): Promise<BusinessProcess>;
+        protected processUpdateOutdated(response: Response): Promise<BusinessProcess>;
+    }
     export class OutputClient extends PictureparkClientBase {
         private http;
         private baseUrl;
@@ -748,24 +849,24 @@
          * Update output format
          * @param id ID of output format to update
          * @param request The request containing information needed to update the output format.
-         * @return Updated output format
+         * @return Business process
          */
-        update(id: string, request: OutputFormatEditable): Promise<OutputFormatDetail>;
-        protected processUpdate(response: Response): Promise<OutputFormatDetail>;
+        update(id: string, request: OutputFormatEditable): Promise<BusinessProcess>;
+        protected processUpdate(response: Response): Promise<BusinessProcess>;
         /**
          * Delete output format
          * @param id ID of the output format that should be deleted.
-         * @return OK
+         * @return Business process
          */
-        delete(id: string): Promise<void>;
-        protected processDelete(response: Response): Promise<void>;
+        delete(id: string): Promise<BusinessProcess>;
+        protected processDelete(response: Response): Promise<BusinessProcess>;
         /**
          * Create output format
          * @param request The request containing information needed to create new output format.
-         * @return Output format
+         * @return Business process
          */
-        create(request: OutputFormat): Promise<OutputFormatDetail>;
-        protected processCreate(response: Response): Promise<OutputFormatDetail>;
+        create(request: OutputFormat): Promise<BusinessProcess>;
+        protected processCreate(response: Response): Promise<BusinessProcess>;
         /**
          * Get multiple output formats
          * @param ids (optional) Output format IDs to get information about. If this is omitted, all output formats in the system will be returned.
@@ -776,24 +877,51 @@
         /**
          * Create multiple output formats
          * @param request The request containing information needed to create new output formats.
-         * @return Bulk response with information about created output formats
+         * @return Business process
          */
-        createMany(request: OutputFormatCreateManyRequest): Promise<BulkResponse>;
-        protected processCreateMany(response: Response): Promise<BulkResponse>;
+        createMany(request: OutputFormatCreateManyRequest): Promise<BusinessProcess>;
+        protected processCreateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Update multiple output formats
          * @param request The request containing information needed to update the output format.
-         * @return Bulk response with information about updated output formats
+         * @return Business process
          */
-        updateMany(request: OutputFormatUpdateManyRequest): Promise<BulkResponse>;
-        protected processUpdateMany(response: Response): Promise<BulkResponse>;
+        updateMany(request: OutputFormatUpdateManyRequest): Promise<BusinessProcess>;
+        protected processUpdateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Delete multiple output formats
          * @param request The request with output formats IDs to delete.
-         * @return Bulk response with information about success or failure
+         * @return Business process
          */
-        deleteMany(request: OutputFormatDeleteManyRequest): Promise<BulkResponse>;
-        protected processDeleteMany(response: Response): Promise<BulkResponse>;
+        deleteMany(request: OutputFormatDeleteManyRequest): Promise<BusinessProcess>;
+        protected processDeleteMany(response: Response): Promise<BusinessProcess>;
+        /**
+         * Sets the download file name patterns for an output format
+         * @param id ID of the output format.
+         * @param patterns Dictionary containing patterns per metadata language.
+        If this is set, at least the customer's default language is required.
+        Set any other language to an empty string and a fallback to the default language will occur.
+        Set parameter to null to clear any already set patterns.
+         * @return Business process
+         */
+        setDownloadFileNamePatterns(id: string | null, patterns: {
+            [key: string]: string;
+        }): Promise<BusinessProcess>;
+        protected processSetDownloadFileNamePatterns(response: Response): Promise<BusinessProcess>;
+        /**
+         * Sets the download file name patterns for multiple output formats
+         * @param request The request containing the patterns for each output format.
+         * @return Business process
+         */
+        setDownloadFileNamePatternsMany(request: OutputFormatDownloadFileNamePatternUpdateManyRequest): Promise<BusinessProcess>;
+        protected processSetDownloadFileNamePatternsMany(response: Response): Promise<BusinessProcess>;
+        /**
+         * Preview OutputFormat
+         * @param request Information about the OutputFormat as well as which Content to use for the preview.
+         * @return Rendered file
+         */
+        renderFormatPreview(request: OutputFormatRenderPreviewRequest): Promise<FileResponse>;
+        protected processRenderFormatPreview(response: Response): Promise<FileResponse>;
     }
     export class ProfileClient extends PictureparkClientBase {
         private http;
@@ -928,6 +1056,12 @@
          */
         createMany(schemas: SchemaCreateManyRequest): Promise<BusinessProcess>;
         protected processCreateMany(response: Response): Promise<BusinessProcess>;
+        /**
+         * Update multiple schema
+         * @return BusinessProcess which can be awaited.
+         */
+        updateMany(request: SchemaUpdateManyRequest): Promise<BusinessProcess>;
+        protected processUpdateMany(response: Response): Promise<BusinessProcess>;
         /**
          * Transfer ownership of multiple schemas
          * @param request Schema ownership transfer many request.
@@ -1070,9 +1204,10 @@
          * Update
          * @param id The share id.
          * @param updateRequest The share update request.
+         * @param timeout (optional) Optional timeout to wait for the request to complete
          * @return Share detail
          */
-        update(id: string, updateRequest: ShareBaseUpdateRequest): Promise<ShareDetail>;
+        update(id: string, updateRequest: ShareBaseUpdateRequest, timeout?: string | null | undefined): Promise<ShareDetail>;
         protected processUpdate(response: Response): Promise<ShareDetail>;
         /**
          * Search
@@ -1091,23 +1226,26 @@
         /**
          * Create
          * @param request Polymorphic create contract. Use either ShareBasicCreateRequest or ShareEmbedCreateRequest
+         * @param timeout (optional) Optional timeout to wait for the request to complete
          * @return Create result
          */
-        create(request: ShareBaseCreateRequest): Promise<CreateShareResult>;
+        create(request: ShareBaseCreateRequest, timeout?: string | null | undefined): Promise<CreateShareResult>;
         protected processCreate(response: Response): Promise<CreateShareResult>;
         /**
          * Delete multiple shares
          * @param deleteManyRequest A delete many request containing the ids of the shares to delete.
+         * @param timeout (optional) Optional timeout to wait for the request to complete
          * @return BusinessProcess
          */
-        deleteMany(deleteManyRequest: ShareDeleteManyRequest): Promise<BulkResponse>;
+        deleteMany(deleteManyRequest: ShareDeleteManyRequest, timeout?: string | null | undefined): Promise<BulkResponse>;
         protected processDeleteMany(response: Response): Promise<BulkResponse>;
         /**
          * Get share json
          * @param token Share token
+         * @param lang (optional) Language code
          * @return ShareDetail
          */
-        getShareJson(token: string): Promise<any>;
+        getShareJson(token: string, lang?: string | null | undefined): Promise<any>;
         protected processGetShareJson(response: Response): Promise<any>;
         /**
          * Download shared outputs
@@ -1187,14 +1325,14 @@
         protected processCreate(response: Response): Promise<Transfer>;
         /**
          * Get file
-         * @param fileTransferId ID of filetransfer.
+         * @param fileTransferId ID of file transfer.
          * @return FileTransferDetail
          */
         getFile(fileTransferId: string): Promise<FileTransferDetail>;
         protected processGetFile(response: Response): Promise<FileTransferDetail>;
         /**
          * Search for files
-         * @param request The filetransfer search request
+         * @param request The file transfer search request
          * @return FileTransferSearchResult
          */
         searchFiles(request: FileTransferSearchRequest): Promise<FileTransferSearchResult>;
@@ -1207,7 +1345,7 @@
         protected processGetBlacklist(response: Response): Promise<Blacklist>;
         /**
          * Delete files
-         * @param request The filetransfer delete request
+         * @param request The file transfer delete request
          */
         deleteFiles(request: FileTransferDeleteRequest): Promise<void>;
         protected processDeleteFiles(response: Response): Promise<void>;
@@ -1229,7 +1367,6 @@
         protected processPartialImport(response: Response): Promise<Transfer>;
         /**
          * Upload file
-         * @param relativePath Relative path of the uploading file.
          * @param chunkNumber Current chunk number. Starts at 1.
          * @param currentChunkSize Size in bytes of the current chunk.
          * @param totalSize Total size in bytes of the uploading file.
@@ -1239,7 +1376,7 @@
          * @param formFile (optional) Gets or sets the form file.
          * @return OK
          */
-        uploadFile(relativePath: string | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, requestId: string, formFile?: FileParameter | null | undefined): Promise<void>;
+        uploadFile(chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string, requestId: string, formFile?: FileParameter | null | undefined): Promise<void>;
         protected processUploadFile(response: Response): Promise<void>;
     }
     export class UserClient extends PictureparkClientBase {
@@ -1472,6 +1609,8 @@
         currentState?: string | undefined;
         /** Timestamp when the business process last reported progress. */
         lastReportedProgress?: Date | undefined;
+        /** Id of the business process that will be automatically started after the completion of the current one, if any. */
+        continuationBusinessProcessId?: string | undefined;
     }
     /** Scope of the business process */
     export enum BusinessProcessScope {
@@ -1549,7 +1688,9 @@
     export interface UserNotFoundException extends PictureparkBusinessException {
         missingUserId?: string | undefined;
     }
-    export interface UserInactiveOrDeletedException extends PictureparkForbiddenException {
+    export interface UserInactiveOrDeletedException extends PictureparkValidationException {
+    }
+    export interface InactiveOrDeletedUserRefusedAccessException extends PictureparkForbiddenException {
     }
     export interface TermsOfServiceNotNewestException extends PictureparkBusinessException {
     }
@@ -1568,6 +1709,17 @@
     export interface UserUnlockDisallowedException extends PictureparkValidationException {
     }
     export interface RenderingException extends PictureparkBusinessException {
+    }
+    export interface FormatNotApplicableForRenderingException extends RenderingException {
+        contentRenderingType: RenderingService;
+        outputFormatId?: string | undefined;
+    }
+    export enum RenderingService {
+        Unknown,
+        Image,
+        Document,
+        Video,
+        Audio
     }
     export interface ServiceProviderDeleteException extends PictureparkException {
         serviceProviderId?: string | undefined;
@@ -1607,6 +1759,8 @@
     export interface EnvironmentDeactivationException extends PictureparkException {
         deactivationMessage?: string | undefined;
     }
+    export interface CustomerClonesNotAcceptedException extends PictureparkValidationException {
+    }
     export interface ShareNotFoundException extends PictureparkNotFoundException {
         shareId?: string | undefined;
     }
@@ -1619,6 +1773,10 @@
     export interface ShareExpiredException extends PictureparkBusinessException {
         token?: string | undefined;
     }
+    export interface ShareSizeLimitExceededException extends PictureparkValidationException {
+        shareId?: string | undefined;
+        limit: number;
+    }
     export interface OutputIdNotFoundException extends PictureparkNotFoundException {
         outputId?: string | undefined;
     }
@@ -1629,6 +1787,8 @@
     export interface UnableToCreateOrModifyStaticOutputFormatException extends PictureparkValidationException {
     }
     export interface NotSupportedFileMappingException extends PictureparkValidationException {
+    }
+    export interface NotSupportedFileMappingForDynamicFormatException extends NotSupportedFileMappingException {
     }
     export interface NotSupportedFileExtensionException extends PictureparkValidationException {
     }
@@ -1685,6 +1845,10 @@
         argumentName?: string | undefined;
         argumentValue?: string | undefined;
     }
+    export interface ArgumentRangeException extends InvalidArgumentException {
+        minAcceptableValue?: string | undefined;
+        maxAcceptableValue?: string | undefined;
+    }
     export interface UnknownException extends PictureparkBusinessException {
     }
     export interface OwnerTokenInUseException extends PictureparkValidationException {
@@ -1694,6 +1858,11 @@
     }
     export interface ItemIdDuplicatedException extends PictureparkValidationException {
         id?: string | undefined;
+    }
+    export interface RequestSizeLimitExceededException extends PictureparkValidationException {
+        argumentName?: string | undefined;
+        limit: number;
+        requestedAmount: number;
     }
     export interface CustomerViolationException extends PictureparkException {
         expectedCustomerId?: string | undefined;
@@ -1723,6 +1892,10 @@
         customerId?: string | undefined;
     }
     export interface CustomerBoostValuesInvalidException extends PictureparkValidationException {
+    }
+    export interface SnapshotRetentionTimeTooShortException extends PictureparkValidationException {
+        snapshotRetentionTime: string;
+        minimumRetentionTime: string;
     }
     export interface ConfigurationIndexNotFoundException extends PictureparkException {
         configurationIndex?: string | undefined;
@@ -1796,32 +1969,6 @@
     }
     export interface QueryException extends PictureparkBusinessException {
         debugInformation?: string | undefined;
-        serverError?: StorageServerError | undefined;
-    }
-    export interface StorageServerError {
-        error?: StorageError | undefined;
-        status: number;
-    }
-    export interface StorageError {
-        index?: string | undefined;
-        reason?: string | undefined;
-        resourceId?: string | undefined;
-        resourceType?: string | undefined;
-        type?: string | undefined;
-        rootCause?: StorageRootCause[] | undefined;
-        causedBy?: StorageCausedBy | undefined;
-    }
-    export interface StorageRootCause {
-        index?: string | undefined;
-        reason?: string | undefined;
-        resourceId?: string | undefined;
-        resourceType?: string | undefined;
-        type?: string | undefined;
-    }
-    export interface StorageCausedBy {
-        reason?: string | undefined;
-        type?: string | undefined;
-        innerCausedBy?: StorageCausedBy | undefined;
     }
     export interface PermissionOwnershipTransferException extends PictureparkValidationException {
         transferUserId?: string | undefined;
@@ -1846,7 +1993,8 @@
         ManageLiveStream,
         ManageDocumentHistory,
         ManageAllShares,
-        ManageOutputFormats
+        ManageOutputFormats,
+        ManageBusinessProcesses
     }
     export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
         permissionSetIds?: string[] | undefined;
@@ -1894,6 +2042,7 @@
     }
     /** This exception is an abstract base for permission set validation. */
     export interface PermissionSetValidationException extends PictureparkValidationException {
+        permissionSetId?: string | undefined;
     }
     export interface PermissionSetInvalidRightCombinationException extends PermissionSetValidationException {
     }
@@ -1955,6 +2104,9 @@
         transferSize: number;
         maximumTransferSize: number;
         transferId?: string | undefined;
+    }
+    export interface FileIdDuplicatedException extends PictureparkValidationException {
+        fileId?: string | undefined;
     }
     export interface MissingDependenciesException extends PictureparkValidationException {
         itemIds?: string | undefined;
@@ -2035,6 +2187,15 @@
         itemId?: string | undefined;
         itemPath?: string | undefined;
     }
+    export interface InvalidDataTypeException extends PictureparkValidationException {
+        value?: any | undefined;
+    }
+    export interface LayerAssignmentInvalidException extends PictureparkValidationException {
+        layerId?: string | undefined;
+        value?: any | undefined;
+    }
+    export interface OutdatedMetadataUpdateInProgressException extends PictureparkValidationException {
+    }
     export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
         schemaId?: string | undefined;
         fieldId?: string | undefined;
@@ -2103,6 +2264,10 @@
     export interface SchemaInUseContentSchemaException extends PictureparkValidationException {
         schemaId?: string | undefined;
         contentSchemaIds?: string[] | undefined;
+    }
+    export interface LayerAssignmentInUseWithContentsException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        usedAssignmentSchemaIds?: string[] | undefined;
     }
     export interface SchemaInUseListItemException extends PictureparkValidationException {
         schemaId?: string | undefined;
@@ -2206,6 +2371,8 @@
     export interface SchemaNotFoundException extends PictureparkNotFoundException {
         schemaId?: string | undefined;
     }
+    export interface SchemaCountLimitReachedException extends PictureparkBusinessException {
+    }
     export interface SystemSchemaInvalidModificationException extends PictureparkValidationException {
         schemaId?: string | undefined;
     }
@@ -2232,7 +2399,8 @@
         Thumbnail,
         List,
         Detail,
-        Name
+        Name,
+        DownloadFileName
     }
     export interface SchemaViewForAllException extends PictureparkValidationException {
         schemaId?: string | undefined;
@@ -2261,6 +2429,10 @@
     export interface SchemaFieldNotRequirableException extends PictureparkValidationException {
         fieldId?: string | undefined;
         schemaId?: string | undefined;
+    }
+    export interface DisplayPatternTypeNotSupportedException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+        displayPatternId?: string | undefined;
     }
     export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
         numberOfReferences: number;
@@ -2304,7 +2476,7 @@
         Database,
         Cad,
         Model3d,
-        ContentItem
+        Virtual
     }
     export interface ContentBackupFailedException extends PictureparkBusinessException {
         contentId?: string | undefined;
@@ -2331,6 +2503,17 @@
     }
     export interface BusinessProcessDefinitionCreateException extends PictureparkBusinessException {
         processDefinitionIds?: string[] | undefined;
+    }
+    export interface BusinessProcessNotExternalException extends PictureparkForbiddenException {
+        businessProcessId?: string | undefined;
+    }
+    export interface BusinessProcessCancellationNotSupportedException extends PictureparkValidationException {
+        businessProcessId?: string | undefined;
+    }
+    export interface BusinessProcessContinuationException extends PictureparkBusinessException {
+        continuationBusinessProcessId?: string | undefined;
+        precedingBusinessProcessId?: string | undefined;
+        precedingBusinessProcessException?: PictureparkException | undefined;
     }
     export interface SchemaFieldImportMismatchException extends PictureparkValidationException {
         schemaId?: string | undefined;
@@ -2473,6 +2656,77 @@
         fieldId?: string | undefined;
     }
     export interface BusinessRuleContentPermissionSetIdsMissingException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleFieldPathInvalidException extends PictureparkValidationException {
+        fieldPath?: string | undefined;
+    }
+    export interface BusinessRulePolygonInvalidException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleArrayIndexInvalidException extends PictureparkValidationException {
+        index?: string | undefined;
+    }
+    export interface BusinessRuleDictionaryKeyInvalidException extends PictureparkValidationException {
+        key?: string | undefined;
+    }
+    export interface BusinessRuleProjectionTransformationsMissingException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleInvalidVariableNameException extends PictureparkValidationException {
+        name?: string | undefined;
+    }
+    export interface BusinessRuleTransformationGroupTransformationsMissingException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleTransformationGroupInputsMissingException extends PictureparkValidationException {
+    }
+    export interface BusinessRuleNamedCacheNameInvalidException extends PictureparkValidationException {
+        cacheName?: string | undefined;
+    }
+    export interface BusinessRuleNGramTransformationSizeInvalidException extends PictureparkValidationException {
+        size: number;
+        minSize: number;
+        maxSize: number;
+    }
+    export interface BusinessRuleNGramTransformationMinWordLengthInvalidException extends PictureparkValidationException {
+        minWordLength: number;
+    }
+    export interface BusinessRuleNGramTransformationMaxWordLengthInvalidException extends PictureparkValidationException {
+        maxWordLength: number;
+    }
+    export interface NamedCacheConfigurationException extends PictureparkValidationException {
+        innerExceptions?: PictureparkValidationException[] | undefined;
+    }
+    export interface NamedCacheNameMissingException extends PictureparkValidationException {
+    }
+    export interface NamedCacheNameDuplicationException extends PictureparkValidationException {
+        name?: string | undefined;
+    }
+    export interface ListItemNamedCacheSchemaIdInvalidException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface ListItemNamedCacheKeyFieldsInvalidException extends PictureparkValidationException {
+    }
+    export interface SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException extends PictureparkValidationException {
+        schemaId?: string | undefined;
+    }
+    export interface NoTagsFoundException extends PictureparkBusinessException {
+    }
+    export interface OutputNotAvailableException extends PictureparkBusinessException {
+    }
+    export interface ModelNotFoundException extends PictureparkNotFoundException {
+    }
+    export interface DisplayValueRerenderingInProgressException extends PictureparkValidationException {
+    }
+    export interface OutputFormatNotFoundException extends PictureparkNotFoundException {
+        outputFormatId?: string | undefined;
+    }
+    export interface OutputFormatSourceNotDefinedException extends PictureparkValidationException {
+        outputFormatId?: string | undefined;
+    }
+    export interface OutputFormatRetentionTimeOutOfRangeException extends ArgumentRangeException {
+        outputFormatId?: string | undefined;
+    }
+    export interface CollectionSizeLimitExceededException extends PictureparkValidationException {
+        collectionId?: string | undefined;
+        limit: number;
     }
     /** Search request to search for business processes */
     export interface BusinessProcessSearchRequest {
@@ -2763,12 +3017,56 @@
         /** If the operation did not succeeded, this contains error related information. */
         error?: ErrorResponse | undefined;
     }
+    /** Create request to create a BusinessProcess. */
+    export interface BusinessProcessCreateRequest {
+        /** Indicates if the system starting the business process supports cancellation. */
+        supportsCancellation: boolean;
+        /** Notification data to send to the user when creating the business process.
+    Set to null to not create a notification. */
+        notification?: BusinessProcessNotificationUpdate | undefined;
+        /** Initial state of the business process. */
+        initialState: string;
+    }
+    /** Notification update for a business process. */
+    export interface BusinessProcessNotificationUpdate {
+        /** The title the message that is shown to the user should have. */
+        title: TranslatedStringDictionary;
+        /** The message shown to the user. */
+        message: TranslatedStringDictionary;
+        /** An optional navigation link that allows the user to jump to a page giving more information
+    about the process. */
+        navigationLink?: string | undefined;
+        /** The event type of the notification. */
+        eventType: NotificationEventType;
+    }
+    export enum NotificationEventType {
+        Pending,
+        InProgress,
+        Success,
+        Error,
+        Warning,
+        Information
+    }
+    /** Transitions the business process to a new state and/or life cycle. */
+    export interface BusinessProcessStateChangeRequest {
+        /** The new state of the business process. */
+        state: string;
+        /** The new life cycle of the business process. */
+        lifeCycle: BusinessProcessLifeCycle;
+        /** An optional notification update to be posted together with the transition. */
+        notification?: BusinessProcessNotificationUpdate | undefined;
+    }
+    /** Updates the notification of a business process without changing the state or the life cycle. */
+    export interface BusinessProcessNotificationUpdateRequest extends BusinessProcessNotificationUpdate {
+    }
     /** Represents the business rule configuration. */
     export interface BusinessRuleConfiguration {
         /** Disables the rule completely. */
         disableRuleEngine: boolean;
         /** Rules */
         rules?: BusinessRule[] | undefined;
+        /** Named caches. */
+        caches?: NamedCacheConfigurationBase[] | undefined;
     }
     /** A business rule */
     export interface BusinessRule {
@@ -2796,6 +3094,8 @@
     export interface BusinessRuleConfigurable extends BusinessRule {
         /** The condition that makes this rule trigger. */
         condition?: BusinessRuleCondition | undefined;
+        /** Optional transformations to apply. */
+        transformationGroups?: BusinessRuleTransformationGroup[] | undefined;
         /** The actions that are performed when this rule triggers. */
         actions?: BusinessRuleAction[] | undefined;
     }
@@ -2846,6 +3146,8 @@
         fieldPath?: string | undefined;
         /** Regular expression */
         regex?: string | undefined;
+        /** Optional variable name to store the matched regex groups in */
+        storeIn?: string | undefined;
     }
     /** Matches when a tag in a tagbox matching the field path string (JSON path) is newly assigned. */
     export interface TagboxItemAssignedCondition extends BusinessRuleCondition {
@@ -2866,6 +3168,113 @@
         /** Content schema id to match on. */
         schemaId?: string | undefined;
     }
+    export interface NumberCompareCondition extends BusinessRuleCondition {
+        /** JSON path to the field. */
+        fieldPath?: string | undefined;
+        /** Mode to use for comparison. */
+        mode: BusinessRuleNumberCompareConditionMode;
+        /** Value to compare to. */
+        value: number;
+    }
+    export enum BusinessRuleNumberCompareConditionMode {
+        LessThan,
+        LessThanEqual,
+        Equal,
+        GreaterThanEqual,
+        GreaterThan
+    }
+    /** Matches when a relationship entry in a relationship field matching the field path string (JSON path) is newly assigned. */
+    export interface ContentRelationItemAssignedCondition extends BusinessRuleCondition {
+        /** Content id that should be matched against. */
+        contentId?: string | undefined;
+        /** JSON path to the field */
+        fieldPath?: string | undefined;
+    }
+    /** Matches when a relationship entry in a relationship field matching the field path string (JSON path) is removed. */
+    export interface ContentRelationItemUnassignedCondition extends BusinessRuleCondition {
+        /** Content id that should be matched against. */
+        contentId?: string | undefined;
+        /** JSON path to the field */
+        fieldPath?: string | undefined;
+    }
+    /** Matches when the geo point from the field specified by the field path is inside the specified polygon. */
+    export interface GeoPointWithinPolygonCondition extends BusinessRuleCondition {
+        /** JSON path to the field */
+        fieldPath?: string | undefined;
+        /** List of points that form the polygon for the geo fence.
+    Must include at least 3 points. */
+        polygon?: LatLon[] | undefined;
+    }
+    /** Stores a coordinate */
+    export interface LatLon {
+        /** Latitude */
+        lat: number;
+        /** Longitude */
+        lon: number;
+    }
+    /** Matches whenever the assigned content permission sets changed. */
+    export interface ContentPermissionSetsChangedCondition extends BusinessRuleCondition {
+    }
+    /** Matches whenever the assigned content(s) in a relationship field changed. */
+    export interface ContentRelationItemsChangedCondition extends BusinessRuleCondition {
+        /** JSON path to the field */
+        fieldPath?: string | undefined;
+    }
+    /** Matches whenever the assigned layers of a content changed. */
+    export interface LayersChangedCondition extends BusinessRuleCondition {
+    }
+    /** Matches whenever the assigned item(s) in a tagbox changed. */
+    export interface TagboxItemsChangedCondition extends BusinessRuleCondition {
+        /** JSON path to the field */
+        fieldPath?: string | undefined;
+    }
+    /** Business rule transformation group: A group of transformations to run for the specified inputs */
+    export interface BusinessRuleTransformationGroup {
+        /** The inputs of the transformation group. */
+        inputs?: string[] | undefined;
+        /** A list of transformations to apply. */
+        transformations?: BusinessRuleTransformation[] | undefined;
+        /** Variable name where the final result should be stored in. */
+        storeIn?: string | undefined;
+    }
+    /** Business rule transformation */
+    export interface BusinessRuleTransformation {
+    }
+    /** Takes an item from a dictionary by its key. */
+    export interface TakeDictionaryValueTransformation extends BusinessRuleTransformation {
+        /** Key of the item. */
+        key?: string | undefined;
+    }
+    /** Takes an item from an array by its index. */
+    export interface TakeArrayValueTransformation extends BusinessRuleTransformation {
+        /** Index of the item. */
+        index?: string | undefined;
+    }
+    /** Joins the input by a configurable separator */
+    export interface JoinByTransformation extends BusinessRuleTransformation {
+        /** Separator to use. */
+        separator?: string | undefined;
+    }
+    /** Uses a named cache to lookup a value. */
+    export interface LookupCacheTransformation extends BusinessRuleTransformation {
+        /** Name of the cache to use. */
+        namedCache?: string | undefined;
+    }
+    /** Produces N-grams based on splitting a text on whitespace characters. Removes punctuation as well. */
+    export interface NGramTransformation extends BusinessRuleTransformation {
+        /** Maximum size of n-grams to produce.
+    Settings this to 3 will produce unigrams, bigrams, trigrams. */
+        size: number;
+        /** Minimum length of a word to be considered. */
+        minWordLength: number;
+        /** Maximum length of a word to be considered. */
+        maxWordLength?: number | undefined;
+    }
+    /** Transforms a list by applying a set of transformation for each item in the list. */
+    export interface ProjectionTransformation extends BusinessRuleTransformation {
+        /** Transformations to apply. */
+        transformations?: BusinessRuleTransformation[] | undefined;
+    }
     /** Action to be performed by a business rule */
     export interface BusinessRuleAction {
     }
@@ -2873,11 +3282,8 @@
     export interface AssignLayerAction extends BusinessRuleAction {
         /** The ID of the layer. */
         layerId?: string | undefined;
-        /** A dictionary containing default values (used for example to populate required fields). */
-        defaultValues?: DataDictionary | undefined;
-    }
-    export interface DataDictionary {
-        [key: string]: any;
+        /** An object containing default values (used for example to populate required fields). */
+        defaultValues?: any | undefined;
     }
     /** Removes a layer */
     export interface UnassignLayerAction extends BusinessRuleAction {
@@ -2904,7 +3310,7 @@
         /** ID of the tagbox field. */
         fieldId?: string | undefined;
         /** List of refIds of the items that should be assigned. */
-        refIds?: string[] | undefined;
+        refIds?: any | undefined;
         /** Indicates whether all the already assigned tags get replaced by the set specified in the action.
     If false, the not already assigned tags get added, the rest is left as is. */
         replace: boolean;
@@ -2916,33 +3322,109 @@
         /** ID of the tagbox field. */
         fieldId?: string | undefined;
         /** List of refIds of the items that should be removed. */
-        refIds?: string[] | undefined;
+        refIds?: any | undefined;
     }
     /** Assigns one or more permission sets to a content. */
     export interface AssignContentPermissionSetsAction extends BusinessRuleAction {
         /** IDs of the permission sets to assign. */
-        permissionSetIds?: string[] | undefined;
+        permissionSetIds?: any | undefined;
         /** Indicates whether the already assigned permissions should be replaced or merged. */
         replace: boolean;
     }
     /** Removes one or more permission sets from a content. */
     export interface UnassignContentPermissionSetsAction extends BusinessRuleAction {
         /** IDs of the permission sets to unassign. */
-        permissionSetIds?: string[] | undefined;
+        permissionSetIds?: any | undefined;
     }
     export interface ProduceMessageAction extends BusinessRuleAction {
+    }
+    /** Assigns a set of list item ids to all multi tag boxes in a layer where the filter defined on the tagbox does allow assignment of the ID. */
+    export interface AssignTagboxItemsInLayerAction extends BusinessRuleAction {
+        /** Named cache to use for lookup, should be of type SchemaTagboxFilterLookupNamedCacheConfiguration */
+        namedCache?: string | undefined;
+        /** List of refIds of the items that should be assigned. */
+        refIds?: any | undefined;
+        /** Indicates where the assignment should be additive to the already assigned tags
+    or if existing tags should be replaced. */
+        replace: boolean;
+    }
+    /** Enqueue content for tagging */
+    export interface EnqueueTaggingAction extends BusinessRuleAction {
+        /** Options to use while tagging. */
+        options?: TaggingOptionsBase | undefined;
+    }
+    /** Options for tagging */
+    export interface TaggingOptionsBase {
+        /** Override for the output format ID to tag. */
+        tagOutputFormatId?: string | undefined;
+        /** Override for the cache to use. */
+        keywordLookupCacheName?: string | undefined;
+        /** Override for the layer to assign. */
+        taggingLayerId?: string | undefined;
+        /** Override for the field id where found tags are stored. */
+        foundTagsFieldId?: string | undefined;
+        /** Override for the field id where not found tags are stored. */
+        missingKeywordsFieldId?: string | undefined;
+    }
+    /** Options for clarifai tagging */
+    export interface ClarifaiTaggingOptions extends TaggingOptionsBase {
+        /** Override for the model to use */
+        model?: string | undefined;
+        /** Override for the language to use */
+        language?: string | undefined;
+        /** Minimum value a concept must have to be considered */
+        minimumValue?: string | undefined;
+    }
+    export interface SimulatedTaggingOptions extends TaggingOptionsBase {
+        /** Number of keywords to assign. */
+        numberOfKeywords?: string | undefined;
     }
     /** A business rule expressed as a script */
     export interface BusinessRuleScript extends BusinessRule {
         /** Script */
         script?: string | undefined;
     }
+    /** Named cache configuration */
+    export interface NamedCacheConfigurationBase {
+        /** Name of named cache. */
+        name?: string | undefined;
+        /** Indicates if the lookup should be cache sensitive. */
+        caseSensitive: boolean;
+    }
+    /** List item named cache */
+    export interface ListItemNamedCacheConfiguration extends NamedCacheConfigurationBase {
+        /** ID of the schema to cache (should have SchemaType = List) */
+        schemaId?: string | undefined;
+        /** List of IDs of fields to use as a composite key */
+        keyFields?: string[] | undefined;
+        /** An optional filter to narrow down the cached list items */
+        filter?: FilterBase | undefined;
+        /** Include child schemas when caching list items */
+        includeAllSchemaChildren: boolean;
+    }
+    /** Creates a cache for all multi tag boxes in a schema Lookup key is then in the format [ fieldId, refId ], returns the refId if matched by the filter */
+    export interface SchemaTagboxFilterLookupNamedCacheConfiguration extends NamedCacheConfigurationBase {
+        /** The layer id. */
+        schemaId?: string | undefined;
+    }
+    export interface InverseListItemNamedCacheConfiguration extends NamedCacheConfigurationBase {
+        /** ID of the schema to cache (should have SchemaType = List) */
+        schemaId?: string | undefined;
+        /** ID of the field that yields the value */
+        valueField?: string | undefined;
+        /** An optional filter to narrow down the cached list items */
+        filter?: FilterBase | undefined;
+        /** Include child schemas when caching list items */
+        includeAllSchemaChildren: boolean;
+    }
     /** Update request for changing business rule configuration */
     export interface BusinessRuleConfigurationUpdateRequest {
         /** Disables the rule engine completely. */
         disableRuleEngine: boolean;
-        /** Rules */
+        /** Rules. */
         rules?: BusinessRule[] | undefined;
+        /** Named caches. */
+        caches?: NamedCacheConfigurationBase[] | undefined;
     }
     export interface Channel {
         /** ID of channel. */
@@ -3094,7 +3576,7 @@
         id?: string | undefined;
         sort?: SortInfo[] | undefined;
         sortOrder: number;
-        names?: TranslatedStringDictionary | undefined;
+        names: TranslatedStringDictionary;
         /** Language specific names. */
         searchIndexId?: string | undefined;
         /** User roles granted access to the channel. */
@@ -3113,7 +3595,7 @@
     export interface ChannelUpdateRequest {
         sort?: SortInfo[] | undefined;
         sortOrder: number;
-        names?: TranslatedStringDictionary | undefined;
+        names: TranslatedStringDictionary;
         /** Language specific names. */
         searchIndexId?: string | undefined;
         /** User roles granted access to the channel. */
@@ -3129,66 +3611,55 @@
         /** Grants rights to all the users to view the channel. */
         viewForAll: boolean;
     }
-    /** A content detail. */
+    /** Content detail */
     export interface ContentDetail {
-        /** Audit data with information regarding document creation and modification. */
-        audit?: UserAuditDetail | undefined;
-        /** The content data */
-        content: any;
-        /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
-        contentPermissionSetIds?: string[] | undefined;
-        /** The id of the content schema */
+        /** The ID of the content schema. The SchemaType of the specified schema must be Content.
+    The schema specifies the structure of the Content dictionary. */
         contentSchemaId: string;
-        /** The type of content */
-        contentType: ContentType;
-        /** Contains language specific display values, rendered according to the content schema's
-                 display pattern configuration. */
-        displayValues?: DisplayValueDictionary | undefined;
-        /** The content id. */
+        /** An optional list of IDs of the schemas that form the layers of the content.
+    The SchemaType of the specified schemas must be Layer. */
+        layerSchemaIds?: string[] | undefined;
+        /** All the IDs of the referenced list items (tagboxes) that do not exist in the system. */
+        brokenReferenceIds?: string[] | undefined;
+        /** All the IDs of the indirectly referenced list items (tagboxes) that do not exist in the system.
+    They are referenced list items that reference at least a list item that do not exist in the system. */
+        brokenIndirectReferenceIds?: string[] | undefined;
+        /** All the IDs of the contents or list items target of a relation that do not exist in the system. */
+        brokenRelationTargetIds?: string[] | undefined;
+        /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified.
+    by the ContentSchemaId property. */
+        content?: any | undefined;
+        /** The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+    by the LayerSchemaIds property. */
+        metadata?: {
+            [key: string]: any;
+        } | undefined;
+        /** The content ID. */
         id: string;
-        /** An optional list of layer schemas ids */
-        layerSchemaIds: string[];
-        /** The metadata dictionary */
-        metadata?: DataDictionary | undefined;
-        /** A list of rendering outputs for underlying digital file. */
+        /** An optional list of content permission set IDs which control content permissions. These permissions control content accessibility for the users that do not own the content. */
+        contentPermissionSetIds?: string[] | undefined;
+        /** The Outputs generated from the content. They identifies the rendered files generated by the system.
+    They are available only for file base contents, and they depends on the output formats configured in the system. */
         outputs?: Output[] | undefined;
+        /** Audit information. */
+        audit?: UserAuditDetail | undefined;
         /** The owner token ID. Defines the content owner. */
         ownerTokenId: string;
         /** The resolved owner. */
         owner?: User | undefined;
-        /** The lifecycle of the content. */
+        /** Content type. */
+        contentType: ContentType;
+        /** Contains language specific display values. They are calculated values based on the template stored in the Content schema DisplayPatterns property. */
+        displayValues?: DisplayValueDictionary | undefined;
+        /** The actual lifecycle value of the content. Becomes Inactive when the content is deleted. */
         lifeCycle: LifeCycle;
         /** List of content rights the user has on this content */
         contentRights?: ContentRight[] | undefined;
     }
-    /** Audit information */
-    export interface UserAuditDetail {
-        /** The date on which the document was created. */
-        creationDate: Date;
-        /** The last date on which the document was modified. */
-        modificationDate: Date;
-        /** ID of the user who created the document. */
-        createdByUser?: User | undefined;
-        /** ID of the last user who modified the document. */
-        modifiedByUser?: User | undefined;
-    }
-    export interface User {
-        /** User's Picturepark ID. */
-        id?: string | undefined;
-        /** User's first name. */
-        firstName?: string | undefined;
-        /** User's last name. */
-        lastName?: string | undefined;
-        /** Email address of the user (doubles as username). */
-        emailAddress: string;
-    }
-    export interface DisplayValueDictionary {
-        [key: string]: string | any;
-    }
     /** Output */
     export interface Output {
-        /** The ID of the output. */
-        id: string;
+        /** The ID of the output. Can be null for dynamic outputs which are not rendered yet. */
+        id?: string | undefined;
         /** The ID of the output format this output represents. */
         outputFormatId: string;
         /** The ID of the content for which this output has been created. */
@@ -3203,6 +3674,8 @@
         attemptsLeft: number;
         /** Version counter incremented every time this output is rendered (or in case of Original when new original is uploaded). */
         fileVersion: number;
+        /** Whether this Output belongs to a dynamic OutputFormat */
+        dynamicRendering: boolean;
     }
     export enum OutputRenderingState {
         InProgress,
@@ -3216,14 +3689,14 @@
     export interface OutputDataBase {
         /** The extension of the file. */
         fileExtension?: string | undefined;
-        /** The name of the file. */
-        fileName?: string | undefined;
         /** The path where the file is stored. */
         filePath?: string | undefined;
         /** The size of the file in bytes. */
         fileSizeInBytes?: number | undefined;
         /** The SHA-1 hash of the file. */
         sha1Hash?: string | undefined;
+        /** The original filename of the file. */
+        originalFileName?: string | undefined;
     }
     /** Output information for an image file. */
     export interface OutputDataImage extends OutputDataBase {
@@ -3274,6 +3747,32 @@
     /** Output detail */
     export interface OutputDetail extends Output {
     }
+    /** Audit information */
+    export interface UserAuditDetail {
+        /** The date on which the document was created. */
+        creationDate: Date;
+        /** The last date on which the document was modified. */
+        modificationDate: Date;
+        /** ID of the user who created the document. */
+        createdByUser?: User | undefined;
+        /** ID of the last user who modified the document. */
+        modifiedByUser?: User | undefined;
+    }
+    export interface User {
+        /** User's Picturepark ID. */
+        id?: string | undefined;
+        /** User's first name. */
+        firstName?: string | undefined;
+        /** User's last name. */
+        lastName?: string | undefined;
+        /** Email address of the user (doubles as username). */
+        emailAddress: string;
+        /** Marks a user that was deleted from the system. */
+        isDeleted: boolean;
+    }
+    export interface DisplayValueDictionary {
+        [key: string]: string | any;
+    }
     /** Lifecycle */
     export enum LifeCycle {
         Draft,
@@ -3308,8 +3807,11 @@
         isSearchStringRewritten: boolean;
         queryDebugInformation?: QueryDebugInformation | undefined;
     }
+    export interface SearchBehaviorWithAggregationBaseResultOfContent extends SearchBehaviorBaseResultOfContent {
+        aggregationResults?: AggregationResult[] | undefined;
+    }
     /** Result for content search operation */
-    export interface ContentSearchResult extends SearchBehaviorBaseResultOfContent {
+    export interface ContentSearchResult extends SearchBehaviorWithAggregationBaseResultOfContent {
         /** Result of rights aggregation count requested in rightsAggregations in the ContentSearchRequest. */
         rightsAggregationsCounts?: ContentRightAggregationCount[] | undefined;
     }
@@ -3320,12 +3822,36 @@
         /** Found document count. */
         count: number;
     }
+    /** Result of an aggregation */
+    export interface AggregationResult {
+        /** Name of the aggregation. */
+        name: string;
+        /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
+        sumOtherDocCount?: number | undefined;
+        /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
+    Optionally inner aggregations for further drill down can be available. */
+        aggregationResultItems?: AggregationResultItem[] | undefined;
+    }
+    /** Aggregation result item */
+    export interface AggregationResultItem {
+        /** Value matched. */
+        name: string;
+        /** Number of items matched. */
+        count: number;
+        /** Ready to use filter to filter the data based on the aggregation result values.
+    It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
+        filter?: AggregationFilter | undefined;
+        /** True if the current result item matches on of the aggregation filters sent in the query. */
+        active: boolean;
+        /** Inner aggregation results, if inner aggregations were provided in the query. */
+        aggregationResults?: AggregationResult[] | undefined;
+    }
     export interface Content {
         /** Audit information. */
         audit?: UserAudit | undefined;
         /** The id of the schema with schema type content. */
         contentSchemaId: string;
-        /** The content type of this content. All except ContentItem are binary files. */
+        /** The content type of this content. All except Virtual are binary files. */
         contentType: ContentType;
         /** An optional id list of schemas with schema type layer. */
         layerSchemaIds?: string[] | undefined;
@@ -3341,43 +3867,53 @@
         /** All the target ids of the broken relations */
         brokenRelationTargetIds?: string[] | undefined;
     }
-    /** Request to search contents */
-    export interface ContentSearchRequest {
-        /** Limits the simple search fields to the fields available in the specified channel. */
+    /** Request to aggregate contents based on the aggregators defined on a channel */
+    export interface ContentAggregationOnChannelRequest {
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+        searchString?: string | undefined;
+        /** An optional list of search behaviors. All the passed behaviors will be applied. */
+        searchBehaviors?: SearchBehavior[] | undefined;
+        /** An optional search filter. Limits the document result set. */
+        filter?: FilterBase | undefined;
+        /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+    filtering an aggregation that matches the same AggregationName or another aggregation.
+    In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+        aggregationFilters?: AggregationFilter[] | undefined;
+        /** Limits the simple search fields to the fields available in the specified channel. Defaults to RootChannel.
+    For the ContentAggregationOnChannelRequest only, the existing aggregation saved on the channel are retrieved and used to perform the aggregation. */
         channelId?: string | undefined;
-        /** Limits the display values included in the search response. Defaults to all display values. */
-        displayPatternIds?: string[] | undefined;
         /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
     If not specified, all metadata languages defined in the system are used. */
         searchLanguages?: string[] | undefined;
-        /** Limits the search among the contents belonging to the specified collection. */
+        /** Limit the search to the contents belonging to the specified collection. */
         collectionId?: string | undefined;
-        /** The string used to query the data. The Lucene query string syntax is supported. */
-        searchString?: string | undefined;
-        /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-        searchBehaviors?: SearchBehavior[] | undefined;
+        /** Limits the aggregation to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
+        lifeCycleFilter: LifeCycleFilter;
+        /** Limits the aggregation to the contents that have or not have broken references. By default it includes both. */
+        brokenDependenciesFilter: BrokenDependenciesFilter;
+        /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
+        searchType: ContentSearchType;
+    }
+    /** Request to search contents */
+    export interface ContentSearchRequest extends ContentAggregationOnChannelRequest {
+        /** Limits the display values included in the search response. Defaults to all display values. */
+        displayPatternIds?: string[] | undefined;
         /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
         sort?: SortInfo[] | undefined;
-        /** Limits the number of the returned schemas. Defaults to 30. */
+        /** Limits the document count of the result set. */
         limit: number;
         /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
         pageToken?: string | undefined;
-        /** An optional filter to limit the contents. */
-        filter?: FilterBase | undefined;
-        /** Limits the search to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
-        lifeCycleFilter: LifeCycleFilter;
-        /** Limits the search to the contents that have or not have broken references. By default it includes both. */
-        brokenDependenciesFilter: BrokenDependenciesFilter;
         /** Limits the contents to the ones the user has the specified ContentRights. */
         rightsFilter?: ContentRight[] | undefined;
         /** Returns the aggregated document counts to the ones the user has the specified ContentRights.
     Produces the rightsAggregationCounts on the ContentSearchResult. View will be ignored as the totalResults already gives this information. */
         rightsAggregations?: ContentRight[] | undefined;
-        /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
-        searchType: ContentSearchType;
         /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ContentSearchResult.
     Warning! It severely affects performance. */
         debugMode: boolean;
+        /** List of aggregators that defines how the items should be aggregated. */
+        aggregators?: AggregatorBase[] | undefined;
     }
     export enum LifeCycleFilter {
         ActiveOnly,
@@ -3409,60 +3945,9 @@
         /** Additional information regarding the query execution and reason of the matched documents. */
         queryDebugInformation?: QueryDebugInformation | undefined;
     }
-    /** Result of an aggregation */
-    export interface AggregationResult {
-        /** Name of the aggregation. */
-        name: string;
-        /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
-        sumOtherDocCount?: number | undefined;
-        /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
-    Optionally inner aggregations for further drill down can be available. */
-        aggregationResultItems?: AggregationResultItem[] | undefined;
-    }
-    /** Aggregation result item */
-    export interface AggregationResultItem {
-        /** Value matched. */
-        name: string;
-        /** Number of items matched. */
-        count: number;
-        /** Ready to use filter to filter the data based on the aggregation result values.
-    It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
-        filter?: AggregationFilter | undefined;
-        /** True if the current result item matches on of the aggregation filters sent in the query. */
-        active: boolean;
-        /** Inner aggregation results, if inner aggregations were provided in the query. */
-        aggregationResults?: AggregationResult[] | undefined;
-    }
-    /** Request to aggregate contents based on the aggregators defined on a channel */
-    export interface ContentAggregationOnChannelRequest {
-        /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
-        searchString?: string | undefined;
-        /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-        searchBehaviors?: SearchBehavior[] | undefined;
-        /** An optional filter to limit the contents to aggregate on. */
-        filter?: FilterBase | undefined;
-        /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-    filtering an aggregation that matches the same AggregationName or another aggregation.
-    In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
-        aggregationFilters?: AggregationFilter[] | undefined;
-        /** Limits the simple search fields to the fields available in the specified channel. Defaults to RootChannel.
-    For the ContentAggregationOnChannelRequest only, the existing aggregation saved on the channel are retrieved and used to perform the aggregation. */
-        channelId?: string | undefined;
-        /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-    If not specified, all metadata languages defined in the system are used. */
-        searchLanguages?: string[] | undefined;
-        /** Limit the search to the contents belonging to the specified collection. */
-        collectionId?: string | undefined;
-        /** Limits the aggregation to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
-        lifeCycleFilter: LifeCycleFilter;
-        /** Limits the aggregation to the contents that have or not have broken references. By default it includes both. */
-        brokenDependenciesFilter: BrokenDependenciesFilter;
-        /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
-        searchType: ContentSearchType;
-    }
     /** Request to aggregate contents based on the specified aggregators */
     export interface ContentAggregationRequest extends ContentAggregationOnChannelRequest {
-        /** List of aggregators that defines how the contents should be aggregated. */
+        /** List of aggregators that defines how the items should be aggregated. */
         aggregators: AggregatorBase[];
     }
     /** Result to a get content references operation */
@@ -3576,29 +4061,35 @@
         Medium,
         Large
     }
-    /** A request structure for creating a content document. */
+    /** Request to create a content */
     export interface ContentCreateRequest {
-        /** The id of a schema with schema type content. */
-        contentSchemaId?: string | undefined;
-        /** An optional id list of schemas with schema type layer. */
+        /** The ID of the content schema. The SchemaType of the specified schema must be Content.
+    The schema specifies the structure of the Content dictionary. */
+        contentSchemaId: string;
+        /** An optional list of IDs of the schemas that form the layers of the content.
+    The SchemaType of the specified schemas must be Layer. */
         layerSchemaIds?: string[] | undefined;
-        /** The content data of the content document. */
+        /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified by the ContentSchemaId property. */
         content?: any | undefined;
-        /** The layer metadata of the content document. */
-        metadata?: DataDictionary | undefined;
-        /** An optional id list of content permission sets.  */
+        /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
+    The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+    by the LayerSchemaIds property. */
+        metadata?: {
+            [key: string]: any;
+        } | undefined;
+        /** An optional list of content permission set IDs which control content permissions. These permissions control content accessibility for the users that do not own the content. */
         contentPermissionSetIds?: string[] | undefined;
         /** Optional client reference for this request.
     Will be returned back in response to make easier for clients to match request items with the respective results.
     It is not persisted anywhere and it is ignored in single operations. */
         requestId?: string | undefined;
     }
-    /** A request structure for creating multiple content documents. */
+    /** Request to create multiple contents */
     export interface ContentCreateManyRequest {
-        /** Allow storing references to missing list items / contents */
+        /** Allows creating contents that refer to list items or contents that don't exist in the system. */
         allowMissingDependencies: boolean;
-        /** Create items */
-        items?: ContentCreateRequest[] | undefined;
+        /** Items to be created. */
+        items: ContentCreateRequest[];
     }
     /** Request to delete multiple contents. */
     export interface ContentDeleteManyRequest {
@@ -3655,16 +4146,18 @@
         /** An optional list of IDs of the schemas that should be updated/replaced based on the options below and Metadata provided.
     The SchemaType of the specified schemas must be Layer. */
         layerSchemaIds?: string[] | undefined;
-        /** The content data of the content. It's a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+        /** The content data of the content. It's an object of dynamic metadata whose structure is defined in the Content schema identified by
     the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-    whose ContentType is ContentItem).
+    whose ContentType is Virtual).
     Update of content data will be done only if this attribute has any data, i.e. if it's not null or empty. */
-        content?: DataDictionary | undefined;
+        content?: any | undefined;
         /** The dynamic data structure matching the field schematics of the schemas with type layer (LayerSchemaIds).
     The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
     by the LayerSchemaIds property.
     If there are no data for a specified LayerSchemaId, it is treated as empty. */
-        metadata?: DataDictionary | undefined;
+        metadata?: {
+            [key: string]: any;
+        } | undefined;
         /** Options to modify the behavior for updating the layers.
     Merge: the content is updated so that the assigned layers to the content will be a merge of the ones specified in the LayerSchemaIds property
     and the ones already existing; existing assigned layers not specified in the property are kept and missing layers are assigned.
@@ -3673,12 +4166,15 @@
     Defaults to Merge. */
         layerSchemasUpdateOptions: UpdateOption;
         /** Options to modify the behavior for updating the values of schemas.
-    Merge: the values specified in the Content and Metadata dictionaries are merged to the existing values of the corresponding
-    schema on the content.
-    Replace: the values specified in the Content and Metadata dictionaries entirely replace any existing value of the
-    corresponding schema on the content.
+    Merge: the values specified in the Metadata dictionary are merged to the existing values of the corresponding schema on the content.
+    Replace: the values specified in the Metadata dictionary entirely replace any existing value of the corresponding schema on the content.
     Defaults to Merge. */
-        schemaFieldsUpdateOptions: UpdateOption;
+        layerFieldsUpdateOptions: UpdateOption;
+        /** Options to modify the behavior for updating the content.
+    Merge: the values specified in the Content object are merged to the existing content.
+    Replace: the values specified in the Content object entirely replace the content.
+    Defaults to Merge. */
+        contentFieldsUpdateOptions: UpdateOption;
     }
     /** Controls the update of metadata */
     export enum UpdateOption {
@@ -3749,21 +4245,21 @@
     }
     /** Updates schema values */
     export interface MetadataValuesSchemaUpdateCommand extends MetadataValuesChangeCommandBase {
-        /** The dictionary containing the metadata values to add / update. */
-        value: DataDictionary;
+        /** An object containing the metadata values to add / update. */
+        value: any;
     }
     /** Adds or updates schema values */
     export interface MetadataValuesSchemaUpsertCommand extends MetadataValuesChangeCommandBase {
-        /** The dictionary containing the metadata values to add / update. */
-        value: DataDictionary;
+        /** An object containing the metadata values to add / update. */
+        value: any;
     }
     /** Removes schema and all its values */
     export interface MetadataValuesSchemaRemoveCommand extends MetadataValuesChangeCommandBase {
     }
     /** Replaces schema values */
     export interface MetadataValuesSchemaReplaceCommand extends MetadataValuesChangeCommandBase {
-        /** The dictionary containing the metadata values for the schema. The existing dictionary will be entirely overwritten. */
-        value: DataDictionary;
+        /** An object containing the metadata values for the schema. The existing dictionary will be entirely overwritten. */
+        value: any;
     }
     /** Removes a field and its value from the values of the specified schema */
     export interface MetadataValuesFieldRemoveCommand extends MetadataValuesChangeCommandBase {
@@ -3797,7 +4293,7 @@
     }
     export interface PermissionSetDetailOfContentRight {
         id: string;
-        names?: TranslatedStringDictionary | undefined;
+        names: TranslatedStringDictionary;
         userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
         userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
@@ -3823,7 +4319,7 @@
         Manage
     }
     export interface PermissionSetCreateRequestOfContentRight {
-        names?: TranslatedStringDictionary | undefined;
+        names: TranslatedStringDictionary;
         userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
@@ -3840,7 +4336,7 @@
         rights?: PermissionSetRight[] | undefined;
     }
     export interface PermissionSetUpdateRequestOfContentRight {
-        names?: TranslatedStringDictionary | undefined;
+        names: TranslatedStringDictionary;
         userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     }
@@ -3921,7 +4417,7 @@
     Cannot be changed after creation. */
         exclusive: boolean;
         /** Language specific permission set names. */
-        names?: TranslatedStringDictionary | undefined;
+        names: TranslatedStringDictionary;
     }
     /** Request to search permission sets */
     export interface PermissionSetSearchRequest {
@@ -3943,6 +4439,19 @@
         /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
     If not specified, all metadata languages defined in the system are used. */
         searchLanguages?: string[] | undefined;
+    }
+    export interface DisplayValueStatus {
+        /** The schema ids (of type Content or Layer) for which the re-rendering of the display values is needed. */
+        contentOrLayerSchemaIds?: string[] | undefined;
+        /** The schema ids (of type List) for which the re-rendering of the display values is needed. */
+        listSchemaIds?: string[] | undefined;
+        /** The state of the display values compared to the schema structure (UpToDate = ok, Outdated = re-rendering needed). */
+        state: DisplayValuesState;
+    }
+    export enum DisplayValuesState {
+        UpToDate,
+        Outdated,
+        RerenderingInProgress
     }
     export interface BaseResultOfDocumentHistory {
         totalResults: number;
@@ -4009,8 +4518,10 @@
         name: string;
         /** Alias of the customer instance. */
         customerAlias: string;
-        /** The base url of identity server to authenticate the user using OpenID Connect. */
+        /** The base URL of identity server to authenticate the user using OpenID Connect. */
         identityServerUrl: string;
+        /** The base API URL. */
+        apiUrl: string;
         /** Information if the query details can be enabled when searching. For debug purposes only. */
         enableQueryDetails: boolean;
         /** Configured languages of customer instance (system, metadata, default). */
@@ -4024,6 +4535,10 @@
         /** Apps registered for this customer */
         apps?: CustomerApp[] | undefined;
         modificationDate: Date;
+        /** Url to access Frontend service */
+        baseUrl: string;
+        /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
+        logosUrl: string;
     }
     export interface LanguageConfiguration {
         /** A list of languages serving as system languages. */
@@ -4068,17 +4583,56 @@
         /** The bamboo release version. Only provided on bamboo deployments. */
         release?: string | undefined;
     }
-    /** The detail view item for the list item. */
-    export interface ListItemDetail {
-        /** The content data of the list item. */
-        content?: any | undefined;
-        /** The id of the schema with schema type list. */
-        contentSchemaId?: string | undefined;
-        /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
-        displayValues?: DisplayValueDictionary | undefined;
-        /** The list item id. */
+    export interface SystemStatus {
+        /** The status of the search indices. */
+        searchIndicesStatus?: StatusOfSearchIndexState[] | undefined;
+        /** The status of the display values. */
+        displayValuesStatus?: StatusOfDisplayValuesState[] | undefined;
+        /** The status of the contents and list items. */
+        metadataStatus?: StatusOfMetadataState[] | undefined;
+    }
+    export interface StatusOfSearchIndexState {
         id?: string | undefined;
-        /** Audit data with information regarding document creation and modification. */
+        state: SearchIndexState;
+    }
+    export enum SearchIndexState {
+        Green,
+        Yellow,
+        Red
+    }
+    export interface StatusOfDisplayValuesState {
+        id?: string | undefined;
+        state: DisplayValuesState;
+    }
+    export interface StatusOfMetadataState {
+        id?: string | undefined;
+        state: MetadataState;
+    }
+    /** The state of the contents and list items */
+    export enum MetadataState {
+        UpToDate,
+        Outdated,
+        UpdateInProgress
+    }
+    /** List item detail */
+    export interface ListItemDetail {
+        /** The list item ID. */
+        id: string;
+        /** The ID of the content schema. The SchemaType of the specified schema must be List. */
+        contentSchemaId: string;
+        /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema specified
+    by the ContentSchemaId property. */
+        content?: any | undefined;
+        /** Contains language specific display values. They are calculated values based on the template stored in the Content schema DisplayPatterns property. */
+        displayValues?: DisplayValueDictionary | undefined;
+        /** All the IDs of the referenced list items (tagboxes) that do not exist in the system. */
+        brokenReferenceIds?: string[] | undefined;
+        /** All the IDs of the contents or list items target of a relation that do not exist in the system. */
+        brokenRelationTargetIds?: string[] | undefined;
+        /** All the IDs of the indirectly referenced list items (tagboxes) that do not exist in the system.
+    They are referenced list items that reference at least a list item that do not exist in the system. */
+        brokenIndirectReferenceIds?: string[] | undefined;
+        /** Audit information. */
         audit?: UserAuditDetail | undefined;
     }
     export enum ListItemResolveBehavior {
@@ -4099,67 +4653,47 @@
         elapsedMilliseconds: number;
         pageToken?: string | undefined;
     }
-    /** Encapsulates the result of a list item search. */
-    export interface ListItemSearchResult extends BaseResultOfListItem {
+    export interface SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem {
+        searchString?: string | undefined;
+        isSearchStringRewritten: boolean;
+        queryDebugInformation?: QueryDebugInformation | undefined;
     }
-    /** A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema. */
+    export interface SearchBehaviorWithAggregationBaseResultOfListItem extends SearchBehaviorBaseResultOfListItem {
+        aggregationResults?: AggregationResult[] | undefined;
+    }
+    /** Result for list item search operation */
+    export interface ListItemSearchResult extends SearchBehaviorWithAggregationBaseResultOfListItem {
+    }
     export interface ListItem {
-        /** The content data of the list item. */
-        content?: any | undefined;
+        /** Audit information. */
+        audit?: UserAudit | undefined;
+        /** The list item id. */
+        id: string;
         /** The id of the schema with schema type list. */
         contentSchemaId?: string | undefined;
         /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
         displayValues?: DisplayValueDictionary | undefined;
-        /** The list item id. */
-        id?: string | undefined;
-        /** Audit data with information regarding document creation and modification. */
-        audit?: UserAudit | undefined;
-    }
-    /** Request to search list items */
-    export interface ListItemSearchRequest {
-        /** The string used to query the data. The Lucene query string syntax is supported. */
-        searchString?: string | undefined;
-        /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-        searchBehaviors?: SearchBehavior[] | undefined;
-        /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
-        sort?: SortInfo[] | undefined;
-        /** Limits the number of the returned schemas. Defaults to 30. */
-        limit: number;
-        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-        pageToken?: string | undefined;
-        /** An optional filter to limit the list items. */
-        filter?: FilterBase | undefined;
-        /** Broadens the search to include all schema descendant list items. */
-        includeAllSchemaChildren: boolean;
-        /** Limits the search among the list items of the provided schemas. */
-        schemaIds?: string[] | undefined;
-        /** Limits the search to the list items that have or not have broken references. By default it includes both. */
-        brokenDependenciesFilter: BrokenDependenciesFilter;
-        /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-    If not specified, all metadata languages defined in the system are used. */
-        searchLanguages?: string[] | undefined;
-        /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
-    Warning! It severely affects performance. */
-        debugMode: boolean;
-        /** Limits the search to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
-        lifeCycleFilter: LifeCycleFilter;
-        /** List of enums that control which parts of the list item are resolved and returned. */
-        resolveBehaviors?: ListItemResolveBehavior[] | undefined;
+        /** The content data of the list item. */
+        content?: any | undefined;
+        /** All the ids of the broken references (tagboxes) */
+        brokenReferenceIds?: string[] | undefined;
+        /** All the target ids of the broken relations */
+        brokenRelationTargetIds?: string[] | undefined;
+        /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
+        brokenIndirectReferenceIds?: string[] | undefined;
     }
     /** Request to aggregate list items */
-    export interface ListItemAggregationRequest {
-        /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
+    export interface ListItemSearchAndAggregationBaseRequest {
+        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
-        /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+        /** An optional list of search behaviors. All the passed behaviors will be applied. */
         searchBehaviors?: SearchBehavior[] | undefined;
-        /** An optional filter to limit the list items to aggregate on. */
+        /** An optional search filter. Limits the document result set. */
         filter?: FilterBase | undefined;
         /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
     filtering an aggregation that matches the same AggregationName or another aggregation.
     In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
         aggregationFilters?: AggregationFilter[] | undefined;
-        /** List of aggregators that defines how the list item should be aggregated. */
-        aggregators: AggregatorBase[];
         /** Broadens the search to include all schema descendant list items. */
         includeAllSchemaChildren: boolean;
         /** Limits the aggregation to the list items that have or not have broken references. By default it includes both. */
@@ -4172,39 +4706,65 @@
         /** Limits the aggregation to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
         lifeCycleFilter: LifeCycleFilter;
     }
-    /** A request structure for creating a list item document. */
+    /** Request to search list items */
+    export interface ListItemSearchRequest extends ListItemSearchAndAggregationBaseRequest {
+        /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+        sort?: SortInfo[] | undefined;
+        /** Limits the document count of the result set. */
+        limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
+        /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
+    Warning! It severely affects performance. */
+        debugMode: boolean;
+        /** List of enums that control which parts of the list item are resolved and returned. */
+        resolveBehaviors?: ListItemResolveBehavior[] | undefined;
+        /** List of aggregators that defines how the items should be aggregated. */
+        aggregators?: AggregatorBase[] | undefined;
+    }
+    /** Request to aggregate list items */
+    export interface ListItemAggregationRequest extends ListItemSearchAndAggregationBaseRequest {
+        /** List of aggregators that defines how the items should be aggregated. */
+        aggregators: AggregatorBase[];
+    }
+    /** Request to create a list item */
     export interface ListItemCreateRequest {
-        /** The content data of the list item. */
+        /** The ID of the content schema. The SchemaType of the specified schema must be List. */
+        contentSchemaId: string;
+        /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema. */
         content?: any | undefined;
-        /** The id of the schema with schema type list. */
-        contentSchemaId?: string | undefined;
         /** Optional client reference for this request.
     Will be returned back in response to make easier for clients to match request items with the respective results.
     It is not persisted anywhere and it is ignored in single operations. */
         requestId?: string | undefined;
     }
-    /** A request structure for creating multiple list items. */
+    /** Request to create multiple list items */
     export interface ListItemCreateManyRequest {
-        /** Allow storing references to missing list items / contents */
+        /** Allows creating list items that refer to list items or contents that don't exist in the system. */
         allowMissingDependencies: boolean;
-        /** Create items */
-        items?: ListItemCreateRequest[] | undefined;
+        /** Items to be created. */
+        items: ListItemCreateRequest[];
     }
-    /** A request structure for updating a list item. */
+    /** Request to update an existing list item */
     export interface ListItemUpdateRequest {
-        /** The content data of the list item. */
+        /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema of the list item. */
         content?: any | undefined;
+        /** Options to modify the behavior for updating the content.
+    Merge: the values specified in the Content object are merged to the existing content.
+    Replace: the values specified in the Content object entirely replace any existing content.
+    Defaults to Merge. */
+        contentFieldsUpdateOptions: UpdateOption;
     }
-    /** A request structure for updating multiple list items. */
+    /** Request to update multiple list items */
     export interface ListItemUpdateManyRequest {
-        /** Allow storing references to missing list items / contents */
+        /** Allows updating list items with references to list items or contents that don't exist in the system. */
         allowMissingDependencies: boolean;
-        /** Update items */
-        items?: ListItemUpdateItem[] | undefined;
+        /** Items to be updated. */
+        items: ListItemUpdateItem[];
     }
     export interface ListItemUpdateItem extends ListItemUpdateRequest {
         /** The list item id. */
-        id?: string | undefined;
+        id: string;
     }
     /** Request to delete multiple list items */
     export interface ListItemDeleteManyRequest {
@@ -4332,7 +4892,8 @@
         TransferCleanup,
         ImportCompletedWithErrors,
         UploadCompletedWithErrors,
-        UploadCancellationInProgress
+        UploadCancellationInProgress,
+        ImportDone
     }
     export interface ReindexEvent extends ApplicationEvent {
         indexId?: string | undefined;
@@ -4419,6 +4980,9 @@
         documentType?: string | undefined;
         ruleIds?: string[] | undefined;
     }
+    export interface BusinessProcessCancellationRequestedEvent extends ApplicationEvent {
+        businessProcessId?: string | undefined;
+    }
     export interface ConsoleMessage extends Message {
         command?: string | undefined;
         arguments?: TupleOfStringAndString[] | undefined;
@@ -4448,7 +5012,7 @@
     export interface LiveStreamSearchResult extends BaseResultOfLiveStream {
     }
     export interface LiveStream {
-        id?: string | undefined;
+        id: string;
         document?: string | undefined;
         scopeType?: string | undefined;
         timestamp: Date;
@@ -4474,6 +5038,19 @@
         limit: number;
         /** To get a large amount of data, page token returned from the response can be used to get all data. */
         pageToken?: string | undefined;
+    }
+    /** The overall status of the contents and list items in comparison to the actual schemas' structure */
+    export interface MetadataStatus {
+        /** The schema ids (of type Content or Layer) for which the contents are outdated and need to be updated. */
+        contentOrLayerSchemaIds?: string[] | undefined;
+        /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
+        listSchemaIds?: string[] | undefined;
+        /** The global state of the Contents and ListItems compared to the schema structure (Green = ok, Red = update needed). */
+        state: MetadataState;
+        /** The field ids that that cannot be used and needs to be cleaned up after updating the outdated contents and list items. */
+        fieldIdsToCleanup?: {
+            [key: string]: string[];
+        } | undefined;
     }
     export interface BaseResultOfOutput {
         totalResults: number;
@@ -4509,16 +5086,22 @@
         /** Should the successful filter results also be reset (and subsequently re-rendered)? */
         includeCompleted: boolean;
     }
-    /** Represents the editable part of the output format. */
-    export interface OutputFormatEditable {
-        /** Language specific names. */
-        names?: TranslatedStringDictionary | undefined;
+    /** Used to specify how to render derived outputs */
+    export interface OutputFormatRenderingSpecification {
         /** Which output format should be used as a source of data. */
         sourceOutputFormats?: SourceOutputFormats | undefined;
         /** Information about the technical format of the data, e.g. JPEG, AAC or video still. */
         format?: FormatBase | undefined;
+    }
+    /** Represents the editable part of the output format. */
+    export interface OutputFormatEditable extends OutputFormatRenderingSpecification {
+        /** Language specific names. */
+        names: TranslatedStringDictionary;
         /** How long should the dynamic outputs created from this format be kept. */
         retentionTime: string;
+        /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
+    If set, the customer's default language is required. */
+        downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
     }
     /** Represents an output format. */
     export interface OutputFormat extends OutputFormatEditable {
@@ -4538,28 +5121,45 @@
         /** Audit information. */
         audit?: UserAuditDetail | undefined;
     }
+    /** Defines the source used for rendering an OutputFormat depending on the type of content */
     export interface SourceOutputFormats {
+        /** The source to be used for content of type Image */
         image?: string | undefined;
+        /** The source to be used for content of type Video */
         video?: string | undefined;
+        /** The source to be used for content of type Document */
         document?: string | undefined;
+        /** The source to be used for content of type Audio */
         audio?: string | undefined;
     }
     export interface FormatBase {
     }
+    /** Base class for ImageFormats such as JPEG, PNG, TIFF, ... */
     export interface ImageFormatBase extends FormatBase {
+        /** Color profile to use. Colorspace is derived from the chosen profile. */
         colorProfile?: ColorProfile | undefined;
+        /** The method of conversion for color spaces (e.g. CMYK to RGB). Further information can be found here: http://www.colourphil.co.uk/rendering_intents.shtml */
         colorTransformationIntent: ColorTransformationIntent;
+        /** Horizontal resolution in dpi (dots per inch) */
         horizontalResolution?: number | undefined;
+        /** Vertical resolution in dpi (dots per inch) */
         verticalResolution?: number | undefined;
-        renderFirstFrameOnly: boolean;
+        /** Copy clipping paths from input. */
         keepClippingPath: boolean;
+        /** Copy Exif metadata from input. */
         cloneExif: boolean;
+        /** Copy Iptc metadata from input. */
         cloneIptc: boolean;
+        /** Copy AdobeResources from input. */
         cloneAdobeResources: boolean;
+        /** Copy Xmp metadata from input. */
         cloneXmp: boolean;
+        /** Allows resizing of the image. */
         resizeAction?: ResizeAction | undefined;
+        /** A collection of actions to be applied during rendering. */
         actions?: ImageActionBase[] | undefined;
     }
+    /** Available color profiles */
     export enum ColorProfile {
         AdobeRgb1998,
         AppleRgb,
@@ -4592,6 +5192,7 @@
         Isonewspaper26v4,
         Isonewspaper26v4Grey
     }
+    /** http://www.colourphil.co.uk/rendering_intents.shtml */
     export enum ColorTransformationIntent {
         RelativeColorimetricBpc,
         AbsoluteColorimetric,
@@ -4599,12 +5200,16 @@
         RelativeColorimetric,
         Saturation
     }
-    /** Does not implement the IImageAction interface. The ResizeAction is directly exposed within ImageFormat. */
+    /** Specifies image resize parameters. */
     export interface ResizeAction {
+        /** Target width for the output. */
         width: number;
+        /** Target height for the output. */
         height: number;
+        /** Specifies additional resize behaviour. */
         resizeMode: ResizeMode;
     }
+    /** Specifies how the dimensions of a ResizeAction are applied to the content */
     export enum ResizeMode {
         Fit,
         Shrink,
@@ -4612,79 +5217,112 @@
     }
     export interface ImageActionBase {
     }
+    /** An ImageAction that allows different forms of modifying alpha information in an image. */
     export interface AlphaHandlingAction extends ImageActionBase {
+        /** Specifies the kind of alpha handling to be applied. */
         alphaHandling: AlphaHandling;
+        /** Specifies potentially needed color information for alpha handling. Must be given in RGB hex format (8 bit per channel). */
         replacementRgbColorHexCode?: string | undefined;
     }
+    /** Specifies the kind of AlphaHandling to be applied to an image */
     export enum AlphaHandling {
         DiscardAlpha,
         ReplaceAlpha,
         ReplaceInvertedAlpha
     }
+    /** An ImageAction that allows cropping an image. */
     export interface CropAction extends ImageActionBase {
+        /** X-Coordinate of top left point of the cropping rectangle. */
         x: number;
+        /** Y-Coordinate of top left point of the cropping rectangle. */
         y: number;
+        /** Width of the cropping rectangle. */
         width: number;
+        /** Height of the cropping rectangle. */
         height: number;
     }
+    /** Increases sharpness of an image by using the unsharp mask technique. */
     export interface UnsharpenMaskAction extends ImageActionBase {
+        /** Unsharp mask amount (the difference between blurred and original image). */
         amount: number;
+        /** Blur radius used to produce unfocused version of the image. */
         radius: number;
+        /** The threshold value for the unsharp mask in range [0, 1] */
         threshold: number;
     }
+    /** An ImageAction that allows rendering a watermark to an image */
     export interface WatermarkAction extends ImageActionBase {
+        /** Identifies the image to be used as watermark */
         watermarkFilePath?: string | undefined;
-        watermarkText?: string | undefined;
+        /** Margin to the left border of the image, in pixels */
         marginLeft?: number | undefined;
+        /** Margin to the top of the image, in pixels */
         marginTop?: number | undefined;
+        /** Margin to the right border of the image, in pixels */
         marginRight?: number | undefined;
+        /** Margin to the bottom of the image, in pixels */
         marginBottom?: number | undefined;
+        /** Scales the opacity of the watermark */
         opacity: number;
+        /** Scales the watermark width according to the size of the final image. */
         widthRatio: number;
+        /** Scales the watermark height according to the size of the final image. */
         heightRatio: number;
     }
+    /** Special format that represents the original. */
     export interface OriginalFormat extends FormatBase {
         extension?: string | undefined;
     }
+    /** Renders a JPEG image. */
     export interface JpegFormat extends ImageFormatBase {
+        /** Compression quality. Must be in range [0,100] and defaults to 80. */
         quality: number;
+        /** Whether to use progressive encoding or not. */
         isProgressive: boolean;
+        /** Whether to use chroma subsampling or not. */
         chromaSubsamplingEnabled: boolean;
         extension?: string | undefined;
     }
+    /** Renders a PNG image. */
     export interface PngFormat extends ImageFormatBase {
+        /** Whether the image is interlaced or not. */
         interlaced: boolean;
         extension?: string | undefined;
     }
+    /** Renders a TIFF image */
     export interface TiffFormat extends ImageFormatBase {
+        /** Specifies whether color channels should be premultiplied with alpha (associated alpha) or not (unassociated alpha). */
         alphaPremultiplied: boolean;
+        /** Specifies the compression type to use. */
         compressionType: CompressionType;
+        /** Preserve (including size affecting changes) unspecified extraChannels. */
         includeUnspecifiedTiffExtraChannels: boolean;
         extension?: string | undefined;
     }
+    /** Available compression types. */
     export enum CompressionType {
         None,
         Lzw,
         Rle,
         Zip
     }
+    /** Base class for rendering video. */
     export interface VideoFormatBase extends FormatBase {
     }
+    /** Renders H.264 in mp4 container. */
     export interface Mp4VideoFormat extends VideoFormatBase {
-        resizeAction?: ResizeAction2 | undefined;
+        /** Allows resizing of the video. */
+        resizeAction?: ResizeAction | undefined;
         /** Gets or sets the encoding audio codec. */
         audioCodec?: AudioFormatBase | undefined;
         /** Gets or sets the encoding codec preset. */
         preset: Preset;
         extension?: string | undefined;
     }
-    export interface ResizeAction2 {
-        width: number;
-        height: number;
-        resizeMode: ResizeMode;
-    }
+    /** Base class for rendering audio. */
     export interface AudioFormatBase extends FormatBase {
     }
+    /** Video rendering preset, see http://dev.beandog.org/x264_preset_reference.html for more information. */
     export enum Preset {
         Ultrafast,
         Superfast,
@@ -4695,23 +5333,29 @@
         Slow,
         Slower
     }
+    /** Generates a sprite image of the input video. */
     export interface VideoSpriteFormat extends VideoFormatBase {
-        spriteResizeAction?: ResizeAction2 | undefined;
+        /** Specifies the dimensions of a single frame in the sprite. */
+        spriteResizeAction?: ResizeAction | undefined;
+        /** Limit for the number of frames to generate. */
         maxNumberOfSprites: number;
+        /** JPEG-quality to use for the sprite. */
         quality: number;
         extension?: string | undefined;
     }
     export interface VideoStillFormat extends VideoFormatBase {
         extension?: string | undefined;
+        /** Specifies the position from which to produce the image. */
         positionInSeconds: number;
     }
+    /** Specifies Aac encoding for the output and additional settings for the encoder. */
     export interface AacAudioFormat extends AudioFormatBase {
         extension?: string | undefined;
         /** Gets or sets the encoding profile. */
         profile: Profile;
         /** Gets or sets the encoding coder. */
         coder: Coder;
-        /** Gets or sets the bitrate of the encoding. */
+        /** Gets or sets the bitrate of the encoding in kbps. */
         bitrate?: number | undefined;
         /** Gets or sets the encoding variable bit rate (VBR) - 1 is lowest quality and 5 is highest quality. */
         variableBitRate?: number | undefined;
@@ -4722,33 +5366,41 @@
         Aac_ltp,
         Aac_main
     }
+    /** Audio coders */
     export enum Coder {
         Twoloop,
         Anmr,
         Fast
     }
+    /** Generates a waveform image from an Audio source. */
     export interface AudioStillFormat extends AudioFormatBase {
         extension?: string | undefined;
     }
+    /** Renders an MP3 audio file. */
     export interface Mp3AudioFormat extends AudioFormatBase {
         extension?: string | undefined;
-        /** Gets or sets the encoding bitrate. */
+        /** Gets or sets the encoding bitrate. This setting and Quality are mutually exclusive. */
         bitrate?: number | undefined;
-        /** Gets or sets the encoding quality.
+        /** Gets or sets the encoding quality. This setting and Bitrate are mutually exclusive.
     Values can be set it range of 0 to 9, where a lower value is a higher quality. */
         quality?: number | undefined;
     }
+    /** Base class for rendering documents. */
     export interface DocumentFormatBase extends FormatBase {
     }
+    /** Renders a TIFF preview image. */
     export interface DocumentStillFormat extends DocumentFormatBase {
         extension?: string | undefined;
     }
     export interface PdfFormat extends DocumentFormatBase {
-        /** JpegQuality parameter value must be between 0 and 100. */
+        /** Specifies compression quality used for ReduceFileSize. */
         jpegQuality: number;
+        /** Whether to linearize the output for fast web viewing. */
         fastWebView: boolean;
+        /** Whether to apply measures to decrease output size or not. */
         reduceFileSize: boolean;
         extension?: string | undefined;
+        /** Whether to extract document full text from this output. */
         extractFullText: boolean;
     }
     /** Used to create multiple new output formats at once. */
@@ -4770,6 +5422,26 @@
     export interface OutputFormatDeleteManyRequest {
         /** List of IDs of output formats to remove. */
         ids?: string[] | undefined;
+    }
+    /** Used to change the download file name pattern for multiple formats at once. */
+    export interface OutputFormatDownloadFileNamePatternUpdateManyRequest {
+        /** Download file name update requests to be processed. */
+        items: OutputFormatDownloadFileNamePatternUpdateRequestItem[];
+    }
+    /** Represents a change to the download file name pattern to one output format. */
+    export interface OutputFormatDownloadFileNamePatternUpdateRequestItem {
+        /** ID of the output format to set pattern for. */
+        id: string;
+        /** The patterns to use per metadata language.
+    The customer's default language is required. */
+        patterns?: TranslatedStringDictionary | undefined;
+    }
+    /** Specifies for which content a given format should be rendered */
+    export interface OutputFormatRenderPreviewRequest {
+        /** The content for which the format should be rendered */
+        contentId?: string | undefined;
+        /** The format which should be rendered. */
+        outputFormat?: OutputFormatRenderingSpecification | undefined;
     }
     /** User profile. */
     export interface UserProfile {
@@ -4975,7 +5647,7 @@
         /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
         boost: number;
     }
-    /** A field that can be triggered, and store in such occasion the id of the user and the time that triggered it. The last user who triggered it and the last time in which it was triggered can be used for filtering or for simple search (if enabled on the field). Such information are stored in two inner fields: "triggeredBy" and "triggeredOn". In order to be triggered in a Content or ListItem metadata dictionary, the special '"_trigger": true' should be sent in the DataDictionary of the field itself. */
+    /** A field that can be triggered, and store in such occasion the id of the user and the time that triggered it. The last user who triggered it and the last time in which it was triggered can be used for filtering or for simple search (if enabled on the field). Such information are stored in two inner fields: "triggeredBy" and "triggeredOn". In order to be triggered in a Content or ListItem metadata dictionary, the special '"_trigger": true' should be sent in the data of the field itself. */
     export interface FieldTrigger extends FieldBase {
         /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
         boost: number;
@@ -5267,7 +5939,7 @@
     /** A schema */
     export interface Schema {
         /** The schema ID. It is unique throughout the whole customer setup. */
-        id?: string | undefined;
+        id: string;
         /** The parent schema ID. */
         parentSchemaId?: string | undefined;
         /** List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created. */
@@ -5367,7 +6039,7 @@
         schemaId?: string | undefined;
     }
     export interface SchemaOwnershipTransferRequest {
-        /** The id of the user to whom the schema has to be transfered to. */
+        /** The id of the user to whom the schema has to be transferred to. */
         transferUserId?: string | undefined;
     }
     /** Result of a schema create operation */
@@ -5412,7 +6084,7 @@
     }
     /** Request to create multiple schemas */
     export interface SchemaCreateManyRequest {
-        /** The schemas to create. Cyclic dependencies between schemas are supported, if the
+        /** The schemas to create. Cyclic dependencies between schemas are supported, if they
     are all in the same request. */
         schemas: SchemaCreateRequest[];
     }
@@ -5450,18 +6122,28 @@
     that reference the layer. */
         referencedInContentSchemaIds?: string[] | undefined;
     }
+    /** Request to update multiple schemas */
+    export interface SchemaUpdateManyRequest {
+        /** The schemas to update. */
+        schemas: SchemaUpdateItem[];
+    }
+    /** Item to update a schema */
+    export interface SchemaUpdateItem extends SchemaUpdateRequest {
+        /** Id of the schema to update */
+        id: string;
+    }
     /** Result of a schema delete operation */
     export interface SchemaDeleteResult {
     }
     export interface SchemaOwnershipTransferManyRequest {
         /** The schema ids. */
         schemaIds?: string[] | undefined;
-        /** The id of user to whom the schemas have to be transfered to. */
+        /** The id of user to whom the schemas have to be transferred to. */
         transferUserId?: string | undefined;
     }
     export interface PermissionSetDetailOfMetadataRight {
         id: string;
-        names?: TranslatedStringDictionary | undefined;
+        names: TranslatedStringDictionary;
         userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
         userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
@@ -5477,7 +6159,7 @@
         rights?: MetadataRight[] | undefined;
     }
     export interface PermissionSetCreateRequestOfMetadataRight {
-        names?: TranslatedStringDictionary | undefined;
+        names: TranslatedStringDictionary;
         userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
         exclusive: boolean;
@@ -5490,7 +6172,7 @@
         rights?: MetadataRight[] | undefined;
     }
     export interface PermissionSetUpdateRequestOfMetadataRight {
-        names?: TranslatedStringDictionary | undefined;
+        names: TranslatedStringDictionary;
         userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
         userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     }
@@ -5559,8 +6241,6 @@
         expirationDate?: Date | undefined;
         /** Info if share is already expired. */
         expired: boolean;
-        /** Configuration for template to use on the share detail page. */
-        template?: TemplateBase | undefined;
         /** Defined access for contents in share. */
         outputAccess: OutputAccess;
         /** Type of share. */
@@ -5579,10 +6259,14 @@
         contentSchemaId: string;
         /** An optional id list of schemas with type layer. */
         layerSchemaIds?: string[] | undefined;
-        /** The content data. */
-        content: DataDictionary;
-        /** The metadata dictionary. */
-        metadata?: DataDictionary | undefined;
+        /** The content data. It's an object of dynamic metadata whose structure is defined in the Content schema specified
+    by the ContentSchemaId property. */
+        content: any;
+        /** The metadata belonging to the layers of the content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+    by the LayerSchemaIds property. */
+        metadata?: {
+            [key: string]: any;
+        } | undefined;
         /** Content ID. */
         id: string;
         /** List of shared outputs for this content. */
@@ -5606,6 +6290,8 @@
         downloadUrl?: string | undefined;
         /** Output details. */
         detail?: OutputDataBase | undefined;
+        /** Whether this Output belongs to a dynamic OutputFormat */
+        dynamicRendering: boolean;
     }
     /** Shared output for basic share */
     export interface ShareOutputBasic extends ShareOutputBase {
@@ -5660,20 +6346,6 @@
         /** URL to access the share for this recipient. */
         url?: string | undefined;
     }
-    export interface TemplateBase {
-        width?: number | undefined;
-        height?: number | undefined;
-    }
-    export interface CardTemplate extends TemplateBase {
-        showNavigation: boolean;
-        showOverlay: boolean;
-        showLogo: boolean;
-        showFooter: boolean;
-    }
-    export interface ListTemplate extends TemplateBase {
-    }
-    export interface BasicTemplate extends TemplateBase {
-    }
     export enum OutputAccess {
         Full,
         Preview,
@@ -5690,8 +6362,11 @@
         isSearchStringRewritten: boolean;
         queryDebugInformation?: QueryDebugInformation | undefined;
     }
+    export interface SearchBehaviorWithAggregationBaseResultOfShare extends SearchBehaviorBaseResultOfShare {
+        aggregationResults?: AggregationResult[] | undefined;
+    }
     /** Result for share search operation */
-    export interface ShareSearchResult extends SearchBehaviorBaseResultOfShare {
+    export interface ShareSearchResult extends SearchBehaviorWithAggregationBaseResultOfShare {
     }
     /** Share */
     export interface Share {
@@ -5710,39 +6385,36 @@
         /** Share is readonly if the current user is not the creator but only the recipient. */
         isReadOnly: boolean;
     }
-    /** Request to search shares */
-    export interface ShareSearchRequest {
-        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-        searchString?: string | undefined;
-        /** An optional list of search behaviors. All the passed behaviors will be applied. */
-        searchBehaviors?: SearchBehavior[] | undefined;
-        /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
-        sort?: SortInfo[] | undefined;
-        /** Limits the document count of the result set. */
-        limit: number;
-        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-        pageToken?: string | undefined;
-        /** An optional search filter. Limits the document result set. */
-        filter?: FilterBase | undefined;
-        /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-        debugMode: boolean;
-    }
     /** Request to aggregate shares based on the specified aggregators */
-    export interface ShareAggregationRequest {
+    export interface ShareSearchAndAggregationBaseRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         /** An optional list of search behaviors. All the passed behaviors will be applied. */
         searchBehaviors?: SearchBehavior[] | undefined;
-        /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
-        sort?: SortInfo[] | undefined;
         /** An optional search filter. Limits the document result set. */
         filter?: FilterBase | undefined;
         /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
     filtering an aggregation that matches the same AggregationName or another aggregation.
     In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
         aggregationFilters?: AggregationFilter[] | undefined;
-        /** List of aggregators that defines how the list item should be aggregated. */
+    }
+    /** Request to search shares */
+    export interface ShareSearchRequest extends ShareSearchAndAggregationBaseRequest {
+        /** Limits the document count of the result set. */
+        limit: number;
+        /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+        sort?: SortInfo[] | undefined;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
+        /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+        debugMode: boolean;
+        /** List of aggregators that defines how the items should be aggregated. */
         aggregators?: AggregatorBase[] | undefined;
+    }
+    /** Request to aggregate shares based on the specified aggregators */
+    export interface ShareAggregationRequest extends ShareSearchAndAggregationBaseRequest {
+        /** List of aggregators that defines how the items should be aggregated. */
+        aggregators: AggregatorBase[];
     }
     /** Result of share creation */
     export interface CreateShareResult {
@@ -5761,8 +6433,6 @@
         contents: ShareContent[];
         /** List of content layers to share. */
         layerSchemaIds?: string[] | undefined;
-        /** Configuration for template to use on the share detail page. */
-        template?: TemplateBase | undefined;
         /** Access for content outputs in share. */
         outputAccess: OutputAccess;
     }
@@ -5774,25 +6444,11 @@
     }
     export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
         /** List of external mail recipients which are no Picturepark users. */
-        recipientsEmail?: UserEmail[] | undefined;
-        /** List of internal recipients which are Picturepark users. */
-        recipientsUser?: User[] | undefined;
-        /** List of user roles. All assignees of these roles receive the share. */
-        recipientsGroup?: UserRole[] | undefined;
+        recipientEmails?: UserEmail[] | undefined;
         /** System language used for share (mail and detail page). en or de. */
         languageCode: string;
-    }
-    /** Represents a user role, which associates users with user rights. */
-    export interface UserRoleEditable {
-        /** Language specific user role names. */
-        names: TranslatedStringDictionary;
-        /** All user rights for this user role. */
-        userRights: UserRight[];
-    }
-    /** Represents a user role, which associates users with user rights. */
-    export interface UserRole extends UserRoleEditable {
-        /** User role ID. */
-        id?: string | undefined;
+        /** Set to true to disable the creation of notifications and emails to recipients. */
+        suppressNotifications: boolean;
     }
     /** Create request for embed share */
     export interface ShareEmbedCreateRequest extends ShareBaseCreateRequest {
@@ -5809,8 +6465,6 @@
         contents: ShareContent[];
         /** List of content layers to share. */
         layerSchemaIds?: string[] | undefined;
-        /** Configuration for template to use on the share detail page. */
-        template?: TemplateBase | undefined;
         /** Access for content outputs in share. */
         outputAccess: OutputAccess;
     }
@@ -5881,13 +6535,17 @@
         name: string;
         /** Type of transfer. */
         transferType: TransferType;
-        /** Files uploaded in transfer. */
+        /** Files uploaded in transfer.
+    The client is responsible for uploading files to backend.
+    Required when TransferType is FileUpload or FileUploadAutoImport. */
         files?: TransferUploadFile[] | undefined;
-        /** Weblinks downloaded in transfer. */
+        /** Weblinks downloaded in transfer.
+    The backend will download files using HTTP, therefore public access to files is needed.
+    Required when TransferType is WebDownload. */
         webLinks?: TransferWebLink[] | undefined;
         /** Name of collection created after transfer. */
         collectionName?: string | undefined;
-        /** A value indicating whether to create a Collection after importing the transfer. */
+        /** A value indicating whether to create a collection after importing the transfer. */
         createCollection: boolean;
     }
     /** Represents the base class for transfer items. */
@@ -5906,6 +6564,8 @@
     export interface TransferWebLink extends TransferFile {
         /** URL of the item. */
         url: string;
+        /** Optional target filename of the file. */
+        fileName?: string | undefined;
     }
     /** Representation of a file transfer. */
     export interface FileTransfer {
@@ -6112,7 +6772,11 @@
     export interface ImportTransferRequest {
         /** An optional id list of schemas with type layer. */
         layerSchemaIds?: string[] | undefined;
-        metadata?: DataDictionary | undefined;
+        /** The metadata to be assigned to the imported content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+    by the LayerSchemaIds property. */
+        metadata?: {
+            [key: string]: any;
+        } | undefined;
         /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
         contentPermissionSetIds?: string[] | undefined;
     }
@@ -6120,10 +6784,14 @@
         items?: FileTransferCreateItem[] | undefined;
     }
     export interface FileTransferCreateItem {
-        fileId?: string | undefined;
+        fileId: string;
         /** An optional id list of schemas with type layer. */
         layerSchemaIds?: string[] | undefined;
-        metadata?: DataDictionary | undefined;
+        /** The metadata to be assigned to the imported content. It's a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
+    by the LayerSchemaIds property. */
+        metadata?: {
+            [key: string]: any;
+        } | undefined;
         /** An optional id list of content permission sets. Controls content accessibility outside of content ownership. */
         contentPermissionSetIds?: string[] | undefined;
     }
@@ -6161,6 +6829,18 @@
         /** The id of the user to whom this ownertoken currently belongs to. */
         userId?: string | undefined;
     }
+    /** Represents a user role, which associates users with user rights. */
+    export interface UserRoleEditable {
+        /** Language specific user role names. */
+        names: TranslatedStringDictionary;
+        /** All user rights for this user role. */
+        userRights: UserRight[];
+    }
+    /** Represents a user role, which associates users with user rights. */
+    export interface UserRole extends UserRoleEditable {
+        /** User role ID. */
+        id: string;
+    }
     /** Holds information needed for user creation. */
     export interface UserCreateRequest {
         /** User's first name. */
@@ -6187,15 +6867,18 @@
         isSearchStringRewritten: boolean;
         queryDebugInformation?: QueryDebugInformation | undefined;
     }
+    export interface SearchBehaviorWithAggregationBaseResultOfUserWithRoles extends SearchBehaviorBaseResultOfUserWithRoles {
+        aggregationResults?: AggregationResult[] | undefined;
+    }
     /** Holds results of the user search. */
-    export interface UserSearchResult extends SearchBehaviorBaseResultOfUserWithRoles {
+    export interface UserSearchResult extends SearchBehaviorWithAggregationBaseResultOfUserWithRoles {
     }
     /** User information retrieved via search */
     export interface UserWithRoles {
         /** IDs of user roles user is assigned to */
         userRoleIds?: string[] | undefined;
         /** User's Picturepark ID. */
-        id?: string | undefined;
+        id: string;
         /** User's first name. */
         firstName?: string | undefined;
         /** User's last name. */
@@ -6211,44 +6894,41 @@
         /** Read-only users can't be removed from the system, e.g. service user. */
         isReadOnly: boolean;
     }
-    /** Represents user search request. */
-    export interface UserSearchRequest {
+    /** Represents an aggregation request over users. */
+    export interface UserSearchAndAggregationBaseRequest {
         /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
         searchString?: string | undefined;
         /** An optional list of search behaviors. All the passed behaviors will be applied. */
         searchBehaviors?: SearchBehavior[] | undefined;
-        /** Fields and respective directions requested to sort the search results. */
-        sort?: SortInfo[] | undefined;
-        /** Limits the document count of the result set. Defaults to 30. */
-        limit: number;
-        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-        pageToken?: string | undefined;
-        /** Filter applied to users. */
+        /** An optional search filter. Limits the document result set. */
         filter?: FilterBase | undefined;
         /** Return only users in certain life cycle state(s). */
         lifeCycleFilter: LifeCycleFilter;
         /** Return only users with certain user rights. */
         userRightsFilter?: UserRight[] | undefined;
-        /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
-        debugMode: boolean;
-        includeServiceUser: boolean;
-    }
-    /** Represents an aggregation request over users. */
-    export interface UserAggregationRequest {
-        /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-        searchString?: string | undefined;
-        /** An optional list of search behaviors. All the passed behaviors will be applied. */
-        searchBehaviors?: SearchBehavior[] | undefined;
-        /** Fields and respective directions requested to sort the search results. */
-        sort?: SortInfo[] | undefined;
-        /** An optional search filter. Limits the content document result set. */
-        filter?: FilterBase | undefined;
         /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
     filtering an aggregation that matches the same AggregationName or another aggregation.
     In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
         aggregationFilters?: AggregationFilter[] | undefined;
-        /** List of aggregators used while evaluating the request. */
+        includeServiceUser: boolean;
+    }
+    /** Represents user search request. */
+    export interface UserSearchRequest extends UserSearchAndAggregationBaseRequest {
+        /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+        sort?: SortInfo[] | undefined;
+        /** Limits the document count of the result set. */
+        limit: number;
+        /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+        pageToken?: string | undefined;
+        /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
+        debugMode: boolean;
+        /** List of aggregators that defines how the items should be aggregated. */
         aggregators?: AggregatorBase[] | undefined;
+    }
+    /** Represents an aggregation request over users. */
+    export interface UserAggregationRequest extends UserSearchAndAggregationBaseRequest {
+        /** List of aggregators that defines how the items should be aggregated. */
+        aggregators: AggregatorBase[];
     }
     export interface UserLockRequest {
         /** Indicates the requested lock state of the user.
@@ -6326,6 +7006,9 @@
     export interface UserRoleDeleteManyRequest {
         /** IDs of the user roles to delete. */
         ids: string[];
+    }
+    export interface DataDictionary {
+        [key: string]: any;
     }
     export interface FileParameter {
         data: any;

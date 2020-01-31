@@ -78,7 +78,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
         })
         .afterClosed().subscribe(result => {
           if (result) {
-            this.shareService.deleteMany(new ShareDeleteManyRequest({ ids: [this.share.id] }))
+            this.shareService.deleteMany( null, new ShareDeleteManyRequest({ ids: [this.share.id] }))
             .subscribe(i => {
               this.router.navigate(['./share-manager']);
             });
