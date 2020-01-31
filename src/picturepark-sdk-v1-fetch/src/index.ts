@@ -5488,7 +5488,7 @@ export class InfoClient extends PictureparkClientBase {
 
     /**
      * Get status
-     * @return VersionInfo
+     * @return SystemStatus
      */
     getStatus(): Promise<SystemStatus> {
         let url_ = this.baseUrl + "/v1/info/status";
@@ -7259,6 +7259,167 @@ export class LiveStreamClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<LiveStreamSearchResult>(<any>null);
+    }
+}
+
+export class MetadataClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    /**
+     * Get status
+     * @return MetadataStatus
+     */
+    getStatus(): Promise<MetadataStatus> {
+        let url_ = this.baseUrl + "/v1/metadata/status";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetStatus(_response);
+        });
+    }
+
+    protected processGetStatus(response: Response): Promise<MetadataStatus> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <MetadataStatus>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<MetadataStatus>(<any>null);
+    }
+
+    /**
+     * Update outdated
+     */
+    updateOutdated(): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/metadata/many/updateOutdated";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdateOutdated(_response);
+        });
+    }
+
+    protected processUpdateOutdated(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 }
 
@@ -11117,13 +11278,16 @@ export class ShareClient extends PictureparkClientBase {
      * Update
      * @param id The share id.
      * @param updateRequest The share update request.
+     * @param timeout (optional) Optional timeout to wait for the request to complete
      * @return Share detail
      */
-    update(id: string, updateRequest: ShareBaseUpdateRequest): Promise<ShareDetail> {
-        let url_ = this.baseUrl + "/v1/shares/{id}";
+    update(id: string, updateRequest: ShareBaseUpdateRequest, timeout?: string | null | undefined): Promise<ShareDetail> {
+        let url_ = this.baseUrl + "/v1/shares/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
@@ -11360,10 +11524,13 @@ export class ShareClient extends PictureparkClientBase {
     /**
      * Create
      * @param request Polymorphic create contract. Use either ShareBasicCreateRequest or ShareEmbedCreateRequest
+     * @param timeout (optional) Optional timeout to wait for the request to complete
      * @return Create result
      */
-    create(request: ShareBaseCreateRequest): Promise<CreateShareResult> {
-        let url_ = this.baseUrl + "/v1/shares";
+    create(request: ShareBaseCreateRequest, timeout?: string | null | undefined): Promise<CreateShareResult> {
+        let url_ = this.baseUrl + "/v1/shares?";
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -11446,10 +11613,13 @@ export class ShareClient extends PictureparkClientBase {
     /**
      * Delete multiple shares
      * @param deleteManyRequest A delete many request containing the ids of the shares to delete.
+     * @param timeout (optional) Optional timeout to wait for the request to complete
      * @return BusinessProcess
      */
-    deleteMany(deleteManyRequest: ShareDeleteManyRequest): Promise<BulkResponse> {
-        let url_ = this.baseUrl + "/v1/shares/many/delete";
+    deleteMany(deleteManyRequest: ShareDeleteManyRequest, timeout?: string | null | undefined): Promise<BulkResponse> {
+        let url_ = this.baseUrl + "/v1/shares/many/delete?";
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(deleteManyRequest);
@@ -11526,13 +11696,16 @@ export class ShareClient extends PictureparkClientBase {
     /**
      * Get share json
      * @param token Share token
+     * @param lang (optional) Language code
      * @return ShareDetail
      */
-    getShareJson(token: string): Promise<any> {
-        let url_ = this.baseUrl + "/v1/shares/json/{token}";
+    getShareJson(token: string, lang?: string | null | undefined): Promise<any> {
+        let url_ = this.baseUrl + "/v1/shares/json/{token}?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
         url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
+        if (lang !== undefined)
+            url_ += "lang=" + encodeURIComponent("" + lang) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -15000,6 +15173,11 @@ export interface ShareExpiredException extends PictureparkBusinessException {
     token?: string | undefined;
 }
 
+export interface ShareSizeLimitExceededException extends PictureparkValidationException {
+    shareId?: string | undefined;
+    limit: number;
+}
+
 export interface OutputIdNotFoundException extends PictureparkNotFoundException {
     outputId?: string | undefined;
 }
@@ -15528,6 +15706,9 @@ export interface LayerAssignmentInvalidException extends PictureparkValidationEx
     value?: any | undefined;
 }
 
+export interface OutdatedMetadataUpdateInProgressException extends PictureparkValidationException {
+}
+
 export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -15610,6 +15791,11 @@ export interface SchemaFieldNumberRangeException extends PictureparkValidationEx
 export interface SchemaInUseContentSchemaException extends PictureparkValidationException {
     schemaId?: string | undefined;
     contentSchemaIds?: string[] | undefined;
+}
+
+export interface LayerAssignmentInUseWithContentsException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    usedAssignmentSchemaIds?: string[] | undefined;
 }
 
 export interface SchemaInUseListItemException extends PictureparkValidationException {
@@ -17161,7 +17347,7 @@ export interface ChannelCreateRequest {
     id?: string | undefined;
     sort?: SortInfo[] | undefined;
     sortOrder: number;
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
     /** User roles granted access to the channel. */
@@ -17181,7 +17367,7 @@ export interface ChannelCreateRequest {
 export interface ChannelUpdateRequest {
     sort?: SortInfo[] | undefined;
     sortOrder: number;
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
     /** User roles granted access to the channel. */
@@ -17948,7 +18134,7 @@ export interface ContentFieldsBatchUpdateFilterRequest extends MetadataValuesCha
 
 export interface PermissionSetDetailOfContentRight {
     id: string;
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -17979,7 +18165,7 @@ export enum PermissionSetRight {
 }
 
 export interface PermissionSetCreateRequestOfContentRight {
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -18000,7 +18186,7 @@ export interface UserRoleRightsOfPermissionSetRight {
 }
 
 export interface PermissionSetUpdateRequestOfContentRight {
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
 }
@@ -18097,7 +18283,7 @@ export interface PermissionSet {
 Cannot be changed after creation. */
     exclusive: boolean;
     /** Language specific permission set names. */
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
 }
 
 /** Request to search permission sets */
@@ -18226,6 +18412,10 @@ export interface CustomerInfo {
     /** Apps registered for this customer */
     apps?: CustomerApp[] | undefined;
     modificationDate: Date;
+    /** Url to access Frontend service */
+    baseUrl: string;
+    /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
+    logosUrl: string;
 }
 
 export interface LanguageConfiguration {
@@ -18281,6 +18471,8 @@ export interface SystemStatus {
     searchIndicesStatus?: StatusOfSearchIndexState[] | undefined;
     /** The status of the display values. */
     displayValuesStatus?: StatusOfDisplayValuesState[] | undefined;
+    /** The status of the contents and list items. */
+    metadataStatus?: StatusOfMetadataState[] | undefined;
 }
 
 export interface StatusOfSearchIndexState {
@@ -18297,6 +18489,18 @@ export enum SearchIndexState {
 export interface StatusOfDisplayValuesState {
     id?: string | undefined;
     state: DisplayValuesState;
+}
+
+export interface StatusOfMetadataState {
+    id?: string | undefined;
+    state: MetadataState;
+}
+
+/** The state of the contents and list items */
+export enum MetadataState {
+    UpToDate = <any>"UpToDate",
+    Outdated = <any>"Outdated",
+    UpdateInProgress = <any>"UpdateInProgress",
 }
 
 /** List item detail */
@@ -18779,6 +18983,18 @@ export interface LiveStreamSearchRequest {
     pageToken?: string | undefined;
 }
 
+/** The overall status of the contents and list items in comparison to the actual schemas' structure */
+export interface MetadataStatus {
+    /** The schema ids (of type Content or Layer) for which the contents are outdated and need to be updated. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
+    listSchemaIds?: string[] | undefined;
+    /** The global state of the Contents and ListItems compared to the schema structure (Green = ok, Red = update needed). */
+    state: MetadataState;
+    /** The field ids that that cannot be used and needs to be cleaned up after updating the outdated contents and list items. */
+    fieldIdsToCleanup?: { [key: string] : string[]; } | undefined;
+}
+
 export interface BaseResultOfOutput {
     totalResults: number;
     results: Output[];
@@ -18828,7 +19044,7 @@ export interface OutputFormatRenderingSpecification {
 /** Represents the editable part of the output format. */
 export interface OutputFormatEditable extends OutputFormatRenderingSpecification {
     /** Language specific names. */
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     /** How long should the dynamic outputs created from this format be kept. */
     retentionTime: string;
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
@@ -19974,7 +20190,7 @@ export interface SchemaOwnershipTransferManyRequest {
 
 export interface PermissionSetDetailOfMetadataRight {
     id: string;
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -19993,7 +20209,7 @@ export interface PermissionUserRoleRightsOfMetadataRight {
 }
 
 export interface PermissionSetCreateRequestOfMetadataRight {
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -20009,7 +20225,7 @@ export interface UserRoleRightsOfMetadataRight {
 }
 
 export interface PermissionSetUpdateRequestOfMetadataRight {
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
 }
@@ -20314,6 +20530,8 @@ export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
     recipientEmails?: UserEmail[] | undefined;
     /** System language used for share (mail and detail page). en or de. */
     languageCode: string;
+    /** Set to true to disable the creation of notifications and emails to recipients. */
+    suppressNotifications: boolean;
 }
 
 /** Create request for embed share */
