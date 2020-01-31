@@ -47,7 +47,7 @@ export class ShareDetailComponent implements OnInit {
 
     shareInfo.subscribe({
       next: (values) => {
-        this.logoUrl = values.customerInfo.logosUrl;
+        this.logoUrl = values.customerInfo.logosUrl + 'name';
         this.shareDetail = ShareDetail.fromJS(values.shareDetail);
         this.liquidRenderingService.renderNestedDisplayValues(this.shareDetail);
         this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients!;
