@@ -5,8 +5,7 @@
   </h3>
   <pp-notification [notification]="notification"></pp-notification>
   <mat-dialog-content *ngIf="selection">
-    <div *ngIf="!singleItem" class="note-dynamic">Note: For downloading dynamic formats, please select a single item
-      only.</div>
+    <div *ngIf="!singleItem" class="note-dynamic">{{ 'ContentDownloadDialog.NoteDynamic' | pptranslate }}</div>
     <form *ngIf="!noOutputs">
       <div *ngFor="let filetype of selection.getFileFormats()">
         <fieldset *ngIf="selection.hasOutputs(filetype)">
