@@ -113,12 +113,13 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   async newSharedContent(contentItems: ShareContent[], recipientsEmails: IUserEmail[]): Promise<void> {
     try {
 
-      const response = await this.shareService.create(new ShareBasicCreateRequest({
+      const response = await this.shareService.create( null, new ShareBasicCreateRequest({
         name: this.sharedContentForm.get('share_name')!.value,
         recipientEmails: recipientsEmails,
         contents: contentItems,
         outputAccess: OutputAccess.Full,
-        languageCode: 'en'
+        languageCode: 'en',
+        suppressNotifications: false
       })).toPromise();
 
       const share = await this.shareService.get(response.shareId!).toPromise();
