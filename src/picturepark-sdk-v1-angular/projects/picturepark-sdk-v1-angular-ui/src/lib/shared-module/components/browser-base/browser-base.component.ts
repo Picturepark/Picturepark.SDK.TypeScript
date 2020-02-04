@@ -83,7 +83,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     *       SearchBehavior.SimplifiedSearch
     * ```
     */
-    @Input() public searchBehavior = SearchBehavior.SimplifiedSearch;
+    @Input() public searchBehavior: SearchBehavior;
     @Input() public filter: FilterBase | null = null;
 
     private _totalResults: number | null = null;

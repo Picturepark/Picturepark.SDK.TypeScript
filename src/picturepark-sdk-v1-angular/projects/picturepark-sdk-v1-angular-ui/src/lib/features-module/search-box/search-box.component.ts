@@ -22,7 +22,7 @@ export class SearchBoxComponent implements OnChanges, OnInit {
    * is liable to cause problems
    */
   @Input()
-  public searchBehavior: SearchBehavior | string;
+  public searchBehavior: SearchBehavior | string = SearchBehavior.SimplifiedSearch;
 
   @Input()
   public showSearchBehaviorPicker = false;
@@ -31,11 +31,10 @@ export class SearchBoxComponent implements OnChanges, OnInit {
   public searchStringChange = new EventEmitter<string>();
 
   @Output()
-  public searchBehaviorChange = new EventEmitter<string>();
+  public searchParametersChange = new EventEmitter<{ searchString: string, searchBehavior: SearchBehavior|string}>();
 
   ngOnInit(): void {
-    this.searchBehavior = SearchBehavior.SimplifiedSearch;
-    this.searchBehaviorChange.emit(this.searchBehavior);
+    this.onValuesChange();
   }
 
   public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
@@ -64,7 +63,10 @@ export class SearchBoxComponent implements OnChanges, OnInit {
   }
 
   public onValuesChange() {
-    this.searchBehaviorChange.emit(this.searchBehavior);
+    this.searchParametersChange.emit({
+      searchString: this.searchString,
+      searchBehavior: this.searchBehavior
+    });
     this.searchStringChange.emit(this.searchString);
   }
 }
