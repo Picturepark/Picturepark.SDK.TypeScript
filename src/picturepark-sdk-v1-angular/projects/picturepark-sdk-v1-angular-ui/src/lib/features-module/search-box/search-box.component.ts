@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, OnInit } from '@angular/core';
 
 // LIBRARIES
-import { ContentSearchResult, SearchBehavior } from '@picturepark/sdk-v1-angular';
+import { ContentSearchResult } from '@picturepark/sdk-v1-angular';
+import { ExtendedSearchBehavior, SearchParameters } from '../../shared-module/search-utils';
 
 
 
@@ -22,7 +23,7 @@ export class SearchBoxComponent implements OnChanges, OnInit {
    * is liable to cause problems
    */
   @Input()
-  public searchBehavior: SearchBehavior | string = SearchBehavior.SimplifiedSearch;
+  public searchBehavior: ExtendedSearchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
 
   @Input()
   public showSearchBehaviorPicker = false;
@@ -31,7 +32,7 @@ export class SearchBoxComponent implements OnChanges, OnInit {
   public searchStringChange = new EventEmitter<string>();
 
   @Output()
-  public searchParametersChange = new EventEmitter<{ searchString: string, searchBehavior: SearchBehavior|string}>();
+  public searchParametersChange = new EventEmitter<SearchParameters>();
 
   ngOnInit(): void {
     this.onValuesChange();
@@ -43,7 +44,7 @@ export class SearchBoxComponent implements OnChanges, OnInit {
     }
     if (changes['searchBehavior']) {
       if (!this.searchBehavior) {
-        this.searchBehavior = SearchBehavior.SimplifiedSearch;
+        this.searchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
       }
       this.onValuesChange();
     }
