@@ -1676,6 +1676,12 @@ export class ContentClient extends PictureparkClientBase {
             result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -1695,12 +1701,6 @@ export class ContentClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -5982,6 +5982,12 @@ export class ListItemClient extends PictureparkClientBase {
             result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -6001,12 +6007,6 @@ export class ListItemClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -7629,6 +7629,12 @@ export class OutputClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -7654,12 +7660,6 @@ export class OutputClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -8041,6 +8041,12 @@ export class OutputFormatClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <OutputFormatDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -8066,12 +8072,6 @@ export class OutputFormatClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -9114,6 +9114,12 @@ export class SchemaClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <SchemaDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -9139,12 +9145,6 @@ export class SchemaClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -9599,6 +9599,12 @@ export class SchemaClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <SchemaDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -9624,12 +9630,6 @@ export class SchemaClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -13509,6 +13509,12 @@ export class UserClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <UserDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -13534,12 +13540,6 @@ export class UserClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -14228,6 +14228,12 @@ export class UserRoleClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <UserRoleDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -14253,12 +14259,6 @@ export class UserRoleClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -18857,7 +18857,7 @@ export interface SessionRenewalEvent extends ApplicationEvent {
     authorizationState: AuthorizationState;
 }
 
-/** User authorization state. */
+/** User authorization state */
 export enum AuthorizationState {
     Reviewed = <any>"Reviewed",
     ToBeReviewed = <any>"ToBeReviewed",
