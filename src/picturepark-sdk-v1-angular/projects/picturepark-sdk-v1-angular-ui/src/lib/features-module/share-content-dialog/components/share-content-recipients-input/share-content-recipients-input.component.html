@@ -7,11 +7,9 @@
       <mat-chip *ngFor="let recipient of recipients" [selectable]="selectable" [removable]="removable" (removed)="remove(recipient)">
         {{recipient}} <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
-      <input [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur"
-            (matChipInputTokenEnd)="add($event)"
-            id="share-recipients" formControlName="recipientsSearch" [matAutocomplete]="auto" autocomplete="share-recipientsx-autocomplete">
+      <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" id="share-recipients"
+        formControlName="recipientsSearch" [matAutocomplete]="auto" autocomplete="off">
     </mat-chip-list>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
         <mat-option *ngIf="isLoading" class="is-loading">

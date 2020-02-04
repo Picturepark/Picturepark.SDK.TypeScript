@@ -27,6 +27,8 @@ export class LayerPanelsComponent implements OnInit {
   public layers: Layer[] = [];
   private allSchemas: SchemaDetail[];
 
+  private nonVirtualContentSchemasIds = ['AudioMetadata', 'DocumentMetadata', 'FileMetadata', 'ImageMetadata', 'VideoMetadata'];
+
   constructor(private schemaService: SchemaService,
     private layerFieldService: LayerFieldService) { }
 
@@ -40,9 +42,15 @@ export class LayerPanelsComponent implements OnInit {
         const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
         if (!contentSchema) { return; }
 
-        const schemas = this.showContentSchema ? [this.content.contentSchemaId] : [];
+        const isVirtualContent = this.nonVirtualContentSchemasIds.indexOf(this.content.contentSchemaId) < 0;
+        const schemas = this.showContentSchema && isVirtualContent ? [this.content.contentSchemaId] : [];
+
         if (contentSchema.layerSchemaIds) {
           schemas.push(...contentSchema.layerSchemaIds);
+        }
+
+        if (this.showContentSchema && !isVirtualContent) {
+          schemas.push(this.content.contentSchemaId);
         }
 
         schemas.forEach(layerSchemaId => {

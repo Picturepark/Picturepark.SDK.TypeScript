@@ -357,6 +357,9 @@ export let TRANSLATIONS = {
     },
     NoAccess: {
       en: 'No access to any format'
+    },
+    NoteDynamic: {
+      en: 'Note: For downloading dynamic formats, please select a single item only.'
     }
   },
   SchemaBrowser: {
