@@ -1,4 +1,4 @@
-<mat-card (click)="setUpActiveSchema()" class="schema-browser-item-container">
+<mat-card (dblclick)="setUpActiveSchema()" class="schema-browser-item-container">
   <mat-card-content class="schema-content">
     <div class="schema-icon" [ngClass]="{'parent': schema.childCount, 'child': schema.parentSchemaId }">
       <mat-icon>reorder</mat-icon>
