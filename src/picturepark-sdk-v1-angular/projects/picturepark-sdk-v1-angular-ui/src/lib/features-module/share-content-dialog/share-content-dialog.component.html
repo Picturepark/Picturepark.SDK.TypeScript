@@ -91,9 +91,9 @@
     </div>
     
     <mat-dialog-actions>
-      <button mat-button (click)="closeDialog()" *ngIf="recipients.length === 0">{{ 'ShareContentDialog.CancelShare' | pptranslate }}</button>
-      <button mat-button (click)="closeDialog()" *ngIf="recipients.length > 0">{{ 'ShareContentDialog.CloseDialog' | pptranslate }}</button>
-      <button mat-flat-button color="accent" [ngClass]="{'active': sharedContentForm.valid }" (click)="onFormSubmit()" *ngIf="recipients.length === 0">{{ 'ShareContentDialog.ShareContent' | pptranslate }}</button>
+      <button mat-button (click)="closeDialog()" *ngIf="recipients.length === 0" [disabled]="loader">{{ 'ShareContentDialog.CancelShare' | pptranslate }}</button>
+      <button mat-button (click)="closeDialog()" *ngIf="recipients.length > 0" [disabled]="loader">{{ 'ShareContentDialog.CloseDialog' | pptranslate }}</button>
+      <button mat-flat-button color="accent" [ngClass]="{'active': sharedContentForm.valid }" (click)="onFormSubmit()" *ngIf="recipients.length === 0" [disabled]="loader">{{ 'ShareContentDialog.ShareContent' | pptranslate }}</button>
     </mat-dialog-actions>
 
   </form>

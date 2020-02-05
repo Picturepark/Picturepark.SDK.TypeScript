@@ -295,7 +295,19 @@ export let TRANSLATIONS = {
     Search: {
       en: 'Search',
       de: 'Suchen'
-    }
+    },
+    SimpleAnySearch: {
+      en: 'Simple (any)',
+      de: 'Einfach (irgendein)'
+    },
+    SimpleAllSearch: {
+      en: 'Simple (all)',
+      de: 'Einfach (alle)'
+    },
+    AdvancedSearch: {
+      en: 'Advanced',
+      de: 'Fortgeschritten'
+    },
   },
   ContentDownloadDialog: {
     AudioMetadata: {

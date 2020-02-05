@@ -12,6 +12,7 @@
 @import '../features-module/basket/basket.component.theme.scss';
 @import '../features-module/basket/components/basket-item/basket-item.component.theme.scss';
 @import '../features-module/browser-toolbar/browser-toolbar.component.theme.scss';
+@import '../features-module/search-box/search-box.component.theme.scss';
 @import '../features-module/content-aggregation-list/content-aggregation-list.component.theme.scss';
 @import '../features-module/content-browser/content-browser.component.theme.scss';
 @import '../features-module/content-browser/components/content-browser-item/content-browser-item.component.theme.scss';
@@ -37,6 +38,7 @@
     @include pp-browser-base-theme($theme);
     @include pp-browser-item-base-theme($theme);
     @include pp-browser-toolbar-theme($theme);
+    @include pp-search-box-theme($theme);
     @include pp-content-aggregation-list-theme($theme);
     @include pp-content-browser-theme($theme);
     @include pp-content-browser-item-theme($theme);
