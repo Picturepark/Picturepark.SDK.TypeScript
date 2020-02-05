@@ -2049,6 +2049,13 @@ export class ContentService extends PictureparkServiceBase {
             result404 = PictureparkNotFoundException.fromJS(resultData404);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -2070,13 +2077,6 @@ export class ContentService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -6736,7 +6736,7 @@ export class InfoService extends PictureparkServiceBase {
 
     /**
      * Get status
-     * @return VersionInfo
+     * @return SystemStatus
      */
     getStatus(): Observable<SystemStatus> {
         let url_ = this.baseUrl + "/v1/info/status";
@@ -7350,6 +7350,13 @@ export class ListItemService extends PictureparkServiceBase {
             result404 = PictureparkNotFoundException.fromJS(resultData404);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -7371,13 +7378,6 @@ export class ListItemService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -8923,6 +8923,208 @@ export class LiveStreamService extends PictureparkServiceBase {
 @Injectable({
     providedIn: 'root'
 })
+export class MetadataService extends PictureparkServiceBase {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
+    }
+
+    /**
+     * Get status
+     * @return MetadataStatus
+     */
+    getStatus(): Observable<MetadataStatus> {
+        let url_ = this.baseUrl + "/v1/metadata/status";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetStatus(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStatus(<any>response_);
+                } catch (e) {
+                    return <Observable<MetadataStatus>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MetadataStatus>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStatus(response: HttpResponseBase): Observable<MetadataStatus> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = MetadataStatus.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MetadataStatus>(<any>null);
+    }
+
+    /**
+     * Update outdated
+     */
+    updateOutdated(): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/metadata/many/updateOutdated";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdateOutdated(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateOutdated(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateOutdated(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class OutputService extends PictureparkServiceBase {
     private http: HttpClient;
     private baseUrl: string;
@@ -9182,6 +9384,13 @@ export class OutputService extends PictureparkServiceBase {
             result200 = BusinessProcess.fromJS(resultData200);
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -9210,13 +9419,6 @@ export class OutputService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -9696,6 +9898,13 @@ export class OutputFormatService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -9724,13 +9933,6 @@ export class OutputFormatService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -10244,6 +10446,112 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Preview OutputFormat
+     * @param request Information about the OutputFormat as well as which Content to use for the preview.
+     * @return Rendered file
+     */
+    renderFormatPreview(request: OutputFormatRenderPreviewRequest): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/v1/outputFormats/preview";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processRenderFormatPreview(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRenderFormatPreview(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRenderFormatPreview(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status === 412) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
     }
 }
 
@@ -10918,6 +11226,13 @@ export class SchemaService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -10946,13 +11261,6 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -11525,6 +11833,13 @@ export class SchemaService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -11553,13 +11868,6 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -11813,6 +12121,104 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     protected processCreateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Update multiple schema
+     * @return BusinessProcess which can be awaited.
+     */
+    updateMany(request: SchemaUpdateManyRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/schemas/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdateMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateMany(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -13510,14 +13916,17 @@ export class ShareService extends PictureparkServiceBase {
     /**
      * Update
      * @param id The share id.
+     * @param timeout (optional) Optional timeout to wait for the request to complete
      * @param updateRequest The share update request.
      * @return Share detail
      */
-    update(id: string, updateRequest: ShareBaseUpdateRequest): Observable<ShareDetail> {
-        let url_ = this.baseUrl + "/v1/shares/{id}";
+    update(id: string, timeout: string | null | undefined, updateRequest: ShareBaseUpdateRequest): Observable<ShareDetail> {
+        let url_ = this.baseUrl + "/v1/shares/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
@@ -13810,11 +14219,14 @@ export class ShareService extends PictureparkServiceBase {
 
     /**
      * Create
+     * @param timeout (optional) Optional timeout to wait for the request to complete
      * @param request Polymorphic create contract. Use either ShareBasicCreateRequest or ShareEmbedCreateRequest
      * @return Create result
      */
-    create(request: ShareBaseCreateRequest): Observable<CreateShareResult> {
-        let url_ = this.baseUrl + "/v1/shares";
+    create(timeout: string | null | undefined, request: ShareBaseCreateRequest): Observable<CreateShareResult> {
+        let url_ = this.baseUrl + "/v1/shares?";
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -13916,11 +14328,14 @@ export class ShareService extends PictureparkServiceBase {
 
     /**
      * Delete multiple shares
+     * @param timeout (optional) Optional timeout to wait for the request to complete
      * @param deleteManyRequest A delete many request containing the ids of the shares to delete.
      * @return BusinessProcess
      */
-    deleteMany(deleteManyRequest: ShareDeleteManyRequest): Observable<BulkResponse> {
-        let url_ = this.baseUrl + "/v1/shares/many/delete";
+    deleteMany(timeout: string | null | undefined, deleteManyRequest: ShareDeleteManyRequest): Observable<BulkResponse> {
+        let url_ = this.baseUrl + "/v1/shares/many/delete?";
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(deleteManyRequest);
@@ -14016,13 +14431,16 @@ export class ShareService extends PictureparkServiceBase {
     /**
      * Get share json
      * @param token Share token
+     * @param lang (optional) Language code
      * @return ShareDetail
      */
-    getShareJson(token: string): Observable<any> {
-        let url_ = this.baseUrl + "/v1/shares/json/{token}";
+    getShareJson(token: string, lang: string | null | undefined): Observable<any> {
+        let url_ = this.baseUrl + "/v1/shares/json/{token}?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
         url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
+        if (lang !== undefined)
+            url_ += "lang=" + encodeURIComponent("" + lang) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -16243,6 +16661,13 @@ export class UserService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -16271,13 +16696,6 @@ export class UserService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -17133,6 +17551,13 @@ export class UserRoleService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -17161,13 +17586,6 @@ export class UserRoleService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -18582,6 +19000,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "FormatNotApplicableForRenderingException") {
+            let result = new FormatNotApplicableForRenderingException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ServiceProviderDeleteException") {
             let result = new ServiceProviderDeleteException();
             result.init(data);
@@ -18642,6 +19065,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "CustomerClonesNotAcceptedException") {
+            let result = new CustomerClonesNotAcceptedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ShareNotFoundException") {
             let result = new ShareNotFoundException();
             result.init(data);
@@ -18659,6 +19087,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "ShareExpiredException") {
             let result = new ShareExpiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareSizeLimitExceededException") {
+            let result = new ShareSizeLimitExceededException();
             result.init(data);
             return result;
         }
@@ -18776,6 +19209,9 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             let result = new InvalidArgumentException();
             result.init(data);
             return result;
+        }
+        if (data["kind"] === "ArgumentRangeException") {
+            throw new Error("The abstract class 'ArgumentRangeException' cannot be instantiated.");
         }
         if (data["kind"] === "UnknownException") {
             let result = new UnknownException();
@@ -19182,6 +19618,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutdatedMetadataUpdateInProgressException") {
+            let result = new OutdatedMetadataUpdateInProgressException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldOverwriteTypeMismatchException") {
             let result = new SchemaFieldOverwriteTypeMismatchException();
             result.init(data);
@@ -19254,6 +19695,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SchemaInUseContentSchemaException") {
             let result = new SchemaInUseContentSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "LayerAssignmentInUseWithContentsException") {
+            let result = new LayerAssignmentInUseWithContentsException();
             result.init(data);
             return result;
         }
@@ -19817,6 +20263,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ModelNotFoundException") {
+            let result = new ModelNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DisplayValueRerenderingInProgressException") {
             let result = new DisplayValueRerenderingInProgressException();
             result.init(data);
@@ -19829,6 +20280,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "OutputFormatSourceNotDefinedException") {
             let result = new OutputFormatSourceNotDefinedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputFormatRetentionTimeOutOfRangeException") {
+            let result = new OutputFormatRetentionTimeOutOfRangeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "CollectionSizeLimitExceededException") {
+            let result = new CollectionSizeLimitExceededException();
             result.init(data);
             return result;
         }
@@ -19972,6 +20433,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "FormatNotApplicableForRenderingException") {
+            let result = new FormatNotApplicableForRenderingException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DocumentVersionNotFoundException") {
             let result = new DocumentVersionNotFoundException();
             result.init(data);
@@ -19992,6 +20458,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "CustomerClonesNotAcceptedException") {
+            let result = new CustomerClonesNotAcceptedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ShareNotFoundException") {
             let result = new ShareNotFoundException();
             result.init(data);
@@ -20009,6 +20480,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "ShareExpiredException") {
             let result = new ShareExpiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareSizeLimitExceededException") {
+            let result = new ShareSizeLimitExceededException();
             result.init(data);
             return result;
         }
@@ -20126,6 +20602,9 @@ export class PictureparkBusinessException extends PictureparkException implement
             let result = new InvalidArgumentException();
             result.init(data);
             return result;
+        }
+        if (data["kind"] === "ArgumentRangeException") {
+            throw new Error("The abstract class 'ArgumentRangeException' cannot be instantiated.");
         }
         if (data["kind"] === "UnknownException") {
             let result = new UnknownException();
@@ -20477,6 +20956,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutdatedMetadataUpdateInProgressException") {
+            let result = new OutdatedMetadataUpdateInProgressException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldOverwriteTypeMismatchException") {
             let result = new SchemaFieldOverwriteTypeMismatchException();
             result.init(data);
@@ -20549,6 +21033,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SchemaInUseContentSchemaException") {
             let result = new SchemaInUseContentSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "LayerAssignmentInUseWithContentsException") {
+            let result = new LayerAssignmentInUseWithContentsException();
             result.init(data);
             return result;
         }
@@ -21102,6 +21591,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ModelNotFoundException") {
+            let result = new ModelNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DisplayValueRerenderingInProgressException") {
             let result = new DisplayValueRerenderingInProgressException();
             result.init(data);
@@ -21114,6 +21608,16 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "OutputFormatSourceNotDefinedException") {
             let result = new OutputFormatSourceNotDefinedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputFormatRetentionTimeOutOfRangeException") {
+            let result = new OutputFormatRetentionTimeOutOfRangeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "CollectionSizeLimitExceededException") {
+            let result = new CollectionSizeLimitExceededException();
             result.init(data);
             return result;
         }
@@ -21191,6 +21695,16 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "CustomerClonesNotAcceptedException") {
+            let result = new CustomerClonesNotAcceptedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareSizeLimitExceededException") {
+            let result = new ShareSizeLimitExceededException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UnableToCreateOrModifyStaticOutputFormatException") {
             let result = new UnableToCreateOrModifyStaticOutputFormatException();
             result.init(data);
@@ -21255,6 +21769,9 @@ export class PictureparkValidationException extends PictureparkBusinessException
             let result = new InvalidArgumentException();
             result.init(data);
             return result;
+        }
+        if (data["kind"] === "ArgumentRangeException") {
+            throw new Error("The abstract class 'ArgumentRangeException' cannot be instantiated.");
         }
         if (data["kind"] === "OwnerTokenInUseException") {
             let result = new OwnerTokenInUseException();
@@ -21466,6 +21983,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutdatedMetadataUpdateInProgressException") {
+            let result = new OutdatedMetadataUpdateInProgressException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldOverwriteTypeMismatchException") {
             let result = new SchemaFieldOverwriteTypeMismatchException();
             result.init(data);
@@ -21528,6 +22050,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaInUseContentSchemaException") {
             let result = new SchemaInUseContentSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "LayerAssignmentInUseWithContentsException") {
+            let result = new LayerAssignmentInUseWithContentsException();
             result.init(data);
             return result;
         }
@@ -22003,6 +22530,16 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "OutputFormatSourceNotDefinedException") {
             let result = new OutputFormatSourceNotDefinedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputFormatRetentionTimeOutOfRangeException") {
+            let result = new OutputFormatRetentionTimeOutOfRangeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "CollectionSizeLimitExceededException") {
+            let result = new CollectionSizeLimitExceededException();
             result.init(data);
             return result;
         }
@@ -22510,6 +23047,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ModelNotFoundException") {
+            let result = new ModelNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "OutputFormatNotFoundException") {
             let result = new OutputFormatNotFoundException();
             result.init(data);
@@ -22643,6 +23185,11 @@ export class RenderingException extends PictureparkBusinessException implements 
 
     static fromJS(data: any): RenderingException {
         data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "FormatNotApplicableForRenderingException") {
+            let result = new FormatNotApplicableForRenderingException();
+            result.init(data);
+            return result;
+        }
         let result = new RenderingException();
         result.init(data);
         return result;
@@ -22656,6 +23203,52 @@ export class RenderingException extends PictureparkBusinessException implements 
 }
 
 export interface IRenderingException extends IPictureparkBusinessException {
+}
+
+export class FormatNotApplicableForRenderingException extends RenderingException implements IFormatNotApplicableForRenderingException {
+    contentRenderingType!: RenderingService;
+    outputFormatId?: string | undefined;
+
+    constructor(data?: IFormatNotApplicableForRenderingException) {
+        super(data);
+        this._discriminator = "FormatNotApplicableForRenderingException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.contentRenderingType = data["contentRenderingType"];
+            this.outputFormatId = data["outputFormatId"];
+        }
+    }
+
+    static fromJS(data: any): FormatNotApplicableForRenderingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new FormatNotApplicableForRenderingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentRenderingType"] = this.contentRenderingType;
+        data["outputFormatId"] = this.outputFormatId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IFormatNotApplicableForRenderingException extends IRenderingException {
+    contentRenderingType: RenderingService;
+    outputFormatId?: string | undefined;
+}
+
+export enum RenderingService {
+    Unknown = "Unknown",
+    Image = "Image",
+    Document = "Document",
+    Video = "Video",
+    Audio = "Audio",
 }
 
 export class ServiceProviderDeleteException extends PictureparkException implements IServiceProviderDeleteException {
@@ -23064,6 +23657,34 @@ export interface IEnvironmentDeactivationException extends IPictureparkException
     deactivationMessage?: string | undefined;
 }
 
+export class CustomerClonesNotAcceptedException extends PictureparkValidationException implements ICustomerClonesNotAcceptedException {
+
+    constructor(data?: ICustomerClonesNotAcceptedException) {
+        super(data);
+        this._discriminator = "CustomerClonesNotAcceptedException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): CustomerClonesNotAcceptedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerClonesNotAcceptedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ICustomerClonesNotAcceptedException extends IPictureparkValidationException {
+}
+
 export class ShareNotFoundException extends PictureparkNotFoundException implements IShareNotFoundException {
     shareId?: string | undefined;
 
@@ -23198,6 +23819,44 @@ export class ShareExpiredException extends PictureparkBusinessException implemen
 
 export interface IShareExpiredException extends IPictureparkBusinessException {
     token?: string | undefined;
+}
+
+export class ShareSizeLimitExceededException extends PictureparkValidationException implements IShareSizeLimitExceededException {
+    shareId?: string | undefined;
+    limit!: number;
+
+    constructor(data?: IShareSizeLimitExceededException) {
+        super(data);
+        this._discriminator = "ShareSizeLimitExceededException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.shareId = data["shareId"];
+            this.limit = data["limit"];
+        }
+    }
+
+    static fromJS(data: any): ShareSizeLimitExceededException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareSizeLimitExceededException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["shareId"] = this.shareId;
+        data["limit"] = this.limit;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IShareSizeLimitExceededException extends IPictureparkValidationException {
+    shareId?: string | undefined;
+    limit: number;
 }
 
 export class OutputIdNotFoundException extends PictureparkNotFoundException implements IOutputIdNotFoundException {
@@ -23951,6 +24610,14 @@ export class InvalidArgumentException extends PictureparkValidationException imp
 
     static fromJS(data: any): InvalidArgumentException {
         data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "ArgumentRangeException") {
+            throw new Error("The abstract class 'ArgumentRangeException' cannot be instantiated.");
+        }
+        if (data["kind"] === "OutputFormatRetentionTimeOutOfRangeException") {
+            let result = new OutputFormatRetentionTimeOutOfRangeException();
+            result.init(data);
+            return result;
+        }
         let result = new InvalidArgumentException();
         result.init(data);
         return result;
@@ -23968,6 +24635,47 @@ export class InvalidArgumentException extends PictureparkValidationException imp
 export interface IInvalidArgumentException extends IPictureparkValidationException {
     argumentName?: string | undefined;
     argumentValue?: string | undefined;
+}
+
+export abstract class ArgumentRangeException extends InvalidArgumentException implements IArgumentRangeException {
+    minAcceptableValue?: string | undefined;
+    maxAcceptableValue?: string | undefined;
+
+    constructor(data?: IArgumentRangeException) {
+        super(data);
+        this._discriminator = "ArgumentRangeException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.minAcceptableValue = data["minAcceptableValue"];
+            this.maxAcceptableValue = data["maxAcceptableValue"];
+        }
+    }
+
+    static fromJS(data: any): ArgumentRangeException {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "OutputFormatRetentionTimeOutOfRangeException") {
+            let result = new OutputFormatRetentionTimeOutOfRangeException();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'ArgumentRangeException' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["minAcceptableValue"] = this.minAcceptableValue;
+        data["maxAcceptableValue"] = this.maxAcceptableValue;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IArgumentRangeException extends IInvalidArgumentException {
+    minAcceptableValue?: string | undefined;
+    maxAcceptableValue?: string | undefined;
 }
 
 export class UnknownException extends PictureparkBusinessException implements IUnknownException {
@@ -24095,6 +24803,9 @@ export interface IItemIdDuplicatedException extends IPictureparkValidationExcept
 }
 
 export class RequestSizeLimitExceededException extends PictureparkValidationException implements IRequestSizeLimitExceededException {
+    argumentName?: string | undefined;
+    limit!: number;
+    requestedAmount!: number;
 
     constructor(data?: IRequestSizeLimitExceededException) {
         super(data);
@@ -24103,6 +24814,11 @@ export class RequestSizeLimitExceededException extends PictureparkValidationExce
 
     init(data?: any) {
         super.init(data);
+        if (data) {
+            this.argumentName = data["argumentName"];
+            this.limit = data["limit"];
+            this.requestedAmount = data["requestedAmount"];
+        }
     }
 
     static fromJS(data: any): RequestSizeLimitExceededException {
@@ -24114,12 +24830,18 @@ export class RequestSizeLimitExceededException extends PictureparkValidationExce
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["argumentName"] = this.argumentName;
+        data["limit"] = this.limit;
+        data["requestedAmount"] = this.requestedAmount;
         super.toJSON(data);
         return data; 
     }
 }
 
 export interface IRequestSizeLimitExceededException extends IPictureparkValidationException {
+    argumentName?: string | undefined;
+    limit: number;
+    requestedAmount: number;
 }
 
 export class CustomerViolationException extends PictureparkException implements ICustomerViolationException {
@@ -25618,6 +26340,7 @@ export interface ISchemaPermissionException extends IPictureparkValidationExcept
 
 /** This exception is an abstract base for permission set validation. */
 export class PermissionSetValidationException extends PictureparkValidationException implements IPermissionSetValidationException {
+    permissionSetId?: string | undefined;
 
     constructor(data?: IPermissionSetValidationException) {
         super(data);
@@ -25626,6 +26349,9 @@ export class PermissionSetValidationException extends PictureparkValidationExcep
 
     init(data?: any) {
         super.init(data);
+        if (data) {
+            this.permissionSetId = data["permissionSetId"];
+        }
     }
 
     static fromJS(data: any): PermissionSetValidationException {
@@ -25647,6 +26373,7 @@ export class PermissionSetValidationException extends PictureparkValidationExcep
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["permissionSetId"] = this.permissionSetId;
         super.toJSON(data);
         return data; 
     }
@@ -25654,6 +26381,7 @@ export class PermissionSetValidationException extends PictureparkValidationExcep
 
 /** This exception is an abstract base for permission set validation. */
 export interface IPermissionSetValidationException extends IPictureparkValidationException {
+    permissionSetId?: string | undefined;
 }
 
 export class PermissionSetInvalidRightCombinationException extends PermissionSetValidationException implements IPermissionSetInvalidRightCombinationException {
@@ -27077,6 +27805,34 @@ export interface ILayerAssignmentInvalidException extends IPictureparkValidation
     value?: any | undefined;
 }
 
+export class OutdatedMetadataUpdateInProgressException extends PictureparkValidationException implements IOutdatedMetadataUpdateInProgressException {
+
+    constructor(data?: IOutdatedMetadataUpdateInProgressException) {
+        super(data);
+        this._discriminator = "OutdatedMetadataUpdateInProgressException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): OutdatedMetadataUpdateInProgressException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutdatedMetadataUpdateInProgressException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutdatedMetadataUpdateInProgressException extends IPictureparkValidationException {
+}
+
 export class SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException implements ISchemaFieldOverwriteTypeMismatchException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -27705,6 +28461,52 @@ export class SchemaInUseContentSchemaException extends PictureparkValidationExce
 export interface ISchemaInUseContentSchemaException extends IPictureparkValidationException {
     schemaId?: string | undefined;
     contentSchemaIds?: string[] | undefined;
+}
+
+export class LayerAssignmentInUseWithContentsException extends PictureparkValidationException implements ILayerAssignmentInUseWithContentsException {
+    schemaId?: string | undefined;
+    usedAssignmentSchemaIds?: string[] | undefined;
+
+    constructor(data?: ILayerAssignmentInUseWithContentsException) {
+        super(data);
+        this._discriminator = "LayerAssignmentInUseWithContentsException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            if (Array.isArray(data["usedAssignmentSchemaIds"])) {
+                this.usedAssignmentSchemaIds = [] as any;
+                for (let item of data["usedAssignmentSchemaIds"])
+                    this.usedAssignmentSchemaIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): LayerAssignmentInUseWithContentsException {
+        data = typeof data === 'object' ? data : {};
+        let result = new LayerAssignmentInUseWithContentsException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        if (Array.isArray(this.usedAssignmentSchemaIds)) {
+            data["usedAssignmentSchemaIds"] = [];
+            for (let item of this.usedAssignmentSchemaIds)
+                data["usedAssignmentSchemaIds"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ILayerAssignmentInUseWithContentsException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    usedAssignmentSchemaIds?: string[] | undefined;
 }
 
 export class SchemaInUseListItemException extends PictureparkValidationException implements ISchemaInUseListItemException {
@@ -31915,6 +32717,34 @@ export class OutputNotAvailableException extends PictureparkBusinessException im
 export interface IOutputNotAvailableException extends IPictureparkBusinessException {
 }
 
+export class ModelNotFoundException extends PictureparkNotFoundException implements IModelNotFoundException {
+
+    constructor(data?: IModelNotFoundException) {
+        super(data);
+        this._discriminator = "ModelNotFoundException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+    }
+
+    static fromJS(data: any): ModelNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ModelNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IModelNotFoundException extends IPictureparkNotFoundException {
+}
+
 export class DisplayValueRerenderingInProgressException extends PictureparkValidationException implements IDisplayValueRerenderingInProgressException {
 
     constructor(data?: IDisplayValueRerenderingInProgressException) {
@@ -32009,6 +32839,78 @@ export class OutputFormatSourceNotDefinedException extends PictureparkValidation
 
 export interface IOutputFormatSourceNotDefinedException extends IPictureparkValidationException {
     outputFormatId?: string | undefined;
+}
+
+export class OutputFormatRetentionTimeOutOfRangeException extends ArgumentRangeException implements IOutputFormatRetentionTimeOutOfRangeException {
+    outputFormatId?: string | undefined;
+
+    constructor(data?: IOutputFormatRetentionTimeOutOfRangeException) {
+        super(data);
+        this._discriminator = "OutputFormatRetentionTimeOutOfRangeException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.outputFormatId = data["outputFormatId"];
+        }
+    }
+
+    static fromJS(data: any): OutputFormatRetentionTimeOutOfRangeException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatRetentionTimeOutOfRangeException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["outputFormatId"] = this.outputFormatId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputFormatRetentionTimeOutOfRangeException extends IArgumentRangeException {
+    outputFormatId?: string | undefined;
+}
+
+export class CollectionSizeLimitExceededException extends PictureparkValidationException implements ICollectionSizeLimitExceededException {
+    collectionId?: string | undefined;
+    limit!: number;
+
+    constructor(data?: ICollectionSizeLimitExceededException) {
+        super(data);
+        this._discriminator = "CollectionSizeLimitExceededException";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.collectionId = data["collectionId"];
+            this.limit = data["limit"];
+        }
+    }
+
+    static fromJS(data: any): CollectionSizeLimitExceededException {
+        data = typeof data === 'object' ? data : {};
+        let result = new CollectionSizeLimitExceededException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["collectionId"] = this.collectionId;
+        data["limit"] = this.limit;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ICollectionSizeLimitExceededException extends IPictureparkValidationException {
+    collectionId?: string | undefined;
+    limit: number;
 }
 
 /** Search request to search for business processes */
@@ -35981,6 +36883,11 @@ export abstract class BusinessRuleAction implements IBusinessRuleAction {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "EnqueueTaggingAction") {
+            let result = new EnqueueTaggingAction();
+            result.init(data);
+            return result;
+        }
         throw new Error("The abstract class 'BusinessRuleAction' cannot be instantiated.");
     }
 
@@ -36407,6 +37314,206 @@ or if existing tags should be replaced. */
     replace: boolean;
 }
 
+/** Enqueue content for tagging */
+export class EnqueueTaggingAction extends BusinessRuleAction implements IEnqueueTaggingAction {
+    /** Options to use while tagging. */
+    options?: TaggingOptionsBase | undefined;
+
+    constructor(data?: IEnqueueTaggingAction) {
+        super(data);
+        this._discriminator = "EnqueueTaggingAction";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.options = data["options"] ? TaggingOptionsBase.fromJS(data["options"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): EnqueueTaggingAction {
+        data = typeof data === 'object' ? data : {};
+        let result = new EnqueueTaggingAction();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["options"] = this.options ? this.options.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Enqueue content for tagging */
+export interface IEnqueueTaggingAction extends IBusinessRuleAction {
+    /** Options to use while tagging. */
+    options?: TaggingOptionsBase | undefined;
+}
+
+/** Options for tagging */
+export abstract class TaggingOptionsBase implements ITaggingOptionsBase {
+    /** Override for the output format ID to tag. */
+    tagOutputFormatId?: string | undefined;
+    /** Override for the cache to use. */
+    keywordLookupCacheName?: string | undefined;
+    /** Override for the layer to assign. */
+    taggingLayerId?: string | undefined;
+    /** Override for the field id where found tags are stored. */
+    foundTagsFieldId?: string | undefined;
+    /** Override for the field id where not found tags are stored. */
+    missingKeywordsFieldId?: string | undefined;
+
+    protected _discriminator: string;
+
+    constructor(data?: ITaggingOptionsBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "TaggingOptionsBase";
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tagOutputFormatId = data["tagOutputFormatId"];
+            this.keywordLookupCacheName = data["keywordLookupCacheName"];
+            this.taggingLayerId = data["taggingLayerId"];
+            this.foundTagsFieldId = data["foundTagsFieldId"];
+            this.missingKeywordsFieldId = data["missingKeywordsFieldId"];
+        }
+    }
+
+    static fromJS(data: any): TaggingOptionsBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "ClarifaiTaggingOptions") {
+            let result = new ClarifaiTaggingOptions();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SimulatedTaggingOptions") {
+            let result = new SimulatedTaggingOptions();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'TaggingOptionsBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        data["tagOutputFormatId"] = this.tagOutputFormatId;
+        data["keywordLookupCacheName"] = this.keywordLookupCacheName;
+        data["taggingLayerId"] = this.taggingLayerId;
+        data["foundTagsFieldId"] = this.foundTagsFieldId;
+        data["missingKeywordsFieldId"] = this.missingKeywordsFieldId;
+        return data; 
+    }
+}
+
+/** Options for tagging */
+export interface ITaggingOptionsBase {
+    /** Override for the output format ID to tag. */
+    tagOutputFormatId?: string | undefined;
+    /** Override for the cache to use. */
+    keywordLookupCacheName?: string | undefined;
+    /** Override for the layer to assign. */
+    taggingLayerId?: string | undefined;
+    /** Override for the field id where found tags are stored. */
+    foundTagsFieldId?: string | undefined;
+    /** Override for the field id where not found tags are stored. */
+    missingKeywordsFieldId?: string | undefined;
+}
+
+/** Options for clarifai tagging */
+export class ClarifaiTaggingOptions extends TaggingOptionsBase implements IClarifaiTaggingOptions {
+    /** Override for the model to use */
+    model?: string | undefined;
+    /** Override for the language to use */
+    language?: string | undefined;
+    /** Minimum value a concept must have to be considered */
+    minimumValue?: string | undefined;
+
+    constructor(data?: IClarifaiTaggingOptions) {
+        super(data);
+        this._discriminator = "ClarifaiTaggingOptions";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.model = data["model"];
+            this.language = data["language"];
+            this.minimumValue = data["minimumValue"];
+        }
+    }
+
+    static fromJS(data: any): ClarifaiTaggingOptions {
+        data = typeof data === 'object' ? data : {};
+        let result = new ClarifaiTaggingOptions();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["model"] = this.model;
+        data["language"] = this.language;
+        data["minimumValue"] = this.minimumValue;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Options for clarifai tagging */
+export interface IClarifaiTaggingOptions extends ITaggingOptionsBase {
+    /** Override for the model to use */
+    model?: string | undefined;
+    /** Override for the language to use */
+    language?: string | undefined;
+    /** Minimum value a concept must have to be considered */
+    minimumValue?: string | undefined;
+}
+
+export class SimulatedTaggingOptions extends TaggingOptionsBase implements ISimulatedTaggingOptions {
+    /** Number of keywords to assign. */
+    numberOfKeywords?: string | undefined;
+
+    constructor(data?: ISimulatedTaggingOptions) {
+        super(data);
+        this._discriminator = "SimulatedTaggingOptions";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.numberOfKeywords = data["numberOfKeywords"];
+        }
+    }
+
+    static fromJS(data: any): SimulatedTaggingOptions {
+        data = typeof data === 'object' ? data : {};
+        let result = new SimulatedTaggingOptions();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["numberOfKeywords"] = this.numberOfKeywords;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISimulatedTaggingOptions extends ITaggingOptionsBase {
+    /** Number of keywords to assign. */
+    numberOfKeywords?: string | undefined;
+}
+
 /** A business rule expressed as a script */
 export class BusinessRuleScript extends BusinessRule implements IBusinessRuleScript {
     /** Script */
@@ -36480,6 +37587,11 @@ export abstract class NamedCacheConfigurationBase implements INamedCacheConfigur
         }
         if (data["kind"] === "SchemaTagboxFilterLookupNamedCacheConfiguration") {
             let result = new SchemaTagboxFilterLookupNamedCacheConfiguration();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InverseListItemNamedCacheConfiguration") {
+            let result = new InverseListItemNamedCacheConfiguration();
             result.init(data);
             return result;
         }
@@ -36603,6 +37715,60 @@ export class SchemaTagboxFilterLookupNamedCacheConfiguration extends NamedCacheC
 export interface ISchemaTagboxFilterLookupNamedCacheConfiguration extends INamedCacheConfigurationBase {
     /** The layer id. */
     schemaId?: string | undefined;
+}
+
+export class InverseListItemNamedCacheConfiguration extends NamedCacheConfigurationBase implements IInverseListItemNamedCacheConfiguration {
+    /** ID of the schema to cache (should have SchemaType = List) */
+    schemaId?: string | undefined;
+    /** ID of the field that yields the value */
+    valueField?: string | undefined;
+    /** An optional filter to narrow down the cached list items */
+    filter?: FilterBase | undefined;
+    /** Include child schemas when caching list items */
+    includeAllSchemaChildren!: boolean;
+
+    constructor(data?: IInverseListItemNamedCacheConfiguration) {
+        super(data);
+        this._discriminator = "InverseListItemNamedCacheConfiguration";
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.schemaId = data["schemaId"];
+            this.valueField = data["valueField"];
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
+        }
+    }
+
+    static fromJS(data: any): InverseListItemNamedCacheConfiguration {
+        data = typeof data === 'object' ? data : {};
+        let result = new InverseListItemNamedCacheConfiguration();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["valueField"] = this.valueField;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IInverseListItemNamedCacheConfiguration extends INamedCacheConfigurationBase {
+    /** ID of the schema to cache (should have SchemaType = List) */
+    schemaId?: string | undefined;
+    /** ID of the field that yields the value */
+    valueField?: string | undefined;
+    /** An optional filter to narrow down the cached list items */
+    filter?: FilterBase | undefined;
+    /** Include child schemas when caching list items */
+    includeAllSchemaChildren: boolean;
 }
 
 /** Update request for changing business rule configuration */
@@ -37624,7 +38790,7 @@ export class ChannelCreateRequest implements IChannelCreateRequest {
     id?: string | undefined;
     sort?: SortInfo[] | undefined;
     sortOrder!: number;
-    names?: TranslatedStringDictionary | undefined;
+    names!: TranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
     /** User roles granted access to the channel. */
@@ -37656,6 +38822,9 @@ export class ChannelCreateRequest implements IChannelCreateRequest {
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
             this.missingResultsDisplayPatterns = data.missingResultsDisplayPatterns && !(<any>data.missingResultsDisplayPatterns).toJSON ? new TranslatedStringDictionary(data.missingResultsDisplayPatterns) : <TranslatedStringDictionary>this.missingResultsDisplayPatterns; 
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
     }
 
     init(data?: any) {
@@ -37667,7 +38836,7 @@ export class ChannelCreateRequest implements IChannelCreateRequest {
                     this.sort!.push(SortInfo.fromJS(item));
             }
             this.sortOrder = data["sortOrder"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             this.searchIndexId = data["searchIndexId"];
             if (Array.isArray(data["grantedUserRoleIds"])) {
                 this.grantedUserRoleIds = [] as any;
@@ -37734,7 +38903,7 @@ export interface IChannelCreateRequest {
     id?: string | undefined;
     sort?: ISortInfo[] | undefined;
     sortOrder: number;
-    names?: ITranslatedStringDictionary | undefined;
+    names: ITranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
     /** User roles granted access to the channel. */
@@ -37754,7 +38923,7 @@ export interface IChannelCreateRequest {
 export class ChannelUpdateRequest implements IChannelUpdateRequest {
     sort?: SortInfo[] | undefined;
     sortOrder!: number;
-    names?: TranslatedStringDictionary | undefined;
+    names!: TranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
     /** User roles granted access to the channel. */
@@ -37786,6 +38955,9 @@ export class ChannelUpdateRequest implements IChannelUpdateRequest {
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
             this.missingResultsDisplayPatterns = data.missingResultsDisplayPatterns && !(<any>data.missingResultsDisplayPatterns).toJSON ? new TranslatedStringDictionary(data.missingResultsDisplayPatterns) : <TranslatedStringDictionary>this.missingResultsDisplayPatterns; 
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
     }
 
     init(data?: any) {
@@ -37796,7 +38968,7 @@ export class ChannelUpdateRequest implements IChannelUpdateRequest {
                     this.sort!.push(SortInfo.fromJS(item));
             }
             this.sortOrder = data["sortOrder"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             this.searchIndexId = data["searchIndexId"];
             if (Array.isArray(data["grantedUserRoleIds"])) {
                 this.grantedUserRoleIds = [] as any;
@@ -37861,7 +39033,7 @@ export class ChannelUpdateRequest implements IChannelUpdateRequest {
 export interface IChannelUpdateRequest {
     sort?: ISortInfo[] | undefined;
     sortOrder: number;
-    names?: ITranslatedStringDictionary | undefined;
+    names: ITranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
     /** User roles granted access to the channel. */
@@ -38918,8 +40090,58 @@ export interface ISearchBehaviorBaseResultOfContent extends IBaseResultOfContent
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
+export class SearchBehaviorWithAggregationBaseResultOfContent extends SearchBehaviorBaseResultOfContent implements ISearchBehaviorWithAggregationBaseResultOfContent {
+    aggregationResults?: AggregationResult[] | undefined;
+
+    constructor(data?: ISearchBehaviorWithAggregationBaseResultOfContent) {
+        super(data);
+        if (data) {
+            if (data.aggregationResults) {
+                this.aggregationResults = [];
+                for (let i = 0; i < data.aggregationResults.length; i++) {
+                    let item = data.aggregationResults[i];
+                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["aggregationResults"])) {
+                this.aggregationResults = [] as any;
+                for (let item of data["aggregationResults"])
+                    this.aggregationResults!.push(AggregationResult.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SearchBehaviorWithAggregationBaseResultOfContent {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorWithAggregationBaseResultOfContent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.aggregationResults)) {
+            data["aggregationResults"] = [];
+            for (let item of this.aggregationResults)
+                data["aggregationResults"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISearchBehaviorWithAggregationBaseResultOfContent extends ISearchBehaviorBaseResultOfContent {
+    aggregationResults?: IAggregationResult[] | undefined;
+}
+
 /** Result for content search operation */
-export class ContentSearchResult extends SearchBehaviorBaseResultOfContent implements IContentSearchResult {
+export class ContentSearchResult extends SearchBehaviorWithAggregationBaseResultOfContent implements IContentSearchResult {
     /** Result of rights aggregation count requested in rightsAggregations in the ContentSearchRequest. */
     rightsAggregationsCounts?: ContentRightAggregationCount[] | undefined;
 
@@ -38967,7 +40189,7 @@ export class ContentSearchResult extends SearchBehaviorBaseResultOfContent imple
 }
 
 /** Result for content search operation */
-export interface IContentSearchResult extends ISearchBehaviorBaseResultOfContent {
+export interface IContentSearchResult extends ISearchBehaviorWithAggregationBaseResultOfContent {
     /** Result of rights aggregation count requested in rightsAggregations in the ContentSearchRequest. */
     rightsAggregationsCounts?: IContentRightAggregationCount[] | undefined;
 }
@@ -39016,432 +40238,6 @@ export interface IContentRightAggregationCount {
     contentRight: ContentRight;
     /** Found document count. */
     count: number;
-}
-
-export class Content implements IContent {
-    /** Audit information. */
-    audit?: UserAudit | undefined;
-    /** The id of the schema with schema type content. */
-    contentSchemaId!: string;
-    /** The content type of this content. All except Virtual are binary files. */
-    contentType!: ContentType;
-    /** An optional id list of schemas with schema type layer. */
-    layerSchemaIds?: string[] | undefined;
-    /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
-    displayValues!: { [key: string] : string; };
-    id!: string;
-    /** All the ids of the broken references (tagboxes) */
-    brokenReferenceIds?: string[] | undefined;
-    /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
-    brokenIndirectReferenceIds?: string[] | undefined;
-    /** All the target ids of the broken relations */
-    brokenRelationTargetIds?: string[] | undefined;
-
-    constructor(data?: IContent) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
-        }
-        if (!data) {
-            this.displayValues = {};
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
-            this.contentSchemaId = data["contentSchemaId"];
-            this.contentType = data["contentType"];
-            if (Array.isArray(data["layerSchemaIds"])) {
-                this.layerSchemaIds = [] as any;
-                for (let item of data["layerSchemaIds"])
-                    this.layerSchemaIds!.push(item);
-            }
-            if (data["displayValues"]) {
-                this.displayValues = {} as any;
-                for (let key in data["displayValues"]) {
-                    if (data["displayValues"].hasOwnProperty(key))
-                        this.displayValues![key] = data["displayValues"][key];
-                }
-            }
-            this.id = data["id"];
-            if (Array.isArray(data["brokenReferenceIds"])) {
-                this.brokenReferenceIds = [] as any;
-                for (let item of data["brokenReferenceIds"])
-                    this.brokenReferenceIds!.push(item);
-            }
-            if (Array.isArray(data["brokenIndirectReferenceIds"])) {
-                this.brokenIndirectReferenceIds = [] as any;
-                for (let item of data["brokenIndirectReferenceIds"])
-                    this.brokenIndirectReferenceIds!.push(item);
-            }
-            if (Array.isArray(data["brokenRelationTargetIds"])) {
-                this.brokenRelationTargetIds = [] as any;
-                for (let item of data["brokenRelationTargetIds"])
-                    this.brokenRelationTargetIds!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): Content {
-        data = typeof data === 'object' ? data : {};
-        let result = new Content();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        data["contentSchemaId"] = this.contentSchemaId;
-        data["contentType"] = this.contentType;
-        if (Array.isArray(this.layerSchemaIds)) {
-            data["layerSchemaIds"] = [];
-            for (let item of this.layerSchemaIds)
-                data["layerSchemaIds"].push(item);
-        }
-        if (this.displayValues) {
-            data["displayValues"] = {};
-            for (let key in this.displayValues) {
-                if (this.displayValues.hasOwnProperty(key))
-                    data["displayValues"][key] = this.displayValues[key];
-            }
-        }
-        data["id"] = this.id;
-        if (Array.isArray(this.brokenReferenceIds)) {
-            data["brokenReferenceIds"] = [];
-            for (let item of this.brokenReferenceIds)
-                data["brokenReferenceIds"].push(item);
-        }
-        if (Array.isArray(this.brokenIndirectReferenceIds)) {
-            data["brokenIndirectReferenceIds"] = [];
-            for (let item of this.brokenIndirectReferenceIds)
-                data["brokenIndirectReferenceIds"].push(item);
-        }
-        if (Array.isArray(this.brokenRelationTargetIds)) {
-            data["brokenRelationTargetIds"] = [];
-            for (let item of this.brokenRelationTargetIds)
-                data["brokenRelationTargetIds"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IContent {
-    /** Audit information. */
-    audit?: IUserAudit | undefined;
-    /** The id of the schema with schema type content. */
-    contentSchemaId: string;
-    /** The content type of this content. All except Virtual are binary files. */
-    contentType: ContentType;
-    /** An optional id list of schemas with schema type layer. */
-    layerSchemaIds?: string[] | undefined;
-    /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
-    displayValues: { [key: string] : string; };
-    id: string;
-    /** All the ids of the broken references (tagboxes) */
-    brokenReferenceIds?: string[] | undefined;
-    /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
-    brokenIndirectReferenceIds?: string[] | undefined;
-    /** All the target ids of the broken relations */
-    brokenRelationTargetIds?: string[] | undefined;
-}
-
-/** Request to search contents */
-export class ContentSearchRequest implements IContentSearchRequest {
-    /** Limits the simple search fields to the fields available in the specified channel. */
-    channelId?: string | undefined;
-    /** Limits the display values included in the search response. Defaults to all display values. */
-    displayPatternIds?: string[] | undefined;
-    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-If not specified, all metadata languages defined in the system are used. */
-    searchLanguages?: string[] | undefined;
-    /** Limits the search among the contents belonging to the specified collection. */
-    collectionId?: string | undefined;
-    /** The string used to query the data. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
-    sort?: SortInfo[] | undefined;
-    /** Limits the number of the returned schemas. Defaults to 30. */
-    limit!: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** An optional filter to limit the contents. */
-    filter?: FilterBase | undefined;
-    /** Limits the search to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter!: LifeCycleFilter;
-    /** Limits the search to the contents that have or not have broken references. By default it includes both. */
-    brokenDependenciesFilter!: BrokenDependenciesFilter;
-    /** Limits the contents to the ones the user has the specified ContentRights. */
-    rightsFilter?: ContentRight[] | undefined;
-    /** Returns the aggregated document counts to the ones the user has the specified ContentRights.
-Produces the rightsAggregationCounts on the ContentSearchResult. View will be ignored as the totalResults already gives this information. */
-    rightsAggregations?: ContentRight[] | undefined;
-    /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
-    searchType!: ContentSearchType;
-    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ContentSearchResult.
-Warning! It severely affects performance. */
-    debugMode!: boolean;
-
-    constructor(data?: IContentSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.channelId = data["channelId"];
-            if (Array.isArray(data["displayPatternIds"])) {
-                this.displayPatternIds = [] as any;
-                for (let item of data["displayPatternIds"])
-                    this.displayPatternIds!.push(item);
-            }
-            if (Array.isArray(data["searchLanguages"])) {
-                this.searchLanguages = [] as any;
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages!.push(item);
-            }
-            this.collectionId = data["collectionId"];
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-            if (Array.isArray(data["rightsFilter"])) {
-                this.rightsFilter = [] as any;
-                for (let item of data["rightsFilter"])
-                    this.rightsFilter!.push(item);
-            }
-            if (Array.isArray(data["rightsAggregations"])) {
-                this.rightsAggregations = [] as any;
-                for (let item of data["rightsAggregations"])
-                    this.rightsAggregations!.push(item);
-            }
-            this.searchType = data["searchType"];
-            this.debugMode = data["debugMode"];
-        }
-    }
-
-    static fromJS(data: any): ContentSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ContentSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["channelId"] = this.channelId;
-        if (Array.isArray(this.displayPatternIds)) {
-            data["displayPatternIds"] = [];
-            for (let item of this.displayPatternIds)
-                data["displayPatternIds"].push(item);
-        }
-        if (Array.isArray(this.searchLanguages)) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["collectionId"] = this.collectionId;
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        if (Array.isArray(this.rightsFilter)) {
-            data["rightsFilter"] = [];
-            for (let item of this.rightsFilter)
-                data["rightsFilter"].push(item);
-        }
-        if (Array.isArray(this.rightsAggregations)) {
-            data["rightsAggregations"] = [];
-            for (let item of this.rightsAggregations)
-                data["rightsAggregations"].push(item);
-        }
-        data["searchType"] = this.searchType;
-        data["debugMode"] = this.debugMode;
-        return data; 
-    }
-}
-
-/** Request to search contents */
-export interface IContentSearchRequest {
-    /** Limits the simple search fields to the fields available in the specified channel. */
-    channelId?: string | undefined;
-    /** Limits the display values included in the search response. Defaults to all display values. */
-    displayPatternIds?: string[] | undefined;
-    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-If not specified, all metadata languages defined in the system are used. */
-    searchLanguages?: string[] | undefined;
-    /** Limits the search among the contents belonging to the specified collection. */
-    collectionId?: string | undefined;
-    /** The string used to query the data. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
-    sort?: ISortInfo[] | undefined;
-    /** Limits the number of the returned schemas. Defaults to 30. */
-    limit: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** An optional filter to limit the contents. */
-    filter?: FilterBase | undefined;
-    /** Limits the search to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-    /** Limits the search to the contents that have or not have broken references. By default it includes both. */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Limits the contents to the ones the user has the specified ContentRights. */
-    rightsFilter?: ContentRight[] | undefined;
-    /** Returns the aggregated document counts to the ones the user has the specified ContentRights.
-Produces the rightsAggregationCounts on the ContentSearchResult. View will be ignored as the totalResults already gives this information. */
-    rightsAggregations?: ContentRight[] | undefined;
-    /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
-    searchType: ContentSearchType;
-    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ContentSearchResult.
-Warning! It severely affects performance. */
-    debugMode: boolean;
-}
-
-export enum LifeCycleFilter {
-    ActiveOnly = "ActiveOnly",
-    All = "All",
-    InactiveOnly = "InactiveOnly",
-    ActiveInactiveOnly = "ActiveInactiveOnly",
-}
-
-/** Filter items with broken or not broken dependencies */
-export enum BrokenDependenciesFilter {
-    All = "All",
-    NotBrokenOnly = "NotBrokenOnly",
-    BrokenOnly = "BrokenOnly",
-}
-
-export enum ContentSearchType {
-    Metadata = "Metadata",
-    FullText = "FullText",
-    MetadataAndFullText = "MetadataAndFullText",
-}
-
-/** Result for an aggregation operation */
-export class ObjectAggregationResult implements IObjectAggregationResult {
-    /** How long did the search and aggregation took. */
-    elapsedMilliseconds!: number;
-    /** Results of the aggregation. */
-    aggregationResults!: AggregationResult[];
-    /** Search string used to query the data */
-    searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one. */
-    isSearchStringRewritten!: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
-
-    constructor(data?: IObjectAggregationResult) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.aggregationResults) {
-                this.aggregationResults = [];
-                for (let i = 0; i < data.aggregationResults.length; i++) {
-                    let item = data.aggregationResults[i];
-                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
-                }
-            }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
-        }
-        if (!data) {
-            this.aggregationResults = [];
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.elapsedMilliseconds = data["elapsedMilliseconds"];
-            if (Array.isArray(data["aggregationResults"])) {
-                this.aggregationResults = [] as any;
-                for (let item of data["aggregationResults"])
-                    this.aggregationResults!.push(AggregationResult.fromJS(item));
-            }
-            this.searchString = data["searchString"];
-            this.isSearchStringRewritten = data["isSearchStringRewritten"];
-            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): ObjectAggregationResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new ObjectAggregationResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        if (Array.isArray(this.aggregationResults)) {
-            data["aggregationResults"] = [];
-            for (let item of this.aggregationResults)
-                data["aggregationResults"].push(item.toJSON());
-        }
-        data["searchString"] = this.searchString;
-        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-/** Result for an aggregation operation */
-export interface IObjectAggregationResult {
-    /** How long did the search and aggregation took. */
-    elapsedMilliseconds: number;
-    /** Results of the aggregation. */
-    aggregationResults: IAggregationResult[];
-    /** Search string used to query the data */
-    searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one. */
-    isSearchStringRewritten: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
 /** Result of an aggregation */
@@ -39607,13 +40403,145 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
     aggregationResults?: IAggregationResult[] | undefined;
 }
 
+export class Content implements IContent {
+    /** Audit information. */
+    audit?: UserAudit | undefined;
+    /** The id of the schema with schema type content. */
+    contentSchemaId!: string;
+    /** The content type of this content. All except Virtual are binary files. */
+    contentType!: ContentType;
+    /** An optional id list of schemas with schema type layer. */
+    layerSchemaIds?: string[] | undefined;
+    /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
+    displayValues!: { [key: string] : string; };
+    id!: string;
+    /** All the ids of the broken references (tagboxes) */
+    brokenReferenceIds?: string[] | undefined;
+    /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
+    brokenIndirectReferenceIds?: string[] | undefined;
+    /** All the target ids of the broken relations */
+    brokenRelationTargetIds?: string[] | undefined;
+
+    constructor(data?: IContent) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
+        }
+        if (!data) {
+            this.displayValues = {};
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.audit = data["audit"] ? UserAudit.fromJS(data["audit"]) : <any>undefined;
+            this.contentSchemaId = data["contentSchemaId"];
+            this.contentType = data["contentType"];
+            if (Array.isArray(data["layerSchemaIds"])) {
+                this.layerSchemaIds = [] as any;
+                for (let item of data["layerSchemaIds"])
+                    this.layerSchemaIds!.push(item);
+            }
+            if (data["displayValues"]) {
+                this.displayValues = {} as any;
+                for (let key in data["displayValues"]) {
+                    if (data["displayValues"].hasOwnProperty(key))
+                        this.displayValues![key] = data["displayValues"][key];
+                }
+            }
+            this.id = data["id"];
+            if (Array.isArray(data["brokenReferenceIds"])) {
+                this.brokenReferenceIds = [] as any;
+                for (let item of data["brokenReferenceIds"])
+                    this.brokenReferenceIds!.push(item);
+            }
+            if (Array.isArray(data["brokenIndirectReferenceIds"])) {
+                this.brokenIndirectReferenceIds = [] as any;
+                for (let item of data["brokenIndirectReferenceIds"])
+                    this.brokenIndirectReferenceIds!.push(item);
+            }
+            if (Array.isArray(data["brokenRelationTargetIds"])) {
+                this.brokenRelationTargetIds = [] as any;
+                for (let item of data["brokenRelationTargetIds"])
+                    this.brokenRelationTargetIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): Content {
+        data = typeof data === 'object' ? data : {};
+        let result = new Content();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        data["contentSchemaId"] = this.contentSchemaId;
+        data["contentType"] = this.contentType;
+        if (Array.isArray(this.layerSchemaIds)) {
+            data["layerSchemaIds"] = [];
+            for (let item of this.layerSchemaIds)
+                data["layerSchemaIds"].push(item);
+        }
+        if (this.displayValues) {
+            data["displayValues"] = {};
+            for (let key in this.displayValues) {
+                if (this.displayValues.hasOwnProperty(key))
+                    data["displayValues"][key] = this.displayValues[key];
+            }
+        }
+        data["id"] = this.id;
+        if (Array.isArray(this.brokenReferenceIds)) {
+            data["brokenReferenceIds"] = [];
+            for (let item of this.brokenReferenceIds)
+                data["brokenReferenceIds"].push(item);
+        }
+        if (Array.isArray(this.brokenIndirectReferenceIds)) {
+            data["brokenIndirectReferenceIds"] = [];
+            for (let item of this.brokenIndirectReferenceIds)
+                data["brokenIndirectReferenceIds"].push(item);
+        }
+        if (Array.isArray(this.brokenRelationTargetIds)) {
+            data["brokenRelationTargetIds"] = [];
+            for (let item of this.brokenRelationTargetIds)
+                data["brokenRelationTargetIds"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IContent {
+    /** Audit information. */
+    audit?: IUserAudit | undefined;
+    /** The id of the schema with schema type content. */
+    contentSchemaId: string;
+    /** The content type of this content. All except Virtual are binary files. */
+    contentType: ContentType;
+    /** An optional id list of schemas with schema type layer. */
+    layerSchemaIds?: string[] | undefined;
+    /** Contains display values of the specified language, rendered according to the content schema's display pattern configuration. */
+    displayValues: { [key: string] : string; };
+    id: string;
+    /** All the ids of the broken references (tagboxes) */
+    brokenReferenceIds?: string[] | undefined;
+    /** All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox) */
+    brokenIndirectReferenceIds?: string[] | undefined;
+    /** All the target ids of the broken relations */
+    brokenRelationTargetIds?: string[] | undefined;
+}
+
 /** Request to aggregate contents based on the aggregators defined on a channel */
 export class ContentAggregationOnChannelRequest implements IContentAggregationOnChannelRequest {
-    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** An optional filter to limit the contents to aggregate on. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
 filtering an aggregation that matches the same AggregationName or another aggregation.
@@ -39707,11 +40635,11 @@ If not specified, all metadata languages defined in the system are used. */
 
 /** Request to aggregate contents based on the aggregators defined on a channel */
 export interface IContentAggregationOnChannelRequest {
-    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** An optional filter to limit the contents to aggregate on. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
 filtering an aggregation that matches the same AggregationName or another aggregation.
@@ -39733,9 +40661,244 @@ If not specified, all metadata languages defined in the system are used. */
     searchType: ContentSearchType;
 }
 
+/** Request to search contents */
+export class ContentSearchRequest extends ContentAggregationOnChannelRequest implements IContentSearchRequest {
+    /** Limits the display values included in the search response. Defaults to all display values. */
+    displayPatternIds?: string[] | undefined;
+    /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit!: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Limits the contents to the ones the user has the specified ContentRights. */
+    rightsFilter?: ContentRight[] | undefined;
+    /** Returns the aggregated document counts to the ones the user has the specified ContentRights.
+Produces the rightsAggregationCounts on the ContentSearchResult. View will be ignored as the totalResults already gives this information. */
+    rightsAggregations?: ContentRight[] | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ContentSearchResult.
+Warning! It severely affects performance. */
+    debugMode!: boolean;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+
+    constructor(data?: IContentSearchRequest) {
+        super(data);
+        if (data) {
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["displayPatternIds"])) {
+                this.displayPatternIds = [] as any;
+                for (let item of data["displayPatternIds"])
+                    this.displayPatternIds!.push(item);
+            }
+            if (Array.isArray(data["sort"])) {
+                this.sort = [] as any;
+                for (let item of data["sort"])
+                    this.sort!.push(SortInfo.fromJS(item));
+            }
+            this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
+            if (Array.isArray(data["rightsFilter"])) {
+                this.rightsFilter = [] as any;
+                for (let item of data["rightsFilter"])
+                    this.rightsFilter!.push(item);
+            }
+            if (Array.isArray(data["rightsAggregations"])) {
+                this.rightsAggregations = [] as any;
+                for (let item of data["rightsAggregations"])
+                    this.rightsAggregations!.push(item);
+            }
+            this.debugMode = data["debugMode"];
+            if (Array.isArray(data["aggregators"])) {
+                this.aggregators = [] as any;
+                for (let item of data["aggregators"])
+                    this.aggregators!.push(AggregatorBase.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.displayPatternIds)) {
+            data["displayPatternIds"] = [];
+            for (let item of this.displayPatternIds)
+                data["displayPatternIds"].push(item);
+        }
+        if (Array.isArray(this.sort)) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
+        if (Array.isArray(this.rightsFilter)) {
+            data["rightsFilter"] = [];
+            for (let item of this.rightsFilter)
+                data["rightsFilter"].push(item);
+        }
+        if (Array.isArray(this.rightsAggregations)) {
+            data["rightsAggregations"] = [];
+            for (let item of this.rightsAggregations)
+                data["rightsAggregations"].push(item);
+        }
+        data["debugMode"] = this.debugMode;
+        if (Array.isArray(this.aggregators)) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Request to search contents */
+export interface IContentSearchRequest extends IContentAggregationOnChannelRequest {
+    /** Limits the display values included in the search response. Defaults to all display values. */
+    displayPatternIds?: string[] | undefined;
+    /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
+    sort?: ISortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Limits the contents to the ones the user has the specified ContentRights. */
+    rightsFilter?: ContentRight[] | undefined;
+    /** Returns the aggregated document counts to the ones the user has the specified ContentRights.
+Produces the rightsAggregationCounts on the ContentSearchResult. View will be ignored as the totalResults already gives this information. */
+    rightsAggregations?: ContentRight[] | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ContentSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+}
+
+export enum LifeCycleFilter {
+    ActiveOnly = "ActiveOnly",
+    All = "All",
+    InactiveOnly = "InactiveOnly",
+    ActiveInactiveOnly = "ActiveInactiveOnly",
+}
+
+/** Filter items with broken or not broken dependencies */
+export enum BrokenDependenciesFilter {
+    All = "All",
+    NotBrokenOnly = "NotBrokenOnly",
+    BrokenOnly = "BrokenOnly",
+}
+
+export enum ContentSearchType {
+    Metadata = "Metadata",
+    FullText = "FullText",
+    MetadataAndFullText = "MetadataAndFullText",
+}
+
+/** Result for an aggregation operation */
+export class ObjectAggregationResult implements IObjectAggregationResult {
+    /** How long did the search and aggregation took. */
+    elapsedMilliseconds!: number;
+    /** Results of the aggregation. */
+    aggregationResults!: AggregationResult[];
+    /** Search string used to query the data */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
+    isSearchStringRewritten!: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. */
+    queryDebugInformation?: QueryDebugInformation | undefined;
+
+    constructor(data?: IObjectAggregationResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.aggregationResults) {
+                this.aggregationResults = [];
+                for (let i = 0; i < data.aggregationResults.length; i++) {
+                    let item = data.aggregationResults[i];
+                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
+                }
+            }
+            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+        }
+        if (!data) {
+            this.aggregationResults = [];
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.elapsedMilliseconds = data["elapsedMilliseconds"];
+            if (Array.isArray(data["aggregationResults"])) {
+                this.aggregationResults = [] as any;
+                for (let item of data["aggregationResults"])
+                    this.aggregationResults!.push(AggregationResult.fromJS(item));
+            }
+            this.searchString = data["searchString"];
+            this.isSearchStringRewritten = data["isSearchStringRewritten"];
+            this.queryDebugInformation = data["queryDebugInformation"] ? QueryDebugInformation.fromJS(data["queryDebugInformation"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ObjectAggregationResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new ObjectAggregationResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        if (Array.isArray(this.aggregationResults)) {
+            data["aggregationResults"] = [];
+            for (let item of this.aggregationResults)
+                data["aggregationResults"].push(item.toJSON());
+        }
+        data["searchString"] = this.searchString;
+        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Result for an aggregation operation */
+export interface IObjectAggregationResult {
+    /** How long did the search and aggregation took. */
+    elapsedMilliseconds: number;
+    /** Results of the aggregation. */
+    aggregationResults: IAggregationResult[];
+    /** Search string used to query the data */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
+    isSearchStringRewritten: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. */
+    queryDebugInformation?: IQueryDebugInformation | undefined;
+}
+
 /** Request to aggregate contents based on the specified aggregators */
 export class ContentAggregationRequest extends ContentAggregationOnChannelRequest implements IContentAggregationRequest {
-    /** List of aggregators that defines how the contents should be aggregated. */
+    /** List of aggregators that defines how the items should be aggregated. */
     aggregators!: AggregatorBase[];
 
     constructor(data?: IContentAggregationRequest) {
@@ -39777,7 +40940,7 @@ export class ContentAggregationRequest extends ContentAggregationOnChannelReques
 
 /** Request to aggregate contents based on the specified aggregators */
 export interface IContentAggregationRequest extends IContentAggregationOnChannelRequest {
-    /** List of aggregators that defines how the contents should be aggregated. */
+    /** List of aggregators that defines how the items should be aggregated. */
     aggregators: AggregatorBase[];
 }
 
@@ -41029,12 +42192,15 @@ existing assigned layers not specified in the property are removed and missing l
 Defaults to Merge. */
     layerSchemasUpdateOptions!: UpdateOption;
     /** Options to modify the behavior for updating the values of schemas.
-Merge: the values specified in the Content and Metadata dictionaries are merged to the existing values of the corresponding
-schema on the content.
-Replace: the values specified in the Content and Metadata dictionaries entirely replace any existing value of the
-corresponding schema on the content.
+Merge: the values specified in the Metadata dictionary are merged to the existing values of the corresponding schema on the content.
+Replace: the values specified in the Metadata dictionary entirely replace any existing value of the corresponding schema on the content.
 Defaults to Merge. */
-    schemaFieldsUpdateOptions!: UpdateOption;
+    layerFieldsUpdateOptions!: UpdateOption;
+    /** Options to modify the behavior for updating the content.
+Merge: the values specified in the Content object are merged to the existing content.
+Replace: the values specified in the Content object entirely replace the content.
+Defaults to Merge. */
+    contentFieldsUpdateOptions!: UpdateOption;
 
     constructor(data?: IContentMetadataUpdateRequest) {
         if (data) {
@@ -41061,7 +42227,8 @@ Defaults to Merge. */
                 }
             }
             this.layerSchemasUpdateOptions = data["layerSchemasUpdateOptions"];
-            this.schemaFieldsUpdateOptions = data["schemaFieldsUpdateOptions"];
+            this.layerFieldsUpdateOptions = data["layerFieldsUpdateOptions"];
+            this.contentFieldsUpdateOptions = data["contentFieldsUpdateOptions"];
         }
     }
 
@@ -41088,7 +42255,8 @@ Defaults to Merge. */
             }
         }
         data["layerSchemasUpdateOptions"] = this.layerSchemasUpdateOptions;
-        data["schemaFieldsUpdateOptions"] = this.schemaFieldsUpdateOptions;
+        data["layerFieldsUpdateOptions"] = this.layerFieldsUpdateOptions;
+        data["contentFieldsUpdateOptions"] = this.contentFieldsUpdateOptions;
         return data; 
     }
 }
@@ -41116,12 +42284,15 @@ existing assigned layers not specified in the property are removed and missing l
 Defaults to Merge. */
     layerSchemasUpdateOptions: UpdateOption;
     /** Options to modify the behavior for updating the values of schemas.
-Merge: the values specified in the Content and Metadata dictionaries are merged to the existing values of the corresponding
-schema on the content.
-Replace: the values specified in the Content and Metadata dictionaries entirely replace any existing value of the
-corresponding schema on the content.
+Merge: the values specified in the Metadata dictionary are merged to the existing values of the corresponding schema on the content.
+Replace: the values specified in the Metadata dictionary entirely replace any existing value of the corresponding schema on the content.
 Defaults to Merge. */
-    schemaFieldsUpdateOptions: UpdateOption;
+    layerFieldsUpdateOptions: UpdateOption;
+    /** Options to modify the behavior for updating the content.
+Merge: the values specified in the Content object are merged to the existing content.
+Replace: the values specified in the Content object entirely replace the content.
+Defaults to Merge. */
+    contentFieldsUpdateOptions: UpdateOption;
 }
 
 /** Controls the update of metadata */
@@ -42023,7 +43194,7 @@ export interface IContentFieldsBatchUpdateFilterRequest extends IMetadataValuesC
 
 export abstract class PermissionSetDetailOfContentRight implements IPermissionSetDetailOfContentRight {
     id!: string;
-    names?: TranslatedStringDictionary | undefined;
+    names!: TranslatedStringDictionary;
     userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive!: boolean;
@@ -42053,12 +43224,15 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
             }
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit; 
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
     }
 
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (Array.isArray(data["userRolesRights"])) {
                 this.userRolesRights = [] as any;
                 for (let item of data["userRolesRights"])
@@ -42103,7 +43277,7 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
 
 export interface IPermissionSetDetailOfContentRight {
     id: string;
-    names?: ITranslatedStringDictionary | undefined;
+    names: ITranslatedStringDictionary;
     userRolesRights?: IPermissionUserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -42253,7 +43427,7 @@ export enum PermissionSetRight {
 }
 
 export abstract class PermissionSetCreateRequestOfContentRight implements IPermissionSetCreateRequestOfContentRight {
-    names?: TranslatedStringDictionary | undefined;
+    names!: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive!: boolean;
@@ -42281,11 +43455,14 @@ export abstract class PermissionSetCreateRequestOfContentRight implements IPermi
                 }
             }
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
     }
 
     init(data?: any) {
         if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (Array.isArray(data["userRolesRights"])) {
                 this.userRolesRights = [] as any;
                 for (let item of data["userRolesRights"])
@@ -42326,7 +43503,7 @@ export abstract class PermissionSetCreateRequestOfContentRight implements IPermi
 }
 
 export interface IPermissionSetCreateRequestOfContentRight {
-    names?: ITranslatedStringDictionary | undefined;
+    names: ITranslatedStringDictionary;
     userRolesRights?: IUserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -42457,7 +43634,7 @@ export interface IUserRoleRightsOfPermissionSetRight {
 }
 
 export abstract class PermissionSetUpdateRequestOfContentRight implements IPermissionSetUpdateRequestOfContentRight {
-    names?: TranslatedStringDictionary | undefined;
+    names!: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
 
@@ -42483,11 +43660,14 @@ export abstract class PermissionSetUpdateRequestOfContentRight implements IPermi
                 }
             }
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
     }
 
     init(data?: any) {
         if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (Array.isArray(data["userRolesRights"])) {
                 this.userRolesRights = [] as any;
                 for (let item of data["userRolesRights"])
@@ -42524,7 +43704,7 @@ export abstract class PermissionSetUpdateRequestOfContentRight implements IPermi
 }
 
 export interface IPermissionSetUpdateRequestOfContentRight {
-    names?: ITranslatedStringDictionary | undefined;
+    names: ITranslatedStringDictionary;
     userRolesRights?: IUserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
 }
@@ -43191,7 +44371,7 @@ export class PermissionSet implements IPermissionSet {
 Cannot be changed after creation. */
     exclusive!: boolean;
     /** Language specific permission set names. */
-    names?: TranslatedStringDictionary | undefined;
+    names!: TranslatedStringDictionary;
 
     constructor(data?: IPermissionSet) {
         if (data) {
@@ -43201,13 +44381,16 @@ Cannot be changed after creation. */
             }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
     }
 
     init(data?: any) {
         if (data) {
             this.id = data["id"];
             this.exclusive = data["exclusive"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
         }
     }
 
@@ -43235,7 +44418,7 @@ export interface IPermissionSet {
 Cannot be changed after creation. */
     exclusive: boolean;
     /** Language specific permission set names. */
-    names?: ITranslatedStringDictionary | undefined;
+    names: ITranslatedStringDictionary;
 }
 
 /** Request to search permission sets */
@@ -43813,6 +44996,10 @@ export class CustomerInfo implements ICustomerInfo {
     /** Apps registered for this customer */
     apps?: CustomerApp[] | undefined;
     modificationDate!: Date;
+    /** Url to access Frontend service */
+    baseUrl!: string;
+    /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
+    logosUrl!: string;
 
     constructor(data?: ICustomerInfo) {
         if (data) {
@@ -43881,6 +45068,8 @@ export class CustomerInfo implements ICustomerInfo {
                     this.apps!.push(CustomerApp.fromJS(item));
             }
             this.modificationDate = data["modificationDate"] ? new Date(data["modificationDate"].toString()) : <any>undefined;
+            this.baseUrl = data["baseUrl"];
+            this.logosUrl = data["logosUrl"];
         }
     }
 
@@ -43921,6 +45110,8 @@ export class CustomerInfo implements ICustomerInfo {
                 data["apps"].push(item.toJSON());
         }
         data["modificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
+        data["baseUrl"] = this.baseUrl;
+        data["logosUrl"] = this.logosUrl;
         return data; 
     }
 }
@@ -43950,6 +45141,10 @@ export interface ICustomerInfo {
     /** Apps registered for this customer */
     apps?: ICustomerApp[] | undefined;
     modificationDate: Date;
+    /** Url to access Frontend service */
+    baseUrl: string;
+    /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
+    logosUrl: string;
 }
 
 export class LanguageConfiguration implements ILanguageConfiguration {
@@ -44245,6 +45440,8 @@ export class SystemStatus implements ISystemStatus {
     searchIndicesStatus?: StatusOfSearchIndexState[] | undefined;
     /** The status of the display values. */
     displayValuesStatus?: StatusOfDisplayValuesState[] | undefined;
+    /** The status of the contents and list items. */
+    metadataStatus?: StatusOfMetadataState[] | undefined;
 
     constructor(data?: ISystemStatus) {
         if (data) {
@@ -44266,6 +45463,13 @@ export class SystemStatus implements ISystemStatus {
                     this.displayValuesStatus[i] = item && !(<any>item).toJSON ? new StatusOfDisplayValuesState(item) : <StatusOfDisplayValuesState>item;
                 }
             }
+            if (data.metadataStatus) {
+                this.metadataStatus = [];
+                for (let i = 0; i < data.metadataStatus.length; i++) {
+                    let item = data.metadataStatus[i];
+                    this.metadataStatus[i] = item && !(<any>item).toJSON ? new StatusOfMetadataState(item) : <StatusOfMetadataState>item;
+                }
+            }
         }
     }
 
@@ -44280,6 +45484,11 @@ export class SystemStatus implements ISystemStatus {
                 this.displayValuesStatus = [] as any;
                 for (let item of data["displayValuesStatus"])
                     this.displayValuesStatus!.push(StatusOfDisplayValuesState.fromJS(item));
+            }
+            if (Array.isArray(data["metadataStatus"])) {
+                this.metadataStatus = [] as any;
+                for (let item of data["metadataStatus"])
+                    this.metadataStatus!.push(StatusOfMetadataState.fromJS(item));
             }
         }
     }
@@ -44303,6 +45512,11 @@ export class SystemStatus implements ISystemStatus {
             for (let item of this.displayValuesStatus)
                 data["displayValuesStatus"].push(item.toJSON());
         }
+        if (Array.isArray(this.metadataStatus)) {
+            data["metadataStatus"] = [];
+            for (let item of this.metadataStatus)
+                data["metadataStatus"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -44312,6 +45526,8 @@ export interface ISystemStatus {
     searchIndicesStatus?: IStatusOfSearchIndexState[] | undefined;
     /** The status of the display values. */
     displayValuesStatus?: IStatusOfDisplayValuesState[] | undefined;
+    /** The status of the contents and list items. */
+    metadataStatus?: IStatusOfMetadataState[] | undefined;
 }
 
 export class StatusOfSearchIndexState implements IStatusOfSearchIndexState {
@@ -44398,6 +45614,53 @@ export class StatusOfDisplayValuesState implements IStatusOfDisplayValuesState {
 export interface IStatusOfDisplayValuesState {
     id?: string | undefined;
     state: DisplayValuesState;
+}
+
+export class StatusOfMetadataState implements IStatusOfMetadataState {
+    id?: string | undefined;
+    state!: MetadataState;
+
+    constructor(data?: IStatusOfMetadataState) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.state = data["state"];
+        }
+    }
+
+    static fromJS(data: any): StatusOfMetadataState {
+        data = typeof data === 'object' ? data : {};
+        let result = new StatusOfMetadataState();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["state"] = this.state;
+        return data; 
+    }
+}
+
+export interface IStatusOfMetadataState {
+    id?: string | undefined;
+    state: MetadataState;
+}
+
+/** The state of the contents and list items */
+export enum MetadataState {
+    UpToDate = "UpToDate",
+    Outdated = "Outdated",
+    UpdateInProgress = "UpdateInProgress",
 }
 
 /** List item detail */
@@ -44635,8 +45898,58 @@ export interface ISearchBehaviorBaseResultOfListItem extends IBaseResultOfListIt
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
+export class SearchBehaviorWithAggregationBaseResultOfListItem extends SearchBehaviorBaseResultOfListItem implements ISearchBehaviorWithAggregationBaseResultOfListItem {
+    aggregationResults?: AggregationResult[] | undefined;
+
+    constructor(data?: ISearchBehaviorWithAggregationBaseResultOfListItem) {
+        super(data);
+        if (data) {
+            if (data.aggregationResults) {
+                this.aggregationResults = [];
+                for (let i = 0; i < data.aggregationResults.length; i++) {
+                    let item = data.aggregationResults[i];
+                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["aggregationResults"])) {
+                this.aggregationResults = [] as any;
+                for (let item of data["aggregationResults"])
+                    this.aggregationResults!.push(AggregationResult.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SearchBehaviorWithAggregationBaseResultOfListItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorWithAggregationBaseResultOfListItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.aggregationResults)) {
+            data["aggregationResults"] = [];
+            for (let item of this.aggregationResults)
+                data["aggregationResults"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISearchBehaviorWithAggregationBaseResultOfListItem extends ISearchBehaviorBaseResultOfListItem {
+    aggregationResults?: IAggregationResult[] | undefined;
+}
+
 /** Result for list item search operation */
-export class ListItemSearchResult extends SearchBehaviorBaseResultOfListItem implements IListItemSearchResult {
+export class ListItemSearchResult extends SearchBehaviorWithAggregationBaseResultOfListItem implements IListItemSearchResult {
 
     constructor(data?: IListItemSearchResult) {
         super(data);
@@ -44661,14 +45974,14 @@ export class ListItemSearchResult extends SearchBehaviorBaseResultOfListItem imp
 }
 
 /** Result for list item search operation */
-export interface IListItemSearchResult extends ISearchBehaviorBaseResultOfListItem {
+export interface IListItemSearchResult extends ISearchBehaviorWithAggregationBaseResultOfListItem {
 }
 
 export class ListItem implements IListItem {
     /** Audit information. */
     audit?: UserAudit | undefined;
     /** The list item id. */
-    id: string;
+    id!: string;
     /** The id of the schema with schema type list. */
     contentSchemaId?: string | undefined;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
@@ -44755,7 +46068,7 @@ export interface IListItem {
     /** Audit information. */
     audit?: IUserAudit | undefined;
     /** The list item id. */
-    id?: string | undefined;
+    id: string;
     /** The id of the schema with schema type list. */
     contentSchemaId?: string | undefined;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
@@ -44770,183 +46083,18 @@ export interface IListItem {
     brokenIndirectReferenceIds?: string[] | undefined;
 }
 
-/** Request to search list items */
-export class ListItemSearchRequest implements IListItemSearchRequest {
-    /** The string used to query the data. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
-    sort?: SortInfo[] | undefined;
-    /** Limits the number of the returned schemas. Defaults to 30. */
-    limit!: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** An optional filter to limit the list items. */
-    filter?: FilterBase | undefined;
-    /** Broadens the search to include all schema descendant list items. */
-    includeAllSchemaChildren!: boolean;
-    /** Limits the search among the list items of the provided schemas. */
-    schemaIds?: string[] | undefined;
-    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
-    brokenDependenciesFilter!: BrokenDependenciesFilter;
-    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-If not specified, all metadata languages defined in the system are used. */
-    searchLanguages?: string[] | undefined;
-    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
-Warning! It severely affects performance. */
-    debugMode!: boolean;
-    /** Limits the search to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter!: LifeCycleFilter;
-    /** List of enums that control which parts of the list item are resolved and returned. */
-    resolveBehaviors?: ListItemResolveBehavior[] | undefined;
-
-    constructor(data?: IListItemSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
-            if (Array.isArray(data["schemaIds"])) {
-                this.schemaIds = [] as any;
-                for (let item of data["schemaIds"])
-                    this.schemaIds!.push(item);
-            }
-            this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
-            if (Array.isArray(data["searchLanguages"])) {
-                this.searchLanguages = [] as any;
-                for (let item of data["searchLanguages"])
-                    this.searchLanguages!.push(item);
-            }
-            this.debugMode = data["debugMode"];
-            this.lifeCycleFilter = data["lifeCycleFilter"];
-            if (Array.isArray(data["resolveBehaviors"])) {
-                this.resolveBehaviors = [] as any;
-                for (let item of data["resolveBehaviors"])
-                    this.resolveBehaviors!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): ListItemSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListItemSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
-        if (Array.isArray(this.schemaIds)) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
-        if (Array.isArray(this.searchLanguages)) {
-            data["searchLanguages"] = [];
-            for (let item of this.searchLanguages)
-                data["searchLanguages"].push(item);
-        }
-        data["debugMode"] = this.debugMode;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        if (Array.isArray(this.resolveBehaviors)) {
-            data["resolveBehaviors"] = [];
-            for (let item of this.resolveBehaviors)
-                data["resolveBehaviors"].push(item);
-        }
-        return data; 
-    }
-}
-
-/** Request to search list items */
-export interface IListItemSearchRequest {
-    /** The string used to query the data. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
-    sort?: ISortInfo[] | undefined;
-    /** Limits the number of the returned schemas. Defaults to 30. */
-    limit: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** An optional filter to limit the list items. */
-    filter?: FilterBase | undefined;
-    /** Broadens the search to include all schema descendant list items. */
-    includeAllSchemaChildren: boolean;
-    /** Limits the search among the list items of the provided schemas. */
-    schemaIds?: string[] | undefined;
-    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-If not specified, all metadata languages defined in the system are used. */
-    searchLanguages?: string[] | undefined;
-    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
-Warning! It severely affects performance. */
-    debugMode: boolean;
-    /** Limits the search to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-    /** List of enums that control which parts of the list item are resolved and returned. */
-    resolveBehaviors?: ListItemResolveBehavior[] | undefined;
-}
-
 /** Request to aggregate list items */
-export class ListItemAggregationRequest implements IListItemAggregationRequest {
-    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
+export abstract class ListItemSearchAndAggregationBaseRequest implements IListItemSearchAndAggregationBaseRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** An optional filter to limit the list items to aggregate on. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
 filtering an aggregation that matches the same AggregationName or another aggregation.
 In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
     aggregationFilters?: AggregationFilter[] | undefined;
-    /** List of aggregators that defines how the list item should be aggregated. */
-    aggregators!: AggregatorBase[];
     /** Broadens the search to include all schema descendant list items. */
     includeAllSchemaChildren!: boolean;
     /** Limits the aggregation to the list items that have or not have broken references. By default it includes both. */
@@ -44959,15 +46107,12 @@ If not specified, all metadata languages defined in the system are used. */
     /** Limits the aggregation to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
     lifeCycleFilter!: LifeCycleFilter;
 
-    constructor(data?: IListItemAggregationRequest) {
+    constructor(data?: IListItemSearchAndAggregationBaseRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-        }
-        if (!data) {
-            this.aggregators = [];
         }
     }
 
@@ -44985,11 +46130,6 @@ If not specified, all metadata languages defined in the system are used. */
                 for (let item of data["aggregationFilters"])
                     this.aggregationFilters!.push(AggregationFilter.fromJS(item));
             }
-            if (Array.isArray(data["aggregators"])) {
-                this.aggregators = [] as any;
-                for (let item of data["aggregators"])
-                    this.aggregators!.push(AggregatorBase.fromJS(item));
-            }
             this.includeAllSchemaChildren = data["includeAllSchemaChildren"];
             this.brokenDependenciesFilter = data["brokenDependenciesFilter"];
             if (Array.isArray(data["schemaIds"])) {
@@ -45006,11 +46146,9 @@ If not specified, all metadata languages defined in the system are used. */
         }
     }
 
-    static fromJS(data: any): ListItemAggregationRequest {
+    static fromJS(data: any): ListItemSearchAndAggregationBaseRequest {
         data = typeof data === 'object' ? data : {};
-        let result = new ListItemAggregationRequest();
-        result.init(data);
-        return result;
+        throw new Error("The abstract class 'ListItemSearchAndAggregationBaseRequest' cannot be instantiated.");
     }
 
     toJSON(data?: any) {
@@ -45026,11 +46164,6 @@ If not specified, all metadata languages defined in the system are used. */
             data["aggregationFilters"] = [];
             for (let item of this.aggregationFilters)
                 data["aggregationFilters"].push(item.toJSON());
-        }
-        if (Array.isArray(this.aggregators)) {
-            data["aggregators"] = [];
-            for (let item of this.aggregators)
-                data["aggregators"].push(item.toJSON());
         }
         data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
         data["brokenDependenciesFilter"] = this.brokenDependenciesFilter;
@@ -45050,19 +46183,17 @@ If not specified, all metadata languages defined in the system are used. */
 }
 
 /** Request to aggregate list items */
-export interface IListItemAggregationRequest {
-    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
+export interface IListItemSearchAndAggregationBaseRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** An optional filter to limit the list items to aggregate on. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
 filtering an aggregation that matches the same AggregationName or another aggregation.
 In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
     aggregationFilters?: AggregationFilter[] | undefined;
-    /** List of aggregators that defines how the list item should be aggregated. */
-    aggregators: AggregatorBase[];
     /** Broadens the search to include all schema descendant list items. */
     includeAllSchemaChildren: boolean;
     /** Limits the aggregation to the list items that have or not have broken references. By default it includes both. */
@@ -45074,6 +46205,156 @@ If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
     /** Limits the aggregation to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
     lifeCycleFilter: LifeCycleFilter;
+}
+
+/** Request to search list items */
+export class ListItemSearchRequest extends ListItemSearchAndAggregationBaseRequest implements IListItemSearchRequest {
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit!: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
+Warning! It severely affects performance. */
+    debugMode!: boolean;
+    /** List of enums that control which parts of the list item are resolved and returned. */
+    resolveBehaviors?: ListItemResolveBehavior[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+
+    constructor(data?: IListItemSearchRequest) {
+        super(data);
+        if (data) {
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["sort"])) {
+                this.sort = [] as any;
+                for (let item of data["sort"])
+                    this.sort!.push(SortInfo.fromJS(item));
+            }
+            this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
+            this.debugMode = data["debugMode"];
+            if (Array.isArray(data["resolveBehaviors"])) {
+                this.resolveBehaviors = [] as any;
+                for (let item of data["resolveBehaviors"])
+                    this.resolveBehaviors!.push(item);
+            }
+            if (Array.isArray(data["aggregators"])) {
+                this.aggregators = [] as any;
+                for (let item of data["aggregators"])
+                    this.aggregators!.push(AggregatorBase.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListItemSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListItemSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.sort)) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
+        data["debugMode"] = this.debugMode;
+        if (Array.isArray(this.resolveBehaviors)) {
+            data["resolveBehaviors"] = [];
+            for (let item of this.resolveBehaviors)
+                data["resolveBehaviors"].push(item);
+        }
+        if (Array.isArray(this.aggregators)) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Request to search list items */
+export interface IListItemSearchRequest extends IListItemSearchAndAggregationBaseRequest {
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: ISortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** List of enums that control which parts of the list item are resolved and returned. */
+    resolveBehaviors?: ListItemResolveBehavior[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+}
+
+/** Request to aggregate list items */
+export class ListItemAggregationRequest extends ListItemSearchAndAggregationBaseRequest implements IListItemAggregationRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators!: AggregatorBase[];
+
+    constructor(data?: IListItemAggregationRequest) {
+        super(data);
+        if (!data) {
+            this.aggregators = [];
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["aggregators"])) {
+                this.aggregators = [] as any;
+                for (let item of data["aggregators"])
+                    this.aggregators!.push(AggregatorBase.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListItemAggregationRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListItemAggregationRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.aggregators)) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Request to aggregate list items */
+export interface IListItemAggregationRequest extends IListItemSearchAndAggregationBaseRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators: AggregatorBase[];
 }
 
 /** Request to create a list item */
@@ -45200,6 +46481,11 @@ export interface IListItemCreateManyRequest {
 export class ListItemUpdateRequest implements IListItemUpdateRequest {
     /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema of the list item. */
     content?: any | undefined;
+    /** Options to modify the behavior for updating the content.
+Merge: the values specified in the Content object are merged to the existing content.
+Replace: the values specified in the Content object entirely replace any existing content.
+Defaults to Merge. */
+    contentFieldsUpdateOptions!: UpdateOption;
 
     constructor(data?: IListItemUpdateRequest) {
         if (data) {
@@ -45213,6 +46499,7 @@ export class ListItemUpdateRequest implements IListItemUpdateRequest {
     init(data?: any) {
         if (data) {
             this.content = data["content"];
+            this.contentFieldsUpdateOptions = data["contentFieldsUpdateOptions"];
         }
     }
 
@@ -45226,6 +46513,7 @@ export class ListItemUpdateRequest implements IListItemUpdateRequest {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["content"] = this.content;
+        data["contentFieldsUpdateOptions"] = this.contentFieldsUpdateOptions;
         return data; 
     }
 }
@@ -45234,6 +46522,11 @@ export class ListItemUpdateRequest implements IListItemUpdateRequest {
 export interface IListItemUpdateRequest {
     /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema of the list item. */
     content?: any | undefined;
+    /** Options to modify the behavior for updating the content.
+Merge: the values specified in the Content object are merged to the existing content.
+Replace: the values specified in the Content object entirely replace any existing content.
+Defaults to Merge. */
+    contentFieldsUpdateOptions: UpdateOption;
 }
 
 /** Request to update multiple list items */
@@ -46472,7 +47765,7 @@ export interface ISessionRenewalEvent extends IApplicationEvent {
     authorizationState: AuthorizationState;
 }
 
-/** User authorization state. */
+/** User authorization state */
 export enum AuthorizationState {
     Reviewed = "Reviewed",
     ToBeReviewed = "ToBeReviewed",
@@ -47162,7 +48455,7 @@ export interface ILiveStreamSearchResult extends IBaseResultOfLiveStream {
 }
 
 export class LiveStream implements ILiveStream {
-    id?: string | undefined;
+    id!: string;
     document?: string | undefined;
     scopeType?: string | undefined;
     timestamp!: Date;
@@ -47211,7 +48504,7 @@ export class LiveStream implements ILiveStream {
 }
 
 export interface ILiveStream {
-    id?: string | undefined;
+    id: string;
     document?: string | undefined;
     scopeType?: string | undefined;
     timestamp: Date;
@@ -47333,6 +48626,92 @@ export interface ILiveStreamSearchRequest {
     limit: number;
     /** To get a large amount of data, page token returned from the response can be used to get all data. */
     pageToken?: string | undefined;
+}
+
+/** The overall status of the contents and list items in comparison to the actual schemas' structure */
+export class MetadataStatus implements IMetadataStatus {
+    /** The schema ids (of type Content or Layer) for which the contents are outdated and need to be updated. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
+    listSchemaIds?: string[] | undefined;
+    /** The global state of the Contents and ListItems compared to the schema structure (Green = ok, Red = update needed). */
+    state!: MetadataState;
+    /** The field ids that that cannot be used and needs to be cleaned up after updating the outdated contents and list items. */
+    fieldIdsToCleanup?: { [key: string] : string[]; } | undefined;
+
+    constructor(data?: IMetadataStatus) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["contentOrLayerSchemaIds"])) {
+                this.contentOrLayerSchemaIds = [] as any;
+                for (let item of data["contentOrLayerSchemaIds"])
+                    this.contentOrLayerSchemaIds!.push(item);
+            }
+            if (Array.isArray(data["listSchemaIds"])) {
+                this.listSchemaIds = [] as any;
+                for (let item of data["listSchemaIds"])
+                    this.listSchemaIds!.push(item);
+            }
+            this.state = data["state"];
+            if (data["fieldIdsToCleanup"]) {
+                this.fieldIdsToCleanup = {} as any;
+                for (let key in data["fieldIdsToCleanup"]) {
+                    if (data["fieldIdsToCleanup"].hasOwnProperty(key))
+                        this.fieldIdsToCleanup![key] = data["fieldIdsToCleanup"][key] !== undefined ? data["fieldIdsToCleanup"][key] : [];
+                }
+            }
+        }
+    }
+
+    static fromJS(data: any): MetadataStatus {
+        data = typeof data === 'object' ? data : {};
+        let result = new MetadataStatus();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.contentOrLayerSchemaIds)) {
+            data["contentOrLayerSchemaIds"] = [];
+            for (let item of this.contentOrLayerSchemaIds)
+                data["contentOrLayerSchemaIds"].push(item);
+        }
+        if (Array.isArray(this.listSchemaIds)) {
+            data["listSchemaIds"] = [];
+            for (let item of this.listSchemaIds)
+                data["listSchemaIds"].push(item);
+        }
+        data["state"] = this.state;
+        if (this.fieldIdsToCleanup) {
+            data["fieldIdsToCleanup"] = {};
+            for (let key in this.fieldIdsToCleanup) {
+                if (this.fieldIdsToCleanup.hasOwnProperty(key))
+                    data["fieldIdsToCleanup"][key] = this.fieldIdsToCleanup[key];
+            }
+        }
+        return data; 
+    }
+}
+
+/** The overall status of the contents and list items in comparison to the actual schemas' structure */
+export interface IMetadataStatus {
+    /** The schema ids (of type Content or Layer) for which the contents are outdated and need to be updated. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
+    listSchemaIds?: string[] | undefined;
+    /** The global state of the Contents and ListItems compared to the schema structure (Green = ok, Red = update needed). */
+    state: MetadataState;
+    /** The field ids that that cannot be used and needs to be cleaned up after updating the outdated contents and list items. */
+    fieldIdsToCleanup?: { [key: string] : string[]; } | undefined;
 }
 
 export class BaseResultOfOutput implements IBaseResultOfOutput {
@@ -47615,14 +48994,57 @@ export interface IOutputResetRetryAttemptsRequest {
     includeCompleted: boolean;
 }
 
-/** Represents the editable part of the output format. */
-export class OutputFormatEditable implements IOutputFormatEditable {
-    /** Language specific names. */
-    names?: TranslatedStringDictionary | undefined;
+/** Used to specify how to render derived outputs */
+export class OutputFormatRenderingSpecification implements IOutputFormatRenderingSpecification {
     /** Which output format should be used as a source of data. */
     sourceOutputFormats?: SourceOutputFormats | undefined;
     /** Information about the technical format of the data, e.g. JPEG, AAC or video still. */
     format?: FormatBase | undefined;
+
+    constructor(data?: IOutputFormatRenderingSpecification) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.sourceOutputFormats = data.sourceOutputFormats && !(<any>data.sourceOutputFormats).toJSON ? new SourceOutputFormats(data.sourceOutputFormats) : <SourceOutputFormats>this.sourceOutputFormats; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.sourceOutputFormats = data["sourceOutputFormats"] ? SourceOutputFormats.fromJS(data["sourceOutputFormats"]) : <any>undefined;
+            this.format = data["format"] ? FormatBase.fromJS(data["format"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): OutputFormatRenderingSpecification {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatRenderingSpecification();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["sourceOutputFormats"] = this.sourceOutputFormats ? this.sourceOutputFormats.toJSON() : <any>undefined;
+        data["format"] = this.format ? this.format.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Used to specify how to render derived outputs */
+export interface IOutputFormatRenderingSpecification {
+    /** Which output format should be used as a source of data. */
+    sourceOutputFormats?: ISourceOutputFormats | undefined;
+    /** Information about the technical format of the data, e.g. JPEG, AAC or video still. */
+    format?: FormatBase | undefined;
+}
+
+/** Represents the editable part of the output format. */
+export class OutputFormatEditable extends OutputFormatRenderingSpecification implements IOutputFormatEditable {
+    /** Language specific names. */
+    names!: TranslatedStringDictionary;
     /** How long should the dynamic outputs created from this format be kept. */
     retentionTime!: string;
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
@@ -47630,22 +49052,20 @@ If set, the customer's default language is required. */
     downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
 
     constructor(data?: IOutputFormatEditable) {
+        super(data);
         if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
-            this.sourceOutputFormats = data.sourceOutputFormats && !(<any>data.sourceOutputFormats).toJSON ? new SourceOutputFormats(data.sourceOutputFormats) : <SourceOutputFormats>this.sourceOutputFormats; 
             this.downloadFileNamePatterns = data.downloadFileNamePatterns && !(<any>data.downloadFileNamePatterns).toJSON ? new TranslatedStringDictionary(data.downloadFileNamePatterns) : <TranslatedStringDictionary>this.downloadFileNamePatterns; 
+        }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
         }
     }
 
     init(data?: any) {
+        super.init(data);
         if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
-            this.sourceOutputFormats = data["sourceOutputFormats"] ? SourceOutputFormats.fromJS(data["sourceOutputFormats"]) : <any>undefined;
-            this.format = data["format"] ? FormatBase.fromJS(data["format"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             this.retentionTime = data["retentionTime"];
             this.downloadFileNamePatterns = data["downloadFileNamePatterns"] ? TranslatedStringDictionary.fromJS(data["downloadFileNamePatterns"]) : <any>undefined;
         }
@@ -47661,22 +49081,17 @@ If set, the customer's default language is required. */
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["sourceOutputFormats"] = this.sourceOutputFormats ? this.sourceOutputFormats.toJSON() : <any>undefined;
-        data["format"] = this.format ? this.format.toJSON() : <any>undefined;
         data["retentionTime"] = this.retentionTime;
         data["downloadFileNamePatterns"] = this.downloadFileNamePatterns ? this.downloadFileNamePatterns.toJSON() : <any>undefined;
+        super.toJSON(data);
         return data; 
     }
 }
 
 /** Represents the editable part of the output format. */
-export interface IOutputFormatEditable {
+export interface IOutputFormatEditable extends IOutputFormatRenderingSpecification {
     /** Language specific names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** Which output format should be used as a source of data. */
-    sourceOutputFormats?: ISourceOutputFormats | undefined;
-    /** Information about the technical format of the data, e.g. JPEG, AAC or video still. */
-    format?: FormatBase | undefined;
+    names: ITranslatedStringDictionary;
     /** How long should the dynamic outputs created from this format be kept. */
     retentionTime: string;
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
@@ -47785,10 +49200,15 @@ export interface IOutputFormatDetail extends IOutputFormat {
     audit?: IUserAuditDetail | undefined;
 }
 
+/** Defines the source used for rendering an OutputFormat depending on the type of content */
 export class SourceOutputFormats implements ISourceOutputFormats {
+    /** The source to be used for content of type Image */
     image?: string | undefined;
+    /** The source to be used for content of type Video */
     video?: string | undefined;
+    /** The source to be used for content of type Document */
     document?: string | undefined;
+    /** The source to be used for content of type Audio */
     audio?: string | undefined;
 
     constructor(data?: ISourceOutputFormats) {
@@ -47826,10 +49246,15 @@ export class SourceOutputFormats implements ISourceOutputFormats {
     }
 }
 
+/** Defines the source used for rendering an OutputFormat depending on the type of content */
 export interface ISourceOutputFormats {
+    /** The source to be used for content of type Image */
     image?: string | undefined;
+    /** The source to be used for content of type Video */
     video?: string | undefined;
+    /** The source to be used for content of type Document */
     document?: string | undefined;
+    /** The source to be used for content of type Audio */
     audio?: string | undefined;
 }
 
@@ -47937,18 +49362,29 @@ export abstract class FormatBase implements IFormatBase {
 export interface IFormatBase {
 }
 
+/** Base class for ImageFormats such as JPEG, PNG, TIFF, ... */
 export abstract class ImageFormatBase extends FormatBase implements IImageFormatBase {
+    /** Color profile to use. Colorspace is derived from the chosen profile. */
     colorProfile?: ColorProfile | undefined;
+    /** The method of conversion for color spaces (e.g. CMYK to RGB). Further information can be found here: http://www.colourphil.co.uk/rendering_intents.shtml */
     colorTransformationIntent!: ColorTransformationIntent;
+    /** Horizontal resolution in dpi (dots per inch) */
     horizontalResolution?: number | undefined;
+    /** Vertical resolution in dpi (dots per inch) */
     verticalResolution?: number | undefined;
-    renderFirstFrameOnly!: boolean;
+    /** Copy clipping paths from input. */
     keepClippingPath!: boolean;
+    /** Copy Exif metadata from input. */
     cloneExif!: boolean;
+    /** Copy Iptc metadata from input. */
     cloneIptc!: boolean;
+    /** Copy AdobeResources from input. */
     cloneAdobeResources!: boolean;
+    /** Copy Xmp metadata from input. */
     cloneXmp!: boolean;
+    /** Allows resizing of the image. */
     resizeAction?: ResizeAction | undefined;
+    /** A collection of actions to be applied during rendering. */
     actions?: ImageActionBase[] | undefined;
 
     constructor(data?: IImageFormatBase) {
@@ -47966,7 +49402,6 @@ export abstract class ImageFormatBase extends FormatBase implements IImageFormat
             this.colorTransformationIntent = data["colorTransformationIntent"];
             this.horizontalResolution = data["horizontalResolution"];
             this.verticalResolution = data["verticalResolution"];
-            this.renderFirstFrameOnly = data["renderFirstFrameOnly"];
             this.keepClippingPath = data["keepClippingPath"];
             this.cloneExif = data["cloneExif"];
             this.cloneIptc = data["cloneIptc"];
@@ -48007,7 +49442,6 @@ export abstract class ImageFormatBase extends FormatBase implements IImageFormat
         data["colorTransformationIntent"] = this.colorTransformationIntent;
         data["horizontalResolution"] = this.horizontalResolution;
         data["verticalResolution"] = this.verticalResolution;
-        data["renderFirstFrameOnly"] = this.renderFirstFrameOnly;
         data["keepClippingPath"] = this.keepClippingPath;
         data["cloneExif"] = this.cloneExif;
         data["cloneIptc"] = this.cloneIptc;
@@ -48024,21 +49458,33 @@ export abstract class ImageFormatBase extends FormatBase implements IImageFormat
     }
 }
 
+/** Base class for ImageFormats such as JPEG, PNG, TIFF, ... */
 export interface IImageFormatBase extends IFormatBase {
+    /** Color profile to use. Colorspace is derived from the chosen profile. */
     colorProfile?: ColorProfile | undefined;
+    /** The method of conversion for color spaces (e.g. CMYK to RGB). Further information can be found here: http://www.colourphil.co.uk/rendering_intents.shtml */
     colorTransformationIntent: ColorTransformationIntent;
+    /** Horizontal resolution in dpi (dots per inch) */
     horizontalResolution?: number | undefined;
+    /** Vertical resolution in dpi (dots per inch) */
     verticalResolution?: number | undefined;
-    renderFirstFrameOnly: boolean;
+    /** Copy clipping paths from input. */
     keepClippingPath: boolean;
+    /** Copy Exif metadata from input. */
     cloneExif: boolean;
+    /** Copy Iptc metadata from input. */
     cloneIptc: boolean;
+    /** Copy AdobeResources from input. */
     cloneAdobeResources: boolean;
+    /** Copy Xmp metadata from input. */
     cloneXmp: boolean;
+    /** Allows resizing of the image. */
     resizeAction?: IResizeAction | undefined;
+    /** A collection of actions to be applied during rendering. */
     actions?: ImageActionBase[] | undefined;
 }
 
+/** Available color profiles */
 export enum ColorProfile {
     AdobeRgb1998 = "AdobeRgb1998",
     AppleRgb = "AppleRgb",
@@ -48072,6 +49518,7 @@ export enum ColorProfile {
     Isonewspaper26v4Grey = "Isonewspaper26v4Grey",
 }
 
+/** http://www.colourphil.co.uk/rendering_intents.shtml */
 export enum ColorTransformationIntent {
     RelativeColorimetricBpc = "RelativeColorimetricBpc",
     AbsoluteColorimetric = "AbsoluteColorimetric",
@@ -48080,10 +49527,13 @@ export enum ColorTransformationIntent {
     Saturation = "Saturation",
 }
 
-/** Does not implement the IImageAction interface. The ResizeAction is directly exposed within ImageFormat. */
+/** Specifies image resize parameters. */
 export class ResizeAction implements IResizeAction {
+    /** Target width for the output. */
     width!: number;
+    /** Target height for the output. */
     height!: number;
+    /** Specifies additional resize behaviour. */
     resizeMode!: ResizeMode;
 
     constructor(data?: IResizeAction) {
@@ -48119,13 +49569,17 @@ export class ResizeAction implements IResizeAction {
     }
 }
 
-/** Does not implement the IImageAction interface. The ResizeAction is directly exposed within ImageFormat. */
+/** Specifies image resize parameters. */
 export interface IResizeAction {
+    /** Target width for the output. */
     width: number;
+    /** Target height for the output. */
     height: number;
+    /** Specifies additional resize behaviour. */
     resizeMode: ResizeMode;
 }
 
+/** Specifies how the dimensions of a ResizeAction are applied to the content */
 export enum ResizeMode {
     Fit = "Fit",
     Shrink = "Shrink",
@@ -48184,8 +49638,11 @@ export abstract class ImageActionBase implements IImageActionBase {
 export interface IImageActionBase {
 }
 
+/** An ImageAction that allows different forms of modifying alpha information in an image. */
 export class AlphaHandlingAction extends ImageActionBase implements IAlphaHandlingAction {
+    /** Specifies the kind of alpha handling to be applied. */
     alphaHandling!: AlphaHandling;
+    /** Specifies potentially needed color information for alpha handling. Must be given in RGB hex format (8 bit per channel). */
     replacementRgbColorHexCode?: string | undefined;
 
     constructor(data?: IAlphaHandlingAction) {
@@ -48217,21 +49674,30 @@ export class AlphaHandlingAction extends ImageActionBase implements IAlphaHandli
     }
 }
 
+/** An ImageAction that allows different forms of modifying alpha information in an image. */
 export interface IAlphaHandlingAction extends IImageActionBase {
+    /** Specifies the kind of alpha handling to be applied. */
     alphaHandling: AlphaHandling;
+    /** Specifies potentially needed color information for alpha handling. Must be given in RGB hex format (8 bit per channel). */
     replacementRgbColorHexCode?: string | undefined;
 }
 
+/** Specifies the kind of AlphaHandling to be applied to an image */
 export enum AlphaHandling {
     DiscardAlpha = "DiscardAlpha",
     ReplaceAlpha = "ReplaceAlpha",
     ReplaceInvertedAlpha = "ReplaceInvertedAlpha",
 }
 
+/** An ImageAction that allows cropping an image. */
 export class CropAction extends ImageActionBase implements ICropAction {
+    /** X-Coordinate of top left point of the cropping rectangle. */
     x!: number;
+    /** Y-Coordinate of top left point of the cropping rectangle. */
     y!: number;
+    /** Width of the cropping rectangle. */
     width!: number;
+    /** Height of the cropping rectangle. */
     height!: number;
 
     constructor(data?: ICropAction) {
@@ -48267,16 +49733,25 @@ export class CropAction extends ImageActionBase implements ICropAction {
     }
 }
 
+/** An ImageAction that allows cropping an image. */
 export interface ICropAction extends IImageActionBase {
+    /** X-Coordinate of top left point of the cropping rectangle. */
     x: number;
+    /** Y-Coordinate of top left point of the cropping rectangle. */
     y: number;
+    /** Width of the cropping rectangle. */
     width: number;
+    /** Height of the cropping rectangle. */
     height: number;
 }
 
+/** Increases sharpness of an image by using the unsharp mask technique. */
 export class UnsharpenMaskAction extends ImageActionBase implements IUnsharpenMaskAction {
+    /** Unsharp mask amount (the difference between blurred and original image). */
     amount!: number;
+    /** Blur radius used to produce unfocused version of the image. */
     radius!: number;
+    /** The threshold value for the unsharp mask in range [0, 1] */
     threshold!: number;
 
     constructor(data?: IUnsharpenMaskAction) {
@@ -48310,21 +49785,33 @@ export class UnsharpenMaskAction extends ImageActionBase implements IUnsharpenMa
     }
 }
 
+/** Increases sharpness of an image by using the unsharp mask technique. */
 export interface IUnsharpenMaskAction extends IImageActionBase {
+    /** Unsharp mask amount (the difference between blurred and original image). */
     amount: number;
+    /** Blur radius used to produce unfocused version of the image. */
     radius: number;
+    /** The threshold value for the unsharp mask in range [0, 1] */
     threshold: number;
 }
 
+/** An ImageAction that allows rendering a watermark to an image */
 export class WatermarkAction extends ImageActionBase implements IWatermarkAction {
+    /** Identifies the image to be used as watermark */
     watermarkFilePath?: string | undefined;
-    watermarkText?: string | undefined;
+    /** Margin to the left border of the image, in pixels */
     marginLeft?: number | undefined;
+    /** Margin to the top of the image, in pixels */
     marginTop?: number | undefined;
+    /** Margin to the right border of the image, in pixels */
     marginRight?: number | undefined;
+    /** Margin to the bottom of the image, in pixels */
     marginBottom?: number | undefined;
+    /** Scales the opacity of the watermark */
     opacity!: number;
+    /** Scales the watermark width according to the size of the final image. */
     widthRatio!: number;
+    /** Scales the watermark height according to the size of the final image. */
     heightRatio!: number;
 
     constructor(data?: IWatermarkAction) {
@@ -48336,7 +49823,6 @@ export class WatermarkAction extends ImageActionBase implements IWatermarkAction
         super.init(data);
         if (data) {
             this.watermarkFilePath = data["watermarkFilePath"];
-            this.watermarkText = data["watermarkText"];
             this.marginLeft = data["marginLeft"];
             this.marginTop = data["marginTop"];
             this.marginRight = data["marginRight"];
@@ -48357,7 +49843,6 @@ export class WatermarkAction extends ImageActionBase implements IWatermarkAction
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["watermarkFilePath"] = this.watermarkFilePath;
-        data["watermarkText"] = this.watermarkText;
         data["marginLeft"] = this.marginLeft;
         data["marginTop"] = this.marginTop;
         data["marginRight"] = this.marginRight;
@@ -48370,18 +49855,27 @@ export class WatermarkAction extends ImageActionBase implements IWatermarkAction
     }
 }
 
+/** An ImageAction that allows rendering a watermark to an image */
 export interface IWatermarkAction extends IImageActionBase {
+    /** Identifies the image to be used as watermark */
     watermarkFilePath?: string | undefined;
-    watermarkText?: string | undefined;
+    /** Margin to the left border of the image, in pixels */
     marginLeft?: number | undefined;
+    /** Margin to the top of the image, in pixels */
     marginTop?: number | undefined;
+    /** Margin to the right border of the image, in pixels */
     marginRight?: number | undefined;
+    /** Margin to the bottom of the image, in pixels */
     marginBottom?: number | undefined;
+    /** Scales the opacity of the watermark */
     opacity: number;
+    /** Scales the watermark width according to the size of the final image. */
     widthRatio: number;
+    /** Scales the watermark height according to the size of the final image. */
     heightRatio: number;
 }
 
+/** Special format that represents the original. */
 export class OriginalFormat extends FormatBase implements IOriginalFormat {
     extension?: string | undefined;
 
@@ -48412,13 +49906,18 @@ export class OriginalFormat extends FormatBase implements IOriginalFormat {
     }
 }
 
+/** Special format that represents the original. */
 export interface IOriginalFormat extends IFormatBase {
     extension?: string | undefined;
 }
 
+/** Renders a JPEG image. */
 export class JpegFormat extends ImageFormatBase implements IJpegFormat {
+    /** Compression quality. Must be in range [0,100] and defaults to 80. */
     quality!: number;
+    /** Whether to use progressive encoding or not. */
     isProgressive!: boolean;
+    /** Whether to use chroma subsampling or not. */
     chromaSubsamplingEnabled!: boolean;
     extension?: string | undefined;
 
@@ -48455,14 +49954,20 @@ export class JpegFormat extends ImageFormatBase implements IJpegFormat {
     }
 }
 
+/** Renders a JPEG image. */
 export interface IJpegFormat extends IImageFormatBase {
+    /** Compression quality. Must be in range [0,100] and defaults to 80. */
     quality: number;
+    /** Whether to use progressive encoding or not. */
     isProgressive: boolean;
+    /** Whether to use chroma subsampling or not. */
     chromaSubsamplingEnabled: boolean;
     extension?: string | undefined;
 }
 
+/** Renders a PNG image. */
 export class PngFormat extends ImageFormatBase implements IPngFormat {
+    /** Whether the image is interlaced or not. */
     interlaced!: boolean;
     extension?: string | undefined;
 
@@ -48495,14 +50000,20 @@ export class PngFormat extends ImageFormatBase implements IPngFormat {
     }
 }
 
+/** Renders a PNG image. */
 export interface IPngFormat extends IImageFormatBase {
+    /** Whether the image is interlaced or not. */
     interlaced: boolean;
     extension?: string | undefined;
 }
 
+/** Renders a TIFF image */
 export class TiffFormat extends ImageFormatBase implements ITiffFormat {
+    /** Specifies whether color channels should be premultiplied with alpha (associated alpha) or not (unassociated alpha). */
     alphaPremultiplied!: boolean;
+    /** Specifies the compression type to use. */
     compressionType!: CompressionType;
+    /** Preserve (including size affecting changes) unspecified extraChannels. */
     includeUnspecifiedTiffExtraChannels!: boolean;
     extension?: string | undefined;
 
@@ -48539,13 +50050,18 @@ export class TiffFormat extends ImageFormatBase implements ITiffFormat {
     }
 }
 
+/** Renders a TIFF image */
 export interface ITiffFormat extends IImageFormatBase {
+    /** Specifies whether color channels should be premultiplied with alpha (associated alpha) or not (unassociated alpha). */
     alphaPremultiplied: boolean;
+    /** Specifies the compression type to use. */
     compressionType: CompressionType;
+    /** Preserve (including size affecting changes) unspecified extraChannels. */
     includeUnspecifiedTiffExtraChannels: boolean;
     extension?: string | undefined;
 }
 
+/** Available compression types. */
 export enum CompressionType {
     None = "None",
     Lzw = "Lzw",
@@ -48553,6 +50069,7 @@ export enum CompressionType {
     Zip = "Zip",
 }
 
+/** Base class for rendering video. */
 export abstract class VideoFormatBase extends FormatBase implements IVideoFormatBase {
 
     constructor(data?: IVideoFormatBase) {
@@ -48591,11 +50108,14 @@ export abstract class VideoFormatBase extends FormatBase implements IVideoFormat
     }
 }
 
+/** Base class for rendering video. */
 export interface IVideoFormatBase extends IFormatBase {
 }
 
+/** Renders H.264 in mp4 container. */
 export class Mp4VideoFormat extends VideoFormatBase implements IMp4VideoFormat {
-    resizeAction?: ResizeAction2 | undefined;
+    /** Allows resizing of the video. */
+    resizeAction?: ResizeAction | undefined;
     /** Gets or sets the encoding audio codec. */
     audioCodec?: AudioFormatBase | undefined;
     /** Gets or sets the encoding codec preset. */
@@ -48605,7 +50125,7 @@ export class Mp4VideoFormat extends VideoFormatBase implements IMp4VideoFormat {
     constructor(data?: IMp4VideoFormat) {
         super(data);
         if (data) {
-            this.resizeAction = data.resizeAction && !(<any>data.resizeAction).toJSON ? new ResizeAction2(data.resizeAction) : <ResizeAction2>this.resizeAction; 
+            this.resizeAction = data.resizeAction && !(<any>data.resizeAction).toJSON ? new ResizeAction(data.resizeAction) : <ResizeAction>this.resizeAction; 
         }
         this._discriminator = "Mp4VideoFormat";
     }
@@ -48613,7 +50133,7 @@ export class Mp4VideoFormat extends VideoFormatBase implements IMp4VideoFormat {
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.resizeAction = data["resizeAction"] ? ResizeAction2.fromJS(data["resizeAction"]) : <any>undefined;
+            this.resizeAction = data["resizeAction"] ? ResizeAction.fromJS(data["resizeAction"]) : <any>undefined;
             this.audioCodec = data["audioCodec"] ? AudioFormatBase.fromJS(data["audioCodec"]) : <any>undefined;
             this.preset = data["preset"];
             this.extension = data["extension"];
@@ -48638,8 +50158,10 @@ export class Mp4VideoFormat extends VideoFormatBase implements IMp4VideoFormat {
     }
 }
 
+/** Renders H.264 in mp4 container. */
 export interface IMp4VideoFormat extends IVideoFormatBase {
-    resizeAction?: IResizeAction2 | undefined;
+    /** Allows resizing of the video. */
+    resizeAction?: IResizeAction | undefined;
     /** Gets or sets the encoding audio codec. */
     audioCodec?: AudioFormatBase | undefined;
     /** Gets or sets the encoding codec preset. */
@@ -48647,50 +50169,7 @@ export interface IMp4VideoFormat extends IVideoFormatBase {
     extension?: string | undefined;
 }
 
-export class ResizeAction2 implements IResizeAction2 {
-    width!: number;
-    height!: number;
-    resizeMode!: ResizeMode;
-
-    constructor(data?: IResizeAction2) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.width = data["width"];
-            this.height = data["height"];
-            this.resizeMode = data["resizeMode"];
-        }
-    }
-
-    static fromJS(data: any): ResizeAction2 {
-        data = typeof data === 'object' ? data : {};
-        let result = new ResizeAction2();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["width"] = this.width;
-        data["height"] = this.height;
-        data["resizeMode"] = this.resizeMode;
-        return data; 
-    }
-}
-
-export interface IResizeAction2 {
-    width: number;
-    height: number;
-    resizeMode: ResizeMode;
-}
-
+/** Base class for rendering audio. */
 export abstract class AudioFormatBase extends FormatBase implements IAudioFormatBase {
 
     constructor(data?: IAudioFormatBase) {
@@ -48729,9 +50208,11 @@ export abstract class AudioFormatBase extends FormatBase implements IAudioFormat
     }
 }
 
+/** Base class for rendering audio. */
 export interface IAudioFormatBase extends IFormatBase {
 }
 
+/** Video rendering preset, see http://dev.beandog.org/x264_preset_reference.html for more information. */
 export enum Preset {
     Ultrafast = "ultrafast",
     Superfast = "superfast",
@@ -48743,16 +50224,20 @@ export enum Preset {
     Slower = "slower",
 }
 
+/** Generates a sprite image of the input video. */
 export class VideoSpriteFormat extends VideoFormatBase implements IVideoSpriteFormat {
-    spriteResizeAction?: ResizeAction2 | undefined;
+    /** Specifies the dimensions of a single frame in the sprite. */
+    spriteResizeAction?: ResizeAction | undefined;
+    /** Limit for the number of frames to generate. */
     maxNumberOfSprites!: number;
+    /** JPEG-quality to use for the sprite. */
     quality!: number;
     extension?: string | undefined;
 
     constructor(data?: IVideoSpriteFormat) {
         super(data);
         if (data) {
-            this.spriteResizeAction = data.spriteResizeAction && !(<any>data.spriteResizeAction).toJSON ? new ResizeAction2(data.spriteResizeAction) : <ResizeAction2>this.spriteResizeAction; 
+            this.spriteResizeAction = data.spriteResizeAction && !(<any>data.spriteResizeAction).toJSON ? new ResizeAction(data.spriteResizeAction) : <ResizeAction>this.spriteResizeAction; 
         }
         this._discriminator = "VideoSpriteFormat";
     }
@@ -48760,7 +50245,7 @@ export class VideoSpriteFormat extends VideoFormatBase implements IVideoSpriteFo
     init(data?: any) {
         super.init(data);
         if (data) {
-            this.spriteResizeAction = data["spriteResizeAction"] ? ResizeAction2.fromJS(data["spriteResizeAction"]) : <any>undefined;
+            this.spriteResizeAction = data["spriteResizeAction"] ? ResizeAction.fromJS(data["spriteResizeAction"]) : <any>undefined;
             this.maxNumberOfSprites = data["maxNumberOfSprites"];
             this.quality = data["quality"];
             this.extension = data["extension"];
@@ -48785,15 +50270,20 @@ export class VideoSpriteFormat extends VideoFormatBase implements IVideoSpriteFo
     }
 }
 
+/** Generates a sprite image of the input video. */
 export interface IVideoSpriteFormat extends IVideoFormatBase {
-    spriteResizeAction?: IResizeAction2 | undefined;
+    /** Specifies the dimensions of a single frame in the sprite. */
+    spriteResizeAction?: IResizeAction | undefined;
+    /** Limit for the number of frames to generate. */
     maxNumberOfSprites: number;
+    /** JPEG-quality to use for the sprite. */
     quality: number;
     extension?: string | undefined;
 }
 
 export class VideoStillFormat extends VideoFormatBase implements IVideoStillFormat {
     extension?: string | undefined;
+    /** Specifies the position from which to produce the image. */
     positionInSeconds!: number;
 
     constructor(data?: IVideoStillFormat) {
@@ -48827,16 +50317,18 @@ export class VideoStillFormat extends VideoFormatBase implements IVideoStillForm
 
 export interface IVideoStillFormat extends IVideoFormatBase {
     extension?: string | undefined;
+    /** Specifies the position from which to produce the image. */
     positionInSeconds: number;
 }
 
+/** Specifies Aac encoding for the output and additional settings for the encoder. */
 export class AacAudioFormat extends AudioFormatBase implements IAacAudioFormat {
     extension?: string | undefined;
     /** Gets or sets the encoding profile. */
     profile!: Profile;
     /** Gets or sets the encoding coder. */
     coder!: Coder;
-    /** Gets or sets the bitrate of the encoding. */
+    /** Gets or sets the bitrate of the encoding in kbps. */
     bitrate?: number | undefined;
     /** Gets or sets the encoding variable bit rate (VBR) - 1 is lowest quality and 5 is highest quality. */
     variableBitRate?: number | undefined;
@@ -48876,13 +50368,14 @@ export class AacAudioFormat extends AudioFormatBase implements IAacAudioFormat {
     }
 }
 
+/** Specifies Aac encoding for the output and additional settings for the encoder. */
 export interface IAacAudioFormat extends IAudioFormatBase {
     extension?: string | undefined;
     /** Gets or sets the encoding profile. */
     profile: Profile;
     /** Gets or sets the encoding coder. */
     coder: Coder;
-    /** Gets or sets the bitrate of the encoding. */
+    /** Gets or sets the bitrate of the encoding in kbps. */
     bitrate?: number | undefined;
     /** Gets or sets the encoding variable bit rate (VBR) - 1 is lowest quality and 5 is highest quality. */
     variableBitRate?: number | undefined;
@@ -48895,12 +50388,14 @@ export enum Profile {
     Aac_main = "aac_main",
 }
 
+/** Audio coders */
 export enum Coder {
     Twoloop = "twoloop",
     Anmr = "anmr",
     Fast = "fast",
 }
 
+/** Generates a waveform image from an Audio source. */
 export class AudioStillFormat extends AudioFormatBase implements IAudioStillFormat {
     extension?: string | undefined;
 
@@ -48931,15 +50426,17 @@ export class AudioStillFormat extends AudioFormatBase implements IAudioStillForm
     }
 }
 
+/** Generates a waveform image from an Audio source. */
 export interface IAudioStillFormat extends IAudioFormatBase {
     extension?: string | undefined;
 }
 
+/** Renders an MP3 audio file. */
 export class Mp3AudioFormat extends AudioFormatBase implements IMp3AudioFormat {
     extension?: string | undefined;
-    /** Gets or sets the encoding bitrate. */
+    /** Gets or sets the encoding bitrate. This setting and Quality are mutually exclusive. */
     bitrate?: number | undefined;
-    /** Gets or sets the encoding quality.
+    /** Gets or sets the encoding quality. This setting and Bitrate are mutually exclusive.
 Values can be set it range of 0 to 9, where a lower value is a higher quality. */
     quality?: number | undefined;
 
@@ -48974,15 +50471,17 @@ Values can be set it range of 0 to 9, where a lower value is a higher quality. *
     }
 }
 
+/** Renders an MP3 audio file. */
 export interface IMp3AudioFormat extends IAudioFormatBase {
     extension?: string | undefined;
-    /** Gets or sets the encoding bitrate. */
+    /** Gets or sets the encoding bitrate. This setting and Quality are mutually exclusive. */
     bitrate?: number | undefined;
-    /** Gets or sets the encoding quality.
+    /** Gets or sets the encoding quality. This setting and Bitrate are mutually exclusive.
 Values can be set it range of 0 to 9, where a lower value is a higher quality. */
     quality?: number | undefined;
 }
 
+/** Base class for rendering documents. */
 export abstract class DocumentFormatBase extends FormatBase implements IDocumentFormatBase {
 
     constructor(data?: IDocumentFormatBase) {
@@ -49016,9 +50515,11 @@ export abstract class DocumentFormatBase extends FormatBase implements IDocument
     }
 }
 
+/** Base class for rendering documents. */
 export interface IDocumentFormatBase extends IFormatBase {
 }
 
+/** Renders a TIFF preview image. */
 export class DocumentStillFormat extends DocumentFormatBase implements IDocumentStillFormat {
     extension?: string | undefined;
 
@@ -49049,16 +50550,20 @@ export class DocumentStillFormat extends DocumentFormatBase implements IDocument
     }
 }
 
+/** Renders a TIFF preview image. */
 export interface IDocumentStillFormat extends IDocumentFormatBase {
     extension?: string | undefined;
 }
 
 export class PdfFormat extends DocumentFormatBase implements IPdfFormat {
-    /** JpegQuality parameter value must be between 0 and 100. */
+    /** Specifies compression quality used for ReduceFileSize. */
     jpegQuality!: number;
+    /** Whether to linearize the output for fast web viewing. */
     fastWebView!: boolean;
+    /** Whether to apply measures to decrease output size or not. */
     reduceFileSize!: boolean;
     extension?: string | undefined;
+    /** Whether to extract document full text from this output. */
     extractFullText!: boolean;
 
     constructor(data?: IPdfFormat) {
@@ -49097,11 +50602,14 @@ export class PdfFormat extends DocumentFormatBase implements IPdfFormat {
 }
 
 export interface IPdfFormat extends IDocumentFormatBase {
-    /** JpegQuality parameter value must be between 0 and 100. */
+    /** Specifies compression quality used for ReduceFileSize. */
     jpegQuality: number;
+    /** Whether to linearize the output for fast web viewing. */
     fastWebView: boolean;
+    /** Whether to apply measures to decrease output size or not. */
     reduceFileSize: boolean;
     extension?: string | undefined;
+    /** Whether to extract document full text from this output. */
     extractFullText: boolean;
 }
 
@@ -49391,6 +50899,53 @@ export interface IOutputFormatDownloadFileNamePatternUpdateRequestItem {
     /** The patterns to use per metadata language.
 The customer's default language is required. */
     patterns?: ITranslatedStringDictionary | undefined;
+}
+
+/** Specifies for which content a given format should be rendered */
+export class OutputFormatRenderPreviewRequest implements IOutputFormatRenderPreviewRequest {
+    /** The content for which the format should be rendered */
+    contentId?: string | undefined;
+    /** The format which should be rendered. */
+    outputFormat?: OutputFormatRenderingSpecification | undefined;
+
+    constructor(data?: IOutputFormatRenderPreviewRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.outputFormat = data.outputFormat && !(<any>data.outputFormat).toJSON ? new OutputFormatRenderingSpecification(data.outputFormat) : <OutputFormatRenderingSpecification>this.outputFormat; 
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.contentId = data["contentId"];
+            this.outputFormat = data["outputFormat"] ? OutputFormatRenderingSpecification.fromJS(data["outputFormat"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): OutputFormatRenderPreviewRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatRenderPreviewRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["outputFormat"] = this.outputFormat ? this.outputFormat.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Specifies for which content a given format should be rendered */
+export interface IOutputFormatRenderPreviewRequest {
+    /** The content for which the format should be rendered */
+    contentId?: string | undefined;
+    /** The format which should be rendered. */
+    outputFormat?: IOutputFormatRenderingSpecification | undefined;
 }
 
 /** User profile. */
@@ -52268,7 +53823,7 @@ export interface ISchemaSearchResult extends ISearchBehaviorBaseResultOfSchema {
 /** A schema */
 export class Schema implements ISchema {
     /** The schema ID. It is unique throughout the whole customer setup. */
-    id: string;
+    id!: string;
     /** The parent schema ID. */
     parentSchemaId?: string | undefined;
     /** List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created. */
@@ -52356,7 +53911,7 @@ export class Schema implements ISchema {
 /** A schema */
 export interface ISchema {
     /** The schema ID. It is unique throughout the whole customer setup. */
-    id?: string | undefined;
+    id: string;
     /** The parent schema ID. */
     parentSchemaId?: string | undefined;
     /** List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created. */
@@ -53080,7 +54635,7 @@ that reference the layer. */
 
 /** Request to create multiple schemas */
 export class SchemaCreateManyRequest implements ISchemaCreateManyRequest {
-    /** The schemas to create. Cyclic dependencies between schemas are supported, if the
+    /** The schemas to create. Cyclic dependencies between schemas are supported, if they
 are all in the same request. */
     schemas!: SchemaCreateRequest[];
 
@@ -53133,7 +54688,7 @@ are all in the same request. */
 
 /** Request to create multiple schemas */
 export interface ISchemaCreateManyRequest {
-    /** The schemas to create. Cyclic dependencies between schemas are supported, if the
+    /** The schemas to create. Cyclic dependencies between schemas are supported, if they
 are all in the same request. */
     schemas: ISchemaCreateRequest[];
 }
@@ -53367,6 +54922,94 @@ that reference the layer. */
     referencedInContentSchemaIds?: string[] | undefined;
 }
 
+/** Request to update multiple schemas */
+export class SchemaUpdateManyRequest implements ISchemaUpdateManyRequest {
+    /** The schemas to update. */
+    schemas!: SchemaUpdateItem[];
+
+    constructor(data?: ISchemaUpdateManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.schemas = [];
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["schemas"])) {
+                this.schemas = [] as any;
+                for (let item of data["schemas"])
+                    this.schemas!.push(SchemaUpdateItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaUpdateManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaUpdateManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.schemas)) {
+            data["schemas"] = [];
+            for (let item of this.schemas)
+                data["schemas"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Request to update multiple schemas */
+export interface ISchemaUpdateManyRequest {
+    /** The schemas to update. */
+    schemas: SchemaUpdateItem[];
+}
+
+/** Item to update a schema */
+export class SchemaUpdateItem extends SchemaUpdateRequest implements ISchemaUpdateItem {
+    /** Id of the schema to update */
+    id!: string;
+
+    constructor(data?: ISchemaUpdateItem) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): SchemaUpdateItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaUpdateItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Item to update a schema */
+export interface ISchemaUpdateItem extends ISchemaUpdateRequest {
+    /** Id of the schema to update */
+    id: string;
+}
+
 /** Result of a schema delete operation */
 export class SchemaDeleteResult implements ISchemaDeleteResult {
 
@@ -53453,7 +55096,7 @@ export interface ISchemaOwnershipTransferManyRequest {
 
 export abstract class PermissionSetDetailOfMetadataRight implements IPermissionSetDetailOfMetadataRight {
     id!: string;
-    names?: TranslatedStringDictionary | undefined;
+    names!: TranslatedStringDictionary;
     userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive!: boolean;
@@ -53483,12 +55126,15 @@ export abstract class PermissionSetDetailOfMetadataRight implements IPermissionS
             }
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit; 
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
     }
 
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (Array.isArray(data["userRolesRights"])) {
                 this.userRolesRights = [] as any;
                 for (let item of data["userRolesRights"])
@@ -53533,7 +55179,7 @@ export abstract class PermissionSetDetailOfMetadataRight implements IPermissionS
 
 export interface IPermissionSetDetailOfMetadataRight {
     id: string;
-    names?: ITranslatedStringDictionary | undefined;
+    names: ITranslatedStringDictionary;
     userRolesRights?: IPermissionUserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -53624,7 +55270,7 @@ export interface IPermissionUserRoleRightsOfMetadataRight {
 }
 
 export abstract class PermissionSetCreateRequestOfMetadataRight implements IPermissionSetCreateRequestOfMetadataRight {
-    names?: TranslatedStringDictionary | undefined;
+    names!: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive!: boolean;
@@ -53652,11 +55298,14 @@ export abstract class PermissionSetCreateRequestOfMetadataRight implements IPerm
                 }
             }
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
     }
 
     init(data?: any) {
         if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (Array.isArray(data["userRolesRights"])) {
                 this.userRolesRights = [] as any;
                 for (let item of data["userRolesRights"])
@@ -53697,7 +55346,7 @@ export abstract class PermissionSetCreateRequestOfMetadataRight implements IPerm
 }
 
 export interface IPermissionSetCreateRequestOfMetadataRight {
-    names?: ITranslatedStringDictionary | undefined;
+    names: ITranslatedStringDictionary;
     userRolesRights?: IUserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -53780,7 +55429,7 @@ export interface IUserRoleRightsOfMetadataRight {
 }
 
 export abstract class PermissionSetUpdateRequestOfMetadataRight implements IPermissionSetUpdateRequestOfMetadataRight {
-    names?: TranslatedStringDictionary | undefined;
+    names!: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
 
@@ -53806,11 +55455,14 @@ export abstract class PermissionSetUpdateRequestOfMetadataRight implements IPerm
                 }
             }
         }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
     }
 
     init(data?: any) {
         if (data) {
-            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : <any>undefined;
+            this.names = data["names"] ? TranslatedStringDictionary.fromJS(data["names"]) : new TranslatedStringDictionary();
             if (Array.isArray(data["userRolesRights"])) {
                 this.userRolesRights = [] as any;
                 for (let item of data["userRolesRights"])
@@ -53847,7 +55499,7 @@ export abstract class PermissionSetUpdateRequestOfMetadataRight implements IPerm
 }
 
 export interface IPermissionSetUpdateRequestOfMetadataRight {
-    names?: ITranslatedStringDictionary | undefined;
+    names: ITranslatedStringDictionary;
     userRolesRights?: IUserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
 }
@@ -54183,8 +55835,6 @@ export class ShareDetail implements IShareDetail {
     expirationDate?: Date | undefined;
     /** Info if share is already expired. */
     expired!: boolean;
-    /** Configuration for template to use on the share detail page. */
-    template?: TemplateBase | undefined;
     /** Defined access for contents in share. */
     outputAccess!: OutputAccess;
     /** Type of share. */
@@ -54233,7 +55883,6 @@ export class ShareDetail implements IShareDetail {
             this.data = data["data"] ? ShareDataBase.fromJS(data["data"]) : <any>undefined;
             this.expirationDate = data["expirationDate"] ? new Date(data["expirationDate"].toString()) : <any>undefined;
             this.expired = data["expired"];
-            this.template = data["template"] ? TemplateBase.fromJS(data["template"]) : <any>undefined;
             this.outputAccess = data["outputAccess"];
             this.shareType = data["shareType"];
         }
@@ -54266,7 +55915,6 @@ export class ShareDetail implements IShareDetail {
         data["data"] = this.data ? this.data.toJSON() : <any>undefined;
         data["expirationDate"] = this.expirationDate ? this.expirationDate.toISOString() : <any>undefined;
         data["expired"] = this.expired;
-        data["template"] = this.template ? this.template.toJSON() : <any>undefined;
         data["outputAccess"] = this.outputAccess;
         data["shareType"] = this.shareType;
         return data; 
@@ -54295,8 +55943,6 @@ export interface IShareDetail {
     expirationDate?: Date | undefined;
     /** Info if share is already expired. */
     expired: boolean;
-    /** Configuration for template to use on the share detail page. */
-    template?: TemplateBase | undefined;
     /** Defined access for contents in share. */
     outputAccess: OutputAccess;
     /** Type of share. */
@@ -54962,165 +56608,6 @@ export interface IInternalRecipient {
     url?: string | undefined;
 }
 
-export abstract class TemplateBase implements ITemplateBase {
-    width?: number | undefined;
-    height?: number | undefined;
-
-    protected _discriminator: string;
-
-    constructor(data?: ITemplateBase) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        this._discriminator = "TemplateBase";
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.width = data["width"];
-            this.height = data["height"];
-        }
-    }
-
-    static fromJS(data: any): TemplateBase {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "CardTemplate") {
-            let result = new CardTemplate();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ListTemplate") {
-            let result = new ListTemplate();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "BasicTemplate") {
-            let result = new BasicTemplate();
-            result.init(data);
-            return result;
-        }
-        throw new Error("The abstract class 'TemplateBase' cannot be instantiated.");
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._discriminator; 
-        data["width"] = this.width;
-        data["height"] = this.height;
-        return data; 
-    }
-}
-
-export interface ITemplateBase {
-    width?: number | undefined;
-    height?: number | undefined;
-}
-
-export class CardTemplate extends TemplateBase implements ICardTemplate {
-    showNavigation!: boolean;
-    showOverlay!: boolean;
-    showLogo!: boolean;
-    showFooter!: boolean;
-
-    constructor(data?: ICardTemplate) {
-        super(data);
-        this._discriminator = "CardTemplate";
-    }
-
-    init(data?: any) {
-        super.init(data);
-        if (data) {
-            this.showNavigation = data["showNavigation"];
-            this.showOverlay = data["showOverlay"];
-            this.showLogo = data["showLogo"];
-            this.showFooter = data["showFooter"];
-        }
-    }
-
-    static fromJS(data: any): CardTemplate {
-        data = typeof data === 'object' ? data : {};
-        let result = new CardTemplate();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["showNavigation"] = this.showNavigation;
-        data["showOverlay"] = this.showOverlay;
-        data["showLogo"] = this.showLogo;
-        data["showFooter"] = this.showFooter;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ICardTemplate extends ITemplateBase {
-    showNavigation: boolean;
-    showOverlay: boolean;
-    showLogo: boolean;
-    showFooter: boolean;
-}
-
-export class ListTemplate extends TemplateBase implements IListTemplate {
-
-    constructor(data?: IListTemplate) {
-        super(data);
-        this._discriminator = "ListTemplate";
-    }
-
-    init(data?: any) {
-        super.init(data);
-    }
-
-    static fromJS(data: any): ListTemplate {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListTemplate();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IListTemplate extends ITemplateBase {
-}
-
-export class BasicTemplate extends TemplateBase implements IBasicTemplate {
-
-    constructor(data?: IBasicTemplate) {
-        super(data);
-        this._discriminator = "BasicTemplate";
-    }
-
-    init(data?: any) {
-        super.init(data);
-    }
-
-    static fromJS(data: any): BasicTemplate {
-        data = typeof data === 'object' ? data : {};
-        let result = new BasicTemplate();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IBasicTemplate extends ITemplateBase {
-}
-
 export enum OutputAccess {
     Full = "Full",
     Preview = "Preview",
@@ -55237,8 +56724,58 @@ export interface ISearchBehaviorBaseResultOfShare extends IBaseResultOfShare {
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
+export class SearchBehaviorWithAggregationBaseResultOfShare extends SearchBehaviorBaseResultOfShare implements ISearchBehaviorWithAggregationBaseResultOfShare {
+    aggregationResults?: AggregationResult[] | undefined;
+
+    constructor(data?: ISearchBehaviorWithAggregationBaseResultOfShare) {
+        super(data);
+        if (data) {
+            if (data.aggregationResults) {
+                this.aggregationResults = [];
+                for (let i = 0; i < data.aggregationResults.length; i++) {
+                    let item = data.aggregationResults[i];
+                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["aggregationResults"])) {
+                this.aggregationResults = [] as any;
+                for (let item of data["aggregationResults"])
+                    this.aggregationResults!.push(AggregationResult.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SearchBehaviorWithAggregationBaseResultOfShare {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorWithAggregationBaseResultOfShare();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.aggregationResults)) {
+            data["aggregationResults"] = [];
+            for (let item of this.aggregationResults)
+                data["aggregationResults"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISearchBehaviorWithAggregationBaseResultOfShare extends ISearchBehaviorBaseResultOfShare {
+    aggregationResults?: IAggregationResult[] | undefined;
+}
+
 /** Result for share search operation */
-export class ShareSearchResult extends SearchBehaviorBaseResultOfShare implements IShareSearchResult {
+export class ShareSearchResult extends SearchBehaviorWithAggregationBaseResultOfShare implements IShareSearchResult {
 
     constructor(data?: IShareSearchResult) {
         super(data);
@@ -55263,7 +56800,7 @@ export class ShareSearchResult extends SearchBehaviorBaseResultOfShare implement
 }
 
 /** Result for share search operation */
-export interface IShareSearchResult extends ISearchBehaviorBaseResultOfShare {
+export interface IShareSearchResult extends ISearchBehaviorWithAggregationBaseResultOfShare {
 }
 
 /** Share */
@@ -55355,35 +56892,24 @@ export interface IShare {
     isReadOnly: boolean;
 }
 
-/** Request to search shares */
-export class ShareSearchRequest implements IShareSearchRequest {
+/** Request to aggregate shares based on the specified aggregators */
+export abstract class ShareSearchAndAggregationBaseRequest implements IShareSearchAndAggregationBaseRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: SortInfo[] | undefined;
-    /** Limits the document count of the result set. */
-    limit!: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode!: boolean;
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    aggregationFilters?: AggregationFilter[] | undefined;
 
-    constructor(data?: IShareSearchRequest) {
+    constructor(data?: IShareSearchAndAggregationBaseRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
             }
         }
     }
@@ -55396,15 +56922,94 @@ export class ShareSearchRequest implements IShareSearchRequest {
                 for (let item of data["searchBehaviors"])
                     this.searchBehaviors!.push(item);
             }
+            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
+            if (Array.isArray(data["aggregationFilters"])) {
+                this.aggregationFilters = [] as any;
+                for (let item of data["aggregationFilters"])
+                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ShareSearchAndAggregationBaseRequest {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'ShareSearchAndAggregationBaseRequest' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (Array.isArray(this.searchBehaviors)) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        if (Array.isArray(this.aggregationFilters)) {
+            data["aggregationFilters"] = [];
+            for (let item of this.aggregationFilters)
+                data["aggregationFilters"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Request to aggregate shares based on the specified aggregators */
+export interface IShareSearchAndAggregationBaseRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    aggregationFilters?: AggregationFilter[] | undefined;
+}
+
+/** Request to search shares */
+export class ShareSearchRequest extends ShareSearchAndAggregationBaseRequest implements IShareSearchRequest {
+    /** Limits the document count of the result set. */
+    limit!: number;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+    debugMode!: boolean;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+
+    constructor(data?: IShareSearchRequest) {
+        super(data);
+        if (data) {
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.limit = data["limit"];
             if (Array.isArray(data["sort"])) {
                 this.sort = [] as any;
                 for (let item of data["sort"])
                     this.sort!.push(SortInfo.fromJS(item));
             }
-            this.limit = data["limit"];
             this.pageToken = data["pageToken"];
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.debugMode = data["debugMode"];
+            if (Array.isArray(data["aggregators"])) {
+                this.aggregators = [] as any;
+                for (let item of data["aggregators"])
+                    this.aggregators!.push(AggregatorBase.fromJS(item));
+            }
         }
     }
 
@@ -55417,95 +57022,53 @@ export class ShareSearchRequest implements IShareSearchRequest {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
+        data["limit"] = this.limit;
         if (Array.isArray(this.sort)) {
             data["sort"] = [];
             for (let item of this.sort)
                 data["sort"].push(item.toJSON());
         }
-        data["limit"] = this.limit;
         data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
         data["debugMode"] = this.debugMode;
+        if (Array.isArray(this.aggregators)) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        super.toJSON(data);
         return data; 
     }
 }
 
 /** Request to search shares */
-export interface IShareSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: ISortInfo[] | undefined;
+export interface IShareSearchRequest extends IShareSearchAndAggregationBaseRequest {
     /** Limits the document count of the result set. */
     limit: number;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: ISortInfo[] | undefined;
     /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
     pageToken?: string | undefined;
-    /** An optional search filter. Limits the document result set. */
-    filter?: FilterBase | undefined;
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
     debugMode: boolean;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
 }
 
 /** Request to aggregate shares based on the specified aggregators */
-export class ShareAggregationRequest implements IShareAggregationRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: SortInfo[] | undefined;
-    /** An optional search filter. Limits the document result set. */
-    filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
-    aggregationFilters?: AggregationFilter[] | undefined;
-    /** List of aggregators that defines how the list item should be aggregated. */
-    aggregators?: AggregatorBase[] | undefined;
+export class ShareAggregationRequest extends ShareSearchAndAggregationBaseRequest implements IShareAggregationRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators!: AggregatorBase[];
 
     constructor(data?: IShareAggregationRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
+        super(data);
+        if (!data) {
+            this.aggregators = [];
         }
     }
 
     init(data?: any) {
+        super.init(data);
         if (data) {
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            if (Array.isArray(data["aggregationFilters"])) {
-                this.aggregationFilters = [] as any;
-                for (let item of data["aggregationFilters"])
-                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
-            }
             if (Array.isArray(data["aggregators"])) {
                 this.aggregators = [] as any;
                 for (let item of data["aggregators"])
@@ -55523,48 +57086,20 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        if (Array.isArray(this.aggregationFilters)) {
-            data["aggregationFilters"] = [];
-            for (let item of this.aggregationFilters)
-                data["aggregationFilters"].push(item.toJSON());
-        }
         if (Array.isArray(this.aggregators)) {
             data["aggregators"] = [];
             for (let item of this.aggregators)
                 data["aggregators"].push(item.toJSON());
         }
+        super.toJSON(data);
         return data; 
     }
 }
 
 /** Request to aggregate shares based on the specified aggregators */
-export interface IShareAggregationRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: ISortInfo[] | undefined;
-    /** An optional search filter. Limits the document result set. */
-    filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
-    aggregationFilters?: AggregationFilter[] | undefined;
-    /** List of aggregators that defines how the list item should be aggregated. */
-    aggregators?: AggregatorBase[] | undefined;
+export interface IShareAggregationRequest extends IShareSearchAndAggregationBaseRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators: AggregatorBase[];
 }
 
 /** Result of share creation */
@@ -55619,8 +57154,6 @@ export abstract class ShareBaseCreateRequest implements IShareBaseCreateRequest 
     contents!: ShareContent[];
     /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
-    /** Configuration for template to use on the share detail page. */
-    template?: TemplateBase | undefined;
     /** Access for content outputs in share. */
     outputAccess!: OutputAccess;
 
@@ -55661,7 +57194,6 @@ export abstract class ShareBaseCreateRequest implements IShareBaseCreateRequest 
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds!.push(item);
             }
-            this.template = data["template"] ? TemplateBase.fromJS(data["template"]) : <any>undefined;
             this.outputAccess = data["outputAccess"];
         }
     }
@@ -55697,7 +57229,6 @@ export abstract class ShareBaseCreateRequest implements IShareBaseCreateRequest 
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        data["template"] = this.template ? this.template.toJSON() : <any>undefined;
         data["outputAccess"] = this.outputAccess;
         return data; 
     }
@@ -55715,8 +57246,6 @@ export interface IShareBaseCreateRequest {
     contents: IShareContent[];
     /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
-    /** Configuration for template to use on the share detail page. */
-    template?: TemplateBase | undefined;
     /** Access for content outputs in share. */
     outputAccess: OutputAccess;
 }
@@ -55778,6 +57307,8 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
     recipientEmails?: UserEmail[] | undefined;
     /** System language used for share (mail and detail page). en or de. */
     languageCode!: string;
+    /** Set to true to disable the creation of notifications and emails to recipients. */
+    suppressNotifications!: boolean;
 
     constructor(data?: IShareBasicCreateRequest) {
         super(data);
@@ -55802,6 +57333,7 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
                     this.recipientEmails!.push(UserEmail.fromJS(item));
             }
             this.languageCode = data["languageCode"];
+            this.suppressNotifications = data["suppressNotifications"];
         }
     }
 
@@ -55820,6 +57352,7 @@ export class ShareBasicCreateRequest extends ShareBaseCreateRequest implements I
                 data["recipientEmails"].push(item.toJSON());
         }
         data["languageCode"] = this.languageCode;
+        data["suppressNotifications"] = this.suppressNotifications;
         super.toJSON(data);
         return data; 
     }
@@ -55830,6 +57363,8 @@ export interface IShareBasicCreateRequest extends IShareBaseCreateRequest {
     recipientEmails?: IUserEmail[] | undefined;
     /** System language used for share (mail and detail page). en or de. */
     languageCode: string;
+    /** Set to true to disable the creation of notifications and emails to recipients. */
+    suppressNotifications: boolean;
 }
 
 /** Create request for embed share */
@@ -55874,8 +57409,6 @@ export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest 
     contents!: ShareContent[];
     /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
-    /** Configuration for template to use on the share detail page. */
-    template?: TemplateBase | undefined;
     /** Access for content outputs in share. */
     outputAccess!: OutputAccess;
 
@@ -55916,7 +57449,6 @@ export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest 
                 for (let item of data["layerSchemaIds"])
                     this.layerSchemaIds!.push(item);
             }
-            this.template = data["template"] ? TemplateBase.fromJS(data["template"]) : <any>undefined;
             this.outputAccess = data["outputAccess"];
         }
     }
@@ -55952,7 +57484,6 @@ export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest 
             for (let item of this.layerSchemaIds)
                 data["layerSchemaIds"].push(item);
         }
-        data["template"] = this.template ? this.template.toJSON() : <any>undefined;
         data["outputAccess"] = this.outputAccess;
         return data; 
     }
@@ -55970,8 +57501,6 @@ export interface IShareBaseUpdateRequest {
     contents: IShareContent[];
     /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
-    /** Configuration for template to use on the share detail page. */
-    template?: TemplateBase | undefined;
     /** Access for content outputs in share. */
     outputAccess: OutputAccess;
 }
@@ -58370,7 +59899,7 @@ export interface IUserRoleEditable {
 /** Represents a user role, which associates users with user rights. */
 export class UserRole extends UserRoleEditable implements IUserRole {
     /** User role ID. */
-    id?: string | undefined;
+    id!: string;
 
     constructor(data?: IUserRole) {
         super(data);
@@ -58401,7 +59930,7 @@ export class UserRole extends UserRoleEditable implements IUserRole {
 /** Represents a user role, which associates users with user rights. */
 export interface IUserRole extends IUserRoleEditable {
     /** User role ID. */
-    id?: string | undefined;
+    id: string;
 }
 
 /** Holds information needed for user creation. */
@@ -58593,8 +60122,58 @@ export interface ISearchBehaviorBaseResultOfUserWithRoles extends IBaseResultOfU
     queryDebugInformation?: IQueryDebugInformation | undefined;
 }
 
+export class SearchBehaviorWithAggregationBaseResultOfUserWithRoles extends SearchBehaviorBaseResultOfUserWithRoles implements ISearchBehaviorWithAggregationBaseResultOfUserWithRoles {
+    aggregationResults?: AggregationResult[] | undefined;
+
+    constructor(data?: ISearchBehaviorWithAggregationBaseResultOfUserWithRoles) {
+        super(data);
+        if (data) {
+            if (data.aggregationResults) {
+                this.aggregationResults = [];
+                for (let i = 0; i < data.aggregationResults.length; i++) {
+                    let item = data.aggregationResults[i];
+                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["aggregationResults"])) {
+                this.aggregationResults = [] as any;
+                for (let item of data["aggregationResults"])
+                    this.aggregationResults!.push(AggregationResult.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SearchBehaviorWithAggregationBaseResultOfUserWithRoles {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorWithAggregationBaseResultOfUserWithRoles();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.aggregationResults)) {
+            data["aggregationResults"] = [];
+            for (let item of this.aggregationResults)
+                data["aggregationResults"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISearchBehaviorWithAggregationBaseResultOfUserWithRoles extends ISearchBehaviorBaseResultOfUserWithRoles {
+    aggregationResults?: IAggregationResult[] | undefined;
+}
+
 /** Holds results of the user search. */
-export class UserSearchResult extends SearchBehaviorBaseResultOfUserWithRoles implements IUserSearchResult {
+export class UserSearchResult extends SearchBehaviorWithAggregationBaseResultOfUserWithRoles implements IUserSearchResult {
 
     constructor(data?: IUserSearchResult) {
         super(data);
@@ -58619,7 +60198,7 @@ export class UserSearchResult extends SearchBehaviorBaseResultOfUserWithRoles im
 }
 
 /** Holds results of the user search. */
-export interface IUserSearchResult extends ISearchBehaviorBaseResultOfUserWithRoles {
+export interface IUserSearchResult extends ISearchBehaviorWithAggregationBaseResultOfUserWithRoles {
 }
 
 /** User information retrieved via search */
@@ -58627,7 +60206,7 @@ export class UserWithRoles implements IUserWithRoles {
     /** IDs of user roles user is assigned to */
     userRoleIds?: string[] | undefined;
     /** User's Picturepark ID. */
-    id?: string | undefined;
+    id!: string;
     /** User's first name. */
     firstName?: string | undefined;
     /** User's last name. */
@@ -58701,7 +60280,7 @@ export interface IUserWithRoles {
     /** IDs of user roles user is assigned to */
     userRoleIds?: string[] | undefined;
     /** User's Picturepark ID. */
-    id?: string | undefined;
+    id: string;
     /** User's first name. */
     firstName?: string | undefined;
     /** User's last name. */
@@ -58718,40 +60297,29 @@ export interface IUserWithRoles {
     isReadOnly: boolean;
 }
 
-/** Represents user search request. */
-export class UserSearchRequest implements IUserSearchRequest {
+/** Represents an aggregation request over users. */
+export abstract class UserSearchAndAggregationBaseRequest implements IUserSearchAndAggregationBaseRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. */
-    sort?: SortInfo[] | undefined;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit!: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** Filter applied to users. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Return only users in certain life cycle state(s). */
     lifeCycleFilter!: LifeCycleFilter;
     /** Return only users with certain user rights. */
     userRightsFilter?: UserRight[] | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
-    debugMode!: boolean;
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    aggregationFilters?: AggregationFilter[] | undefined;
     includeServiceUser!: boolean;
 
-    constructor(data?: IUserSearchRequest) {
+    constructor(data?: IUserSearchAndAggregationBaseRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
             }
         }
     }
@@ -58764,13 +60332,6 @@ export class UserSearchRequest implements IUserSearchRequest {
                 for (let item of data["searchBehaviors"])
                     this.searchBehaviors!.push(item);
             }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.limit = data["limit"];
-            this.pageToken = data["pageToken"];
             this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
             this.lifeCycleFilter = data["lifeCycleFilter"];
             if (Array.isArray(data["userRightsFilter"])) {
@@ -58778,8 +60339,106 @@ export class UserSearchRequest implements IUserSearchRequest {
                 for (let item of data["userRightsFilter"])
                     this.userRightsFilter!.push(item);
             }
-            this.debugMode = data["debugMode"];
+            if (Array.isArray(data["aggregationFilters"])) {
+                this.aggregationFilters = [] as any;
+                for (let item of data["aggregationFilters"])
+                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
+            }
             this.includeServiceUser = data["includeServiceUser"];
+        }
+    }
+
+    static fromJS(data: any): UserSearchAndAggregationBaseRequest {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'UserSearchAndAggregationBaseRequest' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (Array.isArray(this.searchBehaviors)) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["lifeCycleFilter"] = this.lifeCycleFilter;
+        if (Array.isArray(this.userRightsFilter)) {
+            data["userRightsFilter"] = [];
+            for (let item of this.userRightsFilter)
+                data["userRightsFilter"].push(item);
+        }
+        if (Array.isArray(this.aggregationFilters)) {
+            data["aggregationFilters"] = [];
+            for (let item of this.aggregationFilters)
+                data["aggregationFilters"].push(item.toJSON());
+        }
+        data["includeServiceUser"] = this.includeServiceUser;
+        return data; 
+    }
+}
+
+/** Represents an aggregation request over users. */
+export interface IUserSearchAndAggregationBaseRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Return only users in certain life cycle state(s). */
+    lifeCycleFilter: LifeCycleFilter;
+    /** Return only users with certain user rights. */
+    userRightsFilter?: UserRight[] | undefined;
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    aggregationFilters?: AggregationFilter[] | undefined;
+    includeServiceUser: boolean;
+}
+
+/** Represents user search request. */
+export class UserSearchRequest extends UserSearchAndAggregationBaseRequest implements IUserSearchRequest {
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit!: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
+    debugMode!: boolean;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+
+    constructor(data?: IUserSearchRequest) {
+        super(data);
+        if (data) {
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            if (Array.isArray(data["sort"])) {
+                this.sort = [] as any;
+                for (let item of data["sort"])
+                    this.sort!.push(SortInfo.fromJS(item));
+            }
+            this.limit = data["limit"];
+            this.pageToken = data["pageToken"];
+            this.debugMode = data["debugMode"];
+            if (Array.isArray(data["aggregators"])) {
+                this.aggregators = [] as any;
+                for (let item of data["aggregators"])
+                    this.aggregators!.push(AggregatorBase.fromJS(item));
+            }
         }
     }
 
@@ -58792,12 +60451,6 @@ export class UserSearchRequest implements IUserSearchRequest {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
         if (Array.isArray(this.sort)) {
             data["sort"] = [];
             for (let item of this.sort)
@@ -58805,94 +60458,46 @@ export class UserSearchRequest implements IUserSearchRequest {
         }
         data["limit"] = this.limit;
         data["pageToken"] = this.pageToken;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["lifeCycleFilter"] = this.lifeCycleFilter;
-        if (Array.isArray(this.userRightsFilter)) {
-            data["userRightsFilter"] = [];
-            for (let item of this.userRightsFilter)
-                data["userRightsFilter"].push(item);
-        }
         data["debugMode"] = this.debugMode;
-        data["includeServiceUser"] = this.includeServiceUser;
+        if (Array.isArray(this.aggregators)) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        super.toJSON(data);
         return data; 
     }
 }
 
 /** Represents user search request. */
-export interface IUserSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. */
+export interface IUserSearchRequest extends IUserSearchAndAggregationBaseRequest {
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
     sort?: ISortInfo[] | undefined;
-    /** Limits the document count of the result set. Defaults to 30. */
+    /** Limits the document count of the result set. */
     limit: number;
     /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
     pageToken?: string | undefined;
-    /** Filter applied to users. */
-    filter?: FilterBase | undefined;
-    /** Return only users in certain life cycle state(s). */
-    lifeCycleFilter: LifeCycleFilter;
-    /** Return only users with certain user rights. */
-    userRightsFilter?: UserRight[] | undefined;
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
     debugMode: boolean;
-    includeServiceUser: boolean;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
 }
 
 /** Represents an aggregation request over users. */
-export class UserAggregationRequest implements IUserAggregationRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. */
-    sort?: SortInfo[] | undefined;
-    /** An optional search filter. Limits the content document result set. */
-    filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
-    aggregationFilters?: AggregationFilter[] | undefined;
-    /** List of aggregators used while evaluating the request. */
-    aggregators?: AggregatorBase[] | undefined;
+export class UserAggregationRequest extends UserSearchAndAggregationBaseRequest implements IUserAggregationRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators!: AggregatorBase[];
 
     constructor(data?: IUserAggregationRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.sort) {
-                this.sort = [];
-                for (let i = 0; i < data.sort.length; i++) {
-                    let item = data.sort[i];
-                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
-                }
-            }
+        super(data);
+        if (!data) {
+            this.aggregators = [];
         }
     }
 
     init(data?: any) {
+        super.init(data);
         if (data) {
-            this.searchString = data["searchString"];
-            if (Array.isArray(data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
-            }
-            if (Array.isArray(data["sort"])) {
-                this.sort = [] as any;
-                for (let item of data["sort"])
-                    this.sort!.push(SortInfo.fromJS(item));
-            }
-            this.filter = data["filter"] ? FilterBase.fromJS(data["filter"]) : <any>undefined;
-            if (Array.isArray(data["aggregationFilters"])) {
-                this.aggregationFilters = [] as any;
-                for (let item of data["aggregationFilters"])
-                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
-            }
             if (Array.isArray(data["aggregators"])) {
                 this.aggregators = [] as any;
                 for (let item of data["aggregators"])
@@ -58910,48 +60515,20 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
-        }
-        if (Array.isArray(this.sort)) {
-            data["sort"] = [];
-            for (let item of this.sort)
-                data["sort"].push(item.toJSON());
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        if (Array.isArray(this.aggregationFilters)) {
-            data["aggregationFilters"] = [];
-            for (let item of this.aggregationFilters)
-                data["aggregationFilters"].push(item.toJSON());
-        }
         if (Array.isArray(this.aggregators)) {
             data["aggregators"] = [];
             for (let item of this.aggregators)
                 data["aggregators"].push(item.toJSON());
         }
+        super.toJSON(data);
         return data; 
     }
 }
 
 /** Represents an aggregation request over users. */
-export interface IUserAggregationRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. */
-    sort?: ISortInfo[] | undefined;
-    /** An optional search filter. Limits the content document result set. */
-    filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
-    aggregationFilters?: AggregationFilter[] | undefined;
-    /** List of aggregators used while evaluating the request. */
-    aggregators?: AggregatorBase[] | undefined;
+export interface IUserAggregationRequest extends IUserSearchAndAggregationBaseRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators: AggregatorBase[];
 }
 
 export class UserLockRequest implements IUserLockRequest {

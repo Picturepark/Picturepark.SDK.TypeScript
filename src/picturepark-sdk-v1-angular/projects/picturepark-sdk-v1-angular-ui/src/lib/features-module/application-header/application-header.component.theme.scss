@@ -19,25 +19,6 @@ $pp-application-header: (
             // border-right: 1px solid mat-contrast($primary, light-background);
         }
 
-        .search-container {
-            color: mat-color($primary, dark-font);
-
-            .search-content {
-                & i {
-                    color: mat-color($primary, light-font);
-                }
-
-                & input { 
-                    background-color: mat-color($primary, white-background);
-                    font-size: mat-font-size($custom-typography, display-2);
-
-                    &:focus {
-                        font-size: mat-font-size($custom-typography, display-3);
-                    }
-                }
-            }
-        }
-
         .close-container { 
             border-left: 1px solid mat-contrast($primary, light-background);
         }

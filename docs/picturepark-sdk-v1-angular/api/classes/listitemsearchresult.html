@@ -77,7 +77,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="searchbehaviorbaseresultoflistitem.html" class="tsd-signature-type">SearchBehaviorBaseResultOfListItem</a>
+						<a href="searchbehaviorwithaggregationbaseresultoflistitem.html" class="tsd-signature-type">SearchBehaviorWithAggregationBaseResultOfListItem</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">ListItemSearchResult</span>
@@ -91,6 +91,7 @@
 				<ul class="tsd-hierarchy">
 					<li><a href="../interfaces/ibaseresultoflistitem.html" class="tsd-signature-type">IBaseResultOfListItem</a></li>
 					<li><a href="../interfaces/isearchbehaviorbaseresultoflistitem.html" class="tsd-signature-type">ISearchBehaviorBaseResultOfListItem</a></li>
+					<li><a href="../interfaces/isearchbehaviorwithaggregationbaseresultoflistitem.html" class="tsd-signature-type">ISearchBehaviorWithAggregationBaseResultOfListItem</a></li>
 					<li><a href="../interfaces/ilistitemsearchresult.html" class="tsd-signature-type">IListItemSearchResult</a></li>
 				</ul>
 			</section>
@@ -107,6 +108,7 @@
 						<section class="tsd-index-section tsd-is-inherited tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="listitemsearchresult.html#aggregationresults" class="tsd-kind-icon">aggregation<wbr>Results</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="listitemsearchresult.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="listitemsearchresult.html#issearchstringrewritten" class="tsd-kind-icon">is<wbr>Search<wbr>String<wbr>Rewritten</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="listitemsearchresult.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a></li>
@@ -138,9 +140,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="searchbehaviorbaseresultoflistitem.html">SearchBehaviorBaseResultOfListItem</a>.<a href="searchbehaviorbaseresultoflistitem.html#constructor">constructor</a></p>
+								<p>Overrides <a href="searchbehaviorwithaggregationbaseresultoflistitem.html">SearchBehaviorWithAggregationBaseResultOfListItem</a>.<a href="searchbehaviorwithaggregationbaseresultoflistitem.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44639">lib/api-services.ts:44639</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45952">lib/api-services.ts:45952</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -157,6 +159,18 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="aggregationresults" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> aggregation<wbr>Results</h3>
+					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Results<span class="tsd-signature-symbol">:</span> <a href="aggregationresult.html" class="tsd-signature-type">AggregationResult</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/ilistitemsearchresult.html">IListItemSearchResult</a>.<a href="../interfaces/ilistitemsearchresult.html#aggregationresults">aggregationResults</a></p>
+						<p>Inherited from <a href="searchbehaviorwithaggregationbaseresultoflistitem.html">SearchBehaviorWithAggregationBaseResultOfListItem</a>.<a href="searchbehaviorwithaggregationbaseresultoflistitem.html#aggregationresults">aggregationResults</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45902">lib/api-services.ts:45902</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="elapsedmilliseconds" class="tsd-anchor"></a>
 					<h3>elapsed<wbr>Milliseconds</h3>
 					<div class="tsd-signature tsd-kind-icon">elapsed<wbr>Milliseconds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
@@ -164,7 +178,7 @@
 						<p>Implementation of <a href="../interfaces/ilistitemsearchresult.html">IListItemSearchResult</a>.<a href="../interfaces/ilistitemsearchresult.html#elapsedmilliseconds">elapsedMilliseconds</a></p>
 						<p>Inherited from <a href="baseresultoflistitem.html">BaseResultOfListItem</a>.<a href="baseresultoflistitem.html#elapsedmilliseconds">elapsedMilliseconds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44531">lib/api-services.ts:44531</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45794">lib/api-services.ts:45794</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,7 +190,7 @@
 						<p>Implementation of <a href="../interfaces/ilistitemsearchresult.html">IListItemSearchResult</a>.<a href="../interfaces/ilistitemsearchresult.html#issearchstringrewritten">isSearchStringRewritten</a></p>
 						<p>Inherited from <a href="searchbehaviorbaseresultoflistitem.html">SearchBehaviorBaseResultOfListItem</a>.<a href="searchbehaviorbaseresultoflistitem.html#issearchstringrewritten">isSearchStringRewritten</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44596">lib/api-services.ts:44596</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45859">lib/api-services.ts:45859</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -188,7 +202,7 @@
 						<p>Implementation of <a href="../interfaces/ilistitemsearchresult.html">IListItemSearchResult</a>.<a href="../interfaces/ilistitemsearchresult.html#pagetoken">pageToken</a></p>
 						<p>Inherited from <a href="baseresultoflistitem.html">BaseResultOfListItem</a>.<a href="baseresultoflistitem.html#pagetoken">pageToken</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44532">lib/api-services.ts:44532</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45795">lib/api-services.ts:45795</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -200,7 +214,7 @@
 						<p>Implementation of <a href="../interfaces/ilistitemsearchresult.html">IListItemSearchResult</a>.<a href="../interfaces/ilistitemsearchresult.html#querydebuginformation">queryDebugInformation</a></p>
 						<p>Inherited from <a href="searchbehaviorbaseresultoflistitem.html">SearchBehaviorBaseResultOfListItem</a>.<a href="searchbehaviorbaseresultoflistitem.html#querydebuginformation">queryDebugInformation</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44597">lib/api-services.ts:44597</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45860">lib/api-services.ts:45860</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -212,7 +226,7 @@
 						<p>Implementation of <a href="../interfaces/ilistitemsearchresult.html">IListItemSearchResult</a>.<a href="../interfaces/ilistitemsearchresult.html#results">results</a></p>
 						<p>Inherited from <a href="baseresultoflistitem.html">BaseResultOfListItem</a>.<a href="baseresultoflistitem.html#results">results</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44530">lib/api-services.ts:44530</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45793">lib/api-services.ts:45793</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +238,7 @@
 						<p>Implementation of <a href="../interfaces/ilistitemsearchresult.html">IListItemSearchResult</a>.<a href="../interfaces/ilistitemsearchresult.html#searchstring">searchString</a></p>
 						<p>Inherited from <a href="searchbehaviorbaseresultoflistitem.html">SearchBehaviorBaseResultOfListItem</a>.<a href="searchbehaviorbaseresultoflistitem.html#searchstring">searchString</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44595">lib/api-services.ts:44595</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45858">lib/api-services.ts:45858</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -236,7 +250,7 @@
 						<p>Implementation of <a href="../interfaces/ilistitemsearchresult.html">IListItemSearchResult</a>.<a href="../interfaces/ilistitemsearchresult.html#totalresults">totalResults</a></p>
 						<p>Inherited from <a href="baseresultoflistitem.html">BaseResultOfListItem</a>.<a href="baseresultoflistitem.html#totalresults">totalResults</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44529">lib/api-services.ts:44529</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45792">lib/api-services.ts:45792</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -252,9 +266,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="searchbehaviorbaseresultoflistitem.html">SearchBehaviorBaseResultOfListItem</a>.<a href="searchbehaviorbaseresultoflistitem.html#init">init</a></p>
+								<p>Overrides <a href="searchbehaviorwithaggregationbaseresultoflistitem.html">SearchBehaviorWithAggregationBaseResultOfListItem</a>.<a href="searchbehaviorwithaggregationbaseresultoflistitem.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44645">lib/api-services.ts:44645</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45958">lib/api-services.ts:45958</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -276,9 +290,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="searchbehaviorbaseresultoflistitem.html">SearchBehaviorBaseResultOfListItem</a>.<a href="searchbehaviorbaseresultoflistitem.html#tojson">toJSON</a></p>
+								<p>Overrides <a href="searchbehaviorwithaggregationbaseresultoflistitem.html">SearchBehaviorWithAggregationBaseResultOfListItem</a>.<a href="searchbehaviorwithaggregationbaseresultoflistitem.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44656">lib/api-services.ts:44656</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45969">lib/api-services.ts:45969</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -300,9 +314,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="searchbehaviorbaseresultoflistitem.html">SearchBehaviorBaseResultOfListItem</a>.<a href="searchbehaviorbaseresultoflistitem.html#fromjs">fromJS</a></p>
+								<p>Overrides <a href="searchbehaviorwithaggregationbaseresultoflistitem.html">SearchBehaviorWithAggregationBaseResultOfListItem</a>.<a href="searchbehaviorwithaggregationbaseresultoflistitem.html#fromjs">fromJS</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44649">lib/api-services.ts:44649</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45962">lib/api-services.ts:45962</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -334,6 +348,9 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
 								<a href="listitemsearchresult.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="listitemsearchresult.html#aggregationresults" class="tsd-kind-icon">aggregation<wbr>Results</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="listitemsearchresult.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a>

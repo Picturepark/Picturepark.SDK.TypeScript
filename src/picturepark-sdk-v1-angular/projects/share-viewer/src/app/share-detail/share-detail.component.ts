@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ShareDetail, IMailRecipient, ShareService, ShareDataBasic, ShareContentDetail } from '@picturepark/sdk-v1-angular';
+import { ShareDetail, IMailRecipient, InfoService, CustomerInfo, ShareService, ShareDataBasic, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { MatDialog } from '@angular/material/dialog';
 import { ContentDetailsDialogComponent, LiquidRenderingService } from '@picturepark/sdk-v1-angular-ui';
 import { ActivatedRoute } from '@angular/router';
 import { ContentDetailDialogOptions } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/features-module/content-details-dialog/ContentDetailDialogOptions';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-share-detail',
@@ -13,10 +14,12 @@ import { ContentDetailDialogOptions } from 'projects/picturepark-sdk-v1-angular-
 export class ShareDetailComponent implements OnInit {
   public shareDetail: ShareDetail;
   public mailRecipients: IMailRecipient[];
+  public logoUrl: string;
   public isLoading = false;
 
   constructor(
     private shareService: ShareService,
+    private infoService: InfoService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private liquidRenderingService: LiquidRenderingService
@@ -36,11 +39,20 @@ export class ShareDetailComponent implements OnInit {
     }
 
     this.isLoading = true;
-    this.shareService.getShareJson(searchString).subscribe(i => {
-      this.shareDetail = ShareDetail.fromJS(i);
-      this.liquidRenderingService.renderNestedDisplayValues(this.shareDetail);
-      this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients!;
-      this.isLoading = false;
+
+    const shareInfo = forkJoin({
+      shareDetail: this.shareService.getShareJson(searchString, null),
+      customerInfo: this.infoService.getInfo()
+    });
+
+    shareInfo.subscribe({
+      next: (values) => {
+        this.logoUrl = values.customerInfo.logosUrl + 'name';
+        this.shareDetail = ShareDetail.fromJS(values.shareDetail);
+        this.liquidRenderingService.renderNestedDisplayValues(this.shareDetail);
+        this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients!;
+        this.isLoading = false;
+      }
     });
   }
 

@@ -12,7 +12,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import {
   ContentSearchRequest, ContentSearchType, ShareService, OutputAccess, ShareContent,
   ShareBasicCreateRequest, BrokenDependenciesFilter, LifeCycleFilter, IUserEmail,
-  ShareDataBasic, BasicTemplate, ContentService, TermsFilter, Content
+  ShareDataBasic, ContentService, TermsFilter, Content
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -113,13 +113,13 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   async newSharedContent(contentItems: ShareContent[], recipientsEmails: IUserEmail[]): Promise<void> {
     try {
 
-      const response = await this.shareService.create(new ShareBasicCreateRequest({
+      const response = await this.shareService.create( null, new ShareBasicCreateRequest({
         name: this.sharedContentForm.get('share_name')!.value,
         recipientEmails: recipientsEmails,
         contents: contentItems,
         outputAccess: OutputAccess.Full,
         languageCode: 'en',
-        template: new BasicTemplate({ width: 366, height: 366 })
+        suppressNotifications: false
       })).toPromise();
 
       const share = await this.shareService.get(response.shareId!).toPromise();

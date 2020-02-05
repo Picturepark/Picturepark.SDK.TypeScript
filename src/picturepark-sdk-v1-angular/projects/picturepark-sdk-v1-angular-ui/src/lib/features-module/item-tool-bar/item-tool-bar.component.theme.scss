@@ -1,37 +1,42 @@
 @import '~@angular/material/theming';
 
 // BROWSER TOOLBAR CONTAINER
-$pp-item-tool-bar: (
-    contrast: ()
-);
+$pp-item-tool-bar: (contrast: ());
 
 @mixin pp-item-tool-bar-theme($theme) {
 
     $primary: map-get($theme, primary);
 
     .tool-bar-container {
-        background: mat-color($primary, dark-background) !important;
+        background: mat-color($primary, dark-background);
+
         .to-top {
-            background-color: mat-color($primary, white-background) !important;
-            color: mat-color($primary, button) !important;
+            background-color: mat-color($primary, dialog-background);
+            color: mat-color($primary, light-border);
         }
+
         ul {
-            li { 
+            li {
                 .to-top {
-                    background: mat-color($primary, white-background) !important;
+                    background: mat-color($primary, white-background);
                 }
+
                 button {
                     &:hover {
-                        i { color: mat-color($primary, white-font) !important; }
+                        i {
+                            color: mat-color($primary, light-font);
+                        }
                     }
-                    i { 
-                        color: mat-color($primary, button) !important;
-                        font-size: mat-font-size($custom-typography, headline) !important;
+
+                    i {
+                        color: mat-color($primary, light-border);
+                        font-size: mat-font-size($custom-typography, headline);
                     }
-                    span { 
-                        font-size: mat-font-size($custom-typography, button) !important;
-                        background-color: mat-color($primary, dark-background) !important;
-                        color: mat-color($primary, white-font) !important;
+
+                    span {
+                        font-size: mat-font-size($custom-typography, button);
+                        background-color: mat-color($primary, dark-background);
+                        color: mat-color($primary, white-font);
                     }
                 }
             }

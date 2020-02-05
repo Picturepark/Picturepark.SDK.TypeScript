@@ -295,7 +295,19 @@ export let TRANSLATIONS = {
     Search: {
       en: 'Search',
       de: 'Suchen'
-    }
+    },
+    SimpleAnySearch: {
+      en: 'Simple (any)',
+      de: 'Einfach (irgendein)'
+    },
+    SimpleAllSearch: {
+      en: 'Simple (all)',
+      de: 'Einfach (alle)'
+    },
+    AdvancedSearch: {
+      en: 'Advanced',
+      de: 'Fortgeschritten'
+    },
   },
   ContentDownloadDialog: {
     AudioMetadata: {
@@ -345,6 +357,9 @@ export let TRANSLATIONS = {
     },
     NoAccess: {
       en: 'No access to any format'
+    },
+    NoteDynamic: {
+      en: 'Note: For downloading dynamic formats, please select a single item only.'
     }
   },
   SchemaBrowser: {

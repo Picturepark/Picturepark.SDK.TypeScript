@@ -38,6 +38,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   public filteredData: Content[];
   public noOutputs = false;
   public hasDynamicOutputs = false;
+  public singleItem = false;
 
   public loader = false;
 
@@ -66,8 +67,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
     const translations = await this.translationService.getOutputFormatTranslations();
     const selection = new OutputSelection(outputs, contents, translations, this.translationService);
+    const fileFormats = selection.getFileFormats();
 
-    selection.getFileFormats().forEach(fileFormat => {
+    fileFormats.forEach(fileFormat => {
       const fileFormatOutputs = selection.getOutputs(fileFormat);
       const fileFormatContents = flatMap(fileFormatOutputs, i => i.values);
       if (fileFormat.contents.length === 0) {
@@ -98,7 +100,8 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     });
 
     this.selection = selection;
-    this.noOutputs = !selection.getFileFormats().some(i => selection.getOutputs(i).length > 0);
+    this.noOutputs = !fileFormats.some(i => selection.getOutputs(i).length > 0);
+    this.singleItem = fileFormats.length === 1 && fileFormats[0].contents.length === 1;
   }
 
   public download(): void {
@@ -143,7 +146,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     const outputs = this.selection.getSelectedOutputs();
     this.hasDynamicOutputs = outputs.some(i => i.dynamicRendering && !i.detail!.fileSizeInBytes);
     if (outputs.length > 0) {
-      this.fileSize = outputs.map(i => i.detail!.fileSizeInBytes || 0).reduce((total, value) => total + value );
+      this.fileSize = outputs.map(i => i.detail!.fileSizeInBytes || 0).reduce((total, value) => total + value);
     } else {
       this.fileSize = 0;
     }
@@ -182,7 +185,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     if (this.data.contents.length === 1) {
       const detail = (this.data.contents[0] as ContentDetail);
       if (detail.outputs) {
-        await this.setSelection(detail.outputs!);
+        await this.setSelection(detail.outputs);
         return;
       }
 

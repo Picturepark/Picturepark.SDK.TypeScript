@@ -1676,6 +1676,12 @@ export class ContentClient extends PictureparkClientBase {
             result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -1695,12 +1701,6 @@ export class ContentClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -5488,7 +5488,7 @@ export class InfoClient extends PictureparkClientBase {
 
     /**
      * Get status
-     * @return VersionInfo
+     * @return SystemStatus
      */
     getStatus(): Promise<SystemStatus> {
         let url_ = this.baseUrl + "/v1/info/status";
@@ -5982,6 +5982,12 @@ export class ListItemClient extends PictureparkClientBase {
             result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -6001,12 +6007,6 @@ export class ListItemClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -7262,6 +7262,167 @@ export class LiveStreamClient extends PictureparkClientBase {
     }
 }
 
+export class MetadataClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    /**
+     * Get status
+     * @return MetadataStatus
+     */
+    getStatus(): Promise<MetadataStatus> {
+        let url_ = this.baseUrl + "/v1/metadata/status";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetStatus(_response);
+        });
+    }
+
+    protected processGetStatus(response: Response): Promise<MetadataStatus> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <MetadataStatus>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<MetadataStatus>(<any>null);
+    }
+
+    /**
+     * Update outdated
+     */
+    updateOutdated(): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/metadata/many/updateOutdated";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdateOutdated(_response);
+        });
+    }
+
+    protected processUpdateOutdated(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+}
+
 export class OutputClient extends PictureparkClientBase {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -7468,6 +7629,12 @@ export class OutputClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -7493,12 +7660,6 @@ export class OutputClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -7880,6 +8041,12 @@ export class OutputFormatClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <OutputFormatDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -7905,12 +8072,6 @@ export class OutputFormatClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -8329,6 +8490,94 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Preview OutputFormat
+     * @param request Information about the OutputFormat as well as which Content to use for the preview.
+     * @return Rendered file
+     */
+    renderFormatPreview(request: OutputFormatRenderPreviewRequest): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/v1/outputFormats/preview";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processRenderFormatPreview(_response);
+        });
+    }
+
+    protected processRenderFormatPreview(response: Response): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status === 412) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse>(<any>null);
     }
 }
 
@@ -8865,6 +9114,12 @@ export class SchemaClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <SchemaDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -8890,12 +9145,6 @@ export class SchemaClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -9350,6 +9599,12 @@ export class SchemaClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <SchemaDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -9375,12 +9630,6 @@ export class SchemaClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -9583,6 +9832,85 @@ export class SchemaClient extends PictureparkClientBase {
     }
 
     protected processCreateMany(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result500);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result404);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Update multiple schema
+     * @return BusinessProcess which can be awaited.
+     */
+    updateMany(request: SchemaUpdateManyRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/schemas/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdateMany(_response);
+        });
+    }
+
+    protected processUpdateMany(response: Response): Promise<BusinessProcess> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -10950,13 +11278,16 @@ export class ShareClient extends PictureparkClientBase {
      * Update
      * @param id The share id.
      * @param updateRequest The share update request.
+     * @param timeout (optional) Optional timeout to wait for the request to complete
      * @return Share detail
      */
-    update(id: string, updateRequest: ShareBaseUpdateRequest): Promise<ShareDetail> {
-        let url_ = this.baseUrl + "/v1/shares/{id}";
+    update(id: string, updateRequest: ShareBaseUpdateRequest, timeout?: string | null | undefined): Promise<ShareDetail> {
+        let url_ = this.baseUrl + "/v1/shares/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateRequest);
@@ -11193,10 +11524,13 @@ export class ShareClient extends PictureparkClientBase {
     /**
      * Create
      * @param request Polymorphic create contract. Use either ShareBasicCreateRequest or ShareEmbedCreateRequest
+     * @param timeout (optional) Optional timeout to wait for the request to complete
      * @return Create result
      */
-    create(request: ShareBaseCreateRequest): Promise<CreateShareResult> {
-        let url_ = this.baseUrl + "/v1/shares";
+    create(request: ShareBaseCreateRequest, timeout?: string | null | undefined): Promise<CreateShareResult> {
+        let url_ = this.baseUrl + "/v1/shares?";
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -11279,10 +11613,13 @@ export class ShareClient extends PictureparkClientBase {
     /**
      * Delete multiple shares
      * @param deleteManyRequest A delete many request containing the ids of the shares to delete.
+     * @param timeout (optional) Optional timeout to wait for the request to complete
      * @return BusinessProcess
      */
-    deleteMany(deleteManyRequest: ShareDeleteManyRequest): Promise<BulkResponse> {
-        let url_ = this.baseUrl + "/v1/shares/many/delete";
+    deleteMany(deleteManyRequest: ShareDeleteManyRequest, timeout?: string | null | undefined): Promise<BulkResponse> {
+        let url_ = this.baseUrl + "/v1/shares/many/delete?";
+        if (timeout !== undefined)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(deleteManyRequest);
@@ -11359,13 +11696,16 @@ export class ShareClient extends PictureparkClientBase {
     /**
      * Get share json
      * @param token Share token
+     * @param lang (optional) Language code
      * @return ShareDetail
      */
-    getShareJson(token: string): Promise<any> {
-        let url_ = this.baseUrl + "/v1/shares/json/{token}";
+    getShareJson(token: string, lang?: string | null | undefined): Promise<any> {
+        let url_ = this.baseUrl + "/v1/shares/json/{token}?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
         url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
+        if (lang !== undefined)
+            url_ += "lang=" + encodeURIComponent("" + lang) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -13169,6 +13509,12 @@ export class UserClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <UserDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -13194,12 +13540,6 @@ export class UserClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -13888,6 +14228,12 @@ export class UserRoleClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <UserRoleDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
             let result500: any = null;
@@ -13913,12 +14259,6 @@ export class UserRoleClient extends PictureparkClientBase {
             let result409: any = null;
             result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
@@ -14751,6 +15091,19 @@ export interface UserUnlockDisallowedException extends PictureparkValidationExce
 export interface RenderingException extends PictureparkBusinessException {
 }
 
+export interface FormatNotApplicableForRenderingException extends RenderingException {
+    contentRenderingType: RenderingService;
+    outputFormatId?: string | undefined;
+}
+
+export enum RenderingService {
+    Unknown = <any>"Unknown",
+    Image = <any>"Image",
+    Document = <any>"Document",
+    Video = <any>"Video",
+    Audio = <any>"Audio",
+}
+
 export interface ServiceProviderDeleteException extends PictureparkException {
     serviceProviderId?: string | undefined;
     detailedErrorMessage?: string | undefined;
@@ -14801,6 +15154,9 @@ export interface EnvironmentDeactivationException extends PictureparkException {
     deactivationMessage?: string | undefined;
 }
 
+export interface CustomerClonesNotAcceptedException extends PictureparkValidationException {
+}
+
 export interface ShareNotFoundException extends PictureparkNotFoundException {
     shareId?: string | undefined;
 }
@@ -14815,6 +15171,11 @@ export interface TokenGenerationException extends PictureparkBusinessException {
 
 export interface ShareExpiredException extends PictureparkBusinessException {
     token?: string | undefined;
+}
+
+export interface ShareSizeLimitExceededException extends PictureparkValidationException {
+    shareId?: string | undefined;
+    limit: number;
 }
 
 export interface OutputIdNotFoundException extends PictureparkNotFoundException {
@@ -14909,6 +15270,11 @@ export interface InvalidArgumentException extends PictureparkValidationException
     argumentValue?: string | undefined;
 }
 
+export interface ArgumentRangeException extends InvalidArgumentException {
+    minAcceptableValue?: string | undefined;
+    maxAcceptableValue?: string | undefined;
+}
+
 export interface UnknownException extends PictureparkBusinessException {
 }
 
@@ -14924,6 +15290,9 @@ export interface ItemIdDuplicatedException extends PictureparkValidationExceptio
 }
 
 export interface RequestSizeLimitExceededException extends PictureparkValidationException {
+    argumentName?: string | undefined;
+    limit: number;
+    requestedAmount: number;
 }
 
 export interface CustomerViolationException extends PictureparkException {
@@ -15147,6 +15516,7 @@ export interface SchemaPermissionException extends PictureparkValidationExceptio
 
 /** This exception is an abstract base for permission set validation. */
 export interface PermissionSetValidationException extends PictureparkValidationException {
+    permissionSetId?: string | undefined;
 }
 
 export interface PermissionSetInvalidRightCombinationException extends PermissionSetValidationException {
@@ -15336,6 +15706,9 @@ export interface LayerAssignmentInvalidException extends PictureparkValidationEx
     value?: any | undefined;
 }
 
+export interface OutdatedMetadataUpdateInProgressException extends PictureparkValidationException {
+}
+
 export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -15418,6 +15791,11 @@ export interface SchemaFieldNumberRangeException extends PictureparkValidationEx
 export interface SchemaInUseContentSchemaException extends PictureparkValidationException {
     schemaId?: string | undefined;
     contentSchemaIds?: string[] | undefined;
+}
+
+export interface LayerAssignmentInUseWithContentsException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    usedAssignmentSchemaIds?: string[] | undefined;
 }
 
 export interface SchemaInUseListItemException extends PictureparkValidationException {
@@ -15983,6 +16361,9 @@ export interface NoTagsFoundException extends PictureparkBusinessException {
 export interface OutputNotAvailableException extends PictureparkBusinessException {
 }
 
+export interface ModelNotFoundException extends PictureparkNotFoundException {
+}
+
 export interface DisplayValueRerenderingInProgressException extends PictureparkValidationException {
 }
 
@@ -15992,6 +16373,15 @@ export interface OutputFormatNotFoundException extends PictureparkNotFoundExcept
 
 export interface OutputFormatSourceNotDefinedException extends PictureparkValidationException {
     outputFormatId?: string | undefined;
+}
+
+export interface OutputFormatRetentionTimeOutOfRangeException extends ArgumentRangeException {
+    outputFormatId?: string | undefined;
+}
+
+export interface CollectionSizeLimitExceededException extends PictureparkValidationException {
+    collectionId?: string | undefined;
+    limit: number;
 }
 
 /** Search request to search for business processes */
@@ -16703,6 +17093,41 @@ or if existing tags should be replaced. */
     replace: boolean;
 }
 
+/** Enqueue content for tagging */
+export interface EnqueueTaggingAction extends BusinessRuleAction {
+    /** Options to use while tagging. */
+    options?: TaggingOptionsBase | undefined;
+}
+
+/** Options for tagging */
+export interface TaggingOptionsBase {
+    /** Override for the output format ID to tag. */
+    tagOutputFormatId?: string | undefined;
+    /** Override for the cache to use. */
+    keywordLookupCacheName?: string | undefined;
+    /** Override for the layer to assign. */
+    taggingLayerId?: string | undefined;
+    /** Override for the field id where found tags are stored. */
+    foundTagsFieldId?: string | undefined;
+    /** Override for the field id where not found tags are stored. */
+    missingKeywordsFieldId?: string | undefined;
+}
+
+/** Options for clarifai tagging */
+export interface ClarifaiTaggingOptions extends TaggingOptionsBase {
+    /** Override for the model to use */
+    model?: string | undefined;
+    /** Override for the language to use */
+    language?: string | undefined;
+    /** Minimum value a concept must have to be considered */
+    minimumValue?: string | undefined;
+}
+
+export interface SimulatedTaggingOptions extends TaggingOptionsBase {
+    /** Number of keywords to assign. */
+    numberOfKeywords?: string | undefined;
+}
+
 /** A business rule expressed as a script */
 export interface BusinessRuleScript extends BusinessRule {
     /** Script */
@@ -16733,6 +17158,17 @@ export interface ListItemNamedCacheConfiguration extends NamedCacheConfiguration
 export interface SchemaTagboxFilterLookupNamedCacheConfiguration extends NamedCacheConfigurationBase {
     /** The layer id. */
     schemaId?: string | undefined;
+}
+
+export interface InverseListItemNamedCacheConfiguration extends NamedCacheConfigurationBase {
+    /** ID of the schema to cache (should have SchemaType = List) */
+    schemaId?: string | undefined;
+    /** ID of the field that yields the value */
+    valueField?: string | undefined;
+    /** An optional filter to narrow down the cached list items */
+    filter?: FilterBase | undefined;
+    /** Include child schemas when caching list items */
+    includeAllSchemaChildren: boolean;
 }
 
 /** Update request for changing business rule configuration */
@@ -16911,7 +17347,7 @@ export interface ChannelCreateRequest {
     id?: string | undefined;
     sort?: SortInfo[] | undefined;
     sortOrder: number;
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
     /** User roles granted access to the channel. */
@@ -16931,7 +17367,7 @@ export interface ChannelCreateRequest {
 export interface ChannelUpdateRequest {
     sort?: SortInfo[] | undefined;
     sortOrder: number;
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
     /** User roles granted access to the channel. */
@@ -17161,8 +17597,12 @@ export interface SearchBehaviorBaseResultOfContent extends BaseResultOfContent {
     queryDebugInformation?: QueryDebugInformation | undefined;
 }
 
+export interface SearchBehaviorWithAggregationBaseResultOfContent extends SearchBehaviorBaseResultOfContent {
+    aggregationResults?: AggregationResult[] | undefined;
+}
+
 /** Result for content search operation */
-export interface ContentSearchResult extends SearchBehaviorBaseResultOfContent {
+export interface ContentSearchResult extends SearchBehaviorWithAggregationBaseResultOfContent {
     /** Result of rights aggregation count requested in rightsAggregations in the ContentSearchRequest. */
     rightsAggregationsCounts?: ContentRightAggregationCount[] | undefined;
 }
@@ -17173,6 +17613,32 @@ export interface ContentRightAggregationCount {
     contentRight: ContentRight;
     /** Found document count. */
     count: number;
+}
+
+/** Result of an aggregation */
+export interface AggregationResult {
+    /** Name of the aggregation. */
+    name: string;
+    /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
+    sumOtherDocCount?: number | undefined;
+    /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
+Optionally inner aggregations for further drill down can be available. */
+    aggregationResultItems?: AggregationResultItem[] | undefined;
+}
+
+/** Aggregation result item */
+export interface AggregationResultItem {
+    /** Value matched. */
+    name: string;
+    /** Number of items matched. */
+    count: number;
+    /** Ready to use filter to filter the data based on the aggregation result values.
+It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
+    filter?: AggregationFilter | undefined;
+    /** True if the current result item matches on of the aggregation filters sent in the query. */
+    active: boolean;
+    /** Inner aggregation results, if inner aggregations were provided in the query. */
+    aggregationResults?: AggregationResult[] | undefined;
 }
 
 export interface Content {
@@ -17195,43 +17661,54 @@ export interface Content {
     brokenRelationTargetIds?: string[] | undefined;
 }
 
-/** Request to search contents */
-export interface ContentSearchRequest {
-    /** Limits the simple search fields to the fields available in the specified channel. */
+/** Request to aggregate contents based on the aggregators defined on a channel */
+export interface ContentAggregationOnChannelRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
+filtering an aggregation that matches the same AggregationName or another aggregation.
+In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    aggregationFilters?: AggregationFilter[] | undefined;
+    /** Limits the simple search fields to the fields available in the specified channel. Defaults to RootChannel.
+For the ContentAggregationOnChannelRequest only, the existing aggregation saved on the channel are retrieved and used to perform the aggregation. */
     channelId?: string | undefined;
-    /** Limits the display values included in the search response. Defaults to all display values. */
-    displayPatternIds?: string[] | undefined;
     /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
 If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
-    /** Limits the search among the contents belonging to the specified collection. */
+    /** Limit the search to the contents belonging to the specified collection. */
     collectionId?: string | undefined;
-    /** The string used to query the data. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Limits the aggregation to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
+    lifeCycleFilter: LifeCycleFilter;
+    /** Limits the aggregation to the contents that have or not have broken references. By default it includes both. */
+    brokenDependenciesFilter: BrokenDependenciesFilter;
+    /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
+    searchType: ContentSearchType;
+}
+
+/** Request to search contents */
+export interface ContentSearchRequest extends ContentAggregationOnChannelRequest {
+    /** Limits the display values included in the search response. Defaults to all display values. */
+    displayPatternIds?: string[] | undefined;
     /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
     sort?: SortInfo[] | undefined;
-    /** Limits the number of the returned schemas. Defaults to 30. */
+    /** Limits the document count of the result set. */
     limit: number;
     /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
     pageToken?: string | undefined;
-    /** An optional filter to limit the contents. */
-    filter?: FilterBase | undefined;
-    /** Limits the search to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-    /** Limits the search to the contents that have or not have broken references. By default it includes both. */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
     /** Limits the contents to the ones the user has the specified ContentRights. */
     rightsFilter?: ContentRight[] | undefined;
     /** Returns the aggregated document counts to the ones the user has the specified ContentRights.
 Produces the rightsAggregationCounts on the ContentSearchResult. View will be ignored as the totalResults already gives this information. */
     rightsAggregations?: ContentRight[] | undefined;
-    /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
-    searchType: ContentSearchType;
     /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ContentSearchResult.
 Warning! It severely affects performance. */
     debugMode: boolean;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
 }
 
 export enum LifeCycleFilter {
@@ -17268,63 +17745,9 @@ export interface ObjectAggregationResult {
     queryDebugInformation?: QueryDebugInformation | undefined;
 }
 
-/** Result of an aggregation */
-export interface AggregationResult {
-    /** Name of the aggregation. */
-    name: string;
-    /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
-    sumOtherDocCount?: number | undefined;
-    /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
-Optionally inner aggregations for further drill down can be available. */
-    aggregationResultItems?: AggregationResultItem[] | undefined;
-}
-
-/** Aggregation result item */
-export interface AggregationResultItem {
-    /** Value matched. */
-    name: string;
-    /** Number of items matched. */
-    count: number;
-    /** Ready to use filter to filter the data based on the aggregation result values.
-It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
-    filter?: AggregationFilter | undefined;
-    /** True if the current result item matches on of the aggregation filters sent in the query. */
-    active: boolean;
-    /** Inner aggregation results, if inner aggregations were provided in the query. */
-    aggregationResults?: AggregationResult[] | undefined;
-}
-
-/** Request to aggregate contents based on the aggregators defined on a channel */
-export interface ContentAggregationOnChannelRequest {
-    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** An optional filter to limit the contents to aggregate on. */
-    filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
-    aggregationFilters?: AggregationFilter[] | undefined;
-    /** Limits the simple search fields to the fields available in the specified channel. Defaults to RootChannel.
-For the ContentAggregationOnChannelRequest only, the existing aggregation saved on the channel are retrieved and used to perform the aggregation. */
-    channelId?: string | undefined;
-    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-If not specified, all metadata languages defined in the system are used. */
-    searchLanguages?: string[] | undefined;
-    /** Limit the search to the contents belonging to the specified collection. */
-    collectionId?: string | undefined;
-    /** Limits the aggregation to the contents that have the specified life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-    /** Limits the aggregation to the contents that have or not have broken references. By default it includes both. */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** Type of search to be performed: search only in metadata, only in the extracted fulltext from the file or both. Default to Metadata. */
-    searchType: ContentSearchType;
-}
-
 /** Request to aggregate contents based on the specified aggregators */
 export interface ContentAggregationRequest extends ContentAggregationOnChannelRequest {
-    /** List of aggregators that defines how the contents should be aggregated. */
+    /** List of aggregators that defines how the items should be aggregated. */
     aggregators: AggregatorBase[];
 }
 
@@ -17563,12 +17986,15 @@ existing assigned layers not specified in the property are removed and missing l
 Defaults to Merge. */
     layerSchemasUpdateOptions: UpdateOption;
     /** Options to modify the behavior for updating the values of schemas.
-Merge: the values specified in the Content and Metadata dictionaries are merged to the existing values of the corresponding
-schema on the content.
-Replace: the values specified in the Content and Metadata dictionaries entirely replace any existing value of the
-corresponding schema on the content.
+Merge: the values specified in the Metadata dictionary are merged to the existing values of the corresponding schema on the content.
+Replace: the values specified in the Metadata dictionary entirely replace any existing value of the corresponding schema on the content.
 Defaults to Merge. */
-    schemaFieldsUpdateOptions: UpdateOption;
+    layerFieldsUpdateOptions: UpdateOption;
+    /** Options to modify the behavior for updating the content.
+Merge: the values specified in the Content object are merged to the existing content.
+Replace: the values specified in the Content object entirely replace the content.
+Defaults to Merge. */
+    contentFieldsUpdateOptions: UpdateOption;
 }
 
 /** Controls the update of metadata */
@@ -17708,7 +18134,7 @@ export interface ContentFieldsBatchUpdateFilterRequest extends MetadataValuesCha
 
 export interface PermissionSetDetailOfContentRight {
     id: string;
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -17739,7 +18165,7 @@ export enum PermissionSetRight {
 }
 
 export interface PermissionSetCreateRequestOfContentRight {
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -17760,7 +18186,7 @@ export interface UserRoleRightsOfPermissionSetRight {
 }
 
 export interface PermissionSetUpdateRequestOfContentRight {
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
 }
@@ -17857,7 +18283,7 @@ export interface PermissionSet {
 Cannot be changed after creation. */
     exclusive: boolean;
     /** Language specific permission set names. */
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
 }
 
 /** Request to search permission sets */
@@ -17986,6 +18412,10 @@ export interface CustomerInfo {
     /** Apps registered for this customer */
     apps?: CustomerApp[] | undefined;
     modificationDate: Date;
+    /** Url to access Frontend service */
+    baseUrl: string;
+    /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
+    logosUrl: string;
 }
 
 export interface LanguageConfiguration {
@@ -18041,6 +18471,8 @@ export interface SystemStatus {
     searchIndicesStatus?: StatusOfSearchIndexState[] | undefined;
     /** The status of the display values. */
     displayValuesStatus?: StatusOfDisplayValuesState[] | undefined;
+    /** The status of the contents and list items. */
+    metadataStatus?: StatusOfMetadataState[] | undefined;
 }
 
 export interface StatusOfSearchIndexState {
@@ -18057,6 +18489,18 @@ export enum SearchIndexState {
 export interface StatusOfDisplayValuesState {
     id?: string | undefined;
     state: DisplayValuesState;
+}
+
+export interface StatusOfMetadataState {
+    id?: string | undefined;
+    state: MetadataState;
+}
+
+/** The state of the contents and list items */
+export enum MetadataState {
+    UpToDate = <any>"UpToDate",
+    Outdated = <any>"Outdated",
+    UpdateInProgress = <any>"UpdateInProgress",
 }
 
 /** List item detail */
@@ -18107,15 +18551,19 @@ export interface SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem
     queryDebugInformation?: QueryDebugInformation | undefined;
 }
 
+export interface SearchBehaviorWithAggregationBaseResultOfListItem extends SearchBehaviorBaseResultOfListItem {
+    aggregationResults?: AggregationResult[] | undefined;
+}
+
 /** Result for list item search operation */
-export interface ListItemSearchResult extends SearchBehaviorBaseResultOfListItem {
+export interface ListItemSearchResult extends SearchBehaviorWithAggregationBaseResultOfListItem {
 }
 
 export interface ListItem {
     /** Audit information. */
     audit?: UserAudit | undefined;
     /** The list item id. */
-    id?: string | undefined;
+    id: string;
     /** The id of the schema with schema type list. */
     contentSchemaId?: string | undefined;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
@@ -18130,52 +18578,18 @@ export interface ListItem {
     brokenIndirectReferenceIds?: string[] | undefined;
 }
 
-/** Request to search list items */
-export interface ListItemSearchRequest {
-    /** The string used to query the data. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Sorts the search results. Sorting on a field not marked as Sortable in the Content schema will throw an exception. */
-    sort?: SortInfo[] | undefined;
-    /** Limits the number of the returned schemas. Defaults to 30. */
-    limit: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** An optional filter to limit the list items. */
-    filter?: FilterBase | undefined;
-    /** Broadens the search to include all schema descendant list items. */
-    includeAllSchemaChildren: boolean;
-    /** Limits the search among the list items of the provided schemas. */
-    schemaIds?: string[] | undefined;
-    /** Limits the search to the list items that have or not have broken references. By default it includes both. */
-    brokenDependenciesFilter: BrokenDependenciesFilter;
-    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
-If not specified, all metadata languages defined in the system are used. */
-    searchLanguages?: string[] | undefined;
-    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
-Warning! It severely affects performance. */
-    debugMode: boolean;
-    /** Limits the search to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
-    lifeCycleFilter: LifeCycleFilter;
-    /** List of enums that control which parts of the list item are resolved and returned. */
-    resolveBehaviors?: ListItemResolveBehavior[] | undefined;
-}
-
 /** Request to aggregate list items */
-export interface ListItemAggregationRequest {
-    /** The string used to query the list items to aggregate. The Lucene query string syntax is supported. */
+export interface ListItemSearchAndAggregationBaseRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied in the specified order. */
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** An optional filter to limit the list items to aggregate on. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
 filtering an aggregation that matches the same AggregationName or another aggregation.
 In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
     aggregationFilters?: AggregationFilter[] | undefined;
-    /** List of aggregators that defines how the list item should be aggregated. */
-    aggregators: AggregatorBase[];
     /** Broadens the search to include all schema descendant list items. */
     includeAllSchemaChildren: boolean;
     /** Limits the aggregation to the list items that have or not have broken references. By default it includes both. */
@@ -18187,6 +18601,29 @@ If not specified, all metadata languages defined in the system are used. */
     searchLanguages?: string[] | undefined;
     /** Limits the aggregation to the list items that have the specified life cycle state. Defaults to ActiveOnly. */
     lifeCycleFilter: LifeCycleFilter;
+}
+
+/** Request to search list items */
+export interface ListItemSearchRequest extends ListItemSearchAndAggregationBaseRequest {
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the ListItemSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** List of enums that control which parts of the list item are resolved and returned. */
+    resolveBehaviors?: ListItemResolveBehavior[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+}
+
+/** Request to aggregate list items */
+export interface ListItemAggregationRequest extends ListItemSearchAndAggregationBaseRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators: AggregatorBase[];
 }
 
 /** Request to create a list item */
@@ -18213,6 +18650,11 @@ export interface ListItemCreateManyRequest {
 export interface ListItemUpdateRequest {
     /** The content data of the list item. It's an object of dynamic metadata whose structure is defined in the Content schema of the list item. */
     content?: any | undefined;
+    /** Options to modify the behavior for updating the content.
+Merge: the values specified in the Content object are merged to the existing content.
+Replace: the values specified in the Content object entirely replace any existing content.
+Defaults to Merge. */
+    contentFieldsUpdateOptions: UpdateOption;
 }
 
 /** Request to update multiple list items */
@@ -18415,7 +18857,7 @@ export interface SessionRenewalEvent extends ApplicationEvent {
     authorizationState: AuthorizationState;
 }
 
-/** User authorization state. */
+/** User authorization state */
 export enum AuthorizationState {
     Reviewed = <any>"Reviewed",
     ToBeReviewed = <any>"ToBeReviewed",
@@ -18511,7 +18953,7 @@ export interface LiveStreamSearchResult extends BaseResultOfLiveStream {
 }
 
 export interface LiveStream {
-    id?: string | undefined;
+    id: string;
     document?: string | undefined;
     scopeType?: string | undefined;
     timestamp: Date;
@@ -18539,6 +18981,18 @@ export interface LiveStreamSearchRequest {
     limit: number;
     /** To get a large amount of data, page token returned from the response can be used to get all data. */
     pageToken?: string | undefined;
+}
+
+/** The overall status of the contents and list items in comparison to the actual schemas' structure */
+export interface MetadataStatus {
+    /** The schema ids (of type Content or Layer) for which the contents are outdated and need to be updated. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
+    listSchemaIds?: string[] | undefined;
+    /** The global state of the Contents and ListItems compared to the schema structure (Green = ok, Red = update needed). */
+    state: MetadataState;
+    /** The field ids that that cannot be used and needs to be cleaned up after updating the outdated contents and list items. */
+    fieldIdsToCleanup?: { [key: string] : string[]; } | undefined;
 }
 
 export interface BaseResultOfOutput {
@@ -18579,14 +19033,18 @@ export interface OutputResetRetryAttemptsRequest {
     includeCompleted: boolean;
 }
 
-/** Represents the editable part of the output format. */
-export interface OutputFormatEditable {
-    /** Language specific names. */
-    names?: TranslatedStringDictionary | undefined;
+/** Used to specify how to render derived outputs */
+export interface OutputFormatRenderingSpecification {
     /** Which output format should be used as a source of data. */
     sourceOutputFormats?: SourceOutputFormats | undefined;
     /** Information about the technical format of the data, e.g. JPEG, AAC or video still. */
     format?: FormatBase | undefined;
+}
+
+/** Represents the editable part of the output format. */
+export interface OutputFormatEditable extends OutputFormatRenderingSpecification {
+    /** Language specific names. */
+    names: TranslatedStringDictionary;
     /** How long should the dynamic outputs created from this format be kept. */
     retentionTime: string;
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
@@ -18614,31 +19072,48 @@ export interface OutputFormatDetail extends OutputFormat {
     audit?: UserAuditDetail | undefined;
 }
 
+/** Defines the source used for rendering an OutputFormat depending on the type of content */
 export interface SourceOutputFormats {
+    /** The source to be used for content of type Image */
     image?: string | undefined;
+    /** The source to be used for content of type Video */
     video?: string | undefined;
+    /** The source to be used for content of type Document */
     document?: string | undefined;
+    /** The source to be used for content of type Audio */
     audio?: string | undefined;
 }
 
 export interface FormatBase {
 }
 
+/** Base class for ImageFormats such as JPEG, PNG, TIFF, ... */
 export interface ImageFormatBase extends FormatBase {
+    /** Color profile to use. Colorspace is derived from the chosen profile. */
     colorProfile?: ColorProfile | undefined;
+    /** The method of conversion for color spaces (e.g. CMYK to RGB). Further information can be found here: http://www.colourphil.co.uk/rendering_intents.shtml */
     colorTransformationIntent: ColorTransformationIntent;
+    /** Horizontal resolution in dpi (dots per inch) */
     horizontalResolution?: number | undefined;
+    /** Vertical resolution in dpi (dots per inch) */
     verticalResolution?: number | undefined;
-    renderFirstFrameOnly: boolean;
+    /** Copy clipping paths from input. */
     keepClippingPath: boolean;
+    /** Copy Exif metadata from input. */
     cloneExif: boolean;
+    /** Copy Iptc metadata from input. */
     cloneIptc: boolean;
+    /** Copy AdobeResources from input. */
     cloneAdobeResources: boolean;
+    /** Copy Xmp metadata from input. */
     cloneXmp: boolean;
+    /** Allows resizing of the image. */
     resizeAction?: ResizeAction | undefined;
+    /** A collection of actions to be applied during rendering. */
     actions?: ImageActionBase[] | undefined;
 }
 
+/** Available color profiles */
 export enum ColorProfile {
     AdobeRgb1998 = <any>"AdobeRgb1998",
     AppleRgb = <any>"AppleRgb",
@@ -18672,6 +19147,7 @@ export enum ColorProfile {
     Isonewspaper26v4Grey = <any>"Isonewspaper26v4Grey",
 }
 
+/** http://www.colourphil.co.uk/rendering_intents.shtml */
 export enum ColorTransformationIntent {
     RelativeColorimetricBpc = <any>"RelativeColorimetricBpc",
     AbsoluteColorimetric = <any>"AbsoluteColorimetric",
@@ -18680,13 +19156,17 @@ export enum ColorTransformationIntent {
     Saturation = <any>"Saturation",
 }
 
-/** Does not implement the IImageAction interface. The ResizeAction is directly exposed within ImageFormat. */
+/** Specifies image resize parameters. */
 export interface ResizeAction {
+    /** Target width for the output. */
     width: number;
+    /** Target height for the output. */
     height: number;
+    /** Specifies additional resize behaviour. */
     resizeMode: ResizeMode;
 }
 
+/** Specifies how the dimensions of a ResizeAction are applied to the content */
 export enum ResizeMode {
     Fit = <any>"Fit",
     Shrink = <any>"Shrink",
@@ -18696,65 +19176,98 @@ export enum ResizeMode {
 export interface ImageActionBase {
 }
 
+/** An ImageAction that allows different forms of modifying alpha information in an image. */
 export interface AlphaHandlingAction extends ImageActionBase {
+    /** Specifies the kind of alpha handling to be applied. */
     alphaHandling: AlphaHandling;
+    /** Specifies potentially needed color information for alpha handling. Must be given in RGB hex format (8 bit per channel). */
     replacementRgbColorHexCode?: string | undefined;
 }
 
+/** Specifies the kind of AlphaHandling to be applied to an image */
 export enum AlphaHandling {
     DiscardAlpha = <any>"DiscardAlpha",
     ReplaceAlpha = <any>"ReplaceAlpha",
     ReplaceInvertedAlpha = <any>"ReplaceInvertedAlpha",
 }
 
+/** An ImageAction that allows cropping an image. */
 export interface CropAction extends ImageActionBase {
+    /** X-Coordinate of top left point of the cropping rectangle. */
     x: number;
+    /** Y-Coordinate of top left point of the cropping rectangle. */
     y: number;
+    /** Width of the cropping rectangle. */
     width: number;
+    /** Height of the cropping rectangle. */
     height: number;
 }
 
+/** Increases sharpness of an image by using the unsharp mask technique. */
 export interface UnsharpenMaskAction extends ImageActionBase {
+    /** Unsharp mask amount (the difference between blurred and original image). */
     amount: number;
+    /** Blur radius used to produce unfocused version of the image. */
     radius: number;
+    /** The threshold value for the unsharp mask in range [0, 1] */
     threshold: number;
 }
 
+/** An ImageAction that allows rendering a watermark to an image */
 export interface WatermarkAction extends ImageActionBase {
+    /** Identifies the image to be used as watermark */
     watermarkFilePath?: string | undefined;
-    watermarkText?: string | undefined;
+    /** Margin to the left border of the image, in pixels */
     marginLeft?: number | undefined;
+    /** Margin to the top of the image, in pixels */
     marginTop?: number | undefined;
+    /** Margin to the right border of the image, in pixels */
     marginRight?: number | undefined;
+    /** Margin to the bottom of the image, in pixels */
     marginBottom?: number | undefined;
+    /** Scales the opacity of the watermark */
     opacity: number;
+    /** Scales the watermark width according to the size of the final image. */
     widthRatio: number;
+    /** Scales the watermark height according to the size of the final image. */
     heightRatio: number;
 }
 
+/** Special format that represents the original. */
 export interface OriginalFormat extends FormatBase {
     extension?: string | undefined;
 }
 
+/** Renders a JPEG image. */
 export interface JpegFormat extends ImageFormatBase {
+    /** Compression quality. Must be in range [0,100] and defaults to 80. */
     quality: number;
+    /** Whether to use progressive encoding or not. */
     isProgressive: boolean;
+    /** Whether to use chroma subsampling or not. */
     chromaSubsamplingEnabled: boolean;
     extension?: string | undefined;
 }
 
+/** Renders a PNG image. */
 export interface PngFormat extends ImageFormatBase {
+    /** Whether the image is interlaced or not. */
     interlaced: boolean;
     extension?: string | undefined;
 }
 
+/** Renders a TIFF image */
 export interface TiffFormat extends ImageFormatBase {
+    /** Specifies whether color channels should be premultiplied with alpha (associated alpha) or not (unassociated alpha). */
     alphaPremultiplied: boolean;
+    /** Specifies the compression type to use. */
     compressionType: CompressionType;
+    /** Preserve (including size affecting changes) unspecified extraChannels. */
     includeUnspecifiedTiffExtraChannels: boolean;
     extension?: string | undefined;
 }
 
+/** Available compression types. */
 export enum CompressionType {
     None = <any>"None",
     Lzw = <any>"Lzw",
@@ -18762,11 +19275,14 @@ export enum CompressionType {
     Zip = <any>"Zip",
 }
 
+/** Base class for rendering video. */
 export interface VideoFormatBase extends FormatBase {
 }
 
+/** Renders H.264 in mp4 container. */
 export interface Mp4VideoFormat extends VideoFormatBase {
-    resizeAction?: ResizeAction2 | undefined;
+    /** Allows resizing of the video. */
+    resizeAction?: ResizeAction | undefined;
     /** Gets or sets the encoding audio codec. */
     audioCodec?: AudioFormatBase | undefined;
     /** Gets or sets the encoding codec preset. */
@@ -18774,15 +19290,11 @@ export interface Mp4VideoFormat extends VideoFormatBase {
     extension?: string | undefined;
 }
 
-export interface ResizeAction2 {
-    width: number;
-    height: number;
-    resizeMode: ResizeMode;
-}
-
+/** Base class for rendering audio. */
 export interface AudioFormatBase extends FormatBase {
 }
 
+/** Video rendering preset, see http://dev.beandog.org/x264_preset_reference.html for more information. */
 export enum Preset {
     Ultrafast = <any>"ultrafast",
     Superfast = <any>"superfast",
@@ -18794,25 +19306,31 @@ export enum Preset {
     Slower = <any>"slower",
 }
 
+/** Generates a sprite image of the input video. */
 export interface VideoSpriteFormat extends VideoFormatBase {
-    spriteResizeAction?: ResizeAction2 | undefined;
+    /** Specifies the dimensions of a single frame in the sprite. */
+    spriteResizeAction?: ResizeAction | undefined;
+    /** Limit for the number of frames to generate. */
     maxNumberOfSprites: number;
+    /** JPEG-quality to use for the sprite. */
     quality: number;
     extension?: string | undefined;
 }
 
 export interface VideoStillFormat extends VideoFormatBase {
     extension?: string | undefined;
+    /** Specifies the position from which to produce the image. */
     positionInSeconds: number;
 }
 
+/** Specifies Aac encoding for the output and additional settings for the encoder. */
 export interface AacAudioFormat extends AudioFormatBase {
     extension?: string | undefined;
     /** Gets or sets the encoding profile. */
     profile: Profile;
     /** Gets or sets the encoding coder. */
     coder: Coder;
-    /** Gets or sets the bitrate of the encoding. */
+    /** Gets or sets the bitrate of the encoding in kbps. */
     bitrate?: number | undefined;
     /** Gets or sets the encoding variable bit rate (VBR) - 1 is lowest quality and 5 is highest quality. */
     variableBitRate?: number | undefined;
@@ -18825,38 +19343,46 @@ export enum Profile {
     Aac_main = <any>"aac_main",
 }
 
+/** Audio coders */
 export enum Coder {
     Twoloop = <any>"twoloop",
     Anmr = <any>"anmr",
     Fast = <any>"fast",
 }
 
+/** Generates a waveform image from an Audio source. */
 export interface AudioStillFormat extends AudioFormatBase {
     extension?: string | undefined;
 }
 
+/** Renders an MP3 audio file. */
 export interface Mp3AudioFormat extends AudioFormatBase {
     extension?: string | undefined;
-    /** Gets or sets the encoding bitrate. */
+    /** Gets or sets the encoding bitrate. This setting and Quality are mutually exclusive. */
     bitrate?: number | undefined;
-    /** Gets or sets the encoding quality.
+    /** Gets or sets the encoding quality. This setting and Bitrate are mutually exclusive.
 Values can be set it range of 0 to 9, where a lower value is a higher quality. */
     quality?: number | undefined;
 }
 
+/** Base class for rendering documents. */
 export interface DocumentFormatBase extends FormatBase {
 }
 
+/** Renders a TIFF preview image. */
 export interface DocumentStillFormat extends DocumentFormatBase {
     extension?: string | undefined;
 }
 
 export interface PdfFormat extends DocumentFormatBase {
-    /** JpegQuality parameter value must be between 0 and 100. */
+    /** Specifies compression quality used for ReduceFileSize. */
     jpegQuality: number;
+    /** Whether to linearize the output for fast web viewing. */
     fastWebView: boolean;
+    /** Whether to apply measures to decrease output size or not. */
     reduceFileSize: boolean;
     extension?: string | undefined;
+    /** Whether to extract document full text from this output. */
     extractFullText: boolean;
 }
 
@@ -18897,6 +19423,14 @@ export interface OutputFormatDownloadFileNamePatternUpdateRequestItem {
     /** The patterns to use per metadata language.
 The customer's default language is required. */
     patterns?: TranslatedStringDictionary | undefined;
+}
+
+/** Specifies for which content a given format should be rendered */
+export interface OutputFormatRenderPreviewRequest {
+    /** The content for which the format should be rendered */
+    contentId?: string | undefined;
+    /** The format which should be rendered. */
+    outputFormat?: OutputFormatRenderingSpecification | undefined;
 }
 
 /** User profile. */
@@ -19439,7 +19973,7 @@ export interface SchemaSearchResult extends SearchBehaviorBaseResultOfSchema {
 /** A schema */
 export interface Schema {
     /** The schema ID. It is unique throughout the whole customer setup. */
-    id?: string | undefined;
+    id: string;
     /** The parent schema ID. */
     parentSchemaId?: string | undefined;
     /** List of schema types. Currently only one schema type can be assigned to this list, and it cannot be modified once the schema is created. */
@@ -19590,7 +20124,7 @@ that reference the layer. */
 
 /** Request to create multiple schemas */
 export interface SchemaCreateManyRequest {
-    /** The schemas to create. Cyclic dependencies between schemas are supported, if the
+    /** The schemas to create. Cyclic dependencies between schemas are supported, if they
 are all in the same request. */
     schemas: SchemaCreateRequest[];
 }
@@ -19631,6 +20165,18 @@ that reference the layer. */
     referencedInContentSchemaIds?: string[] | undefined;
 }
 
+/** Request to update multiple schemas */
+export interface SchemaUpdateManyRequest {
+    /** The schemas to update. */
+    schemas: SchemaUpdateItem[];
+}
+
+/** Item to update a schema */
+export interface SchemaUpdateItem extends SchemaUpdateRequest {
+    /** Id of the schema to update */
+    id: string;
+}
+
 /** Result of a schema delete operation */
 export interface SchemaDeleteResult {
 }
@@ -19644,7 +20190,7 @@ export interface SchemaOwnershipTransferManyRequest {
 
 export interface PermissionSetDetailOfMetadataRight {
     id: string;
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -19663,7 +20209,7 @@ export interface PermissionUserRoleRightsOfMetadataRight {
 }
 
 export interface PermissionSetCreateRequestOfMetadataRight {
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
     exclusive: boolean;
@@ -19679,7 +20225,7 @@ export interface UserRoleRightsOfMetadataRight {
 }
 
 export interface PermissionSetUpdateRequestOfMetadataRight {
-    names?: TranslatedStringDictionary | undefined;
+    names: TranslatedStringDictionary;
     userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
 }
@@ -19756,8 +20302,6 @@ export interface ShareDetail {
     expirationDate?: Date | undefined;
     /** Info if share is already expired. */
     expired: boolean;
-    /** Configuration for template to use on the share detail page. */
-    template?: TemplateBase | undefined;
     /** Defined access for contents in share. */
     outputAccess: OutputAccess;
     /** Type of share. */
@@ -19873,24 +20417,6 @@ export interface InternalRecipient {
     url?: string | undefined;
 }
 
-export interface TemplateBase {
-    width?: number | undefined;
-    height?: number | undefined;
-}
-
-export interface CardTemplate extends TemplateBase {
-    showNavigation: boolean;
-    showOverlay: boolean;
-    showLogo: boolean;
-    showFooter: boolean;
-}
-
-export interface ListTemplate extends TemplateBase {
-}
-
-export interface BasicTemplate extends TemplateBase {
-}
-
 export enum OutputAccess {
     Full = <any>"Full",
     Preview = <any>"Preview",
@@ -19910,8 +20436,12 @@ export interface SearchBehaviorBaseResultOfShare extends BaseResultOfShare {
     queryDebugInformation?: QueryDebugInformation | undefined;
 }
 
+export interface SearchBehaviorWithAggregationBaseResultOfShare extends SearchBehaviorBaseResultOfShare {
+    aggregationResults?: AggregationResult[] | undefined;
+}
+
 /** Result for share search operation */
-export interface ShareSearchResult extends SearchBehaviorBaseResultOfShare {
+export interface ShareSearchResult extends SearchBehaviorWithAggregationBaseResultOfShare {
 }
 
 /** Share */
@@ -19932,40 +20462,38 @@ export interface Share {
     isReadOnly: boolean;
 }
 
-/** Request to search shares */
-export interface ShareSearchRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: SortInfo[] | undefined;
-    /** Limits the document count of the result set. */
-    limit: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** An optional search filter. Limits the document result set. */
-    filter?: FilterBase | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
-    debugMode: boolean;
-}
-
 /** Request to aggregate shares based on the specified aggregators */
-export interface ShareAggregationRequest {
+export interface ShareSearchAndAggregationBaseRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
-    sort?: SortInfo[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
 filtering an aggregation that matches the same AggregationName or another aggregation.
 In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
     aggregationFilters?: AggregationFilter[] | undefined;
-    /** List of aggregators that defines how the list item should be aggregated. */
+}
+
+/** Request to search shares */
+export interface ShareSearchRequest extends ShareSearchAndAggregationBaseRequest {
+    /** Limits the document count of the result set. */
+    limit: number;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** List of aggregators that defines how the items should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
+}
+
+/** Request to aggregate shares based on the specified aggregators */
+export interface ShareAggregationRequest extends ShareSearchAndAggregationBaseRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators: AggregatorBase[];
 }
 
 /** Result of share creation */
@@ -19986,8 +20514,6 @@ export interface ShareBaseCreateRequest {
     contents: ShareContent[];
     /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
-    /** Configuration for template to use on the share detail page. */
-    template?: TemplateBase | undefined;
     /** Access for content outputs in share. */
     outputAccess: OutputAccess;
 }
@@ -20004,6 +20530,8 @@ export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
     recipientEmails?: UserEmail[] | undefined;
     /** System language used for share (mail and detail page). en or de. */
     languageCode: string;
+    /** Set to true to disable the creation of notifications and emails to recipients. */
+    suppressNotifications: boolean;
 }
 
 /** Create request for embed share */
@@ -20022,8 +20550,6 @@ export interface ShareBaseUpdateRequest {
     contents: ShareContent[];
     /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
-    /** Configuration for template to use on the share detail page. */
-    template?: TemplateBase | undefined;
     /** Access for content outputs in share. */
     outputAccess: OutputAccess;
 }
@@ -20434,7 +20960,7 @@ export interface UserRoleEditable {
 /** Represents a user role, which associates users with user rights. */
 export interface UserRole extends UserRoleEditable {
     /** User role ID. */
-    id?: string | undefined;
+    id: string;
 }
 
 /** Holds information needed for user creation. */
@@ -20466,8 +20992,12 @@ export interface SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUse
     queryDebugInformation?: QueryDebugInformation | undefined;
 }
 
+export interface SearchBehaviorWithAggregationBaseResultOfUserWithRoles extends SearchBehaviorBaseResultOfUserWithRoles {
+    aggregationResults?: AggregationResult[] | undefined;
+}
+
 /** Holds results of the user search. */
-export interface UserSearchResult extends SearchBehaviorBaseResultOfUserWithRoles {
+export interface UserSearchResult extends SearchBehaviorWithAggregationBaseResultOfUserWithRoles {
 }
 
 /** User information retrieved via search */
@@ -20475,7 +21005,7 @@ export interface UserWithRoles {
     /** IDs of user roles user is assigned to */
     userRoleIds?: string[] | undefined;
     /** User's Picturepark ID. */
-    id?: string | undefined;
+    id: string;
     /** User's first name. */
     firstName?: string | undefined;
     /** User's last name. */
@@ -20492,45 +21022,43 @@ export interface UserWithRoles {
     isReadOnly: boolean;
 }
 
-/** Represents user search request. */
-export interface UserSearchRequest {
+/** Represents an aggregation request over users. */
+export interface UserSearchAndAggregationBaseRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
     searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. */
-    sort?: SortInfo[] | undefined;
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** Filter applied to users. */
+    /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
     /** Return only users in certain life cycle state(s). */
     lifeCycleFilter: LifeCycleFilter;
     /** Return only users with certain user rights. */
     userRightsFilter?: UserRight[] | undefined;
-    /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
-    debugMode: boolean;
-    includeServiceUser: boolean;
-}
-
-/** Represents an aggregation request over users. */
-export interface UserAggregationRequest {
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Fields and respective directions requested to sort the search results. */
-    sort?: SortInfo[] | undefined;
-    /** An optional search filter. Limits the content document result set. */
-    filter?: FilterBase | undefined;
     /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
 filtering an aggregation that matches the same AggregationName or another aggregation.
 In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
     aggregationFilters?: AggregationFilter[] | undefined;
-    /** List of aggregators used while evaluating the request. */
+    includeServiceUser: boolean;
+}
+
+/** Represents user search request. */
+export interface UserSearchRequest extends UserSearchAndAggregationBaseRequest {
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
+    debugMode: boolean;
+    /** List of aggregators that defines how the items should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
+}
+
+/** Represents an aggregation request over users. */
+export interface UserAggregationRequest extends UserSearchAndAggregationBaseRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators: AggregatorBase[];
 }
 
 export interface UserLockRequest {
