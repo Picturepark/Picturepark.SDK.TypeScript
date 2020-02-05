@@ -9,7 +9,7 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import { FilterBase, IEntityBase, ThumbnailSize } from '@picturepark/sdk-v1-angular';
+import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize } from '@picturepark/sdk-v1-angular';
 import { LiquidRenderingService } from '../../services/liquid-rendering/liquid-rendering.service';
 import { ContentItemSelectionService } from '../../services/content-item-selection/content-item-selection.service';
 import { ContentModel } from '../../models/content-model';
@@ -76,6 +76,14 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
 
     @Input() public searchString = '';
+    /**
+    * ### SearchBehavior to be passed on the search request
+    * default value
+    * ``` javascript
+    *       SearchBehavior.SimplifiedSearch
+    * ```
+    */
+    @Input() public searchBehavior: SearchBehavior;
     @Input() public filter: FilterBase | null = null;
 
     private _totalResults: number | null = null;
