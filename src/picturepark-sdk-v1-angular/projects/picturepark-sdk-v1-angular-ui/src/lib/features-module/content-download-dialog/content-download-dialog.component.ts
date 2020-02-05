@@ -100,7 +100,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     });
 
     this.selection = selection;
-    this.noOutputs = !selection.getFileFormats().some(i => selection.getOutputs(i).length > 0);
+    this.noOutputs = !fileFormats.some(i => selection.getOutputs(i).length > 0);
     this.singleItem = fileFormats.length === 1 && fileFormats[0].contents.length === 1;
   }
 
@@ -185,7 +185,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     if (this.data.contents.length === 1) {
       const detail = (this.data.contents[0] as ContentDetail);
       if (detail.outputs) {
-        await this.setSelection(detail.outputs!);
+        await this.setSelection(detail.outputs);
         return;
       }
 
