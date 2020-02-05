@@ -97,11 +97,12 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.contentmetadataupdateitem.html#content" class="tsd-kind-icon">content</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.contentmetadataupdateitem.html#contentfieldsupdateoptions" class="tsd-kind-icon">content<wbr>Fields<wbr>Update<wbr>Options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.contentmetadataupdateitem.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.contentmetadataupdateitem.html#layerfieldsupdateoptions" class="tsd-kind-icon">layer<wbr>Fields<wbr>Update<wbr>Options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.contentmetadataupdateitem.html#layerschemaids" class="tsd-kind-icon">layer<wbr>Schema<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.contentmetadataupdateitem.html#layerschemasupdateoptions" class="tsd-kind-icon">layer<wbr>Schemas<wbr>Update<wbr>Options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.contentmetadataupdateitem.html#metadata" class="tsd-kind-icon">metadata</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.contentmetadataupdateitem.html#schemafieldsupdateoptions" class="tsd-kind-icon">schema<wbr>Fields<wbr>Update<wbr>Options</a></li>
 							</ul>
 						</section>
 					</div>
@@ -112,19 +113,38 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="content" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content</h3>
-					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.datadictionary.html" class="tsd-signature-type">DataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#content">content</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3380</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4153</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The content data of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+							<p>The content data of the content. It&#39;s an object of dynamic metadata whose structure is defined in the Content schema identified by
 								the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-								whose ContentType is ContentItem).
+								whose ContentType is Virtual).
 							Update of content data will be done only if this attribute has any data, i.e. if it&#39;s not null or empty.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="contentfieldsupdateoptions" class="tsd-anchor"></a>
+					<h3>content<wbr>Fields<wbr>Update<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Fields<wbr>Update<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.updateoption.html" class="tsd-signature-type">UpdateOption</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#contentfieldsupdateoptions">contentFieldsUpdateOptions</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4177</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Options to modify the behavior for updating the content.
+								Merge: the values specified in the Content object are merged to the existing content.
+								Replace: the values specified in the Content object entirely replace the content.
+							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>
@@ -134,12 +154,31 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3422</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4200</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The ID of the content.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="layerfieldsupdateoptions" class="tsd-anchor"></a>
+					<h3>layer<wbr>Fields<wbr>Update<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">layer<wbr>Fields<wbr>Update<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.updateoption.html" class="tsd-signature-type">UpdateOption</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#layerfieldsupdateoptions">layerFieldsUpdateOptions</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4172</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Options to modify the behavior for updating the values of schemas.
+								Merge: the values specified in the Metadata dictionary are merged to the existing values of the corresponding schema on the content.
+								Replace: the values specified in the Metadata dictionary entirely replace any existing value of the corresponding schema on the content.
+							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>
@@ -150,7 +189,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#layerschemaids">layerSchemaIds</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3375</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4148</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -167,7 +206,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#layerschemasupdateoptions">layerSchemasUpdateOptions</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3392</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4167</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -184,11 +223,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="metadata" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> metadata</h3>
-					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.datadictionary.html" class="tsd-signature-type">DataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#metadata">metadata</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3385</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4158</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -197,27 +236,6 @@
 								The metadata belonging to the layers of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
 								by the LayerSchemaIds property.
 							If there are no data for a specified LayerSchemaId, it is treated as empty.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="schemafieldsupdateoptions" class="tsd-anchor"></a>
-					<h3>schema<wbr>Fields<wbr>Update<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">schema<wbr>Fields<wbr>Update<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.updateoption.html" class="tsd-signature-type">UpdateOption</a></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="_picturepark_.contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="_picturepark_.contentmetadataupdaterequest.html#schemafieldsupdateoptions">schemaFieldsUpdateOptions</a></p>
-						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3399</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Options to modify the behavior for updating the values of schemas.
-								Merge: the values specified in the Content and Metadata dictionaries are merged to the existing values of the corresponding
-								schema on the content.
-								Replace: the values specified in the Content and Metadata dictionaries entirely replace any existing value of the
-								corresponding schema on the content.
-							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>
@@ -259,8 +277,14 @@
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.contentmetadataupdateitem.html#content" class="tsd-kind-icon">content</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.contentmetadataupdateitem.html#contentfieldsupdateoptions" class="tsd-kind-icon">content<wbr>Fields<wbr>Update<wbr>Options</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.contentmetadataupdateitem.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.contentmetadataupdateitem.html#layerfieldsupdateoptions" class="tsd-kind-icon">layer<wbr>Fields<wbr>Update<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.contentmetadataupdateitem.html#layerschemaids" class="tsd-kind-icon">layer<wbr>Schema<wbr>Ids</a>
@@ -270,9 +294,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.contentmetadataupdateitem.html#metadata" class="tsd-kind-icon">metadata</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_picturepark_.contentmetadataupdateitem.html#schemafieldsupdateoptions" class="tsd-kind-icon">schema<wbr>Fields<wbr>Update<wbr>Options</a>
 							</li>
 						</ul>
 					</li>

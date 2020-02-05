@@ -100,6 +100,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdetail.html#backuptimestamp" class="tsd-kind-icon">backup<wbr>Timestamp</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdetail.html#contentid" class="tsd-kind-icon">content<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdetail.html#detail" class="tsd-kind-icon">detail</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdetail.html#dynamicrendering" class="tsd-kind-icon">dynamic<wbr>Rendering</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdetail.html#fileversion" class="tsd-kind-icon">file<wbr>Version</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdetail.html#id" class="tsd-kind-icon">id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdetail.html#outputformatid" class="tsd-kind-icon">output<wbr>Format<wbr>Id</a></li>
@@ -118,7 +119,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.output.html">Output</a>.<a href="_picturepark_.output.html#attemptsleft">attemptsLeft</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2911</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3674</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,7 +135,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.output.html">Output</a>.<a href="_picturepark_.output.html#backuptimestamp">backupTimestamp</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2909</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3672</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -150,7 +151,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.output.html">Output</a>.<a href="_picturepark_.output.html#contentid">contentId</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2903</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3666</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -166,12 +167,28 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.output.html">Output</a>.<a href="_picturepark_.output.html#detail">detail</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2907</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3670</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Detail of the output that are format dependent.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="dynamicrendering" class="tsd-anchor"></a>
+					<h3>dynamic<wbr>Rendering</h3>
+					<div class="tsd-signature tsd-kind-icon">dynamic<wbr>Rendering<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.output.html">Output</a>.<a href="_picturepark_.output.html#dynamicrendering">dynamicRendering</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:3678</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Whether this Output belongs to a dynamic OutputFormat</p>
 						</div>
 					</div>
 				</section>
@@ -182,7 +199,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.output.html">Output</a>.<a href="_picturepark_.output.html#fileversion">fileVersion</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2913</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3676</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -193,17 +210,17 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="id" class="tsd-anchor"></a>
-					<h3>id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.output.html">Output</a>.<a href="_picturepark_.output.html#id">id</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2899</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3662</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The ID of the output.</p>
+							<p>The ID of the output. Can be null for dynamic outputs which are not rendered yet.</p>
 						</div>
 					</div>
 				</section>
@@ -214,7 +231,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.output.html">Output</a>.<a href="_picturepark_.output.html#outputformatid">outputFormatId</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2901</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3664</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -230,7 +247,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.output.html">Output</a>.<a href="_picturepark_.output.html#renderingstate">renderingState</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2905</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3668</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -285,6 +302,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.outputdetail.html#detail" class="tsd-kind-icon">detail</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.outputdetail.html#dynamicrendering" class="tsd-kind-icon">dynamic<wbr>Rendering</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.outputdetail.html#fileversion" class="tsd-kind-icon">file<wbr>Version</a>

@@ -72,7 +72,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Encapsulates the result of a list item search.</p>
+						<p>Result for list item search operation</p>
 					</div>
 				</div>
 			</section>
@@ -80,7 +80,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_picturepark_.baseresultoflistitem.html" class="tsd-signature-type">BaseResultOfListItem</a>
+						<a href="_picturepark_.searchbehaviorwithaggregationbaseresultoflistitem.html" class="tsd-signature-type">SearchBehaviorWithAggregationBaseResultOfListItem</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">ListItemSearchResult</span>
@@ -96,9 +96,13 @@
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.listitemsearchresult.html#aggregationresults" class="tsd-kind-icon">aggregation<wbr>Results</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.listitemsearchresult.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.listitemsearchresult.html#issearchstringrewritten" class="tsd-kind-icon">is<wbr>Search<wbr>String<wbr>Rewritten</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.listitemsearchresult.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.listitemsearchresult.html#querydebuginformation" class="tsd-kind-icon">query<wbr>Debug<wbr>Information</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.listitemsearchresult.html#results" class="tsd-kind-icon">results</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.listitemsearchresult.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.listitemsearchresult.html#totalresults" class="tsd-kind-icon">total<wbr>Results</a></li>
 							</ul>
 						</section>
@@ -108,13 +112,35 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="aggregationresults" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> aggregation<wbr>Results</h3>
+					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Results<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.aggregationresult.html" class="tsd-signature-type">AggregationResult</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.searchbehaviorwithaggregationbaseresultoflistitem.html">SearchBehaviorWithAggregationBaseResultOfListItem</a>.<a href="_picturepark_.searchbehaviorwithaggregationbaseresultoflistitem.html#aggregationresults">aggregationResults</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4662</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="elapsedmilliseconds" class="tsd-anchor"></a>
 					<h3>elapsed<wbr>Milliseconds</h3>
 					<div class="tsd-signature tsd-kind-icon">elapsed<wbr>Milliseconds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.baseresultoflistitem.html">BaseResultOfListItem</a>.<a href="_picturepark_.baseresultoflistitem.html#elapsedmilliseconds">elapsedMilliseconds</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3816</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4653</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="issearchstringrewritten" class="tsd-anchor"></a>
+					<h3>is<wbr>Search<wbr>String<wbr>Rewritten</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Search<wbr>String<wbr>Rewritten<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.searchbehaviorbaseresultoflistitem.html">SearchBehaviorBaseResultOfListItem</a>.<a href="_picturepark_.searchbehaviorbaseresultoflistitem.html#issearchstringrewritten">isSearchStringRewritten</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4658</li>
 						</ul>
 					</aside>
 				</section>
@@ -125,7 +151,18 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.baseresultoflistitem.html">BaseResultOfListItem</a>.<a href="_picturepark_.baseresultoflistitem.html#pagetoken">pageToken</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3817</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4654</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="querydebuginformation" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> query<wbr>Debug<wbr>Information</h3>
+					<div class="tsd-signature tsd-kind-icon">query<wbr>Debug<wbr>Information<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.querydebuginformation.html" class="tsd-signature-type">QueryDebugInformation</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.searchbehaviorbaseresultoflistitem.html">SearchBehaviorBaseResultOfListItem</a>.<a href="_picturepark_.searchbehaviorbaseresultoflistitem.html#querydebuginformation">queryDebugInformation</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4659</li>
 						</ul>
 					</aside>
 				</section>
@@ -136,7 +173,18 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.baseresultoflistitem.html">BaseResultOfListItem</a>.<a href="_picturepark_.baseresultoflistitem.html#results">results</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3815</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4652</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="searchstring" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>String</h3>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.searchbehaviorbaseresultoflistitem.html">SearchBehaviorBaseResultOfListItem</a>.<a href="_picturepark_.searchbehaviorbaseresultoflistitem.html#searchstring">searchString</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4657</li>
 						</ul>
 					</aside>
 				</section>
@@ -147,7 +195,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.baseresultoflistitem.html">BaseResultOfListItem</a>.<a href="_picturepark_.baseresultoflistitem.html#totalresults">totalResults</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3814</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4651</li>
 						</ul>
 					</aside>
 				</section>
@@ -187,13 +235,25 @@
 						<a href="_picturepark_.listitemsearchresult.html" class="tsd-kind-icon">List<wbr>Item<wbr>Search<wbr>Result</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.listitemsearchresult.html#aggregationresults" class="tsd-kind-icon">aggregation<wbr>Results</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.listitemsearchresult.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.listitemsearchresult.html#issearchstringrewritten" class="tsd-kind-icon">is<wbr>Search<wbr>String<wbr>Rewritten</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.listitemsearchresult.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.listitemsearchresult.html#querydebuginformation" class="tsd-kind-icon">query<wbr>Debug<wbr>Information</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.listitemsearchresult.html#results" class="tsd-kind-icon">results</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.listitemsearchresult.html#searchstring" class="tsd-kind-icon">search<wbr>String</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.listitemsearchresult.html#totalresults" class="tsd-kind-icon">total<wbr>Results</a>

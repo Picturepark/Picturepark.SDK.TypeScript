@@ -77,7 +77,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="searchbehaviorbaseresultofuserwithroles.html" class="tsd-signature-type">SearchBehaviorBaseResultOfUserWithRoles</a>
+						<a href="searchbehaviorwithaggregationbaseresultofuserwithroles.html" class="tsd-signature-type">SearchBehaviorWithAggregationBaseResultOfUserWithRoles</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">UserSearchResult</span>
@@ -91,6 +91,7 @@
 				<ul class="tsd-hierarchy">
 					<li><a href="../interfaces/ibaseresultofuserwithroles.html" class="tsd-signature-type">IBaseResultOfUserWithRoles</a></li>
 					<li><a href="../interfaces/isearchbehaviorbaseresultofuserwithroles.html" class="tsd-signature-type">ISearchBehaviorBaseResultOfUserWithRoles</a></li>
+					<li><a href="../interfaces/isearchbehaviorwithaggregationbaseresultofuserwithroles.html" class="tsd-signature-type">ISearchBehaviorWithAggregationBaseResultOfUserWithRoles</a></li>
 					<li><a href="../interfaces/iusersearchresult.html" class="tsd-signature-type">IUserSearchResult</a></li>
 				</ul>
 			</section>
@@ -107,6 +108,7 @@
 						<section class="tsd-index-section tsd-is-inherited tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="usersearchresult.html#aggregationresults" class="tsd-kind-icon">aggregation<wbr>Results</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="usersearchresult.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="usersearchresult.html#issearchstringrewritten" class="tsd-kind-icon">is<wbr>Search<wbr>String<wbr>Rewritten</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="usersearchresult.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a></li>
@@ -138,9 +140,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="searchbehaviorbaseresultofuserwithroles.html">SearchBehaviorBaseResultOfUserWithRoles</a>.<a href="searchbehaviorbaseresultofuserwithroles.html#constructor">constructor</a></p>
+								<p>Overrides <a href="searchbehaviorwithaggregationbaseresultofuserwithroles.html">SearchBehaviorWithAggregationBaseResultOfUserWithRoles</a>.<a href="searchbehaviorwithaggregationbaseresultofuserwithroles.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L58597">lib/api-services.ts:58597</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60176">lib/api-services.ts:60176</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -157,6 +159,18 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="aggregationresults" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> aggregation<wbr>Results</h3>
+					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Results<span class="tsd-signature-symbol">:</span> <a href="aggregationresult.html" class="tsd-signature-type">AggregationResult</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/iusersearchresult.html">IUserSearchResult</a>.<a href="../interfaces/iusersearchresult.html#aggregationresults">aggregationResults</a></p>
+						<p>Inherited from <a href="searchbehaviorwithaggregationbaseresultofuserwithroles.html">SearchBehaviorWithAggregationBaseResultOfUserWithRoles</a>.<a href="searchbehaviorwithaggregationbaseresultofuserwithroles.html#aggregationresults">aggregationResults</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60126">lib/api-services.ts:60126</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="elapsedmilliseconds" class="tsd-anchor"></a>
 					<h3>elapsed<wbr>Milliseconds</h3>
 					<div class="tsd-signature tsd-kind-icon">elapsed<wbr>Milliseconds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
@@ -164,7 +178,7 @@
 						<p>Implementation of <a href="../interfaces/iusersearchresult.html">IUserSearchResult</a>.<a href="../interfaces/iusersearchresult.html#elapsedmilliseconds">elapsedMilliseconds</a></p>
 						<p>Inherited from <a href="baseresultofuserwithroles.html">BaseResultOfUserWithRoles</a>.<a href="baseresultofuserwithroles.html#elapsedmilliseconds">elapsedMilliseconds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L58489">lib/api-services.ts:58489</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60018">lib/api-services.ts:60018</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,7 +190,7 @@
 						<p>Implementation of <a href="../interfaces/iusersearchresult.html">IUserSearchResult</a>.<a href="../interfaces/iusersearchresult.html#issearchstringrewritten">isSearchStringRewritten</a></p>
 						<p>Inherited from <a href="searchbehaviorbaseresultofuserwithroles.html">SearchBehaviorBaseResultOfUserWithRoles</a>.<a href="searchbehaviorbaseresultofuserwithroles.html#issearchstringrewritten">isSearchStringRewritten</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L58554">lib/api-services.ts:58554</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60083">lib/api-services.ts:60083</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -188,7 +202,7 @@
 						<p>Implementation of <a href="../interfaces/iusersearchresult.html">IUserSearchResult</a>.<a href="../interfaces/iusersearchresult.html#pagetoken">pageToken</a></p>
 						<p>Inherited from <a href="baseresultofuserwithroles.html">BaseResultOfUserWithRoles</a>.<a href="baseresultofuserwithroles.html#pagetoken">pageToken</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L58490">lib/api-services.ts:58490</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60019">lib/api-services.ts:60019</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -200,7 +214,7 @@
 						<p>Implementation of <a href="../interfaces/iusersearchresult.html">IUserSearchResult</a>.<a href="../interfaces/iusersearchresult.html#querydebuginformation">queryDebugInformation</a></p>
 						<p>Inherited from <a href="searchbehaviorbaseresultofuserwithroles.html">SearchBehaviorBaseResultOfUserWithRoles</a>.<a href="searchbehaviorbaseresultofuserwithroles.html#querydebuginformation">queryDebugInformation</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L58555">lib/api-services.ts:58555</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60084">lib/api-services.ts:60084</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -212,7 +226,7 @@
 						<p>Implementation of <a href="../interfaces/iusersearchresult.html">IUserSearchResult</a>.<a href="../interfaces/iusersearchresult.html#results">results</a></p>
 						<p>Inherited from <a href="baseresultofuserwithroles.html">BaseResultOfUserWithRoles</a>.<a href="baseresultofuserwithroles.html#results">results</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L58488">lib/api-services.ts:58488</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60017">lib/api-services.ts:60017</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +238,7 @@
 						<p>Implementation of <a href="../interfaces/iusersearchresult.html">IUserSearchResult</a>.<a href="../interfaces/iusersearchresult.html#searchstring">searchString</a></p>
 						<p>Inherited from <a href="searchbehaviorbaseresultofuserwithroles.html">SearchBehaviorBaseResultOfUserWithRoles</a>.<a href="searchbehaviorbaseresultofuserwithroles.html#searchstring">searchString</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L58553">lib/api-services.ts:58553</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60082">lib/api-services.ts:60082</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -236,7 +250,7 @@
 						<p>Implementation of <a href="../interfaces/iusersearchresult.html">IUserSearchResult</a>.<a href="../interfaces/iusersearchresult.html#totalresults">totalResults</a></p>
 						<p>Inherited from <a href="baseresultofuserwithroles.html">BaseResultOfUserWithRoles</a>.<a href="baseresultofuserwithroles.html#totalresults">totalResults</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L58487">lib/api-services.ts:58487</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60016">lib/api-services.ts:60016</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -252,9 +266,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="searchbehaviorbaseresultofuserwithroles.html">SearchBehaviorBaseResultOfUserWithRoles</a>.<a href="searchbehaviorbaseresultofuserwithroles.html#init">init</a></p>
+								<p>Overrides <a href="searchbehaviorwithaggregationbaseresultofuserwithroles.html">SearchBehaviorWithAggregationBaseResultOfUserWithRoles</a>.<a href="searchbehaviorwithaggregationbaseresultofuserwithroles.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L58603">lib/api-services.ts:58603</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60182">lib/api-services.ts:60182</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -276,9 +290,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="searchbehaviorbaseresultofuserwithroles.html">SearchBehaviorBaseResultOfUserWithRoles</a>.<a href="searchbehaviorbaseresultofuserwithroles.html#tojson">toJSON</a></p>
+								<p>Overrides <a href="searchbehaviorwithaggregationbaseresultofuserwithroles.html">SearchBehaviorWithAggregationBaseResultOfUserWithRoles</a>.<a href="searchbehaviorwithaggregationbaseresultofuserwithroles.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L58614">lib/api-services.ts:58614</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60193">lib/api-services.ts:60193</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -300,9 +314,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="searchbehaviorbaseresultofuserwithroles.html">SearchBehaviorBaseResultOfUserWithRoles</a>.<a href="searchbehaviorbaseresultofuserwithroles.html#fromjs">fromJS</a></p>
+								<p>Overrides <a href="searchbehaviorwithaggregationbaseresultofuserwithroles.html">SearchBehaviorWithAggregationBaseResultOfUserWithRoles</a>.<a href="searchbehaviorwithaggregationbaseresultofuserwithroles.html#fromjs">fromJS</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a7d9fed18/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L58607">lib/api-services.ts:58607</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L60186">lib/api-services.ts:60186</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -334,6 +348,9 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
 								<a href="usersearchresult.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="usersearchresult.html#aggregationresults" class="tsd-kind-icon">aggregation<wbr>Results</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="usersearchresult.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a>
