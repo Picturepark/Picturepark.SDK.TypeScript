@@ -175,6 +175,8 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   async ngOnInit() {
+    console.log('[SAN] - entering content download ngoninit');
+    // console.time('ngOninit');
 
     super.ngOnInit();
 
@@ -185,8 +187,11 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     if (this.data.contents.length === 1) {
       const detail = (this.data.contents[0] as ContentDetail);
       if (detail.outputs) {
+
+    // console.time('setSelectionLength1');
         await this.setSelection(detail.outputs);
-        return;
+    // console.timeEnd('setSelectionLength1');
+    return;
       }
 
       const detailSubscription = this.contentService.get(this.data.contents[0].id, [ContentResolveBehavior.Outputs]).subscribe(async content => {
@@ -197,12 +202,16 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       const detail = (this.data.contents[0] as ContentDetail);
       if (detail.outputs) {
         const outputs = flatMap(this.data.contents, content => (content as ContentDetail).outputs!);
+        // console.time('setSelectionElse');
         await this.setSelection(outputs);
+        // console.timeEnd('setSelectionElse');
         return;
       }
 
       this.fetchOutputs();
     }
+
+    // console.timeEnd('ngOninit');
   }
 
   private async setSelection(outputs: IOutPut[]): Promise<void> {
