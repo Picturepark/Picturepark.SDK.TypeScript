@@ -80,7 +80,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">UserAggregationRequest</span>
+						<a href="_picturepark_.usersearchandaggregationbaserequest.html" class="tsd-signature-type">UserSearchAndAggregationBaseRequest</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">UserAggregationRequest</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -91,12 +96,14 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.useraggregationrequest.html#aggregationfilters" class="tsd-kind-icon">aggregation<wbr>Filters</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.useraggregationrequest.html#aggregationfilters" class="tsd-kind-icon">aggregation<wbr>Filters</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.useraggregationrequest.html#aggregators" class="tsd-kind-icon">aggregators</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.useraggregationrequest.html#filter" class="tsd-kind-icon">filter</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.useraggregationrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.useraggregationrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.useraggregationrequest.html#sort" class="tsd-kind-icon">sort</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.useraggregationrequest.html#filter" class="tsd-kind-icon">filter</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.useraggregationrequest.html#includeserviceuser" class="tsd-kind-icon">include<wbr>Service<wbr>User</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.useraggregationrequest.html#lifecyclefilter" class="tsd-kind-icon">life<wbr>Cycle<wbr>Filter</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.useraggregationrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.useraggregationrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.useraggregationrequest.html#userrightsfilter" class="tsd-kind-icon">user<wbr>Rights<wbr>Filter</a></li>
 							</ul>
 						</section>
 					</div>
@@ -104,13 +111,14 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="aggregationfilters" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> aggregation<wbr>Filters</h3>
 					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Filters<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.aggregationfilter.html" class="tsd-signature-type">AggregationFilter</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.usersearchandaggregationbaserequest.html">UserSearchAndAggregationBaseRequest</a>.<a href="_picturepark_.usersearchandaggregationbaserequest.html#aggregationfilters">aggregationFilters</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5935</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6912</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -123,41 +131,70 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="aggregators" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> aggregators</h3>
-					<div class="tsd-signature tsd-kind-icon">aggregators<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.aggregatorbase.html" class="tsd-signature-type">AggregatorBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>aggregators</h3>
+					<div class="tsd-signature tsd-kind-icon">aggregators<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.aggregatorbase.html" class="tsd-signature-type">AggregatorBase</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5937</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6931</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>List of aggregators used while evaluating the request.</p>
+							<p>List of aggregators that defines how the items should be aggregated.</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="filter" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> filter</h3>
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.filterbase.html" class="tsd-signature-type">FilterBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.usersearchandaggregationbaserequest.html">UserSearchAndAggregationBaseRequest</a>.<a href="_picturepark_.usersearchandaggregationbaserequest.html#filter">filter</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5931</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6904</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optional search filter. Limits the content document result set.</p>
+							<p>An optional search filter. Limits the document result set.</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="includeserviceuser" class="tsd-anchor"></a>
+					<h3>include<wbr>Service<wbr>User</h3>
+					<div class="tsd-signature tsd-kind-icon">include<wbr>Service<wbr>User<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.usersearchandaggregationbaserequest.html">UserSearchAndAggregationBaseRequest</a>.<a href="_picturepark_.usersearchandaggregationbaserequest.html#includeserviceuser">includeServiceUser</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:6913</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="lifecyclefilter" class="tsd-anchor"></a>
+					<h3>life<wbr>Cycle<wbr>Filter</h3>
+					<div class="tsd-signature tsd-kind-icon">life<wbr>Cycle<wbr>Filter<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.lifecyclefilter.html" class="tsd-signature-type">LifeCycleFilter</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.usersearchandaggregationbaserequest.html">UserSearchAndAggregationBaseRequest</a>.<a href="_picturepark_.usersearchandaggregationbaserequest.html#lifecyclefilter">lifeCycleFilter</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:6906</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Return only users in certain life cycle state(s).</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="searchbehaviors" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>Behaviors</h3>
 					<div class="tsd-signature tsd-kind-icon">search<wbr>Behaviors<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.searchbehavior.html" class="tsd-signature-type">SearchBehavior</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.usersearchandaggregationbaserequest.html">UserSearchAndAggregationBaseRequest</a>.<a href="_picturepark_.usersearchandaggregationbaserequest.html#searchbehaviors">searchBehaviors</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5927</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6902</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -166,13 +203,14 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="searchstring" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>String</h3>
 					<div class="tsd-signature tsd-kind-icon">search<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.usersearchandaggregationbaserequest.html">UserSearchAndAggregationBaseRequest</a>.<a href="_picturepark_.usersearchandaggregationbaserequest.html#searchstring">searchString</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5925</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6900</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -181,18 +219,19 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="sort" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> sort</h3>
-					<div class="tsd-signature tsd-kind-icon">sort<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.sortinfo.html" class="tsd-signature-type">SortInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="userrightsfilter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> user<wbr>Rights<wbr>Filter</h3>
+					<div class="tsd-signature tsd-kind-icon">user<wbr>Rights<wbr>Filter<span class="tsd-signature-symbol">:</span> <a href="../enums/_picturepark_.userright.html" class="tsd-signature-type">UserRight</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.usersearchandaggregationbaserequest.html">UserSearchAndAggregationBaseRequest</a>.<a href="_picturepark_.usersearchandaggregationbaserequest.html#userrightsfilter">userRightsFilter</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5929</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6908</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Fields and respective directions requested to sort the search results.</p>
+							<p>Return only users with certain user rights.</p>
 						</div>
 					</div>
 				</section>
@@ -231,23 +270,29 @@
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
 						<a href="_picturepark_.useraggregationrequest.html" class="tsd-kind-icon">User<wbr>Aggregation<wbr>Request</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.useraggregationrequest.html#aggregationfilters" class="tsd-kind-icon">aggregation<wbr>Filters</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.useraggregationrequest.html#aggregators" class="tsd-kind-icon">aggregators</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.useraggregationrequest.html#filter" class="tsd-kind-icon">filter</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.useraggregationrequest.html#includeserviceuser" class="tsd-kind-icon">include<wbr>Service<wbr>User</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.useraggregationrequest.html#lifecyclefilter" class="tsd-kind-icon">life<wbr>Cycle<wbr>Filter</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.useraggregationrequest.html#searchbehaviors" class="tsd-kind-icon">search<wbr>Behaviors</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.useraggregationrequest.html#searchstring" class="tsd-kind-icon">search<wbr>String</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_picturepark_.useraggregationrequest.html#sort" class="tsd-kind-icon">sort</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.useraggregationrequest.html#userrightsfilter" class="tsd-kind-icon">user<wbr>Rights<wbr>Filter</a>
 							</li>
 						</ul>
 					</li>

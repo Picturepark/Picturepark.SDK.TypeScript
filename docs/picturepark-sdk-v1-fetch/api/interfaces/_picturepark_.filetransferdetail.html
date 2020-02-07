@@ -103,6 +103,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.filetransferdetail.html#identifier" class="tsd-kind-icon">identifier</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.filetransferdetail.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.filetransferdetail.html#outputitems" class="tsd-kind-icon">output<wbr>Items</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.filetransferdetail.html#requestid" class="tsd-kind-icon">request<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.filetransferdetail.html#state" class="tsd-kind-icon">state</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.filetransferdetail.html#transferid" class="tsd-kind-icon">transfer<wbr>Id</a></li>
 							</ul>
@@ -118,7 +119,7 @@
 					<div class="tsd-signature tsd-kind-icon">audit<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.useraudit.html" class="tsd-signature-type">UserAudit</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5618</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6590</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -134,7 +135,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.filetransfer.html">FileTransfer</a>.<a href="_picturepark_.filetransfer.html#contentid">contentId</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5613</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6585</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -149,7 +150,7 @@
 					<div class="tsd-signature tsd-kind-icon">file<wbr>Metadata<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.filemetadata.html" class="tsd-signature-type">FileMetadata</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5620</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6592</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -165,7 +166,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.filetransfer.html">FileTransfer</a>.<a href="_picturepark_.filetransfer.html#id">id</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5603</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6573</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -176,17 +177,17 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="identifier" class="tsd-anchor"></a>
-					<h3>identifier</h3>
-					<div class="tsd-signature tsd-kind-icon">identifier<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> identifier</h3>
+					<div class="tsd-signature tsd-kind-icon">identifier<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.filetransfer.html">FileTransfer</a>.<a href="_picturepark_.filetransfer.html#identifier">identifier</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5607</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6577</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Client provided identifier.</p>
+							<p>Replaced in favor of RequestId. Client provided identifier.</p>
 						</div>
 					</div>
 				</section>
@@ -197,7 +198,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.filetransfer.html">FileTransfer</a>.<a href="_picturepark_.filetransfer.html#name">name</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5605</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6575</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -212,12 +213,28 @@
 					<div class="tsd-signature tsd-kind-icon">output<wbr>Items<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.filetransferoutput.html" class="tsd-signature-type">FileTransferOutput</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5622</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6594</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Outputs rendered during data extraction phase.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="requestid" class="tsd-anchor"></a>
+					<h3>request<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">request<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.filetransfer.html">FileTransfer</a>.<a href="_picturepark_.filetransfer.html#requestid">requestId</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:6579</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Client provided identifier.</p>
 						</div>
 					</div>
 				</section>
@@ -228,7 +245,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.filetransfer.html">FileTransfer</a>.<a href="_picturepark_.filetransfer.html#state">state</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5611</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6583</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -244,7 +261,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.filetransfer.html">FileTransfer</a>.<a href="_picturepark_.filetransfer.html#transferid">transferId</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:5609</li>
+							<li>Defined in docs/temp/picturepark.d.ts:6581</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -308,6 +325,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.filetransferdetail.html#outputitems" class="tsd-kind-icon">output<wbr>Items</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.filetransferdetail.html#requestid" class="tsd-kind-icon">request<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.filetransferdetail.html#state" class="tsd-kind-icon">state</a>
