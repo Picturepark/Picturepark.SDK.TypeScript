@@ -1,7 +1,7 @@
 import { BaseComponent } from '../base.component';
-import { Injector, OnInit, NgZone, Output, EventEmitter, Input, HostListener } from '@angular/core';
+import { Injector, OnInit, NgZone, Output, EventEmitter, Input, HostListener, Directive } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK
@@ -18,6 +18,7 @@ import { TranslationService } from '../../services/translations/translation.serv
 import { IBrowserView } from './interfaces/browser-view';
 import { debounceTime } from 'rxjs/operators';
 
+@Directive()
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
     // Services
     @LazyGetter()

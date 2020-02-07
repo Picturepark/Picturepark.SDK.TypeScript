@@ -45,7 +45,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
   }
 
-  @ViewChild(ContentBrowserComponent, { static: false }) contentBrowserComponent: ContentBrowserComponent;
+  @ViewChild(ContentBrowserComponent) contentBrowserComponent: ContentBrowserComponent;
 
   constructor(
     private route: ActivatedRoute,

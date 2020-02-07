@@ -1,7 +1,7 @@
 import {
   Component, OnInit, OnDestroy, Inject, ViewChild, ElementRef, Output, EventEmitter, Renderer2, AfterViewInit, Injector
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 

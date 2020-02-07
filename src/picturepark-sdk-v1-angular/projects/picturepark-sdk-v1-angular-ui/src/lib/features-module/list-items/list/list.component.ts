@@ -26,7 +26,7 @@ import { ListBrowserComponent } from '../../list-browser/list-browser.component'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent implements OnInit, OnDestroy {
-  @ViewChild(ListBrowserComponent, { static: false }) listBrowserComponent: ListBrowserComponent;
+  @ViewChild(ListBrowserComponent) listBrowserComponent: ListBrowserComponent;
   @Input() activeSchema: Subject<SchemaDetail | null>;
   @Output() queryChange = new EventEmitter<Params>();
 
