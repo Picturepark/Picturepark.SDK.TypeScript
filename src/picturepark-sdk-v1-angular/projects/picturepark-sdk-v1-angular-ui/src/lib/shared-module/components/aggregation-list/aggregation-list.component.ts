@@ -1,4 +1,4 @@
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges, Directive } from '@angular/core';
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -11,7 +11,6 @@ import {
 // COMPONENTS
 import { BaseComponent } from '../../components/base.component';
 
-@Directive()
 export abstract class AggregationListComponent extends BaseComponent implements OnChanges {
 
   @Input()

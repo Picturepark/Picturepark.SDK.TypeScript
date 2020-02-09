@@ -1,4 +1,4 @@
-import { Input, Output, EventEmitter, Directive } from '@angular/core';
+import { Input, Output, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
 
 // LIBRARIES
@@ -11,7 +11,6 @@ import { BaseComponent } from '../base.component';
 // INTERFACES
 import { ContentModel } from '../../models/content-model';
 
-@Directive()
 export abstract class BaseBrowserItemComponent<TEntity extends IEntityBase> extends BaseComponent {
     // INPUTS
     @Input() public itemModel: ContentModel<TEntity>;
