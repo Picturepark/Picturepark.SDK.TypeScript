@@ -175,10 +175,8 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   async ngOnInit() {
-    console.log('[SAN] - entering content download ngoninit');
-    // console.time('ngOninit');
 
-    super.ngOnInit();
+    super.init();
 
     // SET LOADER HEIGHT DYNAMIC
     const containerHeight = this.contentContainer.nativeElement.offsetHeight;
@@ -188,9 +186,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       const detail = (this.data.contents[0] as ContentDetail);
       if (detail.outputs) {
 
-    // console.time('setSelectionLength1');
         await this.setSelection(detail.outputs);
-    // console.timeEnd('setSelectionLength1');
     return;
       }
 
@@ -202,16 +198,13 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       const detail = (this.data.contents[0] as ContentDetail);
       if (detail.outputs) {
         const outputs = flatMap(this.data.contents, content => (content as ContentDetail).outputs!);
-        // console.time('setSelectionElse');
         await this.setSelection(outputs);
-        // console.timeEnd('setSelectionElse');
         return;
       }
 
       this.fetchOutputs();
     }
 
-    // console.timeEnd('ngOninit');
   }
 
   private async setSelection(outputs: IOutPut[]): Promise<void> {
