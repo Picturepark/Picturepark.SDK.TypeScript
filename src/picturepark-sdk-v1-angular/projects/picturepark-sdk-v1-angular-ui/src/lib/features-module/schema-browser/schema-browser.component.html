@@ -3,8 +3,10 @@
     <pp-browser-toolbar [browser]="self" entityName="schemas" [selectionEnabled]="false"></pp-browser-toolbar>
   </div>
   <div *ngIf="totalResults !== 0" class="browser__items" cdkScrollable>
-    <div class="browser__item-container" *ngFor="let schema of items; let i = index; trackBy: trackByItem">
-      <pp-schema-browser-item [schema]="schema.item" (activeSchemaChange)="setUpActiveSchema($event)"></pp-schema-browser-item>
+    <div class="browser__item-container" *ngFor="let schema of items; let i = index; trackBy: trackByItem"
+      (click)="selectedSchemaChange(i)">
+      <pp-schema-browser-item [schema]="schema.item" (activeSchemaChange)="setUpActiveSchema($event)"
+        [selected]="selectedSchemaIndex==i"></pp-schema-browser-item>
     </div>
   </div>
 
