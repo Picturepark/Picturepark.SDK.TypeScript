@@ -187,7 +187,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       if (detail.outputs) {
 
         await this.setSelection(detail.outputs);
-    return;
+        return;
       }
 
       const detailSubscription = this.contentService.get(this.data.contents[0].id, [ContentResolveBehavior.Outputs]).subscribe(async content => {
