@@ -124,7 +124,14 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       limit: this.pageSize,
       searchString: this.searchString,
       sort: this.sortInfo,
-      searchBehaviors: [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
+      searchBehaviors: this.searchBehavior ? [
+        this.searchBehavior,
+        SearchBehavior.DropInvalidCharactersOnFailure,
+        SearchBehavior.WildcardOnSingleTerm,
+      ] : [
+        SearchBehavior.DropInvalidCharactersOnFailure,
+        SearchBehavior.WildcardOnSingleTerm,
+      ],
       schemaIds: [this.schema.id],
       filter: this.filter ? this.filter : undefined,
       includeAllSchemaChildren: true,
