@@ -30,19 +30,22 @@ export class DialogBaseComponent extends BaseComponent implements OnInit, OnDest
     this.notificationService = injector.get(NotificationService);
   }
 
+
   // CLOSE DIALOG
   public closeDialog(): void {
     this.dialogRef.close();
   }
 
   ngOnInit() {
+    this.init();
+  }
 
+  init() {
     // NOTIFICATION SUBSCRIBER
     this.notificationSubscriber = this.notificationService.notification.subscribe(notification => {
       this.notification = notification;
     });
 
     this.subscription.add(this.notificationSubscriber);
-
   }
 }
