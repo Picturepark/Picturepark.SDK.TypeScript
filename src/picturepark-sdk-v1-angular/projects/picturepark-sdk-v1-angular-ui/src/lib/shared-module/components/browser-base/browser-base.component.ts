@@ -69,6 +69,10 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
     }
 
+    public get isTouchDevice(): boolean {
+        return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+    }
+
     protected scrollDebounceTime = 0;
 
     @Output() public totalResultsChange = new EventEmitter<number | null>();
@@ -93,7 +97,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     abstract init(): Promise<void>;
     abstract initSort(): void;
     abstract onScroll(): void;
-    abstract getSearchRequest(): Observable<{results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
+    abstract getSearchRequest(): Observable<{ results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string,
@@ -169,7 +173,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         this.nextPageToken = undefined;
         this.items = [];
         this.loadData();
-      }
+    }
 
     public loadData(): void {
         const request = this.getSearchRequest();
@@ -216,9 +220,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
             this.lastSelectedIndex = index;
 
             if (itemModel.isSelected === true) {
-            this.contentItemSelectionService.removeItem(itemModel.item);
+                this.contentItemSelectionService.removeItem(itemModel.item);
             } else {
-            this.contentItemSelectionService.addItem(itemModel.item);
+                this.contentItemSelectionService.addItem(itemModel.item);
             }
         } else if ($event.shiftKey) {
             const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;

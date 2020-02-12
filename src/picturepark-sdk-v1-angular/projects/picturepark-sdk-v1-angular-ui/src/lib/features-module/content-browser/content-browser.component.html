@@ -23,29 +23,18 @@
        [class.browser__items--large]="activeView.type === 'thumbnailLarge'"
        [class.browser__items--medium]="activeView.type === 'thumbnailMedium'" cdkScrollable>
     <div class="browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
-      <ng-container *ngIf="deviceBreakpoint;else desktop">
-        <pp-content-browser-item 
-        class="browser__item" 
-        [browser]="self"
-        [itemModel]="itemModel" 
-        [thumbnailSize]="activeThumbnailSize" 
-        [isListView]="activeView.type === 'list'" 
-        (previewItemChange)="previewItem($event)"
-        (press)="itemClicked($event,i)" 
-        (tap)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)">
+      <ng-container *ngIf="deviceBreakpoint && isTouchDevice;else desktop">
+        <pp-content-browser-item class="browser__item" [browser]="self" [itemModel]="itemModel"
+          [thumbnailSize]="activeThumbnailSize" [isListView]="activeView.type === 'list'"
+          (previewItemChange)="previewItem($event)" (press)="itemClicked($event,i)"
+          (tap)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)">
         </pp-content-browser-item>
       </ng-container>
 
       <ng-template #desktop>
-        <pp-content-browser-item 
-        class="browser__item" 
-        [browser]="self"
-        [itemModel]="itemModel" 
-        [thumbnailSize]="activeThumbnailSize" 
-        [isListView]="activeView.type === 'list'" 
-        (previewItemChange)="previewItem($event)"
-        (click)="itemClicked($event,i)" 
-        (dblclick)="previewItem(itemModel)">
+        <pp-content-browser-item class="browser__item" [browser]="self" [itemModel]="itemModel"
+          [thumbnailSize]="activeThumbnailSize" [isListView]="activeView.type === 'list'"
+          (previewItemChange)="previewItem($event)" (click)="itemClicked($event,i)" (dblclick)="previewItem(itemModel)">
         </pp-content-browser-item>
       </ng-template>
     </div>
@@ -54,7 +43,7 @@
   <div *ngIf="totalResults === 0" class="browser__empty-result mat-typography">
     {{ 'ContentBrowser.NoItems' | pptranslate }}
     <strong> {{ searchString }}</strong>
-    <br/>
+    <br />
     {{ 'ContentBrowser.NoItemsHist' | pptranslate }}
     <ul>
       <li>{{ 'ContentBrowser.NoItemsActionChannel' | pptranslate }}</li>
