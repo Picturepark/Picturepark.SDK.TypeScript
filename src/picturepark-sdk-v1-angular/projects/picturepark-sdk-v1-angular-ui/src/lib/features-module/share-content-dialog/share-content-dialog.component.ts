@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 // MD5 HASH
-import { Md5 } from 'ts-md5/dist/md5';
+import { Md5 } from 'ts-md5';
 
 // LIBRARIES
 import {
