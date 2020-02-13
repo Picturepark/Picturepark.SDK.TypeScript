@@ -185,7 +185,8 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     if (
       (changes['schema'] && !changes['schema'].firstChange) ||
       (changes['filter'] && !changes['filter'].firstChange) ||
-      (changes['searchString'] && !changes['searchString'].firstChange)
+      (changes['searchString'] && !changes['searchString'].firstChange) ||
+      (changes['searchBehavior'] && !changes['searchBehavior'].firstChange)
     ) {
       this.update();
     }
