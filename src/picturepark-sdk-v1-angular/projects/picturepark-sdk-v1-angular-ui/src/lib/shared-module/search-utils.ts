@@ -9,7 +9,7 @@ export enum ExtendedSearchBehavior {
     AdvancedSearch =  'AdvancedSearch',
     CPSimplifiedSearch = 'simplified',
     CPSimplifiedSearchOr = 'simplifiedOr',
-    CPAdvancedSearch =  'advanced',
+    CPAdvancedSearch =  'advanced'
 }
 
 export interface SearchParameters {
