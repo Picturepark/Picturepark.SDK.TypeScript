@@ -1,7 +1,7 @@
 import { BaseComponent } from '../base.component';
 import { Injector, OnInit, NgZone, Output, EventEmitter, Input, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK
@@ -126,7 +126,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         const scrollSubscription = this.scrollDispatcher.scrolled().pipe(debounceTime(this.scrollDebounceTime)).subscribe(scrollable => {
             if (!scrollable) { return; }
 
-            const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
+            const nativeElement = scrollable.getElementRef().nativeElement;
             const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
 
             if (scrollCriteria && !this.isLoading && this.items.length !== this.totalResults) {
