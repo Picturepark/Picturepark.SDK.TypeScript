@@ -38,7 +38,8 @@ export class ListComponent implements OnInit, OnDestroy {
   public schemaDetail: SchemaDetail;
   public schema: Observable<SchemaDetail>;
   public schemaId: string;
-  public selectedItems: string[];
+  public selectedItems;
+  public selectedItemsIds: string[];
 
   private subscription = new Subscription();
 
@@ -90,7 +91,7 @@ export class ListComponent implements OnInit, OnDestroy {
         const selectedQuery = queryParamMap.get('selected');
         if (selectedQuery) {
           const items = selectedQuery.split(',');
-          this.selectedItems = items;
+          this.selectedItemsIds = items;
         }
 
         this.cdr.detectChanges();

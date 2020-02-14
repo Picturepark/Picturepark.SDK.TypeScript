@@ -108,6 +108,17 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       }
     }
 
+    // Handle changes in the selections
+    this.selection.changed.subscribe(changes => {
+      if (this.selection.selected.length === 0) {
+        this.contentItemSelectionService.clear();
+      }
+      debugger;
+    
+      // ContentModel<TEntity>[]
+      this.selectedItems = this.selection.selected;
+    });
+
     this.loadData();
   }
 
@@ -142,7 +153,8 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   prepareData(items: ContentModel<ListItem>[]): void {
-    const metadataItems = items.map(m => Object.assign(m.item.content, { id: m.item.id }));
+
+    const metadataItems = items.map(m => m.item.content);
     const tableItems = this.metaDataPreviewService.getListItemsTableData(metadataItems, this.schema, this.customerInfo);
     this.tableItems.push(...tableItems);
 
@@ -160,8 +172,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   public deselectAll() {
     this.selection.clear();
-    this.selectedItems = this.selection.selected;
-    this.selectedItemsChange.emit(this.selection.selected);
     this.cdr.detectChanges();
   }
 
@@ -197,14 +207,10 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
 
-    this.selectedItems = this.selection.selected;
-    this.selectedItemsChange.emit(this.selection.selected);
   }
 
   public toggle(row: any) {
     this.selection.toggle(row);
-    this.selectedItems = this.selection.selected;
-    this.selectedItemsChange.emit(this.selection.selected);
   }
 
   /** The label for the checkbox on the passed row */

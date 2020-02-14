@@ -194,8 +194,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
                     contentModel.isSelected = this.selectedItems.some(selected => selected.id === item.id);
                     return contentModel;
                 });
-                this.prepareData(items);
                 this.items.push(...items);
+                this.prepareData(items);
             }
 
             this.isLoading = false;
