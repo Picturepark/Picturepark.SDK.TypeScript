@@ -161,7 +161,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     set selectedItems(items: TEntity[]) {
         this._selectedItems = items;
-        debugger;
         this.selectedItemsChange.emit(items);
     }
 

@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component,
   Input, OnInit, Injector, SimpleChanges, OnChanges
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -106,28 +106,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
         });
       }
     }
-
-    // Handle changes in the selections
-    // this.selection.changed.subscribe(changes => {
-    //   debugger;
-    //   if (this.selection.selected.length === 0) {
-    //     this.contentItemSelectionService.clear();
-    //   } else {
-    //     changes!.added.forEach(itemContent => {
-    //       const index = this.items.findIndex(item => item.item.id === itemContent._refId);
-    //       this.contentItemSelectionService.addItem(this.items[index].item);
-    //     });
-
-    //     changes!.removed.forEach(itemContent => {
-    //       const index = this.items.findIndex(item => item.item.id === itemContent._refId);
-    //       this.contentItemSelectionService.removeItem(this.items[index].item);
-    //     });
-    //   }
-
-    //   // ContentModel<TEntity>[]
-    //   // this.selectedItems = this.selection.selected;
-    // });
-
     this.loadData();
   }
 
@@ -168,8 +146,8 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.tableItems.push(...tableItems);
 
     this.dataSource.data = this.tableItems;
-    const selected = this.tableItems.filter(i => this.selectedItemIds && this.selectedItemIds.indexOf(i._refId) !== -1);
-    // selected.forEach(row => this.selection.toggle(row));
+    const selected = this.items.filter( listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
+    this.contentItemSelectionService.addItems(selected.map(q => q.item));
 
     this.cdr.detectChanges();
   }
@@ -181,7 +159,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   public deselectAll() {
     this.items.forEach(item => item.isSelected = false);
-    // this.selection.clear();
     this.cdr.detectChanges();
   }
 
@@ -206,32 +183,19 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   /** Whether the number of selected elements matches the total number of rows. */
   public isAllSelected() {
-    // const numSelected = this.selection.selected.length;
-    // const numRows = this.dataSource.data.length;
-    // return numSelected === numRows;
     return this.selectedItems.length === this.items.length;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle() {
-    debugger;
-    // this.isAllSelected() ?
-    //   this.selection.clear() :
-    //   this.selection.select(this.dataSource.data);
-
       this.isAllSelected() ?
       this.contentItemSelectionService.clear() :
       this.contentItemSelectionService.addItems(this.items.map(q => q.item));
-      // this.dataSource.data.forEach(row => this.selection.select(row));
-      // Possibility to select all in one go 
-      // selection = new SelectionModel<PeriodicElement>(true, [...ELEMENT_DATA])
 
 
   }
 
   public isRowSelected(row: any) {
-    const index = this.items.findIndex(item => item.item.id === row._refId);
-    const itemModel = this.items[index];
     return this.contentItemSelectionService.getById(row._refId) ? true : false;
   }
 
@@ -243,7 +207,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     } else {
       this.contentItemSelectionService.addItem(itemModel.item);
     }
-    // this.selection.toggle(row);
   }
 
   /** The label for the checkbox on the passed row */
@@ -252,7 +215,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.contentItemSelectionService.getById(row._refId) ? 'deselect' : 'select'} row ${row.position + 1}`;
-    // return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
   public rowClick(row: any): void {
