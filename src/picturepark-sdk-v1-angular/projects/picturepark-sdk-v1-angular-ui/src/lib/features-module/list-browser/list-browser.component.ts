@@ -57,7 +57,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   public displayedColumnNames: any[];
   public activeSortColumn: string;
   public activeSortDirection: string;
-  public selection = new SelectionModel<ListItem>(true, []);
   public customerInfo: CustomerInfo;
 
   constructor(
@@ -109,15 +108,25 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     }
 
     // Handle changes in the selections
-    this.selection.changed.subscribe(changes => {
-      if (this.selection.selected.length === 0) {
-        this.contentItemSelectionService.clear();
-      }
-      debugger;
-    
-      // ContentModel<TEntity>[]
-      this.selectedItems = this.selection.selected;
-    });
+    // this.selection.changed.subscribe(changes => {
+    //   debugger;
+    //   if (this.selection.selected.length === 0) {
+    //     this.contentItemSelectionService.clear();
+    //   } else {
+    //     changes!.added.forEach(itemContent => {
+    //       const index = this.items.findIndex(item => item.item.id === itemContent._refId);
+    //       this.contentItemSelectionService.addItem(this.items[index].item);
+    //     });
+
+    //     changes!.removed.forEach(itemContent => {
+    //       const index = this.items.findIndex(item => item.item.id === itemContent._refId);
+    //       this.contentItemSelectionService.removeItem(this.items[index].item);
+    //     });
+    //   }
+
+    //   // ContentModel<TEntity>[]
+    //   // this.selectedItems = this.selection.selected;
+    // });
 
     this.loadData();
   }
@@ -160,7 +169,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
     this.dataSource.data = this.tableItems;
     const selected = this.tableItems.filter(i => this.selectedItemIds && this.selectedItemIds.indexOf(i._refId) !== -1);
-    selected.forEach(row => this.selection.toggle(row));
+    // selected.forEach(row => this.selection.toggle(row));
 
     this.cdr.detectChanges();
   }
@@ -171,7 +180,8 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   public deselectAll() {
-    this.selection.clear();
+    this.items.forEach(item => item.isSelected = false);
+    // this.selection.clear();
     this.cdr.detectChanges();
   }
 
@@ -196,21 +206,44 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   /** Whether the number of selected elements matches the total number of rows. */
   public isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    // const numSelected = this.selection.selected.length;
+    // const numRows = this.dataSource.data.length;
+    // return numSelected === numRows;
+    return this.selectedItems.length === this.items.length;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+    debugger;
+    // this.isAllSelected() ?
+    //   this.selection.clear() :
+    //   this.selection.select(this.dataSource.data);
+
+      this.isAllSelected() ?
+      this.contentItemSelectionService.clear() :
+      this.contentItemSelectionService.addItems(this.items.map(q => q.item));
+      // this.dataSource.data.forEach(row => this.selection.select(row));
+      // Possibility to select all in one go 
+      // selection = new SelectionModel<PeriodicElement>(true, [...ELEMENT_DATA])
+
 
   }
 
+  public isRowSelected(row: any) {
+    const index = this.items.findIndex(item => item.item.id === row._refId);
+    const itemModel = this.items[index];
+    return this.contentItemSelectionService.getById(row._refId) ? true : false;
+  }
+
   public toggle(row: any) {
-    this.selection.toggle(row);
+    const index = this.items.findIndex(item => item.item.id === row._refId);
+    const itemModel = this.items[index];
+    if (this.contentItemSelectionService.getById(row._refId)) {
+      this.contentItemSelectionService.removeItem(itemModel.item);
+    } else {
+      this.contentItemSelectionService.addItem(itemModel.item);
+    }
+    // this.selection.toggle(row);
   }
 
   /** The label for the checkbox on the passed row */
@@ -218,7 +251,8 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.contentItemSelectionService.getById(row._refId) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    // return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
   public rowClick(row: any): void {

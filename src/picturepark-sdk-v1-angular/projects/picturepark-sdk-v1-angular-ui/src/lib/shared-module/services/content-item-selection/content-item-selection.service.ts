@@ -45,6 +45,10 @@ export class ContentItemSelectionService<TEntity extends IEntityBase> {
     this.updateSubject();
   }
 
+  public isEmpty(): boolean{
+    return Array.from(this.items.values()).length === 0;
+  }
+
   private updateSubject() {
     const itemsArray = Array.from(this.items);
     this.selectedItemsSubject.next(itemsArray);

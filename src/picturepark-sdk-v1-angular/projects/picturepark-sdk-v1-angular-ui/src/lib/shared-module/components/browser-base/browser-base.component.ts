@@ -37,7 +37,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         return this.injector.get(TranslationService);
     }
     @LazyGetter()
-    protected get contentItemSelectionService(): ContentItemSelectionService<TEntity> {
+    public get contentItemSelectionService(): ContentItemSelectionService<TEntity> {
         return new ContentItemSelectionService<TEntity>();
     }
     @LazyGetter()
@@ -161,6 +161,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     set selectedItems(items: TEntity[]) {
         this._selectedItems = items;
+        debugger;
         this.selectedItemsChange.emit(items);
     }
 
