@@ -45,7 +45,7 @@ export class ContentItemSelectionService<TEntity extends IEntityBase> {
     this.updateSubject();
   }
 
-  public isEmpty(): boolean{
+  public isEmpty(): boolean {
     return Array.from(this.items.values()).length === 0;
   }
 
