@@ -2049,6 +2049,13 @@ export class ContentService extends PictureparkServiceBase {
             result404 = PictureparkNotFoundException.fromJS(resultData404);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -2070,13 +2077,6 @@ export class ContentService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -7350,6 +7350,13 @@ export class ListItemService extends PictureparkServiceBase {
             result404 = PictureparkNotFoundException.fromJS(resultData404);
             return throwException("A server error occurred.", status, _responseText, _headers, result404);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -7371,13 +7378,6 @@ export class ListItemService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -9384,6 +9384,13 @@ export class OutputService extends PictureparkServiceBase {
             result200 = BusinessProcess.fromJS(resultData200);
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -9412,13 +9419,6 @@ export class OutputService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -9898,6 +9898,13 @@ export class OutputFormatService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -9926,13 +9933,6 @@ export class OutputFormatService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -11226,6 +11226,13 @@ export class SchemaService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -11254,13 +11261,6 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -11833,6 +11833,13 @@ export class SchemaService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -11861,13 +11868,6 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -16661,6 +16661,13 @@ export class UserService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -16689,13 +16696,6 @@ export class UserService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -17551,6 +17551,13 @@ export class UserRoleService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result500: any = null;
@@ -17579,13 +17586,6 @@ export class UserRoleService extends PictureparkServiceBase {
             let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result409 = PictureparkConflictException.fromJS(resultData409);
             return throwException("A server error occurred.", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("A server error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -47765,7 +47765,7 @@ export interface ISessionRenewalEvent extends IApplicationEvent {
     authorizationState: AuthorizationState;
 }
 
-/** User authorization state. */
+/** User authorization state */
 export enum AuthorizationState {
     Reviewed = "Reviewed",
     ToBeReviewed = "ToBeReviewed",

@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
 import {
@@ -18,6 +18,7 @@ import {
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { Observable } from 'rxjs';
+import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
 @Component({
   selector: 'pp-basket',
@@ -37,8 +38,9 @@ export class BasketComponent extends BaseComponent implements OnInit {
     @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private contentService: ContentService,
     private basketService: BasketService,
+    private contentDownloadDialogService: ContentDownloadDialogService,
     public dialog: MatDialog,
-    ) {
+  ) {
 
     super();
 
@@ -56,12 +58,10 @@ export class BasketComponent extends BaseComponent implements OnInit {
     const contentSearch = this.fetch().subscribe(data => {
       contentSearch.unsubscribe();
 
-      const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
-        data: { contents: data.results } as ContentDownloadDialogOptions,
-        autoFocus: false
+      this.contentDownloadDialogService.showDialog({
+        mode: 'multi',
+        contents: data.results
       });
-
-      dialogRef.componentInstance.title = 'ContentDownloadDialog.Title';
     });
 
   }

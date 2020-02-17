@@ -1,5 +1,6 @@
 import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatTabChangeEvent } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import {
   ContentDetail,
   ContentResolveBehavior,

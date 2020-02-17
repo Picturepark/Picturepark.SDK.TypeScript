@@ -1,7 +1,7 @@
 import { BaseComponent } from '../base.component';
 import { Injector, OnInit, NgZone, Output, EventEmitter, Input, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK
@@ -69,6 +69,10 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
     }
 
+    public get isTouchDevice(): boolean {
+        return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+    }
+
     protected scrollDebounceTime = 0;
 
     @Output() public totalResultsChange = new EventEmitter<number | null>();
@@ -83,7 +87,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     *       SearchBehavior.SimplifiedSearch
     * ```
     */
-    @Input() public searchBehavior = SearchBehavior.SimplifiedSearch;
+    @Input() public searchBehavior: SearchBehavior;
     @Input() public filter: FilterBase | null = null;
 
     private _totalResults: number | null = null;
@@ -93,7 +97,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     abstract init(): Promise<void>;
     abstract initSort(): void;
     abstract onScroll(): void;
-    abstract getSearchRequest(): Observable<{results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
+    abstract getSearchRequest(): Observable<{ results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string,
@@ -122,7 +126,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         const scrollSubscription = this.scrollDispatcher.scrolled().pipe(debounceTime(this.scrollDebounceTime)).subscribe(scrollable => {
             if (!scrollable) { return; }
 
-            const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
+            const nativeElement = scrollable.getElementRef().nativeElement;
             const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
 
             if (scrollCriteria && !this.isLoading && this.items.length !== this.totalResults) {
@@ -169,7 +173,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         this.nextPageToken = undefined;
         this.items = [];
         this.loadData();
-      }
+    }
 
     public loadData(): void {
         const request = this.getSearchRequest();
@@ -216,9 +220,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
             this.lastSelectedIndex = index;
 
             if (itemModel.isSelected === true) {
-            this.contentItemSelectionService.removeItem(itemModel.item);
+                this.contentItemSelectionService.removeItem(itemModel.item);
             } else {
-            this.contentItemSelectionService.addItem(itemModel.item);
+                this.contentItemSelectionService.addItem(itemModel.item);
             }
         } else if ($event.shiftKey) {
             const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;

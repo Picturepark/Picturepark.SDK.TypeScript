@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, OnInit } from '@angular/core';
 
 // LIBRARIES
-import { ContentSearchResult, SearchBehavior } from '@picturepark/sdk-v1-angular';
+import { ContentSearchResult } from '@picturepark/sdk-v1-angular';
+import { ExtendedSearchBehavior, SearchParameters } from '../../shared-module/search-utils';
 
 
 
@@ -17,12 +18,8 @@ export class SearchBoxComponent implements OnChanges, OnInit {
   @Input()
   public searchString = '';
 
-  /**
-   * Must accept type string because using undefined as the correspondent to 'AdvancedSearch'
-   * is liable to cause problems
-   */
   @Input()
-  public searchBehavior: SearchBehavior | string;
+  public searchBehavior: ExtendedSearchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
 
   @Input()
   public showSearchBehaviorPicker = false;
@@ -31,10 +28,10 @@ export class SearchBoxComponent implements OnChanges, OnInit {
   public searchStringChange = new EventEmitter<string>();
 
   @Output()
-  public searchBehaviorChange = new EventEmitter<string>();
+  public searchParametersChange = new EventEmitter<SearchParameters>();
 
   ngOnInit(): void {
-    this.searchBehaviorChange.emit(this.searchBehavior);
+    this.emitValues();
   }
 
   public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
@@ -43,22 +40,31 @@ export class SearchBoxComponent implements OnChanges, OnInit {
     }
     if (changes['searchBehavior']) {
       if (!this.searchBehavior) {
-        this.searchBehavior = SearchBehavior.SimplifiedSearch;
+        this.searchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
       }
-      this.searchBehaviorChange.emit(this.searchBehavior);
+      this.emitValues();
     }
   }
 
   public search() {
-    this.searchStringChange.emit(this.searchString);
+    this.emitValues();
   }
 
   public clear() {
     this.searchString = '';
+    this.emitValues();
   }
 
   public setSearchBehavior(searchBehavior) {
     this.searchBehavior = searchBehavior;
-    this.searchBehaviorChange.emit(this.searchBehavior);
+    this.emitValues();
+  }
+
+  public emitValues() {
+    this.searchParametersChange.emit({
+      searchString: this.searchString,
+      searchBehavior: this.searchBehavior
+    });
+    this.searchStringChange.emit(this.searchString);
   }
 }

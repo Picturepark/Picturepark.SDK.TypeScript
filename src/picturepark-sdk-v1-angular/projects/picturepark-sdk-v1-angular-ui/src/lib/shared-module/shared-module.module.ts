@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -28,6 +28,7 @@ import {
   HAMMER_GESTURE_CONFIG,
 } from '@angular/platform-browser';
 
+@Injectable()
 export class HammerConfig extends HammerGestureConfig {
   overrides = <any> {
     pan: {
@@ -79,7 +80,7 @@ export class HammerConfig extends HammerGestureConfig {
   ],
 })
 export class SharedModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
       providers: [
