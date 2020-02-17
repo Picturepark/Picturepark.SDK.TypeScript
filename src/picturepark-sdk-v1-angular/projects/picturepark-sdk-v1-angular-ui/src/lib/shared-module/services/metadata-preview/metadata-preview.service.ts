@@ -21,6 +21,7 @@ import {
   FieldStringArray,
   FieldTranslatedString,
   SchemaDetail,
+  FieldTrigger,
 } from '@picturepark/sdk-v1-angular';
 
 import * as moment_ from 'moment';
@@ -145,6 +146,16 @@ export class MetaDataPreviewService {
       } else if (fieldType === FieldSingleFieldset) {
         fields[fieldId] = value._displayValues ? value._displayValues.name : '';
 
+      } else if (fieldType === FieldTrigger) {
+        if (value.triggeredOn) {
+          const datetime = moment(value.triggeredOn).format('LLL');
+          const firstName = value.triggeredBy.firstName;
+          const lastName = value.triggeredBy.lastName;
+
+          fields[fieldId] = `Last triggered ${datetime} by ${firstName} ${lastName}`;
+        } else {
+          fields[fieldId] = 'Never triggered';
+        }
       } else if (fieldType === FieldMultiFieldset) {
         let displayValues = '';
         value.forEach((fieldSet, index) => {
