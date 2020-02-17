@@ -41,22 +41,7 @@ export class SearchBoxComponent implements OnChanges, OnInit {
     if (changes['searchBehavior']) {
       if (!this.searchBehavior) {
         this.searchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
-      } else {
-
-        // Map CP search behaviors to ExtendendSearchBehaviors
-        switch (this.searchBehavior) {
-          case ExtendedSearchBehavior.CPAdvancedSearch:
-            this.searchBehavior = ExtendedSearchBehavior.AdvancedSearch;
-            break;
-          case ExtendedSearchBehavior.CPSimplifiedSearch:
-            this.searchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
-            break;
-          case ExtendedSearchBehavior.CPSimplifiedSearchOr:
-            this.searchBehavior = ExtendedSearchBehavior.SimplifiedSearchOr;
-            break;
-        }
       }
-
       this.emitValues();
     }
   }
