@@ -1,11 +1,8 @@
 import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
-import {
-  ContentService, ContentSearchRequest,
-  ShareContent, ShareBasicCreateRequest, ShareService, OutputAccess
-} from '@picturepark/sdk-v1-angular';
 import { configureTest } from './config';
+import { ContentService, ShareService, ContentSearchRequest, ShareContent, ShareBasicCreateRequest, OutputAccess } from '../lib/api-services';
 
 describe('ShareService', () => {
   beforeEach(configureTest);

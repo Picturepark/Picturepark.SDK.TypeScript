@@ -1,8 +1,9 @@
 import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
-import { ChannelService, AuthService } from '@picturepark/sdk-v1-angular';
 import { configureTest } from './config';
+import { AuthService } from '../lib/auth.service';
+import { ChannelService } from '../lib/api-services';
 
 describe('ChannelService', () => {
   beforeEach(configureTest);
