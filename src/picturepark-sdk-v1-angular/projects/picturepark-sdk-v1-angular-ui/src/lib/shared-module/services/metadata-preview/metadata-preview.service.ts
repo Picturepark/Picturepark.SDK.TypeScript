@@ -85,6 +85,7 @@ export class MetaDataPreviewService {
         continue;
       }
 
+
       // find field
       const field = schema && schema.fields && schema.fields.filter(fieldData => fieldData.id === fieldId)[0];
       if (isNil(field)) {
@@ -145,7 +146,19 @@ export class MetaDataPreviewService {
         fields[fieldId] = value._displayValues ? value._displayValues.name : '';
 
       } else if (fieldType === FieldMultiFieldset) {
-
+        let displayValues = '';
+        value.forEach((fieldSet, index) => {
+          if (value.length === 1) {
+            displayValues = fieldSet._displayValues.name;
+          } else {
+            if (index === (value.length - 1)) {
+              displayValues += fieldSet._displayValues.name;
+            } else {
+              displayValues += fieldSet._displayValues.name + ', ';
+            }
+          }
+        });
+        fields[fieldId] = displayValues;
       } else if (fieldType === FieldSingleTagbox) {
         if (value._displayValues) {
           fields[fieldId] = value._displayValues.name;
