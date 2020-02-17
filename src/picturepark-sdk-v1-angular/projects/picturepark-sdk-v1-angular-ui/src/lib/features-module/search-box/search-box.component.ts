@@ -18,10 +18,6 @@ export class SearchBoxComponent implements OnChanges, OnInit {
   @Input()
   public searchString = '';
 
-  /**
-   * Must accept type string because using undefined as the correspondent to 'AdvancedSearch'
-   * is liable to cause problems
-   */
   @Input()
   public searchBehavior: ExtendedSearchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
 
@@ -35,7 +31,7 @@ export class SearchBoxComponent implements OnChanges, OnInit {
   public searchParametersChange = new EventEmitter<SearchParameters>();
 
   ngOnInit(): void {
-    this.onValuesChange();
+    this.emitValues();
   }
 
   public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
@@ -46,24 +42,25 @@ export class SearchBoxComponent implements OnChanges, OnInit {
       if (!this.searchBehavior) {
         this.searchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
       }
-      this.onValuesChange();
+      this.emitValues();
     }
   }
 
   public search() {
-    this.onValuesChange();
+    this.emitValues();
   }
 
   public clear() {
     this.searchString = '';
+    this.emitValues();
   }
 
   public setSearchBehavior(searchBehavior) {
     this.searchBehavior = searchBehavior;
-    this.onValuesChange();
+    this.emitValues();
   }
 
-  public onValuesChange() {
+  public emitValues() {
     this.searchParametersChange.emit({
       searchString: this.searchString,
       searchBehavior: this.searchBehavior
