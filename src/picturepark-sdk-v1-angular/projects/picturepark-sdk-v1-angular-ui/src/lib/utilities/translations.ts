@@ -1,5 +1,9 @@
 export let TRANSLATIONS = {
   Basket: {
+    NoImageForItem: {
+      en: 'There is no image.',
+      de: 'Es ist kein Bild vorhanden'
+    },
     RemoveItem: {
       en: 'Remove',
       de: 'Entfernen'
