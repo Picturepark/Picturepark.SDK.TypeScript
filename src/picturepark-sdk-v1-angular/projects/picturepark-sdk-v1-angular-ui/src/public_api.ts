@@ -43,7 +43,7 @@ export {
 } from './lib/features-module/content-details-dialog/content-details-dialog.component';
 
 // Services
-export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';
+export { SelectionService } from './lib/shared-module/services/selection/selection.service';
 export { BasketService } from './lib/shared-module/services/basket/basket.service';
 export { TranslationService } from './lib/shared-module/services/translations/translation.service';
 export { LiquidRenderingService } from './lib/shared-module/services/liquid-rendering/liquid-rendering.service';

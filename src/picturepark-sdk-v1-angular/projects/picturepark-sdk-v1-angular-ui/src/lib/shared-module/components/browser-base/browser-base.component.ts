@@ -11,7 +11,7 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
 import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize } from '@picturepark/sdk-v1-angular';
 import { LiquidRenderingService } from '../../services/liquid-rendering/liquid-rendering.service';
-import { ContentItemSelectionService } from '../../services/content-item-selection/content-item-selection.service';
+import { SelectionService as SelectionService } from '../../services/selection/selection.service';
 import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
@@ -37,8 +37,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         return this.injector.get(TranslationService);
     }
     @LazyGetter()
-    public get contentItemSelectionService(): ContentItemSelectionService<TEntity> {
-        return new ContentItemSelectionService<TEntity>();
+    public get selectionService(): SelectionService<TEntity> {
+        return new SelectionService<TEntity>();
     }
     @LazyGetter()
     protected get dialog(): MatDialog {
@@ -136,7 +136,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         this.subscription.add(scrollSubscription);
 
         // ITEM SELECTION SUBSCRIBER
-        const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => {
+        const contentItemSelectionSubscription = this.selectionService.selectedItems.subscribe(items => {
             this.selectedItems = items;
             this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id));
         });
@@ -220,9 +220,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
             this.lastSelectedIndex = index;
 
             if (itemModel.isSelected === true) {
-                this.contentItemSelectionService.removeItem(itemModel.item);
+                this.selectionService.removeItem(itemModel.item);
             } else {
-                this.contentItemSelectionService.addItem(itemModel.item);
+                this.selectionService.addItem(itemModel.item);
             }
         } else if ($event.shiftKey) {
             const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
@@ -230,20 +230,20 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
             const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i.item);
 
-            this.contentItemSelectionService.clear();
-            this.contentItemSelectionService.addItems(itemsToAdd);
+            this.selectionService.clear();
+            this.selectionService.addItems(itemsToAdd);
         } else {
             this.lastSelectedIndex = index;
-            this.contentItemSelectionService.clear();
-            this.contentItemSelectionService.addItem(itemModel.item);
+            this.selectionService.clear();
+            this.selectionService.addItem(itemModel.item);
         }
     }
 
     public toggleItems(isSelected: boolean): void {
         if (isSelected === true) {
-            this.contentItemSelectionService.addItems(this.items.map(model => model.item));
+            this.selectionService.addItems(this.items.map(model => model.item));
         } else {
-            this.contentItemSelectionService.clear();
+            this.selectionService.clear();
         }
     }
 
@@ -275,7 +275,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         if (this.dialog.openDialogs.length > 0) { return; }
 
         if (this.checkContains(event.srcElement.className)) {
-            this.contentItemSelectionService.clear();
+            this.selectionService.clear();
         }
     }
 }

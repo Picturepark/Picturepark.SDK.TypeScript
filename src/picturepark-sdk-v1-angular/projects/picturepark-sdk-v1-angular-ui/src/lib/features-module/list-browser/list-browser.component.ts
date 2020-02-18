@@ -147,7 +147,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
     this.dataSource.data = this.tableItems;
     const selected = this.items.filter( listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
-    this.contentItemSelectionService.addItems(selected.map(q => q.item));
+    this.selectionService.addItems(selected.map(q => q.item));
 
     this.cdr.detectChanges();
   }
@@ -189,23 +189,23 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle() {
       this.isAllSelected() ?
-      this.contentItemSelectionService.clear() :
-      this.contentItemSelectionService.addItems(this.items.map(q => q.item));
+      this.selectionService.clear() :
+      this.selectionService.addItems(this.items.map(q => q.item));
 
 
   }
 
   public isRowSelected(row: any) {
-    return this.contentItemSelectionService.getById(row._refId) ? true : false;
+    return this.selectionService.getById(row._refId) ? true : false;
   }
 
   public toggle(row: any) {
     const index = this.items.findIndex(item => item.item.id === row._refId);
     const itemModel = this.items[index];
-    if (this.contentItemSelectionService.getById(row._refId)) {
-      this.contentItemSelectionService.removeItem(itemModel.item);
+    if (this.selectionService.getById(row._refId)) {
+      this.selectionService.removeItem(itemModel.item);
     } else {
-      this.contentItemSelectionService.addItem(itemModel.item);
+      this.selectionService.addItem(itemModel.item);
     }
   }
 
@@ -214,7 +214,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.contentItemSelectionService.getById(row._refId) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.selectionService.getById(row._refId) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
   public rowClick(row: any): void {

@@ -6,7 +6,7 @@ import { IEntityBase } from '@picturepark/sdk-v1-angular';
 @Injectable({
   providedIn: 'root',
 })
-export class ContentItemSelectionService<TEntity extends IEntityBase> {
+export class SelectionService<TEntity extends IEntityBase> {
   private selectedItemsSubject: BehaviorSubject<TEntity[]> = new BehaviorSubject([]);
 
   private items: Set<TEntity> = new Set();
