@@ -1,7 +1,5 @@
-import {
-  AggregationResultItem, AggregationFilter
-} from '@picturepark/sdk-v1-angular';
 import { configureTest } from './config';
+import { AggregationResultItem, AggregationFilter } from '../lib/api-services';
 
 describe('AggregationResultItem', () => {
   let aggregationResultItem: AggregationResultItem;
