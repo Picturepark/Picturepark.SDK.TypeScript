@@ -15,6 +15,7 @@ import {
   OrFilter,
   SchemaDetail,
   SchemaService,
+  ListItem,
 } from '@picturepark/sdk-v1-angular';
 import { groupBy } from '../../../utilities/helper';
 import { ListBrowserComponent } from '../../list-browser/list-browser.component';
@@ -38,7 +39,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public schemaDetail: SchemaDetail;
   public schema: Observable<SchemaDetail>;
   public schemaId: string;
-  public selectedItems;
+  public selectedItems: ListItem[];
   public selectedItemsIds: string[];
 
   private subscription = new Subscription();
@@ -106,7 +107,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public selectedItemsChange(selectedItems: string[]) {
+  public selectedItemsChange(selectedItems: ListItem[]) {
     this.selectedItems = selectedItems;
   }
 

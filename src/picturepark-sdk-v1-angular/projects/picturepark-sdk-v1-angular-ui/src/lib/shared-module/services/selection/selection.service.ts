@@ -36,6 +36,14 @@ export class SelectionService<TEntity extends IEntityBase> {
     this.updateSubject();
   }
 
+  public toggle(item: TEntity) {
+    if (this.items.has(item)) {
+      this.removeItem(item);
+    } else {
+      this.addItem(item);
+    }
+  }
+
   public getById(value: string): TEntity | undefined {
     return Array.from(this.items.values()).find(i => i.id === value );
   }
