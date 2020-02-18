@@ -29,12 +29,13 @@ const moment = moment_;
 
 import { LocalizationService } from '../localization/localization.service';
 import { lowerFirst, isNil } from '../../../utilities/helper';
+import { TranslationService } from '../translations/translation.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MetaDataPreviewService {
-  constructor(private localizationService: LocalizationService) { }
+  constructor(private localizationService: LocalizationService, private translationService: TranslationService) { }
 
   public prepareTableColumns(allColumnNames: string[], tableData: any[]): string[] {
 
@@ -148,28 +149,15 @@ export class MetaDataPreviewService {
 
       } else if (fieldType === FieldTrigger) {
         if (value.triggeredOn) {
-          const datetime = moment(value.triggeredOn).format('LLL');
-          const firstName = value.triggeredBy.firstName;
-          const lastName = value.triggeredBy.lastName;
-
-          fields[fieldId] = `Last triggered ${datetime} by ${firstName} ${lastName}`;
+          fields[fieldId] = (this.translationService.translate('ListBrowser.LastTriggered') as string)
+            .replace('{{datetime}}', moment(value.triggeredOn).format('LLL'))
+            .replace('{{firstName}}', value.triggeredBy.firstName)
+            .replace('{{lastName}}', value.triggeredBy.lastName);
         } else {
-          fields[fieldId] = 'Never triggered';
+          fields[fieldId] = this.translationService.translate('ListBrowser.NeverTriggered');
         }
       } else if (fieldType === FieldMultiFieldset) {
-        let displayValues = '';
-        value.forEach((fieldSet, index) => {
-          if (value.length === 1) {
-            displayValues = fieldSet._displayValues.name;
-          } else {
-            if (index === (value.length - 1)) {
-              displayValues += fieldSet._displayValues.name;
-            } else {
-              displayValues += fieldSet._displayValues.name + ', ';
-            }
-          }
-        });
-        fields[fieldId] = displayValues;
+        fields[fieldId] = value.map( q => q._displayValues.name).join();
       } else if (fieldType === FieldSingleTagbox) {
         if (value._displayValues) {
           fields[fieldId] = value._displayValues.name;
