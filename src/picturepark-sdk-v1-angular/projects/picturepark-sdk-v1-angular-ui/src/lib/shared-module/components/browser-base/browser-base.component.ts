@@ -219,11 +219,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         if ($event.ctrlKey || $event.type === 'tap') {
             this.lastSelectedIndex = index;
 
-            if (itemModel.isSelected === true) {
-                this.selectionService.removeItem(itemModel.item);
-            } else {
-                this.selectionService.addItem(itemModel.item);
-            }
+            this.selectionService.toggle(itemModel.item);
         } else if ($event.shiftKey) {
             const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
             const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
