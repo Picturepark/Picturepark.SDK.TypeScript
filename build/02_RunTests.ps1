@@ -24,14 +24,14 @@ try {
 	
 	${Env:TestAccessToken} = $result.access_token
 	
-    if (!(Test-Path "$PSScriptRoot/../src/picturepark-sdk-v1-angular/src/tests/config.ts")) { 
-        (Get-Content "$PSScriptRoot/../src/picturepark-sdk-v1-angular/src/tests/config.template.ts") | 
+    if (!(Test-Path "$PSScriptRoot/../src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/tests/config.ts")) { 
+        (Get-Content "$PSScriptRoot/../src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/tests/config.template.ts") | 
             ForEach-Object { $_ -replace "{Server}", "$env:TestApiServer" } | 
             ForEach-Object { $_ -replace "{Username}", "$env:TestUsername" } | 
             ForEach-Object { $_ -replace "{Password}", "$env:TestPassword" } | 
             ForEach-Object { $_ -replace "{AccessToken}", "$env:TestAccessToken" } | 
             ForEach-Object { $_ -replace "{CustomerAlias}", "$env:TestCustomerAlias" } | 
-            Set-Content "$PSScriptRoot/../src/picturepark-sdk-v1-angular/src/tests/config.ts"
+            Set-Content "$PSScriptRoot/../src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/tests/config.ts"
     }
     
     cmd /c "$PSScriptRoot/02_RunTests.bat"
