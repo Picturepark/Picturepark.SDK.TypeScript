@@ -7,7 +7,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
 // SERVICES
 import { ContentService, ThumbnailSize, Content } from '@picturepark/sdk-v1-angular';
-import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS } from '../../../../utilities/constants';
+import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 
 @Component({
   selector: 'pp-share-content-dialog-item',
@@ -61,7 +61,7 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
   }
 
   public updateUrl(event) {
-    event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
+    event.path[0].src = BROKEN_IMAGE_URL;
   }
 
   public remove() {
