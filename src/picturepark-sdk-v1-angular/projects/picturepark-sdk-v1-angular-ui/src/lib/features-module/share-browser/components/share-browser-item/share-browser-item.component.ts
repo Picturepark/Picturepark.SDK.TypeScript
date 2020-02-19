@@ -7,6 +7,7 @@ import { ThumbnailSize, Share, ContentService } from '@picturepark/sdk-v1-angula
 
 // COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
+import { BROKEN_IMAGE_URL } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/constants';
 
 @Component({
   selector: 'pp-share-browser-item',
@@ -65,7 +66,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
   }
 
   public updateUrl(event) {
-   event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
+   event.path[0].src = BROKEN_IMAGE_URL;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

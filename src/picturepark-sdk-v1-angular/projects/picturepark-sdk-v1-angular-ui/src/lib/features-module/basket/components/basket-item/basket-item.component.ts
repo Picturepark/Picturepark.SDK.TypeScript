@@ -9,7 +9,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
-import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS } from '../../../../utilities/constants';
+import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 
 @Component({
   selector: 'pp-basket-item',
@@ -60,7 +60,7 @@ export class BasketItemComponent extends BaseComponent implements OnInit {
 
 
   public updateUrl(event) {
-    event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
+    event.path[0].src = BROKEN_IMAGE_URL;
   }
 
   public remove() {

@@ -13,7 +13,7 @@ import { ContentDownloadDialogService } from '../../../content-download-dialog/c
 
 // INTERFACES
 import { switchMap } from 'rxjs/operators';
-import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS } from '../../../../utilities/constants';
+import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 
 @Component({
   selector: 'pp-content-browser-item',
@@ -107,7 +107,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   }
 
   public updateUrl(event) {
-    event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
+    event.path[0].src = BROKEN_IMAGE_URL;
   }
 
   public toggleInBasket() {
