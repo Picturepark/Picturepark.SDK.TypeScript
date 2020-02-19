@@ -7,7 +7,7 @@ import { ThumbnailSize, Share, ContentService } from '@picturepark/sdk-v1-angula
 
 // COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
-import { BROKEN_IMAGE_URL } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/constants';
+import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 
 @Component({
   selector: 'pp-share-browser-item',

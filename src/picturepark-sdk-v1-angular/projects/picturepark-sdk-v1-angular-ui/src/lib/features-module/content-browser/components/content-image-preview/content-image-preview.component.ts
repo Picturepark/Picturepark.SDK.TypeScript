@@ -12,7 +12,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 import { FullscreenService, IShareItem } from '../../../content-details-dialog/fullscreen.service';
 import { LazyGetter } from 'lazy-get-decorator';
 import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
-import { BROKEN_IMAGE_URL } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/constants';
+import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 
 @Component({
     selector: 'pp-content-image-preview',
