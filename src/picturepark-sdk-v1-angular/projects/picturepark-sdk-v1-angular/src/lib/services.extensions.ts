@@ -1,13 +1,22 @@
-import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core'; // ignore
-import { Injector } from '@angular/core';
-import { Observable } from 'rxjs/Observable'; // ignore
-import { tap } from 'rxjs/operators';
-import { PICTUREPARK_API_URL, ThumbnailSize, FileResponse } from './services'; // ignore
+import { Inject, Optional } from '@angular/core'; // ignore
+import { HttpClient } from '@angular/common/http'; // ignore
+import { Observable } from 'rxjs'; // ignore
+import { // ignore
+    PICTUREPARK_API_URL, // ignore
+    ContentResolveBehavior, ContentDetail, ContentSearchRequest, ContentSearchResult, // ignore
+    ListItemSearchRequest, ListItemSearchResult, // ignore
+    SchemaSearchRequest, SchemaSearchResult, // ignore
+    ShareSearchRequest, ShareSearchResult // ignore
+} from './api-services'; // ignore
 
+import { Injector } from '@angular/core';
+import { tap } from 'rxjs/operators';
+import { LazyGetter } from 'lazy-get-decorator';
+import { AuthService } from './auth.service';
 import { PictureparkServiceBase } from './base.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
-import { LazyGetter } from 'lazy-get-decorator';
-import * as generated from './services';
+
+import * as generated from './api-services';
 
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
     translate(locale: string) {
@@ -30,20 +39,20 @@ class DateRangeFilter extends generated.DateRangeFilter {
 
 class AggregationResultItem extends generated.AggregationResultItem {
     getDisplayName(locale: string) {
-        let displayName;
+        let displayName: string | null;
 
         // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
         if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
-            displayName = this.name.split("/").pop() || null;
+            displayName = this.name.split('/').pop() || null;
         } else {
             displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
         }
 
-        return displayName ? displayName : this.name;
+        return displayName ?? this.name;
     }
 }
 
-class ContentService extends ContentService {
+class ContentService extends generated.ContentService {
     @LazyGetter()
     protected get liquidRenderingService(): LiquidRenderingService {
         return this.injector.get(LiquidRenderingService);
@@ -53,8 +62,11 @@ class ContentService extends ContentService {
         @Inject(AuthService) configuration: AuthService,
         @Inject(HttpClient) http: HttpClient,
         @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         super(configuration);
+        // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         this.http = http;
+        // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
     }
 
@@ -71,7 +83,7 @@ class ContentService extends ContentService {
     }
 }
 
-class ListItemService extends ListItemService {
+class ListItemService extends generated.ListItemService {
     @LazyGetter()
     protected get liquidRenderingService(): LiquidRenderingService {
         return this.injector.get(LiquidRenderingService);
@@ -81,8 +93,11 @@ class ListItemService extends ListItemService {
         @Inject(AuthService) configuration: AuthService,
         @Inject(HttpClient) http: HttpClient,
         @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         super(configuration);
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         this.http = http;
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
     }
 
@@ -93,7 +108,7 @@ class ListItemService extends ListItemService {
     }
 }
 
-class SchemaService extends SchemaService {
+class SchemaService extends generated.SchemaService {
     @LazyGetter()
     protected get liquidRenderingService(): LiquidRenderingService {
         return this.injector.get(LiquidRenderingService);
@@ -103,8 +118,11 @@ class SchemaService extends SchemaService {
         @Inject(AuthService) configuration: AuthService,
         @Inject(HttpClient) http: HttpClient,
         @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         super(configuration);
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         this.http = http;
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
     }
 
@@ -115,7 +133,7 @@ class SchemaService extends SchemaService {
     }
 }
 
-class ShareService extends ShareService {
+class ShareService extends generated.ShareService {
     @LazyGetter()
     protected get liquidRenderingService(): LiquidRenderingService {
         return this.injector.get(LiquidRenderingService);
@@ -125,8 +143,11 @@ class ShareService extends ShareService {
         @Inject(AuthService) configuration: AuthService,
         @Inject(HttpClient) http: HttpClient,
         @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         super(configuration);
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         this.http = http;
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
     }
 
@@ -141,19 +162,4 @@ class ShareService extends ShareService {
             tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
         );
     }
-}
-
-export abstract class AuthService {
-    private _pictureparkApiUrl: string;
-
-    constructor(pictureparkApiUrl: string) {
-        this._pictureparkApiUrl = pictureparkApiUrl;
-    }
-
-    get apiServer() {
-        return this._pictureparkApiUrl;
-    }
-
-    abstract get isAuthenticated(): boolean;
-    abstract transformHttpRequestOptions(options: any): Promise<any>;
 }

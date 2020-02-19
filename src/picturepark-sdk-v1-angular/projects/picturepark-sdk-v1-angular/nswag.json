@@ -60,7 +60,7 @@
         "SchemaService",
         "ShareService"
       ],
-      "extensionCode": "src/lib/services.extensions",
+      "extensionCode": "src/lib/services.extensions.ts",
       "generateDefaultValues": false,
       "excludedTypeNames": [],
       "excludedParameterNames": [],

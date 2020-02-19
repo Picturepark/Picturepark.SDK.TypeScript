@@ -9,14 +9,14 @@
 
 import { Injector } from '@angular/core';
 import { tap } from 'rxjs/operators';
+import { LazyGetter } from 'lazy-get-decorator';
+import { AuthService } from './auth.service';
 import { PictureparkServiceBase } from './base.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
-import { LazyGetter } from 'lazy-get-decorator';
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import { AuthService } from './auth.service';
 
 export const PICTUREPARK_API_URL = new InjectionToken<string>('PICTUREPARK_API_URL');
 
@@ -40400,16 +40400,16 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
     aggregationResults?: AggregationResult[] | undefined;
 
     getDisplayName(locale: string) {
-        let displayName;
+        let displayName: string | null;
 
         // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
         if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
-            displayName = this.name.split("/").pop() || null;
+            displayName = this.name.split('/').pop() || null;
         } else {
             displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
         }
 
-        return displayName ? displayName : this.name;
+        return displayName ?? this.name;
     }
 
     constructor(data?: IAggregationResultItem) {
