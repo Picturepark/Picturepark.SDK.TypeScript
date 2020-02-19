@@ -7,7 +7,11 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
+import { Injector } from '@angular/core';
+import { tap } from 'rxjs/operators';
 import { PictureparkServiceBase } from './base.service';
+import { LiquidRenderingService } from './liquid-rendering.service';
+import { LazyGetter } from 'lazy-get-decorator';
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
@@ -1770,10 +1774,31 @@ export class ContentService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
+
+    constructor(protected injector: Injector,
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient,
+        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
+
+    public get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
+        return this.getCore(contentId, resolveBehaviors).pipe(
+            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+        );
+    }
+
+    public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
+        return this.searchCore(contentSearchRequest).pipe(
+            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+        );
     }
 
     /**
@@ -1782,7 +1807,7 @@ export class ContentService extends PictureparkServiceBase {
      * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
      * @return Content detail
      */
-    get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
+    protected getCore(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/contents/{contentId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
@@ -2212,7 +2237,7 @@ export class ContentService extends PictureparkServiceBase {
      * @param contentSearchRequest Content search request.
      * @return Content search result
      */
-    search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
+    protected searchCore(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
         let url_ = this.baseUrl + "/v1/contents/search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -6950,10 +6975,25 @@ export class ListItemService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
+
+    constructor(protected injector: Injector,
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient,
+        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
+
+    public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
+        return this.searchCore(listItemSearchRequest).pipe(
+            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+        );
     }
 
     /**
@@ -7513,7 +7553,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @param listItemSearchRequest The list item search request.
      * @return List item search result
      */
-    search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
+    protected searchCore(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
         let url_ = this.baseUrl + "/v1/listItems/search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -10860,10 +10900,25 @@ export class SchemaService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
+
+    constructor(protected injector: Injector,
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient,
+        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
+
+    public search(schemaSearchRequest: SchemaSearchRequest): Observable<SchemaSearchResult> {
+        return this.searchCore(schemaSearchRequest).pipe(
+            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+        );
     }
 
     /**
@@ -11382,7 +11437,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @param schemaSearchRequest The schema search request.
      * @return Schema search result
      */
-    search(schemaSearchRequest: SchemaSearchRequest): Observable<SchemaSearchResult> {
+    protected searchCore(schemaSearchRequest: SchemaSearchRequest): Observable<SchemaSearchResult> {
         let url_ = this.baseUrl + "/v1/schemas/search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -13809,10 +13864,31 @@ export class ShareService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+    
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
+
+    constructor(protected injector: Injector,
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient,
+        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
         super(configuration);
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
+
+    public getShareJson(token: string, lang: string | null | undefined): Observable<any> {
+        return this.getShareJsonCore(token, lang).pipe(
+            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+        );
+    }
+
+    public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
+        return this.searchCore(shareSearchRequest).pipe(
+            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+        );
     }
 
     /**
@@ -14024,7 +14100,7 @@ export class ShareService extends PictureparkServiceBase {
      * @param request Search request
      * @return Share search result
      */
-    search(request: ShareSearchRequest): Observable<ShareSearchResult> {
+    protected searchCore(request: ShareSearchRequest): Observable<ShareSearchResult> {
         let url_ = this.baseUrl + "/v1/shares/search";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -14434,7 +14510,7 @@ export class ShareService extends PictureparkServiceBase {
      * @param lang (optional) Language code
      * @return ShareDetail
      */
-    getShareJson(token: string, lang: string | null | undefined): Observable<any> {
+    protected getShareJsonCore(token: string, lang: string | null | undefined): Observable<any> {
         let url_ = this.baseUrl + "/v1/shares/json/{token}?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
@@ -40328,11 +40404,11 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
 
         // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
         if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
-          displayName = this.name.split("/").pop() || null;
+            displayName = this.name.split("/").pop() || null;
         } else {
-          displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
+            displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
         }
-        
+
         return displayName ? displayName : this.name;
     }
 

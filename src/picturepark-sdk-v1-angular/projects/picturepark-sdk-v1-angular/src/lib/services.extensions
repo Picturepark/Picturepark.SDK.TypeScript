@@ -1,8 +1,12 @@
 import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core'; // ignore
+import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable'; // ignore
+import { tap } from 'rxjs/operators';
 import { PICTUREPARK_API_URL, ThumbnailSize, FileResponse } from './services'; // ignore
 
 import { PictureparkServiceBase } from './base.service';
+import { LiquidRenderingService } from './liquid-rendering.service';
+import { LazyGetter } from 'lazy-get-decorator';
 import * as generated from './services';
 
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
@@ -24,18 +28,118 @@ class DateRangeFilter extends generated.DateRangeFilter {
     }
 }
 
-class AggregationResultItem extends generated.AggregationResultItem {    
+class AggregationResultItem extends generated.AggregationResultItem {
     getDisplayName(locale: string) {
         let displayName;
 
         // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
         if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
-          displayName = this.name.split("/").pop() || null;
+            displayName = this.name.split("/").pop() || null;
         } else {
-          displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
+            displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
         }
-        
+
         return displayName ? displayName : this.name;
+    }
+}
+
+class ContentService extends ContentService {
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
+
+    constructor(protected injector: Injector,
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient,
+        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
+
+    public get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
+        return this.getCore(contentId, resolveBehaviors).pipe(
+            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+        );
+    }
+
+    public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
+        return this.searchCore(contentSearchRequest).pipe(
+            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+        );
+    }
+}
+
+class ListItemService extends ListItemService {
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
+
+    constructor(protected injector: Injector,
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient,
+        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
+
+    public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
+        return this.searchCore(listItemSearchRequest).pipe(
+            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+        );
+    }
+}
+
+class SchemaService extends SchemaService {
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
+
+    constructor(protected injector: Injector,
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient,
+        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
+
+    public search(schemaSearchRequest: SchemaSearchRequest): Observable<SchemaSearchResult> {
+        return this.searchCore(schemaSearchRequest).pipe(
+            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+        );
+    }
+}
+
+class ShareService extends ShareService {
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
+
+    constructor(protected injector: Injector,
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient,
+        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
+
+    public getShareJson(token: string, lang: string | null | undefined): Observable<any> {
+        return this.getShareJsonCore(token, lang).pipe(
+            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+        );
+    }
+
+    public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
+        return this.searchCore(shareSearchRequest).pipe(
+            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+        );
     }
 }
 
