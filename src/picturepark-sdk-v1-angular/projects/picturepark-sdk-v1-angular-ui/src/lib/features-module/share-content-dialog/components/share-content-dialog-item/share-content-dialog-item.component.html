@@ -1,6 +1,13 @@
 <div class="share-content-item">
-  <img class="share-content-item__image" [src]="imageUrl" />
+  <div class="share-content-item__image-container"  *ngIf="virtualItemHtml === null; else virtualContent">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <img *ngIf="!isLoading" class="share-content-item__image" [src]="imageUrl" [alt]="'Basket.NoImageForItem' | pptranslate" (error)="updateUrl($event)"/>
+  </div>
+  <ng-template #virtualContent>
+    <div class="share-content-item__image-virtual-item-container" [innerHTML]="virtualItemHtml"></div>
+  </ng-template>
   <button color="accent" class="share-content-item__remove-button" [matTooltip]="'ShareContentDialog.RemoveItem' | pptranslate" (click)="remove(); $event.preventDefault();" mat-mini-fab>
     <mat-icon aria-label="'ShareContentDialog.Clear' | pptranslate">remove</mat-icon>
   </button>
 </div>
+

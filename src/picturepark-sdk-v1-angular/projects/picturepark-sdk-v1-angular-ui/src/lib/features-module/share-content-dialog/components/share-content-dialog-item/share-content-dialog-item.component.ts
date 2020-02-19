@@ -1,5 +1,5 @@
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, SecurityContext } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 // COMPONENTS
@@ -7,6 +7,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
 // SERVICES
 import { ContentService, ThumbnailSize, Content } from '@picturepark/sdk-v1-angular';
+import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS } from '../../../../utilities/constants';
 
 @Component({
   selector: 'pp-share-content-dialog-item',
@@ -24,6 +25,9 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
   @Output() removeDialogContent = new EventEmitter<Content>();
 
   public imageUrl: SafeUrl;
+  public isLoading = false;
+
+  public virtualItemHtml: SafeHtml | null = null;
 
   constructor(
     private contentService: ContentService,
@@ -34,10 +38,19 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
 
   ngOnInit() {
 
+    if (this.item.contentSchemaId && NON_VIRTUAL_CONTENT_SCHEMAS_IDS.indexOf(this.item.contentSchemaId) === -1) {
+      if (this.item.displayValues && this.item.displayValues['thumbnail']) {
+        this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
+        return;
+      }
+    }
+
     // SUBSCRIBERS
+    this.isLoading = true;
     this.downloadThumbnailSubscription = this.contentService.downloadThumbnail(
       this.item.id, ThumbnailSize.Small, null, null
     ).subscribe(result => {
+      this.isLoading = false;
       if (result !== null) {
         this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
       }
@@ -45,6 +58,10 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
 
     this.subscription.add(this.downloadThumbnailSubscription);
 
+  }
+
+  public updateUrl(event) {
+    event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
   }
 
   public remove() {
