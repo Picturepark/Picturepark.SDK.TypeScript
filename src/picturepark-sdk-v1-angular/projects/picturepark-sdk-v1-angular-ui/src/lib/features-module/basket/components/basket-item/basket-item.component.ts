@@ -9,6 +9,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
+import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS } from '../../../../utilities/constants';
 
 @Component({
   selector: 'pp-basket-item',
@@ -22,7 +23,6 @@ export class BasketItemComponent extends BaseComponent implements OnInit {
 
   public imageUrl: SafeUrl;
 
-  private nonVirtualContentSchemasIds = ['AudioMetadata', 'DocumentMetadata', 'FileMetadata', 'ImageMetadata', 'VideoMetadata'];
   public virtualItemHtml: SafeHtml | null = null;
 
   public isLoading = false;
@@ -37,7 +37,7 @@ export class BasketItemComponent extends BaseComponent implements OnInit {
 
   public ngOnInit(): void {
 
-    if (this.item.contentSchemaId && this.nonVirtualContentSchemasIds.indexOf(this.item.contentSchemaId) === -1) {
+    if (this.item.contentSchemaId && NON_VIRTUAL_CONTENT_SCHEMAS_IDS.indexOf(this.item.contentSchemaId) === -1) {
       if (this.item.displayValues && this.item.displayValues['thumbnail']) {
         this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
         return;
