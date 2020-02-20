@@ -6,9 +6,6 @@ import { Observable } from 'rxjs';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-// ANGULAR CDK
-import { SelectionModel } from '@angular/cdk/collections';
-
 // LIBRARIES
 import {
   BrokenDependenciesFilter,
@@ -47,7 +44,7 @@ import { lowerFirst } from '../../utilities/helper';
 })
 export class ListBrowserComponent extends BaseBrowserComponent<ListItem> implements OnInit, OnChanges {
   @Input() schema: SchemaDetail;
-  @Input() selectedItemIds: string[] | any;
+  @Input() selectedItemIds: string[];
   @Input() enableSelection: boolean;
   @Input() sortInfo: SortInfo[];
 
@@ -57,7 +54,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   public displayedColumnNames: any[];
   public activeSortColumn: string;
   public activeSortDirection: string;
-  public selection = new SelectionModel<ListItem>(true, []);
   public customerInfo: CustomerInfo;
 
   constructor(
@@ -107,7 +103,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
         });
       }
     }
-
     this.loadData();
   }
 
@@ -149,13 +144,14 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   prepareData(items: ContentModel<ListItem>[]): void {
-    const metadataItems = items.map(m => Object.assign(m.item.content, { id: m.item.id }));
+
+    const metadataItems = items.map(m => m.item.content);
     const tableItems = this.metaDataPreviewService.getListItemsTableData(metadataItems, this.schema, this.customerInfo);
     this.tableItems.push(...tableItems);
 
     this.dataSource.data = this.tableItems;
-    const selected = this.tableItems.filter(i => this.selectedItemIds && this.selectedItemIds.indexOf(i._refId) !== -1);
-    selected.forEach(row => this.selection.toggle(row));
+    const selected = this.items.filter( listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
+    this.selectionService.addItems(selected.map(q => q.item));
 
     this.cdr.detectChanges();
   }
@@ -166,9 +162,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   public deselectAll() {
-    this.selection.clear();
-    this.selectedItems = this.selection.selected;
-    this.selectedItemsChange.emit(this.selection.selected);
+    this.selectionService.clear();
     this.cdr.detectChanges();
   }
 
@@ -194,25 +188,24 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   /** Whether the number of selected elements matches the total number of rows. */
   public isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    return this.selectedItems.length === this.items.length;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+      this.isAllSelected() ?
+      this.selectionService.clear() :
+      this.selectionService.addItems(this.items.map(q => q.item));
+  }
 
-    this.selectedItems = this.selection.selected;
-    this.selectedItemsChange.emit(this.selection.selected);
+  public isRowSelected(row: any): boolean {
+    return this.selectionService.getById(row._refId) ? true : false;
   }
 
   public toggle(row: any) {
-    this.selection.toggle(row);
-    this.selectedItems = this.selection.selected;
-    this.selectedItemsChange.emit(this.selection.selected);
+    const index = this.items.findIndex(item => item.item.id === row._refId);
+    const itemModel = this.items[index];
+    this.selectionService.toggle(itemModel.item);
   }
 
   /** The label for the checkbox on the passed row */
@@ -220,7 +213,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${ this.isRowSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
   public rowClick(row: any): void {

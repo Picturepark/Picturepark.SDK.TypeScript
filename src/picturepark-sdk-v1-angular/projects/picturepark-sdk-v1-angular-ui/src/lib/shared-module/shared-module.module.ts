@@ -7,8 +7,7 @@ import { MaterialsModule } from '../materials-module/materials-module.module';
 
 // Services
 import { BasketService } from './services/basket/basket.service';
-import { ContentItemSelectionService } from './services/content-item-selection/content-item-selection.service';
-import { LiquidRenderingService } from './services/liquid-rendering/liquid-rendering.service';
+import { SelectionService } from './services/selection/selection.service';
 import { MetaDataPreviewService } from './services/metadata-preview/metadata-preview.service';
 import { NotificationService } from './services/notification/notification.service';
 import { TranslationService } from './services/translations/translation.service';
@@ -30,15 +29,15 @@ import {
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
-  overrides = <any> {
+  overrides = <any>{
     pan: {
       direction: 6
     },
     pinch: {
-        enable: false
+      enable: false
     },
     rotate: {
-        enable: false
+      enable: false
     }
   };
 }
@@ -85,8 +84,7 @@ export class SharedModule {
       ngModule: SharedModule,
       providers: [
         BasketService,
-        ContentItemSelectionService,
-        LiquidRenderingService,
+        SelectionService,
         MetaDataPreviewService,
         NotificationService,
         TranslationService,
