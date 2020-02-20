@@ -34,10 +34,15 @@
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
       "protectedMethods": [
+        "ContentService.create",
         "ContentService.get",
+        "ContentService.getMany",
         "ContentService.search",
+        "ContentService.updateMetadata",
+        "ContentService.updatePermissions",
+        "ListItemService.get",
         "ListItemService.search",
-        "SchemaService.search",
+        "ShareService.get",
         "ShareService.getShareJson",
         "ShareService.search"
       ],
@@ -57,7 +62,6 @@
         "AggregationResultItem",
         "ContentService",
         "ListItemService",
-        "SchemaService",
         "ShareService"
       ],
       "extensionCode": "src/lib/services.extensions.ts",

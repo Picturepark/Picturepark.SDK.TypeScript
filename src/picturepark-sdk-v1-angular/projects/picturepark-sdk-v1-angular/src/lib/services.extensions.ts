@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http'; // ignore
 import { Observable } from 'rxjs'; // ignore
 import { // ignore
     PICTUREPARK_API_URL, // ignore
-    ContentResolveBehavior, ContentDetail, ContentSearchRequest, ContentSearchResult, // ignore
+    ContentCreateRequest, ContentResolveBehavior, ContentDetail, // ignore
+    ContentSearchRequest, ContentSearchResult, // ignore
+    ContentMetadataUpdateRequest, ContentPermissionsUpdateRequest, // ignore
+    ListItemResolveBehavior, ListItemDetail, // ignore
     ListItemSearchRequest, ListItemSearchResult, // ignore
-    SchemaSearchRequest, SchemaSearchResult, // ignore
-    ShareSearchRequest, ShareSearchResult // ignore
+    ShareDetail, ShareSearchRequest, ShareSearchResult // ignore
 } from './api-services'; // ignore
 
 import { Injector } from '@angular/core';
@@ -70,15 +72,44 @@ class ContentService extends generated.ContentService {
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
     }
 
+    public create(resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined,
+        timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, contentCreateRequest: ContentCreateRequest): Observable<ContentDetail> {
+        return this.createCore(resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, contentCreateRequest).pipe(
+            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+        );
+    }
+
     public get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
         return this.getCore(contentId, resolveBehaviors).pipe(
             tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
         );
     }
 
+    public getMany(ids: string[] | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail[]> {
+        return this.getManyCore(ids, resolveBehaviors).pipe(
+            tap(async contents => contents.map(async content => await this.liquidRenderingService.renderNestedDisplayValues(content)))
+        );
+    }
+
     public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
         return this.searchCore(contentSearchRequest).pipe(
             tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+        );
+    }
+
+    public updateMetadata(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+        allowMissingDependencies: boolean | undefined, timeout: string | null | undefined,
+        waitSearchDocCreation: boolean | undefined, updateRequest: ContentMetadataUpdateRequest): Observable<ContentDetail> {
+        return this.updateMetadataCore(contentId, resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, updateRequest).pipe(
+            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+        );
+    }
+
+    public updatePermissions(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+        timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined,
+        updateRequest: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
+        return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
+            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
         );
     }
 }
@@ -101,33 +132,14 @@ class ListItemService extends generated.ListItemService {
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
     }
 
-    public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
-        return this.searchCore(listItemSearchRequest).pipe(
-            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+    public get(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
+        return this.getCore(listItemId, resolveBehaviors).pipe(
+            tap(async listItem => await this.liquidRenderingService.renderNestedDisplayValues(listItem))
         );
     }
-}
 
-class SchemaService extends generated.SchemaService {
-    @LazyGetter()
-    protected get liquidRenderingService(): LiquidRenderingService {
-        return this.injector.get(LiquidRenderingService);
-    }
-
-    constructor(protected injector: Injector,
-        @Inject(AuthService) configuration: AuthService,
-        @Inject(HttpClient) http: HttpClient,
-        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
-        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-        super(configuration);
-        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-        this.http = http;
-        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-    }
-
-    public search(schemaSearchRequest: SchemaSearchRequest): Observable<SchemaSearchResult> {
-        return this.searchCore(schemaSearchRequest).pipe(
+    public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
+        return this.searchCore(listItemSearchRequest).pipe(
             tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
         );
     }
@@ -151,9 +163,15 @@ class ShareService extends generated.ShareService {
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
     }
 
+    public get(id: string): Observable<ShareDetail> {
+        return this.getCore(id).pipe(
+            tap(async shareDetail => await this.liquidRenderingService.renderNestedDisplayValues(shareDetail))
+        );
+    }
+
     public getShareJson(token: string, lang: string | null | undefined): Observable<any> {
         return this.getShareJsonCore(token, lang).pipe(
-            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+            tap(async shareJson => await this.liquidRenderingService.renderNestedDisplayValues(shareJson))
         );
     }
 
