@@ -27,6 +27,7 @@ import {
   HammerGestureConfig,
   HAMMER_GESTURE_CONFIG,
 } from '@angular/platform-browser';
+import { ItemThumbnailComponent } from './components/item-thumbnail/item-thumbnail.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -48,6 +49,7 @@ export class HammerConfig extends HammerGestureConfig {
   declarations: [
     // COMPONENTS
     AggregationComponent,
+    ItemThumbnailComponent,
     PanelComponent,
     // PIPES
     AvatarPipe,
@@ -69,6 +71,7 @@ export class HammerConfig extends HammerGestureConfig {
     MaterialsModule,
     // COMPONENTS
     AggregationComponent,
+    ItemThumbnailComponent,
     PanelComponent,
     // PIPES
     AvatarPipe,
