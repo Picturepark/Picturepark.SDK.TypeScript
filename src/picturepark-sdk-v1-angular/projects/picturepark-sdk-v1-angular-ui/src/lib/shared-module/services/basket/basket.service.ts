@@ -29,11 +29,6 @@ export class BasketService {
     }
   }
 
-  public addItems(items: Content[]) {
-    items.forEach(item => this.basketItems.push(item));
-    this.updateStorage();
-  }
-
   public removeItem(item: Content) {
     this.basketItems = this.basketItems.filter( q => q.id !== item.id);
     this.updateStorage();
