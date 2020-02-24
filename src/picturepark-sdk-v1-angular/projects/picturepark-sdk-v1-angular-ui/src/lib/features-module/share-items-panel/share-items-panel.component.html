@@ -11,7 +11,6 @@
       <div class="item" *ngFor="let item of items">
         <div class="thumbnail">
           <pp-item-thumbnail [item]="item" [shareItem]="shareDetail" [thumbnailSize]="thumbnailSize.Large" (click)="openInNewWindow(item)"></pp-item-thumbnail>
-          <!-- <pp-item-panel-preview [item]="item" [share]="shareDetail" (click)="openInNewWindow(item)"></pp-item-panel-preview> -->
         </div>
         <div class="item-info" (click)="openInNewWindow(item)">
           <ul>
