@@ -1,10 +1,10 @@
-import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input } from '@angular/core';
 
 import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
-import { ThumbnailSize, Content } from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, Content, ShareDetail } from '@picturepark/sdk-v1-angular';
 import { ContentService } from '@picturepark/sdk-v1-angular';
 
 @Component({
@@ -12,50 +12,69 @@ import { ContentService } from '@picturepark/sdk-v1-angular';
   templateUrl: './item-thumbnail.component.html',
   styleUrls: ['./item-thumbnail.component.scss']
 })
-export class ItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit  {
+export class ItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
 
-  public isLoading = true;
+  @Input() item: Content;
+  @Input() shareItem: ShareDetail;
+
+  public isLoading = false;
   public thumbnailUrl: SafeUrl | null;
 
   public virtualItemHtml: SafeHtml | null;
 
   public constructor(
-    private contentService:  ContentService,
+    private contentService: ContentService,
     private sanitizer: DomSanitizer,
   ) {
     super();
   }
 
   ngOnInit() {
-    const downloadSubscription = this.loadItem.pipe(
-      switchMap(
-        () => {
-          return this.contentService.downloadThumbnail(
-            this.itemModel.item.id,
-            this.thumbnailSize || ThumbnailSize.Small ,
-            null,
-            null);
-        })
-      ).subscribe(response => {
-      if (response) {
-        this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
-        this.isLoading = false;
+    debugger;
+
+    // Handle shares
+    if (this.shareItem) {
+      const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
+
+      if (content) {
+        const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
+        if (output) {
+          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustResourceUrl(output.viewUrl!);
+        } else {
+          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustResourceUrl(content.iconUrl!);
+        }
       }
-    }, () => {
-      this.thumbnailUrl = null;
-      this.isLoading = false;
-    });
+    } else {
+      const downloadSubscription = this.loadItem.pipe(
+        switchMap(
+          () => {
+            this.isLoading = true;
+            return this.contentService.downloadThumbnail(
+              this.item.id,
+              this.thumbnailSize || ThumbnailSize.Small,
+              null,
+              null);
+          })
+      ).subscribe(response => {
+        if (response) {
+          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
+          this.isLoading = false;
+        }
+      }, () => {
+        this.thumbnailUrl = null;
+        this.isLoading = false;
+      });
 
-    this.subscription.add(downloadSubscription);
-    this.markAsVisible();
-
+      this.subscription.add(downloadSubscription);
+      this.markAsVisible();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['itemModel'] && changes['itemModel'].firstChange) {
-      if (this.itemModel.item.contentSchemaId && NON_VIRTUAL_CONTENT_SCHEMAS_IDS.indexOf(this.itemModel.item.contentSchemaId) === -1) {
-        if (this.itemModel.item.displayValues && this.itemModel.item.displayValues['thumbnail']) {
-          this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.itemModel.item.displayValues['thumbnail']);
+    if (changes['item'] && changes['item'].firstChange) {
+      if (this.item.contentSchemaId && NON_VIRTUAL_CONTENT_SCHEMAS_IDS.indexOf(this.item.contentSchemaId) === -1) {
+        if (this.item.displayValues && this.item.displayValues['thumbnail']) {
+          this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
         }
       }
     }

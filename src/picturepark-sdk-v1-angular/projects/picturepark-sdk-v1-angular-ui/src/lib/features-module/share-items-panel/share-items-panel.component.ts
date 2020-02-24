@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 
 // LIBRARIES
-import { ShareContentDetail, ShareDetail } from '@picturepark/sdk-v1-angular';
+import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk-v1-angular';
 import { PanelBaseComponent } from '../panel/components/panel-base/panel-base.component';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
@@ -22,6 +22,8 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
 
   // VARS
   loader = false;
+
+  public thumbnailSize = ThumbnailSize;
 
   constructor(private contentDownloadDialogService: ContentDownloadDialogService) {
     super();

@@ -1,7 +1,7 @@
 <div class="browser-item" [class.browser-item--selected]="itemModel.isSelected" [class.browser-item--list-view]="isListView">
   <div class="browser-item__image-slot">
     
-    <pp-item-thumbnail [itemModel]="itemModel" [thumbnailSize]="thumbnailSize" ></pp-item-thumbnail>
+    <pp-item-thumbnail [item]="itemModel.item" [thumbnailSize]="thumbnailSize" ></pp-item-thumbnail>
 
     <div class="browser-item__actions" *ngIf="!isListView">
       <ul>
