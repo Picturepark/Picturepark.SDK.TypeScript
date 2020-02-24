@@ -11,10 +11,6 @@ import { BaseBrowserItemComponent } from '../../../../shared-module/components/b
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../../../content-download-dialog/content-download-dialog.service';
 
-// INTERFACES
-import { switchMap } from 'rxjs/operators';
-import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../../utilities/constants';
-
 @Component({
   selector: 'pp-content-browser-item',
   templateUrl: './content-browser-item.component.html',
@@ -27,6 +23,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
 
   public listItemHtml: SafeHtml | null = null;
 
+  public thumbnailSizes = ThumbnailSize;
 
   constructor(
     private basketService: BasketService,
@@ -35,15 +32,6 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   ) {
     super();
   }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['itemModel'] && changes['itemModel'].firstChange) {
-      if (this.itemModel.item.contentSchemaId && NON_VIRTUAL_CONTENT_SCHEMAS_IDS.indexOf(this.itemModel.item.contentSchemaId) === -1) {
-        if (this.itemModel.item.displayValues && this.itemModel.item.displayValues['thumbnail']) {
-          this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.itemModel.item.displayValues['thumbnail']);
-        }
-      }
-    }
 
   public ngOnChanges(): void {
     if (this.itemModel.item.displayValues && this.itemModel.item.displayValues['list']) {
@@ -58,9 +46,6 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     });
   }
 
-  public updateUrl(event) {
-    event.path[0].src = BROKEN_IMAGE_URL;
-  }
 
   public toggleInBasket() {
     if (!this.itemModel.item.id) {
