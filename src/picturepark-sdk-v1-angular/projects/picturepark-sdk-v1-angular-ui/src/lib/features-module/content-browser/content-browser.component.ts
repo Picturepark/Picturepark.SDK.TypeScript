@@ -46,7 +46,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   async init(): Promise<void> {
     // BASKET SUBSCRIBER
     const basketSubscription = this.basketService.basketChange.subscribe(basketItems => {
-      this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
+      this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem.id === model.item.id));
     });
 
     // UNSUBSCRIBE

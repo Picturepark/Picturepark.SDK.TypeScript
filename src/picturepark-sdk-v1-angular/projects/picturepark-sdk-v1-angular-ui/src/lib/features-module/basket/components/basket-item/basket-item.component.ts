@@ -1,14 +1,15 @@
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
-import { Component, Input, OnInit } from '@angular/core';
+import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Component, Input, OnInit, SecurityContext } from '@angular/core';
 
 // LIBRARIES
-import { ThumbnailSize, ContentService } from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, ContentService, Content } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
+import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 
 @Component({
   selector: 'pp-basket-item',
@@ -18,9 +19,13 @@ import { BasketService } from '../../../../shared-module/services/basket/basket.
 export class BasketItemComponent extends BaseComponent implements OnInit {
 
   @Input()
-  public itemId: string;
+  public item: Content;
 
   public imageUrl: SafeUrl;
+
+  public virtualItemHtml: SafeHtml | null = null;
+
+  public isLoading = false;
 
   constructor(
     private basketService: BasketService,
@@ -31,9 +36,20 @@ export class BasketItemComponent extends BaseComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+
+    if (this.item.contentSchemaId && NON_VIRTUAL_CONTENT_SCHEMAS_IDS.indexOf(this.item.contentSchemaId) === -1) {
+      if (this.item.displayValues && this.item.displayValues['thumbnail']) {
+        this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
+        return;
+      }
+    }
+
+    this.isLoading = true;
     const downloadThumbnailSubscription = this.contentService.downloadThumbnail(
-      this.itemId, ThumbnailSize.Small, null, null
+      this.item.id, ThumbnailSize.Small, null, null
     ).subscribe(result => {
+      this.isLoading = false;
+
       if (result !== null) {
         this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
       }
@@ -41,7 +57,13 @@ export class BasketItemComponent extends BaseComponent implements OnInit {
     this.subscription.add(downloadThumbnailSubscription);
   }
 
+
+
+  public updateUrl(event) {
+    event.path[0].src = BROKEN_IMAGE_URL;
+  }
+
   public remove() {
-    this.basketService.removeItem(this.itemId);
+    this.basketService.removeItem(this.item);
   }
 }
