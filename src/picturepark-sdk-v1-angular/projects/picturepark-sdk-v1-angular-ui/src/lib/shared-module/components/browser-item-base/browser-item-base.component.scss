@@ -1,4 +1,5 @@
 @import '~@angular/material/theming';
+
 .browser-item {
   $self: &;
   border-radius: 2px;
@@ -12,81 +13,100 @@
   @include mat-elevation-transition;
 
   &--selected {
+
     // use primary color.
     #{ $self }__actions {
       visibility: initial;
     }
   }
-  
+
   &--list-view {
-    display: -webkit-inline-box;
+    display: inline-flex;
+    flex-direction: row;
 
     #{ $self }__image {
-      max-height: unset;
       height: unset;
-      width: 100%;
+      width: unset;
     }
 
     #{ $self }__image-slot {
-      width: 120px;
+      width: 15%;
       overflow: hidden;
-      margin: 10px; 
+      margin: 10px;
       border-top: 5px solid #d8d8d8;
       border-bottom: 5px solid #d8d8d8;
     }
-    
+
     #{ $self }__title {
       flex-grow: 1;
       margin: 10px;
-      width: 50%;
+      width: 85%;
+
       &__title-content {
         color: #2f2f2f;
       }
     }
-    
+
     #{ $self }__actions {
       align-self: flex-end;
     }
 
     #{ $self }__list-view-actions {
-      
+
       position: absolute;
       right: 30px;
       top: 35px;
-      ul { 
+
+      ul {
         list-style: none;
         margin: 0px;
         padding: 0px;
+
         li {
           float: left;
           color: #727272;
           margin: 0px 0px 0px 15px;
           display: none;
+
           button {
             width: 26px;
             height: 26px;
             line-height: 26px;
             border-radius: 2px;
+
             mat-icon {
               font-size: 21px;
             }
-            .clear { display: none; }
+
+            .clear {
+              display: none;
+            }
+
             &:hover {
-              mat-icon { 
+              mat-icon {
                 color: #2f2f2f;
-                
+
               }
             }
           }
+
           &.in-basket {
             display: inherit;
+
             button {
               background-color: #2f2f2f;
               color: #39acaa;
+
               &:hover {
-                .remove { display: none; }
-                .clear { display: inherit; }
-                mat-icon { 
+                .remove {
+                  display: none;
+                }
+
+                .clear {
+                  display: inherit;
+                }
+
+                mat-icon {
                   color: red;
                 }
               }
@@ -103,14 +123,16 @@
         visibility: initial;
       }
     }
+
     #{ $self }__basket-icon {
       visibility: initial;
     }
+
     #{ $self }__list-view-actions {
       ul {
         li {
           display: inherit;
-          
+
         }
       }
     }
@@ -128,7 +150,7 @@
       display: contents;
     }
   }
-  
+
   &__actions {
     visibility: hidden;
     position: absolute;
@@ -138,6 +160,7 @@
     top: 0px;
     right: 0px;
     width: 100%;
+
     ul {
       position: absolute;
       list-style: none;
@@ -145,10 +168,12 @@
       top: 8px;
       margin: 0px;
       padding: 0px;
+
       li {
         float: left;
         line-height: 20px;
         text-align: center;
+
         button {
           width: 24px;
           height: 24px;
