@@ -35,6 +35,11 @@
       font-size: 14px;
       padding: 0 20px;
       position: relative;
+
+      .mat-content {
+        border-bottom-width: 1px;        
+        border-bottom-style: solid;        
+      }
     }
 
     .mat-expansion-panel-body {
@@ -48,7 +53,7 @@
       }
     }
     
-    .mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
+    .mat-list-item.mat-list-option .mat-list-item-content {
       padding: unset;
     
       .mat-list-text {
@@ -61,8 +66,10 @@
         border-style: solid;
         border-width: 2px;
         margin: 0px 5px 0px 0px;
+
         &.mat-pseudo-checkbox-checked {
-          border: 2px solid #5cbebd;
+          border-style:solid;
+          border-width: 2px;
         }
       }
     }

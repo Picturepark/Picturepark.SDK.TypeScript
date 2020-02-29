@@ -10,25 +10,25 @@ $pp-basket: (
     $primary: map-get($theme, primary);
 
     .basket {
-        background-color: mat-color($primary, light-background);
+        background-color: mat-color($primary, background-light);
         .mat-toolbar {
-            background: mat-color($primary, light-background);
-            border-bottom: 1px solid mat-color($primary, light-border);;
+            background: mat-color($primary, background-light);
+            border-bottom-color: mat-color($primary, divider);
             button {
                 &:hover {
                     mat-icon {
-                      color: mat-color($primary, base);
+                      color: mat-color($primary, primary);
                     }
                   }
                   mat-icon {
                     font-size: mat-font-size($custom-typography, display-3);
-                    color: mat-color($primary, light-font);
+                    color: mat-color($primary, on-background-light);
                   }
               }
         }
 
         .basket__empty {
-          color: mat-color($primary, dark-font);
+          color: mat-color($primary, on-background-light);
         }
     }
 }

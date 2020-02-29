@@ -3,22 +3,28 @@
 @mixin pp-browser-base-theme($theme) {
 
     $primary: map-get($theme, primary);
+    $self: &;
 
     .browser {
         background: mat-color($primary, light-background);
 
         &__header {
             & mat-toolbar {
-             border-bottom: 1px solid mat-color($primary, light-border);
+             border-bottom: 1px solid mat-color($primary, divider);
             }
         }
         &__items {            
             &::-webkit-scrollbar-thumb {
-                background-color: mat-contrast($primary, light-background);
-                outline: 1px solid  mat-contrast($primary, light-background);
+                background-color: mat-color($primary, light-background);
+                outline: 1px solid  mat-color($primary, light-background);
             }
 
         }
+        &--list {
+            #{ $self }__item-container {
+                border-color: mat-color($primary, divider);
+            }
+          }
     }
 
 }

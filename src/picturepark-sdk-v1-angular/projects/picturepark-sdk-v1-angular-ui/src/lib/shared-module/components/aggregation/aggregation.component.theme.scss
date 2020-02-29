@@ -6,7 +6,7 @@
 
   .aggregation {
     &__option-title {
-      color: mat-color($primary, light-font);
+      color: mat-color($primary, on-background-light);
     }
 
     .mat-expansion-panel-header {
@@ -19,41 +19,46 @@
       }
     }
     
-    .mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
+    .mat-list-item.mat-list-option .mat-list-item-content {
+    
       .mat-pseudo-checkbox {
-        border-color:mat-color($primary, button);
+        color: mat-color($primary, on-background-light);
+
+        &.mat-pseudo-checkbox-checked {
+          color: mat-color($primary, primary);
+        }
       }
     }
 
     .expand-filters {
       button {
-        color: mat-color($primary, base);
+        color: mat-color($primary, primary);
       }
     }
   }
 
   pp-aggregation-item {
     mat-expansion-panel {
-        border-top: 1px solid mat-color($primary, light-border);
+        border-color: 1px solid mat-color($primary, divider);
         mat-expansion-panel-header {
             .mat-content {
-                border-bottom: 1px solid mat-color($primary, light-border);;        
+                border-bottom: 1px solid mat-color($primary, divider);;        
             }
             mat-panel-title {
                 &.mat-expansion-panel-header-title {
-                    color: mat-color($primary, dark-font);
+                    color: mat-color($primary, on-background-light);
                 }
             }
             &:hover {
-                background-color:  mat-color($primary, light-background);
+                background-color:  mat-color($primary, opacity-light); 
             }
         }
     }
     
     mat-form-field.search { 
-        background-color: mat-color($primary, white-background); 
+        background-color: mat-color($primary, surface-light); 
         .search-icon {
-            color: mat-color($primary, dark-background);
+            color: mat-color($primary, on-surface-light);
         }
     }
 }

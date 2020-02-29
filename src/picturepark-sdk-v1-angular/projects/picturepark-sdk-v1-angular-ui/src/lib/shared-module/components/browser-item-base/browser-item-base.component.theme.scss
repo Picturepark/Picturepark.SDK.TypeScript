@@ -12,55 +12,68 @@ $pp-browser-item: (
 
     .browser-item {
       $self: &;
+
       &--selected {
-        // use primary color.
-        box-shadow: 0 0 0 2px mat-color($pp-browser-item, selected-background);
-    
+        box-shadow: 0 0 0 2px mat-color($primary, surface-dark);
+      }
+
+      // Avoid selection styling for list items 
+      &--selected:not(&--list-view) {
+
         #{ $self }__title {
-          background-color: mat-color($pp-browser-item, selected-background);
-          color: mat-color($primary, white-font);
+          background-color: mat-color($primary, surface-dark);
+          color: mat-color($primary, on-surface-dark);
         }
-    
+
       }
 
       &--list-view {
-        #{ $self }__title {
-          background-color: transparent;
 
-          .mat-subheading-1 {
-            color: mat-color($primary, light-font);
-          }
+        #{ $self }__image-slot {
+          border-color: mat-color($primary, surface-mid);
         }
-        #{ $self }__actions {
-          align-self: flex-end;
+
+        #{ $self }__list-view-actions {
+          ul {
+            li {
+              color: mat-color($primary, on-background-light);
+              button {
+                mat-icon {
+                  font-size: 21px;
+                }
+              }
+              &.in-basket {
+                button {
+                  background-color: mat-color($primary, surface-dark);
+                  color: mat-color($primary, on-surface-dark);
+                }
+              }
+            }
+          }
         }
       }
     
       &__title {
-        color: mat-color($primary, light-font);
+        color: mat-color($primary, on-background-light);
       }
       
       &__actions {
+        background-color: mat-color($primary, opacity-light);
+        color: mat-color($primary, on-surface-dark);
+
         ul {
           li {
-            float: left; 
             button {
               mat-icon {     
                 font-size: mat-font-size($custom-typography, display-1);
-                color: mat-color($primary, white-font);
               }
             }
             .material-icons {
               font-size: mat-font-size($custom-typography, display-2);
-              color: mat-color($primary, white-font);
             }
           }
         }
       }
     
-      &__thumbnail-overlay {
-        color: mat-color($primary, white-font);
-        font-size: mat-font-size($custom-typography, caption);
-      }
     }
 }

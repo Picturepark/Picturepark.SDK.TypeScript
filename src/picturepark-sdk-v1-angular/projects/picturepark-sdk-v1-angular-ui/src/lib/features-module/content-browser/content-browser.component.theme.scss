@@ -8,21 +8,23 @@
     .browser {
         &__header {
             button {
-                &:hover {
-                    mat-icon {
-                        color: mat-color($primary, icon-selected-color);
-                    }
-                }
                 mat-icon { 
                     font-size: mat-font-size($custom-typography, display-3); 
-                    color: mat-color($primary, light-font);
+                    color: mat-color($primary, on-background-light);
+                }
+                &:hover {
+                    mat-icon {
+                        color: mat-color($primary, on-surface-dark);
+                    }
                 }
             }
         }   
+
+        
     }
 
     .browser__header .browser__empty-result {
-        color: mat-color($primary, dark-font);
+        color: mat-color($primary, on-background-light);
     }
 
 }

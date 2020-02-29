@@ -41,7 +41,8 @@
       #{ $self }__item-container {
         width: 70%;
         margin: 0 auto;
-        border-bottom: 1px solid #d8d8d8;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
         
       }
     }

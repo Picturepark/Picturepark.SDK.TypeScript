@@ -31,17 +31,17 @@
       width: 120px;
       overflow: hidden;
       margin: 10px; 
-      border-top: 5px solid #d8d8d8;
-      border-bottom: 5px solid #d8d8d8;
+      border-top-style: solid;
+      border-top-width: 5px;
+      border-bottom-style: solid;
+      border-bottom-width: 5px;
     }
     
     #{ $self }__title {
       flex-grow: 1;
       margin: 10px;
       width: 50%;
-      &__title-content {
-        color: #2f2f2f;
-      }
+      
     }
     
     #{ $self }__actions {
@@ -59,7 +59,6 @@
         padding: 0px;
         li {
           float: left;
-          color: #727272;
           margin: 0px 0px 0px 15px;
           display: none;
           button {
@@ -67,28 +66,14 @@
             height: 26px;
             line-height: 26px;
             border-radius: 2px;
-            mat-icon {
-              font-size: 21px;
-            }
             .clear { display: none; }
-            &:hover {
-              mat-icon { 
-                color: #2f2f2f;
-                
-              }
-            }
           }
           &.in-basket {
             display: inherit;
             button {
-              background-color: #2f2f2f;
-              color: #39acaa;
               &:hover {
                 .remove { display: none; }
                 .clear { display: inherit; }
-                mat-icon { 
-                  color: red;
-                }
               }
             }
           }
@@ -110,7 +95,6 @@
       ul {
         li {
           display: inherit;
-          
         }
       }
     }
@@ -132,7 +116,6 @@
   &__actions {
     visibility: hidden;
     position: absolute;
-    background-color: rgba(0, 0, 0, .4);
     border-radius: 0;
     height: 100%;
     top: 0px;
@@ -156,12 +139,5 @@
         }
       }
     }
-  }
-
-  &__thumbnail-overlay {
-    position: absolute;
-    left: 10px;
-    bottom: 5px;
-    z-index: 100;
   }
 }

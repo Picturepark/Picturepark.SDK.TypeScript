@@ -9,36 +9,40 @@ $pp-search-box: (contrast: (),
 
   #search-container {
 
-    border-color: mat-color($primary, form-dark-background);
+    border-color: mat-color($primary, surface-mid);
 
     .form {
-      background-color: mat-color($primary, form-dark-background);
-      color: #ffffff;
+      background-color: mat-color($primary, surface-mid);
+      color: mat-color($primary, on-surface-mid);
 
       input {
-        color: #ffffff;
+        color: mat-color($primary, on-surface-mid);
 
         &::placeholder {
-          color: #ffffff;
+          color: mat-color($primary, on-surface-mid);
         }
       }
     }
 
     #search-options-container {
-      color: mat-color($primary, form-dark-background);
+      color: mat-color($primary, surface-mid);
     }
   }
 
   #search-container:focus-within {
-    border-color: mat-color($primary, form-light-background);
-
     .form {
-      background-color: mat-color($primary, form-light-background);
+      background-color: mat-color($primary, opacity-light);
 
-    }
+      color: mat-color($primary, on-surface-dark);
 
-    #search-options-container {
-      color: mat-color($primary, form-light-background);
+      input {
+        color: mat-color($primary, on-surface-dark);
+
+        &::placeholder {
+          color: mat-color($primary, on-surface-dark);
+        }
+      }
+
     }
   }
 }

@@ -10,6 +10,6 @@ $pp-basket-item: (
     $primary: map-get($theme, primary);
 
     .basket-item {
-        background: mat-color($primary, white-background);
+        background: mat-color($primary, surface-light);
     }
 }
