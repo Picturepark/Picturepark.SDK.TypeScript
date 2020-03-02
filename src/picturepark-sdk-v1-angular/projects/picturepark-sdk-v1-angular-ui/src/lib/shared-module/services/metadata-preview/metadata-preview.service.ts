@@ -22,6 +22,7 @@ import {
   FieldTranslatedString,
   SchemaDetail,
   FieldTrigger,
+  ContentService,
 } from '@picturepark/sdk-v1-angular';
 
 import * as moment_ from 'moment';
@@ -35,7 +36,7 @@ import { TranslationService } from '../translations/translation.service';
   providedIn: 'root'
 })
 export class MetaDataPreviewService {
-  constructor(private localizationService: LocalizationService, private translationService: TranslationService) { }
+  constructor(private localizationService: LocalizationService, private translationService: TranslationService, private contentService: ContentService) { }
 
   public prepareTableColumns(allColumnNames: string[], tableData: any[]): string[] {
 
@@ -168,9 +169,18 @@ export class MetaDataPreviewService {
           fields[fieldId] = value.map((f: any) => f._displayValues ? f._displayValues.name : '').join(', ');
         }
       } else if (fieldType === FieldSingleRelation) {
-
+        debugger;
+        if (value.title) {
+          fields[fieldId] = this.localizationService.localize(value.title, customerInfo);
+        } else {
+          // Handle Single Relationship field No Information
+          // Figure out how to retrieve the Title of the single relationship no information content
+          this.contentService.get(value._targetId, null).subscribe((result) => {
+            debugger;
+          });
+        }
       } else if (fieldType === FieldMultiRelation) {
-
+        fields[fieldId] = value.map((f: any) => f.title ? this.localizationService.localize(f.title, customerInfo) : '').join(', ');
       } else {
         console.log('Unsupported field type [' + fieldType + '] encountered.');
       }
