@@ -30,8 +30,6 @@ export class ItemThumbnailComponent extends BaseBrowserItemComponent<Content> im
   }
 
   ngOnInit() {
-    debugger;
-
     // Handle shares
     if (this.shareItem) {
       const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
