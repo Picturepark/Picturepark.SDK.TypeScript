@@ -6,7 +6,7 @@
     $self: &;
 
     .browser {
-        background: mat-color($primary, light-background);
+        background: mat-color($primary, background-light);
 
         &__header {
             & mat-toolbar {
@@ -15,8 +15,8 @@
         }
         &__items {            
             &::-webkit-scrollbar-thumb {
-                background-color: mat-color($primary, light-background);
-                outline: 1px solid  mat-color($primary, light-background);
+                background-color: mat-color($primary, background-light);
+                outline: 1px solid  mat-color($primary, background-light);
             }
 
         }

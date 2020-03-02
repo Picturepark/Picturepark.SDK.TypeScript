@@ -19,13 +19,13 @@
 // define classes for current application in case of dark theme
 .dark-theme {
   .mat-toolbar {
-    background-color: mat-color($mat-picturepark-primary-dark, dialog-background);
-    color: mat-color($mat-picturepark-primary-dark, light-font);
+    background-color: mat-color($mat-picturepark-primary-dark, surface-light);
+    color: mat-color($mat-picturepark-primary-dark, on-surface-light);
   }
   div.wrap {
 
     .navbar {
-      border-bottom: 1px solid mat-color($mat-picturepark-primary-dark, light-border);
+      border-bottom: 1px solid mat-color($mat-picturepark-primary-dark, divider);
     }
   }
 

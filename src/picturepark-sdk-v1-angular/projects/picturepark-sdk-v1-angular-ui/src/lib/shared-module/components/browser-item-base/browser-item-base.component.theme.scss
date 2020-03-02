@@ -54,6 +54,7 @@ $pp-browser-item: (
       }
     
       &__title {
+        background-color: mat-color($primary, background-light);
         color: mat-color($primary, on-background-light);
       }
       

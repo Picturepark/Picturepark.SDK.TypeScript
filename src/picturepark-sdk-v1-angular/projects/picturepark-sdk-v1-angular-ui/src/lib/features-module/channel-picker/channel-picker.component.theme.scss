@@ -4,6 +4,6 @@
     $primary: map-get($theme, primary);
 
     .channel-picker-container {
-        color: mat-color($primary, dark-font);
+        // color: mat-color($primary, dark-font);
     }
 }

@@ -147,28 +147,48 @@ $picturepark-app-theme: mat-light-theme($picturepark-app-primary, $picturepark-a
 
 $mat-picturepark-primary-dark: (
     base: $base,
-    dark-background: #fff,
-    dialog-background: #444,
-    light-background: #444,
-    white-background: #808080,
-    white-font: #d3d3d3,
-    dark-font: #d3d3d3,
-    light-font: #a9a9a9,
-    light-border: #a9a9a9,
+    dark-background: #444,
+    dialog-background: #f8f8f8,
+    light-background: #eee,
+    white-background: #fff,
+    white-font: #fff,
+    dark-font: #444,
+    light-font: #727272,
+    light-border: #d8d8d8,
     icon-selected-color: #2f2f2f,
-    image-slot-background-color: #a9a9a9,
+    image-slot-background-color: #dcdcdc,
     button: #aaa,
-    button-active: $base,
-    progress-bar: $base,
-    progress-bar-background: #e4e4e4,
-    spinner: $base,
     shadow-color: #000,
     contrast: (
         light-background: #d8d8d8,
-        dialog-background: #a9a9a9,
+        dialog-background: #eee,
     ),
-    form-dark-background: #808080,
-    form-light-background: #a9a9a9,
+
+    //  New styles
+    primary: $base,
+
+    // (light-background, progress-bar-background)
+    background-light: #444,
+
+    // (white-background)
+    surface-light: #444,
+    // (image-slot-background-color)
+    surface-mid: #dcdcdc,
+    // (dark-background)
+    surface-dark: #fff,
+
+    on-primary: white,
+
+    on-background-light: #eee,
+    // on-background-light: #444,
+
+    on-surface-light: #fff,
+    on-surface-mid: #727272,
+    on-surface-dark: #727272,
+
+    opacity-light: rgba(0, 0, 0, .4),
+    divider: #dcdcdc,
+
 );
 
 $picturepark-app-primary-dark: mat-palette($mat-picturepark-primary-dark);
