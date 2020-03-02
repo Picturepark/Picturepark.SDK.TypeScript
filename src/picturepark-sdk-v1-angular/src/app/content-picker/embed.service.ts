@@ -5,7 +5,8 @@ import {
   OutputAccess,
   ShareDetail,
   ShareContent,
-  Content
+  Content,
+  BusinessProcessService
 } from '@picturepark/sdk-v1-angular';
 import { ContentModel } from '@picturepark/sdk-v1-angular-ui';
 
@@ -13,7 +14,9 @@ import { ContentModel } from '@picturepark/sdk-v1-angular-ui';
   providedIn: 'root'
 })
 export class EmbedService {
-  constructor(private shareService: ShareService) {
+  constructor(
+    private shareService: ShareService,
+    private businessProcessService: BusinessProcessService) {
   }
 
   async embed(selectedItems: Content[], postUrl: string) {
@@ -24,14 +27,15 @@ export class EmbedService {
       }));
 
       try {
-        const result = await this.shareService.create( null, new ShareEmbedCreateRequest({
+        const result = await this.shareService.create(new ShareEmbedCreateRequest({
           name: 'Embed',
           contents: contentItems,
           outputAccess: OutputAccess.Full
         })).toPromise();
 
         if (result) {
-          const share = await this.shareService.get(result.shareId!).toPromise() as ShareDetail;
+          await this.businessProcessService.waitForCompletion(result.id, '02:00:00', true).toPromise();
+          const share = await this.shareService.get(result.referenceId!).toPromise();
           const postMessage = JSON.stringify(share);
 
           if (window.opener) {

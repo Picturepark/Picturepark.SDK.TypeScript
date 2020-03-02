@@ -114,7 +114,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
   }
 
   public setUpActiveSchema(schema: Schema): void {
-    if (schema.childCount > 0 && !this.parentSchema) {
+    if (schema.childCount && schema.childCount > 0 && !this.parentSchema) {
       this.activeParentSchema.next(schema);
     } else {
       this.activeSchemaChange.emit(schema);

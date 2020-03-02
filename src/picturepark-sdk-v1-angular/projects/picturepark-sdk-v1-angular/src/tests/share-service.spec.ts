@@ -2,13 +2,22 @@ import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
 import { configureTest } from './config';
-import { ContentService, ShareService, ContentSearchRequest, ShareContent, ShareBasicCreateRequest, OutputAccess } from '../lib/api-services';
+import {
+  ContentService,
+  ShareService,
+  ContentSearchRequest,
+  ShareContent,
+  ShareBasicCreateRequest,
+  OutputAccess,
+  BusinessProcessService
+} from '../lib/api-services';
 
 describe('ShareService', () => {
   beforeEach(configureTest);
 
   it('should create embed share', async(inject([ContentService, ShareService],
-    async (contentService: ContentService, shareService: ShareService) => {
+    async (contentService: ContentService, shareService: ShareService,
+      businessProcessService: BusinessProcessService) => {
       // arrange
       const request = new ContentSearchRequest();
       request.searchString = 'm';
@@ -21,7 +30,7 @@ describe('ShareService', () => {
         outputFormatIds: ['Original']
       }));
 
-      const result = await shareService.create( null, new ShareBasicCreateRequest({
+      const result = await shareService.create(new ShareBasicCreateRequest({
         name: 'Share',
         languageCode: 'en',
         contents: contents,
@@ -29,10 +38,11 @@ describe('ShareService', () => {
         suppressNotifications: false
       })).toPromise();
 
-      const share = await shareService.get(result.shareId!).toPromise();
+      await this.businessProcessService.waitForCompletion(result.id, '02:00:00', true).toPromise();
+      const share = await shareService.get(result.referenceId!).toPromise();
 
       // assert
-      expect(result.shareId).not.toBeNull();
-      expect(share.id).toEqual(result.shareId!);
+      expect(result.referenceId).not.toBeNull();
+      expect(share.id).toEqual(result.referenceId!);
     })));
 });

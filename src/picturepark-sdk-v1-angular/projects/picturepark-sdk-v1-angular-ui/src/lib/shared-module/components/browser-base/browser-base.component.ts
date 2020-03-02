@@ -92,7 +92,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     abstract init(): Promise<void>;
     abstract initSort(): void;
     abstract onScroll(): void;
-    abstract getSearchRequest(): Observable<{ results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
+    abstract getSearchRequest(): Observable<{ results: TEntity[]; totalResults?: number; pageToken?: string | undefined }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string,
@@ -179,7 +179,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
         this.isLoading = true;
         const searchSubscription = request.subscribe(async searchResult => {
-            this.totalResults = searchResult.totalResults;
+            this.totalResults = searchResult.totalResults ?? 0;
             this.nextPageToken = searchResult.pageToken;
 
             if (searchResult.results) {

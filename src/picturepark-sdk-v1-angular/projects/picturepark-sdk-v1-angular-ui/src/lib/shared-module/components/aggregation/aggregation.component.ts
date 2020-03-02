@@ -171,7 +171,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
   public get active(): boolean {
     return !!this.expandedAggregationResult
       && !!this.expandedAggregationResult.aggregationResultItems
-      && this.expandedAggregationResult.aggregationResultItems.filter(x => x && x.count > 0 || x.active).length >= 1;
+      && this.expandedAggregationResult.aggregationResultItems.filter(x => x?.count && x.count > 0 || x.active).length >= 1;
   }
 
   public trackByName(index, aggregationResultItem: AggregationResultItem): string {

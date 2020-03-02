@@ -91,14 +91,17 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       if (this.schema.sort && this.schema.sort.length > 0) {
         // get first as mat table does not support multiple sorting
         const name = this.schema.sort[0].field;
-        const direction = this.schema.sort[0].direction.toLowerCase();
+        const direction = this.schema.sort[0].direction?.toLowerCase();
         this.activeSortColumn = name!;
-        this.activeSortDirection = direction;
+
+        if (direction) {
+          this.activeSortDirection = direction;
+        }
 
         this.sortInfo = this.schema.sort.map((s) => {
           return new SortInfo({
             field: lowerFirst(this.schema.id) + '.' + s.field,
-            direction: s.direction.toLowerCase() === 'asc' ? SortDirection.Asc : SortDirection.Desc
+            direction: s.direction?.toLowerCase() === 'asc' ? SortDirection.Asc : SortDirection.Desc
           });
         });
       }
@@ -124,9 +127,9 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
         SearchBehavior.DropInvalidCharactersOnFailure,
         SearchBehavior.WildcardOnSingleTerm,
       ] : [
-        SearchBehavior.DropInvalidCharactersOnFailure,
-        SearchBehavior.WildcardOnSingleTerm,
-      ],
+          SearchBehavior.DropInvalidCharactersOnFailure,
+          SearchBehavior.WildcardOnSingleTerm,
+        ],
       schemaIds: [this.schema.id],
       filter: this.filter ? this.filter : undefined,
       includeAllSchemaChildren: true,
@@ -150,7 +153,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.tableItems.push(...tableItems);
 
     this.dataSource.data = this.tableItems;
-    const selected = this.items.filter( listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
+    const selected = this.items.filter(listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
     this.selectionService.addItems(selected.map(q => q.item));
 
     this.cdr.detectChanges();
@@ -193,7 +196,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle() {
-      this.isAllSelected() ?
+    this.isAllSelected() ?
       this.selectionService.clear() :
       this.selectionService.addItems(this.items.map(q => q.item));
   }
@@ -213,7 +216,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${ this.isRowSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.isRowSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
   public rowClick(row: any): void {

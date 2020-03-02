@@ -3,7 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
-import { ShareService, ShareContentDetail, IShareDataBasic, IMailRecipient, ShareDeleteManyRequest, ShareDetail } from '@picturepark/sdk-v1-angular';
+import {
+  ShareService,
+  ShareContentDetail,
+  IShareDataBasic,
+  IMailRecipient,
+  ShareDeleteManyRequest,
+  ShareDetail,
+  BusinessProcessService
+} from '@picturepark/sdk-v1-angular';
 import { ContentDownloadDialogService, DialogService, TranslationService, ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -35,7 +43,8 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private dialog: MatDialog,
     private translationService: TranslationService,
-    private router: Router
+    private router: Router,
+    private businessProcessService: BusinessProcessService
   ) {
 
     this.toolBarOptions = [{
@@ -48,22 +57,6 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
         });
       }
     },
-    /*{
-      name: 'Share all contents',
-      icon: 'share',
-      action: 'share'
-    },
-    {
-      name: 'Embed all contents',
-      icon: 'code'
-    },
-    {
-      name: 'Expire',
-      icon: 'schedule',
-      action: () => {
-        this.share.expirationDate = new Date();
-      }
-    },*/
     {
       name: 'Delete',
       icon: 'delete',
@@ -76,17 +69,17 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
             cancelText: this.translationService.translate('ShareManager.Cancel')
           }
         })
-        .afterClosed().subscribe(result => {
-          if (result) {
-            this.shareService.deleteMany( null, new ShareDeleteManyRequest({ ids: [this.share.id] }))
-            .subscribe(i => {
-              this.router.navigate(['./share-manager']);
-            });
-          }
-        });
+          .afterClosed().subscribe(result => {
+            if (result) {
+              this.shareService.deleteMany(new ShareDeleteManyRequest({ ids: [this.share.id] }))
+                .subscribe(async i => {
+                  await this.businessProcessService.waitForCompletion(i.id, '02:00:00', true).toPromise();
+                  this.router.navigate(['./share-manager']);
+                });
+            }
+          });
       }
     }];
-
   }
 
   // GET SHARE INFO
@@ -112,7 +105,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   showDetail(item: ShareContentDetail): void {
     this.dialog.open(ContentDetailsDialogComponent,
       {
-        data: { id: item.id, shareContent: item, shareDetail: this.share, showMetadata: true},
+        data: { id: item.id, shareContent: item, shareDetail: this.share, showMetadata: true },
         autoFocus: false,
         width: '980px',
         height: '700px'
@@ -129,7 +122,6 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
     // ADD TO SUBSCRIBERS
     this.susbcription.add(activatedRoute);
-
   }
 
   ngOnDestroy() {
@@ -138,7 +130,5 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     if (this.susbcription) {
       this.susbcription.unsubscribe();
     }
-
   }
-
 }
