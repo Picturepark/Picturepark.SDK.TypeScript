@@ -104,26 +104,25 @@ $mat-picturepark-primary: (
     icon-selected-color: #2f2f2f,
     image-slot-background-color: #dcdcdc,
     button: #aaa,
-    button-active: $base,
-    progress-bar: $base,
-    progress-bar-background: #eee,
-    spinner: $base,
     shadow-color: #000,
     contrast: (
         light-background: #d8d8d8,
         dialog-background: #eee,
     ),
-    form-dark-background: #808080,
-    form-light-background: #a9a9a9,
 
 //  New styles
+    // ( base,button-active,progress-bar,spinner ) 
     primary: $base,
 
+    // (light-background, progress-bar-background)
     background-light: #eee,
     // background-dark: #444,
 
+    // (white-background)
     surface-light: #fff,
+    // (image-slot-background-color)
     surface-mid: #dcdcdc,
+    // (dark-background)
     surface-dark: #444,
 
     on-primary: white,
