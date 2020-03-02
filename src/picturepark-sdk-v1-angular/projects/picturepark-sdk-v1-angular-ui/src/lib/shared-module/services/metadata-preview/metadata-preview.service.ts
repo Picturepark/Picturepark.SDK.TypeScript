@@ -23,6 +23,7 @@ import {
   SchemaDetail,
   FieldTrigger,
   ContentService,
+  ContentResolveBehavior,
 } from '@picturepark/sdk-v1-angular';
 
 import * as moment_ from 'moment';
@@ -169,14 +170,14 @@ export class MetaDataPreviewService {
           fields[fieldId] = value.map((f: any) => f._displayValues ? f._displayValues.name : '').join(', ');
         }
       } else if (fieldType === FieldSingleRelation) {
-        debugger;
         if (value.title) {
+          // Handle Single Relationship field
           fields[fieldId] = this.localizationService.localize(value.title, customerInfo);
         } else {
           // Handle Single Relationship field No Information
-          // Figure out how to retrieve the Title of the single relationship no information content
-          this.contentService.get(value._targetId, null).subscribe((result) => {
-            debugger;
+          fields[fieldId] = this.translationService.translate('ListBrowser.Loading');
+          this.contentService.get(value._targetId, [ ContentResolveBehavior.OuterDisplayValueName]).subscribe((result) => {
+            fields[fieldId] = result.displayValues!.name;
           });
         }
       } else if (fieldType === FieldMultiRelation) {

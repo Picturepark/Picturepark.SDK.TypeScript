@@ -261,6 +261,10 @@ export let TRANSLATIONS = {
     NeverTriggered: {
       en: 'Never triggered',
       de: 'Nie getriggert'
+    },
+    Loading: {
+      en: 'Loading...',
+      de: 'Wird geladen...'
     }
   },
   Login: {
