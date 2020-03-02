@@ -1,9 +1,0 @@
-<div class="item-panel-preview-container" *ngIf="virtualItemHtml === null; else virtualContent">
-  <div class="loader" *ngIf="!imageUrl">
-    <mat-spinner></mat-spinner>
-  </div>
-  <img [src]="imageUrl" *ngIf="imageUrl"/>
-</div>
-<ng-template #virtualContent>
-  <div class="item-panel-preview-container" [innerHTML]="virtualItemHtml"></div>
-</ng-template>

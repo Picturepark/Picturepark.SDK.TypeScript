@@ -1,9 +1,0 @@
-<div class="item-thumbnail__image-container" (lazyload)="markAsVisible()" *ngIf="!virtualItemHtml; else virtualContent">
-  <mat-spinner [diameter]="40" *ngIf="isLoading"></mat-spinner>
-  <img *ngIf="!isLoading" class="item-thumbnail__image" [src]="thumbnailUrl" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" (error)="updateUrl($event)"/>
-</div>
-<ng-template #virtualContent>
-  <div class="item-thumbnail__image-virtual-item-container" >
-    <div class="item-thumbnail__image-virtual-item-display" [innerHTML]="virtualItemHtml"></div>
-  </div>
-</ng-template>

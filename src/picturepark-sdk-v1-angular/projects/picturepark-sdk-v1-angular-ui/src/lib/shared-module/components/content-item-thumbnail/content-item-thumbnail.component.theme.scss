@@ -1,10 +1,10 @@
 @import '~@angular/material/theming';
 
-@mixin pp-item-thumbnail-theme($theme) {
+@mixin pp-content-item-thumbnail-theme($theme) {
 
   $primary: map-get($theme, primary);
 
-  .item-thumbnail {
+  .content-item-thumbnail {
     $self: &;
 
 

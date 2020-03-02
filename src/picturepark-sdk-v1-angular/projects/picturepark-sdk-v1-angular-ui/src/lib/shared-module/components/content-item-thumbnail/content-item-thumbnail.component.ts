@@ -8,11 +8,11 @@ import { ThumbnailSize, Content, ShareDetail } from '@picturepark/sdk-v1-angular
 import { ContentService } from '@picturepark/sdk-v1-angular';
 
 @Component({
-  selector: 'pp-item-thumbnail',
-  templateUrl: './item-thumbnail.component.html',
-  styleUrls: ['./item-thumbnail.component.scss']
+  selector: 'pp-content-item-thumbnail',
+  templateUrl: './content-item-thumbnail.component.html',
+  styleUrls: ['./content-item-thumbnail.component.scss']
 })
-export class ItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
+export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
 
   @Input() item: Content;
   @Input() shareItem: ShareDetail;
