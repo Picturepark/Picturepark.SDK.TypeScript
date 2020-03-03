@@ -1,7 +1,7 @@
 import { BaseComponent } from '../base.component';
 import { Injector, OnInit, NgZone, Output, EventEmitter, Input, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK
@@ -10,8 +10,7 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
 import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize } from '@picturepark/sdk-v1-angular';
-import { LiquidRenderingService } from '../../services/liquid-rendering/liquid-rendering.service';
-import { ContentItemSelectionService } from '../../services/content-item-selection/content-item-selection.service';
+import { SelectionService as SelectionService } from '../../services/selection/selection.service';
 import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
@@ -29,16 +28,12 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         return this.injector.get(NgZone);
     }
     @LazyGetter()
-    protected get liquidRenderingService(): LiquidRenderingService {
-        return this.injector.get(LiquidRenderingService);
-    }
-    @LazyGetter()
     protected get translationService(): TranslationService {
         return this.injector.get(TranslationService);
     }
     @LazyGetter()
-    protected get contentItemSelectionService(): ContentItemSelectionService<TEntity> {
-        return new ContentItemSelectionService<TEntity>();
+    public get selectionService(): SelectionService<TEntity> {
+        return new SelectionService<TEntity>();
     }
     @LazyGetter()
     protected get dialog(): MatDialog {
@@ -69,6 +64,10 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
     }
 
+    public get isTouchDevice(): boolean {
+        return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+    }
+
     protected scrollDebounceTime = 0;
 
     @Output() public totalResultsChange = new EventEmitter<number | null>();
@@ -93,7 +92,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     abstract init(): Promise<void>;
     abstract initSort(): void;
     abstract onScroll(): void;
-    abstract getSearchRequest(): Observable<{results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
+    abstract getSearchRequest(): Observable<{ results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string,
@@ -122,7 +121,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         const scrollSubscription = this.scrollDispatcher.scrolled().pipe(debounceTime(this.scrollDebounceTime)).subscribe(scrollable => {
             if (!scrollable) { return; }
 
-            const nativeElement = scrollable.getElementRef().nativeElement as HTMLElement;
+            const nativeElement = scrollable.getElementRef().nativeElement;
             const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
 
             if (scrollCriteria && !this.isLoading && this.items.length !== this.totalResults) {
@@ -132,7 +131,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         this.subscription.add(scrollSubscription);
 
         // ITEM SELECTION SUBSCRIBER
-        const contentItemSelectionSubscription = this.contentItemSelectionService.selectedItems.subscribe(items => {
+        const contentItemSelectionSubscription = this.selectionService.selectedItems.subscribe(items => {
             this.selectedItems = items;
             this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id));
         });
@@ -169,7 +168,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         this.nextPageToken = undefined;
         this.items = [];
         this.loadData();
-      }
+    }
 
     public loadData(): void {
         const request = this.getSearchRequest();
@@ -184,14 +183,13 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
             this.nextPageToken = searchResult.pageToken;
 
             if (searchResult.results) {
-                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
                 const items = searchResult.results.map(item => {
                     const contentModel = new ContentModel(item, false);
                     contentModel.isSelected = this.selectedItems.some(selected => selected.id === item.id);
                     return contentModel;
                 });
-                this.prepareData(items);
                 this.items.push(...items);
+                this.prepareData(items);
             }
 
             this.isLoading = false;
@@ -215,31 +213,27 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         if ($event.ctrlKey || $event.type === 'tap') {
             this.lastSelectedIndex = index;
 
-            if (itemModel.isSelected === true) {
-            this.contentItemSelectionService.removeItem(itemModel.item);
-            } else {
-            this.contentItemSelectionService.addItem(itemModel.item);
-            }
+            this.selectionService.toggle(itemModel.item);
         } else if ($event.shiftKey) {
             const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
             const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
 
             const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i.item);
 
-            this.contentItemSelectionService.clear();
-            this.contentItemSelectionService.addItems(itemsToAdd);
+            this.selectionService.clear();
+            this.selectionService.addItems(itemsToAdd);
         } else {
             this.lastSelectedIndex = index;
-            this.contentItemSelectionService.clear();
-            this.contentItemSelectionService.addItem(itemModel.item);
+            this.selectionService.clear();
+            this.selectionService.addItem(itemModel.item);
         }
     }
 
     public toggleItems(isSelected: boolean): void {
         if (isSelected === true) {
-            this.contentItemSelectionService.addItems(this.items.map(model => model.item));
+            this.selectionService.addItems(this.items.map(model => model.item));
         } else {
-            this.contentItemSelectionService.clear();
+            this.selectionService.clear();
         }
     }
 
@@ -271,7 +265,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         if (this.dialog.openDialogs.length > 0) { return; }
 
         if (this.checkContains(event.srcElement.className)) {
-            this.contentItemSelectionService.clear();
+            this.selectionService.clear();
         }
     }
 }

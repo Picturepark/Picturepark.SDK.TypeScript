@@ -9,7 +9,7 @@ import {
   AggregationResult, Channel, FilterBase, Content, AggregatorBase, ContentService, ContentAggregationRequest,
   LifeCycleFilter, ContentSearchType, BrokenDependenciesFilter
 } from '@picturepark/sdk-v1-angular';
-import { ContentItemSelectionService, BasketService, ContentModel, ContentBrowserComponent } from '@picturepark/sdk-v1-angular-ui';
+import { SelectionService, BasketService, ContentModel, ContentBrowserComponent } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
 import { ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
@@ -45,7 +45,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
   }
 
-  @ViewChild(ContentBrowserComponent, { static: false }) contentBrowserComponent: ContentBrowserComponent;
+  @ViewChild(ContentBrowserComponent) contentBrowserComponent: ContentBrowserComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,7 +53,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     private embedService: EmbedService,
     private basketService: BasketService,
     private contentService: ContentService,
-    public contentItemSelectionService: ContentItemSelectionService<Content>,
+    public selectionService: SelectionService<Content>,
     public breakpointObserver: BreakpointObserver
   ) { }
 

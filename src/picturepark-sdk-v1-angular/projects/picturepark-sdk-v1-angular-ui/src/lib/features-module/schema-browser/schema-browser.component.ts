@@ -24,6 +24,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
   @Input() public activeParentSchema: BehaviorSubject<Schema>;
   @Output() public activeSchemaChange = new EventEmitter<Schema>();
 
+  public selectedSchemaIndex: number;
   private parentSchema: Schema | null = null;
 
   constructor(
@@ -118,5 +119,9 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
     } else {
       this.activeSchemaChange.emit(schema);
     }
+  }
+
+  public selectedSchemaChange(index: number): void {
+    this.selectedSchemaIndex = index;
   }
 }
