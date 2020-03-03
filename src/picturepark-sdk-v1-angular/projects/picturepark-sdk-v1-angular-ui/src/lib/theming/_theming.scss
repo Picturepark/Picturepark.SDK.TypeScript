@@ -4,7 +4,7 @@
 @import '../shared-module/components/browser-item-base/browser-item-base.component.theme.scss';
 @import '../features-module/dialog/components/dialog-base/dialog-base.component.theme.scss'; // TODO: Move to shared module
 @import '../features-module/panel/components/panel-base/panel-base.component.theme.scss'; // TODO: Move to shared module
-@import '../styles/global_styles.theme.scss';
+@import '../styles/global_styles.theme.scss'; 
 
 // Feature themes
 @import '../features-module/application-header/application-header.component.theme.scss';
@@ -54,6 +54,5 @@
     @include pp-share-content-dialog-item-theme($theme);
     @include pp-share-content-recipients-input-theme($theme);
     @include pp-panel-base-theme($theme);
-    @include pp-global-theme($theme);
-    @include pp-schema-browser-item-theme($theme);
+    @include pp-global-theme($theme)
 }

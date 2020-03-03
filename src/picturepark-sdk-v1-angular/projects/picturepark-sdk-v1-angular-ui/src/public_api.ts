@@ -5,6 +5,7 @@ export { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfigurationFactory } from 
 
 // Modules
 export { PictureparkUiModule } from './lib/picturepark-ui.module';
+
 export { ApplicationMenuModule } from './lib/features-module/application-menu/application-menu.module';
 export { ApplicationHeaderModule } from './lib/features-module/application-header/application-header.module';
 export { BasketModule } from './lib/features-module/basket/basket.module';
@@ -36,15 +37,16 @@ export { ShareItemsPanelModule } from './lib/features-module/share-items-panel/s
 // Components
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
 export { ListBrowserComponent } from './lib/features-module/list-browser/list-browser.component';
+
 export {
     ContentDetailsDialogComponent
 } from './lib/features-module/content-details-dialog/content-details-dialog.component';
 
 // Services
-export { SelectionService } from './lib/shared-module/services/selection/selection.service';
+export { ContentItemSelectionService } from './lib/shared-module/services/content-item-selection/content-item-selection.service';
 export { BasketService } from './lib/shared-module/services/basket/basket.service';
 export { TranslationService } from './lib/shared-module/services/translations/translation.service';
-export { LiquidRenderingService } from '@picturepark/sdk-v1-angular';
+export { LiquidRenderingService } from './lib/shared-module/services/liquid-rendering/liquid-rendering.service';
 export { ContentDownloadDialogService } from
     './lib/features-module/content-download-dialog/content-download-dialog.service';
 export { DialogService } from './lib/features-module/dialog/dialog.service';
@@ -57,7 +59,6 @@ export * from './lib/utilities/helper';
 
 // Interfaces
 export { SearchParameters } from './lib/shared-module/search-utils';
-export { ContentDetailDialogOptions } from './lib/features-module/content-details-dialog/ContentDetailDialogOptions';
 
 // Enums
 export { ExtendedSearchBehavior } from './lib/shared-module/search-utils';

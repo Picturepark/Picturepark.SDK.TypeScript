@@ -4,8 +4,7 @@ import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, OnInit
 import {
   ContentSearchResult, AggregatorBase, TermsAggregator, AggregationFilter, AggregationResult, AggregationResultItem, ObjectAggregationResult
 } from '@picturepark/sdk-v1-angular';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
 import { flatMap } from '../../utilities/helper';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';

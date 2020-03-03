@@ -1,10 +1,14 @@
 import { } from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
-import { configureTest } from './config';
 import {
-  ContentService, ContentSearchRequest, SearchBehavior, ThumbnailSize, TermFilter, ContentAggregationRequest, TermsAggregator
-} from '../lib/api-services';
+  ContentService, ContentSearchRequest,
+  ThumbnailSize, ContentAggregationRequest,
+  SearchBehavior,
+  TermsAggregator,
+  TermFilter
+} from '@picturepark/sdk-v1-angular';
+import { configureTest } from './config';
 
 describe('ContentService', () => {
   beforeEach(configureTest);

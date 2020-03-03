@@ -178,7 +178,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   // CLEAR SELECTION
   cancel(): void {
-    this.selectionService.clear();
+    this.contentItemSelectionService.clear();
   }
 
 }

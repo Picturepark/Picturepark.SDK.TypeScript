@@ -11,14 +11,6 @@
             position: relative;
 
             .action-buttons {
-                @media (max-width: 725px) {
-                    position: unset;
-                    right: unset;
-                    top: unset;
-                    z-index: unset;
-                    padding-right: 10px;
-                }
-
                 position: absolute;
                 right: 20px;
                 top: 0;
@@ -35,11 +27,6 @@
                     .navigation {
                         min-width: 40px;
                         padding: 0 8px;
-                    }
-
-                    mat-divider {
-                        height: 100%;
-                        margin: 0 8px;
                     }
                 }
             }

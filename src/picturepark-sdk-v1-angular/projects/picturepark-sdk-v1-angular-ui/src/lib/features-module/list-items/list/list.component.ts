@@ -15,7 +15,6 @@ import {
   OrFilter,
   SchemaDetail,
   SchemaService,
-  ListItem,
 } from '@picturepark/sdk-v1-angular';
 import { groupBy } from '../../../utilities/helper';
 import { ListBrowserComponent } from '../../list-browser/list-browser.component';
@@ -27,7 +26,7 @@ import { ListBrowserComponent } from '../../list-browser/list-browser.component'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent implements OnInit, OnDestroy {
-  @ViewChild(ListBrowserComponent) listBrowserComponent: ListBrowserComponent;
+  @ViewChild(ListBrowserComponent, { static: false }) listBrowserComponent: ListBrowserComponent;
   @Input() activeSchema: Subject<SchemaDetail | null>;
   @Output() queryChange = new EventEmitter<Params>();
 
@@ -39,8 +38,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public schemaDetail: SchemaDetail;
   public schema: Observable<SchemaDetail>;
   public schemaId: string;
-  public selectedItems: ListItem[];
-  public selectedItemsIds: string[];
+  public selectedItems: string[];
 
   private subscription = new Subscription();
 
@@ -92,7 +90,7 @@ export class ListComponent implements OnInit, OnDestroy {
         const selectedQuery = queryParamMap.get('selected');
         if (selectedQuery) {
           const items = selectedQuery.split(',');
-          this.selectedItemsIds = items;
+          this.selectedItems = items;
         }
 
         this.cdr.detectChanges();
@@ -107,7 +105,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public selectedItemsChange(selectedItems: ListItem[]) {
+  public selectedItemsChange(selectedItems: string[]) {
     this.selectedItems = selectedItems;
   }
 

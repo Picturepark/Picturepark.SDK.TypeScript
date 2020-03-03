@@ -1,12 +1,12 @@
 import {
   Component, OnInit, OnDestroy, Inject, ViewChild, ElementRef, Output, EventEmitter, Renderer2, AfterViewInit, Injector
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 // MD5 HASH
-import { Md5 } from 'ts-md5';
+import { Md5 } from 'ts-md5/dist/md5';
 
 // LIBRARIES
 import {

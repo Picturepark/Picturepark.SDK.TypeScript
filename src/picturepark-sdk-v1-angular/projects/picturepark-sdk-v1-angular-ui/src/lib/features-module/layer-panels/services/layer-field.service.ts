@@ -31,6 +31,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { LayerField } from '../models/layer-field';
 import { RelationFieldInfo } from '../models/relation-field-info';
 import { forkJoin } from 'rxjs';
+import { LiquidRenderingService } from '../../../shared-module/services/liquid-rendering/liquid-rendering.service';
 
 const moment = moment_;
 
@@ -40,7 +41,8 @@ const moment = moment_;
 export class LayerFieldService {
 
   constructor(private sanitizer: DomSanitizer,
-    private contentService: ContentService) { }
+    private contentService: ContentService,
+    private liquidRenderingService: LiquidRenderingService) { }
 
   public generate(field: FieldBase, schemaMetadata: any, allSchemas: SchemaDetail[]): LayerField | null {
     const fieldValue = schemaMetadata[field.id];
@@ -203,6 +205,10 @@ export class LayerFieldService {
 
     const relationFieldInfo = forkJoin([thumbnailDownload, contentDetail])
       .pipe(
+        switchMap(async response => {
+          await this.liquidRenderingService.renderNestedDisplayValues(response[1]);
+          return response;
+        }),
         map(response => {
           return new RelationFieldInfo(
             targetId,

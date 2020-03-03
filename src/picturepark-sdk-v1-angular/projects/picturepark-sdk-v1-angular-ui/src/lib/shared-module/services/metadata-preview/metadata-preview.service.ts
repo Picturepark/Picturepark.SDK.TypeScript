@@ -21,7 +21,6 @@ import {
   FieldStringArray,
   FieldTranslatedString,
   SchemaDetail,
-  FieldTrigger,
 } from '@picturepark/sdk-v1-angular';
 
 import * as moment_ from 'moment';
@@ -29,13 +28,12 @@ const moment = moment_;
 
 import { LocalizationService } from '../localization/localization.service';
 import { lowerFirst, isNil } from '../../../utilities/helper';
-import { TranslationService } from '../translations/translation.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MetaDataPreviewService {
-  constructor(private localizationService: LocalizationService, private translationService: TranslationService) { }
+  constructor(private localizationService: LocalizationService) { }
 
   public prepareTableColumns(allColumnNames: string[], tableData: any[]): string[] {
 
@@ -86,7 +84,6 @@ export class MetaDataPreviewService {
         fields[fieldId] = metadata[fieldId];
         continue;
       }
-
 
       // find field
       const field = schema && schema.fields && schema.fields.filter(fieldData => fieldData.id === fieldId)[0];
@@ -147,17 +144,8 @@ export class MetaDataPreviewService {
       } else if (fieldType === FieldSingleFieldset) {
         fields[fieldId] = value._displayValues ? value._displayValues.name : '';
 
-      } else if (fieldType === FieldTrigger) {
-        if (value.triggeredOn) {
-          fields[fieldId] = (this.translationService.translate('ListBrowser.LastTriggered') as string)
-            .replace('{{datetime}}', moment(value.triggeredOn).format('LLL'))
-            .replace('{{firstName}}', value.triggeredBy.firstName)
-            .replace('{{lastName}}', value.triggeredBy.lastName);
-        } else {
-          fields[fieldId] = this.translationService.translate('ListBrowser.NeverTriggered');
-        }
       } else if (fieldType === FieldMultiFieldset) {
-        fields[fieldId] = value.map( q => q._displayValues.name).join();
+
       } else if (fieldType === FieldSingleTagbox) {
         if (value._displayValues) {
           fields[fieldId] = value._displayValues.name;

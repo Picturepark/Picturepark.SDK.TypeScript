@@ -1,4 +1,4 @@
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID, Injectable } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,10 +20,10 @@ translations['ShareViewer'] = {
   },
   Consent: {
     en:
-      `By continuing to browse this website, you agree to the use of cookies to improve your user experience and to collect statistics about your visits.<br />
+    `By continuing to browse this website, you agree to the use of cookies to improve your user experience and to collect statistics about your visits.<br />
     Read the <a href="https://picturepark.com/en/terms/cookies" target="_blank">Cookie Policy</a>.`,
     de:
-      `Indem Sie die Website weiterhin verwenden, stimmen Sie der Nutzung von Cookies,
+    `Indem Sie die Website weiterhin verwenden, stimmen Sie der Nutzung von Cookies,
     zur Verbesserung Ihrer Nutzungserfahrung und um Statistiken von Ihrem Besuch zu sammeln, zu.<br />
     Lesen Sie die <a href="https://picturepark.com/de/terms/cookies" target="_blank">Cookie-Richtlinien</a>.`
   },
@@ -89,7 +89,6 @@ export function LocaleFactory() {
     BrowserAnimationsModule,
     ShareDetailModule,
     HttpClientModule,
-    HammerModule,
 
     // Picturepark
     SearchBoxModule,

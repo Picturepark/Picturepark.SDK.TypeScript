@@ -253,14 +253,6 @@ export let TRANSLATIONS = {
     },
     ItemsWereNotFound: {
       en: 'Items were not found'
-    },
-    LastTriggered: {
-      en: 'Last triggered {{datetime}} by {{firstName}} {{lastName}}',
-      de: 'Zuletzt getriggert {{datetime}} von {{firstName}} {{lastName}}'
-    },
-    NeverTriggered: {
-      en: 'Never triggered',
-      de: 'Nie getriggert'
     }
   },
   Login: {

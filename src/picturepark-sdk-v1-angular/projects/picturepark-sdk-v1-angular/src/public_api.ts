@@ -11,7 +11,6 @@ export * from './lib/access-token-auth.service';
 
 // services
 export * from './lib/api-services';
-export { LiquidRenderingService } from './lib/liquid-rendering.service';
 
 // functions
 export * from './lib/helper';

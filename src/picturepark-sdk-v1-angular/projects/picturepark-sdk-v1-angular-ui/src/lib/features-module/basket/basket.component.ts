@@ -1,6 +1,5 @@
 import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material';
 
 // LIBRARIES
 import {
@@ -10,12 +9,15 @@ import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions
 
 // COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
+import { ContentDownloadDialogComponent } from '../content-download-dialog/content-download-dialog.component';
+import { ContentDownloadDialogOptions } from '../content-download-dialog/content-download-dialog.interfaces';
 import {
   ShareContentDialogComponent
 } from '../../features-module/share-content-dialog/share-content-dialog.component';
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
+import { Observable } from 'rxjs';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
 @Component({

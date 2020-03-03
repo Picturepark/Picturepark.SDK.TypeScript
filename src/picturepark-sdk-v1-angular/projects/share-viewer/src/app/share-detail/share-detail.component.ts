@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ShareDetail, IMailRecipient, InfoService, CustomerInfo, ShareService, ShareDataBasic, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { MatDialog } from '@angular/material/dialog';
+import { ContentDetailsDialogComponent, LiquidRenderingService } from '@picturepark/sdk-v1-angular-ui';
+import { ActivatedRoute } from '@angular/router';
+import { ContentDetailDialogOptions } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/features-module/content-details-dialog/ContentDetailDialogOptions';
 import { forkJoin } from 'rxjs';
-import { ShareDetail, IMailRecipient, InfoService, ShareDataBasic, ShareContentDetail, ShareService } from '@picturepark/sdk-v1-angular';
-import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
 
 @Component({
   selector: 'app-share-detail',
@@ -20,7 +21,8 @@ export class ShareDetailComponent implements OnInit {
     private shareService: ShareService,
     private infoService: InfoService,
     private dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private liquidRenderingService: LiquidRenderingService
   ) {
   }
 
@@ -47,6 +49,7 @@ export class ShareDetailComponent implements OnInit {
       next: (values) => {
         this.logoUrl = values.customerInfo.logosUrl + 'name';
         this.shareDetail = ShareDetail.fromJS(values.shareDetail);
+        this.liquidRenderingService.renderNestedDisplayValues(this.shareDetail);
         this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients!;
         this.isLoading = false;
       }

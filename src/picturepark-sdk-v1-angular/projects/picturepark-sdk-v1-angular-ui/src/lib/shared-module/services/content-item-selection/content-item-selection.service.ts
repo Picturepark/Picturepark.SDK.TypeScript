@@ -6,7 +6,7 @@ import { IEntityBase } from '@picturepark/sdk-v1-angular';
 @Injectable({
   providedIn: 'root',
 })
-export class SelectionService<TEntity extends IEntityBase> {
+export class ContentItemSelectionService<TEntity extends IEntityBase> {
   private selectedItemsSubject: BehaviorSubject<TEntity[]> = new BehaviorSubject([]);
 
   private items: Set<TEntity> = new Set();
@@ -36,14 +36,6 @@ export class SelectionService<TEntity extends IEntityBase> {
     this.updateSubject();
   }
 
-  public toggle(item: TEntity) {
-    if (this.items.has(item)) {
-      this.removeItem(item);
-    } else {
-      this.addItem(item);
-    }
-  }
-
   public getById(value: string): TEntity | undefined {
     return Array.from(this.items.values()).find(i => i.id === value );
   }
@@ -51,10 +43,6 @@ export class SelectionService<TEntity extends IEntityBase> {
   public clear() {
     this.items.clear();
     this.updateSubject();
-  }
-
-  public isEmpty(): boolean {
-    return Array.from(this.items.values()).length === 0;
   }
 
   private updateSubject() {

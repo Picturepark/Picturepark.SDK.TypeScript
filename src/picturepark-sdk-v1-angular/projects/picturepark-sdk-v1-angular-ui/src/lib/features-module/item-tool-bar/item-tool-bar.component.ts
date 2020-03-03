@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'pp-item-tool-bar',
