@@ -1,14 +1,11 @@
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { } from 'jasmine';
-
-import {
-  PICTUREPARK_API_URL,
-  PICTUREPARK_CONFIGURATION,
-  PictureparkConfiguration,
-  AuthService,
-  AccessTokenAuthService
-} from '@picturepark/sdk-v1-angular';
+import { AuthService } from '../lib/auth.service';
+import { AccessTokenAuthService } from '../lib/access-token-auth.service';
+import { PICTUREPARK_CONFIGURATION } from '../lib/base.service';
+import { PictureparkConfiguration } from '../lib/configuration';
+import { PICTUREPARK_API_URL } from '../lib/api-services';
 
 export const testUrl = '{Server}';
 export const testAccessToken = '{AccessToken}';

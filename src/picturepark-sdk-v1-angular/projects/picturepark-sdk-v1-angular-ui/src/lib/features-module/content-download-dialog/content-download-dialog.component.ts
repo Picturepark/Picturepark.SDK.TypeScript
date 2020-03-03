@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, OnDestroy, Injector, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
@@ -176,7 +176,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
   async ngOnInit() {
 
-    super.ngOnInit();
+    super.init();
 
     // SET LOADER HEIGHT DYNAMIC
     const containerHeight = this.contentContainer.nativeElement.offsetHeight;
@@ -185,6 +185,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     if (this.data.contents.length === 1) {
       const detail = (this.data.contents[0] as ContentDetail);
       if (detail.outputs) {
+
         await this.setSelection(detail.outputs);
         return;
       }
@@ -203,6 +204,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
       this.fetchOutputs();
     }
+
   }
 
   private async setSelection(outputs: IOutPut[]): Promise<void> {

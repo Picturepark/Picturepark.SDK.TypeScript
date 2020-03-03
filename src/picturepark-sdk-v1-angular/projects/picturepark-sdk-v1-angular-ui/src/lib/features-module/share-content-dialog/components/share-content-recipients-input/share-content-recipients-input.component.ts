@@ -4,7 +4,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { TermsAggregator, ShareService, ShareAggregationRequest, SearchBehavior, NestedAggregator } from '@picturepark/sdk-v1-angular';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 @Component({
