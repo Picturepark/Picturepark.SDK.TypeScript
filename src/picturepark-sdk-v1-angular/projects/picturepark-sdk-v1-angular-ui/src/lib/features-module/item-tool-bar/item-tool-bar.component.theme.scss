@@ -7,36 +7,38 @@ $pp-item-tool-bar: (contrast: ());
 
     $primary: map-get($theme, primary);
 
-    .tool-bar-container {
-        background: mat-color($primary, dark-background);
-
-        .to-top {
-            background-color: mat-color($primary, dialog-background);
-            color: mat-color($primary, light-border);
-        }
-
-        ul {
-            li {
-                .to-top {
-                    background: mat-color($primary, white-background);
-                }
-
-                button {
-                    &:hover {
-                        i {
-                            color: mat-color($primary, light-font);
+    pp-item-tool-bar {
+        .tool-bar-container {
+            background: mat-color($primary, dark-background);
+            
+            .to-top {
+                background-color: mat-color($primary, dialog-background);
+                color: mat-color($primary, light-border);
+            }
+            
+            ul {
+                li {
+                    .to-top {
+                        background: mat-color($primary, white-background);
+                    }
+                    
+                    button {
+                        &:hover {
+                            i {
+                                color: mat-color($primary, light-font);
+                            }
                         }
-                    }
-
-                    i {
-                        color: mat-color($primary, light-border);
-                        font-size: mat-font-size($custom-typography, headline);
-                    }
-
-                    span {
-                        font-size: mat-font-size($custom-typography, button);
-                        background-color: mat-color($primary, dark-background);
-                        color: mat-color($primary, white-font);
+                        
+                        i {
+                            color: mat-color($primary, light-border);
+                            font-size: mat-font-size($custom-typography, headline);
+                        }
+                        
+                        span {
+                            font-size: mat-font-size($custom-typography, button);
+                            background-color: mat-color($primary, dark-background);
+                            color: mat-color($primary, white-font);
+                        }
                     }
                 }
             }

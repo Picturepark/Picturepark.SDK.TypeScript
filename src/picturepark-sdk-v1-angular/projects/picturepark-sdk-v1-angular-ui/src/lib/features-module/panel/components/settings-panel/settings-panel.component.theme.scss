@@ -8,32 +8,33 @@ $pp-list-browser: (background-color: #eee,
 @mixin pp-settings-panel-theme($theme) {
   $primary: map-get($theme, primary);
 
+  pp-settings-panel {
 
-  .panel-container {
-
-    background-color: mat-color($primary, dialog-background);
-
-    .panel-header {
-      h3 {
-        color: mat-color($primary, light-font) ;
+    .panel-container {
+      
+      background-color: mat-color($primary, dialog-background);
+      
+      .panel-header {
+        h3 {
+          color: mat-color($primary, light-font) ;
+        }
       }
-    }
-
-    .panel-content {
-      ul {
-        li {
-          color: mat-color($primary, light-font);
-        }
-
-        &.settings-menu {
-          width: 30%;
-        }
-
-        &.settings-info {
-          width: 70%;
+      
+      .panel-content {
+        ul {
+          li {
+            color: mat-color($primary, light-font);
+          }
+          
+          &.settings-menu {
+            width: 30%;
+          }
+          
+          &.settings-info {
+            width: 70%;
+          }
         }
       }
     }
   }
-
 }

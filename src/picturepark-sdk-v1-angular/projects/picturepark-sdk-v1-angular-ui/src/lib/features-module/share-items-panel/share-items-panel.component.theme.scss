@@ -6,52 +6,54 @@ $pp-share-items-panel-theme: (contrast: ());
 @mixin pp-share-items-panel-theme($theme) {
   $primary: map-get($theme, primary);
 
-  .grid {
+  pp-share-items-panel {
 
-    >.item {
-
-      background-color: mat-color($primary, light-border);
-    }
-  }
-
-  .list {
-
-    >.item {
-
-      background-color: mat-color($primary, dialog-background);
-
-
-      .thumbnail {
+    .grid {
+  
+      >.item {
+  
         background-color: mat-color($primary, light-border);
       }
-
-      .item-info {
-
-        li {
-          color: mat-color($primary, light-font);
+    }
+  
+    .list {
+  
+      >.item {
+  
+        background-color: mat-color($primary, dialog-background);
+  
+  
+        .thumbnail {
+          background-color: mat-color($primary, light-border);
         }
-
-        .title {
-          color: mat-color($primary, dark-font);
-        }
-      }
-
-      &:hover {
-        background-color: mat-color($primary, light-border); 
-        
+  
         .item-info {
-
+  
           li {
-            color: white;
+            color: mat-color($primary, light-font);
           }
   
           .title {
-            color: mat-color($primary, dialog-background);
+            color: mat-color($primary, dark-font);
           }
         }
+  
+        &:hover {
+          background-color: mat-color($primary, light-border); 
+          
+          .item-info {
+  
+            li {
+              color: white;
+            }
+    
+            .title {
+              color: mat-color($primary, dialog-background);
+            }
+          }
+        }
+  
       }
-
     }
   }
-
 }

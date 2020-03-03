@@ -7,28 +7,31 @@ $pp-basket: (
 
 @mixin pp-basket-theme($theme) {
 
-    $primary: map-get($theme, primary);
+  $primary: map-get($theme, primary);
+
+  pp-basket {
 
     .basket {
-        background-color: mat-color($primary, background-light);
-        .mat-toolbar {
-            background: mat-color($primary, background-light);
-            border-bottom-color: mat-color($primary, divider);
-            button {
-                &:hover {
-                    mat-icon {
-                      color: mat-color($primary, primary);
-                    }
-                  }
-                  mat-icon {
-                    font-size: mat-font-size($custom-typography, display-3);
-                    color: mat-color($primary, on-background-light);
-                  }
-              }
+      background-color: mat-color($primary, background-light);
+      .mat-toolbar {
+        background: mat-color($primary, background-light);
+        border-bottom-color: mat-color($primary, divider);
+        button {
+          &:hover {
+            mat-icon {
+              color: mat-color($primary, primary);
+            }
+          }
+          mat-icon {
+            font-size: mat-font-size($custom-typography, display-3);
+            color: mat-color($primary, on-background-light);
+          }
         }
-
-        .basket__empty {
-          color: mat-color($primary, on-background-light);
-        }
+      }
+      
+      .basket__empty {
+        color: mat-color($primary, on-background-light);
+      }
     }
+  }
 }

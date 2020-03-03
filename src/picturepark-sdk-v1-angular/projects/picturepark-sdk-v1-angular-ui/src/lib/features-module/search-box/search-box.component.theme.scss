@@ -7,42 +7,44 @@ $pp-search-box: (contrast: (),
 
   $primary: map-get($theme, primary);
 
-  #search-container {
+  pp-search-box {
+    #search-container {
 
-    border-color: mat-color($primary, surface-mid);
-
-    .form {
-      background-color: mat-color($primary, surface-mid);
-      color: mat-color($primary, on-surface-mid);
-
-      input {
+      border-color: mat-color($primary, surface-mid);
+      
+      .form {
+        background-color: mat-color($primary, surface-mid);
         color: mat-color($primary, on-surface-mid);
-
-        &::placeholder {
+        
+        input {
           color: mat-color($primary, on-surface-mid);
+          
+          &::placeholder {
+            color: mat-color($primary, on-surface-mid);
+          }
         }
       }
+      
+      #search-options-container {
+        color: mat-color($primary, surface-mid);
+      }
     }
-
-    #search-options-container {
-      color: mat-color($primary, surface-mid);
-    }
-  }
-
-  #search-container:focus-within {
-    .form {
-      background-color: mat-color($primary, opacity-light);
-
-      color: mat-color($primary, on-surface-dark);
-
-      input {
+    
+    #search-container:focus-within {
+      .form {
+        background-color: mat-color($primary, opacity-light);
+        
         color: mat-color($primary, on-surface-dark);
-
-        &::placeholder {
+        
+        input {
           color: mat-color($primary, on-surface-dark);
+          
+          &::placeholder {
+            color: mat-color($primary, on-surface-dark);
+          }
         }
+        
       }
-
     }
   }
 }

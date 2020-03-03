@@ -4,40 +4,41 @@
 
   $primary: map-get($theme, primary);
 
-  .aggregation {
-    &__option-title {
-      color: mat-color($primary, on-background-light);
-    }
+  pp-aggregation-item {
 
-    .mat-expansion-panel-header {
-      font-size: mat-font-size($custom-typography, display-1);
-    }
-    
-    .mat-list-base {
-      .mat-list-item, .mat-list-option, .mat-subheader {
+    .aggregation {
+      &__option-title {
+        color: mat-color($primary, on-background-light);
+      }
+  
+      .mat-expansion-panel-header {
         font-size: mat-font-size($custom-typography, display-1);
       }
-    }
-    
-    .mat-list-item.mat-list-option .mat-list-item-content {
-    
-      .mat-pseudo-checkbox {
-        color: mat-color($primary, on-background-light);
-
-        &.mat-pseudo-checkbox-checked {
+      
+      .mat-list-base {
+        .mat-list-item, .mat-list-option, .mat-subheader {
+          font-size: mat-font-size($custom-typography, display-1);
+        }
+      }
+      
+      .mat-list-item.mat-list-option .mat-list-item-content {
+      
+        .mat-pseudo-checkbox {
+          color: mat-color($primary, on-background-light);
+  
+          &.mat-pseudo-checkbox-checked {
+            color: mat-color($primary, primary);
+          }
+        }
+      }
+  
+      .expand-filters {
+        button {
           color: mat-color($primary, primary);
         }
       }
     }
 
-    .expand-filters {
-      button {
-        color: mat-color($primary, primary);
-      }
-    }
-  }
-
-  pp-aggregation-item {
     mat-expansion-panel {
         border-color: 1px solid mat-color($primary, divider);
         mat-expansion-panel-header {
@@ -61,5 +62,6 @@
             color: mat-color($primary, on-surface-light);
         }
     }
-}
+    
+  }
 }

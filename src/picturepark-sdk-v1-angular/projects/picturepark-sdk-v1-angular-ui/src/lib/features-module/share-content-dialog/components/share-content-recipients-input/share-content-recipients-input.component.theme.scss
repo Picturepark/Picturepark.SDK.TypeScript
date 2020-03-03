@@ -11,34 +11,35 @@ $pp-share-content-recipients-input-theme: (
     $primary: map-get($theme, primary);
     $warn: map-get($theme, warn);
 
-    .chip-list-container { 
-        .chip-list-content {
-            &.error-active { border: 1px solid mat-color($warn) !important; }
+    pp-share-content-recipients-input {
+        .chip-list-container { 
+            .chip-list-content {
+                &.error-active { border: 1px solid mat-color($warn) !important; }
+            }
+        }
+        
+        mat-chip-list { position: relative; z-index: 10; }
+        .share-content-dialog-container ul li input { 
+            color: mat-color($primary, icon-selected-color) !important;
+            background-color: mat-color($primary, white-background) !important;
+        }
+        
+        .share-content-dialog-container ul li input#recipient {
+            &:focus {
+                border: 0px !important;
+            }
+        }
+    
+        .mat-chip {
+            &.mat-standard-chip {
+                background-color: mat-color($primary, base) !important;
+                color: mat-color($primary, white-font) !important;
+                .mat-chip-remove { color: mat-color($primary, dark-base) !important; }
+            }
+        }
+        
+        .chip-input-error { 
+            color: mat-color($warn) !important;
         }
     }
-    
-    mat-chip-list { position: relative; z-index: 10; }
-    .share-content-dialog-container ul li input { 
-        color: mat-color($primary, icon-selected-color) !important;
-        background-color: mat-color($primary, white-background) !important;
-    }
-    
-    .share-content-dialog-container ul li input#recipient {
-        &:focus {
-            border: 0px !important;
-        }
-    }
-
-    .mat-chip {
-        &.mat-standard-chip {
-            background-color: mat-color($primary, base) !important;
-            color: mat-color($primary, white-font) !important;
-            .mat-chip-remove { color: mat-color($primary, dark-base) !important; }
-        }
-    }
-    
-    .chip-input-error { 
-        color: mat-color($warn) !important;
-    }
-
 }

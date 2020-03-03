@@ -29,6 +29,10 @@
       height: 28px;
       padding: 0 20px;
       width: unset;
+
+      .mat-list-item-content {
+        padding: 0;
+      }
     }
     
     .mat-expansion-panel-header {

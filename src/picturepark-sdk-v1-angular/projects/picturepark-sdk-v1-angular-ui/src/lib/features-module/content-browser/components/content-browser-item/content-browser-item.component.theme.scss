@@ -9,19 +9,22 @@ $pp-content-browser-item: (contrast: ());
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
 
-  .browser-item {
-    &__basket-icon {
-      color: mat-color($primary, on-surface-mid);
-      font-size: 16px;
-    }
+  pp-content-browser-item {
 
-    &__image-slot {
-      background-color: mat-color($primary, surface-mid);
-    }
-
-    &__image-virtual-item-container {
-      color: mat-color($primary, on-surface-mid);
+    .browser-item {
+      &__basket-icon {
+        color: mat-color($primary, on-opacity-light);
+        font-size: 16px;
+      }
+      
+      &__image-slot {
+        background-color: mat-color($primary, surface-mid);
+      }
+      
+      &__image-virtual-item-container {
+        color: mat-color($primary, on-surface-mid);
+      }
     }
   }
-
+    
 }

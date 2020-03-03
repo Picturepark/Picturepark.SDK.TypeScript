@@ -124,6 +124,8 @@ $mat-picturepark-primary: (
     surface-mid: #dcdcdc,
     // (dark-background)
     surface-dark: #444,
+    
+    opacity-light: rgba(0, 0, 0, .4),
 
     on-primary: white,
 
@@ -133,8 +135,9 @@ $mat-picturepark-primary: (
     on-surface-light: #727272,
     on-surface-mid: #727272,
     on-surface-dark: #fff,
+    
+    on-opacity-light: #fff,
 
-    opacity-light: rgba(0, 0, 0, .4),
     divider: #dcdcdc,
 
 );

@@ -9,18 +9,21 @@ $pp-application-header: (
 
     $primary: map-get($theme, primary);
 
-    .application-header-container {
-        background-color: mat-color($primary, white-background);
-        border-bottom: 1px solid mat-contrast($primary, light-background);
-        color: mat-color($primary, dark-font);
+    pp-application-header { 
 
-        .title-container {
+        .application-header-container {
+            background-color: mat-color($primary, white-background);
+            border-bottom: 1px solid mat-contrast($primary, light-background);
             color: mat-color($primary, dark-font);
-            // border-right: 1px solid mat-contrast($primary, light-background);
-        }
-
-        .close-container { 
-            border-left: 1px solid mat-contrast($primary, light-background);
+            
+            .title-container {
+                color: mat-color($primary, dark-font);
+                // border-right: 1px solid mat-contrast($primary, light-background);
+            }
+            
+            .close-container { 
+                border-left: 1px solid mat-contrast($primary, light-background);
+            }
         }
     }
 

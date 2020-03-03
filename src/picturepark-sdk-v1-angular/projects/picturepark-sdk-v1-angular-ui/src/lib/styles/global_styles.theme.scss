@@ -89,8 +89,18 @@
     background-color: mat-color($primary, light-background);
   }
 
-  // SHARE CONTENT DIALOG
-  pp-share-content-dialog .mat-tab-header {
-    background: mat-color($primary, dialog-background);
+  // Start Handle Angular Material Pannels Theming 
+  .mat-menu-content {
+      
+    .mat-menu-item, 
+    .mat-menu-item .mat-icon,
+    .menu-title {
+      color: mat-color($primary, on-surface-light);
+    }
+    
+    .mat-menu-item[disabled] {
+      opacity: 0.3;
+    }
   }
+  // End Handle Angular Material Pannels Theming 
 }

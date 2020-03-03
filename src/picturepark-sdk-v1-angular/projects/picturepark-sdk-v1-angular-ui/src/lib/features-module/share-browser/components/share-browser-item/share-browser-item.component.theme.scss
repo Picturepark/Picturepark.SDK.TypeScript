@@ -1,9 +1,7 @@
 @import '~@angular/material/theming';
 
 // SHARE BROWSER ITEM VARS
-$pp-share-browser-item: (
-  contrast: ()
-);
+$pp-share-browser-item: (contrast: ());
 
 @mixin pp-share-browser-item-theme($theme) {
 
@@ -11,34 +9,40 @@ $pp-share-browser-item: (
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
 
-  .browser-item {
+  pp-share-browser-item {
 
-    &__image-virtual-item-container {
-      color: mat-color($primary, dark-font) ;
-    }
+    .browser-item {
 
-    &__actions {
-      ul {
-        li {
-          button {
-            mat-icon {     
-              font-size: mat-font-size($custom-typography, subheading-1);
-              color: mat-color($primary, white-font);
+      &__image-virtual-item-container {
+        color: mat-color($primary, dark-font);
+      }
+
+      &__actions {
+        ul {
+          li {
+            button {
+              mat-icon {
+                font-size: mat-font-size($custom-typography, subheading-1);
+                color: mat-color($primary, white-font);
+              }
             }
           }
         }
       }
-    }
 
-    &__items-num-container {
-      color: mat-color($primary, white-font) ;
-    }
+      &__items-num-container {
+        color: mat-color($primary, white-font);
+      }
 
-    &__title {
-      font-size: mat-font-size($custom-typography, display-1);
-      color: mat-color($primary, light-font);
-      i { font-size: mat-font-size($custom-typography, display-1);}
+      &__title {
+        font-size: mat-font-size($custom-typography, display-1);
+        color: mat-color($primary, light-font);
+
+        i {
+          font-size: mat-font-size($custom-typography, display-1);
+        }
+      }
+
     }
-    
   }
 }
