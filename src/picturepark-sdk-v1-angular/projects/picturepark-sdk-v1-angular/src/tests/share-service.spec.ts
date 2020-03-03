@@ -15,7 +15,7 @@ import {
 describe('ShareService', () => {
   beforeEach(configureTest);
 
-  it('should create embed share', async(inject([ContentService, ShareService],
+  it('should create embed share', async(inject([ContentService, ShareService, BusinessProcessService],
     async (contentService: ContentService, shareService: ShareService,
       businessProcessService: BusinessProcessService) => {
       // arrange
@@ -38,7 +38,7 @@ describe('ShareService', () => {
         suppressNotifications: false
       })).toPromise();
 
-      await this.businessProcessService.waitForCompletion(result.id, '02:00:00', true).toPromise();
+      await businessProcessService.waitForCompletion(result.id, '02:00:00', true).toPromise();
       const share = await shareService.get(result.referenceId!).toPromise();
 
       // assert
