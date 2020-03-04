@@ -13,30 +13,13 @@ $pp-share-browser-item: (contrast: ());
 
     .browser-item {
 
-      &__image-virtual-item-container {
-        color: mat-color($primary, dark-font);
-      }
-
-      &__actions {
-        ul {
-          li {
-            button {
-              mat-icon {
-                font-size: mat-font-size($custom-typography, subheading-1);
-                color: mat-color($primary, white-font);
-              }
-            }
-          }
-        }
-      }
-
       &__items-num-container {
-        color: mat-color($primary, white-font);
+        color: mat-color($primary, on-opacity-light);
       }
 
       &__title {
         font-size: mat-font-size($custom-typography, display-1);
-        color: mat-color($primary, light-font);
+        color: mat-color($primary, on-background-dark);
 
         i {
           font-size: mat-font-size($custom-typography, display-1);

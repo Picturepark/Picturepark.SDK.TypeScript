@@ -9,35 +9,33 @@ $pp-item-tool-bar: (contrast: ());
 
     pp-item-tool-bar {
         .tool-bar-container {
-            background: mat-color($primary, dark-background);
+            background: mat-color($primary, surface-dark);
             
             .to-top {
-                background-color: mat-color($primary, dialog-background);
-                color: mat-color($primary, light-border);
+                background-color: mat-color($primary, surface-light);
+                color: mat-color($primary, on-surface-light);
             }
             
             ul {
                 li {
-                    .to-top {
-                        background: mat-color($primary, white-background);
-                    }
                     
                     button {
+                        color: mat-color($primary, on-surface-dark);
                         &:hover {
                             i {
-                                color: mat-color($primary, light-font);
+                                color: rgba(mat-color($primary, on-surface-dark),.4);
                             }
                         }
                         
                         i {
-                            color: mat-color($primary, light-border);
+                            color: mat-color($primary, on-surface-dark);
                             font-size: mat-font-size($custom-typography, headline);
                         }
                         
                         span {
                             font-size: mat-font-size($custom-typography, button);
-                            background-color: mat-color($primary, dark-background);
-                            color: mat-color($primary, white-font);
+                            background-color: mat-color($primary, opacity-light);
+                            color: mat-color($primary, on-opacity-light);
                         }
                     }
                 }

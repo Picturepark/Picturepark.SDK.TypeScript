@@ -9,21 +9,4 @@ $pp-share-aggregation-list: (
 
   $primary: map-get($theme, primary);
 
-  pp-share-aggregation-list {
-    .aggregation-filter {
-      &__loading-spinner {
-        background: rgba(mat-color($primary, shadow-color), 0.288) !important;
-      }
-      &__filters {
-        background-color: mat-color($primary, background-light) !important;
-      }
-    }
-    
-    .filters {
-      &__active-filters {
-        background-color: mat-color($primary, background-light) !important;
-      }
-    }
-  }
-  
 }

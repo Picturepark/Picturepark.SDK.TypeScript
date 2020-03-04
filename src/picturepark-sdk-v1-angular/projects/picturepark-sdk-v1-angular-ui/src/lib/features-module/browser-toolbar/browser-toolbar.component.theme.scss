@@ -11,7 +11,7 @@ $pp-browser-toolbar: (contrast: ());
 
     // BROWSER TOOLBAR MODULE
     .browser-toolbar-container {
-    background-color: mat-color($primary, background-light);
+    background-color: mat-color($primary, background-dark);
     border-color: mat-color($primary, divider);
     
       .browser-toolbar-content {
@@ -22,7 +22,7 @@ $pp-browser-toolbar: (contrast: ());
             
             i {
               font-size: mat-font-size($custom-typography, display-4);
-              color: mat-color($primary, on-background-light);
+              color: mat-color($primary, on-background-dark);
             }
             
             &:hover {
@@ -37,7 +37,7 @@ $pp-browser-toolbar: (contrast: ());
         
         .order-by {
           button {
-            color: mat-color($primary, on-background-light);
+            color: mat-color($primary, on-background-dark);
             font-size: mat-font-size($custom-typography, display-3);
             
             &:hover {
@@ -48,7 +48,7 @@ $pp-browser-toolbar: (contrast: ());
         }
         
         .items-count {
-          color: mat-color($primary, on-background-light);
+          color: mat-color($primary, on-background-dark);
         }
       }
     }

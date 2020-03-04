@@ -9,53 +9,36 @@ $pp-dialog-base: (
 
     $primary: map-get($theme, primary);
 
-    .dialog, .dialog-container {
-        h3 { 
-            color: mat-color($primary, dark-font); 
-            border-bottom: 1px solid mat-contrast($primary, dialog-background); 
-            mat-icon { color: mat-color($primary, light-font); }
-        }
-    
-        mat-dialog-content {
-            background-color: mat-color($primary, dialog-background);
-            border-bottom: 1px solid mat-contrast($primary, dialog-background); 
+    pp-content-details-dialog, pp-content-download-dialog, pp-confirmation-dialog, pp-share-content-dialog {
 
-            .action-buttons {
-                color: mat-color($primary, dark-font);
+        .dialog, .dialog-container {
+            h3 { 
+                color: mat-color($primary, on-surface-light); 
+                border-color: mat-color($primary, divider); 
             }
+        
+            mat-dialog-content {
+                background-color: mat-color($primary, background-dark);
+                border-color: mat-color($primary, divider); 
+                color: mat-color($primary, on-background-dark);
+    
+                
+                .mat-tab-body-content {
+                    background-color: mat-color($primary, surface-mid);
+                    color: mat-color($primary, on-surface-mid);
+                }
             
-            .mat-tab-body-content {
-                .content-info {
-                    color: mat-color($primary, dark-font);
-                }
             }
         
-            pp-layer-panels {
-                mat-card {
-                    color: mat-color($primary, dark-font);
-                }
+            .loader-container { 
+                background-color: mat-color($primary, surface-light); 
             }
         
-            mat-expansion-panel {
-                color: mat-color($primary, dark-font);
+            mat-dialog-actions { 
+                background-color: mat-color($primary, surface-light);
             }
-        
-            pp-content-details-dialog {
-                .dialog-container {
-                    h3 {
-                        border-bottom: 1px solid mat-color($primary, light-border);
-                    }
-                }
-            }
-        }
-    
-        .loader-container { 
-            background-color: mat-color($primary, dialog-background); 
-        }
-    
-        mat-dialog-actions { 
-            background-color: mat-color($primary, white-background);
         }
     }
+
 
 }

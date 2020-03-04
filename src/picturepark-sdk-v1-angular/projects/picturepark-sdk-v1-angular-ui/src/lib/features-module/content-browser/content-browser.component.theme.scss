@@ -7,26 +7,8 @@
 
     pp-content-browser {
 
-        .browser {
-            &__header {
-                button {
-                    mat-icon { 
-                        font-size: mat-font-size($custom-typography, display-3); 
-                        color: mat-color($primary, on-background-light);
-                    }
-                    &:hover {
-                        mat-icon {
-                            color: mat-color($primary, opacity-light);
-                        }
-                    }
-                }
-            }   
-            
-            
-        }
-        
         .browser__header .browser__empty-result {
-            color: mat-color($primary, on-background-light);
+            color: mat-color($primary, on-background-dark);
         }
     }
 }

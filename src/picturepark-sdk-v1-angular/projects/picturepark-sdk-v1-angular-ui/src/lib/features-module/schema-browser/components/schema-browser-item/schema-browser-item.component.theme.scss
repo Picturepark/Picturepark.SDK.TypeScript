@@ -1,7 +1,7 @@
 @import '~@angular/material/theming';
 
 // SCHEMA BROWSER ITEM BASE VARS
-$pp-schema-browser-item: (selected-background: #6f6f6f,
+$pp-schema-browser-item: (
     contrast: ());
 
 @mixin pp-schema-browser-item-theme($theme) {
@@ -14,12 +14,12 @@ $pp-schema-browser-item: (selected-background: #6f6f6f,
             
             .schema-content {
                 &--selected {
-                    box-shadow: 0 0 0 2px mat-color($pp-schema-browser-item, selected-background);
+                    box-shadow: 0 0 0 2px mat-color($primary, opacity-light);
                 }
             }
             
             .schema-icon {
-                background-color: mat-color($primary, dialog-background);
+                background-color: mat-color($primary, surface-light);
                 
                 mat-icon {
                     color: #aaaaaa

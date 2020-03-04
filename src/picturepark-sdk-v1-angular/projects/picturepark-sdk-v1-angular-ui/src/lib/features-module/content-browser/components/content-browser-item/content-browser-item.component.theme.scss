@@ -17,13 +17,6 @@ $pp-content-browser-item: (contrast: ());
         font-size: 16px;
       }
       
-      &__image-slot {
-        background-color: mat-color($primary, surface-mid);
-      }
-      
-      &__image-virtual-item-container {
-        color: mat-color($primary, on-surface-mid);
-      }
     }
   }
     

@@ -9,50 +9,43 @@ $pp-share-items-panel-theme: (contrast: ());
   pp-share-items-panel {
 
     .grid {
-  
+
       >.item {
-  
-        background-color: mat-color($primary, light-border);
+
+        background-color: mat-color($primary, divider);
       }
     }
-  
+
     .list {
-  
+
       >.item {
-  
-        background-color: mat-color($primary, dialog-background);
-  
-  
-        .thumbnail {
-          background-color: mat-color($primary, light-border);
-        }
-  
+
+        background-color: mat-color($primary, surface-mid);
+        color: mat-color($primary, on-surface-mid);
+
+
         .item-info {
-  
-          li {
-            color: mat-color($primary, light-font);
-          }
-  
-          .title {
-            color: mat-color($primary, dark-font);
-          }
+          background-color: mat-color($primary, surface-light);
+          color: mat-color($primary, on-surface-light);
         }
-  
+
+        .item-funcs {
+          background-color: mat-color($primary, surface-light);
+          color: mat-color($primary, on-surface-light);
+        }
+
         &:hover {
-          background-color: mat-color($primary, light-border); 
-          
+
           .item-info {
-  
-            li {
-              color: white;
-            }
-    
-            .title {
-              color: mat-color($primary, dialog-background);
-            }
+            background-color: mat-color($primary, surface-mid);
+            color: mat-color($primary, on-surface-mid);
+          }
+
+          .item-funcs {
+            background-color: mat-color($primary, surface-mid);
+            color: mat-color($primary, on-surface-mid);
           }
         }
-  
       }
     }
   }

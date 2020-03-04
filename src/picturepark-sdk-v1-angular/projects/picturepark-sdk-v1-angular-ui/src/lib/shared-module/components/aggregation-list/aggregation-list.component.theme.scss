@@ -4,28 +4,29 @@
 
   $primary: map-get($theme, primary);
 
-  .aggregation-filter {
-
-
-    &__loading-spinner {
-      background: rgba(0, 0, 0, 0.288);
-    }
-
-    .filters {
-      &__active-filters {
-        background-color: mat-color($primary, background-light);
+  pp-content-aggregation-list, pp-list-item-aggregation-list, pp-share-aggregation-list {
+    .aggregation-filter {
+      &__loading-spinner {
+        background: mat-color($primary, opacity-light);
       }
-    }
-
-    mat-toolbar {
-      button {
-        mat-icon {
-          font-size: 21px;
-          color: mat-color($primary, on-background-light);
+  
+      .filters {
+        &__active-filters {
+          background-color: mat-color($primary, background-dark);
+          border-bottom-color: mat-color($primary, divider);
         }
       }
-    } 
+  
+      mat-toolbar {
+        color: mat-color($primary, on-background-dark);
 
+        button {
+          mat-icon {
+            font-size: 21px;
+            color: mat-color($primary, on-background-dark);
+          }
+        }
+      } 
+    }
   }
-
 }

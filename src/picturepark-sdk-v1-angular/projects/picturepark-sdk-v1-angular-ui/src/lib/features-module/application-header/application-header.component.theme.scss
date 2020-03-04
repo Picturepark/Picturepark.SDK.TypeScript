@@ -12,18 +12,9 @@ $pp-application-header: (
     pp-application-header { 
 
         .application-header-container {
-            background-color: mat-color($primary, white-background);
-            border-bottom: 1px solid mat-contrast($primary, light-background);
-            color: mat-color($primary, dark-font);
-            
-            .title-container {
-                color: mat-color($primary, dark-font);
-                // border-right: 1px solid mat-contrast($primary, light-background);
-            }
-            
-            .close-container { 
-                border-left: 1px solid mat-contrast($primary, light-background);
-            }
+            background-color: mat-color($primary, surface-light);
+            border-color: mat-color($primary, divider);
+            color: mat-color($primary, on-surface-light);
         }
     }
 

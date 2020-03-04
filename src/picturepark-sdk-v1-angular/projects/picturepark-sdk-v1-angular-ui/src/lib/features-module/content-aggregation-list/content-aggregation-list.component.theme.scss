@@ -19,8 +19,8 @@ $pp-content-aggregation-list: (
       .filters {
         &__active-filters {
           font-size: mat-font-size($custom-typography, body-1);
-          background-color: mat-color($primary, background-light);
-          color: mat-color($primary, on-background-light);
+          background-color: mat-color($primary, background-dark);
+          color: mat-color($primary, on-background-dark);
         }
       }
       

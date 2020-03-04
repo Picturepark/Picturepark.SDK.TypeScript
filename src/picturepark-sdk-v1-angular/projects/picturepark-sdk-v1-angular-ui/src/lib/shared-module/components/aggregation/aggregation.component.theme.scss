@@ -7,8 +7,9 @@
   pp-aggregation-item {
 
     .aggregation {
+
       &__option-title {
-        color: mat-color($primary, on-background-light);
+        color: mat-color($primary, on-background-dark);
       }
   
       .mat-expansion-panel-header {
@@ -24,7 +25,7 @@
       .mat-list-item.mat-list-option .mat-list-item-content {
       
         .mat-pseudo-checkbox {
-          color: mat-color($primary, on-background-light);
+          color: mat-color($primary, on-background-dark);
   
           &.mat-pseudo-checkbox-checked {
             color: mat-color($primary, primary);
@@ -47,7 +48,7 @@
             }
             mat-panel-title {
                 &.mat-expansion-panel-header-title {
-                    color: mat-color($primary, on-background-light);
+                    color: mat-color($primary, on-background-dark);
                 }
             }
             &:hover {

@@ -12,9 +12,9 @@ $pp-basket: (
   pp-basket {
 
     .basket {
-      background-color: mat-color($primary, background-light);
+      background-color: mat-color($primary, background-dark);
       .mat-toolbar {
-        background: mat-color($primary, background-light);
+        background: mat-color($primary, background-dark);
         border-bottom-color: mat-color($primary, divider);
         button {
           &:hover {
@@ -24,13 +24,13 @@ $pp-basket: (
           }
           mat-icon {
             font-size: mat-font-size($custom-typography, display-3);
-            color: mat-color($primary, on-background-light);
+            color: mat-color($primary, on-background-dark);
           }
         }
       }
       
       .basket__empty {
-        color: mat-color($primary, on-background-light);
+        color: mat-color($primary, on-background-dark);
       }
     }
   }

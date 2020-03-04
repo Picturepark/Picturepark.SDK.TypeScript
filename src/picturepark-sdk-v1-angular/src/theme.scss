@@ -92,31 +92,13 @@ $base: #39acaa;
     https://material.io/design/color/the-color-system.html#color-theme-creation
 */
 $mat-picturepark-primary: (
-    base: $base,
-    dark-background: #444,
-    dialog-background: #f8f8f8,
-    light-background: #eee,
-    white-background: #fff,
-    white-font: #fff,
-    dark-font: #444,
-    light-font: #727272,
-    light-border: #d8d8d8,
-    icon-selected-color: #2f2f2f,
-    image-slot-background-color: #dcdcdc,
-    button: #aaa,
-    shadow-color: #000,
-    contrast: (
-        light-background: #d8d8d8,
-        dialog-background: #eee,
-    ),
-
 //  New styles
     // ( base,button-active,progress-bar,spinner ) 
     primary: $base,
 
     // (light-background, progress-bar-background)
-    background-light: #eee,
-    // background-dark: #444,
+    background-light: #fff,
+    background-dark: #eee,
 
     // (white-background)
     surface-light: #fff,
@@ -130,15 +112,17 @@ $mat-picturepark-primary: (
     on-primary: white,
 
     on-background-light: #727272,
-    // on-background-light: #444,
+    on-background-dark: #727272,
 
     on-surface-light: #727272,
-    on-surface-mid: #727272,
+    on-surface-mid: #444,
     on-surface-dark: #fff,
     
     on-opacity-light: #fff,
 
     divider: #dcdcdc,
+
+    contrast: ()
 
 );
 
@@ -180,7 +164,7 @@ $mat-picturepark-primary-dark: (
     // (dark-background)
     surface-dark: #fff,
 
-    on-primary: white,
+    on-primary: #fff,
 
     on-background-light: #eee,
     // on-background-light: #444,

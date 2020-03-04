@@ -5,26 +5,40 @@
     $primary: map-get($theme, primary);
     $self: &;
 
-    .browser {
-        background: mat-color($primary, background-light);
+    pp-content-browser, pp-list-browser, pp-schema-browser, pp-share-browser {
+        .browser {
+            background: mat-color($primary, background-dark);
 
-        &__header {
-            & mat-toolbar {
-             border-bottom: 1px solid mat-color($primary, divider);
+            &__header {
+                & mat-toolbar {
+                    border-bottom: 1px solid mat-color($primary, divider);
+                }
+
+                button {
+                    mat-icon { 
+                        font-size: mat-font-size($custom-typography, display-3); 
+                        color: mat-color($primary, on-background-dark);
+                    }
+                    &:hover {
+                        mat-icon {
+                            color: mat-color($primary, opacity-light);
+                        }
+                    }
+                }
+            }
+
+            &__items {
+                &::-webkit-scrollbar-thumb {
+                    background-color: mat-color($primary, surface-mid);
+                }
+
+            }
+
+            &--list {
+                #{ $self }__item-container {
+                    border-color: mat-color($primary, divider);
+                }
             }
         }
-        &__items {            
-            &::-webkit-scrollbar-thumb {
-                background-color: mat-color($primary, background-light);
-                outline: 1px solid  mat-color($primary, background-light);
-            }
-
-        }
-        &--list {
-            #{ $self }__item-container {
-                border-color: mat-color($primary, divider);
-            }
-          }
     }
-
 }

@@ -1,65 +1,44 @@
 @import "~@angular/material/theming";
 
 // LIST BROWSER MODULE
-$pp-list-browser: (
-  background-color: #eee,
-  icon-color: #aaa,
-  contrast: ()
-);
 
 @mixin pp-list-browser-theme($theme) {
   $primary: map-get($theme, primary);
 
   pp-list-browser {
 
-    .browser {
-      &__header {
-        button {
-          &:hover {
-            mat-icon {
-              color: mat-color($primary, icon-selected-color);
-            }
-          }
-          mat-icon {
-            font-size: mat-font-size($custom-typography, display-3);
-            color: mat-color($primary, light-font);
-          }
-        }
-      }
-    }
     
     .browser__header .browser__empty-result {
-      color: mat-color($primary, dark-font);
+      color: mat-color($primary, on-background-light);
     }
     .table-container {
-      background: mat-color($primary, white-background);
+      background: mat-color($primary, background-light);
 
       .mat-header-cell,
       .mat-cell,
       .mat-footer-cell {
-        color: mat-color($primary, light-font);
-        background: mat-color($primary, white-background);
+        background: mat-color($primary, background-light);
+        color: mat-color($primary, on-background-light);
       }
 
       tr.selected {
         .mat-header-cell,
         .mat-cell,
         .mat-footer-cell {
-          background: mat-color($primary, light-background);
+          background: mat-color($primary, background-dark);
         }
       }
-      
+
+      tr.mat-row:hover {
+        .mat-header-cell,
+        .mat-cell,
+        .mat-footer-cell {
+          background: mat-color($primary, background-dark);
+        }
+      }
+
       &::-webkit-scrollbar-thumb {
-        background-color: mat-contrast($primary, light-background);
-        outline: 1px solid mat-contrast($primary, light-background);
-      }
-      .mat-row:hover {
-        background-color: mat-color($primary, light-background) ;
-      }
-    }
-    .icons {
-      mat-icon {
-        color: mat-color($pp-list-browser, icon-color) !important;
+        background-color: mat-color($primary, surface-mid);
       }
     }
   }
