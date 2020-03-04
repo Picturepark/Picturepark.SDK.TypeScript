@@ -19,16 +19,16 @@
   }
   
   &--list-view {
-    display: -webkit-inline-box;
+    display: inline-flex;
+    flex-direction: row;
 
     #{ $self }__image {
-      max-height: unset;
       height: unset;
-      width: 100%;
+      width: unset;
     }
 
     #{ $self }__image-slot {
-      width: 120px;
+      width: 15%;
       overflow: hidden;
       margin: 10px; 
       border-top-style: solid;
@@ -40,8 +40,10 @@
     #{ $self }__title {
       flex-grow: 1;
       margin: 10px;
-      width: 50%;
-      
+      width: 85%;
+      &__title-content {
+        color: #2f2f2f;
+      }
     }
     
     #{ $self }__actions {
