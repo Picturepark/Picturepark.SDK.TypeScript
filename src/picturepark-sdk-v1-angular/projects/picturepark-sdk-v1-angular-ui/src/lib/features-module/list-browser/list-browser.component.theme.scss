@@ -26,7 +26,8 @@
         .mat-cell,
         .mat-footer-cell {
           background: mat-color($primary, background-dark);
-        }
+          color: mat-color($primary, on-background-dark);
+      }
       }
 
       tr.mat-row:hover {
@@ -34,6 +35,8 @@
         .mat-cell,
         .mat-footer-cell {
           background: mat-color($primary, background-dark);
+          color: mat-color($primary, on-background-dark);
+
         }
       }
 

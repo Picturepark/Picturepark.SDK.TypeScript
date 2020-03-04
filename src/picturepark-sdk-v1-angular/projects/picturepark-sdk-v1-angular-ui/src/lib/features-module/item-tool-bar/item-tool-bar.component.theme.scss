@@ -23,7 +23,8 @@ $pp-item-tool-bar: (contrast: ());
                         color: mat-color($primary, on-surface-dark);
                         &:hover {
                             i {
-                                color: rgba(mat-color($primary, on-surface-dark),.4);
+                                color: mat-color($primary, on-surface-dark);
+                                opacity: 0.4;
                             }
                         }
                         

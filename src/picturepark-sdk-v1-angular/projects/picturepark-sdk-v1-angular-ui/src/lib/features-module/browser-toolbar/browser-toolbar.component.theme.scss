@@ -11,12 +11,13 @@ $pp-browser-toolbar: (contrast: ());
 
     // BROWSER TOOLBAR MODULE
     .browser-toolbar-container {
-    background-color: mat-color($primary, background-dark);
-    border-color: mat-color($primary, divider);
+      background-color: mat-color($primary, background-dark);
+      border-color: mat-color($primary, divider);
     
       .browser-toolbar-content {
         .select {
           button {
+            background-color: mat-color($primary, background-dark);
             color: mat-color($primary, primary);
             font-size: mat-font-size($custom-typography, display-1);
             

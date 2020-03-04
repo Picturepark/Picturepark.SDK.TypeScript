@@ -36,6 +36,7 @@ $pp-dialog-base: (
         
             mat-dialog-actions { 
                 background-color: mat-color($primary, surface-light);
+                color: mat-color($primary, on-surface-light);
             }
         }
     }

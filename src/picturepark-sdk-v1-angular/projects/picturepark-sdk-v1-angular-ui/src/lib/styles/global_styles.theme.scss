@@ -87,7 +87,9 @@
   }
 
   // Start Handle Angular Material Pannels Theming 
+  
   .mat-menu-content {
+    background-color: mat-color($primary, surface-light);
       
     .mat-menu-item, 
     .mat-menu-item .mat-icon,

@@ -57,54 +57,18 @@ $mat-picturepark-accent: (
 // GLOBAL COLORS
 $base: #39acaa;
 
-// c0e6ff 
-// 93d0f9
-
-// $mat-picturepark-primary: (
-//     primary: $base,
-//     dark-background: #444,
-//     dialog-background: #f8f8f8,
-//     light-background: #eee,
-//     white-background: #fff,
-//     white-font: #fff,
-//     dark-font: #444,
-//     light-font: #727272,
-//     light-border: #d8d8d8,
-//     icon-selected-color: #2f2f2f,
-//     image-slot-background-color: #dcdcdc,
-//     button: #aaa,
-//     button-active: $base,
-//     progress-bar: $base,
-//     progress-bar-background: #eee,
-//     spinner: $base,
-//     shadow-color: #000,
-//     contrast: (
-//         light-background: #d8d8d8,
-//         dialog-background: #eee,
-//     ),
-//     form-dark-background: #808080,
-//     form-light-background: #a9a9a9,
-// );
-
-
 /*
     Style guide documentation
     https://material.io/design/color/the-color-system.html#color-theme-creation
 */
 $mat-picturepark-primary: (
-//  New styles
-    // ( base,button-active,progress-bar,spinner ) 
     primary: $base,
 
-    // (light-background, progress-bar-background)
     background-light: #fff,
     background-dark: #eee,
 
-    // (white-background)
     surface-light: #fff,
-    // (image-slot-background-color)
     surface-mid: #dcdcdc,
-    // (dark-background)
     surface-dark: #444,
     
     opacity-light: rgba(0, 0, 0, .4),
@@ -133,49 +97,31 @@ $picturepark-app-warn: mat-palette($mat-red);
 $picturepark-app-theme: mat-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);
 
 $mat-picturepark-primary-dark: (
-    base: $base,
-    dark-background: #444,
-    dialog-background: #f8f8f8,
-    light-background: #eee,
-    white-background: #fff,
-    white-font: #fff,
-    dark-font: #444,
-    light-font: #727272,
-    light-border: #d8d8d8,
-    icon-selected-color: #2f2f2f,
-    image-slot-background-color: #dcdcdc,
-    button: #aaa,
-    shadow-color: #000,
-    contrast: (
-        light-background: #d8d8d8,
-        dialog-background: #eee,
-    ),
-
-    //  New styles
     primary: $base,
 
-    // (light-background, progress-bar-background)
-    background-light: #444,
+    background-light: #727272,
+    background-dark: #444,
 
-    // (white-background)
     surface-light: #444,
-    // (image-slot-background-color)
-    surface-mid: #dcdcdc,
-    // (dark-background)
-    surface-dark: #fff,
-
-    on-primary: #fff,
-
-    on-background-light: #eee,
-    // on-background-light: #444,
-
-    on-surface-light: #fff,
-    on-surface-mid: #727272,
-    on-surface-dark: #727272,
-
+    surface-mid: #727272,
+    surface-dark: #727272,
+    
     opacity-light: rgba(0, 0, 0, .4),
+
+    on-primary: white,
+
+    on-background-light: #fff,
+    on-background-dark: #a9a9a9,
+
+    on-surface-light: #a9a9a9,
+    on-surface-mid: #dcdcdc,
+    on-surface-dark: #dcdcdc,
+    
+    on-opacity-light: #fff,
+
     divider: #dcdcdc,
 
+    contrast: ()
 );
 
 $picturepark-app-primary-dark: mat-palette($mat-picturepark-primary-dark);
