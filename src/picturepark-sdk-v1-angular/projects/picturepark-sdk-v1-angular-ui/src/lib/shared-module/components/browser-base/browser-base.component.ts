@@ -10,7 +10,6 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
 import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize } from '@picturepark/sdk-v1-angular';
-import { LiquidRenderingService } from '../../services/liquid-rendering/liquid-rendering.service';
 import { SelectionService as SelectionService } from '../../services/selection/selection.service';
 import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
@@ -27,10 +26,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     @LazyGetter()
     protected get ngZone(): NgZone {
         return this.injector.get(NgZone);
-    }
-    @LazyGetter()
-    protected get liquidRenderingService(): LiquidRenderingService {
-        return this.injector.get(LiquidRenderingService);
     }
     @LazyGetter()
     protected get translationService(): TranslationService {
@@ -188,7 +183,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
             this.nextPageToken = searchResult.pageToken;
 
             if (searchResult.results) {
-                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
                 const items = searchResult.results.map(item => {
                     const contentModel = new ContentModel(item, false);
                     contentModel.isSelected = this.selectedItems.some(selected => selected.id === item.id);

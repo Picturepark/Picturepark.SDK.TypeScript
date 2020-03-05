@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
 // LIBRARIES
 import { Content } from '@picturepark/sdk-v1-angular';

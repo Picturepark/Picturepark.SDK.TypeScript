@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import Liquid from 'liquidjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class LiquidRenderingService {
     private liquidEngine: Liquid = new Liquid();
 
-    constructor() {
-    }
+    constructor() { }
 
     traverseObject(obj: Object, callback: (key: string, value: any, obj: any) => void): void {
         for (const property in obj) {
