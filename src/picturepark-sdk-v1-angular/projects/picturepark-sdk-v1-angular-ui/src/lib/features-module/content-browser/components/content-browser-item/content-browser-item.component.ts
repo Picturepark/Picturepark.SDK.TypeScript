@@ -14,7 +14,7 @@ import { ContentDownloadDialogService } from '../../../content-download-dialog/c
 // INTERFACES
 import { switchMap } from 'rxjs/operators';
 
-// FUNTIONS
+// FUNCTIONS
 import { fromContent } from '../../../content-download-dialog/content-download-dialog.functions';
 
 @Component({

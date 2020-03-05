@@ -19,7 +19,7 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 import { Observable } from 'rxjs';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
-// FUNTIONS
+// FUNCTIONS
 import { fromContent } from '../content-download-dialog/content-download-dialog.functions';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)

@@ -13,17 +13,16 @@ export function fromContent(content: Content): IContentDownload {
 export function fromContentDetail(content: ContentDetail | ShareContentDetail): IContentDownload {
     return {
         id: content.id,
-        contentSchemaId:
-        content.contentSchemaId,
+        contentSchemaId: content.contentSchemaId,
         contentType: content.contentType,
         outputs: content.outputs as Output[]
     } as IContentDownload;
 }
 
 export function fromContentArray(content: Content[]): IContentDownload[] {
-    return content.map(c => this.fromContent(c));
+    return content.map(c => fromContent(c));
 }
 
 export function fromContentDetailArray(content: ContentDetail[] | ShareContentDetail[]): IContentDownload[] {
-    return (content as Array<ContentDetail | ShareContentDetail>).map(c => this.fromContentDetail(c));
+    return (content as Array<ContentDetail | ShareContentDetail>).map(c => fromContentDetail(c));
 }

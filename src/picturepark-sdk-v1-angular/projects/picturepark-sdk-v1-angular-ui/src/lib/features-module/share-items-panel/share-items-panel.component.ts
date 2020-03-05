@@ -5,7 +5,7 @@ import { ShareContentDetail, ShareDetail } from '@picturepark/sdk-v1-angular';
 import { PanelBaseComponent } from '../panel/components/panel-base/panel-base.component';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
-// FUNTIONS
+// FUNCTIONS
 import { fromContentDetail } from '../content-download-dialog/content-download-dialog.functions';
 
 @Component({

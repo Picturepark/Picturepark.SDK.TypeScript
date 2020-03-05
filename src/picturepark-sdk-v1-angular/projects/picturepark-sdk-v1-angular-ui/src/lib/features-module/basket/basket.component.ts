@@ -19,7 +19,7 @@ import {
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
-// FUNTIONS
+// FUNCTIONS
 import { fromContentArray } from '../content-download-dialog/content-download-dialog.functions';
 
 @Component({
