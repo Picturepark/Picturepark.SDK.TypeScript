@@ -33,6 +33,7 @@ import { LocalizationService } from '../localization/localization.service';
 import { lowerFirst, isNil } from '../../../utilities/helper';
 import { TranslationService } from '../translations/translation.service';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,7 +47,7 @@ export class MetaDataPreviewService {
     tableData.forEach(data => {
       for (const property of data) {
         existedColumnsSet.add(property);
-    }
+      }
     });
 
     const existedColumns = Array.from(existedColumnsSet);
@@ -63,7 +64,7 @@ export class MetaDataPreviewService {
       schemas.forEach(schema => {
         const previewData = this.getPreviewData(schema, item[schema.id], info, withId);
         for (const prop of previewData) {
-            preview[`${schema.id}.${prop}`] = previewData[prop];
+          preview[`${schema.id}.${prop}`] = previewData[prop];
         }
       });
 
@@ -75,11 +76,31 @@ export class MetaDataPreviewService {
     return allData;
   }
 
-  public getListItemsTableData(metadataItems: any[], schema: SchemaDetail, info: CustomerInfo, withId: boolean = true): any[] {
-    return metadataItems.map(data => this.getPreviewData(schema, data, info, withId)).filter(x => Object.keys(x).length > 0);
+
+
+  public async getListItemsTableData(metadataItems: any[], schema: SchemaDetail, info: CustomerInfo, withId: boolean = true) {
+    const listItemsTableData = metadataItems.map(data => this.getPreviewData(schema, data, info, withId)).filter(x => Object.keys(x).length > 0);
+
+    // Handle Single Relationship field No Information
+    const contents = await this.contentService.getMany(
+      listItemsTableData.map(q => q.singleRelationshipNoInformation).filter(q => q),
+      [ContentResolveBehavior.OuterDisplayValueName]
+    ).toPromise();
+
+    listItemsTableData.forEach(listItem => {
+      const content = contents.find(q => q.id === listItem.singleRelationshipNoInformation);
+      if (content) {
+        listItem.singleRelationshipNoInformation = content.displayValues?.name;
+      }
+    });
+
+    return listItemsTableData;
   }
 
-  private getPreviewData(schema: SchemaDetail, metadata: any, customerInfo: CustomerInfo, withId: boolean = true): any {
+  private getPreviewData(schema: SchemaDetail,
+    metadata: any,
+    customerInfo: CustomerInfo,
+    withId: boolean = true): any {
 
     const fields: any = {};
 
@@ -104,7 +125,7 @@ export class MetaDataPreviewService {
       } else {
         const propertyName = fieldId.split('.').pop();
         if (propertyName && typeof propertyName === 'string') {
-            value = metadata[lowerFirst(schema.id)] ? metadata[lowerFirst(schema.id)][propertyName] : metadata[propertyName];
+          value = metadata[lowerFirst(schema.id)] ? metadata[lowerFirst(schema.id)][propertyName] : metadata[propertyName];
         }
       }
 
@@ -159,7 +180,7 @@ export class MetaDataPreviewService {
           fields[fieldId] = this.translationService.translate('ListBrowser.NeverTriggered');
         }
       } else if (fieldType === FieldMultiFieldset) {
-        fields[fieldId] = value.map( q => q._displayValues.name).join();
+        fields[fieldId] = value.map(q => q._displayValues.name).join();
       } else if (fieldType === FieldSingleTagbox) {
         if (value._displayValues) {
           fields[fieldId] = value._displayValues.name;
@@ -175,10 +196,7 @@ export class MetaDataPreviewService {
           fields[fieldId] = this.localizationService.localize(value.title, customerInfo);
         } else {
           // Handle Single Relationship field No Information
-          fields[fieldId] = this.translationService.translate('ListBrowser.Loading');
-          this.contentService.get(value._targetId, [ ContentResolveBehavior.OuterDisplayValueName]).subscribe((result) => {
-            fields[fieldId] = result.displayValues!.name;
-          });
+          fields[fieldId] = value._targetId;
         }
       } else if (fieldType === FieldMultiRelation) {
         fields[fieldId] = value.map((f: any) => f.title ? this.localizationService.localize(f.title, customerInfo) : '').join(', ');

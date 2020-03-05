@@ -146,14 +146,16 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   prepareData(items: ContentModel<ListItem>[]): void {
 
     const metadataItems = items.map(m => m.item.content);
-    const tableItems = this.metaDataPreviewService.getListItemsTableData(metadataItems, this.schema, this.customerInfo);
-    this.tableItems.push(...tableItems);
+    this.metaDataPreviewService.getListItemsTableData(metadataItems, this.schema, this.customerInfo).then(tableItems => {
 
-    this.dataSource.data = this.tableItems;
-    const selected = this.items.filter( listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
-    this.selectionService.addItems(selected.map(q => q.item));
+       this.tableItems.push(...tableItems);
 
-    this.cdr.detectChanges();
+       this.dataSource.data = this.tableItems;
+       const selected = this.items.filter( listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
+       this.selectionService.addItems(selected.map(q => q.item));
+
+       this.cdr.detectChanges();
+    });
   }
 
   public update(): void {
