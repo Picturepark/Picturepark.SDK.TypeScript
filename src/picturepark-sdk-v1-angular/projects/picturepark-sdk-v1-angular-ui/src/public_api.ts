@@ -48,6 +48,7 @@ export { LiquidRenderingService } from '@picturepark/sdk-v1-angular';
 export { ContentDownloadDialogService } from
     './lib/features-module/content-download-dialog/content-download-dialog.service';
 export { DialogService } from './lib/features-module/dialog/dialog.service';
+export { ContentDownloadService } from './lib/features-module/content-download-dialog/components/content-download';
 
 // Classes
 export { ContentModel } from './lib/shared-module/models/content-model';

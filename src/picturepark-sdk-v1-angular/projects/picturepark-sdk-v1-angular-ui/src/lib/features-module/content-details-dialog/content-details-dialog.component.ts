@@ -15,6 +15,7 @@ import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
 
 // SERVICES
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { ContentDownloadService } from '../content-download-dialog/components/content-download';
 
 @Component({
   selector: 'pp-content-details-dialog',
@@ -36,7 +37,8 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     protected dialogRef: MatDialogRef<ContentDetailsDialogComponent>,
     protected injector: Injector,
     private schemaService: SchemaService,
-    private contentDownloadDialogService: ContentDownloadDialogService
+    private contentDownloadDialogService: ContentDownloadDialogService,
+    private contentDownloadService: ContentDownloadService
   ) {
     super(data, dialogRef, injector);
 
@@ -65,7 +67,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   public downloadItem() {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
-      contents: [this.content as any]
+      contents: [this.contentDownloadService.fromContentDetail(this.content)]
     });
   }
 

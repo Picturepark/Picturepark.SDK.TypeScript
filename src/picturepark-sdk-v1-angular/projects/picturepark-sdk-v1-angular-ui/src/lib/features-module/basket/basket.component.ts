@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 // LIBRARIES
 import {
   ContentService, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter,
-  ContentSearchType, TermsFilter, fetchAll, ISearchResult, Content } from '@picturepark/sdk-v1-angular';
+  ContentSearchType, TermsFilter, fetchAll, ISearchResult, Content
+} from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
@@ -17,6 +18,7 @@ import {
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { ContentDownloadService } from '../content-download-dialog/components/content-download';
 
 @Component({
   selector: 'pp-basket',
@@ -37,6 +39,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
     private contentService: ContentService,
     private basketService: BasketService,
     private contentDownloadDialogService: ContentDownloadDialogService,
+    private contentDownloadService: ContentDownloadService,
     public dialog: MatDialog,
   ) {
 
@@ -58,7 +61,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
       this.contentDownloadDialogService.showDialog({
         mode: 'multi',
-        contents: data.results
+        contents: this.contentDownloadService.fromContentArray(data.results)
       });
     });
 

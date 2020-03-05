@@ -1,6 +1,7 @@
-import { Content } from '@picturepark/sdk-v1-angular';
+import { ContentDownload } from './components/content-download';
+
 
 export interface ContentDownloadDialogOptions {
-    contents: Content[];
+    contents: ContentDownload[];
     mode: 'single' | 'multi';
 }

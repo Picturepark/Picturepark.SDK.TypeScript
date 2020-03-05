@@ -10,6 +10,7 @@ import { BaseBrowserItemComponent } from '../../../../shared-module/components/b
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../../../content-download-dialog/content-download-dialog.service';
+import { ContentDownloadService } from '../../../content-download-dialog/components/content-download';
 
 // INTERFACES
 import { switchMap } from 'rxjs/operators';
@@ -41,11 +42,10 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     private basketService: BasketService,
     private contentService: ContentService,
     private sanitizer: DomSanitizer,
-    private contentDownloadDialogService: ContentDownloadDialogService
+    private contentDownloadDialogService: ContentDownloadDialogService,
+    private contentDownloadService: ContentDownloadService
   ) {
-
     super();
-
   }
 
   public ngOnInit(): void {
@@ -59,7 +59,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
             null,
             null);
         })
-      ).subscribe(response => {
+    ).subscribe(response => {
       if (response) {
         this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
         this.isLoading = false;
@@ -102,7 +102,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   public downloadItem() {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: [this.itemModel.item]
+      contents: [this.contentDownloadService.fromContent(this.itemModel.item)]
     });
   }
 
