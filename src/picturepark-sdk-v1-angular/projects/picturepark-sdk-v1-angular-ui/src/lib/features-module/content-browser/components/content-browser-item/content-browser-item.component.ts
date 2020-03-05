@@ -10,10 +10,12 @@ import { BaseBrowserItemComponent } from '../../../../shared-module/components/b
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../../../content-download-dialog/content-download-dialog.service';
-import { ContentDownloadService } from '../../../content-download-dialog/components/content-download';
 
 // INTERFACES
 import { switchMap } from 'rxjs/operators';
+
+// FUNTIONS
+import { fromContent } from '../../../content-download-dialog/content-download-dialog.functions';
 
 @Component({
   selector: 'pp-content-browser-item',
@@ -42,8 +44,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     private basketService: BasketService,
     private contentService: ContentService,
     private sanitizer: DomSanitizer,
-    private contentDownloadDialogService: ContentDownloadDialogService,
-    private contentDownloadService: ContentDownloadService
+    private contentDownloadDialogService: ContentDownloadDialogService
   ) {
     super();
   }
@@ -102,7 +103,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   public downloadItem() {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: [this.contentDownloadService.fromContent(this.itemModel.item)]
+      contents: [fromContent(this.itemModel.item)]
     });
   }
 

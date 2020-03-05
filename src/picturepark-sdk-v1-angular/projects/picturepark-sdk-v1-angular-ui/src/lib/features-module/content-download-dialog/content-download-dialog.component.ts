@@ -11,12 +11,11 @@ import {
 // COMPONENTS
 import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
 import { OutputSelection, IOutputPerOutputFormatSelection, IOutputPerSchemaSelection } from './components/output-selection';
-import { ContentDownload } from './components/content-download';
 
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
 import { groupBy, flatMap } from '../../utilities/helper';
-import { ContentDownloadDialogOptions } from './content-download-dialog.interfaces';
+import { ContentDownloadDialogOptions, IContentDownload } from './content-download-dialog.interfaces';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -64,7 +63,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     this.loader = true;
   }
 
-  async getSelection(outputs: IOutPut[], contents: ContentDownload[]) {
+  async getSelection(outputs: IOutPut[], contents: IContentDownload[]) {
 
     const translations = await this.translationService.getOutputFormatTranslations();
     const selection = new OutputSelection(outputs, contents, translations, this.translationService);
@@ -154,7 +153,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   // GET OUTPUT
-  public getOutput(content: ContentDownload, outputs: IOutPut[]): IOutPut {
+  public getOutput(content: IContentDownload, outputs: IOutPut[]): IOutPut {
 
     // Try to use Original
     let output = outputs.find(i => i.outputFormatId === 'Original');

@@ -18,7 +18,9 @@ import {
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
-import { ContentDownloadService } from '../content-download-dialog/components/content-download';
+
+// FUNTIONS
+import { fromContentArray } from '../content-download-dialog/content-download-dialog.functions';
 
 @Component({
   selector: 'pp-basket',
@@ -39,7 +41,6 @@ export class BasketComponent extends BaseComponent implements OnInit {
     private contentService: ContentService,
     private basketService: BasketService,
     private contentDownloadDialogService: ContentDownloadDialogService,
-    private contentDownloadService: ContentDownloadService,
     public dialog: MatDialog,
   ) {
 
@@ -61,7 +62,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
       this.contentDownloadDialogService.showDialog({
         mode: 'multi',
-        contents: this.contentDownloadService.fromContentArray(data.results)
+        contents: fromContentArray(data.results)
       });
     });
 

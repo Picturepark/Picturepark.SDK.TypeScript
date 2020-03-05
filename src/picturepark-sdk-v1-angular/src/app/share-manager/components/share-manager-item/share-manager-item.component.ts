@@ -9,7 +9,7 @@ import {
   DialogService,
   TranslationService,
   ContentDetailsDialogComponent,
-  ContentDownloadService
+  fromContentDetailArray
 } from '@picturepark/sdk-v1-angular-ui';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -41,8 +41,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private dialog: MatDialog,
     private translationService: TranslationService,
-    private router: Router,
-    private contentDownloadService: ContentDownloadService
+    private router: Router
   ) {
 
     this.toolBarOptions = [{
@@ -51,7 +50,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       action: () => {
         this.contentDownloadDialogService.showDialog({
           mode: 'single',
-          contents: this.contentDownloadService.fromContentDetailArray(this.items)
+          contents: fromContentDetailArray(this.items)
         });
       }
     },

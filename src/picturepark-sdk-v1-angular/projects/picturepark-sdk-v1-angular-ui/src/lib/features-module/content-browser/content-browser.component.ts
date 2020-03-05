@@ -18,7 +18,9 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 // INTERFACES
 import { Observable } from 'rxjs';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
-import { ContentDownloadService } from '../content-download-dialog/components/content-download';
+
+// FUNTIONS
+import { fromContent } from '../content-download-dialog/content-download-dialog.functions';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -39,7 +41,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     private basketService: BasketService,
     private contentService: ContentService,
     private contentDownloadDialogService: ContentDownloadDialogService,
-    private contentDownloadService: ContentDownloadService,
     injector: Injector
   ) {
     super('ContentBrowserComponent', injector);
@@ -168,7 +169,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   openDownloadContentDialog(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: this.items.filter(i => i.isSelected).map(i => this.contentDownloadService.fromContent(i.item))
+      contents: this.items.filter(i => i.isSelected).map(i => fromContent(i.item))
     });
   }
 

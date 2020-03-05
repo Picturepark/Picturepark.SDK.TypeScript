@@ -1,6 +1,6 @@
 // LIBRARIES
 import { Output, ContentType, OutputDataBase } from '@picturepark/sdk-v1-angular';
-import { ContentDownload } from './content-download';
+import { IContentDownload } from '../content-download-dialog.interfaces';
 
 // SERVICES
 import { TranslationService, IOutputFormatTranslations } from '../../../shared-module/services/translations/translation.service';
@@ -12,7 +12,7 @@ export interface IOutputPerOutputFormatSelection {
     selected: boolean;
     hidden: boolean;
     values: [{
-        content: ContentDownload,
+        content: IContentDownload,
         output: Output
     }];
 }
@@ -20,7 +20,7 @@ export interface IOutputPerOutputFormatSelection {
 export interface IOutputPerSchemaSelection {
     id: string;
     name: string;
-    contents: ContentDownload[];
+    contents: IContentDownload[];
     outputs: {
         [outputFormatId: string]: IOutputPerOutputFormatSelection
     };
@@ -37,7 +37,7 @@ export class OutputSelection {
 
     constructor(
         outputs: Output[],
-        contents: ContentDownload[],
+        contents: IContentDownload[],
         outputTranslations: IOutputFormatTranslations,
         translationService: TranslationService) {
         this.selection = {};

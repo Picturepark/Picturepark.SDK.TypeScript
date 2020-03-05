@@ -4,9 +4,9 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitte
 import { ShareContentDetail, ShareDetail } from '@picturepark/sdk-v1-angular';
 import { PanelBaseComponent } from '../panel/components/panel-base/panel-base.component';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
-import { ContentDownloadService } from '../content-download-dialog/components/content-download';
 
-// COMPONENTS
+// FUNTIONS
+import { fromContentDetail } from '../content-download-dialog/content-download-dialog.functions';
 
 @Component({
   selector: 'pp-share-items-panel',
@@ -26,7 +26,6 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
 
   constructor(
     private contentDownloadDialogService: ContentDownloadDialogService,
-    private contentDownloadService: ContentDownloadService,
   ) {
     super();
   }
@@ -44,7 +43,7 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
   public downloadItem(item: ShareContentDetail) {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
-      contents: [this.contentDownloadService.fromContentDetail(item)]
+      contents: [fromContentDetail(item)]
     });
   }
 
@@ -60,5 +59,4 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
       this.loader = false;
     }
   }
-
 }

@@ -1,7 +1,13 @@
-import { ContentDownload } from './components/content-download';
+import { ContentType, Output } from '@picturepark/sdk-v1-angular';
 
+export interface IContentDownload {
+    id: string;
+    contentSchemaId: string;
+    contentType: ContentType;
+    outputs?: Output[];
+}
 
 export interface ContentDownloadDialogOptions {
-    contents: ContentDownload[];
+    contents: IContentDownload[];
     mode: 'single' | 'multi';
 }
