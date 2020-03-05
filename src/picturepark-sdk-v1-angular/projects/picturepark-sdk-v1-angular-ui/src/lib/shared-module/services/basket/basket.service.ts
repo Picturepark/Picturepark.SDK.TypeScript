@@ -10,12 +10,13 @@ export class BasketService {
 
 
   private localStorageKey = 'basketItems';
-  private basketItems: Content[];
+  public basketItems: Content[];
 
   constructor() {
     const storedItem = localStorage.getItem(this.localStorageKey);
     this.basketItems = storedItem ? JSON.parse(storedItem) as Content[] : [];
     this.basketSubject = new BehaviorSubject(this.basketItems);
+    this.basketSubject.next(this.basketItems);
   }
 
   public get basketChange(): Observable<Content[]> {
