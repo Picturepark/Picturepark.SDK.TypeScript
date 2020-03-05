@@ -4,9 +4,8 @@
       [schema]="schemaDetail"
       [searchString]="searchQuery | async"
       [filter]="filter | async"
-      [deselectAll]="deselectAll"
       [enableSelection]="true"
-      [selectedItemIds]="selectedItems"
+      [selectedItemIds]="selectedItemsIds"
       (selectedItemsChange)="selectedItemsChange($event)">
     </pp-list-browser>
   </div>

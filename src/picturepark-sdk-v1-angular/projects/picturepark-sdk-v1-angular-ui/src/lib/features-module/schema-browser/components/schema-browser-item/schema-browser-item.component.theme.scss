@@ -1,54 +1,56 @@
 @import '~@angular/material/theming';
 
+// SCHEMA BROWSER ITEM BASE VARS
+$pp-schema-browser-item: (selected-background: #6f6f6f,
+    contrast: ());
+
 @mixin pp-schema-browser-item-theme($theme) {
 
     $primary: map-get($theme, primary);
 
     .schema-browser-item-container {
 
+        .schema-content {
+            &--selected {
+                box-shadow: 0 0 0 2px mat-color($pp-schema-browser-item, selected-background);
+            }
+        }
+
         .schema-icon {
             background-color: mat-color($primary, dialog-background);
+
             mat-icon {
                 color: #aaaaaa
             }
         }
-    
+
         .schema-info {
 
-            .title {
-                font-size: 13px;
-                line-height: 16px;
-            }
-    
             .sub-title {
-                font-size: 11px;
-                line-height: 13px;
                 color: #aaaaaa;
             }
         }
-    
+
         .schema-menu {
             background-color: #ffffff;
+
             .mat-button {
-                line-height: 24px;
                 mat-icon {
                     color: #727272;
                 }
             }
         }
-    
+
         .schema-icon.child::before {
             content: '';
             border-right: 2px solid #aaaaaa;
             border-top: 2px solid #aaaaaa;
         }
-    
+
         .schema-icon.parent::after {
             content: '';
             border-left: 2px solid #aaaaaa;
             border-bottom: 2px solid #aaaaaa;
         }
-
     }
-
 }

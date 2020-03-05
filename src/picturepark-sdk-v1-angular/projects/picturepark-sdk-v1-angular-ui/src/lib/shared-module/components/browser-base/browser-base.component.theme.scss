@@ -5,12 +5,17 @@
     $primary: map-get($theme, primary);
 
     .browser {
-        &__items {
-            background-color: mat-color($primary, light-background) !important;
-            
+        background: mat-color($primary, light-background);
+
+        &__header {
+            & mat-toolbar {
+             border-bottom: 1px solid mat-color($primary, light-border);
+            }
+        }
+        &__items {            
             &::-webkit-scrollbar-thumb {
-                background-color: mat-contrast($primary, light-background) !important;
-                outline: 1px solid  mat-contrast($primary, light-background) !important;
+                background-color: mat-contrast($primary, light-background);
+                outline: 1px solid  mat-contrast($primary, light-background);
             }
 
         }

@@ -1,14 +1,16 @@
-<div class="content-browser">
-  <div class="content-browser__header">
-    <pp-browser-toolbar [browser]="self" entityName="schemas"></pp-browser-toolbar>
+<div class="browser">
+  <div class="browser__header">
+    <pp-browser-toolbar [browser]="self" entityName="schemas" [selectionEnabled]="false"></pp-browser-toolbar>
   </div>
-  <div *ngIf="totalResults !== 0" class="content-browser__items" cdkScrollable>
-    <div class="content-browser__item-container" *ngFor="let schema of items; let i = index; trackBy: trackByItem">
-      <pp-schema-browser-item [schema]="schema.item" (activeSchemaChange)="setUpActiveSchema($event)"></pp-schema-browser-item>
+  <div *ngIf="totalResults !== 0" class="browser__items" cdkScrollable>
+    <div class="browser__item-container" *ngFor="let schema of items; let i = index; trackBy: trackByItem"
+      (click)="selectedSchemaChange(i)">
+      <pp-schema-browser-item [schema]="schema.item" (activeSchemaChange)="setUpActiveSchema($event)"
+        [selected]="selectedSchemaIndex==i"></pp-schema-browser-item>
     </div>
   </div>
 
-  <div *ngIf="totalResults === 0" class="content-browser__empty-result mat-typography">
+  <div *ngIf="totalResults === 0" class="browser__empty-result mat-typography">
     {{ 'SchemaBrowser.ItemsWereNotFound' | pptranslate }}
   </div>
 </div>

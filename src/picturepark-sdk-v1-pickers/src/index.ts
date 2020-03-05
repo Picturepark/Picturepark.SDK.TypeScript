@@ -33,7 +33,7 @@ export function showContentPicker(serverUrl: string) {
         console.log(event);
       }
 
-      if (event.origin == serverUrl) {
+      if (serverUrl.startsWith(event.origin)) {
         window.removeEventListener("message", messageReceived);
         var share = event.data && event.data !== 'undefined' ? JSON.parse(event.data) : undefined;
         if (!callbackCalled) {

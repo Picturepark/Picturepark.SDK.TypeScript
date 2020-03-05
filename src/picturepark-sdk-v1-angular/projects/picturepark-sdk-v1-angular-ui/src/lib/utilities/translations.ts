@@ -217,7 +217,13 @@ export let TRANSLATIONS = {
     TextSelectedMultiple: {
       en: 'You have selected {0} items.',
       de: 'Sie haben {0} Items ausgewählt.'
-    }
+    },
+    SelectedItem: {
+      en: '1 item'
+    },
+    SelectedItems: {
+      en: '{0} items'
+    },
   },
   ContentPickerDetails: {
     ButtonBack: {
@@ -247,6 +253,14 @@ export let TRANSLATIONS = {
     },
     ItemsWereNotFound: {
       en: 'Items were not found'
+    },
+    LastTriggered: {
+      en: 'Last triggered {{datetime}} by {{firstName}} {{lastName}}',
+      de: 'Zuletzt getriggert {{datetime}} von {{firstName}} {{lastName}}'
+    },
+    NeverTriggered: {
+      en: 'Never triggered',
+      de: 'Nie getriggert'
     }
   },
   Login: {
@@ -289,7 +303,19 @@ export let TRANSLATIONS = {
     Search: {
       en: 'Search',
       de: 'Suchen'
-    }
+    },
+    SimpleAnySearch: {
+      en: 'Simple (any)',
+      de: 'Einfach (irgendein)'
+    },
+    SimpleAllSearch: {
+      en: 'Simple (all)',
+      de: 'Einfach (alle)'
+    },
+    AdvancedSearch: {
+      en: 'Advanced',
+      de: 'Fortgeschritten'
+    },
   },
   ContentDownloadDialog: {
     AudioMetadata: {
@@ -312,12 +338,15 @@ export let TRANSLATIONS = {
       en: 'Documents',
       de: 'Dokumente'
     },
-    ContentItem: {
+    Virtual: {
       en: 'Virtual content',
       de: 'Virtueller content'
     },
     FileSize: {
       en: 'Download size: ~'
+    },
+    FileSizeDynamicOutputs: {
+      en: 'Download size (without dynamic formats): ~'
     },
     Title: {
       en: 'Download'
@@ -336,6 +365,9 @@ export let TRANSLATIONS = {
     },
     NoAccess: {
       en: 'No access to any format'
+    },
+    NoteDynamic: {
+      en: 'Note: For downloading dynamic formats, please select a single item only.'
     }
   },
   SchemaBrowser: {
@@ -421,6 +453,16 @@ export let TRANSLATIONS = {
     },
     ErrorNotification: {
       en: 'There was an error sharing your content, please try again'
+    }
+  },
+  ContentDetailsDialog: {
+    Download: {
+      en: 'Download',
+      de: 'Herunterladen'
+    },
+    Overview: {
+      en: 'Overview',
+      de: 'Übersicht'
     }
   }
 };

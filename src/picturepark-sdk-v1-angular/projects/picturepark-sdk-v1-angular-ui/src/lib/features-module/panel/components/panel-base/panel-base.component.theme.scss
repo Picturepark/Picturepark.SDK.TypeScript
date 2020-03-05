@@ -2,7 +2,6 @@
 
 // PANEL BASE VARS
 $pp-panel-base: (
-    title-color: #aaa,
     contrast: ()
 );
 
@@ -11,21 +10,26 @@ $pp-panel-base: (
     $primary: map-get($theme, primary);
 
     .panel-container { 
-        background-color: mat-color($primary, white-background) !important;
+        background-color: mat-color($primary, dialog-background) ;
         .panel-header {
-            border-bottom: 1px solid mat-contrast($primary, dialog-background) !important;
+            border-bottom-color: mat-color($primary, light-border);
             h3 { 
-                color: mat-color($pp-panel-base, title-color) !important;
+                color: mat-color($primary, light-font);
             }
             .panel-buttons {
-                & button { 
-                    color: mat-color($primary, base); border: 2px solid mat-color($primary, white-background) !important;
-                    &:hover { 
-                        background-color: mat-color($primary, white-background) !important;
-                        border: 2px solid mat-color($primary, base) !important;
-                        box-shadow: 0 0 3px mat-color($primary, base) !important;
+                & button {
+                    color: mat-color($primary, icon-selected-color);
+                    mat-icon {
+                        color: mat-color($primary, light-font);
                     }
-                    &.square { border: 2px solid mat-color($primary, base) !important; }
+
+                    border-color: mat-color($primary, white-background);
+                    &:hover { 
+                        background-color: mat-color($primary, white-background);
+                        border-color: mat-color($primary, base);
+                        box-shadow: 0 0 3px mat-color($primary, base);
+                    }
+                    &.square { border: 2px solid mat-color($primary, base); }
                 }
             }
         }

@@ -107,11 +107,12 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="contentmetadataupdateitem.html#content" class="tsd-kind-icon">content</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="contentmetadataupdateitem.html#contentfieldsupdateoptions" class="tsd-kind-icon">content<wbr>Fields<wbr>Update<wbr>Options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="contentmetadataupdateitem.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="contentmetadataupdateitem.html#layerfieldsupdateoptions" class="tsd-kind-icon">layer<wbr>Fields<wbr>Update<wbr>Options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="contentmetadataupdateitem.html#layerschemaids" class="tsd-kind-icon">layer<wbr>Schema<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="contentmetadataupdateitem.html#layerschemasupdateoptions" class="tsd-kind-icon">layer<wbr>Schemas<wbr>Update<wbr>Options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="contentmetadataupdateitem.html#metadata" class="tsd-kind-icon">metadata</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="contentmetadataupdateitem.html#schemafieldsupdateoptions" class="tsd-kind-icon">schema<wbr>Fields<wbr>Update<wbr>Options</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
@@ -138,7 +139,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37405">lib/api-services.ts:37405</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L42414">lib/api-services.ts:42414</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -157,20 +158,40 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="content" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content</h3>
-					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <a href="datadictionary.html" class="tsd-signature-type">DataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#content">content</a></p>
 						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#content">content</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37190">lib/api-services.ts:37190</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L42181">lib/api-services.ts:42181</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The content data of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Content schema identified by
+							<p>The content data of the content. It&#39;s an object of dynamic metadata whose structure is defined in the Content schema identified by
 								the ContentSchemaId property. Updating the Content property is only possible for virtual items (contents
-								whose ContentType is ContentItem).
+								whose ContentType is Virtual).
 							Update of content data will be done only if this attribute has any data, i.e. if it&#39;s not null or empty.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="contentfieldsupdateoptions" class="tsd-anchor"></a>
+					<h3>content<wbr>Fields<wbr>Update<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Fields<wbr>Update<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../enums/updateoption.html" class="tsd-signature-type">UpdateOption</a></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#contentfieldsupdateoptions">contentFieldsUpdateOptions</a></p>
+						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#contentfieldsupdateoptions">contentFieldsUpdateOptions</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L42203">lib/api-services.ts:42203</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Options to modify the behavior for updating the content.
+								Merge: the values specified in the Content object are merged to the existing content.
+								Replace: the values specified in the Content object entirely replace the content.
+							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>
@@ -181,12 +202,32 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37405">lib/api-services.ts:37405</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L42414">lib/api-services.ts:42414</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The ID of the content.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="layerfieldsupdateoptions" class="tsd-anchor"></a>
+					<h3>layer<wbr>Fields<wbr>Update<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">layer<wbr>Fields<wbr>Update<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../enums/updateoption.html" class="tsd-signature-type">UpdateOption</a></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#layerfieldsupdateoptions">layerFieldsUpdateOptions</a></p>
+						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#layerfieldsupdateoptions">layerFieldsUpdateOptions</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L42198">lib/api-services.ts:42198</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Options to modify the behavior for updating the values of schemas.
+								Merge: the values specified in the Metadata dictionary are merged to the existing values of the corresponding schema on the content.
+								Replace: the values specified in the Metadata dictionary entirely replace any existing value of the corresponding schema on the content.
+							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>
@@ -198,7 +239,7 @@
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#layerschemaids">layerSchemaIds</a></p>
 						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#layerschemaids">layerSchemaIds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37185">lib/api-services.ts:37185</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L42176">lib/api-services.ts:42176</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -216,7 +257,7 @@
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#layerschemasupdateoptions">layerSchemasUpdateOptions</a></p>
 						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#layerschemasupdateoptions">layerSchemasUpdateOptions</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37202">lib/api-services.ts:37202</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L42193">lib/api-services.ts:42193</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -233,12 +274,12 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="metadata" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> metadata</h3>
-					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <a href="datadictionary.html" class="tsd-signature-type">DataDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#metadata">metadata</a></p>
 						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#metadata">metadata</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37195">lib/api-services.ts:37195</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L42186">lib/api-services.ts:42186</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -247,28 +288,6 @@
 								The metadata belonging to the layers of the content. It&#39;s a dictionary of dynamic metadata whose structure is defined in the Layer schemas identified
 								by the LayerSchemaIds property.
 							If there are no data for a specified LayerSchemaId, it is treated as empty.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-					<a name="schemafieldsupdateoptions" class="tsd-anchor"></a>
-					<h3>schema<wbr>Fields<wbr>Update<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">schema<wbr>Fields<wbr>Update<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="../enums/updateoption.html" class="tsd-signature-type">UpdateOption</a></div>
-					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/icontentmetadataupdateitem.html">IContentMetadataUpdateItem</a>.<a href="../interfaces/icontentmetadataupdateitem.html#schemafieldsupdateoptions">schemaFieldsUpdateOptions</a></p>
-						<p>Inherited from <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#schemafieldsupdateoptions">schemaFieldsUpdateOptions</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37209">lib/api-services.ts:37209</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Options to modify the behavior for updating the values of schemas.
-								Merge: the values specified in the Content and Metadata dictionaries are merged to the existing values of the corresponding
-								schema on the content.
-								Replace: the values specified in the Content and Metadata dictionaries entirely replace any existing value of the
-								corresponding schema on the content.
-							Defaults to Merge.</p>
 						</div>
 					</div>
 				</section>
@@ -286,7 +305,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37411">lib/api-services.ts:37411</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L42420">lib/api-services.ts:42420</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -310,7 +329,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37425">lib/api-services.ts:37425</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L42434">lib/api-services.ts:42434</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -334,7 +353,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="contentmetadataupdaterequest.html">ContentMetadataUpdateRequest</a>.<a href="contentmetadataupdaterequest.html#fromjs">fromJS</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L37418">lib/api-services.ts:37418</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L42427">lib/api-services.ts:42427</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -370,8 +389,14 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="contentmetadataupdateitem.html#content" class="tsd-kind-icon">content</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="contentmetadataupdateitem.html#contentfieldsupdateoptions" class="tsd-kind-icon">content<wbr>Fields<wbr>Update<wbr>Options</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
 								<a href="contentmetadataupdateitem.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="contentmetadataupdateitem.html#layerfieldsupdateoptions" class="tsd-kind-icon">layer<wbr>Fields<wbr>Update<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="contentmetadataupdateitem.html#layerschemaids" class="tsd-kind-icon">layer<wbr>Schema<wbr>Ids</a>
@@ -381,9 +406,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="contentmetadataupdateitem.html#metadata" class="tsd-kind-icon">metadata</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
-								<a href="contentmetadataupdateitem.html#schemafieldsupdateoptions" class="tsd-kind-icon">schema<wbr>Fields<wbr>Update<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
 								<a href="contentmetadataupdateitem.html#init" class="tsd-kind-icon">init</a>
@@ -415,6 +437,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -463,7 +486,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

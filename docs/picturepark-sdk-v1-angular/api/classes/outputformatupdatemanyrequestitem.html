@@ -89,6 +89,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/ioutputformatrenderingspecification.html" class="tsd-signature-type">IOutputFormatRenderingSpecification</a></li>
 					<li><a href="../interfaces/ioutputformateditable.html" class="tsd-signature-type">IOutputFormatEditable</a></li>
 					<li><a href="../interfaces/ioutputformatupdatemanyrequestitem.html" class="tsd-signature-type">IOutputFormatUpdateManyRequestItem</a></li>
 				</ul>
@@ -106,6 +107,7 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="outputformatupdatemanyrequestitem.html#downloadfilenamepatterns" class="tsd-kind-icon">download<wbr>File<wbr>Name<wbr>Patterns</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="outputformatupdatemanyrequestitem.html#format" class="tsd-kind-icon">format</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="outputformatupdatemanyrequestitem.html#id" class="tsd-kind-icon">id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="outputformatupdatemanyrequestitem.html#names" class="tsd-kind-icon">names</a></li>
@@ -137,7 +139,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="outputformateditable.html">OutputFormatEditable</a>.<a href="outputformateditable.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44964">lib/api-services.ts:44964</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L50715">lib/api-services.ts:50715</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -154,14 +156,32 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="downloadfilenamepatterns" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> download<wbr>File<wbr>Name<wbr>Patterns</h3>
+					<div class="tsd-signature tsd-kind-icon">download<wbr>File<wbr>Name<wbr>Patterns<span class="tsd-signature-symbol">:</span> <a href="translatedstringdictionary.html" class="tsd-signature-type">TranslatedStringDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/ioutputformatupdatemanyrequestitem.html">IOutputFormatUpdateManyRequestItem</a>.<a href="../interfaces/ioutputformatupdatemanyrequestitem.html#downloadfilenamepatterns">downloadFileNamePatterns</a></p>
+						<p>Inherited from <a href="outputformateditable.html">OutputFormatEditable</a>.<a href="outputformateditable.html#downloadfilenamepatterns">downloadFileNamePatterns</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L49052">lib/api-services.ts:49052</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Optional patterns (liquid syntax) that produce the filename for item of this output format.
+							If set, the customer&#39;s default language is required.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="format" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> format</h3>
 					<div class="tsd-signature tsd-kind-icon">format<span class="tsd-signature-symbol">:</span> <a href="formatbase.html" class="tsd-signature-type">FormatBase</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ioutputformatupdatemanyrequestitem.html">IOutputFormatUpdateManyRequestItem</a>.<a href="../interfaces/ioutputformatupdatemanyrequestitem.html#format">format</a></p>
-						<p>Inherited from <a href="outputformateditable.html">OutputFormatEditable</a>.<a href="outputformateditable.html#format">format</a></p>
+						<p>Inherited from <a href="outputformatrenderingspecification.html">OutputFormatRenderingSpecification</a>.<a href="outputformatrenderingspecification.html#format">format</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L43391">lib/api-services.ts:43391</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L49002">lib/api-services.ts:49002</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -177,7 +197,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ioutputformatupdatemanyrequestitem.html">IOutputFormatUpdateManyRequestItem</a>.<a href="../interfaces/ioutputformatupdatemanyrequestitem.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44964">lib/api-services.ts:44964</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L50715">lib/api-services.ts:50715</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -188,13 +208,13 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="names" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> names</h3>
-					<div class="tsd-signature tsd-kind-icon">names<span class="tsd-signature-symbol">:</span> <a href="translatedstringdictionary.html" class="tsd-signature-type">TranslatedStringDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>names</h3>
+					<div class="tsd-signature tsd-kind-icon">names<span class="tsd-signature-symbol">:</span> <a href="translatedstringdictionary.html" class="tsd-signature-type">TranslatedStringDictionary</a></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ioutputformatupdatemanyrequestitem.html">IOutputFormatUpdateManyRequestItem</a>.<a href="../interfaces/ioutputformatupdatemanyrequestitem.html#names">names</a></p>
 						<p>Inherited from <a href="outputformateditable.html">OutputFormatEditable</a>.<a href="outputformateditable.html#names">names</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L43387">lib/api-services.ts:43387</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L49047">lib/api-services.ts:49047</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -211,7 +231,7 @@
 						<p>Implementation of <a href="../interfaces/ioutputformatupdatemanyrequestitem.html">IOutputFormatUpdateManyRequestItem</a>.<a href="../interfaces/ioutputformatupdatemanyrequestitem.html#retentiontime">retentionTime</a></p>
 						<p>Inherited from <a href="outputformateditable.html">OutputFormatEditable</a>.<a href="outputformateditable.html#retentiontime">retentionTime</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L43393">lib/api-services.ts:43393</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L49049">lib/api-services.ts:49049</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -226,9 +246,9 @@
 					<div class="tsd-signature tsd-kind-icon">source<wbr>Output<wbr>Formats<span class="tsd-signature-symbol">:</span> <a href="sourceoutputformats.html" class="tsd-signature-type">SourceOutputFormats</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/ioutputformatupdatemanyrequestitem.html">IOutputFormatUpdateManyRequestItem</a>.<a href="../interfaces/ioutputformatupdatemanyrequestitem.html#sourceoutputformats">sourceOutputFormats</a></p>
-						<p>Inherited from <a href="outputformateditable.html">OutputFormatEditable</a>.<a href="outputformateditable.html#sourceoutputformats">sourceOutputFormats</a></p>
+						<p>Inherited from <a href="outputformatrenderingspecification.html">OutputFormatRenderingSpecification</a>.<a href="outputformatrenderingspecification.html#sourceoutputformats">sourceOutputFormats</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L43389">lib/api-services.ts:43389</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L49000">lib/api-services.ts:49000</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -251,7 +271,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="outputformateditable.html">OutputFormatEditable</a>.<a href="outputformateditable.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44970">lib/api-services.ts:44970</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L50721">lib/api-services.ts:50721</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -275,7 +295,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="outputformateditable.html">OutputFormatEditable</a>.<a href="outputformateditable.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44984">lib/api-services.ts:44984</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L50735">lib/api-services.ts:50735</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -299,7 +319,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="outputformateditable.html">OutputFormatEditable</a>.<a href="outputformateditable.html#fromjs">fromJS</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L44977">lib/api-services.ts:44977</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L50728">lib/api-services.ts:50728</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -331,6 +351,9 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
 								<a href="outputformatupdatemanyrequestitem.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="outputformatupdatemanyrequestitem.html#downloadfilenamepatterns" class="tsd-kind-icon">download<wbr>File<wbr>Name<wbr>Patterns</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="outputformatupdatemanyrequestitem.html#format" class="tsd-kind-icon">format</a>
@@ -377,6 +400,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -425,7 +449,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

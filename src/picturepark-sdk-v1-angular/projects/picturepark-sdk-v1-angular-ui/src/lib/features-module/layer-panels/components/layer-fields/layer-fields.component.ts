@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { LayerField } from '../../models/layer-field';
 import { FieldDetailInfoDialogComponent } from '../field-detail-info-dialog/field-detail-info-dialog.component';
+import { RelationFieldInfo } from '../../models/relation-field-info';
 
 @Component({
   selector: 'pp-layer-fields',
@@ -13,14 +14,20 @@ export class LayerFieldsComponent {
   @Input() field: LayerField;
   @Input() noname = false;
 
+  @Output()
+  public relationClick = new EventEmitter<RelationFieldInfo>();
+
   constructor(private dialog: MatDialog) { }
 
   showItem(item: any, event: any) {
-    let dialogRef: MatDialogRef<FieldDetailInfoDialogComponent>;
-    dialogRef = this.dialog.open(FieldDetailInfoDialogComponent, {
+    const dialogRef = this.dialog.open(FieldDetailInfoDialogComponent, {
       width: '450px'
     });
     dialogRef.componentInstance.title = item.value;
     dialogRef.componentInstance.message = item.tooltip;
+  }
+
+  relationClickHandler(relationInfo: RelationFieldInfo): void {
+    this.relationClick.emit(relationInfo);
   }
 }

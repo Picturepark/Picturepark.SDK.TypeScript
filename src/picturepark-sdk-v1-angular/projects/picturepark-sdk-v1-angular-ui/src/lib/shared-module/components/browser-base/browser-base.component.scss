@@ -5,7 +5,7 @@
   position: relative;
   &__header {
     & mat-toolbar {
-      height: 57px; border-bottom: 1px solid #d8d8d8;
+      height: 57px;
     }
     mat-progress-bar {
       position: absolute;
@@ -30,13 +30,10 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
-    background-color: #eeeeee;
     grid-gap: 25px;
     #{ $self }__item-container {
       height: 120px;
     }
-
-
     &--list {
       grid-template-columns: 1fr;
       grid-auto-rows: 100px;
@@ -67,11 +64,6 @@
 
     &::-webkit-scrollbar {
       width: 10px;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background-color: darkgrey;
-      outline: 1px solid slategrey;
     }
 
   }

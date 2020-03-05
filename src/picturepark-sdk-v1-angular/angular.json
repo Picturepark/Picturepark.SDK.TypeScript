@@ -35,6 +35,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/picturepark-sdk-v1-angular-app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -51,6 +52,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -156,7 +163,12 @@
             "tsConfig": "projects/picturepark-sdk-v1-angular/tsconfig.lib.json",
             "project": "projects/picturepark-sdk-v1-angular/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/picturepark-sdk-v1-angular/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -191,7 +203,12 @@
             "tsConfig": "projects/picturepark-sdk-v1-angular-oidc/tsconfig.lib.json",
             "project": "projects/picturepark-sdk-v1-angular-oidc/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/picturepark-sdk-v1-angular-oidc/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -226,7 +243,12 @@
             "tsConfig": "projects/picturepark-sdk-v1-angular-ui/tsconfig.lib.json",
             "project": "projects/picturepark-sdk-v1-angular-ui/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/picturepark-sdk-v1-angular-ui/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -241,6 +263,114 @@
             "tsConfig": [
               "projects/picturepark-sdk-v1-angular-ui/tsconfig.lib.json",
               "projects/picturepark-sdk-v1-angular-ui/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "share-viewer": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/share-viewer",
+      "sourceRoot": "projects/share-viewer/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/share-viewer",
+            "index": "projects/share-viewer/src/index.html",
+            "main": "projects/share-viewer/src/main.ts",
+            "polyfills": "projects/share-viewer/src/polyfills.ts",
+            "tsConfig": "projects/share-viewer/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/share-viewer/src/favicon.ico",
+              "projects/share-viewer/src/assets"
+            ],
+            "styles": [
+              "projects/share-viewer/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/share-viewer/src/environments/environment.ts",
+                  "with": "projects/share-viewer/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "share-viewer:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "share-viewer:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "share-viewer:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/share-viewer/src/test.ts",
+            "polyfills": "projects/share-viewer/src/polyfills.ts",
+            "tsConfig": "projects/share-viewer/tsconfig.spec.json",
+            "karmaConfig": "projects/share-viewer/karma.conf.js",
+            "assets": [
+              "projects/share-viewer/src/favicon.ico",
+              "projects/share-viewer/src/assets"
+            ],
+            "styles": [
+              "projects/share-viewer/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/share-viewer/tsconfig.app.json",
+              "projects/share-viewer/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

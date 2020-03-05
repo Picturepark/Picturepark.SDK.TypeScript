@@ -41,8 +41,8 @@ $mat-picturepark-accent: (
         100 : #000000,
         200 : #000000,
         300 : #000000,
-        400 : #000000,
-        500 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
         600 : #ffffff,
         700 : #ffffff,
         800 : #ffffff,
@@ -69,6 +69,7 @@ $mat-picturepark-primary: (
     white-font: #fff,
     dark-font: #444,
     light-font: #727272,
+    light-border: #d8d8d8,
     icon-selected-color: #2f2f2f,
     image-slot-background-color: #dcdcdc,
     button: #aaa,
@@ -80,10 +81,43 @@ $mat-picturepark-primary: (
     contrast: (
         light-background: #d8d8d8,
         dialog-background: #eee,
-    )
+    ),
+    form-dark-background: #808080,
+    form-light-background: #a9a9a9,
 );
 
 $picturepark-app-primary: mat-palette($mat-picturepark-primary);
 $picturepark-app-accent: mat-palette($mat-picturepark-accent, 400, 200, 700);
 $picturepark-app-warn: mat-palette($mat-red);
 $picturepark-app-theme: mat-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);
+
+$mat-picturepark-primary-dark: (
+    base: $base,
+    dark-background: #fff,
+    dialog-background: #444,
+    light-background: #444,
+    white-background: #808080,
+    white-font: #d3d3d3,
+    dark-font: #d3d3d3,
+    light-font: #a9a9a9,
+    light-border: #a9a9a9,
+    icon-selected-color: #2f2f2f,
+    image-slot-background-color: #a9a9a9,
+    button: #aaa,
+    button-active: $base,
+    progress-bar: $base,
+    progress-bar-background: #e4e4e4,
+    spinner: $base,
+    shadow-color: #000,
+    contrast: (
+        light-background: #d8d8d8,
+        dialog-background: #a9a9a9,
+    ),
+    form-dark-background: #808080,
+    form-light-background: #a9a9a9,
+);
+
+$picturepark-app-primary-dark: mat-palette($mat-picturepark-primary-dark);
+$picturepark-app-accent-dark: mat-palette($mat-picturepark-accent, 400, 200, 700);
+$picturepark-app-warn-dark: mat-palette($mat-red);
+$picturepark-app-theme-dark: mat-dark-theme($picturepark-app-primary-dark, $picturepark-app-accent-dark, $picturepark-app-warn-dark);

@@ -69,13 +69,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A document stored in the elastic search metadata index, with fields corresponding to the the schemantics of its underlying list schema.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -92,6 +85,9 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.listitem.html#audit" class="tsd-kind-icon">audit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.listitem.html#brokenindirectreferenceids" class="tsd-kind-icon">broken<wbr>Indirect<wbr>Reference<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.listitem.html#brokenreferenceids" class="tsd-kind-icon">broken<wbr>Reference<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.listitem.html#brokenrelationtargetids" class="tsd-kind-icon">broken<wbr>Relation<wbr>Target<wbr>Ids</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.listitem.html#content" class="tsd-kind-icon">content</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.listitem.html#contentschemaid" class="tsd-kind-icon">content<wbr>Schema<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_picturepark_.listitem.html#displayvalues" class="tsd-kind-icon">display<wbr>Values</a></li>
@@ -109,12 +105,57 @@
 					<div class="tsd-signature tsd-kind-icon">audit<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.useraudit.html" class="tsd-signature-type">UserAudit</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3833</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4669</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Audit data with information regarding document creation and modification.</p>
+							<p>Audit information.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="brokenindirectreferenceids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> broken<wbr>Indirect<wbr>Reference<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">broken<wbr>Indirect<wbr>Reference<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4683</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>All the ids of the broken indirect references (tagbox that has a property that reference a broken tagbox)</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="brokenreferenceids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> broken<wbr>Reference<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">broken<wbr>Reference<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4679</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>All the ids of the broken references (tagboxes)</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="brokenrelationtargetids" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> broken<wbr>Relation<wbr>Target<wbr>Ids</h3>
+					<div class="tsd-signature tsd-kind-icon">broken<wbr>Relation<wbr>Target<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:4681</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>All the target ids of the broken relations</p>
 						</div>
 					</div>
 				</section>
@@ -124,7 +165,7 @@
 					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3825</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4677</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -139,7 +180,7 @@
 					<div class="tsd-signature tsd-kind-icon">content<wbr>Schema<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3827</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4673</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -154,7 +195,7 @@
 					<div class="tsd-signature tsd-kind-icon">display<wbr>Values<span class="tsd-signature-symbol">:</span> <a href="_picturepark_.displayvaluedictionary.html" class="tsd-signature-type">DisplayValueDictionary</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3829</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4675</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -165,11 +206,11 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="id" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:3831</li>
+							<li>Defined in docs/temp/picturepark.d.ts:4671</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -186,8 +227,23 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class="label tsd-is-external">
+						<span>Internals</span>
+					</li>
 					<li class="current tsd-kind-module tsd-is-not-exported">
 						<a href="../modules/_picturepark_.html">"picturepark"</a>
+					</li>
+					<li class="label tsd-is-external">
+						<span>Externals</span>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/intl.html">Intl</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/m.html">M</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/webassembly.html">Web<wbr>Assembly</a>
 					</li>
 				</ul>
 			</nav>
@@ -200,6 +256,15 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.listitem.html#audit" class="tsd-kind-icon">audit</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.listitem.html#brokenindirectreferenceids" class="tsd-kind-icon">broken<wbr>Indirect<wbr>Reference<wbr>Ids</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.listitem.html#brokenreferenceids" class="tsd-kind-icon">broken<wbr>Reference<wbr>Ids</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_picturepark_.listitem.html#brokenrelationtargetids" class="tsd-kind-icon">broken<wbr>Relation<wbr>Target<wbr>Ids</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_picturepark_.listitem.html#content" class="tsd-kind-icon">content</a>
@@ -234,6 +299,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -282,7 +348,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

@@ -35,7 +35,9 @@ Register the `PictureparkModule` or `PictureparkOidcModule` in your Angular app 
 ```typescript
 import { 
   PICTUREPARK_CONFIGURATION, 
-  PictureparkConfiguration 
+  PictureparkConfiguration,
+  AuthService,
+  AccessTokenAuthService
 } 
 from '@picturepark/sdk-v1-angular';
 
@@ -47,10 +49,12 @@ from '@picturepark/sdk-v1-angular';
     ...
   ],
   providers: [
+    { provide: AuthService, useClass: AccessTokenAuthService },
     {
       provide: PICTUREPARK_CONFIGURATION, useValue: <PictureparkConfiguration>{
-        apiServer: 'https://devnext-api.preview-picturepark.com',
-        customerAlias: 'dev'
+        apiServer: 'tbd',
+        customerAlias: 'tbd',
+        accessToken: 'tbd'
       }
     }
   ],
@@ -65,18 +69,18 @@ All required services are now registered in the Angular's dependency injection c
 
 ```typescript
 import { Component, AfterViewInit } from '@angular/core';
-import { PublicAccessClient } from '@picturepark/sdk-v1-angular';
+import { ShareService } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent implements AfterViewInit {
-  constructor(public publicAccessClient: PublicAccessClient) {
+  constructor(public shareService: ShareService) {
   }
 
   ngAfterViewInit() {
-    this.publicAccessClient.getShare("myShareToken").subscribe(share => {
+    this.shareService.getShareJson("myShareToken").subscribe(share => {
       alert(JSON.stringify(share));
     });
   }
@@ -154,4 +158,4 @@ The `picturepark-customer-id` can be retrieved by navigating to "Settings" > "Sy
 
 ## Samples
 
-- [picturepark-sdk-v1-sample-angular7](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular7)
+- [picturepark-sdk-v1-sample-angular8](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular8)

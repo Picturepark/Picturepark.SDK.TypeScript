@@ -1,9 +1,7 @@
 @import '~@angular/material/theming';
 
 // BROWSER TOOLBAR VARS
-$pp-browser-toolbar: (
-    contrast: ()
-);
+$pp-browser-toolbar: (contrast: ());
 
 @mixin pp-browser-toolbar-theme($theme) {
 
@@ -11,42 +9,66 @@ $pp-browser-toolbar: (
 
   // BROWSER TOOLBAR MODULE
   .browser-toolbar-container {
-    background-color: mat-color($primary, light-background) !important;
-    border-bottom: 1px solid mat-contrast($primary, light-background) !important;
+    background-color: mat-color($primary, light-background);
+    border-color: mat-color($primary, light-border);
+
     .browser-toolbar-content {
       .select {
         button {
-          background-color: mat-color($primary, light-background) !important;
-          color: mat-color($primary, base) !important;
-          font-size: mat-font-size($custom-typography, display-1) !important;
+          background-color: mat-color($primary, light-background);
+          color: mat-color($primary, base);
+          font-size: mat-font-size($custom-typography, display-1);
+
           &:hover {
-            i { 
-              background-color: mat-color($primary, base) !important;
-              color: mat-color($primary, white-font) !important;
+            i {
+              background-color: mat-color($primary, base);
+              color: mat-color($primary, white-font);
             }
           }
+
           i {
-            font-size: mat-font-size($custom-typography, display-4) !important;
-            color: mat-color($primary, light-font) !important;
+            font-size: mat-font-size($custom-typography, display-4);
+            color: mat-color($primary, light-font);
           }
         }
       }
+
       .order-by {
         button {
           background-color: mat-color($primary, light-background);
           color: mat-color($primary, base);
           font-size: mat-font-size($custom-typography, display-1);
+
           &:hover {
             mat-icon {
-              color: mat-color($primary, base) !important;
+              color: mat-color($primary, base);
             }
           }
+
           mat-icon {
-            font-size: mat-font-size($custom-typography, display-3) !important;
-            color: mat-color($primary, light-font) !important;
+            font-size: mat-font-size($custom-typography, display-3);
+            color: mat-color($primary, light-font);
           }
         }
       }
+
+      .items-count {
+        color: mat-color($primary, dark-font);
+      }
+    }
+
+  }
+
+  .mat-menu-content {
+
+    .mat-menu-item, 
+    .mat-menu-item .mat-icon,
+    .menu-title {
+      color: mat-color($primary, light-font);
+    }
+
+    .mat-menu-item[disabled] {
+      opacity: 0.3;
     }
   }
 }

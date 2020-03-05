@@ -12,10 +12,10 @@ import { Schema } from '@picturepark/sdk-v1-angular';
 export class SchemaBrowserItemComponent {
 
   @Input() public schema: Schema;
+  @Input() public selected: boolean;
   @Output() public activeSchemaChange = new EventEmitter<Schema>();
 
   public setUpActiveSchema() {
     this.activeSchemaChange.emit(this.schema);
   }
-
 }

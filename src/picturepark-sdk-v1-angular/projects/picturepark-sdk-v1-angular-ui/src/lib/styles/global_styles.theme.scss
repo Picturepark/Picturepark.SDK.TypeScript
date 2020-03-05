@@ -1,0 +1,96 @@
+@import "~@angular/material/theming";
+
+@mixin pp-global-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  // PROGRESS BAR
+  .mat-progress-bar-buffer {
+    background-color: mat-color($primary, progress-bar-background);
+  }
+  .mat-progress-bar-fill::after {
+    background-color: mat-color($primary, progress-bar);
+  }
+
+  // FILTERS AGGREGATES
+  .mat-ink-bar {
+    background-color: mat-color($primary, base);
+  }
+
+  .mat-badge-content {
+    background: mat-color($primary, base);
+    color: mat-color($primary, white-background);
+  }
+  // END FILTERS AGGREGATES
+
+  // SPINNER
+  .mat-progress-spinner circle,
+  .mat-spinner circle {
+    stroke: mat-color($primary, spinner) !important;
+  }
+
+  .app-root-container {
+    background-color: mat-color($primary, light-background);
+    .app-root-content {
+      svg {
+        path {
+          fill: mat-color($primary, white-background);
+        }
+      }
+    }
+  }
+
+  .form {
+    background: rgba(0, 0, 0, 0.24);
+  }
+  .form:focus-within {
+    background: rgba(0, 0, 0, 0.14) ;
+  }
+
+  .mat-expansion-panel-body,
+  .mat-expansion-panel,
+  .mat-expansion-panel-header.mat-expanded,
+  .mat-expansion-panel-header.mat-expanded:hover {
+    background: mat-color($primary, light-background);
+  }
+
+  .mat-tab-header {
+    background: mat-color($primary, light-background);
+    border-bottom: 1px solid mat-color($primary, light-border);
+  }
+
+  .filters mat-tab-header .mat-tab-label-content {
+    color: mat-color($primary, dark-font);
+  }
+
+  .aggregation-filter {
+    pp-aggregation-item:last-child {
+      mat-expansion-panel {
+        border-bottom: 1px solid mat-color($primary, light-border);
+      }
+    }
+  }
+
+  // OVERWRITE DEFAULT ANGULAR CDK AUTO FOCUS
+  .cdk-focused.cdk-program-focused {
+    background-color: transparent !important;
+  }
+
+  // PANEL ITEMS BUTTON HOVER
+  .panel-container .panel-header .panel-buttons button .mat-button-focus-overlay {
+    background: mat-color($primary, white-background);
+  }
+
+  // SHARE ITEM MANAGE LOADER
+  .share-preview-container mat-spinner circle {
+    stroke: mat-color($primary, spinner);
+  }
+
+  .mat-tab-body-wrapper {
+    background-color: mat-color($primary, light-background);
+  }
+
+  // SHARE CONTENT DIALOG
+  pp-share-content-dialog .mat-tab-header {
+    background: mat-color($primary, dialog-background);
+  }
+}

@@ -33,14 +33,14 @@ $pp-application-menu: (
       }
       svg#text {
           & path {
-            fill: mat-color($pp-application-menu, logo-color) !important;
+            fill: mat-color($pp-application-menu, logo-color);
           }
       }
       .back {
-          color: mat-color($primary, button) !important;
+          color: mat-color($primary, button);
           &:hover {
-            color: mat-color($pp-application-menu, back-button-hover-color) !important; 
-            background-color: mat-color($pp-application-menu, back-button-hover-background-color) !important;  
+            color: mat-color($pp-application-menu, back-button-hover-color); 
+            background-color: mat-color($pp-application-menu, back-button-hover-background-color);  
           }
           & i {
             font-size: mat-font-size($custom-typography, display-1) !important;
@@ -64,10 +64,13 @@ $pp-application-menu: (
       }
     }
   }
+  div.theme-selector{
+    color: mat-color($primary, button);
+  }
   span.label { 
-    font-size: mat-font-size($custom-typography, caption) !important;
-    color: mat-color($pp-application-menu, menu-label-color) !important;
-    background-color: mat-color($pp-application-menu, menu-label-backgroud-color) !important;
+    font-size: mat-font-size($custom-typography, caption);
+    color: mat-color($pp-application-menu, menu-label-color);
+    background-color: mat-color($pp-application-menu, menu-label-backgroud-color);
   }
 
 }

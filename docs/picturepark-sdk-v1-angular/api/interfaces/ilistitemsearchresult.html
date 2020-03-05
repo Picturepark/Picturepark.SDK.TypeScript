@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Encapsulates the result of a list item search.</p>
+						<p>Result for list item search operation</p>
 					</div>
 				</div>
 			</section>
@@ -77,7 +77,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="ibaseresultoflistitem.html" class="tsd-signature-type">IBaseResultOfListItem</a>
+						<a href="isearchbehaviorwithaggregationbaseresultoflistitem.html" class="tsd-signature-type">ISearchBehaviorWithAggregationBaseResultOfListItem</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">IListItemSearchResult</span>
@@ -99,9 +99,13 @@
 						<section class="tsd-index-section tsd-is-inherited tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="ilistitemsearchresult.html#aggregationresults" class="tsd-kind-icon">aggregation<wbr>Results</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="ilistitemsearchresult.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="ilistitemsearchresult.html#issearchstringrewritten" class="tsd-kind-icon">is<wbr>Search<wbr>String<wbr>Rewritten</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="ilistitemsearchresult.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="ilistitemsearchresult.html#querydebuginformation" class="tsd-kind-icon">query<wbr>Debug<wbr>Information</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="ilistitemsearchresult.html#results" class="tsd-kind-icon">results</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="ilistitemsearchresult.html#searchstring" class="tsd-kind-icon">search<wbr>String</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="ilistitemsearchresult.html#totalresults" class="tsd-kind-icon">total<wbr>Results</a></li>
 							</ul>
 						</section>
@@ -111,13 +115,35 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a name="aggregationresults" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> aggregation<wbr>Results</h3>
+					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Results<span class="tsd-signature-symbol">:</span> <a href="iaggregationresult.html" class="tsd-signature-type">IAggregationResult</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="isearchbehaviorwithaggregationbaseresultoflistitem.html">ISearchBehaviorWithAggregationBaseResultOfListItem</a>.<a href="isearchbehaviorwithaggregationbaseresultoflistitem.html#aggregationresults">aggregationResults</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45948">lib/api-services.ts:45948</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="elapsedmilliseconds" class="tsd-anchor"></a>
 					<h3>elapsed<wbr>Milliseconds</h3>
 					<div class="tsd-signature tsd-kind-icon">elapsed<wbr>Milliseconds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibaseresultoflistitem.html">IBaseResultOfListItem</a>.<a href="ibaseresultoflistitem.html#elapsedmilliseconds">elapsedMilliseconds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L40486">lib/api-services.ts:40486</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45853">lib/api-services.ts:45853</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a name="issearchstringrewritten" class="tsd-anchor"></a>
+					<h3>is<wbr>Search<wbr>String<wbr>Rewritten</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Search<wbr>String<wbr>Rewritten<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="isearchbehaviorbaseresultoflistitem.html">ISearchBehaviorBaseResultOfListItem</a>.<a href="isearchbehaviorbaseresultoflistitem.html#issearchstringrewritten">isSearchStringRewritten</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45897">lib/api-services.ts:45897</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -128,7 +154,18 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibaseresultoflistitem.html">IBaseResultOfListItem</a>.<a href="ibaseresultoflistitem.html#pagetoken">pageToken</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L40487">lib/api-services.ts:40487</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45854">lib/api-services.ts:45854</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a name="querydebuginformation" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> query<wbr>Debug<wbr>Information</h3>
+					<div class="tsd-signature tsd-kind-icon">query<wbr>Debug<wbr>Information<span class="tsd-signature-symbol">:</span> <a href="iquerydebuginformation.html" class="tsd-signature-type">IQueryDebugInformation</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="isearchbehaviorbaseresultoflistitem.html">ISearchBehaviorBaseResultOfListItem</a>.<a href="isearchbehaviorbaseresultoflistitem.html#querydebuginformation">queryDebugInformation</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45898">lib/api-services.ts:45898</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -139,7 +176,18 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibaseresultoflistitem.html">IBaseResultOfListItem</a>.<a href="ibaseresultoflistitem.html#results">results</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L40485">lib/api-services.ts:40485</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45852">lib/api-services.ts:45852</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a name="searchstring" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> search<wbr>String</h3>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="isearchbehaviorbaseresultoflistitem.html">ISearchBehaviorBaseResultOfListItem</a>.<a href="isearchbehaviorbaseresultoflistitem.html#searchstring">searchString</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45896">lib/api-services.ts:45896</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -150,7 +198,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibaseresultoflistitem.html">IBaseResultOfListItem</a>.<a href="ibaseresultoflistitem.html#totalresults">totalResults</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7571e1ae0/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L40484">lib/api-services.ts:40484</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/api-services.ts#L45851">lib/api-services.ts:45851</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -172,13 +220,25 @@
 						<a href="ilistitemsearchresult.html" class="tsd-kind-icon">IList<wbr>Item<wbr>Search<wbr>Result</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+								<a href="ilistitemsearchresult.html#aggregationresults" class="tsd-kind-icon">aggregation<wbr>Results</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="ilistitemsearchresult.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+								<a href="ilistitemsearchresult.html#issearchstringrewritten" class="tsd-kind-icon">is<wbr>Search<wbr>String<wbr>Rewritten</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="ilistitemsearchresult.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+								<a href="ilistitemsearchresult.html#querydebuginformation" class="tsd-kind-icon">query<wbr>Debug<wbr>Information</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="ilistitemsearchresult.html#results" class="tsd-kind-icon">results</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+								<a href="ilistitemsearchresult.html#searchstring" class="tsd-kind-icon">search<wbr>String</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="ilistitemsearchresult.html#totalresults" class="tsd-kind-icon">total<wbr>Results</a>
@@ -204,6 +264,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -252,7 +313,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

@@ -97,9 +97,9 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdatadefault.html#fileextension" class="tsd-kind-icon">file<wbr>Extension</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdatadefault.html#filename" class="tsd-kind-icon">file<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdatadefault.html#filepath" class="tsd-kind-icon">file<wbr>Path</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdatadefault.html#filesizeinbytes" class="tsd-kind-icon">file<wbr>Size<wbr>InBytes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdatadefault.html#originalfilename" class="tsd-kind-icon">original<wbr>File<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_picturepark_.outputdatadefault.html#sha1hash" class="tsd-kind-icon">sha1<wbr>Hash</a></li>
 							</ul>
 						</section>
@@ -115,28 +115,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.outputdatabase.html">OutputDataBase</a>.<a href="_picturepark_.outputdatabase.html#fileextension">fileExtension</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2926</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3691</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The extension of the file.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="filename" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> file<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">file<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="_picturepark_.outputdatabase.html">OutputDataBase</a>.<a href="_picturepark_.outputdatabase.html#filename">fileName</a></p>
-						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2928</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The name of the file.</p>
 						</div>
 					</div>
 				</section>
@@ -147,7 +131,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.outputdatabase.html">OutputDataBase</a>.<a href="_picturepark_.outputdatabase.html#filepath">filePath</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2930</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3693</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -163,12 +147,28 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.outputdatabase.html">OutputDataBase</a>.<a href="_picturepark_.outputdatabase.html#filesizeinbytes">fileSizeInBytes</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2932</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3695</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The size of the file in bytes.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="originalfilename" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> original<wbr>File<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">original<wbr>File<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_picturepark_.outputdatabase.html">OutputDataBase</a>.<a href="_picturepark_.outputdatabase.html#originalfilename">originalFileName</a></p>
+						<ul>
+							<li>Defined in docs/temp/picturepark.d.ts:3699</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The original filename of the file.</p>
 						</div>
 					</div>
 				</section>
@@ -179,7 +179,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_picturepark_.outputdatabase.html">OutputDataBase</a>.<a href="_picturepark_.outputdatabase.html#sha1hash">sha1Hash</a></p>
 						<ul>
-							<li>Defined in docs/temp/picturepark.d.ts:2934</li>
+							<li>Defined in docs/temp/picturepark.d.ts:3697</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -196,8 +196,23 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class="label tsd-is-external">
+						<span>Internals</span>
+					</li>
 					<li class="current tsd-kind-module tsd-is-not-exported">
 						<a href="../modules/_picturepark_.html">"picturepark"</a>
+					</li>
+					<li class="label tsd-is-external">
+						<span>Externals</span>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/intl.html">Intl</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
+						<a href="../modules/m.html">M</a>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="../modules/webassembly.html">Web<wbr>Assembly</a>
 					</li>
 				</ul>
 			</nav>
@@ -212,13 +227,13 @@
 								<a href="_picturepark_.outputdatadefault.html#fileextension" class="tsd-kind-icon">file<wbr>Extension</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_picturepark_.outputdatadefault.html#filename" class="tsd-kind-icon">file<wbr>Name</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.outputdatadefault.html#filepath" class="tsd-kind-icon">file<wbr>Path</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.outputdatadefault.html#filesizeinbytes" class="tsd-kind-icon">file<wbr>Size<wbr>InBytes</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_picturepark_.outputdatadefault.html#originalfilename" class="tsd-kind-icon">original<wbr>File<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="_picturepark_.outputdatadefault.html#sha1hash" class="tsd-kind-icon">sha1<wbr>Hash</a>
@@ -244,6 +259,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -292,7 +308,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

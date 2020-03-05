@@ -1,11 +1,15 @@
 import { SafeUrl } from '@angular/platform-browser';
 
 export class RelationFieldInfo {
-  public fileName?: string;
+  public contentId: string;
+  public name?: string;
+  public list?: string;
   public fileUrl?: SafeUrl;
 
-  constructor(fileName?: string, fileUrl?: SafeUrl) {
-    this.fileName = fileName;
+  constructor(contentId: string, name?: string, list?: string, fileUrl?: SafeUrl) {
+    this.contentId = contentId;
+    this.name = name;
+    this.list = list;
     this.fileUrl = fileUrl;
   }
 }

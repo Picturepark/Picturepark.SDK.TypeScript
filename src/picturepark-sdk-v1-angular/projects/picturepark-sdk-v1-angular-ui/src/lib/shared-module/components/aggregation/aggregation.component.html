@@ -27,7 +27,7 @@
         (optionSelected)="autoCompleteOptionSelected($event.option.value)"
         [displayWith]="queryDisplay">
         <mat-option *ngFor="let option of autoCompleteOptions | async; trackBy: trackByName" [value]="option">
-          {{ option.name }}
+          <span [innerHTML]="option.name | highlight: searchString"></span>
         </mat-option>
       </mat-autocomplete>
       <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>

@@ -14,7 +14,7 @@ $pp-share-browser-item: (
   .browser-item {
 
     &__image-virtual-item-container {
-      color: mat-color($primary, white-font) !important;
+      color: mat-color($primary, dark-font) ;
     }
 
     &__actions {
@@ -22,8 +22,8 @@ $pp-share-browser-item: (
         li {
           button {
             mat-icon {     
-              font-size: mat-font-size($custom-typography, subheading-1) !important;
-              color: mat-color($primary, white-font) !important;
+              font-size: mat-font-size($custom-typography, subheading-1);
+              color: mat-color($primary, white-font);
             }
           }
         }
@@ -31,13 +31,13 @@ $pp-share-browser-item: (
     }
 
     &__items-num-container {
-      color: mat-color($primary, white-font) !important;
+      color: mat-color($primary, white-font) ;
     }
 
     &__title {
-      font-size: mat-font-size($custom-typography, display-1) !important;
-      color: mat-color($primary, light-font) !important;
-      i { font-size: mat-font-size($custom-typography, display-1) !important; }
+      font-size: mat-font-size($custom-typography, display-1);
+      color: mat-color($primary, light-font);
+      i { font-size: mat-font-size($custom-typography, display-1);}
     }
     
   }

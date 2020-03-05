@@ -1,0 +1,44 @@
+@import '~@angular/material/theming';
+
+$pp-search-box: (contrast: (),
+);
+
+@mixin pp-search-box-theme($theme) {
+
+  $primary: map-get($theme, primary);
+
+  #search-container {
+
+    border-color: mat-color($primary, form-dark-background);
+
+    .form {
+      background-color: mat-color($primary, form-dark-background);
+      color: #ffffff;
+
+      input {
+        color: #ffffff;
+
+        &::placeholder {
+          color: #ffffff;
+        }
+      }
+    }
+
+    #search-options-container {
+      color: mat-color($primary, form-dark-background);
+    }
+  }
+
+  #search-container:focus-within {
+    border-color: mat-color($primary, form-light-background);
+
+    .form {
+      background-color: mat-color($primary, form-light-background);
+
+    }
+
+    #search-options-container {
+      color: mat-color($primary, form-light-background);
+    }
+  }
+}
