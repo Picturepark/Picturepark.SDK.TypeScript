@@ -1,8 +1,8 @@
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
-import { Component, Input, OnInit } from '@angular/core';
+import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Component, Input, OnInit, SecurityContext } from '@angular/core';
 
 // LIBRARIES
-import { ThumbnailSize, ContentService } from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, ContentService, Content } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
@@ -15,33 +15,18 @@ import { BasketService } from '../../../../shared-module/services/basket/basket.
   templateUrl: './basket-item.component.html',
   styleUrls: ['./basket-item.component.scss']
 })
-export class BasketItemComponent extends BaseComponent implements OnInit {
+export class BasketItemComponent extends BaseComponent {
 
   @Input()
-  public itemId: string;
-
-  public imageUrl: SafeUrl;
+  public item: Content;
 
   constructor(
     private basketService: BasketService,
-    private contentService: ContentService,
-    private sanitizer: DomSanitizer
   ) {
     super();
   }
 
-  public ngOnInit(): void {
-    const downloadThumbnailSubscription = this.contentService.downloadThumbnail(
-      this.itemId, ThumbnailSize.Small, null, null
-    ).subscribe(result => {
-      if (result !== null) {
-        this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(result.data));
-      }
-    });
-    this.subscription.add(downloadThumbnailSubscription);
-  }
-
   public remove() {
-    this.basketService.removeItem(this.itemId);
+    this.basketService.removeItem(this.item);
   }
 }

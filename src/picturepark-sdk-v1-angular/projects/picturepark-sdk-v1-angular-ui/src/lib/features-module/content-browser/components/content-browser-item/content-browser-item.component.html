@@ -1,12 +1,7 @@
 <div class="browser-item" [class.browser-item--selected]="itemModel.isSelected" [class.browser-item--list-view]="isListView">
   <div class="browser-item__image-slot">
-    <div class="browser-item__image-container" (lazyload)="markAsVisible()" *ngIf="virtualItemHtml === null; else virtualContent">
-      <mat-spinner *ngIf="isLoading"></mat-spinner>
-      <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrl" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" (error)="updateUrl($event)"/>
-    </div>
-    <ng-template #virtualContent>
-      <div class="browser-item__image-virtual-item-container" [innerHTML]="virtualItemHtml"></div>
-    </ng-template>
+    
+    <pp-content-item-thumbnail [item]="itemModel.item" [thumbnailSize]="thumbnailSize" ></pp-content-item-thumbnail>
 
     <div class="browser-item__actions" *ngIf="!isListView">
       <ul>
