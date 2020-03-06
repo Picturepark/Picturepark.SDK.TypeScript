@@ -3,10 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 // LIBRARIES
-import {
-  ContentService, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter,
-  ContentSearchType, TermsFilter, fetchAll, ISearchResult, Content
-} from '@picturepark/sdk-v1-angular';
+import { Content } from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
@@ -18,6 +15,7 @@ import {
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { ContentModel } from '../../shared-module/models/content-model';
 
 // FUNCTIONS
 import { fromContentArray } from '../content-download-dialog/content-download-dialog.functions';
@@ -29,16 +27,15 @@ import { fromContentArray } from '../content-download-dialog/content-download-di
 })
 export class BasketComponent extends BaseComponent implements OnInit {
 
-  public basketItems: string[] = [];
+  public basketItems: Content[] = [];
 
   public configActions: ConfigActions;
 
   @Output()
-  public previewItemChange = new EventEmitter<string>();
+  public previewItemChange = new EventEmitter<Content>();
 
   constructor(
     @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
-    private contentService: ContentService,
     private basketService: BasketService,
     private contentDownloadDialogService: ContentDownloadDialogService,
     public dialog: MatDialog,
@@ -51,35 +48,24 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
   }
 
-  public previewItem(itemId: string): void {
-    this.previewItemChange.emit(itemId);
+  public previewItem(item: Content): void {
+    this.previewItemChange.emit(item);
   }
 
   public downloadItems(): void {
-
-    const contentSearch = this.fetch().subscribe(data => {
-      contentSearch.unsubscribe();
-
       this.contentDownloadDialogService.showDialog({
         mode: 'multi',
-        contents: fromContentArray(data.results)
+        contents: fromContentArray(this.basketItems)
       });
-    });
-
   }
 
   public openShareContentDialog(): void {
-
-    const contentSearch = this.fetch().subscribe(data => {
-      contentSearch.unsubscribe();
-
       const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-        data: data.results,
+        data: this.basketItems,
         autoFocus: false
       });
 
       dialogRef.componentInstance.title = 'Basket.Share';
-    });
   }
 
   public clearBasket(): void {
@@ -92,20 +78,6 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.configActions = this.pictureParkUIConfig['BasketComponent'];
-  }
-
-  private fetch(): Observable<ISearchResult<Content>> {
-    return fetchAll(req => this.contentService.search(req), new ContentSearchRequest({
-      limit: 1000,
-      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-      brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      searchType: ContentSearchType.MetadataAndFullText,
-      debugMode: false,
-      filter: new TermsFilter({
-        field: 'id',
-        terms: this.basketItems
-      })
-    }));
   }
 
 }

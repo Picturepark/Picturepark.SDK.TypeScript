@@ -1,0 +1,16 @@
+@import '~@angular/material/theming';
+
+@mixin pp-content-item-thumbnail-theme($theme) {
+
+  $primary: map-get($theme, primary);
+
+  .content-item-thumbnail {
+    $self: &;
+
+
+    &__image-virtual-item-container {
+      color: mat-color($primary, light-font);
+    }
+  }
+
+}

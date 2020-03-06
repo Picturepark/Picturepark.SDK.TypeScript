@@ -18,6 +18,7 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 // INTERFACES
 import { Observable } from 'rxjs';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { ContentModel } from '../../shared-module/models/content-model';
 
 // FUNCTIONS
 import { fromContent } from '../content-download-dialog/content-download-dialog.functions';
@@ -34,6 +35,7 @@ import { fromContent } from '../content-download-dialog/content-download-dialog.
   ]
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
+
   @Input()
   public channel: Channel | null = null;
 
@@ -49,7 +51,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   async init(): Promise<void> {
     // BASKET SUBSCRIBER
     const basketSubscription = this.basketService.basketChange.subscribe(basketItems => {
-      this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
+      this.checkItemsInBasket(basketItems);
     });
 
     // UNSUBSCRIBE
@@ -101,6 +103,10 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.loadData();
   }
 
+  checkItemsInBasket(basketItems: Content[]) {
+    this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem.id === model.item.id));
+  }
+
   getSearchRequest(): Observable<ContentSearchResult> | undefined {
     if (!this.channel || !this.channel.id) { return; }
 
@@ -132,6 +138,11 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     });
 
     return this.contentService.search(request);
+  }
+
+
+  prepareData(items: ContentModel<Content>[]): void {
+    this.checkItemsInBasket(this.basketService.basketItems);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
