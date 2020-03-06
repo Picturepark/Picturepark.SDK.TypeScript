@@ -48,9 +48,6 @@ $pp-content-browser-item: (
       background-color: mat-color($primary, image-slot-background-color);
     }
   
-    &__image-virtual-item-container {
-      color: mat-color($primary, light-font);
-    }
   }
 
 }

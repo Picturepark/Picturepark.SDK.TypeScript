@@ -1,55 +1,49 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Content } from '@picturepark/sdk-v1-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BasketService {
-  private basketSubject: BehaviorSubject<string[]>;
+  private basketSubject: BehaviorSubject<Content[]>;
 
 
   private localStorageKey = 'basketItems';
-  private basketItems: Set<string>;
+  public basketItems: Content[];
 
   constructor() {
-    const itemsString = localStorage.getItem(this.localStorageKey);
-    const itemsArray = itemsString ? JSON.parse(itemsString) as string[] : [];
-
-    this.basketItems = new Set(itemsArray);
-
-    this.basketSubject = new BehaviorSubject(itemsArray);
+    const storedItem = localStorage.getItem(this.localStorageKey);
+    this.basketItems = storedItem ? JSON.parse(storedItem) as Content[] : [];
+    this.basketSubject = new BehaviorSubject(this.basketItems);
+    this.basketSubject.next(this.basketItems);
   }
 
-  public get basketChange(): Observable<string[]> {
+  public get basketChange(): Observable<Content[]> {
     return this.basketSubject.asObservable();
   }
 
-  public addItem(itemId: string) {
-    this.basketItems.add(itemId);
-    this.updateStorage();
+  public addItem(item: Content) {
+    if (this.basketItems.findIndex( q => q.id === item.id ) === -1) {
+      this.basketItems.push(item);
+      this.updateStorage();
+    }
   }
 
-  public addItems(items: string[]) {
-    items.forEach(item => this.basketItems.add(item));
-    this.updateStorage();
-  }
-
-  public removeItem(itemId: string) {
-    this.basketItems.delete(itemId);
+  public removeItem(item: Content) {
+    this.basketItems = this.basketItems.filter( q => q.id !== item.id);
     this.updateStorage();
   }
 
   public clearBasket() {
-    this.basketItems.clear();
+    this.basketItems = [];
     this.updateStorage();
   }
 
   private updateStorage() {
-    const itemsArray = Array.from(this.basketItems);
-    const value = JSON.stringify(itemsArray);
-
+    const value = JSON.stringify(this.basketItems);
     localStorage.setItem(this.localStorageKey, value);
 
-    this.basketSubject.next(itemsArray);
+    this.basketSubject.next(this.basketItems);
   }
 }
