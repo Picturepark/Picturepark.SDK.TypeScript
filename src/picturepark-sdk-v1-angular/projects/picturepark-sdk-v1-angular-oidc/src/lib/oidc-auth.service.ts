@@ -29,10 +29,16 @@ export class OidcAuthService extends AuthService {
         issuer: this.pictureparkConfiguration.stsServer,
         redirectUri: redirect + '/content-picker',
         clientId: this.pictureparkConfiguration.clientId ? this.pictureparkConfiguration.clientId : 'picturepark_frontend',
-        responseType: 'id_token token', // 'id_token token' Implicit Flow
+        responseType: 'code', // code flow + PKCE
         scope:  this.pictureparkConfiguration.scope ? this.pictureparkConfiguration.scope : 'offline_access profile picturepark_api picturepark_account openid',
         postLogoutRedirectUri: 'https://localhost:44363/Unauthorized',
         sessionChecksEnabled: false,
+        strictDiscoveryDocumentValidation: false,
+        customQueryParams: {
+          acr_values: 'tenant:{"id":"' +
+            this.pictureparkConfiguration.customerId + '","alias":"' +
+            this.pictureparkConfiguration.customerAlias + '"}'
+        }
         // : false,
         // silent_renew_url: 'https://localhost:44363/silent-renew.html',
         // post_login_route: '/dataeventrecords',
@@ -47,15 +53,8 @@ export class OidcAuthService extends AuthService {
         //max_id_token_iat_offset_allowed_in_seconds: 10,
     };
 
-    this.oauthService.configure(config);
-    this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
-    this.oauthService.customQueryParams = {
-      acr_values: 'tenant:{"id":"' +
-        this.pictureparkConfiguration.customerId + '","alias":"' +
-        this.pictureparkConfiguration.customerAlias + '"}'
-    };
     this.oauthService.showDebugInformation = true;
+    this.oauthService.configure(config);
   }
 
   get username() {
@@ -73,7 +72,7 @@ export class OidcAuthService extends AuthService {
    * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
    */
   login(redirectRoute?: string) {
-    this.oauthService.initImplicitFlow();
+    this.oauthService.loadDiscoveryDocumentAndLogin();
   }
 
   /**
@@ -104,9 +103,10 @@ export class OidcAuthService extends AuthService {
     });
   }
 
-  private updateTokenIfRequired() {
-    // TODO: Implement refresh
-    return Promise.resolve();
+  private async updateTokenIfRequired() {
+    if (!this.isAuthenticated) {
+      return this.oauthService.loadDiscoveryDocumentAndLogin();
+    }
   }
 }
 
