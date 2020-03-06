@@ -46,7 +46,6 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     });
   }
 
-
   public toggleInBasket() {
     if (!this.itemModel.item.id) {
       return;
@@ -58,5 +57,4 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
       this.basketService.addItem(this.itemModel.item);
     }
   }
-
 }

@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import {
-  ContentDownloadLinkCreateRequest, ContentService, Content, Output as IOutPut,
-  fetchAll, OutputRenderingState, OutputService, OutputSearchRequest, ContentResolveBehavior, ContentDetail, IShareOutputBase
+  ContentDownloadLinkCreateRequest, ContentService, Content, fetchAll, OutputRenderingState,
+  OutputService, OutputSearchRequest, ContentResolveBehavior, IShareOutputBase
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -15,7 +15,7 @@ import { OutputSelection, IOutputPerOutputFormatSelection, IOutputPerSchemaSelec
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
 import { groupBy, flatMap } from '../../utilities/helper';
-import { ContentDownloadDialogOptions } from './content-download-dialog.interfaces';
+import { ContentDownloadDialogOptions, IContentDownload, IContentDownloadOutput } from './content-download-dialog.interfaces';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -63,7 +63,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     this.loader = true;
   }
 
-  async getSelection(outputs: IOutPut[], contents: Content[]) {
+  async getSelection(outputs: IContentDownloadOutput[], contents: IContentDownload[]) {
 
     const translations = await this.translationService.getOutputFormatTranslations();
     const selection = new OutputSelection(outputs, contents, translations, this.translationService);
@@ -73,29 +73,29 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       const fileFormatOutputs = selection.getOutputs(fileFormat);
       const fileFormatContents = flatMap(fileFormatOutputs, i => i.values);
       if (fileFormat.contents.length === 0) {
-          return;
+        return;
       }
 
       const fallbackOutputs = fileFormat.contents
         .map(content => this.getOutput(
-            content,
-            fileFormatContents.filter(j => j.content.id === content.id).map(i => i.output))
+          content,
+          fileFormatContents.filter(j => j.content.id === content.id).map(i => i.output))
         )
         .filter(i => i);
 
       if (fallbackOutputs.length === 0) {
-          return;
+        return;
       }
 
       const grouped = groupBy(fallbackOutputs, i => i.outputFormatId);
       fileFormatOutputs.forEach(output => {
-          const fallback = grouped.get(output.id);
-          if (!fallback) {
-              return;
-          }
-          if (fallback && fallback.length === fileFormat.contents.length) {
-              output.selected = true;
-          }
+        const fallback = grouped.get(output.id);
+        if (!fallback) {
+          return;
+        }
+        if (fallback && fallback.length === fileFormat.contents.length) {
+          output.selected = true;
+        }
       });
     });
 
@@ -123,8 +123,8 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     const linkSubscription = this.contentService.createDownloadLink(request).subscribe(download => {
       linkSubscription.unsubscribe();
       if (download.downloadUrl) {
-          window.location.replace(download.downloadUrl);
-          this.dialogRef.close(true);
+        window.location.replace(download.downloadUrl);
+        this.dialogRef.close(true);
       }
     });
   }
@@ -153,22 +153,22 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   // GET OUTPUT
-  public getOutput(content: Content, outputs: IOutPut[]): IOutPut {
+  public getOutput(content: IContentDownload, outputs: IContentDownloadOutput[]): IContentDownloadOutput {
 
     // Try to use Original
     let output = outputs.find(i => i.outputFormatId === 'Original');
     if (output) {
-        return output;
+      return output;
     }
 
     // Fallback to configured output formats
     this.outputFormatFallback.filter(i => i.fileSchemaId === content.contentSchemaId).forEach(fallback => {
-        output = outputs.find(i => i.outputFormatId === fallback.outputFormatId);
+      output = outputs.find(i => i.outputFormatId === fallback.outputFormatId);
     });
 
     // If still no output, fallback to Preview
     if (!output) {
-        output = outputs.find(i => i.outputFormatId === 'Preview');
+      output = outputs.find(i => i.outputFormatId === 'Preview');
     }
 
     return output!;
@@ -183,47 +183,44 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight + 56}px`);
 
     if (this.data.contents.length === 1) {
-      const detail = (this.data.contents[0] as ContentDetail);
-      if (detail.outputs) {
-
-        await this.setSelection(detail.outputs);
+      const outputs = this.data.contents[0]?.outputs;
+      if (outputs) {
+        await this.setSelection(outputs);
         return;
       }
 
       const detailSubscription = this.contentService.get(this.data.contents[0].id, [ContentResolveBehavior.Outputs]).subscribe(async content => {
         await this.setSelection(content.outputs!);
       });
+
       this.subscription.add(detailSubscription);
     } else {
-      const detail = (this.data.contents[0] as ContentDetail);
-      if (detail.outputs) {
-        const outputs = flatMap(this.data.contents, content => (content as ContentDetail).outputs!);
+      if (this.data.contents.every(content => content.outputs)) {
+        const outputs = flatMap(this.data.contents, content => content.outputs!);
         await this.setSelection(outputs);
         return;
       }
 
       this.fetchOutputs();
     }
-
   }
 
-  private async setSelection(outputs: IOutPut[]): Promise<void> {
+  private async setSelection(outputs: IContentDownloadOutput[]): Promise<void> {
     await this.getSelection(outputs, this.data.contents);
     this.update();
     this.loader = false;
   }
 
   private fetchOutputs(): void {
-      const outputSubscription = fetchAll(req => this.outputService.search(req), new OutputSearchRequest({
-          contentIds: this.data.contents.map(i => i.id),
-          renderingStates: [ OutputRenderingState.Completed ],
-          limit: 1000
-      })).subscribe(async outputs => {
-        await this.getSelection(outputs.results, this.data.contents);
-        this.update();
-        this.loader = false;
-      });
-      this.subscription.add(outputSubscription);
+    const outputSubscription = fetchAll(req => this.outputService.search(req), new OutputSearchRequest({
+      contentIds: this.data.contents.map(i => i.id),
+      renderingStates: [OutputRenderingState.Completed],
+      limit: 1000
+    })).subscribe(async outputs => {
+      await this.getSelection(outputs.results, this.data.contents);
+      this.update();
+      this.loader = false;
+    });
+    this.subscription.add(outputSubscription);
   }
-
 }
