@@ -1,6 +1,5 @@
 import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 
 // LIBRARIES
 import { Content } from '@picturepark/sdk-v1-angular';
@@ -16,9 +15,6 @@ import {
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 import { ContentModel } from '../../shared-module/models/content-model';
-
-// FUNCTIONS
-import { fromContentArray } from '../content-download-dialog/content-download-dialog.functions';
 
 @Component({
   selector: 'pp-basket',
@@ -55,7 +51,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
   public downloadItems(): void {
       this.contentDownloadDialogService.showDialog({
         mode: 'multi',
-        contents: fromContentArray(this.basketItems)
+        contents: this.basketItems
       });
   }
 

@@ -1,6 +1,6 @@
 // LIBRARIES
-import { Output, ContentType, OutputDataBase } from '@picturepark/sdk-v1-angular';
-import { IContentDownload } from '../content-download-dialog.interfaces';
+import { ContentType, OutputDataBase } from '@picturepark/sdk-v1-angular';
+import { IContentDownload, IContentDownloadOutput } from '../content-download-dialog.interfaces';
 
 // SERVICES
 import { TranslationService, IOutputFormatTranslations } from '../../../shared-module/services/translations/translation.service';
@@ -13,7 +13,7 @@ export interface IOutputPerOutputFormatSelection {
     hidden: boolean;
     values: [{
         content: IContentDownload,
-        output: Output
+        output: IContentDownloadOutput
     }];
 }
 
@@ -36,7 +36,7 @@ export class OutputSelection {
     }
 
     constructor(
-        outputs: Output[],
+        outputs: IContentDownloadOutput[],
         contents: IContentDownload[],
         outputTranslations: IOutputFormatTranslations,
         translationService: TranslationService) {
@@ -54,13 +54,13 @@ export class OutputSelection {
                 name: translationService.translate(`ContentDownloadDialog.${schemaId}`)
             };
 
-            let contentOutputs: Output[];
+            let contentOutputs: IContentDownloadOutput[];
             if (isBinary) {
                 contentOutputs = outputs.filter(i => i.contentId === content.id);
             } else {
                 let output = outputs.find(i => i.contentId === content.id);
                 if (!output) {
-                    output = { outputFormatId: 'Original', contentId: content.id, detail: { fileSizeInBytes: 100 } } as Output;
+                    output = { outputFormatId: 'Original', contentId: content.id, detail: { fileSizeInBytes: 100 } } as IContentDownloadOutput;
                 } else {
                     // In case there is a virtual content defined in the outputs (share), set only the filesize
                     output.detail = { fileSizeInBytes: 100 } as OutputDataBase;
@@ -102,7 +102,7 @@ export class OutputSelection {
             .sort((x, y) => x.id === 'Original' ? - 1 : x.name.localeCompare(y.name));
     }
 
-    public getSelectedOutputs(): Output[] {
+    public getSelectedOutputs(): IContentDownloadOutput[] {
         const selectedOutputs = this.getAllOutputs();
         const outputs = flatMap(selectedOutputs.filter(i => i.selected), i => i.values).map(i => i.output);
         return outputs;

@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import {
-  ContentDownloadLinkCreateRequest, ContentService, Content, Output as IOutPut,
-  fetchAll, OutputRenderingState, OutputService, OutputSearchRequest, ContentResolveBehavior, ContentDetail, IShareOutputBase
+  ContentDownloadLinkCreateRequest, ContentService, Content, fetchAll, OutputRenderingState,
+  OutputService, OutputSearchRequest, ContentResolveBehavior, IShareOutputBase
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -15,7 +15,7 @@ import { OutputSelection, IOutputPerOutputFormatSelection, IOutputPerSchemaSelec
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
 import { groupBy, flatMap } from '../../utilities/helper';
-import { ContentDownloadDialogOptions, IContentDownload } from './content-download-dialog.interfaces';
+import { ContentDownloadDialogOptions, IContentDownload, IContentDownloadOutput } from './content-download-dialog.interfaces';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -63,7 +63,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     this.loader = true;
   }
 
-  async getSelection(outputs: IOutPut[], contents: IContentDownload[]) {
+  async getSelection(outputs: IContentDownloadOutput[], contents: IContentDownload[]) {
 
     const translations = await this.translationService.getOutputFormatTranslations();
     const selection = new OutputSelection(outputs, contents, translations, this.translationService);
@@ -153,7 +153,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   // GET OUTPUT
-  public getOutput(content: IContentDownload, outputs: IOutPut[]): IOutPut {
+  public getOutput(content: IContentDownload, outputs: IContentDownloadOutput[]): IContentDownloadOutput {
 
     // Try to use Original
     let output = outputs.find(i => i.outputFormatId === 'Original');
@@ -205,7 +205,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     }
   }
 
-  private async setSelection(outputs: IOutPut[]): Promise<void> {
+  private async setSelection(outputs: IContentDownloadOutput[]): Promise<void> {
     await this.getSelection(outputs, this.data.contents);
     this.update();
     this.loader = false;
@@ -223,5 +223,4 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     });
     this.subscription.add(outputSubscription);
   }
-
 }

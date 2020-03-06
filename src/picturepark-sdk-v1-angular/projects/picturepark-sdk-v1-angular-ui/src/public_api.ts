@@ -54,7 +54,6 @@ export { ContentModel } from './lib/shared-module/models/content-model';
 
 // Functions
 export * from './lib/utilities/helper';
-export * from './lib/features-module/content-download-dialog/content-download-dialog.functions';
 
 // Interfaces
 export { SearchParameters } from './lib/shared-module/search-utils';

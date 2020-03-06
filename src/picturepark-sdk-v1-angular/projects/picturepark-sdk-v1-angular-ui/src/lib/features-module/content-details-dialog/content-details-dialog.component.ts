@@ -16,9 +16,6 @@ import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
 // SERVICES
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
-// FUNCTIONS
-import { fromContentDetail } from '../content-download-dialog/content-download-dialog.functions';
-
 @Component({
   selector: 'pp-content-details-dialog',
   templateUrl: './content-details-dialog.component.html',
@@ -68,7 +65,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   public downloadItem() {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
-      contents: [fromContentDetail(this.content)]
+      contents: [this.content]
     });
   }
 

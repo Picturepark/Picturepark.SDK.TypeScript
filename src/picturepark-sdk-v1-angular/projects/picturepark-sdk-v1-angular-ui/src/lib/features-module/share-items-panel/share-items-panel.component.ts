@@ -5,9 +5,6 @@ import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk
 import { PanelBaseComponent } from '../panel/components/panel-base/panel-base.component';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
-// FUNCTIONS
-import { fromContentDetail } from '../content-download-dialog/content-download-dialog.functions';
-
 @Component({
   selector: 'pp-share-items-panel',
   templateUrl: './share-items-panel.component.html',
@@ -43,7 +40,7 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
   public downloadItem(item: ShareContentDetail) {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
-      contents: [fromContentDetail(item)]
+      contents: [item]
     });
   }
 

@@ -20,9 +20,6 @@ import { Observable } from 'rxjs';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 import { ContentModel } from '../../shared-module/models/content-model';
 
-// FUNCTIONS
-import { fromContent } from '../content-download-dialog/content-download-dialog.functions';
-
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
 @Component({
@@ -180,7 +177,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   openDownloadContentDialog(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: this.items.filter(i => i.isSelected).map(i => fromContent(i.item))
+      contents: this.items.filter(i => i.isSelected).map(i => i.item)
     });
   }
 

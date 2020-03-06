@@ -8,8 +8,7 @@ import {
   ContentDownloadDialogService,
   DialogService,
   TranslationService,
-  ContentDetailsDialogComponent,
-  fromContentDetailArray
+  ContentDetailsDialogComponent
 } from '@picturepark/sdk-v1-angular-ui';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -50,7 +49,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       action: () => {
         this.contentDownloadDialogService.showDialog({
           mode: 'single',
-          contents: fromContentDetailArray(this.items)
+          contents: this.items
         });
       }
     },
