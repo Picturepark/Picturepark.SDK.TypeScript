@@ -20,8 +20,5 @@ import { LayerPanelsComponent } from './layer-panels.component';
     LayerPanelsComponent,
     FieldDetailInfoDialogComponent
   ],
-  entryComponents: [
-    FieldDetailInfoDialogComponent,
-  ]
 })
 export class LayerPanelsModule { }
