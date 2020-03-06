@@ -1,5 +1,6 @@
 // Shared themes
 @import '../shared-module/components/aggregation/aggregation.component.theme.scss';
+@import '../shared-module/components/content-item-thumbnail/content-item-thumbnail.component.theme.scss';
 @import '../shared-module/components/browser-base/browser-base.component.theme.scss';
 @import '../shared-module/components/browser-item-base/browser-item-base.component.theme.scss';
 @import '../features-module/dialog/components/dialog-base/dialog-base.component.theme.scss'; // TODO: Move to shared module
@@ -31,6 +32,7 @@
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
 @mixin picturepark-theme($theme) {
     @include pp-aggregation-theme($theme);
+    @include pp-content-item-thumbnail-theme($theme);
     @include pp-application-header-theme($theme);
     @include pp-application-menu-theme($theme);
     @include pp-basket-theme($theme);
