@@ -1,97 +1,55 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Content,
-  ContentService,
-  fetchAll,
-  ContentSearchRequest,
-  LifeCycleFilter,
-  BrokenDependenciesFilter,
-  ContentSearchType,
-  TermsFilter } from '@picturepark/sdk-v1-angular';
-import { ContentResolveBehavior } from '@picturepark/sdk-v1-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BasketService {
-  private basketSubject: BehaviorSubject<Content[]>;
+  private basketSubject: BehaviorSubject<string[]>;
 
 
   private localStorageKey = 'basketItems';
-  public basketItems: Content[];
+  private basketItems: Set<string>;
 
-  constructor(private contentService: ContentService) {
-    const storedItem = localStorage.getItem(this.localStorageKey);
-    this.basketItems = storedItem ? JSON.parse(storedItem) as Content[] : [];
-    this.basketSubject = new BehaviorSubject(this.basketItems);
-    this.basketSubject.next(this.basketItems);
+  constructor() {
+    const itemsString = localStorage.getItem(this.localStorageKey);
+    const itemsArray = itemsString ? JSON.parse(itemsString) as string[] : [];
+
+    this.basketItems = new Set(itemsArray);
+
+    this.basketSubject = new BehaviorSubject(itemsArray);
   }
 
-  public get basketChange(): Observable<Content[]> {
+  public get basketChange(): Observable<string[]> {
     return this.basketSubject.asObservable();
   }
 
-  /**
-   * @param item The item to be stored in the basket, it can be either the item in itself or
-   * just the item id (utilizing the item id will create the need for aditional api requests)
-   */
-  public addItem(item: Content|string) {
-    if (typeof(item) === 'string') {
-      this.addItemById(item);
-    } else {
-      if (this.basketItems.findIndex( q => q.id === item.id ) === -1) {
-        this.basketItems.push(item);
-        this.updateStorage();
-      }
-    }
+  public addItem(itemId: string) {
+    this.basketItems.add(itemId);
+    this.updateStorage();
   }
 
-  public addItemById(item: string) {
-    fetchAll(req => this.contentService.search(req), new ContentSearchRequest({
-      limit: 1000,
-      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-      brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      searchType: ContentSearchType.MetadataAndFullText,
-      debugMode: false,
-      filter: new TermsFilter({
-        field: 'id',
-        terms: [item]
-      })
-    })).subscribe( result => {
-      if (result[0]) {
-        this.basketItems.push(result[0]);
-        this.updateStorage();
-      }
-    });
+  public addItems(items: string[]) {
+    items.forEach(item => this.basketItems.add(item));
+    this.updateStorage();
   }
 
-  /**
-   * @param item The item to be removed from the basket, it can be either the item in itself or
-   * just the item id
-   */
-  public removeItem(item: Content|string) {
-    if (typeof(item) === 'string') {
-      this.removeItemById(item);
-    } else {
-      this.basketItems = this.basketItems.filter( q => q.id !== item.id);
-      this.updateStorage();
-    }
-  }
-
-  public removeItemById(item: Content|string) {
-    this.basketItems = this.basketItems.filter( q => q.id !== item);
+  public removeItem(itemId: string) {
+    this.basketItems.delete(itemId);
     this.updateStorage();
   }
 
   public clearBasket() {
-    this.basketItems = [];
+    this.basketItems.clear();
     this.updateStorage();
   }
 
   private updateStorage() {
-    const value = JSON.stringify(this.basketItems);
+    const itemsArray = Array.from(this.basketItems);
+    const value = JSON.stringify(itemsArray);
+
     localStorage.setItem(this.localStorageKey, value);
 
-    this.basketSubject.next(this.basketItems);
+    this.basketSubject.next(itemsArray);
   }
 }

@@ -100,8 +100,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.loadData();
   }
 
-  checkItemsInBasket(basketItems: Content[]) {
-    this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem.id === model.item.id));
+  checkItemsInBasket(basketItems: string[]) {
+    this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
   }
 
   getSearchRequest(): Observable<ContentSearchResult> | undefined {
