@@ -13,26 +13,20 @@ import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
   styleUrls: ['./list-item-browser.component.scss']
 })
 export class ListItemBrowserComponent implements OnInit, OnDestroy {
-
   activeSchema = new Subject<SchemaDetail>();
   schema = new Observable<SchemaDetail>();
   subscription = new Subscription();
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    @Inject(AuthService) public authService: OidcAuthService
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router, @Inject(AuthService) public authService: OidcAuthService) {}
 
   ngOnInit() {
-
     const listSubscription = combineLatest([this.schema, this.route.paramMap, this.route.queryParamMap])
       .pipe(take(1))
       .subscribe(([schemaDetail]) => {
         this.activeSchema.next(schemaDetail);
       });
 
-     this.subscription.add(listSubscription);
+    this.subscription.add(listSubscription);
   }
 
   ngOnDestroy() {
@@ -45,5 +39,4 @@ export class ListItemBrowserComponent implements OnInit, OnDestroy {
   updateUrl(params: Params): void {
     this.router.navigate([], { queryParams: params, relativeTo: this.route });
   }
-
 }

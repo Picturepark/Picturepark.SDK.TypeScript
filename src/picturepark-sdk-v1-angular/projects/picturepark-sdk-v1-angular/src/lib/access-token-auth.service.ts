@@ -9,14 +9,13 @@ import { AuthService } from './auth.service';
 export class AccessTokenAuthService extends AuthService {
   constructor(
     @Optional() @Inject(PICTUREPARK_API_URL) pictureparkApiUrl?: string,
-    @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkAccessTokenAuthConfiguration) {
+    @Optional() @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration?: PictureparkAccessTokenAuthConfiguration
+  ) {
     super(pictureparkConfiguration && pictureparkConfiguration.apiServer ? pictureparkConfiguration.apiServer : pictureparkApiUrl!);
   }
 
   get isAuthenticated(): boolean {
-    return this.pictureparkConfiguration &&
-      this.pictureparkConfiguration.accessToken &&
-      this.pictureparkConfiguration.accessToken !== '' ? true : false;
+    return this.pictureparkConfiguration && this.pictureparkConfiguration.accessToken && this.pictureparkConfiguration.accessToken !== '' ? true : false;
   }
 
   transformHttpRequestOptions(options: any) {

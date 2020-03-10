@@ -9,18 +9,14 @@ import { Channel, FilterBase, AggregatorBase, TermsAggregator, InfoService, Nest
   styleUrls: ['./shares-manager.component.scss']
 })
 export class SharesManagerComponent implements OnInit {
-
   public searchText = '';
   public selectedChannel: Channel | null = null;
   public selectedFilter: FilterBase | null = null;
   public aggregators: AggregatorBase[] = [];
 
-  constructor(
-    private infoService: InfoService
-  ) { }
+  constructor(private infoService: InfoService) {}
 
   async ngOnInit() {
-
     const customerInfo = await this.infoService.getInfo().toPromise();
 
     this.aggregators = [
@@ -45,5 +41,4 @@ export class SharesManagerComponent implements OnInit {
       })
     ];
   }
-
 }

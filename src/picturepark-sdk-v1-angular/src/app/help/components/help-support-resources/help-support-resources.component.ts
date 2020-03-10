@@ -6,9 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./help-support-resources.component.scss']
 })
 export class HelpSupportResourcesComponent {
-
   @Input() title: string;
 
   constructor() {}
-
 }

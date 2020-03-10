@@ -5,4 +5,3 @@ import { Component } from '@angular/core';
   templateUrl: './help-wrapper.component.html'
 })
 export class HelpWrapperComponent {}
-

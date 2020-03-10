@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./third-party-licenses-credits.component.scss']
 })
 export class ThirdPartyLicensesCreditsComponent {
-
   @Input() title: string;
 
   constructor() {}

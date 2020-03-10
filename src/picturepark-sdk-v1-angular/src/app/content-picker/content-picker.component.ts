@@ -6,8 +6,16 @@ import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import {
-  AggregationResult, Channel, FilterBase, Content, AggregatorBase, ContentService, ContentAggregationRequest,
-  LifeCycleFilter, ContentSearchType, BrokenDependenciesFilter
+  AggregationResult,
+  Channel,
+  FilterBase,
+  Content,
+  AggregatorBase,
+  ContentService,
+  ContentAggregationRequest,
+  LifeCycleFilter,
+  ContentSearchType,
+  BrokenDependenciesFilter
 } from '@picturepark/sdk-v1-angular';
 import { SelectionService, BasketService, ContentModel, ContentBrowserComponent } from '@picturepark/sdk-v1-angular-ui';
 
@@ -55,40 +63,37 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     private contentService: ContentService,
     public selectionService: SelectionService<Content>,
     public breakpointObserver: BreakpointObserver
-  ) { }
+  ) {}
 
   public openDetails(item: ContentModel<Content>) {
-
     let index = this.contentBrowserComponent.items.indexOf(item);
-    this.dialog.open(ContentDetailsDialogComponent,
-      {
-        data: <ContentDetailDialogOptions>{
-          id: item.item.id,
-          showMetadata: true,
-          hasPrevious: () => {
-            return index !== 0;
-          },
-          hasNext: () => {
-            return this.contentBrowserComponent.items.length > index + 1;
-          },
-          previous: () => {
-            index--;
-            return this.contentBrowserComponent.items[index].item.id;
-          },
-          next: () => {
-            index++;
-            return this.contentBrowserComponent.items[index].item.id;
-          }
+    this.dialog.open(ContentDetailsDialogComponent, {
+      data: <ContentDetailDialogOptions>{
+        id: item.item.id,
+        showMetadata: true,
+        hasPrevious: () => {
+          return index !== 0;
         },
-        autoFocus: false,
-        width: '980px',
-        height: '700px'
-      }
-    );
+        hasNext: () => {
+          return this.contentBrowserComponent.items.length > index + 1;
+        },
+        previous: () => {
+          index--;
+          return this.contentBrowserComponent.items[index].item.id;
+        },
+        next: () => {
+          index++;
+          return this.contentBrowserComponent.items[index].item.id;
+        }
+      },
+      autoFocus: false,
+      width: '980px',
+      height: '700px'
+    });
   }
 
   public ngOnInit() {
-    const basketSubscription = this.basketService.basketChange.subscribe(items => this.basketItemsCount = items.length);
+    const basketSubscription = this.basketService.basketChange.subscribe(items => (this.basketItemsCount = items.length));
     this.subscription.add(basketSubscription);
 
     if (this.route.snapshot.queryParams['postUrl']) {
@@ -118,14 +123,16 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
   }
 
   public aggregate = (aggregators: AggregatorBase[]) => {
-    return this.contentService.aggregate(new ContentAggregationRequest({
-      aggregators: aggregators,
-      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-      searchType: ContentSearchType.Metadata,
-      brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      filter: this.selectedFilter ? this.selectedFilter : undefined
-    }));
-  }
+    return this.contentService.aggregate(
+      new ContentAggregationRequest({
+        aggregators: aggregators,
+        lifeCycleFilter: LifeCycleFilter.ActiveOnly,
+        searchType: ContentSearchType.Metadata,
+        brokenDependenciesFilter: BrokenDependenciesFilter.All,
+        filter: this.selectedFilter ? this.selectedFilter : undefined
+      })
+    );
+  };
 
   ngOnDestroy() {
     if (this.subscription) {

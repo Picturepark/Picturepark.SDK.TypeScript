@@ -10,10 +10,7 @@ import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
-  constructor(
-    @Inject(AuthService) public authService: OidcAuthService
-  ) {}
+  constructor(@Inject(AuthService) public authService: OidcAuthService) {}
 
   public ngOnInit() {
     if (!this.authService.isAuthenticated) {
@@ -21,5 +18,4 @@ export class AppComponent implements OnInit {
       this.authService.login(path + location.search);
     }
   }
-
 }

@@ -28,12 +28,6 @@ import { YourPpSubscriptionComponent } from './components/your-pp-subscription/y
     ThirdPartyLicensesCreditsComponent,
     YourPpSubscriptionComponent
   ],
-  imports: [
-    CommonModule,
-    ApplicationHeaderModule,
-    HelpRoutingModule,
-    ItemToolBarModule,
-    PanelModule
-  ]
+  imports: [CommonModule, ApplicationHeaderModule, HelpRoutingModule, ItemToolBarModule, PanelModule]
 })
-export class HelpModule { }
+export class HelpModule {}

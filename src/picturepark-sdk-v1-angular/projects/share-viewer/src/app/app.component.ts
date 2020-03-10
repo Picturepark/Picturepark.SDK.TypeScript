@@ -15,11 +15,7 @@ export class AppComponent {
   public showSearchBox = !environment.production;
   public showConsent = !window.localStorage.getItem('Picturepark.ShareCookieConsent');
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
-  }
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   updateRoute(searchString: string): void {
     if (searchString) {

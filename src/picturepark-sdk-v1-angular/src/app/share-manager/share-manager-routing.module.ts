@@ -20,14 +20,12 @@ const routes: Routes = [
         component: ShareManagerItemComponent
       }
     ]
-  },
+  }
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
-  exports: [ RouterModule ],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
   providers: []
 })
-export class ShareManagerRoutingModule { }
+export class ShareManagerRoutingModule {}

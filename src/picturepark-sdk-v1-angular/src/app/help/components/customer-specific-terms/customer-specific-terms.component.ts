@@ -6,9 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./customer-specific-terms.component.scss']
 })
 export class CustomerSpecificTermsComponent {
-
   @Input() title: string;
 
   constructor() {}
-
 }

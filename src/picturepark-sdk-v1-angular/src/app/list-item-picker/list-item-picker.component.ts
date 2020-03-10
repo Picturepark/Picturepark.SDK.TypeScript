@@ -5,4 +5,3 @@ import { Component } from '@angular/core';
   templateUrl: './list-item-picker.component.html'
 })
 export class ListItemPickerComponent {}
-

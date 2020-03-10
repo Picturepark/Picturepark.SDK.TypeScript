@@ -6,9 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./about-pp.component.scss']
 })
 export class AboutPpComponent {
-
   @Input() title: string;
 
   constructor() {}
-
 }
