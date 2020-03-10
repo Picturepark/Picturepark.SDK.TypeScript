@@ -27,6 +27,6 @@ export class BasketItemComponent extends BaseComponent {
   }
 
   public remove() {
-    this.basketService.removeItem(this.item);
+    this.basketService.removeItem(this.item.id);
   }
 }

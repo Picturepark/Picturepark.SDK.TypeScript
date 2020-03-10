@@ -139,7 +139,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
 
   prepareData(items: ContentModel<Content>[]): void {
-    this.checkItemsInBasket(this.basketService.basketItems);
+    this.checkItemsInBasket(this.basketService.getBasketItems());
   }
 
   ngOnChanges(changes: SimpleChanges): void {
