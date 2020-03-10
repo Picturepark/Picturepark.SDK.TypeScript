@@ -8,8 +8,8 @@ $pp-search-box: (contrast: (),
   $primary: map-get($theme, primary);
 
   pp-search-box {
+    
     #search-container {
-
       border-color: mat-color($primary, surface-mid);
       
       .form {
@@ -31,6 +31,9 @@ $pp-search-box: (contrast: (),
     }
     
     #search-container:focus-within {
+
+      border-color: mat-color($primary, opacity-light);
+
       .form {
         background-color: mat-color($primary, opacity-light);
         
@@ -43,7 +46,10 @@ $pp-search-box: (contrast: (),
             color: mat-color($primary, on-surface-dark);
           }
         }
-        
+      }
+
+      #search-options-container {
+        color: mat-color($primary, opacity-light);
       }
     }
   }
