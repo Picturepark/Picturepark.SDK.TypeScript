@@ -2,7 +2,14 @@ import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
-import { Content, ISearchResult, fetchAll, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter, ContentSearchType, TermsFilter } from '@picturepark/sdk-v1-angular';
+import { Content,
+  ISearchResult,
+  fetchAll,
+  ContentSearchRequest,
+  LifeCycleFilter,
+  BrokenDependenciesFilter,
+  ContentSearchType,
+  TermsFilter } from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
