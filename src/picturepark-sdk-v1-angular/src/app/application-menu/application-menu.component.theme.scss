@@ -15,7 +15,7 @@ $pp-application-menu: (
     contrast: ()
 );
 
-@mixin pp-application-menu-theme($theme) {
+@mixin app-application-menu-theme($theme) {
   $primary: map-get($theme, primary);
 
   // APPLICATION MENU MODULE
@@ -74,3 +74,5 @@ $pp-application-menu: (
   }
 
 }
+
+

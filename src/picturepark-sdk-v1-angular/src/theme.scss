@@ -121,3 +121,12 @@ $picturepark-app-primary-dark: mat-palette($mat-picturepark-primary-dark);
 $picturepark-app-accent-dark: mat-palette($mat-picturepark-accent, 400, 200, 700);
 $picturepark-app-warn-dark: mat-palette($mat-red);
 $picturepark-app-theme-dark: mat-dark-theme($picturepark-app-primary-dark, $picturepark-app-accent-dark, $picturepark-app-warn-dark);
+
+
+@import './app/application-menu/application-menu.component.theme.scss';
+
+
+// LOAD THEME COMPONENTS WITH CUSTOM THEME
+@mixin picturepark-theme($theme) {
+    @include app-application-menu-theme($theme);
+}

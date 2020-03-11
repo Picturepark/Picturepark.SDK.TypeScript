@@ -5,6 +5,8 @@
 // CUSTOM THEME
 @import "theme.scss";
 
+
+
 @include angular-material-theme($picturepark-app-theme);
 @include picturepark-theme($picturepark-app-theme);
 

@@ -9,7 +9,6 @@
 
 // Feature themes
 @import '../features-module/application-header/application-header.component.theme.scss';
-@import '../features-module/application-menu/application-menu.component.theme.scss';
 @import '../features-module/basket/basket.component.theme.scss';
 @import '../features-module/basket/components/basket-item/basket-item.component.theme.scss';
 @import '../features-module/browser-toolbar/browser-toolbar.component.theme.scss';
@@ -34,7 +33,6 @@
     @include pp-aggregation-theme($theme);
     @include pp-content-item-thumbnail-theme($theme);
     @include pp-application-header-theme($theme);
-    @include pp-application-menu-theme($theme);
     @include pp-basket-theme($theme);
     @include pp-basket-item-theme($theme);
     @include pp-browser-base-theme($theme);
