@@ -18,8 +18,9 @@ $pp-application-menu: (
 @mixin app-application-menu-theme($theme) {
   $primary: map-get($theme, primary);
 
+  
   // APPLICATION MENU MODULE
-  pp-application-menu > div {
+  app-application-menu > div {
     background-color: mat-color($primary, dark-background);
     box-shadow: 
         0 5px 5px -3px rgba(mat-color($primary, shadow-color),.2), 
