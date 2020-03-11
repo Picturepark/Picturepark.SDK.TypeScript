@@ -125,6 +125,7 @@ $picturepark-app-theme-dark: mat-dark-theme($picturepark-app-primary-dark, $pict
 // Apply custom components themes 
 @import '../projects/picturepark-sdk-v1-angular-ui/src/lib/theming/_theming.scss';
 @import './app/application-menu/application-menu.component.theme.scss';
+@import './app/application-header/application-header.component.theme.scss';
 
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
@@ -134,4 +135,6 @@ $picturepark-app-theme-dark: mat-dark-theme($picturepark-app-primary-dark, $pict
 
     // Include custom component themes from the main app 
     @include app-application-menu-theme($theme);
+    @include app-application-header-theme($theme);
+    
 }

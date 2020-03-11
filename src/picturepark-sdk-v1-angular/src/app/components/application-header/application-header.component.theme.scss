@@ -1,11 +1,7 @@
 @import '~@angular/material/theming';
 
-// APPLICATION HEADER
-$pp-application-header: (
-    contrast: ()
-);
 
-@mixin pp-application-header-theme($theme) {
+@mixin app-application-header-theme($theme) {
 
     $primary: map-get($theme, primary);
 
@@ -16,7 +12,6 @@ $pp-application-header: (
 
         .title-container {
             color: mat-color($primary, dark-font);
-            // border-right: 1px solid mat-contrast($primary, light-background);
         }
 
         .close-container { 

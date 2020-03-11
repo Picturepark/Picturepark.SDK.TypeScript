@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // MODULES
-import { ApplicationHeaderModule } from './application-header/application-header.module';
 import { BasketModule } from './basket/basket.module';
 import { BrowserToolbarModule } from './browser-toolbar/browser-toolbar.module';
 import { ContentAggregationListModule } from './content-aggregation-list/content-aggregation-list.module';
@@ -29,7 +28,6 @@ import { ContentDownloadDialogModule } from './content-download-dialog/content-d
 @NgModule({
   declarations: [],
   imports: [
-    ApplicationHeaderModule,
     BasketModule,
     BrowserToolbarModule,
     ContentAggregationListModule,
@@ -54,7 +52,6 @@ import { ContentDownloadDialogModule } from './content-download-dialog/content-d
     ContentDownloadDialogModule
   ],
   exports: [
-    ApplicationHeaderModule,
     BasketModule,
     BrowserToolbarModule,
     ContentAggregationListModule,

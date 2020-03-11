@@ -17,8 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/translations';
 import { environment } from '../environments/environment';
 import { PictureparkAppSetting } from 'src/config';
-import { ApplicationHeaderComponent } from './application-header/application-header.component';
-import { ApplicationMenuComponent } from './application-menu/application-menu.component';
+import { ComponentsModule } from './components/components.module';
 
 export function LocaleIdFactory() {
   const translations = TRANSLATIONS;
@@ -66,8 +65,6 @@ export function PictureparkConfigurationFactory() {
   declarations: [
     AppComponent,
     HomeComponent,
-    ApplicationHeaderComponent,
-    ApplicationMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +74,7 @@ export function PictureparkConfigurationFactory() {
     PictureparkUiModule,
     PictureparkOidcModule,
     LayerPanelsModule,
-    HammerModule
+    HammerModule,
   ],
   providers: [
     { provide: LOCALE_ID, useFactory: LocaleIdFactory },
