@@ -32,12 +32,12 @@ import { ContentService } from '@picturepark/sdk-v1-angular';
 })
 export class BasketComponent extends BaseComponent implements OnInit {
 
-  public basketItems: Content[] = [];
+  public basketItemsIds: string[] = [];
 
   public configActions: ConfigActions;
 
   @Output()
-  public previewItemChange = new EventEmitter<Content>();
+  public previewItemChange = new EventEmitter<string>();
 
   constructor(
     @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
@@ -50,30 +50,33 @@ export class BasketComponent extends BaseComponent implements OnInit {
     super();
 
     const basketSubscription = this.basketService.basketChange.subscribe(async (items) => {
-      this.basketItems = (await this.fetch(items).toPromise()).results;
+      this.basketItemsIds = items;
     });
     this.subscription.add(basketSubscription);
 
   }
 
-  public previewItem(item: Content): void {
+  public previewItem(item: string): void {
     this.previewItemChange.emit(item);
   }
 
   public downloadItems(): void {
+    this.fetchContents().subscribe( fetchResult => {
       this.contentDownloadDialogService.showDialog({
         mode: 'multi',
-        contents: this.basketItems
+        contents: fetchResult.results
       });
+    });
   }
 
   public openShareContentDialog(): void {
+    this.fetchContents().subscribe( fetchResult => {
       const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-        data: this.basketItems,
+        data: fetchResult.results,
         autoFocus: false
       });
-
       dialogRef.componentInstance.title = 'Basket.Share';
+    });
   }
 
   public clearBasket(): void {
@@ -88,7 +91,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
     this.configActions = this.pictureParkUIConfig['BasketComponent'];
   }
 
-  private fetch(items: string[]): Observable<ISearchResult<Content>> {
+  private fetchContents(): Observable<ISearchResult<Content>> {
     return fetchAll(req => this.contentService.search(req), new ContentSearchRequest({
       limit: 1000,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
@@ -97,7 +100,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
       debugMode: false,
       filter: new TermsFilter({
         field: 'id',
-        terms: items
+        terms: this.basketItemsIds
       })
     }));
   }
