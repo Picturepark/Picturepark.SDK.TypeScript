@@ -41,9 +41,7 @@
       flex-grow: 1;
       margin: 10px;
       width: 85%;
-      &__title-content {
-        color: #2f2f2f;
-      }
+      
     }
     
     #{ $self }__actions {
@@ -54,7 +52,7 @@
       
       position: absolute;
       right: 30px;
-      top: 35px;
+      top: 5px;
       ul { 
         list-style: none;
         margin: 0px;

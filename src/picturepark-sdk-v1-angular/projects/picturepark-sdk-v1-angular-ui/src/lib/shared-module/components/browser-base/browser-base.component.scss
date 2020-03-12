@@ -36,7 +36,6 @@
     }
     &--list {
       grid-template-columns: 1fr;
-      grid-auto-rows: 100px;
       grid-gap: 10px;
       #{ $self }__item-container {
         width: 70%;

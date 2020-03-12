@@ -3,10 +3,11 @@
 @mixin pp-browser-base-theme($theme) {
 
     $primary: map-get($theme, primary);
-    $self: &;
 
     pp-content-browser, pp-list-browser, pp-schema-browser, pp-share-browser {
         .browser {
+            $self: &;
+
             background: mat-color($primary, background-dark);
 
             &__header {
@@ -33,10 +34,10 @@
                 }
 
             }
-
-            &--list {
-                #{ $self }__item-container {
+            .browser__items--list {
+                .browser__item-container {
                     border-color: mat-color($primary, divider);
+                  
                 }
             }
         }

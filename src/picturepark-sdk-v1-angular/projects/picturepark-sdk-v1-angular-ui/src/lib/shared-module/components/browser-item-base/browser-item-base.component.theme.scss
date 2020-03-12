@@ -1,29 +1,31 @@
 @import '~@angular/material/theming';
 
 // BROWSER ITEM BASE VARS
-$pp-browser-item: (
-    selected-background: #6f6f6f,
-    contrast: ()
-);
+$pp-browser-item: (selected-background: #6f6f6f,
+  contrast: ());
 
 @mixin pp-browser-item-base-theme($theme) {
 
   $primary: map-get($theme, primary);
 
-  pp-content-browser-item, pp-share-browser-item {
+  pp-content-browser-item,
+  pp-share-browser-item {
 
     .browser-item {
       $self: &;
-      
+
       &__image-slot {
         background-color: mat-color($primary, surface-mid);
+
+      }
+       
+      &__actions {
+        color: mat-color($primary, on-opacity-light);
       }
 
       &__image-virtual-item-container {
         color: mat-color($primary, on-surface-mid);
       }
-
-        
 
       &__title {
         background-color: mat-color($primary, background-dark);
@@ -40,52 +42,38 @@ $pp-browser-item: (
 
       }
 
-      &--list-view {
+    }
 
-        &__title {
-          background-color: mat-color($primary, background-dark);
-          color: mat-color($primary, on-background-dark);
-        }
+    .browser-item--list-view {
 
-        #{ $self }__image-slot {
-          border-color: mat-color($primary, surface-mid);
-        }
-
-        #{ $self }__list-view-actions {
-          ul {
-            li {
-              color: mat-color($primary, on-background-dark);
-              button {
-                mat-icon {
-                  font-size: 21px;
-                }
-              }
-              &.in-basket {
-                button {
-                  background-color: mat-color($primary, surface-dark);
-                  color: mat-color($primary, on-surface-dark);
-                }
-              }
-            }
-          }
-        }
+      .browser-item__image-slot {
+        border-color: mat-color($primary, surface-mid);
       }
-    
-      
-      
-      &__actions {
-        background-color: mat-color($primary, opacity-light);
-        color: mat-color($primary, on-surface-dark);
-
+  
+      .browser-item__title {
+        &__title-content {
+          font: mat-font-size($custom-typography, body-2);
+        }
+  
+      }
+  
+  
+      .browser-item__list-view-actions {
+        color: mat-color($primary, on-background-dark);
+  
         ul {
           li {
             button {
-              mat-icon {     
-                font-size: mat-font-size($custom-typography, display-1);
+              mat-icon {
+                font-size: 21px;
               }
             }
-            .material-icons {
-              font-size: mat-font-size($custom-typography, display-2);
+  
+            &.in-basket {
+              button {
+                background-color: mat-color($primary, surface-dark);
+                color: mat-color($primary, on-surface-dark);
+              }
             }
           }
         }
