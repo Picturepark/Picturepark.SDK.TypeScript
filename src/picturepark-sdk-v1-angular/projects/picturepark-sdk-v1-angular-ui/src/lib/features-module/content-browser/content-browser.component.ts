@@ -119,10 +119,10 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       searchString: this.searchString,
       searchType: ContentSearchType.MetadataAndFullText,
       searchBehaviors: this.searchBehavior ? [
-          this.searchBehavior,
-          SearchBehavior.DropInvalidCharactersOnFailure,
-          SearchBehavior.WildcardOnSingleTerm,
-        ] : [
+        this.searchBehavior,
+        SearchBehavior.DropInvalidCharactersOnFailure,
+        SearchBehavior.WildcardOnSingleTerm,
+      ] : [
           SearchBehavior.DropInvalidCharactersOnFailure,
           SearchBehavior.WildcardOnSingleTerm,
         ],

@@ -1,5 +1,6 @@
 // LIBRARIES
-import { Content, Output, ContentType, OutputDataBase } from '@picturepark/sdk-v1-angular';
+import { ContentType, OutputDataBase } from '@picturepark/sdk-v1-angular';
+import { IContentDownload, IContentDownloadOutput } from '../content-download-dialog.interfaces';
 
 // SERVICES
 import { TranslationService, IOutputFormatTranslations } from '../../../shared-module/services/translations/translation.service';
@@ -11,15 +12,15 @@ export interface IOutputPerOutputFormatSelection {
     selected: boolean;
     hidden: boolean;
     values: [{
-        content: Content,
-        output: Output
+        content: IContentDownload,
+        output: IContentDownloadOutput
     }];
 }
 
 export interface IOutputPerSchemaSelection {
     id: string;
     name: string;
-    contents: Content[];
+    contents: IContentDownload[];
     outputs: {
         [outputFormatId: string]: IOutputPerOutputFormatSelection
     };
@@ -35,56 +36,56 @@ export class OutputSelection {
     }
 
     constructor(
-        outputs: Output[],
-        contents: Content[],
+        outputs: IContentDownloadOutput[],
+        contents: IContentDownload[],
         outputTranslations: IOutputFormatTranslations,
         translationService: TranslationService) {
-            this.selection = {};
+        this.selection = {};
 
-            contents.forEach(content => {
-                const isBinary = content.contentType !== ContentType.Virtual;
-                const schemaId = isBinary ? content.contentSchemaId : ContentType.Virtual.toString();
-                const schemaItems = this.selection[schemaId] = this.selection[schemaId] ||
-                    {
-                        id: schemaId,
-                        contents: isBinary ? contents.filter(i => i.contentSchemaId === schemaId) :
-                                      contents.filter(i => i.contentType === ContentType.Virtual),
-                        outputs: {},
-                        name: translationService.translate(`ContentDownloadDialog.${schemaId}`)
-                    };
+        contents.forEach(content => {
+            const isBinary = content.contentType !== ContentType.Virtual;
+            const schemaId = isBinary ? content.contentSchemaId : ContentType.Virtual.toString();
+            const schemaItems = this.selection[schemaId] = this.selection[schemaId] ||
+            {
+                id: schemaId,
+                contents: isBinary ? contents.filter(i => i.contentSchemaId === schemaId) :
+                    contents.filter(i => i.contentType === ContentType.Virtual),
+                outputs: {},
+                name: translationService.translate(`ContentDownloadDialog.${schemaId}`)
+            };
 
-                let contentOutputs: Output[];
-                if (isBinary) {
-                    contentOutputs = outputs.filter(i => i.contentId === content.id);
+            let contentOutputs: IContentDownloadOutput[];
+            if (isBinary) {
+                contentOutputs = outputs.filter(i => i.contentId === content.id);
+            } else {
+                let output = outputs.find(i => i.contentId === content.id);
+                if (!output) {
+                    output = { outputFormatId: 'Original', contentId: content.id, detail: { fileSizeInBytes: 100 } } as IContentDownloadOutput;
                 } else {
-                    let output = outputs.find(i => i.contentId === content.id);
-                    if (!output) {
-                        output = { outputFormatId: 'Original', contentId: content.id, detail: { fileSizeInBytes: 100 } } as Output;
-                    } else {
-                        // In case there is a virtual content defined in the outputs (share), set only the filesize
-                        output.detail = { fileSizeInBytes: 100 } as OutputDataBase;
-                    }
-                    contentOutputs = [output];
+                    // In case there is a virtual content defined in the outputs (share), set only the filesize
+                    output.detail = { fileSizeInBytes: 100 } as OutputDataBase;
                 }
+                contentOutputs = [output];
+            }
 
-                contentOutputs.forEach(output => {
-                    const outputFormatItems = schemaItems.outputs[output.outputFormatId] = schemaItems.outputs[output.outputFormatId] ||
-                    {
-                        id: output.outputFormatId,
-                        hidden: output.outputFormatId.indexOf('Thumbnail') === 0, // Hide thumbnails by default
-                        selected: false,
-                        values: [],
-                        name: outputTranslations[output.outputFormatId]
-                    };
+            contentOutputs.forEach(output => {
+                const outputFormatItems = schemaItems.outputs[output.outputFormatId] = schemaItems.outputs[output.outputFormatId] ||
+                {
+                    id: output.outputFormatId,
+                    hidden: output.outputFormatId.indexOf('Thumbnail') === 0, // Hide thumbnails by default
+                    selected: false,
+                    values: [],
+                    name: outputTranslations[output.outputFormatId]
+                };
 
-                    outputFormatItems.values.push({
-                        content: content,
-                        output: output
-                    });
+                outputFormatItems.values.push({
+                    content: content,
+                    output: output
                 });
             });
+        });
 
-            this.hasThumbnails = this.getThumbnailOutputs().length > 0;
+        this.hasThumbnails = this.getThumbnailOutputs().length > 0;
     }
 
     public getFileFormats(): IOutputPerSchemaSelection[] {
@@ -97,11 +98,11 @@ export class OutputSelection {
 
     public getOutputs(fileFormat: IOutputPerSchemaSelection): IOutputPerOutputFormatSelection[] {
         return Object.keys(fileFormat.outputs)
-               .map(outputFormat => fileFormat.outputs[outputFormat])
-               .sort((x, y) => x.id === 'Original' ? - 1 : x.name.localeCompare(y.name) );
+            .map(outputFormat => fileFormat.outputs[outputFormat])
+            .sort((x, y) => x.id === 'Original' ? - 1 : x.name.localeCompare(y.name));
     }
 
-    public getSelectedOutputs(): Output[] {
+    public getSelectedOutputs(): IContentDownloadOutput[] {
         const selectedOutputs = this.getAllOutputs();
         const outputs = flatMap(selectedOutputs.filter(i => i.selected), i => i.values).map(i => i.output);
         return outputs;

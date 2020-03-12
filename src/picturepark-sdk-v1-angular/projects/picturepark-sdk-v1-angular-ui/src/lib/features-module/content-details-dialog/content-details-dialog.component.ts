@@ -65,7 +65,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   public downloadItem() {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
-      contents: [this.content as any]
+      contents: [this.content]
     });
   }
 
