@@ -4,7 +4,16 @@ import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
-import { ThumbnailSize, Content, ShareDetail, ISearchResult, fetchAll, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter, ContentSearchType, TermsFilter } from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize,
+  Content,
+  ShareDetail,
+  ISearchResult,
+  fetchAll,
+  ContentSearchRequest,
+  LifeCycleFilter,
+  BrokenDependenciesFilter,
+  ContentSearchType,
+  TermsFilter } from '@picturepark/sdk-v1-angular';
 import { ContentService } from '@picturepark/sdk-v1-angular';
 import { Observable } from 'rxjs';
 
