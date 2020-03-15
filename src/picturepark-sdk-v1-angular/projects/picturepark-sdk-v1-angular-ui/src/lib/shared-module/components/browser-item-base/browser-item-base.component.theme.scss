@@ -1,8 +1,6 @@
 @import '~@angular/material/theming';
 
 // BROWSER ITEM BASE VARS
-$pp-browser-item: (selected-background: #6f6f6f,
-  contrast: ());
 
 @mixin pp-browser-item-base-theme($theme) {
 
@@ -44,6 +42,13 @@ $pp-browser-item: (selected-background: #6f6f6f,
 
     }
 
+    .browser-item--selected,.browser-item--list-view {
+      .browser-item__title {
+        background-color: mat-color($primary, background-dark);
+        color: mat-color($primary, on-background-dark);
+      }
+    }
+
     .browser-item--list-view {
 
       .browser-item__image-slot {
@@ -54,7 +59,16 @@ $pp-browser-item: (selected-background: #6f6f6f,
         &__title-content {
           font: mat-font-size($custom-typography, body-2);
         }
-  
+      }
+
+      &--selected {
+        box-shadow: 0 0 0 2px mat-color($primary, surface-dark);
+
+        .browser-item__title {
+          background-color: mat-color($primary, surface-dark);
+          color: mat-color($primary, on-surface-dark);
+        }
+
       }
   
   
