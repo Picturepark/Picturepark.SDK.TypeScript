@@ -48,7 +48,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
     }
 
     if (this.itemId) {
-      const fetchContentResult = await fetchContentById(this.itemId).toPromise();
+      const fetchContentResult = await fetchContentById(this.contentService, this.itemId).toPromise();
       if (fetchContentResult) {
         this.item = fetchContentResult;
       }

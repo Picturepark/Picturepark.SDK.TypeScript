@@ -12,6 +12,7 @@ import { ShareContentDialogComponent } from '../../features-module/share-content
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { ContentService } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-basket',
@@ -30,6 +31,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
   constructor(
     @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private basketService: BasketService,
+    private contentService: ContentService,
     private contentDownloadDialogService: ContentDownloadDialogService,
     public dialog: MatDialog,
   ) {
@@ -47,7 +49,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
   }
 
   public downloadItems(): void {
-    const fetchContentsSubscription = fetchContents(this.basketItemsIds).subscribe( fetchResult => {
+    const fetchContentsSubscription = fetchContents(this.contentService, this.basketItemsIds).subscribe( fetchResult => {
       this.contentDownloadDialogService.showDialog({
         mode: 'multi',
         contents: fetchResult.results
@@ -57,7 +59,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
   }
 
   public openShareContentDialog(): void {
-    const fetchContentsSubscription = fetchContents(this.basketItemsIds).subscribe( fetchResult => {
+    const fetchContentsSubscription = fetchContents(this.contentService, this.basketItemsIds).subscribe( fetchResult => {
       const dialogRef = this.dialog.open(ShareContentDialogComponent, {
         data: fetchResult.results,
         autoFocus: false

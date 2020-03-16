@@ -1,6 +1,6 @@
 import { Observable, EMPTY } from 'rxjs';
 import { expand, reduce, map } from 'rxjs/operators';
-import { Content, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter, ContentSearchType, TermsFilter } from './api-services';
+import { Content, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter, ContentSearchType, TermsFilter, ContentService } from './api-services';
 
 export interface ISearchRequest {
     pageToken?: string | undefined;
@@ -33,8 +33,8 @@ export function fetchAll<T, U extends ISearchRequest>(
     );
 }
 
-export function fetchContents(ids: string[]): Observable<ISearchResult<Content>> {
-  return fetchAll(req => this.contentService.search(req), new ContentSearchRequest({
+export function fetchContents(contentService: ContentService, ids: string[]): Observable<ISearchResult<Content>> {
+  return fetchAll(req => contentService.search(req), new ContentSearchRequest({
     limit: 1000,
     lifeCycleFilter: LifeCycleFilter.ActiveOnly,
     brokenDependenciesFilter: BrokenDependenciesFilter.All,
@@ -47,8 +47,8 @@ export function fetchContents(ids: string[]): Observable<ISearchResult<Content>>
   }));
 }
 
-export function fetchContentById(id: string): Observable<Content | undefined> {
-  return fetchContents([id]).pipe(map(result => {
+export function fetchContentById(contentService: ContentService, id: string): Observable<Content | undefined> {
+  return fetchContents(contentService, [id]).pipe(map(result => {
     return result.results[0];
   }));
 }
