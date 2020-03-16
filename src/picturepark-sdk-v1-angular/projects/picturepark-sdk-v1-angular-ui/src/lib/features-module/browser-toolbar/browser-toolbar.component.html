@@ -1,7 +1,10 @@
 <div class="browser-toolbar-container">
-  <div class="browser-toolbar-content">
+  <div class="browser-toolbar-content" [class.browser-toolbar-content--mobile]="deviceBreakpoint">
     <div class="select" *ngIf="selectionEnabled">
-      <button [matMenuTriggerFor]="select">{{ 'ContentBrowser.SelectMenu' | pptranslate }}<i class="material-icons">more_vert</i></button>
+      <button [matMenuTriggerFor]="select">
+        <ng-container *ngIf="!deviceBreakpoint">{{'ContentBrowser.SelectMenu' | pptranslate }}</ng-container>
+        <i class="material-icons">more_vert</i>
+      </button>
       <mat-menu #select="matMenu" xPosition="after">
         <button mat-menu-item (click)="browser.toggleItems(true);">{{ 'ContentBrowser.SelectFirstItems' | pptranslate: browser.items.length }}</button>
         <button mat-menu-item (click)="browser.toggleItems(false);">{{ 'ContentBrowser.DeselectAll' | pptranslate }}</button>

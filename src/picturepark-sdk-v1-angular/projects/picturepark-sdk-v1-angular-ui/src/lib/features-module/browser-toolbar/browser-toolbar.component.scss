@@ -4,6 +4,8 @@
     border-bottom-style: solid;
 
     .browser-toolbar-content {
+        $self: &;
+
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -11,6 +13,10 @@
         height: 100%;
         padding: 0px 30px;
         overflow: hidden;
+
+        &--mobile {
+            padding: 0px 10px;
+        }
 
         button:focus {
             outline: -webkit-focus-ring-color auto 0px;
