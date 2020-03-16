@@ -13,7 +13,7 @@ import { ListItemPickerRoutingModule } from './list-item-picker-routing.module';
 import { ListItemPickerComponent } from './list-item-picker.component';
 import { ListItemsPickerComponent } from './components/list-items-picker/list-items-picker.component';
 import { ListItemBrowserComponent } from './components/list-item-browser/list-item-browser.component';
-import { ComponentsModule } from '../components/components.module';
+import { ApplicationHeaderModule } from '../components/application-header/application-header.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { ComponentsModule } from '../components/components.module';
     ListItemPickerRoutingModule,
     SchemaBrowserModule,
     SearchBoxModule,
-    ComponentsModule
+    ApplicationHeaderModule
   ]
 })
 export class ListItemPickerModule { }

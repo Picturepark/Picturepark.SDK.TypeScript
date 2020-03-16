@@ -15,6 +15,7 @@ import { ShareManagerRoutingModule } from './share-manager-routing.module';
 import { ShareBrowserComponent } from './share-manager.component';
 import { ShareManagerItemComponent } from './components/share-manager-item/share-manager-item.component';
 import { SharesManagerComponent } from './components/shares-manager/shares-manager.component';
+import { ApplicationHeaderModule } from '../components/application-header/application-header.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { SharesManagerComponent } from './components/shares-manager/shares-manag
     ShareBrowserModule,
     ItemToolBarModule,
     ShareItemsPanelModule,
+    ApplicationHeaderModule
   ]
 })
 export class ShareManagerModule { }

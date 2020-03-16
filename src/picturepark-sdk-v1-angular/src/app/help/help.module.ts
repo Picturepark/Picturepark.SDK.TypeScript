@@ -16,6 +16,7 @@ import { HelpWrapperComponent } from './help-wrapper.component';
 import { SystemInformationComponent } from './components/system-information/system-information.component';
 import { ThirdPartyLicensesCreditsComponent } from './components/third-party-licenses-credits/third-party-licenses-credits.component';
 import { YourPpSubscriptionComponent } from './components/your-pp-subscription/your-pp-subscription.component';
+import { ApplicationHeaderModule } from '../components/application-header/application-header.module';
 
 @NgModule({
   declarations: [
@@ -26,13 +27,14 @@ import { YourPpSubscriptionComponent } from './components/your-pp-subscription/y
     HelpComponent,
     SystemInformationComponent,
     ThirdPartyLicensesCreditsComponent,
-    YourPpSubscriptionComponent
+    YourPpSubscriptionComponent,
   ],
   imports: [
     CommonModule,
     HelpRoutingModule,
     ItemToolBarModule,
     PanelModule,
+    ApplicationHeaderModule
   ]
 })
 export class HelpModule { }
