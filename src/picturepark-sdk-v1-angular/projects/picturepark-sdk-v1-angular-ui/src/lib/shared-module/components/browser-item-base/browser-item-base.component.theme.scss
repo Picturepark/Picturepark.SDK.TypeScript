@@ -85,8 +85,8 @@
   
             &.in-basket {
               button {
-                background-color: mat-color($primary, surface-dark);
-                color: mat-color($primary, on-surface-dark);
+                background-color: mat-color($primary, opacity-light);
+                color: mat-color($primary, on-opacity-light);
               }
             }
           }
