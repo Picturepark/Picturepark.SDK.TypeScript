@@ -46,17 +46,15 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     });
   }
 
-
   public toggleInBasket() {
     if (!this.itemModel.item.id) {
       return;
     }
 
     if (this.itemModel.isInBasket === true) {
-      this.basketService.removeItem(this.itemModel.item);
+      this.basketService.removeItem(this.itemModel.item.id);
     } else {
-      this.basketService.addItem(this.itemModel.item);
+      this.basketService.addItem(this.itemModel.item.id);
     }
   }
-
 }
