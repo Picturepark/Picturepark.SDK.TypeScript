@@ -25,6 +25,7 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
+    "@types/node": "^13.9.1",
     "ts-md5": "^1.2.4"
   }
 }
