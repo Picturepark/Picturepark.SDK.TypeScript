@@ -4,8 +4,8 @@ import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
-import { ThumbnailSize, Content, ShareDetail } from '@picturepark/sdk-v1-angular';
-import { ContentService } from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, Content, ShareDetail} from '@picturepark/sdk-v1-angular';
+import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-content-item-thumbnail',
@@ -15,6 +15,7 @@ import { ContentService } from '@picturepark/sdk-v1-angular';
 export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
 
   @Input() item: Content;
+  @Input() itemId: string;
   @Input() shareItem: ShareDetail;
 
   public isLoading = false;
@@ -29,7 +30,8 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
     super();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+
     // Handle shares
     if (this.shareItem) {
       const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
@@ -42,7 +44,17 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
           this.thumbnailUrl = this.sanitizer.bypassSecurityTrustResourceUrl(content.iconUrl!);
         }
       }
-    } else {
+      return;
+    }
+
+    if (this.itemId) {
+      const fetchContentResult = await fetchContentById(this.contentService, this.itemId).toPromise();
+      if (fetchContentResult) {
+        this.item = fetchContentResult;
+      }
+    }
+
+    if (this.item) {
       const downloadSubscription = this.loadItem.pipe(
         switchMap(
           () => {
@@ -94,5 +106,4 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   public updateUrl(event) {
     event.path[0].src = BROKEN_IMAGE_URL;
   }
-
 }

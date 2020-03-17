@@ -16624,7 +16624,7 @@ export interface BatchResponseRow {
     status: number;
     /** New version of the item. */
     version: number;
-    /** If the operation did not succeeded, this contains error information. */
+    /** If the operation did not succeed, this contains error information. */
     error?: ErrorResponse | undefined;
     /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
     requestId?: string | undefined;
@@ -16781,6 +16781,8 @@ export interface BusinessRule {
     names?: TranslatedStringDictionary | undefined;
     /** Language specific rule description. */
     description?: TranslatedStringDictionary | undefined;
+    /** Enable trace logs for this rule. */
+    enableTracing: boolean;
 }
 
 /** Represents a trigger point for a business rule */
@@ -16805,6 +16807,8 @@ export interface BusinessRuleConfigurable extends BusinessRule {
 
 /** Conditions on which a business rule is executed */
 export interface BusinessRuleCondition {
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 }
 
 /** Links multiple conditions with a boolean operator */
@@ -16963,10 +16967,14 @@ export interface BusinessRuleTransformationGroup {
     transformations?: BusinessRuleTransformation[] | undefined;
     /** Variable name where the final result should be stored in. */
     storeIn?: string | undefined;
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 }
 
 /** Business rule transformation */
 export interface BusinessRuleTransformation {
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 }
 
 /** Takes an item from a dictionary by its key. */
@@ -17012,6 +17020,8 @@ export interface ProjectionTransformation extends BusinessRuleTransformation {
 
 /** Action to be performed by a business rule */
 export interface BusinessRuleAction {
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 }
 
 /** Assigns a layer, adding the default values to the data dictionary */
@@ -17323,6 +17333,7 @@ export enum TermsRelationAggregatorDocumentType {
     User = <any>"User",
     ContentPermissionSet = <any>"ContentPermissionSet",
     Owner = <any>"Owner",
+    UserRole = <any>"UserRole",
 }
 
 /** A multi-bucket value aggregator used for aggregations on indexed enum values. */
