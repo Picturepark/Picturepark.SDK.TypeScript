@@ -19,6 +19,8 @@ export class AppComponent implements OnInit {
     if (!this.authService.isAuthenticated) {
       const path = location.pathname.replace('/elements/', '/');
       this.authService.login(path/* + location.search*/);
+    } else {
+      this.authService.setupAutomaticSilentRefresh();
     }
   }
 }

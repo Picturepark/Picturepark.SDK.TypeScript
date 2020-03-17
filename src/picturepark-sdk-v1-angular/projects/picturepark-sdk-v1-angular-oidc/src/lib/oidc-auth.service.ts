@@ -11,6 +11,8 @@ import {
 @Injectable({providedIn: 'root'})
 export class OidcAuthService extends AuthService {
 
+  private refreshInitialized = false;
+
   @Output()
   isAuthenticatedChanged = new EventEmitter<boolean>();
 
@@ -36,13 +38,9 @@ export class OidcAuthService extends AuthService {
             this.pictureparkConfiguration.customerId + '","alias":"' +
             this.pictureparkConfiguration.customerAlias + '"}'
         }
-        // : false,
-        // silent_renew_url: 'https://localhost:44363/silent-renew.html',
     };
 
-    this.oauthService.showDebugInformation = true;
     this.oauthService.configure(config);
-    this.oauthService.setupAutomaticSilentRefresh();
   }
 
   get username() {
@@ -56,12 +54,28 @@ export class OidcAuthService extends AuthService {
 
   /**
    * Redirects the user to the identity server to authenticate.
-   * Does nothing and returns false if a user is already logged in.
    * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
    */
-  login(redirectRoute?: string) {
+  async login(redirectRoute?: string) {
     this.oauthService.redirectUri = redirectRoute ? (window.location.origin + redirectRoute) : window.location.origin;
-    this.oauthService.loadDiscoveryDocumentAndLogin();
+    await this.oauthService.loadDiscoveryDocumentAndLogin();
+
+    this.initSilentRefresh();
+  }
+
+  /**
+   * If a valid token is available and login is not called, this method should be called to setup the token refresh
+   */
+  async setupAutomaticSilentRefresh() {
+    await this.oauthService.loadDiscoveryDocument();
+    this.initSilentRefresh();
+  }
+
+  private initSilentRefresh() {
+    if (!this.refreshInitialized) {
+      this.oauthService.setupAutomaticSilentRefresh();
+      this.refreshInitialized = true;
+    }
   }
 
   /**
@@ -73,19 +87,17 @@ export class OidcAuthService extends AuthService {
     this.oauthService.logOut();
   }
 
-  transformHttpRequestOptions(options: any) {
-    return this.updateTokenIfRequired().then(() => {
-      if (options.headers) {
-        if (this.oauthService.getAccessToken()) {
-          options.headers = options.headers.append('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
-        }
-
-        if (this.pictureparkConfiguration && this.pictureparkConfiguration.customerAlias) {
-          options.headers = options.headers.append('Picturepark-CustomerAlias', this.pictureparkConfiguration.customerAlias);
-        }
+  async transformHttpRequestOptions(options: any) {
+    await this.updateTokenIfRequired();
+    if (options.headers) {
+      if (this.oauthService.getAccessToken()) {
+        options.headers = options.headers.append('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
       }
-      return options;
-    });
+      if (this.pictureparkConfiguration && this.pictureparkConfiguration.customerAlias) {
+        options.headers = options.headers.append('Picturepark-CustomerAlias', this.pictureparkConfiguration.customerAlias);
+      }
+    }
+    return options;
   }
 
   private async updateTokenIfRequired() {
