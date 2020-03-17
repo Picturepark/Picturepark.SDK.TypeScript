@@ -1,6 +1,7 @@
 import { Inject, Optional } from '@angular/core'; // ignore
-import { HttpClient } from '@angular/common/http'; // ignore
-import { Observable } from 'rxjs'; // ignore
+import { HttpClient, HttpHeaders, HttpResponseBase } from '@angular/common/http'; // ignore
+import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators'; // ignore
+import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs'; // ignore
 import { // ignore
     PICTUREPARK_API_URL, // ignore
     ContentCreateRequest, ContentResolveBehavior, ContentDetail, // ignore
@@ -196,13 +197,59 @@ class ShareService extends generated.ShareService {
         );
     }
 
-    public getShareJson(token: string, lang: string | null | undefined): Observable<any> {
-        return this.getShareJsonCore(token, lang).pipe(
-            mergeMap(async shareJson => {
-                await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
-                return shareJson;
+    public getShareJson(token: string, lang: string | null | undefined, hostUrl?: string): Observable<any> {
+        if (hostUrl) {
+            return this.getShareJsonCoreFromUrl(token, lang, hostUrl + '/json/{token}?').pipe(
+                tap(async shareJson => await this.liquidRenderingService.renderNestedDisplayValues(shareJson))
+            );
+        } else {
+            return this.getShareJsonCore(token, lang).pipe(
+                tap(async shareJson => await this.liquidRenderingService.renderNestedDisplayValues(shareJson))
+            );
+        }
+    }
+
+
+    /**
+     * Get share json
+     * @param token Share token
+     * @param lang (optional) Language code
+     * @return ShareDetail
+     */
+    protected getShareJsonCoreFromUrl(token: string, lang: string | null | undefined, url: string): Observable<any> {
+        let url_ = url;
+        if (token === undefined || token === null) {
+            throw new Error('The parameter \'token\' must be defined.');
+        }
+        url_ = url_.replace('{token}', encodeURIComponent('' + token));
+        if (lang !== undefined) {
+            url_ += 'lang=' + encodeURIComponent('' + lang) + '&';
+        }
+        url_ = url_.replace(/[?&]$/, '');
+
+        const options_: any = {
+            observe: 'response',
+            responseType: 'blob',
+            headers: new HttpHeaders({
+                'Accept': 'application/json'
             })
-        );
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request('get', url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetShareJson(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetShareJson(<any>response_);
+                } catch (e) {
+                    return <Observable<any>><any>_observableThrow(e);
+                }
+            } else {
+                return <Observable<any>><any>_observableThrow(response_);
+            }
+        }));
     }
 
     public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
