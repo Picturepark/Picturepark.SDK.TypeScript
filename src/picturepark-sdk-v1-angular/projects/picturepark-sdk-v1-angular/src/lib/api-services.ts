@@ -8,7 +8,7 @@
 // ReSharper disable InconsistentNaming
 
 import { Injector } from '@angular/core';
-import { tap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
 import { PictureparkServiceBase } from './base.service';
@@ -1792,25 +1792,37 @@ export class ContentService extends PictureparkServiceBase {
     public create(resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined,
         timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, contentCreateRequest: ContentCreateRequest): Observable<ContentDetail> {
         return this.createCore(resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, contentCreateRequest).pipe(
-            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+            mergeMap(async  content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
         );
     }
 
     public get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
         return this.getCore(contentId, resolveBehaviors).pipe(
-            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+            mergeMap(async  content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
         );
     }
 
     public getMany(ids: string[] | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail[]> {
         return this.getManyCore(ids, resolveBehaviors).pipe(
-            tap(async contents => contents.map(async content => await this.liquidRenderingService.renderNestedDisplayValues(content)))
+            mergeMap(async  contents => {
+                contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
+                return contents;
+            })
         );
     }
 
     public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
         return this.searchCore(contentSearchRequest).pipe(
-            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+            mergeMap(async  searchResult => {
+                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+                return searchResult;
+            })
         );
     }
 
@@ -1818,7 +1830,10 @@ export class ContentService extends PictureparkServiceBase {
         allowMissingDependencies: boolean | undefined, timeout: string | null | undefined,
         waitSearchDocCreation: boolean | undefined, updateRequest: ContentMetadataUpdateRequest): Observable<ContentDetail> {
         return this.updateMetadataCore(contentId, resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, updateRequest).pipe(
-            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+            mergeMap(async  content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
         );
     }
 
@@ -1826,7 +1841,10 @@ export class ContentService extends PictureparkServiceBase {
         timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined,
         updateRequest: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
         return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
-            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+            mergeMap(async  content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
         );
     }
 
@@ -7021,13 +7039,19 @@ export class ListItemService extends PictureparkServiceBase {
 
     public get(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
         return this.getCore(listItemId, resolveBehaviors).pipe(
-            tap(async listItem => await this.liquidRenderingService.renderNestedDisplayValues(listItem))
+            mergeMap(async  listItem => {
+                await this.liquidRenderingService.renderNestedDisplayValues(listItem);
+                return listItem;
+            })
         );
     }
 
     public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
         return this.searchCore(listItemSearchRequest).pipe(
-            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+            mergeMap(async  searchResult => {
+                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+                return searchResult;
+            })
         );
     }
 
@@ -13901,19 +13925,28 @@ export class ShareService extends PictureparkServiceBase {
 
     public get(id: string): Observable<ShareDetail> {
         return this.getCore(id).pipe(
-            tap(async shareDetail => await this.liquidRenderingService.renderNestedDisplayValues(shareDetail))
+            mergeMap(async  shareDetail => {
+                await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
+                return shareDetail;
+            })
         );
     }
 
     public getShareJson(token: string, lang: string | null | undefined): Observable<any> {
         return this.getShareJsonCore(token, lang).pipe(
-            tap(async shareJson => await this.liquidRenderingService.renderNestedDisplayValues(shareJson))
+            mergeMap(async shareJson => {
+                await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
+                return shareJson;
+            })
         );
     }
 
     public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
         return this.searchCore(shareSearchRequest).pipe(
-            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+            mergeMap(async  searchResult => {
+                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+                return searchResult;
+            })
         );
     }
 
