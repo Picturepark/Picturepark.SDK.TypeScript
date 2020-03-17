@@ -18,7 +18,7 @@ import { BasketService } from '../../../../shared-module/services/basket/basket.
 export class BasketItemComponent extends BaseComponent {
 
   @Input()
-  public item: Content;
+  public itemId: string;
 
   constructor(
     private basketService: BasketService,
@@ -27,6 +27,6 @@ export class BasketItemComponent extends BaseComponent {
   }
 
   public remove() {
-    this.basketService.removeItem(this.item);
+    this.basketService.removeItem(this.itemId);
   }
 }
