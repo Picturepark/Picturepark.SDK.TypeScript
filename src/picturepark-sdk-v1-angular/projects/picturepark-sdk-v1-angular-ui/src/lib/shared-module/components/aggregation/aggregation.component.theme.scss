@@ -4,57 +4,70 @@
 
   $primary: map-get($theme, primary);
 
-  .aggregation {
-    &__option-title {
-      color: mat-color($primary, light-font);
-    }
-
-    .mat-expansion-panel-header {
-      font-size: mat-font-size($custom-typography, display-1);
-    }
-    
-    .mat-list-base {
-      .mat-list-item, .mat-list-option, .mat-subheader {
-        font-size: mat-font-size($custom-typography, display-1);
-      }
-    }
-    
-    .mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
-      .mat-pseudo-checkbox {
-        border-color:mat-color($primary, button);
-      }
-    }
-
-    .expand-filters {
-      button {
-        color: mat-color($primary, base);
-      }
-    }
-  }
-
   pp-aggregation-item {
-    mat-expansion-panel {
-        border-top: 1px solid mat-color($primary, light-border);
-        mat-expansion-panel-header {
-            .mat-content {
-                border-bottom: 1px solid mat-color($primary, light-border);;        
-            }
-            mat-panel-title {
-                &.mat-expansion-panel-header-title {
-                    color: mat-color($primary, dark-font);
-                }
-            }
-            &:hover {
-                background-color:  mat-color($primary, light-background);
-            }
+
+    .aggregation {
+
+      border-color: mat-color($primary, divider);
+
+      &__option-title {
+        color: mat-color($primary, on-background-dark);
+      }
+
+      .mat-expansion-panel-header {
+        font-size: mat-font-size($custom-typography, display-1);
+
+        .mat-content {
+          border-bottom: 1px solid mat-color($primary, divider);
+          ;
         }
-    }
-    
-    mat-form-field.search { 
-        background-color: mat-color($primary, white-background); 
-        .search-icon {
-            color: mat-color($primary, dark-background);
+
+        mat-panel-title {
+          &.mat-expansion-panel-header-title {
+            color: mat-color($primary, on-background-dark);
+          }
         }
+
+        &:hover {
+          background-color: mat-color($primary, opacity-light);
+        }
+      }
+
+      .mat-list-base {
+
+        .mat-list-item,
+        .mat-list-option,
+        .mat-subheader {
+          font-size: mat-font-size($custom-typography, display-1);
+        }
+      }
+
+      .mat-list-item.mat-list-option .mat-list-item-content {
+
+        .mat-pseudo-checkbox {
+          color: mat-color($primary, on-background-dark);
+
+          &.mat-pseudo-checkbox-checked {
+            color: mat-color($primary, primary);
+          }
+        }
+      }
+
+      .expand-filters {
+        button {
+          color: mat-color($primary, primary);
+        }
+      }
     }
-}
+
+
+    mat-form-field.search {
+      background-color: mat-color($primary, surface-mid);
+
+      .search-icon {
+        color: mat-color($primary, on-surface-mid);
+      }
+    }
+
+  }
 }

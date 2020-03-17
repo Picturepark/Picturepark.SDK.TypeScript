@@ -81,6 +81,14 @@
                 outline: -webkit-focus-ring-color auto 0px;
             }
 
+            &:hover {
+                opacity: 0.4;
+            }
+
+            &.active { 
+                opacity: 0.4;
+            }
+
             & i { position: relative; width: 64px; text-align: center; top: 6px; }
             & span {
                 width: 200px; transition: 300ms; opacity: 0;

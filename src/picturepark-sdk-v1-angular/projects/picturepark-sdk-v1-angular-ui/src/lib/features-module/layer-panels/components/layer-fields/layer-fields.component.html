@@ -8,7 +8,7 @@
 
   <div class="value" *ngIf="field.tagboxFields?.length">
     <span *ngFor="let tagboxField of field.tagboxFields; let last = last;index as i">
-      <a href="javascript:" (click)="showItem(tagboxField, $event)"> {{tagboxField.value}}</a>
+      <a class="link" href="javascript:" (click)="showItem(tagboxField, $event)"> {{tagboxField.value}}</a>
       <span *ngIf="!last">, </span>
     </span>
   </div>
