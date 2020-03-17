@@ -17,7 +17,4 @@ import { OAuthModule } from 'angular-oauth2-oidc';
   ]
 })
 export class PictureparkOidcModule {
-  constructor(@Inject(AuthService) authService: OidcAuthService) {
-    authService.processAuthorizationRedirect();
-  }
 }

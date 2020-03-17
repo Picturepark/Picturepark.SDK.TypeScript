@@ -16,12 +16,9 @@ export class AppComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    setTimeout(() => {
-      if (!this.authService.isAuthenticated) {
-        const path = location.pathname.replace('/elements/', '/');
-        this.authService.login(path + location.search);
-      }
-    }, 5000);
+    if (!this.authService.isAuthenticated) {
+      const path = location.pathname.replace('/elements/', '/');
+      this.authService.login(path/* + location.search*/);
+    }
   }
-
 }

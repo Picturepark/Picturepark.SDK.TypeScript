@@ -1,5 +1,5 @@
 import { Output, EventEmitter, Injectable, Inject, Optional } from '@angular/core';
-import { OAuthService, AuthConfig, JwksValidationHandler } from 'angular-oauth2-oidc';
+import { OAuthService, AuthConfig } from 'angular-oauth2-oidc';
 
 import {
   PICTUREPARK_CONFIGURATION,
@@ -21,19 +21,16 @@ export class OidcAuthService extends AuthService {
     super(pictureparkConfiguration && pictureparkConfiguration.apiServer ?
       pictureparkConfiguration.apiServer : pictureparkApiUrl);
 
-      const redirect = this.pictureparkConfiguration.redirectServer ?
-      this.pictureparkConfiguration.redirectServer : window.location.origin;
-      console.log(redirect);
+      const redirect = this.pictureparkConfiguration.redirectServer ? this.pictureparkConfiguration.redirectServer : window.location.href;
 
       const config: AuthConfig = {
         issuer: this.pictureparkConfiguration.stsServer,
-        redirectUri: redirect + '/content-picker',
-        clientId: this.pictureparkConfiguration.clientId ? this.pictureparkConfiguration.clientId : 'picturepark_frontend',
-        responseType: 'code', // code flow + PKCE
-        scope:  this.pictureparkConfiguration.scope ? this.pictureparkConfiguration.scope : 'offline_access profile picturepark_api picturepark_account openid',
-        postLogoutRedirectUri: 'https://localhost:44363/Unauthorized',
+        redirectUri: redirect,
+        clientId: this.pictureparkConfiguration.clientId,
+        responseType: 'code',
+        scope: this.pictureparkConfiguration.scope ? this.pictureparkConfiguration.scope : 'offline_access profile picturepark_api picturepark_account openid',
         sessionChecksEnabled: false,
-        strictDiscoveryDocumentValidation: false,
+        clearHashAfterLogin: true,
         customQueryParams: {
           acr_values: 'tenant:{"id":"' +
             this.pictureparkConfiguration.customerId + '","alias":"' +
@@ -41,20 +38,11 @@ export class OidcAuthService extends AuthService {
         }
         // : false,
         // silent_renew_url: 'https://localhost:44363/silent-renew.html',
-        // post_login_route: '/dataeventrecords',
-
-//         forbidden_route: '/Forbidden',
-        // HTTP 401
-        //unauthorized_route: '/Unauthorized',
-        //log_console_warning_active: true,
-        //log_console_debug_active: true,
-        // id_token C8: The iat Claim can be used to reject tokens that were issued too far away from the current time,
-        // limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
-        //max_id_token_iat_offset_allowed_in_seconds: 10,
     };
 
     this.oauthService.showDebugInformation = true;
     this.oauthService.configure(config);
+    this.oauthService.setupAutomaticSilentRefresh();
   }
 
   get username() {
@@ -72,6 +60,7 @@ export class OidcAuthService extends AuthService {
    * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
    */
   login(redirectRoute?: string) {
+    this.oauthService.redirectUri = redirectRoute ? (window.location.origin + redirectRoute) : window.location.origin;
     this.oauthService.loadDiscoveryDocumentAndLogin();
   }
 
@@ -80,12 +69,8 @@ export class OidcAuthService extends AuthService {
    * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
    */
   logout(redirectRoute?: string) {
+    this.oauthService.redirectUri = redirectRoute ? (window.location.origin + redirectRoute) : window.location.origin;
     this.oauthService.logOut();
-  }
-
-  /** Processes an identity server redirect result if available, returns false if no redirect has happened. */
-  processAuthorizationRedirect() {
-    return Promise.resolve();
   }
 
   transformHttpRequestOptions(options: any) {
