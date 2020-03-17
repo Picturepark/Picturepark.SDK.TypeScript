@@ -7,38 +7,50 @@ $pp-search-box: (contrast: (),
 
   $primary: map-get($theme, primary);
 
-  #search-container {
-
-    border-color: mat-color($primary, form-dark-background);
-
-    .form {
-      background-color: mat-color($primary, form-dark-background);
-      color: #ffffff;
-
-      input {
-        color: #ffffff;
-
-        &::placeholder {
-          color: #ffffff;
+  pp-search-box {
+    
+    #search-container {
+      border-color: mat-color($primary, surface-mid);
+      
+      .form {
+        background-color: mat-color($primary, surface-mid);
+        color: mat-color($primary, on-surface-mid);
+        
+        input {
+          color: mat-color($primary, on-surface-mid);
+          
+          &::placeholder {
+            color: mat-color($primary, on-surface-mid);
+          }
         }
       }
+      
+      #search-options-container {
+        color: mat-color($primary, surface-mid);
+      }
     }
+    
+    #search-container:focus-within {
 
-    #search-options-container {
-      color: mat-color($primary, form-dark-background);
-    }
-  }
+      border-color: mat-color($primary, opacity-light);
 
-  #search-container:focus-within {
-    border-color: mat-color($primary, form-light-background);
+      .form {
+        background-color: mat-color($primary, opacity-light);
+        
+        color: mat-color($primary, on-surface-dark);
+        
+        input {
+          color: mat-color($primary, on-surface-dark);
+          
+          &::placeholder {
+            color: mat-color($primary, on-surface-dark);
+          }
+        }
+      }
 
-    .form {
-      background-color: mat-color($primary, form-light-background);
-
-    }
-
-    #search-options-container {
-      color: mat-color($primary, form-light-background);
+      #search-options-container {
+        color: mat-color($primary, opacity-light);
+      }
     }
   }
 }
