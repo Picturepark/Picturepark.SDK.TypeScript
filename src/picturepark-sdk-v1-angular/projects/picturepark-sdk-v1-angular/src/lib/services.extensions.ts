@@ -2,6 +2,7 @@ import { Inject, Optional } from '@angular/core'; // ignore
 import { HttpClient, HttpHeaders, HttpResponseBase } from '@angular/common/http'; // ignore
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators'; // ignore
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs'; // ignore
+
 import { // ignore
     PICTUREPARK_API_URL, // ignore
     ContentCreateRequest, ContentResolveBehavior, ContentDetail, // ignore
@@ -16,9 +17,8 @@ import { Injector } from '@angular/core';
 import { mergeMap } from 'rxjs/operators';
 import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
-import { PictureparkServiceBase } from './base.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
-
+import { PictureparkServiceBase } from './base.service';
 import * as generated from './api-services';
 
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
@@ -197,18 +197,24 @@ class ShareService extends generated.ShareService {
         );
     }
 
+
     public getShareJson(token: string, lang: string | null | undefined, hostUrl?: string): Observable<any> {
         if (hostUrl) {
             return this.getShareJsonCoreFromUrl(token, lang, hostUrl + '/json/{token}?').pipe(
-                tap(async shareJson => await this.liquidRenderingService.renderNestedDisplayValues(shareJson))
+                mergeMap(async shareJson => {
+                    await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
+                    return shareJson;
+                })
             );
         } else {
             return this.getShareJsonCore(token, lang).pipe(
-                tap(async shareJson => await this.liquidRenderingService.renderNestedDisplayValues(shareJson))
+                mergeMap(async shareJson => {
+                    await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
+                    return shareJson;
+                })
             );
         }
     }
-
 
     /**
      * Get share json

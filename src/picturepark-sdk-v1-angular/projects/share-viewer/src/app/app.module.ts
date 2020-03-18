@@ -59,7 +59,6 @@ export function PictureparkConfigurationFactory() {
   }
 
   const appRootTag = document.getElementsByTagName('app-root')[0];
-  // debugger;
   return <PictureparkAccessTokenAuthConfiguration>{
     apiServer: appRootTag.getAttribute('picturepark-api-server'),
     customerAlias: appRootTag.getAttribute('picturepark-customer-alias'),

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { mergeMap as _observableMergeMap, catchError as _observableCatch, tap } from 'rxjs/operators';
-import { forkJoin, Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import { forkJoin, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { ShareDetail,
   IMailRecipient,
   InfoService,
@@ -10,11 +10,9 @@ import { ShareDetail,
   ShareContentDetail,
   ShareService,
   LiquidRenderingService,
-  PICTUREPARK_API_URL
 } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
-import { HttpHeaders, HttpResponseBase, HttpClient } from '@angular/common/http';
-import { lang } from 'moment';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-share-detail',
@@ -60,9 +58,9 @@ export class ShareDetailComponent implements OnInit {
     });
 
     shareInfo.subscribe({
-      next: ([shareJson, info]) => {
-        this.logoUrl = info.logosUrl + 'name';
-        this.shareDetail = ShareDetail.fromJS(shareJson);
+      next: (values) => {
+        this.logoUrl = values.customerInfo.logosUrl + 'name';
+        this.shareDetail = ShareDetail.fromJS(values.shareDetail);
         this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
         this.isLoading = false;
       }
