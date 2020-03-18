@@ -5,7 +5,7 @@
 
     $primary: map-get($theme, primary);
 
-    pp-application-header { 
+    app-application-header { 
 
         .application-header-container {
             background-color: mat-color($primary, surface-light);
