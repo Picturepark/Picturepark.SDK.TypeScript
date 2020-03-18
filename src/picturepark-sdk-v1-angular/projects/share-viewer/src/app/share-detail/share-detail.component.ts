@@ -15,6 +15,7 @@ export class ShareDetailComponent implements OnInit {
   public mailRecipients: IMailRecipient[];
   public logoUrl: string;
   public isLoading = false;
+  public items: ShareContentDetail[] = [];
 
   constructor(
     private shareService: ShareService,
@@ -38,16 +39,16 @@ export class ShareDetailComponent implements OnInit {
 
     this.isLoading = true;
 
-    const shareInfo = forkJoin({
-      shareDetail: this.shareService.getShareJson(searchString, null),
-      customerInfo: this.infoService.getInfo()
-    });
+    const shareInfo = forkJoin([
+      this.shareService.getShareJson(searchString, null),
+      this.infoService.getInfo()
+    ]);
 
     shareInfo.subscribe({
-      next: (values) => {
-        this.logoUrl = values.customerInfo.logosUrl + 'name';
-        this.shareDetail = ShareDetail.fromJS(values.shareDetail);
-        this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients!;
+      next: ([shareJson, info]) => {
+        this.logoUrl = info.logosUrl + 'name';
+        this.shareDetail = ShareDetail.fromJS(shareJson);
+        this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
         this.isLoading = false;
       }
     });

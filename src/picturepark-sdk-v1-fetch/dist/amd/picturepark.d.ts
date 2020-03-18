@@ -9,7 +9,7 @@
     export class PictureparkClientBase {
         private authClient;
         constructor(authClient: AuthClient);
-        getBaseUrl(defaultUrl: string): string;
+        getBaseUrl(defaultUrl: string, baseUrl: string): string;
         transformOptions(options: RequestInit): Promise<RequestInit>;
     }
     export class BusinessProcessClient extends PictureparkClientBase {
@@ -4931,7 +4931,7 @@
     export interface SessionRenewalEvent extends ApplicationEvent {
         authorizationState: AuthorizationState;
     }
-    /** User authorization state. */
+    /** User authorization state */
     export enum AuthorizationState {
         Reviewed,
         ToBeReviewed,
