@@ -34,8 +34,6 @@
     @include pp-aggregation-theme($theme);
     @include pp-content-item-thumbnail-theme($theme);
     @include pp-aggregation-list-theme($theme);
-    @include pp-application-header-theme($theme);
-    @include pp-application-menu-theme($theme);
     @include pp-basket-theme($theme);
     @include pp-basket-item-theme($theme);
     @include pp-browser-base-theme($theme);
