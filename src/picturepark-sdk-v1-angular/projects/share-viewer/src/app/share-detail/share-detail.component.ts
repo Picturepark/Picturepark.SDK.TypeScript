@@ -52,26 +52,31 @@ export class ShareDetailComponent implements OnInit {
 
     // 5jXghkKK  /json/5jXghkKK
 
-    const shareInfo = forkJoin({
-      shareDetail: this.shareService.getShareJson(searchString, null),
-      customerInfo: this.infoService.getInfo()
-    });
-
-    shareInfo.subscribe({
-      next: (values) => {
-        this.logoUrl = values.customerInfo.logosUrl + 'name';
-        this.shareDetail = ShareDetail.fromJS(values.shareDetail);
+    this.infoService.getInfo().subscribe( customerInfo => {
+      this.logoUrl = customerInfo.logosUrl + 'name';
+      this.shareService.getShareJson(searchString, null, customerInfo.baseUrl).subscribe( shareDetailJson => {
+        debugger;
+        this.shareDetail = ShareDetail.fromJS(shareDetailJson);
         this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
         this.isLoading = false;
-      }
+      });
+
     });
 
-    debugger;
+    // const shareInfo = forkJoin({
+    //   shareDetail: this.shareService.getShareJson(searchString, null),
+    //   customerInfo: this.infoService.getInfo()
+    // });
 
-    this.shareService.getShareJson(searchString, null, 'https://santest.01.qa-picturepark.com').subscribe( result => {
-      debugger;
-    })
-
+    // shareInfo.subscribe({
+    //   next: (values) => {
+    //     debugger;
+    //     this.logoUrl = values.customerInfo.logosUrl + 'name';
+    //     this.shareDetail = ShareDetail.fromJS(values.shareDetail);
+    //     this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
+    //     this.isLoading = false;
+    //   }
+    // });
   }
 
   downloadAll(): void {
