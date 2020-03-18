@@ -4,12 +4,14 @@
 
   $primary: map-get($theme, primary);
 
-  .content-item-thumbnail {
-    $self: &;
-
-
-    &__image-virtual-item-container {
-      color: mat-color($primary, light-font);
+  pp-content-item-thumbnail {
+    .content-item-thumbnail {
+      $self: &;
+  
+  
+      &__image-virtual-item-container {
+        color: mat-color($primary, on-surface-mid);
+      }
     }
   }
 

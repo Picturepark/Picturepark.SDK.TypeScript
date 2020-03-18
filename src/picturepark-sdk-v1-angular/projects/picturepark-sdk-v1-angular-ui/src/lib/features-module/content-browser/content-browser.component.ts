@@ -100,8 +100,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.loadData();
   }
 
-  checkItemsInBasket(basketItems: Content[]) {
-    this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem.id === model.item.id));
+  checkItemsInBasket(basketItems: string[]) {
+    this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
   }
 
   getSearchRequest(): Observable<ContentSearchResult> | undefined {
@@ -119,10 +119,10 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       searchString: this.searchString,
       searchType: ContentSearchType.MetadataAndFullText,
       searchBehaviors: this.searchBehavior ? [
-          this.searchBehavior,
-          SearchBehavior.DropInvalidCharactersOnFailure,
-          SearchBehavior.WildcardOnSingleTerm,
-        ] : [
+        this.searchBehavior,
+        SearchBehavior.DropInvalidCharactersOnFailure,
+        SearchBehavior.WildcardOnSingleTerm,
+      ] : [
           SearchBehavior.DropInvalidCharactersOnFailure,
           SearchBehavior.WildcardOnSingleTerm,
         ],
@@ -139,7 +139,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
 
   prepareData(items: ContentModel<Content>[]): void {
-    this.checkItemsInBasket(this.basketService.basketItems);
+    this.checkItemsInBasket(this.basketService.getBasketItems());
   }
 
   ngOnChanges(changes: SimpleChanges): void {

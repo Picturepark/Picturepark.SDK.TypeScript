@@ -57,13 +57,13 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     public breakpointObserver: BreakpointObserver
   ) { }
 
-  public openDetails(item: ContentModel<Content>) {
+  public openDetails(itemId: string) {
 
-    let index = this.contentBrowserComponent.items.indexOf(item);
+    let index = this.contentBrowserComponent.items.findIndex(q => q.item.id === itemId);
     this.dialog.open(ContentDetailsDialogComponent,
       {
         data: <ContentDetailDialogOptions>{
-          id: item.item.id,
+          id: itemId,
           showMetadata: true,
           hasPrevious: () => {
             return index !== 0;

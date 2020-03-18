@@ -9,30 +9,23 @@ $pp-panel-base: (
 
     $primary: map-get($theme, primary);
 
-    .panel-container { 
-        background-color: mat-color($primary, dialog-background) ;
-        .panel-header {
-            border-bottom-color: mat-color($primary, light-border);
-            h3 { 
-                color: mat-color($primary, light-font);
-            }
-            .panel-buttons {
-                & button {
-                    color: mat-color($primary, icon-selected-color);
-                    mat-icon {
-                        color: mat-color($primary, light-font);
+    pp-mail-recipients-panel, pp-owner-panel, pp-panel, pp-settings-panel {
+        .panel-container { 
+            background-color: mat-color($primary, surface-light) ;
+            color: mat-color($primary, on-surface-light) ;
+            .panel-header {
+                border-bottom-color: mat-color($primary, divider);
+                .panel-buttons {
+                    & button {
+                        border-color: mat-color($primary, divider);
+                        &:hover { 
+                            border-color: mat-color($primary, primary);
+                            box-shadow: 0 0 3px mat-color($primary, primary);
+                        }
+                        &.square { border: 2px solid mat-color($primary, primary); }
                     }
-
-                    border-color: mat-color($primary, white-background);
-                    &:hover { 
-                        background-color: mat-color($primary, white-background);
-                        border-color: mat-color($primary, base);
-                        box-shadow: 0 0 3px mat-color($primary, base);
-                    }
-                    &.square { border: 2px solid mat-color($primary, base); }
                 }
             }
         }
     }
-
 }
