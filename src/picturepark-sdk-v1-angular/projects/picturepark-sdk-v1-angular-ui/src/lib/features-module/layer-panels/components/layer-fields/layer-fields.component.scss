@@ -19,6 +19,12 @@
   flex: 3;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  span {
+    a.link {
+      color: inherit;
+    }
+  }
 }
 
 .relationFields {

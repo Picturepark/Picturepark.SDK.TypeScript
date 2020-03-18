@@ -1,6 +1,9 @@
 .application-header-container {
     display: flex;
     height: 63px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+
 
     .title-container {
         width: 30%;
@@ -19,9 +22,12 @@
 
         .close-content {
             text-align: center;
+            border-left-style: solid;
+            border-left-width: 1px;
+
+
             & i { line-height: 63px; }
         }
     }
 
 }
-::placeholder { color: rgba(0,0,0,0.54); font-style: italic; transition: 500ms;}

@@ -15,8 +15,8 @@
     display: flex;
     align-items: center;
     justify-content: center; // Use material scheme somehow, add animation.
-    background: rgba(0, 0, 0, 0.288);
   }
+
   &__filters {
     overflow: auto;
     height: 100%;
@@ -31,16 +31,15 @@
       align-items: center;
       justify-content: space-between;
       font-size: 14px;
-      background-color: #eeeeee;
       padding: 0 20px;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
     }
   }
 
   mat-toolbar {
     button {
       mat-icon {
-        font-size: 21px;
-        color: #727272;
         position: relative;
         left: 9px;
       }

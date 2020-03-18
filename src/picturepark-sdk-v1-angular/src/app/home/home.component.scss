@@ -3,11 +3,11 @@
 .home-container {
   display: flex;
   height: 100vh;
-  background-color: mat-color($picturepark-app-primary, light-background);
+  background-color: mat-color($picturepark-app-primary, background-dark);
   .home-content {
     width: 100%;
     .header {
-      background-color: mat-color($picturepark-app-primary, base);
+      background-color: mat-color($picturepark-app-primary, primary);
       color: white;
     }
   }

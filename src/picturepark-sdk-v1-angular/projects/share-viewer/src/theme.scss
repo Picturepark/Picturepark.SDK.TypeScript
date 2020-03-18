@@ -61,27 +61,31 @@ $base: #39acaa;
 // 93d0f9
 
 $mat-picturepark-primary: (
-    base: $base,
-    dark-background: #444,
-    dialog-background: #f8f8f8,
-    light-background: #eee,
-    white-background: #fff,
-    white-font: #fff,
-    dark-font: #444,
-    light-font: #727272,
-    light-border: #d8d8d8,
-    icon-selected-color: #2f2f2f,
-    image-slot-background-color: #dcdcdc,
-    button: #aaa,
-    button-active: $base,
-    progress-bar: $base,
-    progress-bar-background: #e4e4e4,
-    spinner: $base,
-    shadow-color: #000,
-    contrast: (
-        light-background: #d8d8d8,
-        dialog-background: #eee,
-    )
+    primary: $base,
+
+    background-light: #fff,
+    background-dark: #eee,
+
+    surface-light: #fff,
+    surface-mid: #dcdcdc,
+    surface-dark: #444,
+    
+    opacity-light: rgba(0, 0, 0, .4),
+
+    on-primary: white,
+
+    on-background-light: #727272,
+    on-background-dark: #727272,
+
+    on-surface-light: #727272,
+    on-surface-mid: #444,
+    on-surface-dark: #fff,
+    
+    on-opacity-light: #fff,
+
+    divider: #dcdcdc,
+
+    contrast: ()
 );
 
 $picturepark-app-primary: mat-palette($mat-picturepark-primary);

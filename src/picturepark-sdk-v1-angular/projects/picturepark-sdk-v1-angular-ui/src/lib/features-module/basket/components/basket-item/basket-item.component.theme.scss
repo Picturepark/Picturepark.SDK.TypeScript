@@ -9,7 +9,9 @@ $pp-basket-item: (
 
     $primary: map-get($theme, primary);
 
-    .basket-item {
-        background: mat-color($primary, white-background);
+    pp-basket-item {
+        .basket-item {
+            background: mat-color($primary, surface-light);
+        }
     }
 }
