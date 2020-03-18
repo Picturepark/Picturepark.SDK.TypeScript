@@ -39,11 +39,29 @@
                     }
                 }
 
-                i {
+                .button-icon {
+                    $self: &;
+
                     padding: 2px;
                     position: relative;
                     top: 6px;
                     left: 6px;
+
+                    &--mobile {
+                        left: 0px;
+                    }
+                }
+
+                .button-label {
+                    $self: &;
+
+                    display: inline-block;
+                    min-width: 80px;
+                    text-align: right;
+
+                    &--mobile {
+                        min-width: 15px;
+                    }
                 }
             }
         }
