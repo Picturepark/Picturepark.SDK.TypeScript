@@ -75,7 +75,7 @@ class ContentService extends generated.ContentService {
     public create(resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined,
         timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, contentCreateRequest: ContentCreateRequest): Observable<ContentDetail> {
         return this.createCore(resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, contentCreateRequest).pipe(
-            mergeMap(async  content => {
+            mergeMap(async content => {
                 await this.liquidRenderingService.renderNestedDisplayValues(content);
                 return content;
             })
@@ -84,7 +84,7 @@ class ContentService extends generated.ContentService {
 
     public get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
         return this.getCore(contentId, resolveBehaviors).pipe(
-            mergeMap(async  content => {
+            mergeMap(async content => {
                 await this.liquidRenderingService.renderNestedDisplayValues(content);
                 return content;
             })
@@ -93,7 +93,7 @@ class ContentService extends generated.ContentService {
 
     public getMany(ids: string[] | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail[]> {
         return this.getManyCore(ids, resolveBehaviors).pipe(
-            mergeMap(async  contents => {
+            mergeMap(async contents => {
                 contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
                 return contents;
             })
@@ -113,7 +113,7 @@ class ContentService extends generated.ContentService {
         allowMissingDependencies: boolean | undefined, timeout: string | null | undefined,
         waitSearchDocCreation: boolean | undefined, updateRequest: ContentMetadataUpdateRequest): Observable<ContentDetail> {
         return this.updateMetadataCore(contentId, resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, updateRequest).pipe(
-            mergeMap(async  content => {
+            mergeMap(async content => {
                 await this.liquidRenderingService.renderNestedDisplayValues(content);
                 return content;
             })
@@ -124,7 +124,7 @@ class ContentService extends generated.ContentService {
         timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined,
         updateRequest: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
         return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
-            mergeMap(async  content => {
+            mergeMap(async content => {
                 await this.liquidRenderingService.renderNestedDisplayValues(content);
                 return content;
             })
