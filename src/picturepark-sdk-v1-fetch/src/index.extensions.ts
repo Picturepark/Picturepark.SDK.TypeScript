@@ -54,8 +54,8 @@ export class PictureparkClientBase {
 
   }
 
-  getBaseUrl(defaultUrl: string) {
-    return this.authClient ? this.authClient.getBaseUrl(defaultUrl) : defaultUrl;
+  getBaseUrl(defaultUrl: string, baseUrl: string) {
+    return this.authClient ? this.authClient.getBaseUrl(defaultUrl) : baseUrl;
   }
 
   transformOptions(options: RequestInit): Promise<RequestInit> {
