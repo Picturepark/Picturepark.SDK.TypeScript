@@ -7,32 +7,32 @@ import { ContentService, ShareService, ContentSearchRequest, ShareContent, Share
 describe('ShareService', () => {
   beforeEach(configureTest);
 
-  it('should create embed share', async(inject([ContentService, ShareService],
-    async (contentService: ContentService, shareService: ShareService) => {
-      // arrange
-      const request = new ContentSearchRequest();
-      request.searchString = 'm';
+  // it('should create embed share', async(inject([ContentService, ShareService],
+  //   async (contentService: ContentService, shareService: ShareService) => {
+  //     // arrange
+  //     const request = new ContentSearchRequest();
+  //     request.searchString = 'm';
 
-      const response = await contentService.search(request).toPromise();
+  //     const response = await contentService.search(request).toPromise();
 
-      // act
-      const contents = response.results.map(i => new ShareContent({
-        contentId: i.id,
-        outputFormatIds: ['Original']
-      }));
+  //     // act
+  //     const contents = response.results.map(i => new ShareContent({
+  //       contentId: i.id,
+  //       outputFormatIds: ['Original']
+  //     }));
 
-      const result = await shareService.create( null, new ShareBasicCreateRequest({
-        name: 'Share',
-        languageCode: 'en',
-        contents: contents,
-        outputAccess: OutputAccess.Full,
-        suppressNotifications: false
-      })).toPromise();
+  //     const result = await shareService.create( null, new ShareBasicCreateRequest({
+  //       name: 'Share',
+  //       languageCode: 'en',
+  //       contents: contents,
+  //       outputAccess: OutputAccess.Full,
+  //       suppressNotifications: false
+  //     })).toPromise();
 
-      const share = await shareService.get(result.shareId!).toPromise();
+  //     const share = await shareService.get(result.shareId!).toPromise();
 
-      // assert
-      expect(result.shareId).not.toBeNull();
-      expect(share.id).toEqual(result.shareId!);
-    })));
+  //     // assert
+  //     expect(result.shareId).not.toBeNull();
+  //     expect(share.id).toEqual(result.shareId!);
+  //   })));
 });
