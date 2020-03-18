@@ -15,6 +15,7 @@
     "dev:widgets": "watch \"npm run build:widgets\" --ignoreDirectoryPattern=/dist/ src/picturepark-sdk-v1-widgets"
   },
   "devDependencies": {
+    "@types/node": "^13.9.1",
     "http-server": "^0.12.1",
     "marked": "^0.7.0",
     "nswag": "^13.2.3",
@@ -25,7 +26,6 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "@types/node": "^13.9.1",
     "ts-md5": "^1.2.4"
   }
 }
