@@ -13,7 +13,7 @@ import { ShareContentDialogComponent } from '../../features-module/share-content
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 import { ContentService, Content } from '@picturepark/sdk-v1-angular';
-import { ContentModel } from '@picturepark/sdk-v1-angular-ui';
+import { ContentModel } from '../../shared-module/models/content-model';
 
 @Component({
   selector: 'pp-basket',
