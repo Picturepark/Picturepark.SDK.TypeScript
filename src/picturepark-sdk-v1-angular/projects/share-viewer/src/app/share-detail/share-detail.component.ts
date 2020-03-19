@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { mergeMap as _observableMergeMap, catchError as _observableCatch, tap } from 'rxjs/operators';
-import { forkJoin, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
+import { from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { ShareDetail,
   IMailRecipient,
   InfoService,
   ShareDataBasic,
   ShareContentDetail,
   ShareService,
-  LiquidRenderingService,
 } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-share-detail',
@@ -29,9 +27,7 @@ export class ShareDetailComponent implements OnInit {
   constructor(
     private shareService: ShareService,
     private infoService: InfoService,
-    private liquidRenderingService: LiquidRenderingService,
     private dialog: MatDialog,
-    private http: HttpClient,
     private route: ActivatedRoute
   ) {
   }
@@ -49,13 +45,9 @@ export class ShareDetailComponent implements OnInit {
     }
 
     this.isLoading = true;
-
-    // 5jXghkKK  /json/5jXghkKK
-
     this.infoService.getInfo().subscribe( customerInfo => {
       this.logoUrl = customerInfo.logosUrl + 'name';
       this.shareService.getShareJson(searchString, null, customerInfo.baseUrl).subscribe( shareDetailJson => {
-        debugger;
         this.shareDetail = ShareDetail.fromJS(shareDetailJson);
         this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
         this.isLoading = false;
@@ -63,20 +55,6 @@ export class ShareDetailComponent implements OnInit {
 
     });
 
-    // const shareInfo = forkJoin({
-    //   shareDetail: this.shareService.getShareJson(searchString, null),
-    //   customerInfo: this.infoService.getInfo()
-    // });
-
-    // shareInfo.subscribe({
-    //   next: (values) => {
-    //     debugger;
-    //     this.logoUrl = values.customerInfo.logosUrl + 'name';
-    //     this.shareDetail = ShareDetail.fromJS(values.shareDetail);
-    //     this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
-    //     this.isLoading = false;
-    //   }
-    // });
   }
 
   downloadAll(): void {
@@ -115,47 +93,4 @@ export class ShareDetailComponent implements OnInit {
       }
     );
   }
-
-
-  // /**
-  //    * Get share json
-  //    * @param token Share token
-  //    * @param lang (optional) Language code
-  //    * @return ShareDetail
-  //    */
-  // getShareJsonCoreFromUrl(token: string, lang: string | null | undefined, url: string): Observable<any> {
-  //   let url_ = this.baseUrl + url;
-  //   if (token === undefined || token === null) {
-  //       throw new Error('The parameter \'token\' must be defined.');
-  //   }
-  //   url_ = url_.replace('{token}', encodeURIComponent('' + token));
-  //   if (lang !== undefined) {
-  //       url_ += 'lang=' + encodeURIComponent('' + lang) + '&';
-  //   }
-  //   url_ = url_.replace(/[?&]$/, '');
-
-  //   const options_: any = {
-  //       observe: 'response',
-  //       responseType: 'blob',
-  //       headers: new HttpHeaders({
-  //           'Accept': 'application/json'
-  //       })
-  //   };
-
-  //   return _observableFrom(this.share transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-  //       return this.http.request('get', url_, transformedOptions_);
-  //   })).pipe(_observableMergeMap((response_: any) => {
-  //       return this.processGetShareJson(response_);
-  //   })).pipe(_observableCatch((response_: any) => {
-  //       if (response_ instanceof HttpResponseBase) {
-  //           try {
-  //               return this.processGetShareJson(<any>response_);
-  //           } catch (e) {
-  //               return <Observable<any>><any>_observableThrow(e);
-  //           }
-  //       } else {
-  //           return <Observable<any>><any>_observableThrow(response_);
-  //       }
-  //   }));
-  // }
 }
