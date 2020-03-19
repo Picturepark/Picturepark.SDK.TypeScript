@@ -136,9 +136,7 @@ $picturepark-app-theme-dark: mat-dark-theme($picturepark-app-primary-dark, $pict
 
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
-@mixin picturepark-theme($theme) {
-    // Include custom component themes from the angular-ui project 
-    @include picturepark-ui-theme($theme);
+@mixin picturepark-components($theme) {
 
     // Include custom component themes from the main app 
     @include app-application-menu-theme($theme);

@@ -30,7 +30,7 @@
 @import '../features-module/share-content-dialog/components/share-content-recipients-input/share-content-recipients-input.component.theme.scss';
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
-@mixin picturepark-ui-theme($theme) {
+@mixin picturepark-theme($theme) {
     @include pp-aggregation-theme($theme);
     @include pp-content-item-thumbnail-theme($theme);
     @include pp-aggregation-list-theme($theme);
