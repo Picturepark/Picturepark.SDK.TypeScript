@@ -10,7 +10,8 @@ import { // ignore
     ContentMetadataUpdateRequest, ContentPermissionsUpdateRequest, // ignore
     ListItemResolveBehavior, ListItemDetail, // ignore
     ListItemSearchRequest, ListItemSearchResult, // ignore
-    ShareDetail, ShareSearchRequest, ShareSearchResult // ignore
+    ShareDetail, ShareSearchRequest, ShareSearchResult, // ignore
+    CustomerInfo // ignore
 } from './api-services'; // ignore
 
 import { Injector } from '@angular/core';
@@ -53,6 +54,57 @@ class AggregationResultItem extends generated.AggregationResultItem {
 
         return displayName ?? this.name;
     }
+}
+
+export class InfoService extends generated.InfoService {
+
+    constructor(
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient, @Optional()
+        @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+
+        // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        super(configuration);
+        // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        this.http = http;
+        // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
+
+    /**
+     * Get info
+     * @return CustomerInfo
+     */
+    getInfoFromUrl(hostUrl?: string): Observable<CustomerInfo> {
+        let url_ = hostUrl + '/service​/Info​/customer';
+        url_ = url_.replace(/[?&]$/, '');
+
+        const options_: any = {
+            observe: 'response',
+            responseType: 'blob',
+            headers: new HttpHeaders({
+                'Accept': 'application/json'
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            // @ts-ignore// @ts-ignore: the purpose of this reference is to be copied to the api-services via NSwag // ignore
+            return this.http.request('get', url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetInfo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInfo(<any>response_);
+                } catch (e) {
+                    return <Observable<CustomerInfo>><any>_observableThrow(e);
+                }
+            } else {
+                return <Observable<CustomerInfo>><any>_observableThrow(response_);
+            }
+        }));
+    }
+
 }
 
 class ContentService extends generated.ContentService {
@@ -242,6 +294,7 @@ class ShareService extends generated.ShareService {
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            // @ts-ignore// @ts-ignore: the purpose of this reference is to be copied to the api-services via NSwag // ignore
             return this.http.request('get', url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
             return this.processGetShareJson(response_);

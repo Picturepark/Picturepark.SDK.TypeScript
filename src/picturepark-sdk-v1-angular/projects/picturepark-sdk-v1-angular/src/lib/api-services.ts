@@ -61461,3 +61461,50 @@ function blobToText(blob: any): Observable<string> {
         }
     });
 }
+
+export class InfoService extends InfoService {
+
+    constructor(
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient, @Optional()
+        @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
+
+    /**
+     * Get info
+     * @return CustomerInfo
+     */
+    getInfoFromUrl(hostUrl?: string): Observable<CustomerInfo> {
+        let url_ = hostUrl + '/service​/Info​/customer';
+        url_ = url_.replace(/[?&]$/, '');
+
+        const options_: any = {
+            observe: 'response',
+            responseType: 'blob',
+            headers: new HttpHeaders({
+                'Accept': 'application/json'
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request('get', url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetInfo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInfo(<any>response_);
+                } catch (e) {
+                    return <Observable<CustomerInfo>><any>_observableThrow(e);
+                }
+            } else {
+                return <Observable<CustomerInfo>><any>_observableThrow(response_);
+            }
+        }));
+    }
+
+}
