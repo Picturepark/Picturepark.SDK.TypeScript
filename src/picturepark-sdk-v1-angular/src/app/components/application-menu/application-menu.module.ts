@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-
 // COMPONENTS
 import { ApplicationMenuComponent } from './application-menu.component';
-import { MaterialsModule } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/materials-module/materials-module.module';
+
+// Materials
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -14,10 +16,10 @@ import { MaterialsModule } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/
   imports: [
     CommonModule,
     RouterModule,
-    MaterialsModule
+    MatSlideToggleModule,
+    MatTooltipModule
   ],
   exports: [
-    MaterialsModule,
     ApplicationMenuComponent
   ]
 })
