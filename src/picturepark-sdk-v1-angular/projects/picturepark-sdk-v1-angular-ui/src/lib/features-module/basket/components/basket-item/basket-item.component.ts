@@ -1,15 +1,12 @@
-import { Component, Input, ViewChild, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
+import { Content } from '@picturepark/sdk-v1-angular';
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
-import {
-  ContentItemThumbnailComponent
-} from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/components/content-item-thumbnail/content-item-thumbnail.component';
-import { Content } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-basket-item',
@@ -18,11 +15,9 @@ import { Content } from '@picturepark/sdk-v1-angular';
 })
 export class BasketItemComponent extends BaseComponent  {
 
-
   @Input() public item: Content;
 
   @Output() itemChange = new EventEmitter<Content>();
-
 
   constructor(
     private basketService: BasketService,

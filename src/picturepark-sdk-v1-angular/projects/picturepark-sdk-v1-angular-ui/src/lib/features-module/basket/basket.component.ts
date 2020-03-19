@@ -12,8 +12,7 @@ import { ShareContentDialogComponent } from '../../features-module/share-content
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
-import { ContentService } from '@picturepark/sdk-v1-angular';
-import { Content } from '@picturepark/sdk-v1-angular';
+import { ContentService, Content } from '@picturepark/sdk-v1-angular';
 import { ContentModel } from '@picturepark/sdk-v1-angular-ui';
 
 @Component({

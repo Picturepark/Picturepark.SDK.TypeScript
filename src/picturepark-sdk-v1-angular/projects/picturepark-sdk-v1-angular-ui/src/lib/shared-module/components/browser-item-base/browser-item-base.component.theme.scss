@@ -19,7 +19,7 @@
 
       &__basket-icon {
         mat-icon {
-          background-color: rgba(0, 0, 0, .4);
+          background-color: mat-color($primary, opacity-light);
           border-radius: 15%;
         }
       }
@@ -38,8 +38,6 @@
           font-size: 16px;
         }
       }
-
-      
 
       &__image-virtual-item-container {
         color: mat-color($primary, on-surface-mid);
@@ -66,8 +64,6 @@
 
     }
 
-    
-
     .browser-item--list-view {
 
       .browser-item__image-slot {
@@ -80,17 +76,6 @@
         }
       }
 
-      // &--selected {
-      //   box-shadow: 0 0 0 2px mat-color($primary, surface-dark);
-
-      //   .browser-item__title {
-      //     background-color: mat-color($primary, surface-dark);
-      //     color: mat-color($primary, on-surface-dark);
-      //   }
-
-      // }
-  
-  
       .browser-item__list-view-actions {
         color: mat-color($primary, on-background-dark);
   
