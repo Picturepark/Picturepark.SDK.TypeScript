@@ -72,7 +72,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     @Output() public totalResultsChange = new EventEmitter<number | null>();
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
-    @Output() public previewItemChange = new EventEmitter<string>();
+    @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
 
     @Input() public searchString = '';
     /**
@@ -237,8 +237,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         }
     }
 
-    public previewItem(itemId: string): void {
-        this.previewItemChange.emit(itemId);
+    public previewItem(item: ContentModel<TEntity>): void {
+        this.previewItemChange.emit(item);
     }
 
     setSortingType(newValue: ISortItem, reload: boolean = true): void {

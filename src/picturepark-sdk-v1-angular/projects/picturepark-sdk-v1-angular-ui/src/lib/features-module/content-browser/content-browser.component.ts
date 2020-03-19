@@ -151,7 +151,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   public previewSelectedItem(): void {
     const content = this.items.find(i => i.item === this.selectedItems[0]);
     if (content) {
-      this.previewItem(content.item.id);
+      this.previewItem(content);
     }
   }
 

@@ -27,14 +27,14 @@
         <pp-content-browser-item class="browser__item" [browser]="self" [itemModel]="itemModel"
           [thumbnailSize]="activeThumbnailSize" [isListView]="activeView.type === 'list'"
           (previewItemChange)="previewItem($event)" (press)="itemClicked($event,i)"
-          (tap)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel.item.id)">
+          (tap)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)">
         </pp-content-browser-item>
       </ng-container>
 
       <ng-template #desktop>
         <pp-content-browser-item class="browser__item" [browser]="self" [itemModel]="itemModel"
           [thumbnailSize]="activeThumbnailSize" [isListView]="activeView.type === 'list'"
-          (previewItemChange)="previewItem($event)" (click)="itemClicked($event,i)" (dblclick)="previewItem(itemModel.item.id)">
+          (previewItemChange)="previewItem($event)" (click)="itemClicked($event,i)" (dblclick)="previewItem(itemModel)">
         </pp-content-browser-item>
       </ng-template>
     </div>

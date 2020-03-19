@@ -1,24 +1,28 @@
-import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, Input, OnInit, SecurityContext } from '@angular/core';
+import { Component, Input, ViewChild, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
-// LIBRARIES
-import { ThumbnailSize, ContentService, Content } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
+import {
+  ContentItemThumbnailComponent
+} from 'projects/picturepark-sdk-v1-angular-ui/src/lib/shared-module/components/content-item-thumbnail/content-item-thumbnail.component';
+import { Content } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-basket-item',
   templateUrl: './basket-item.component.html',
   styleUrls: ['./basket-item.component.scss']
 })
-export class BasketItemComponent extends BaseComponent {
+export class BasketItemComponent extends BaseComponent  {
 
-  @Input()
-  public itemId: string;
+
+  @Input() public item: Content;
+
+  @Output() itemChange = new EventEmitter<Content>();
+
 
   constructor(
     private basketService: BasketService,
@@ -27,6 +31,6 @@ export class BasketItemComponent extends BaseComponent {
   }
 
   public remove() {
-    this.basketService.removeItem(this.itemId);
+    this.basketService.removeItem(this.item.id);
   }
 }
