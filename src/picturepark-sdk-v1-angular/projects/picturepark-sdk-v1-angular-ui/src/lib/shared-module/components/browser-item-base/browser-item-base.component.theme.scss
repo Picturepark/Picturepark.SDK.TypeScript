@@ -16,10 +16,30 @@
         background-color: mat-color($primary, surface-mid);
 
       }
+
+      &__basket-icon {
+        mat-icon {
+          background-color: rgba(0, 0, 0, .4);
+          border-radius: 15%;
+        }
+      }
        
       &__actions {
         color: mat-color($primary, on-opacity-light);
+
+        &:hover {
+          background-color: mat-color($primary, opacity-light);
+        }
+
       }
+
+      &__actions, &__basket-icon {
+        mat-icon {
+          font-size: 16px;
+        }
+      }
+
+      
 
       &__image-virtual-item-container {
         color: mat-color($primary, on-surface-mid);
@@ -30,24 +50,23 @@
         color: mat-color($primary, on-background-dark);
       }
 
-      &--selected {
-        box-shadow: 0 0 0 2px mat-color($primary, surface-dark);
-
-        .browser-item__title {
-          background-color: mat-color($primary, surface-dark);
-          color: mat-color($primary, on-surface-dark);
-        }
-
-      }
-
     }
 
-    .browser-item--selected,.browser-item--list-view {
+    .browser-item--selected {
+      box-shadow: 0 0 0 2px mat-color($primary, surface-dark);
+
+      .browser-item__actions {
+        background-color: mat-color($primary, opacity-light);
+      }
+
       .browser-item__title {
-        background-color: mat-color($primary, background-dark);
-        color: mat-color($primary, on-background-dark);
+        background-color: mat-color($primary, surface-dark);
+        color: mat-color($primary, on-surface-dark);
       }
+
     }
+
+    
 
     .browser-item--list-view {
 
@@ -57,19 +76,19 @@
   
       .browser-item__title {
         &__title-content {
-          font: mat-font-size($custom-typography, body-2);
+          font-size: mat-font-size($custom-typography, body-2);
         }
       }
 
-      &--selected {
-        box-shadow: 0 0 0 2px mat-color($primary, surface-dark);
+      // &--selected {
+      //   box-shadow: 0 0 0 2px mat-color($primary, surface-dark);
 
-        .browser-item__title {
-          background-color: mat-color($primary, surface-dark);
-          color: mat-color($primary, on-surface-dark);
-        }
+      //   .browser-item__title {
+      //     background-color: mat-color($primary, surface-dark);
+      //     color: mat-color($primary, on-surface-dark);
+      //   }
 
-      }
+      // }
   
   
       .browser-item__list-view-actions {
@@ -91,6 +110,13 @@
             }
           }
         }
+      }
+    }
+
+    .browser-item--selected.browser-item--list-view {
+      .browser-item__title {
+        background-color: mat-color($primary, background-dark);
+        color: mat-color($primary, on-background-dark);
       }
     }
   }

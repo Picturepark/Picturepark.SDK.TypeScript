@@ -19,7 +19,7 @@ export abstract class BaseBrowserItemComponent<TEntity extends IEntityBase> exte
     @Input() browser: BaseBrowserComponent<TEntity>;
 
     // OUTPUTS
-    @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
+    @Output() public previewItemChange = new EventEmitter<string>();
 
     protected isVisible = false;
     protected loadItem = new Subject<void>();
@@ -30,6 +30,6 @@ export abstract class BaseBrowserItemComponent<TEntity extends IEntityBase> exte
     }
 
     public previewItem() {
-        this.previewItemChange.emit(this.itemModel);
+        this.previewItemChange.emit(this.itemModel.item.id);
     }
 }
