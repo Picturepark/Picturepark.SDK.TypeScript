@@ -72,8 +72,8 @@ export class BasketComponent extends BaseComponent implements OnInit {
     this.basketService.clearBasket();
   }
 
-  public trackByBasket(index, basket: string): string {
-    return basket;
+  public trackByBasket(index, basketItem: Content): string {
+    return basketItem.id;
   }
 
   ngOnInit() {
