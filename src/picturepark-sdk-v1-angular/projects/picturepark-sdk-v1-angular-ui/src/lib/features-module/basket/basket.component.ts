@@ -14,6 +14,7 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 import { ContentService, Content } from '@picturepark/sdk-v1-angular';
 import { ContentModel } from '../../shared-module/models/content-model';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'pp-basket',
@@ -40,17 +41,16 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
     super();
 
-    const basketSubscription = this.basketService.basketChange.subscribe(async ( itemsIds ) => {
-      const fetchContentsSubscription = fetchContents(this.contentService, itemsIds).subscribe( ( fetchResult ) => {
-        this.basketItems = fetchResult.results;
-      });
-      this.subscription.add(fetchContentsSubscription);
+    const basketSubscription = this.basketService.basketChange.pipe(switchMap((itemsIds => {
+      return fetchContents(this.contentService, itemsIds);
+    }))).subscribe(fetchResult => {
+      this.basketItems = fetchResult.results;
     });
     this.subscription.add(basketSubscription);
   }
 
   public previewItem(item: Content): void {
-    this.previewItemChange.emit(new ContentModel(item, false));
+    this.previewItemChange.emit(new ContentModel(item, true));
   }
 
   public downloadItems(): void {
