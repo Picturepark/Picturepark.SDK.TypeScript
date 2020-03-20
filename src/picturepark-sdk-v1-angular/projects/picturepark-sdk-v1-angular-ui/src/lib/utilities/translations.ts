@@ -100,6 +100,10 @@ export let TRANSLATIONS = {
       en: 'Select',
       de: 'Selektieren'
     },
+    Selected: {
+      en: '{0} selected',
+      de: '{0} selektiert'
+    },
     ShareImages: {
       en: 'Share'
     },

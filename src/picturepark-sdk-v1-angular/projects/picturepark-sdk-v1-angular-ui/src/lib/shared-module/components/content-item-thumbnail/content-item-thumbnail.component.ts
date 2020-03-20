@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input, Injector } from '@angular/core';
 
 import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
@@ -26,8 +26,9 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   public constructor(
     private contentService: ContentService,
     private sanitizer: DomSanitizer,
+    protected injector: Injector
   ) {
-    super();
+    super(injector);
   }
 
   async ngOnInit() {
