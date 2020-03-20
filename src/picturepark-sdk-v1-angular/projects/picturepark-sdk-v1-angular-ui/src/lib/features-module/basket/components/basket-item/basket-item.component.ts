@@ -1,5 +1,5 @@
 import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, Input, OnInit, SecurityContext } from '@angular/core';
+import { Component, Input, OnInit, SecurityContext, Injector } from '@angular/core';
 
 // LIBRARIES
 import { ThumbnailSize, ContentService, Content } from '@picturepark/sdk-v1-angular';
@@ -22,8 +22,9 @@ export class BasketItemComponent extends BaseComponent {
 
   constructor(
     private basketService: BasketService,
+    protected injector: Injector
   ) {
-    super();
+    super(injector);
   }
 
   public remove() {

@@ -1,5 +1,5 @@
 import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, SecurityContext } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, SecurityContext, Injector } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 // COMPONENTS
@@ -21,8 +21,8 @@ export class ShareContentDialogItemComponent extends BaseComponent implements  O
 
   @Output() removeDialogContent = new EventEmitter<Content>();
 
-  constructor() {
-    super();
+  constructor(protected injector: Injector) {
+    super(injector);
   }
 
   public remove() {
