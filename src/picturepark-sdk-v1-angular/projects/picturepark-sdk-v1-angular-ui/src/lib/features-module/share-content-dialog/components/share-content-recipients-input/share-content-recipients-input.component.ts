@@ -1,5 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, Input, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, Input, ElementRef, HostListener, OnInit, Injector } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
@@ -32,8 +32,10 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
   // REGULAR EXPRESSION FOR EMAIL VALIDATION
   private reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-  constructor(private myElement: ElementRef, private shareService: ShareService) {
-    super();
+  constructor(private myElement: ElementRef,
+    private shareService: ShareService,
+    protected injector: Injector) {
+    super(injector);
 
     this.elementRef = this.myElement;
   }

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Inject, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
@@ -36,10 +36,11 @@ export class BasketComponent extends BaseComponent implements OnInit {
     private basketService: BasketService,
     private contentService: ContentService,
     private contentDownloadDialogService: ContentDownloadDialogService,
-    public dialog: MatDialog,
+    protected injector: Injector,
+    public dialog: MatDialog
   ) {
 
-    super();
+    super(injector);
 
     const basketSubscription = this.basketService.basketChange.pipe(switchMap((itemsIds => {
       return fetchContents(this.contentService, itemsIds);

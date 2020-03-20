@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Injector } from '@angular/core';
 
 // LIBRARIES
 import { IEntityBase } from '@picturepark/sdk-v1-angular';
@@ -25,8 +25,20 @@ export class BrowserToolbarComponent extends BaseComponent implements OnInit {
   @Input()
   browser: BaseBrowserComponent<IEntityBase>;
 
-  constructor() {
-    super();
+  get buttonLabel(): string {
+    return this.selectedItemCount > 0 ? 'ContentBrowser.Selected' : 'ContentBrowser.SelectMenu';
+  }
+
+  get selectedItemCount(): number {
+    return this.browser.selectedItems.length;
+  }
+
+  get selectedItemCountLabel(): string {
+    return this.selectedItemCount > 0 ? `${this.selectedItemCount}` : '';
+  }
+
+  constructor(protected injector: Injector) {
+    super(injector);
   }
 
   ngOnInit() {
