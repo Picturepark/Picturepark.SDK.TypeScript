@@ -2,11 +2,8 @@
   <div class="browser-toolbar-content" [class.browser-toolbar-content--mobile]="deviceBreakpoint">
     <div class="select" *ngIf="selectionEnabled">
       <button [matMenuTriggerFor]="select">
-        <span class="button-label" [class.button-label--mobile]="deviceBreakpoint">
-          <ng-container *ngIf="deviceBreakpoint; else showText">{{ selectedItemCountLabel }}</ng-container>
-          <ng-template #showText>{{ buttonLabel | pptranslate: selectedItemCount }}
-          </ng-template>
-        </span>
+        <ng-container *ngIf="deviceBreakpoint; else showText">{{ selectedItemCountLabel }}</ng-container>
+        <ng-template #showText>{{ buttonLabel | pptranslate: selectedItemCount }}</ng-template>
         <i class="material-icons button-icon" [class.button-icon--mobile]="deviceBreakpoint">more_vert</i>
       </button>
       <mat-menu #select="matMenu" xPosition="after">

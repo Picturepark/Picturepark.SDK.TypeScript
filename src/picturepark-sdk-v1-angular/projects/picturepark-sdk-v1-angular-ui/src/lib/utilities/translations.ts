@@ -102,7 +102,7 @@ export let TRANSLATIONS = {
     },
     Selected: {
       en: '{0} selected',
-      de: '{0} ausgewählt'
+      de: '{0} selektiert'
     },
     ShareImages: {
       en: 'Share'

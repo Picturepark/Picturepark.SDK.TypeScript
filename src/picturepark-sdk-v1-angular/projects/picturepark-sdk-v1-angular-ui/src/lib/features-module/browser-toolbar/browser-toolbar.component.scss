@@ -51,18 +51,6 @@
                         left: 0px;
                     }
                 }
-
-                .button-label {
-                    $self: &;
-
-                    display: inline-block;
-                    min-width: 80px;
-                    text-align: right;
-
-                    &--mobile {
-                        min-width: 15px;
-                    }
-                }
             }
         }
 
