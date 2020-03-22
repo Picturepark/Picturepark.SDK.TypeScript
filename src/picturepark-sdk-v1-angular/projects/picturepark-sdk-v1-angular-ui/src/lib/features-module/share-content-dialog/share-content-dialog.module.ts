@@ -26,5 +26,8 @@ import { ShareContentRecipientsInputComponent } from './components/share-content
   exports:  [
     ShareContentDialogComponent
   ],
+  entryComponents: [
+    ShareContentDialogComponent
+  ]
 })
 export class ShareContentDialogModule { }

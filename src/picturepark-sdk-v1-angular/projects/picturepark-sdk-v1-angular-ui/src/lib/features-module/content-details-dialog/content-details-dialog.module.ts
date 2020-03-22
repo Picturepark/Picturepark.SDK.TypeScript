@@ -22,5 +22,8 @@ import { ContentDetailsDialogComponent} from './content-details-dialog.component
   exports: [
     ContentDetailsDialogComponent
   ],
+  entryComponents: [
+    ContentDetailsDialogComponent
+  ]
 })
 export class ContentDetailsDialogModule { }

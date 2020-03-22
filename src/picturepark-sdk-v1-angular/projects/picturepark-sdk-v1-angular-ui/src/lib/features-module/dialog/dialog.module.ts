@@ -25,5 +25,9 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
   exports: [
     NotificationModule
   ],
+  entryComponents: [
+    ConfirmDialogComponent
+    // ShareContentRecipientsInputComponent
+  ]
 })
 export class DialogModule {}

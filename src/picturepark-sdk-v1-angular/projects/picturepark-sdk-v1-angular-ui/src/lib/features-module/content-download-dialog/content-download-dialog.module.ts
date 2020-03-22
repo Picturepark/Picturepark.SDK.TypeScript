@@ -17,5 +17,8 @@ import { DialogModule } from '../dialog/dialog.module';
   exports: [
     ContentDownloadDialogComponent,
   ],
+  entryComponents: [
+    ContentDownloadDialogComponent
+  ]
 })
 export class ContentDownloadDialogModule {}
