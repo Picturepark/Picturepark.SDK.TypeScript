@@ -12,7 +12,7 @@
   @include mat-elevation-transition;
 
   &--selected {
-    // use primary color.
+    
     #{ $self }__actions {
       visibility: initial;
     }
