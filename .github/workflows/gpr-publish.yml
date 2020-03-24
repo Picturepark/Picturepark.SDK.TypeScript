@@ -47,7 +47,7 @@ jobs:
           cat package.json
           npm publish --tag pre
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_auth_token }}     
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
       - name: Publish package - picturepark-sdk-v1-angular-oidc
         working-directory: ./src/picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular-oidc
         run: |
@@ -57,7 +57,7 @@ jobs:
           cat package.json
           npm publish --tag pre
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_auth_token }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish package - picturepark-sdk-v1-angular-ui
         working-directory: ./src/picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular-ui
         run: |
@@ -67,4 +67,4 @@ jobs:
           cat package.json
           npm publish --tag pre
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_auth_token }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
