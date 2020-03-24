@@ -39,7 +39,7 @@
           mat-icon-button 
           *ngIf="browser.configActions['basket']" 
           (click)="toggleInBasket(); $event.stopPropagation()" 
-          [matTooltip]="'ContentBrowser.AddToBasket' | pptranslate">
+          [matTooltip]="(itemModel.isInBasket ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate">
           <mat-icon class="add" aria-label="Add item to basket" *ngIf="!itemModel.isInBasket">add</mat-icon>
           <mat-icon class="remove" aria-label="Remove item from basket" *ngIf="itemModel.isInBasket">done</mat-icon>
           <mat-icon class="clear" aria-label="Remove item from basket" *ngIf="itemModel.isInBasket">clear</mat-icon>
