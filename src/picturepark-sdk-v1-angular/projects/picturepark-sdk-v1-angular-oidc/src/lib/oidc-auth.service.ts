@@ -31,6 +31,8 @@ export class OidcAuthService extends AuthService {
         clientId: this.pictureparkConfiguration.clientId,
         responseType: 'code',
         scope: this.pictureparkConfiguration.scope ? this.pictureparkConfiguration.scope : 'offline_access profile picturepark_api picturepark_account openid',
+        silentRefreshRedirectUri: window.location.origin + '/assets/silent-refresh.html',
+        useSilentRefresh: true,
         sessionChecksEnabled: false,
         clearHashAfterLogin: true,
         customQueryParams: {
