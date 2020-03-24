@@ -42,7 +42,7 @@ jobs:
         working-directory: ./src/picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular
         run: |
           cp package.json package.json.tmp
-          jq '.repository.url = "git://github.com/tc4rdpp/Picturepark.SDK.TypeScript.git"' package.json.tmp >package.json
+          jq '.repository.url = "git://github.com/Picturepark/Picturepark.SDK.TypeScript.git"' package.json.tmp >package.json
           rm package.json.tmp
           cat package.json
           npm publish --tag pre
@@ -52,7 +52,7 @@ jobs:
         working-directory: ./src/picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular-oidc
         run: |
           cp package.json package.json.tmp
-          jq '.repository.url = "git://github.com/tc4rdpp/Picturepark.SDK.TypeScript.git"' package.json.tmp >package.json
+          jq '.repository.url = "git://github.com/Picturepark/Picturepark.SDK.TypeScript.git"' package.json.tmp >package.json
           rm package.json.tmp
           cat package.json
           npm publish --tag pre
@@ -62,7 +62,7 @@ jobs:
         working-directory: ./src/picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular-ui
         run: |
           cp package.json package.json.tmp
-          jq '.repository.url = "git://github.com/tc4rdpp/Picturepark.SDK.TypeScript.git"' package.json.tmp >package.json
+          jq '.repository.url = "git://github.com/Picturepark/Picturepark.SDK.TypeScript.git"' package.json.tmp >package.json
           rm package.json.tmp
           cat package.json
           npm publish --tag pre
