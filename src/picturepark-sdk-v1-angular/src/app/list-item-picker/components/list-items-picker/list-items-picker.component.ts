@@ -12,8 +12,9 @@ import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter } f
 })
 export class ListItemsPickerComponent {
 
-  public activeParentSchema = new BehaviorSubject(null);
-  public search = new BehaviorSubject('');
+  // [TEMPLATE CLEANSING] Deleted because the activeParentSchema variable is never used
+  public search = new BehaviorSubject<string>('');
+  // [TEMPLATE CLEANSING] Deleted because the search variable is never used
   public filter: BehaviorSubject<FilterBase>;
 
   constructor(

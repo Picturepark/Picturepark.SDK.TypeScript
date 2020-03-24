@@ -117,7 +117,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     const request = new ListItemSearchRequest({
       pageToken: this.nextPageToken,
       limit: this.pageSize,
-      searchString: this.searchString,
+      searchString: this.searchString || '',
       sort: this.sortInfo,
       searchBehaviors: this.searchBehavior ? [
         this.searchBehavior,

@@ -10,7 +10,7 @@ import { translate } from '../../utilities/translations';
 export class TranslatePipe implements PipeTransform {
   constructor( @Inject(LOCALE_ID) private locale: string) {}
 
-  transform(value: string | TranslatedStringDictionary, replacement?: any): string | null {
+  transform(value: string | TranslatedStringDictionary, replacement?: any): string | undefined {
     if (value instanceof TranslatedStringDictionary) {
       return value.translate(this.locale);
     } else if (typeof value === 'string' && typeof replacement !== 'object') {
@@ -18,6 +18,6 @@ export class TranslatePipe implements PipeTransform {
     } else if (replacement && replacement.length === 2) {
       return translate(value, this.locale).replace('{0}', replacement[0]).replace('{1}', replacement[1]);
     }
-    return null;
-  }
+    // [TEMPLATE CLEANSING] Deleted a lot of places are expecting the type string | undefined and not string | null
+}
 }

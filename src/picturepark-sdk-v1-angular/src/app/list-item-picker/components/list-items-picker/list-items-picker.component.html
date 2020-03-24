@@ -3,10 +3,11 @@
         <!--<pp-search-box style="font-size: 16px;" [searchString]="search | async" (searchStringChange)="search.next($event)"></pp-search-box>-->
         <pp-schema-browser
             class="content-browser"
-            [activeParentSchema]="activeParentSchema"
-            [searchString]="search | async"
             [filter]="filter | async"
             (activeSchemaChange)="setUpActiveSchema($event)">
+            <!-- [TEMPLATE CLEANSING] Deleted because the activeParentSchema variable is never used -->
+                <!-- [TEMPLATE CLEANSING] [TESTING] Check if the removal of the active parent schema input affects functionality -->
+            <!-- [TEMPLATE CLEANSING] Deleted because the search variable is never used -->
         </pp-schema-browser>
     </div>
 </div>

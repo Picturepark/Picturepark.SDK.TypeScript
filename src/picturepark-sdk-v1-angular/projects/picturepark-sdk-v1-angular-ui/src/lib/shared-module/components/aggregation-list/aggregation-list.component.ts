@@ -14,10 +14,10 @@ import { BaseComponent } from '../../components/base.component';
 export abstract class AggregationListComponent extends BaseComponent implements OnChanges {
 
   @Input()
-  public searchString = '';
+  public searchString: string | null = '';
 
   @Input()
-  public aggregators: AggregatorBase[] | null = [];
+  public aggregators: AggregatorBase[] | undefined = [];
 
   // Filter used for search. E.g.: Nested filter,And filter,Or filter.
   @Output()

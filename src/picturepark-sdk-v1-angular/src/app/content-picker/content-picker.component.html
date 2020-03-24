@@ -1,7 +1,7 @@
 <div class="wrap">
   <mat-toolbar class="navbar" *ngIf="deviceBreakpoint">
-    <button mat-icon-button class="menu" (click)="snav.toggle()" [matBadge]="basketItemsCount"
-      [matBadgeHidden]="basketItemsCount<1">
+    <button mat-icon-button class="menu" (click)="snav.toggle()" [matBadge]="basketItemsCount.toString()"
+      [matBadgeHidden]="basketItemsCount < 1">
       <mat-icon>menu</mat-icon>
     </button>
   </mat-toolbar>
@@ -37,7 +37,7 @@
           </mat-tab>
           <mat-tab label="Basket">
             <ng-template mat-tab-label>
-              <span [matBadge]="basketItemsCount" matBadgeOverlap="false"
+              <span [matBadge]="basketItemsCount.toString()" matBadgeOverlap="false"
                 [matBadgeHidden]="!basketItemsCount">Basket</span>
             </ng-template>
             <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>

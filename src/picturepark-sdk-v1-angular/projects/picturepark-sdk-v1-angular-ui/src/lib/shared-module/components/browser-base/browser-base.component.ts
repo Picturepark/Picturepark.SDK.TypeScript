@@ -54,7 +54,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public sortingTypes: ISortItem[];
     public views: IBrowserView[];
     public activeView: IBrowserView;
-    public activeThumbnailSize?: ThumbnailSize = ThumbnailSize.Medium;
+    public activeThumbnailSize: ThumbnailSize | undefined = ThumbnailSize.Medium;
 
     protected scrollDebounceTime = 0;
 
@@ -62,7 +62,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
     @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
 
-    @Input() public searchString = '';
+    @Input() public searchString: string | null = '';
     /**
     * ### SearchBehavior to be passed on the search request
     * default value

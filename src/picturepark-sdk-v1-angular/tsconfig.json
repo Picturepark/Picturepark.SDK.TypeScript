@@ -45,5 +45,10 @@
         "projects/picturepark-sdk-v1-angular-ui/src/public_api.ts"
       ]
     }
+  },
+  
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInjectionParameters": true
   }
 }
