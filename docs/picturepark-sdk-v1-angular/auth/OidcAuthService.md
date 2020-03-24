@@ -8,6 +8,7 @@ Authenticates with the OpenID Connect implicit flow.
 
 **Additional methods:**
 
+- requireLogin(redirectRoute?)
 - login(redirectRoute?)
 - logout(redirectRoute?)
 
