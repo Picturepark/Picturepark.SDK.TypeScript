@@ -5,7 +5,6 @@
     </div>
 </div>
 
-<!-- <pp-application-menu *ngIf="authService.isAuthenticated"></pp-application-menu> -->
-<app-application-menu *ngIf="authService.isAuthenticated"></app-application-menu>
+<!-- <app-application-menu *ngIf="authService.isAuthenticated"></app-application-menu> -->
 
 <router-outlet *ngIf="authService.isAuthenticated"></router-outlet>
