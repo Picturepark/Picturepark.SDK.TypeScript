@@ -1,5 +1,4 @@
 <mat-card class="custom-shadow" *ngFor="let layer of layers">
-  <!-- [TEMPLATE CLEANSING] [TESTING] Check if adding the ngif causes problems -->
   <mat-card-title *ngIf="layer.names">
     {{layer.names | pptranslate}}
   </mat-card-title>

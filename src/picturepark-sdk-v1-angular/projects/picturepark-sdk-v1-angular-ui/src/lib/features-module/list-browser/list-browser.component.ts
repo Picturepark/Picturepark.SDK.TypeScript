@@ -70,6 +70,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.scrollDebounceTime = 100;
     this.customerInfo = await this.infoService.getInfo().toPromise();
 
+    debugger;
     // need to show column names
     this.displayedColumnNames = this.schema.fields!.map(field => {
       const id = field.id.split('.').pop();

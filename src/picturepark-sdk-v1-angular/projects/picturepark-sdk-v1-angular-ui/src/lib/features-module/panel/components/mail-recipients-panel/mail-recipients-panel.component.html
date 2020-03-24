@@ -12,7 +12,6 @@
           <span class="full-name">{{ mailRecipient.userEmail.firstName }} {{ mailRecipient.userEmail.lastName }}</span> 
           <a href="mailto:{{ mailRecipient.userEmail.emailAddress }}">{{ mailRecipient.userEmail.emailAddress }}</a>
         </li>
-        <!-- [TEMPLATE CLEANSING] [TESTING] Check if adding the ng if bellow breaks the styling -->
         <li *ngIf="mailRecipient.url" class="recipient-url">
             <i class="material-icons" (click)="copyToClipboard(mailRecipient.url!)">filter_none</i>{{ mailRecipient.url }}
         </li>

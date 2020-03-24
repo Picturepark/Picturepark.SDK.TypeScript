@@ -1,7 +1,6 @@
 <mat-expansion-panel class="aggregation mat-elevation-z0" [expanded]="canExpand()" [disabled]="!active">
   <mat-expansion-panel-header [collapsedHeight]="'56px'" [expandedHeight]="'56px'">
     <mat-panel-title class="aggregation__title">
-      <!-- [TEMPLATE CLEANSING] [TESTING] Check if adding the ngif bellow causes problems -->
       <span *ngIf="expandedAggregator.names" >{{ expandedAggregator.names | pptranslate }}</span>
       <button mat-icon-button *ngIf="aggregationsFiltersCount > 0" [matTooltip]="'ContentAggregationList.ClearFilters' | pptranslate">
         <mat-icon aria-label="Clear filters for this category" (click)="aggregationFiltersChange.emit([]); $event.stopPropagation();">clear</mat-icon>

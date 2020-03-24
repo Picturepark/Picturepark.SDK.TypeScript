@@ -135,7 +135,6 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     return observableResult;
   }
 
-  // [TEMPLATE CLEANSING] [TESTING] Check if changing the optional return type to empty string is bad 
   public queryDisplay(aggregationResultItem: AggregationResultItem): string {
     return aggregationResultItem ? aggregationResultItem.name : '';
   }

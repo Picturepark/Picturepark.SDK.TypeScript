@@ -37,10 +37,9 @@
   <div class="value" *ngIf="field.relationFields?.length">
     <ng-container *ngFor="let relationField of field.relationFields">
       <div class="relation field" *ngIf="relationField.info | async as info" (click)="relationClickHandler(info!)">
-        <!-- [TEMPLATE CLEANSING] [TESTING] Check if the addition of all the ngifs bellow break anything  -->
         <div class="image-wrap"><img [src]="info!.fileUrl" /></div>
         <div class="relationFields">
-          <div class="field relation-title" [innerHTML]="info!.name"></div>
+          <div class="field relation-title" [innerHTML]="undefined"></div>
           <div class="field relation-description" [innerHTML]="info!.list"></div>
         </div>
       </div>

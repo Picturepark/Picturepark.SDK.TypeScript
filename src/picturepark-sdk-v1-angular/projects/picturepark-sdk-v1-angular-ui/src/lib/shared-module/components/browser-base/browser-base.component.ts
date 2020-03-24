@@ -16,6 +16,7 @@ import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
 import { IBrowserView } from './interfaces/browser-view';
 import { debounceTime } from 'rxjs/operators';
+import { Event } from '@angular/router';
 
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
     // Services
@@ -195,28 +196,29 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     /**
      * Click event to trigger selection (ctrl + shift click)
      */
-    // [TEMPLATE CLEANSING] [TESTING] Don't leave any as the event type
+//   [TEMPLATE CLEANSING] Type changed to any as MouseEvent | Event, type Event alway gave error
     public itemClicked(event: any, index: number): void {
-        debugger;
         const itemModel = this.items[index];
+        if (event instanceof MouseEvent) {
+            if (event.ctrlKey || event.type === 'tap') {
+                this.lastSelectedIndex = index;
+                this.selectionService.toggle(itemModel.item);
+                return;
+            } else if (event.shiftKey) {
+                const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
+                const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
 
-        if (event.ctrlKey || event.type === 'tap') {
-            this.lastSelectedIndex = index;
+                const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i.item);
 
-            this.selectionService.toggle(itemModel.item);
-        } else if (event.shiftKey) {
-            const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
-            const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
-
-            const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i.item);
-
-            this.selectionService.clear();
-            this.selectionService.addItems(itemsToAdd);
-        } else {
-            this.lastSelectedIndex = index;
-            this.selectionService.clear();
-            this.selectionService.addItem(itemModel.item);
+                this.selectionService.clear();
+                this.selectionService.addItems(itemsToAdd);
+                return;
+            }
         }
+
+        this.lastSelectedIndex = index;
+        this.selectionService.clear();
+        this.selectionService.addItem(itemModel.item);
     }
 
     public toggleItems(isSelected: boolean): void {

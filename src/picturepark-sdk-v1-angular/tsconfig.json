@@ -46,7 +46,6 @@
       ]
     }
   },
-  
   "angularCompilerOptions": {
     "strictTemplates": true,
     "strictInjectionParameters": true
