@@ -7,7 +7,6 @@ import { ContentService, ShareService, ContentSearchRequest, ShareContent, Share
 describe('ShareService', () => {
   beforeEach(configureTest);
 
-  // [TODO] reenable this test
   // it('should create embed share', async(inject([ContentService, ShareService],
   //   async (contentService: ContentService, shareService: ShareService) => {
   //     // arrange

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 // LIBRARIES
 import {
-  ApplicationHeaderModule, BasketModule, ContentAggregationListModule, ChannelPickerModule,
+  BasketModule, ContentAggregationListModule, ChannelPickerModule,
   ContentBrowserModule, SearchBoxModule, SharedModule, LayerPanelsModule, SearchSuggestBoxModule
 } from '@picturepark/sdk-v1-angular-ui';
 
@@ -19,7 +19,6 @@ import { ContentPickerComponent } from './content-picker.component';
   ],
   imports: [
     CommonModule,
-    ApplicationHeaderModule,
     ContentPickerRoutingModule,
     SharedModule,
     BasketModule,
