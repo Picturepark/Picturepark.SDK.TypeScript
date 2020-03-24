@@ -1,3 +1,3 @@
 export interface IEntityBase {
-    id: string;
+  id: string;
 }

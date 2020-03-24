@@ -2,19 +2,18 @@
 
 // APPLICATION MENU STYLES VARS
 $pp-application-menu: (
-    contrast: ()
+  contrast: (),
 );
 
 @mixin app-application-menu-theme($theme) {
   $primary: map-get($theme, primary);
 
   app-application-menu {
-    
     // APPLICATION MENU MODULE
     div {
       background-color: mat-color($primary, surface-dark);
       color: mat-color($primary, on-surface-dark);
-      
+
       .application-menu-logo {
         border-bottom-color: mat-color($primary, divider);
         svg {
@@ -30,12 +29,12 @@ $pp-application-menu: (
             background-color: mat-color($primary, opacity-light);
             color: mat-color($primary, on-opacity-light);
           }
-          &.active { 
+          &.active {
             background-color: mat-color($primary, opacity-light);
             color: mat-color($primary, on-opacity-light);
           }
-          & i { 
-            font-size: mat-font-size($custom-typography, display-3) !important; 
+          & i {
+            font-size: mat-font-size($custom-typography, display-3) !important;
           }
           & span {
             font-size: mat-font-size($custom-typography, display-1) !important;
@@ -43,16 +42,16 @@ $pp-application-menu: (
         }
       }
     }
-    div.theme-selector{
+    div.theme-selector {
       color: mat-color($primary, primary);
     }
-    span.label { 
+    span.label {
       background-color: mat-color($primary, opacity-light);
       color: mat-color($primary, on-opacity-light);
       font-size: mat-font-size($custom-typography, caption);
-      &.active{ display: inherit; }
+      &.active {
+        display: inherit;
+      }
     }
   }
 }
-
-
