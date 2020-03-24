@@ -5,12 +5,11 @@ import {
   PICTUREPARK_CONFIGURATION,
   PICTUREPARK_API_URL,
   AuthService,
-  PictureparkConfiguration
+  PictureparkConfiguration,
 } from '@picturepark/sdk-v1-angular';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class OidcAuthService extends AuthService {
-
   private refreshInitialized = false;
 
   @Output()
@@ -19,27 +18,38 @@ export class OidcAuthService extends AuthService {
   constructor(
     @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration: PictureparkOidcAuthConfiguration,
     @Optional() @Inject(PICTUREPARK_API_URL) pictureparkApiUrl: string,
-    public oauthService: OAuthService) {
-    super(pictureparkConfiguration && pictureparkConfiguration.apiServer ?
-      pictureparkConfiguration.apiServer : pictureparkApiUrl);
+    public oauthService: OAuthService
+  ) {
+    super(
+      pictureparkConfiguration && pictureparkConfiguration.apiServer
+        ? pictureparkConfiguration.apiServer
+        : pictureparkApiUrl
+    );
 
-      const redirect = this.pictureparkConfiguration.redirectServer ? this.pictureparkConfiguration.redirectServer : window.location.href;
+    const redirect = this.pictureparkConfiguration.redirectServer
+      ? this.pictureparkConfiguration.redirectServer
+      : window.location.href;
 
-      const config: AuthConfig = {
-        issuer: this.pictureparkConfiguration.stsServer,
-        redirectUri: redirect,
-        clientId: this.pictureparkConfiguration.clientId,
-        responseType: 'code',
-        scope: this.pictureparkConfiguration.scope ? this.pictureparkConfiguration.scope : 'offline_access profile picturepark_api picturepark_account openid',
-        silentRefreshRedirectUri: window.location.origin + '/assets/silent-refresh.html',
-        useSilentRefresh: true,
-        sessionChecksEnabled: false,
-        clearHashAfterLogin: true,
-        customQueryParams: {
-          acr_values: 'tenant:{"id":"' +
-            this.pictureparkConfiguration.customerId + '","alias":"' +
-            this.pictureparkConfiguration.customerAlias + '"}'
-        }
+    const config: AuthConfig = {
+      issuer: this.pictureparkConfiguration.stsServer,
+      redirectUri: redirect,
+      clientId: this.pictureparkConfiguration.clientId,
+      responseType: 'code',
+      scope: this.pictureparkConfiguration.scope
+        ? this.pictureparkConfiguration.scope
+        : 'offline_access profile picturepark_api picturepark_account openid',
+      silentRefreshRedirectUri: window.location.origin + '/assets/silent-refresh.html',
+      useSilentRefresh: true,
+      sessionChecksEnabled: false,
+      clearHashAfterLogin: true,
+      customQueryParams: {
+        acr_values:
+          'tenant:{"id":"' +
+          this.pictureparkConfiguration.customerId +
+          '","alias":"' +
+          this.pictureparkConfiguration.customerAlias +
+          '"}',
+      },
     };
 
     this.oauthService.configure(config);
@@ -71,7 +81,7 @@ export class OidcAuthService extends AuthService {
    * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
    */
   async login(redirectRoute?: string) {
-    this.oauthService.redirectUri = redirectRoute ? (window.location.origin + redirectRoute) : window.location.origin;
+    this.oauthService.redirectUri = redirectRoute ? window.location.origin + redirectRoute : window.location.origin;
     await this.oauthService.loadDiscoveryDocumentAndLogin();
 
     this.initSilentRefresh();
@@ -97,7 +107,7 @@ export class OidcAuthService extends AuthService {
    * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
    */
   logout(redirectRoute?: string) {
-    this.oauthService.redirectUri = redirectRoute ? (window.location.origin + redirectRoute) : window.location.origin;
+    this.oauthService.redirectUri = redirectRoute ? window.location.origin + redirectRoute : window.location.origin;
     this.oauthService.logOut();
   }
 
@@ -108,7 +118,10 @@ export class OidcAuthService extends AuthService {
         options.headers = options.headers.append('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
       }
       if (this.pictureparkConfiguration && this.pictureparkConfiguration.customerAlias) {
-        options.headers = options.headers.append('Picturepark-CustomerAlias', this.pictureparkConfiguration.customerAlias);
+        options.headers = options.headers.append(
+          'Picturepark-CustomerAlias',
+          this.pictureparkConfiguration.customerAlias
+        );
       }
     }
     return options;

@@ -12,14 +12,10 @@ export function storageFactory(): OAuthStorage {
 }
 
 @NgModule({
-  imports: [
-    HttpClientModule,
-    OAuthModule.forRoot(),
-  ],
+  imports: [HttpClientModule, OAuthModule.forRoot()],
   providers: [
     { provide: OAuthStorage, useFactory: storageFactory },
-    { provide: AuthService, useClass: OidcAuthService }
-  ]
+    { provide: AuthService, useClass: OidcAuthService },
+  ],
 })
-export class PictureparkOidcModule {
-}
+export class PictureparkOidcModule {}
