@@ -1,15 +1,11 @@
 @import '~@angular/material/theming';
 
-// APPLICATION HEADER
-$pp-application-header: (
-    contrast: ()
-);
 
-@mixin pp-application-header-theme($theme) {
+@mixin app-application-header-theme($theme) {
 
     $primary: map-get($theme, primary);
 
-    pp-application-header { 
+    app-application-header { 
 
         .application-header-container {
             background-color: mat-color($primary, surface-light);
