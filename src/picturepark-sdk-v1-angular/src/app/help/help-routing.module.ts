@@ -12,17 +12,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: HelpComponent
-      }
-    ]
-  }
+        component: HelpComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
-  exports: [ RouterModule ],
-  providers: []
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+  providers: [],
 })
-export class HelpRoutingModule { }
+export class HelpRoutingModule {}

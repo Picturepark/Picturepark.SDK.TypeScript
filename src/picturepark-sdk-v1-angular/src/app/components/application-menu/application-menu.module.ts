@@ -6,21 +6,12 @@ import { RouterModule } from '@angular/router';
 import { ApplicationMenuComponent } from './application-menu.component';
 
 // Materials
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
-  declarations: [
-    ApplicationMenuComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatSlideToggleModule,
-    MatTooltipModule
-  ],
-  exports: [
-    ApplicationMenuComponent
-  ]
+  declarations: [ApplicationMenuComponent],
+  imports: [CommonModule, RouterModule, MatSlideToggleModule, MatTooltipModule],
+  exports: [ApplicationMenuComponent],
 })
-export class ApplicationMenuModule { }
+export class ApplicationMenuModule {}

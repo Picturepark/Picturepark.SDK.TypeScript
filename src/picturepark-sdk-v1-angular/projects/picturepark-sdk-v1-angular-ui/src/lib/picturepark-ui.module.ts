@@ -10,20 +10,9 @@ import { SharedModule } from './shared-module/shared-module.module';
 
 // IMPORTANT: Update docs/picturepark-sdk-v1-angular/modules.md when changing modules
 @NgModule({
-  declarations: [
-  ],
-  providers: [
-    { provide: PICTUREPARK_UI_CONFIGURATION, useFactory: PictureparkUIConfigurationFactory }
-  ],
-  imports: [
-    CommonModule,
-    FeaturesModule,
-    SharedModule.forRoot(),
-  ],
-  exports: [
-    FeaturesModule,
-    SharedModule
-  ]
+  declarations: [],
+  providers: [{ provide: PICTUREPARK_UI_CONFIGURATION, useFactory: PictureparkUIConfigurationFactory }],
+  imports: [CommonModule, FeaturesModule, SharedModule.forRoot()],
+  exports: [FeaturesModule, SharedModule],
 })
 export class PictureparkUiModule {}
-

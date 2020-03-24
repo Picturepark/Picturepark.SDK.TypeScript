@@ -8,18 +8,14 @@ import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter } f
 @Component({
   selector: 'app-list-items-picker',
   templateUrl: './list-items-picker.component.html',
-  styleUrls: ['./list-items-picker.component.scss']
+  styleUrls: ['./list-items-picker.component.scss'],
 })
 export class ListItemsPickerComponent {
-
   public activeParentSchema = new BehaviorSubject(null);
   public search = new BehaviorSubject('');
   public filter: BehaviorSubject<FilterBase>;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     const newFilter = this.createFilter();
     this.filter = new BehaviorSubject(newFilter);
   }
@@ -40,13 +36,10 @@ export class ListItemsPickerComponent {
     const filter = new AndFilter({
       filters: [
         new TermsFilter({ terms: ['List'], field: 'types' }),
-        new NotFilter({ filter: new ExistsFilter({ field: 'parentSchemaId' }) })
-      ]
+        new NotFilter({ filter: new ExistsFilter({ field: 'parentSchemaId' }) }),
+      ],
     });
 
     return filter;
-
   }
-
 }
-
