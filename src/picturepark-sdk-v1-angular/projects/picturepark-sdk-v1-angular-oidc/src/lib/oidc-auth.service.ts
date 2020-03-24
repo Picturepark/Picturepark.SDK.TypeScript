@@ -53,6 +53,18 @@ export class OidcAuthService extends AuthService {
   }
 
   /**
+   * Requires a user login. If there is a valid access_token, we just set up token refresh, otherwise a redirect to the login page is triggered
+   * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
+   */
+  async requireLogin(redirectRoute?: string) {
+    if (!this.isAuthenticated) {
+      await this.login(redirectRoute);
+    } else {
+      await this.setupAutomaticSilentRefresh();
+    }
+  }
+
+  /**
    * Redirects the user to the identity server to authenticate.
    * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
    */
