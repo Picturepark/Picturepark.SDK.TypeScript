@@ -5,12 +5,11 @@ import {
   PICTUREPARK_CONFIGURATION,
   PICTUREPARK_API_URL,
   AuthService,
-  PictureparkConfiguration
+  PictureparkConfiguration,
 } from '@picturepark/sdk-v1-angular';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class OidcAuthService extends AuthService {
-
   private _isAuthenticating = false;
   private _isAuthenticated = false;
   private _accessToken: string | undefined = undefined;
@@ -22,9 +21,13 @@ export class OidcAuthService extends AuthService {
 
   constructor(
     @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration: PictureparkOidcAuthConfiguration,
-    @Optional() @Inject(PICTUREPARK_API_URL) pictureparkApiUrl: string) {
-    super(pictureparkConfiguration && pictureparkConfiguration.apiServer ?
-      pictureparkConfiguration.apiServer : pictureparkApiUrl);
+    @Optional() @Inject(PICTUREPARK_API_URL) pictureparkApiUrl: string
+  ) {
+    super(
+      pictureparkConfiguration && pictureparkConfiguration.apiServer
+        ? pictureparkConfiguration.apiServer
+        : pictureparkApiUrl
+    );
   }
 
   get username() {
@@ -45,7 +48,7 @@ export class OidcAuthService extends AuthService {
    * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
    */
   login(redirectRoute?: string) {
-    return this._signinRedirectCallbackPromise.then((result) => {
+    return this._signinRedirectCallbackPromise.then(result => {
       if (result === false) {
         const manager = this.createOidcManager(redirectRoute);
         manager.signinRedirect();
@@ -71,20 +74,23 @@ export class OidcAuthService extends AuthService {
     this._isAuthenticating = true;
 
     const manager = this.createOidcManager();
-    this._signinRedirectCallbackPromise = manager.signinRedirectCallback().then(user => {
-      this._isAuthenticating = false;
+    this._signinRedirectCallbackPromise = manager.signinRedirectCallback().then(
+      user => {
+        this._isAuthenticating = false;
 
-      this.userChanged(user);
-      if (window.history.pushState) {
-        const url = window.location.href.replace(window.location.hash, '');
-        window.history.pushState(undefined, '', url);
+        this.userChanged(user);
+        if (window.history.pushState) {
+          const url = window.location.href.replace(window.location.hash, '');
+          window.history.pushState(undefined, '', url);
+        }
+
+        return true;
+      },
+      error => {
+        this._isAuthenticating = false;
+        return false;
       }
-
-      return true;
-    }, error => {
-      this._isAuthenticating = false;
-      return false;
-    });
+    );
 
     return this._signinRedirectCallbackPromise;
   }
@@ -97,7 +103,10 @@ export class OidcAuthService extends AuthService {
         }
 
         if (this.pictureparkConfiguration && this.pictureparkConfiguration.customerAlias) {
-          options.headers = options.headers.append('Picturepark-CustomerAlias', this.pictureparkConfiguration.customerAlias);
+          options.headers = options.headers.append(
+            'Picturepark-CustomerAlias',
+            this.pictureparkConfiguration.customerAlias
+          );
         }
       }
       return options;
@@ -105,24 +114,30 @@ export class OidcAuthService extends AuthService {
   }
 
   private createOidcManager(redirectRoute?: string) {
-    const url = this.pictureparkConfiguration.redirectServer ?
-      this.pictureparkConfiguration.redirectServer : window.location.origin;
+    const url = this.pictureparkConfiguration.redirectServer
+      ? this.pictureparkConfiguration.redirectServer
+      : window.location.origin;
     const search = window.location.search;
 
     const oidcSettings = {
-      client_id: this.pictureparkConfiguration.clientId ?
-        this.pictureparkConfiguration.clientId : 'picturepark_frontend',
-      scope: this.pictureparkConfiguration.scope ?
-        this.pictureparkConfiguration.scope : 'offline_access profile picturepark_api picturepark_account openid',
+      client_id: this.pictureparkConfiguration.clientId
+        ? this.pictureparkConfiguration.clientId
+        : 'picturepark_frontend',
+      scope: this.pictureparkConfiguration.scope
+        ? this.pictureparkConfiguration.scope
+        : 'offline_access profile picturepark_api picturepark_account openid',
       authority: this.pictureparkConfiguration.stsServer,
       response_type: 'id_token token',
       filterProtocolClaims: true,
       loadUserInfo: true,
       redirect_uri: url + (redirectRoute ? redirectRoute : ''),
       post_logout_redirect_uri: url + (redirectRoute ? redirectRoute : ''),
-      acr_values: 'tenant:{"id":"' +
-        this.pictureparkConfiguration.customerId + '","alias":"' +
-        this.pictureparkConfiguration.customerAlias + '"}'
+      acr_values:
+        'tenant:{"id":"' +
+        this.pictureparkConfiguration.customerId +
+        '","alias":"' +
+        this.pictureparkConfiguration.customerAlias +
+        '"}',
     };
 
     return new UserManager(oidcSettings);

@@ -3,49 +3,48 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/co
 @Component({
   selector: 'app-application-menu',
   templateUrl: './application-menu.component.html',
-  styleUrls: ['./application-menu.component.scss']
+  styleUrls: ['./application-menu.component.scss'],
 })
 export class ApplicationMenuComponent implements OnInit {
-
   @ViewChild('labelNameElement', { static: true }) labelNameElement: ElementRef;
   private localStorageThemeKey = 'isLightTheme';
 
   labelName: string | undefined;
   isLightTheme: boolean;
 
-  menuOptions: any[] = [{
-    name: 'Search',
-    icon: 'search',
-    link: 'content-picker'
-  },
-  {
-    name: 'Share manager',
-    icon: 'share',
-    link: 'share-manager'
-  },
-  {
-    name: 'Share viewer',
-    icon: 'share',
-    link: 'share-viewer'
-  },
-  {
-    name: 'Lists',
-    icon: 'reorder',
-    link: 'list-item-picker'
-  },
-  {
-    name: 'Help',
-    icon: 'contact_support',
-    link: 'help'
-  }];
+  menuOptions: any[] = [
+    {
+      name: 'Search',
+      icon: 'search',
+      link: 'content-picker',
+    },
+    {
+      name: 'Share manager',
+      icon: 'share',
+      link: 'share-manager',
+    },
+    {
+      name: 'Share viewer',
+      icon: 'share',
+      link: 'share-viewer',
+    },
+    {
+      name: 'Lists',
+      icon: 'reorder',
+      link: 'list-item-picker',
+    },
+    {
+      name: 'Help',
+      icon: 'contact_support',
+      link: 'help',
+    },
+  ];
 
   // VARS
   menuState = false;
   animateLogoState = false;
 
-  constructor(
-    private renderer: Renderer2,
-  ) {}
+  constructor(private renderer: Renderer2) {}
 
   // ANIMATE LOGO
   animateLogo(): void {
@@ -70,7 +69,7 @@ export class ApplicationMenuComponent implements OnInit {
   showLabel(event: any, labelName: string): void {
     if (!this.menuState) {
       this.labelName = labelName;
-      this.renderer.setStyle(this.labelNameElement.nativeElement, 'top', `${ event.target.offsetTop + 76 }px`);
+      this.renderer.setStyle(this.labelNameElement.nativeElement, 'top', `${event.target.offsetTop + 76}px`);
       this.renderer.setStyle(this.labelNameElement.nativeElement, 'left', '70px');
     }
   }
@@ -98,5 +97,4 @@ export class ApplicationMenuComponent implements OnInit {
     this.isLightTheme = localStorage.getItem(this.localStorageThemeKey) === 'true';
     this.applyTheme();
   }
-
 }

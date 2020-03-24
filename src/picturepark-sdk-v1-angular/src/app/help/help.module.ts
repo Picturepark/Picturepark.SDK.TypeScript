@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // LIBRARIES
-import {  ItemToolBarModule, PanelModule } from '@picturepark/sdk-v1-angular-ui';
+import { ItemToolBarModule, PanelModule } from '@picturepark/sdk-v1-angular-ui';
 
 // MODULES
 import { HelpRoutingModule } from './help-routing.module';
@@ -29,12 +29,6 @@ import { ApplicationHeaderModule } from '../components/application-header/applic
     ThirdPartyLicensesCreditsComponent,
     YourPpSubscriptionComponent,
   ],
-  imports: [
-    CommonModule,
-    HelpRoutingModule,
-    ItemToolBarModule,
-    PanelModule,
-    ApplicationHeaderModule
-  ]
+  imports: [CommonModule, HelpRoutingModule, ItemToolBarModule, PanelModule, ApplicationHeaderModule],
 })
-export class HelpModule { }
+export class HelpModule {}

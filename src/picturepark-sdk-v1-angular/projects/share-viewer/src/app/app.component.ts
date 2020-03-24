@@ -6,7 +6,7 @@ import { environment } from '../environments/environment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   public searchString: string;
@@ -15,11 +15,7 @@ export class AppComponent {
   public showSearchBox = !environment.production;
   public showConsent = !window.localStorage.getItem('Picturepark.ShareCookieConsent');
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
-  }
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   updateRoute(searchString: string): void {
     if (searchString) {

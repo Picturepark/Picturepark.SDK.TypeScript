@@ -1,11 +1,20 @@
 .shares-manager-container {
-    display: flex; height: calc(100vh - 64px); background-color: #eee; overflow: hidden;
-    .content { width: 82%; float: left; height: 100%; }
-    .filters { 
-        width: 18%; float: left; height: 100%; border-left: 1px solid #d8d8d8;
-        mat-tab-group { 
-            height: 100%;
-        }
+  display: flex;
+  height: calc(100vh - 64px);
+  background-color: #eee;
+  overflow: hidden;
+  .content {
+    width: 82%;
+    float: left;
+    height: 100%;
+  }
+  .filters {
+    width: 18%;
+    float: left;
+    height: 100%;
+    border-left: 1px solid #d8d8d8;
+    mat-tab-group {
+      height: 100%;
     }
-    
+  }
 }
