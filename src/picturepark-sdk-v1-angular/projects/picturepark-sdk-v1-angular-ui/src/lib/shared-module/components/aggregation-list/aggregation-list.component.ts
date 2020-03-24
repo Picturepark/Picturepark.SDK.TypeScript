@@ -14,7 +14,7 @@ import { BaseComponent } from '../../components/base.component';
 export abstract class AggregationListComponent extends BaseComponent implements OnChanges {
 
   @Input()
-  public searchString: string | null = '';
+  public searchString = '';
 
   @Input()
   public aggregators: AggregatorBase[] | undefined = [];

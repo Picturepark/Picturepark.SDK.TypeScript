@@ -62,7 +62,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
     @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
 
-    @Input() public searchString: string | null = '';
+    @Input() public searchString = '';
     /**
     * ### SearchBehavior to be passed on the search request
     * default value
@@ -195,14 +195,16 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     /**
      * Click event to trigger selection (ctrl + shift click)
      */
-    public itemClicked($event: MouseEvent, index: number): void {
+    // [TEMPLATE CLEANSING] [TESTING] Don't leave any as the event type
+    public itemClicked(event: any, index: number): void {
+        debugger;
         const itemModel = this.items[index];
 
-        if ($event.ctrlKey || $event.type === 'tap') {
+        if (event.ctrlKey || event.type === 'tap') {
             this.lastSelectedIndex = index;
 
             this.selectionService.toggle(itemModel.item);
-        } else if ($event.shiftKey) {
+        } else if (event.shiftKey) {
             const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
             const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
 

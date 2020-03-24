@@ -33,7 +33,8 @@
             <div class="overview-wrap" *ngIf="content">
               <div class="content-preview" *ngIf="content.contentType !== 'Virtual'">
                 <pp-content-image-preview [content]="content" [shareDetail]="data.shareDetail"
-                  [shareContent]="data.shareContent" width="700" height="600" (playChange)="playing = $event">
+                  [shareContent]="data.shareContent" [width]="700" [height]="600" (playChange)="playing = $event">
+                  <!-- [TEMPLATE CLEANSING] [TESTING] Check if changes to the height and width values causes breaks -->
                 </pp-content-image-preview>
               </div>
               <div class="content-info" *ngIf="!playing">

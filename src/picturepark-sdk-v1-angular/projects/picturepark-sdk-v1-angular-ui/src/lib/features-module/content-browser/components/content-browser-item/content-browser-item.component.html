@@ -47,13 +47,14 @@
       </li>
     </ul>
   </div>
+  <!-- [TEMPLATE CLEANSING] [TESTING] Check if changing 'basic' to 'primary' will have negative consequences -->
   <button 
     *ngIf="browser.configActions['basket'] && !isListView"
     mat-mini-fab 
     class="browser-item__basket-icon" 
     (click)="toggleInBasket(); $event.stopPropagation()"
     [class.browser-item__basket-icon--selected]="itemModel.isInBasket"
-    [color]="itemModel.isInBasket ? 'accent' : 'basic'"
+    [color]="this.itemModel.isInBasket ? 'accent' : 'primary'"
     [matTooltip]="(itemModel.isInBasket ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate">
     <mat-icon class="add" aria-label="Add item to basket" *ngIf="!itemModel.isInBasket">add</mat-icon>
     <mat-icon class="remove" aria-label="Remove item from basket" *ngIf="itemModel.isInBasket">done</mat-icon>

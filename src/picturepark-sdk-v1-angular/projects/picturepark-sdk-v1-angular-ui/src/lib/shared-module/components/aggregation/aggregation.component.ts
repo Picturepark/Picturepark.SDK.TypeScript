@@ -135,8 +135,9 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     return observableResult;
   }
 
-  public queryDisplay(aggregationResultItem: AggregationResultItem): string | undefined {
-    return aggregationResultItem ? aggregationResultItem.name : undefined;
+  // [TEMPLATE CLEANSING] [TESTING] Check if changing the optional return type to empty string is bad 
+  public queryDisplay(aggregationResultItem: AggregationResultItem): string {
+    return aggregationResultItem ? aggregationResultItem.name : '';
   }
 
   public autoCompleteOptionSelected(value: AggregationResultItem): void {
@@ -210,6 +211,14 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     setTimeout(() => {
       this.isLoading = false;
     }, 500);
+  }
+
+  public canExpand() {
+    if (this.expandedAggregationResult &&  this.expandedAggregationResult.aggregationResultItems) {
+      return this.isExpanded && this.expandedAggregationResult.aggregationResultItems.length > 0;
+    } else {
+       return false;
+    }
   }
 
 }

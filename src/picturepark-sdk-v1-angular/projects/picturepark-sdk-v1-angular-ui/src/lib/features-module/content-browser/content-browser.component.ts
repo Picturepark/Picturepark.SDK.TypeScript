@@ -116,7 +116,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       channelId: this.channel!.id,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
       limit: this.pageSize,
-      searchString: this.searchString || '',
+      searchString: this.searchString,
       searchType: ContentSearchType.MetadataAndFullText,
       searchBehaviors: this.searchBehavior ? [
         this.searchBehavior,

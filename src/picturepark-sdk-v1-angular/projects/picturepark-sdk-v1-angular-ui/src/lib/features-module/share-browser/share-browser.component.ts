@@ -84,7 +84,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
       pageToken: this.nextPageToken,
       filter: this.filter ? this.filter : undefined,
       limit: this.pageSize,
-      searchString: this.searchString || '',
+      searchString: this.searchString,
       searchBehaviors: [
         SearchBehavior.SimplifiedSearch,
         SearchBehavior.DropInvalidCharactersOnFailure,

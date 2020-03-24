@@ -36,7 +36,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public searchQuery: Observable<string>;
   public filter: BehaviorSubject<FilterBase | null>;
   public aggregations: AggregatorBase[] = [];
-  public schemaDetail: SchemaDetail | undefined;
+  public schemaDetail: SchemaDetail;
   public schema: Observable<SchemaDetail>;
   public schemaId: string;
   public selectedItems: ListItem[];
