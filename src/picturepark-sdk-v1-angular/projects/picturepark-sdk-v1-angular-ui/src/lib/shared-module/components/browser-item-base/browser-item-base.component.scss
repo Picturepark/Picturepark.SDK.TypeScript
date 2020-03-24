@@ -10,6 +10,8 @@
   width: 100%;
   cursor: pointer;
   @include mat-elevation-transition;
+  user-select: none;
+
 
   &--selected {
     
