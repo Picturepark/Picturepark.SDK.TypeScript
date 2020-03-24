@@ -64,6 +64,7 @@ export class AppModule { }
 ```
 
 **3. Silent refresh**
+
 In order to be able to refresh the access_token, create a new file in your apps "assets" folder called silent-refresh.html with the following content:
 [silent-refresh.html](../../../src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular-oidc/assets/silent-refresh.html)
 

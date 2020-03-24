@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 // LIBRARIES
 import { PictureparkOidcAuthConfiguration, PictureparkOidcModule } from '@picturepark/sdk-v1-angular-oidc';
 import { PictureparkUiModule, LayerPanelsModule } from '@picturepark/sdk-v1-angular-ui';
-import { PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
 
 // MODULES
 import { AppRoutingModule } from './app-routing.module';
@@ -43,8 +42,8 @@ export function LocaleIdFactory() {
   return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
 }
 
-// CLIENT CONFIG
-export function PictureparkConfigurationFactory() {
+// OIDC CONFIG
+export function oidcConfigFactory() {
   if (!environment.production) {
     return PictureparkAppSetting();
   }
@@ -68,15 +67,12 @@ export function PictureparkConfigurationFactory() {
     HttpClientModule,
     AppRoutingModule,
     PictureparkUiModule,
-    PictureparkOidcModule,
+    PictureparkOidcModule.forRoot(oidcConfigFactory),
     LayerPanelsModule,
     HammerModule,
     ApplicationMenuModule,
   ],
-  providers: [
-    { provide: LOCALE_ID, useFactory: LocaleIdFactory },
-    { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
-  ],
+  providers: [{ provide: LOCALE_ID, useFactory: LocaleIdFactory }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
