@@ -26,7 +26,7 @@ export class DialogBaseComponent extends BaseComponent implements OnInit, OnDest
     protected dialogRef: MatDialogRef<any>,
     protected injector: Injector
   ) {
-    super();
+    super(injector);
     this.notificationService = injector.get(NotificationService);
   }
 

@@ -66,13 +66,28 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
   ) {}
 
   public openDetails(item: ContentModel<Content>) {
-    let index = this.contentBrowserComponent.items.indexOf(item);
-    this.dialog.open(ContentDetailsDialogComponent, {
-      data: <ContentDetailDialogOptions>{
-        id: item.item.id,
-        showMetadata: true,
-        hasPrevious: () => {
-          return index !== 0;
+
+    let index = this.contentBrowserComponent.items.findIndex(q => q.item.id === item.item.id);
+
+    this.dialog.open(ContentDetailsDialogComponent,
+      {
+        data: <ContentDetailDialogOptions>{
+          id: item.item.id,
+          showMetadata: true,
+          hasPrevious: () => {
+            return index !== 0;
+          },
+          hasNext: () => {
+            return this.contentBrowserComponent.items.length > index + 1;
+          },
+          previous: () => {
+            index--;
+            return this.contentBrowserComponent.items[index].item.id;
+          },
+          next: () => {
+            index++;
+            return this.contentBrowserComponent.items[index].item.id;
+          }
         },
         hasNext: () => {
           return this.contentBrowserComponent.items.length > index + 1;

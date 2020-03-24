@@ -39,10 +39,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     protected get dialog(): MatDialog {
         return this.injector.get(MatDialog);
     }
-    @LazyGetter()
-    protected get breakpointObserver(): BreakpointObserver {
-        return this.injector.get(BreakpointObserver);
-    }
 
     public self: BaseBrowserComponent<TEntity>;
 
@@ -59,14 +55,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public views: IBrowserView[];
     public activeView: IBrowserView;
     public activeThumbnailSize?: ThumbnailSize = ThumbnailSize.Medium;
-
-    public get deviceBreakpoint(): boolean {
-        return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
-    }
-
-    public get isTouchDevice(): boolean {
-        return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
-    }
 
     protected scrollDebounceTime = 0;
 
@@ -97,7 +85,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     constructor(protected componentName: string,
         protected injector: Injector) {
-        super();
+        super(injector);
 
         this.self = this;
         // Init default sort

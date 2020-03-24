@@ -1,11 +1,9 @@
-import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, Input, OnInit, SecurityContext } from '@angular/core';
+import { Component, Input, Injector } from '@angular/core';
 
-// LIBRARIES
-import { ThumbnailSize, ContentService, Content } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
+import { Content } from '@picturepark/sdk-v1-angular';
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
@@ -15,18 +13,19 @@ import { BasketService } from '../../../../shared-module/services/basket/basket.
   templateUrl: './basket-item.component.html',
   styleUrls: ['./basket-item.component.scss']
 })
-export class BasketItemComponent extends BaseComponent {
+export class BasketItemComponent extends BaseComponent  {
 
-  @Input()
-  public item: Content;
+  @Input() public item: Content;
+
 
   constructor(
     private basketService: BasketService,
+    protected injector: Injector
   ) {
-    super();
+    super(injector);
   }
 
   public remove() {
-    this.basketService.removeItem(this.item);
+    this.basketService.removeItem(this.item.id);
   }
 }

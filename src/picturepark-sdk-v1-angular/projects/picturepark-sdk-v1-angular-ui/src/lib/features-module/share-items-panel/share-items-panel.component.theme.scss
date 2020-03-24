@@ -6,52 +6,47 @@ $pp-share-items-panel-theme: (contrast: ());
 @mixin pp-share-items-panel-theme($theme) {
   $primary: map-get($theme, primary);
 
-  .grid {
+  pp-share-items-panel {
 
-    >.item {
+    .grid {
 
-      background-color: mat-color($primary, light-border);
+      >.item {
+
+        background-color: mat-color($primary, divider);
+      }
     }
-  }
 
-  .list {
+    .list {
 
-    >.item {
+      >.item {
 
-      background-color: mat-color($primary, dialog-background);
+        background-color: mat-color($primary, surface-mid);
+        color: mat-color($primary, on-surface-mid);
 
 
-      .thumbnail {
-        background-color: mat-color($primary, light-border);
-      }
-
-      .item-info {
-
-        li {
-          color: mat-color($primary, light-font);
-        }
-
-        .title {
-          color: mat-color($primary, dark-font);
-        }
-      }
-
-      &:hover {
-        background-color: mat-color($primary, light-border); 
-        
         .item-info {
+          background-color: mat-color($primary, surface-light);
+          color: mat-color($primary, on-surface-light);
+        }
 
-          li {
-            color: white;
+        .item-funcs {
+          background-color: mat-color($primary, surface-light);
+          color: mat-color($primary, on-surface-light);
+        }
+
+        &:hover {
+
+          .item-info {
+            background-color: mat-color($primary, surface-mid);
+            color: mat-color($primary, on-surface-mid);
           }
-  
-          .title {
-            color: mat-color($primary, dialog-background);
+
+          .item-funcs {
+            background-color: mat-color($primary, surface-mid);
+            color: mat-color($primary, on-surface-mid);
           }
         }
       }
-
     }
   }
-
 }

@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/translations';
 import { environment } from '../environments/environment';
 import { PictureparkAppSetting } from 'src/config';
+import { ApplicationMenuModule } from './components/application-menu/application-menu.module';
 
 export function LocaleIdFactory() {
   const translations = TRANSLATIONS;
@@ -42,6 +43,7 @@ export function LocaleIdFactory() {
   return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
 }
 
+
 // CLIENT CONFIG
 export function PictureparkConfigurationFactory() {
   if (!environment.production) {
@@ -60,7 +62,10 @@ export function PictureparkConfigurationFactory() {
 }
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -69,7 +74,8 @@ export function PictureparkConfigurationFactory() {
     PictureparkUiModule,
     PictureparkOidcModule,
     LayerPanelsModule,
-    HammerModule
+    HammerModule,
+    ApplicationMenuModule
   ],
   providers: [
     { provide: LOCALE_ID, useFactory: LocaleIdFactory },
@@ -77,4 +83,4 @@ export function PictureparkConfigurationFactory() {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

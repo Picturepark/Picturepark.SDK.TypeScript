@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs';
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 
 import {
   ObjectAggregationResult, AggregatorBase, ShareService, ShareAggregationRequest
@@ -17,8 +17,9 @@ import { AggregationListComponent } from '../../shared-module/components/aggrega
   ],
 })
 export class ShareAggregationListComponent extends AggregationListComponent {
-  constructor(private shareService: ShareService) {
-    super();
+  constructor(private shareService: ShareService,
+    protected injector: Injector) {
+    super(injector);
   }
 
   protected fetchData(): Observable<ObjectAggregationResult | null> {

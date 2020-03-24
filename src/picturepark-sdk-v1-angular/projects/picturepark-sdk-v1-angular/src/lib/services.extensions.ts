@@ -21,7 +21,7 @@ import {
 } from './api-services'; // ignore
 
 import { Injector } from '@angular/core';
-import { tap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
 import { PictureparkServiceBase } from './base.service';
@@ -64,135 +64,162 @@ class AggregationResultItem extends generated.AggregationResultItem {
 }
 
 class ContentService extends generated.ContentService {
-  @LazyGetter()
-  protected get liquidRenderingService(): LiquidRenderingService {
-    return this.injector.get(LiquidRenderingService);
-  }
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
 
-  constructor(
-    protected injector: Injector,
-    @Inject(AuthService) configuration: AuthService,
-    @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
-  ) {
-    // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    super(configuration);
-    // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.http = http;
-    // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-  }
+    constructor(protected injector: Injector,
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient,
+        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        super(configuration);
+        // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        this.http = http;
+        // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
 
-  public create(
-    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
-    allowMissingDependencies: boolean | undefined,
-    timeout: string | null | undefined,
-    waitSearchDocCreation: boolean | undefined,
-    contentCreateRequest: ContentCreateRequest
-  ): Observable<ContentDetail> {
-    return this.createCore(resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, contentCreateRequest).pipe(
-      tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
-    );
-  }
+    public create(resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined,
+        timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, contentCreateRequest: ContentCreateRequest): Observable<ContentDetail> {
+        return this.createCore(resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, contentCreateRequest).pipe(
+            mergeMap(async content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
+        );
+    }
 
-  public get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
-    return this.getCore(contentId, resolveBehaviors).pipe(tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content)));
-  }
+    public get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
+        return this.getCore(contentId, resolveBehaviors).pipe(
+            mergeMap(async content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
+        );
+    }
 
-  public getMany(ids: string[] | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail[]> {
-    return this.getManyCore(ids, resolveBehaviors).pipe(
-      tap(async contents => contents.map(async content => await this.liquidRenderingService.renderNestedDisplayValues(content)))
-    );
-  }
+    public getMany(ids: string[] | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail[]> {
+        return this.getManyCore(ids, resolveBehaviors).pipe(
+            mergeMap(async contents => {
+                contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
+                return contents;
+            })
+        );
+    }
 
-  public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
-    return this.searchCore(contentSearchRequest).pipe(tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult)));
-  }
+    public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
+        return this.searchCore(contentSearchRequest).pipe(
+            mergeMap(async  searchResult => {
+                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+                return searchResult;
+            })
+        );
+    }
 
-  public updateMetadata(
-    contentId: string,
-    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
-    allowMissingDependencies: boolean | undefined,
-    timeout: string | null | undefined,
-    waitSearchDocCreation: boolean | undefined,
-    updateRequest: ContentMetadataUpdateRequest
-  ): Observable<ContentDetail> {
-    return this.updateMetadataCore(contentId, resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, updateRequest).pipe(
-      tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
-    );
-  }
+    public updateMetadata(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+        allowMissingDependencies: boolean | undefined, timeout: string | null | undefined,
+        waitSearchDocCreation: boolean | undefined, updateRequest: ContentMetadataUpdateRequest): Observable<ContentDetail> {
+        return this.updateMetadataCore(contentId, resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, updateRequest).pipe(
+            mergeMap(async content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
+        );
+    }
 
-  public updatePermissions(
-    contentId: string,
-    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
-    timeout: string | null | undefined,
-    waitSearchDocCreation: boolean | undefined,
-    updateRequest: ContentPermissionsUpdateRequest
-  ): Observable<ContentDetail> {
-    return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
-      tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
-    );
-  }
+    public updatePermissions(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+        timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined,
+        updateRequest: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
+        return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
+            mergeMap(async content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
+        );
+    }
 }
 
 class ListItemService extends generated.ListItemService {
-  @LazyGetter()
-  protected get liquidRenderingService(): LiquidRenderingService {
-    return this.injector.get(LiquidRenderingService);
-  }
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
 
-  constructor(
-    protected injector: Injector,
-    @Inject(AuthService) configuration: AuthService,
-    @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
-  ) {
-    // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    super(configuration);
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.http = http;
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-  }
+    constructor(protected injector: Injector,
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient,
+        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        super(configuration);
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        this.http = http;
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
 
-  public get(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
-    return this.getCore(listItemId, resolveBehaviors).pipe(tap(async listItem => await this.liquidRenderingService.renderNestedDisplayValues(listItem)));
-  }
+    public get(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
+        return this.getCore(listItemId, resolveBehaviors).pipe(
+            mergeMap(async  listItem => {
+                await this.liquidRenderingService.renderNestedDisplayValues(listItem);
+                return listItem;
+            })
+        );
+    }
 
-  public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
-    return this.searchCore(listItemSearchRequest).pipe(tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult)));
-  }
+    public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
+        return this.searchCore(listItemSearchRequest).pipe(
+            mergeMap(async  searchResult => {
+                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+                return searchResult;
+            })
+        );
+    }
 }
 
 class ShareService extends generated.ShareService {
-  @LazyGetter()
-  protected get liquidRenderingService(): LiquidRenderingService {
-    return this.injector.get(LiquidRenderingService);
-  }
+    @LazyGetter()
+    protected get liquidRenderingService(): LiquidRenderingService {
+        return this.injector.get(LiquidRenderingService);
+    }
 
-  constructor(
-    protected injector: Injector,
-    @Inject(AuthService) configuration: AuthService,
-    @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
-  ) {
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    super(configuration);
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.http = http;
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-  }
+    constructor(protected injector: Injector,
+        @Inject(AuthService) configuration: AuthService,
+        @Inject(HttpClient) http: HttpClient,
+        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        super(configuration);
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        this.http = http;
+        // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+    }
 
-  public get(id: string): Observable<ShareDetail> {
-    return this.getCore(id).pipe(tap(async shareDetail => await this.liquidRenderingService.renderNestedDisplayValues(shareDetail)));
-  }
+    public get(id: string): Observable<ShareDetail> {
+        return this.getCore(id).pipe(
+            mergeMap(async  shareDetail => {
+                await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
+                return shareDetail;
+            })
+        );
+    }
 
-  public getShareJson(token: string, lang: string | null | undefined): Observable<any> {
-    return this.getShareJsonCore(token, lang).pipe(tap(async shareJson => await this.liquidRenderingService.renderNestedDisplayValues(shareJson)));
-  }
+    public getShareJson(token: string, lang: string | null | undefined): Observable<any> {
+        return this.getShareJsonCore(token, lang).pipe(
+            mergeMap(async shareJson => {
+                await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
+                return shareJson;
+            })
+        );
+    }
 
-  public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
-    return this.searchCore(shareSearchRequest).pipe(tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult)));
-  }
+    public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
+        return this.searchCore(shareSearchRequest).pipe(
+            mergeMap(async  searchResult => {
+                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+                return searchResult;
+            })
+        );
+    }
 }

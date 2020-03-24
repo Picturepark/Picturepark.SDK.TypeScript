@@ -57,34 +57,39 @@ $mat-picturepark-accent: (
 // GLOBAL COLORS
 $base: #39acaa;
 
-// c0e6ff 
-// 93d0f9
-
+/*
+    Style guide documentation
+    https://material.io/design/color/the-color-system.html#color-theme-creation
+*/
 $mat-picturepark-primary: (
-    base: $base,
-    dark-background: #444,
-    dialog-background: #f8f8f8,
-    light-background: #eee,
-    white-background: #fff,
-    white-font: #fff,
-    dark-font: #444,
-    light-font: #727272,
-    light-border: #d8d8d8,
-    icon-selected-color: #2f2f2f,
-    image-slot-background-color: #dcdcdc,
-    button: #aaa,
-    button-active: $base,
-    progress-bar: $base,
-    progress-bar-background: #e4e4e4,
-    spinner: $base,
-    shadow-color: #000,
-    contrast: (
-        light-background: #d8d8d8,
-        dialog-background: #eee,
-    ),
-    form-dark-background: #808080,
-    form-light-background: #a9a9a9,
+    primary: $base,
+
+    background-light: #fff,
+    background-dark: #eee,
+
+    surface-light: #fff,
+    surface-mid: #dcdcdc,
+    surface-dark: #444,
+    
+    opacity-light: rgba(0, 0, 0, .4),
+
+    on-primary: white,
+
+    on-background-light: #727272,
+    on-background-dark: #727272,
+
+    on-surface-light: #727272,
+    on-surface-mid: #444,
+    on-surface-dark: #fff,
+    
+    on-opacity-light: #fff,
+
+    divider: #dcdcdc,
+
+    contrast: ()
+
 );
+
 
 $picturepark-app-primary: mat-palette($mat-picturepark-primary);
 $picturepark-app-accent: mat-palette($mat-picturepark-accent, 400, 200, 700);
@@ -92,32 +97,49 @@ $picturepark-app-warn: mat-palette($mat-red);
 $picturepark-app-theme: mat-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);
 
 $mat-picturepark-primary-dark: (
-    base: $base,
-    dark-background: #fff,
-    dialog-background: #444,
-    light-background: #444,
-    white-background: #808080,
-    white-font: #d3d3d3,
-    dark-font: #d3d3d3,
-    light-font: #a9a9a9,
-    light-border: #a9a9a9,
-    icon-selected-color: #2f2f2f,
-    image-slot-background-color: #a9a9a9,
-    button: #aaa,
-    button-active: $base,
-    progress-bar: $base,
-    progress-bar-background: #e4e4e4,
-    spinner: $base,
-    shadow-color: #000,
-    contrast: (
-        light-background: #d8d8d8,
-        dialog-background: #a9a9a9,
-    ),
-    form-dark-background: #808080,
-    form-light-background: #a9a9a9,
+    primary: $base,
+
+    background-light: #727272,
+    background-dark: #444,
+
+    surface-light: #444,
+    surface-mid: #727272,
+    surface-dark: #727272,
+    
+    opacity-light: rgba(0, 0, 0, .4),
+
+    on-primary: white,
+
+    on-background-light: #fff,
+    on-background-dark: #a9a9a9,
+
+    on-surface-light: #a9a9a9,
+    on-surface-mid: #dcdcdc,
+    on-surface-dark: #dcdcdc,
+    
+    on-opacity-light: #fff,
+
+    divider: #dcdcdc,
+
+    contrast: ()
 );
 
 $picturepark-app-primary-dark: mat-palette($mat-picturepark-primary-dark);
 $picturepark-app-accent-dark: mat-palette($mat-picturepark-accent, 400, 200, 700);
 $picturepark-app-warn-dark: mat-palette($mat-red);
 $picturepark-app-theme-dark: mat-dark-theme($picturepark-app-primary-dark, $picturepark-app-accent-dark, $picturepark-app-warn-dark);
+
+// Apply custom components themes 
+@import '../projects/picturepark-sdk-v1-angular-ui/src/lib/theming/_theming.scss';
+@import './app/components/application-menu/application-menu.component.theme.scss';
+@import './app/components/application-header/application-header.component.theme.scss';
+
+
+// LOAD THEME COMPONENTS WITH CUSTOM THEME
+@mixin picturepark-components($theme) {
+
+    // Include custom component themes from the main app 
+    @include app-application-menu-theme($theme);
+    @include app-application-header-theme($theme);
+    
+}

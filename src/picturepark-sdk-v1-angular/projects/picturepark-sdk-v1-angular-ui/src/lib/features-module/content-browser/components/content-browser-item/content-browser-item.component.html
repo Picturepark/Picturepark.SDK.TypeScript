@@ -1,7 +1,7 @@
 <div class="browser-item" [class.browser-item--selected]="itemModel.isSelected" [class.browser-item--list-view]="isListView">
   <div class="browser-item__image-slot">
     
-    <pp-content-item-thumbnail [item]="itemModel.item" [thumbnailSize]="thumbnailSize" ></pp-content-item-thumbnail>
+    <pp-content-item-thumbnail [item]="itemModel.item" [thumbnailSize]="thumbnailSize" [isListView]="isListView"></pp-content-item-thumbnail>
 
     <div class="browser-item__actions" *ngIf="!isListView">
       <ul>
@@ -39,7 +39,7 @@
           mat-icon-button 
           *ngIf="browser.configActions['basket']" 
           (click)="toggleInBasket(); $event.stopPropagation()" 
-          [matTooltip]="'ContentBrowser.AddToBasket' | pptranslate">
+          [matTooltip]="(itemModel.isInBasket ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate">
           <mat-icon class="add" aria-label="Add item to basket" *ngIf="!itemModel.isInBasket">add</mat-icon>
           <mat-icon class="remove" aria-label="Remove item from basket" *ngIf="itemModel.isInBasket">done</mat-icon>
           <mat-icon class="clear" aria-label="Remove item from basket" *ngIf="itemModel.isInBasket">clear</mat-icon>

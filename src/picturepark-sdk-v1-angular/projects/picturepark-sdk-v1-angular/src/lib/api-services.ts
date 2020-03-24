@@ -8,7 +8,7 @@
 // ReSharper disable InconsistentNaming
 
 import { Injector } from '@angular/core';
-import { tap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
 import { PictureparkServiceBase } from './base.service';
@@ -1792,25 +1792,37 @@ export class ContentService extends PictureparkServiceBase {
     public create(resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined,
         timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, contentCreateRequest: ContentCreateRequest): Observable<ContentDetail> {
         return this.createCore(resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, contentCreateRequest).pipe(
-            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+            mergeMap(async content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
         );
     }
 
     public get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
         return this.getCore(contentId, resolveBehaviors).pipe(
-            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+            mergeMap(async content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
         );
     }
 
     public getMany(ids: string[] | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail[]> {
         return this.getManyCore(ids, resolveBehaviors).pipe(
-            tap(async contents => contents.map(async content => await this.liquidRenderingService.renderNestedDisplayValues(content)))
+            mergeMap(async contents => {
+                contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
+                return contents;
+            })
         );
     }
 
     public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
         return this.searchCore(contentSearchRequest).pipe(
-            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+            mergeMap(async  searchResult => {
+                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+                return searchResult;
+            })
         );
     }
 
@@ -1818,7 +1830,10 @@ export class ContentService extends PictureparkServiceBase {
         allowMissingDependencies: boolean | undefined, timeout: string | null | undefined,
         waitSearchDocCreation: boolean | undefined, updateRequest: ContentMetadataUpdateRequest): Observable<ContentDetail> {
         return this.updateMetadataCore(contentId, resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, updateRequest).pipe(
-            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+            mergeMap(async content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
         );
     }
 
@@ -1826,7 +1841,10 @@ export class ContentService extends PictureparkServiceBase {
         timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined,
         updateRequest: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
         return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
-            tap(async content => await this.liquidRenderingService.renderNestedDisplayValues(content))
+            mergeMap(async content => {
+                await this.liquidRenderingService.renderNestedDisplayValues(content);
+                return content;
+            })
         );
     }
 
@@ -7021,13 +7039,19 @@ export class ListItemService extends PictureparkServiceBase {
 
     public get(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
         return this.getCore(listItemId, resolveBehaviors).pipe(
-            tap(async listItem => await this.liquidRenderingService.renderNestedDisplayValues(listItem))
+            mergeMap(async  listItem => {
+                await this.liquidRenderingService.renderNestedDisplayValues(listItem);
+                return listItem;
+            })
         );
     }
 
     public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
         return this.searchCore(listItemSearchRequest).pipe(
-            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+            mergeMap(async  searchResult => {
+                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+                return searchResult;
+            })
         );
     }
 
@@ -13901,19 +13925,28 @@ export class ShareService extends PictureparkServiceBase {
 
     public get(id: string): Observable<ShareDetail> {
         return this.getCore(id).pipe(
-            tap(async shareDetail => await this.liquidRenderingService.renderNestedDisplayValues(shareDetail))
+            mergeMap(async  shareDetail => {
+                await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
+                return shareDetail;
+            })
         );
     }
 
     public getShareJson(token: string, lang: string | null | undefined): Observable<any> {
         return this.getShareJsonCore(token, lang).pipe(
-            tap(async shareJson => await this.liquidRenderingService.renderNestedDisplayValues(shareJson))
+            mergeMap(async shareJson => {
+                await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
+                return shareJson;
+            })
         );
     }
 
     public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
         return this.searchCore(shareSearchRequest).pipe(
-            tap(async searchResult => await this.liquidRenderingService.renderNestedDisplayValues(searchResult))
+            mergeMap(async  searchResult => {
+                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+                return searchResult;
+            })
         );
     }
 
@@ -34469,7 +34502,7 @@ export class BatchResponseRow implements IBatchResponseRow {
     status!: number;
     /** New version of the item. */
     version!: number;
-    /** If the operation did not succeeded, this contains error information. */
+    /** If the operation did not succeed, this contains error information. */
     error?: ErrorResponse | undefined;
     /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
     requestId?: string | undefined;
@@ -34524,7 +34557,7 @@ export interface IBatchResponseRow {
     status: number;
     /** New version of the item. */
     version: number;
-    /** If the operation did not succeeded, this contains error information. */
+    /** If the operation did not succeed, this contains error information. */
     error?: IErrorResponse | undefined;
     /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
     requestId?: string | undefined;
@@ -35337,6 +35370,8 @@ export abstract class BusinessRule implements IBusinessRule {
     names?: TranslatedStringDictionary | undefined;
     /** Language specific rule description. */
     description?: TranslatedStringDictionary | undefined;
+    /** Enable trace logs for this rule. */
+    enableTracing!: boolean;
 
     protected _discriminator: string;
 
@@ -35360,6 +35395,7 @@ export abstract class BusinessRule implements IBusinessRule {
             this.isEnabled = _data["isEnabled"];
             this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
             this.description = _data["description"] ? TranslatedStringDictionary.fromJS(_data["description"]) : <any>undefined;
+            this.enableTracing = _data["enableTracing"];
         }
     }
 
@@ -35386,6 +35422,7 @@ export abstract class BusinessRule implements IBusinessRule {
         data["isEnabled"] = this.isEnabled;
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["description"] = this.description ? this.description.toJSON() : <any>undefined;
+        data["enableTracing"] = this.enableTracing;
         return data; 
     }
 }
@@ -35402,6 +35439,8 @@ export interface IBusinessRule {
     names?: ITranslatedStringDictionary | undefined;
     /** Language specific rule description. */
     description?: ITranslatedStringDictionary | undefined;
+    /** Enable trace logs for this rule. */
+    enableTracing: boolean;
 }
 
 /** Represents a trigger point for a business rule */
@@ -35533,6 +35572,8 @@ export interface IBusinessRuleConfigurable extends IBusinessRule {
 
 /** Conditions on which a business rule is executed */
 export abstract class BusinessRuleCondition implements IBusinessRuleCondition {
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 
     protected _discriminator: string;
 
@@ -35547,6 +35588,9 @@ export abstract class BusinessRuleCondition implements IBusinessRuleCondition {
     }
 
     init(_data?: any) {
+        if (_data) {
+            this.traceRefId = _data["traceRefId"];
+        }
     }
 
     static fromJS(data: any): BusinessRuleCondition {
@@ -35655,12 +35699,15 @@ export abstract class BusinessRuleCondition implements IBusinessRuleCondition {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
+        data["traceRefId"] = this.traceRefId;
         return data; 
     }
 }
 
 /** Conditions on which a business rule is executed */
 export interface IBusinessRuleCondition {
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 }
 
 /** Links multiple conditions with a boolean operator */
@@ -36546,6 +36593,8 @@ export class BusinessRuleTransformationGroup implements IBusinessRuleTransformat
     transformations?: BusinessRuleTransformation[] | undefined;
     /** Variable name where the final result should be stored in. */
     storeIn?: string | undefined;
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 
     constructor(data?: IBusinessRuleTransformationGroup) {
         if (data) {
@@ -36569,6 +36618,7 @@ export class BusinessRuleTransformationGroup implements IBusinessRuleTransformat
                     this.transformations!.push(BusinessRuleTransformation.fromJS(item));
             }
             this.storeIn = _data["storeIn"];
+            this.traceRefId = _data["traceRefId"];
         }
     }
 
@@ -36592,6 +36642,7 @@ export class BusinessRuleTransformationGroup implements IBusinessRuleTransformat
                 data["transformations"].push(item.toJSON());
         }
         data["storeIn"] = this.storeIn;
+        data["traceRefId"] = this.traceRefId;
         return data; 
     }
 }
@@ -36604,10 +36655,14 @@ export interface IBusinessRuleTransformationGroup {
     transformations?: BusinessRuleTransformation[] | undefined;
     /** Variable name where the final result should be stored in. */
     storeIn?: string | undefined;
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 }
 
 /** Business rule transformation */
 export abstract class BusinessRuleTransformation implements IBusinessRuleTransformation {
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 
     protected _discriminator: string;
 
@@ -36622,6 +36677,9 @@ export abstract class BusinessRuleTransformation implements IBusinessRuleTransfo
     }
 
     init(_data?: any) {
+        if (_data) {
+            this.traceRefId = _data["traceRefId"];
+        }
     }
 
     static fromJS(data: any): BusinessRuleTransformation {
@@ -36662,12 +36720,15 @@ export abstract class BusinessRuleTransformation implements IBusinessRuleTransfo
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
+        data["traceRefId"] = this.traceRefId;
         return data; 
     }
 }
 
 /** Business rule transformation */
 export interface IBusinessRuleTransformation {
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 }
 
 /** Takes an item from a dictionary by its key. */
@@ -36922,6 +36983,8 @@ export interface IProjectionTransformation extends IBusinessRuleTransformation {
 
 /** Action to be performed by a business rule */
 export abstract class BusinessRuleAction implements IBusinessRuleAction {
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 
     protected _discriminator: string;
 
@@ -36936,6 +36999,9 @@ export abstract class BusinessRuleAction implements IBusinessRuleAction {
     }
 
     init(_data?: any) {
+        if (_data) {
+            this.traceRefId = _data["traceRefId"];
+        }
     }
 
     static fromJS(data: any): BusinessRuleAction {
@@ -36996,12 +37062,15 @@ export abstract class BusinessRuleAction implements IBusinessRuleAction {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
+        data["traceRefId"] = this.traceRefId;
         return data; 
     }
 }
 
 /** Action to be performed by a business rule */
 export interface IBusinessRuleAction {
+    /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+    traceRefId?: string | undefined;
 }
 
 /** Assigns a layer, adding the default values to the data dictionary */
@@ -38790,6 +38859,7 @@ export enum TermsRelationAggregatorDocumentType {
     User = "User",
     ContentPermissionSet = "ContentPermissionSet",
     Owner = "Owner",
+    UserRole = "UserRole",
 }
 
 /** A multi-bucket value aggregator used for aggregations on indexed enum values. */

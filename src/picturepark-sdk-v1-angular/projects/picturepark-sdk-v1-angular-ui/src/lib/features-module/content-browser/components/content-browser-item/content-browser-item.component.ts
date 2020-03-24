@@ -1,4 +1,4 @@
-import { Component, OnChanges, SecurityContext } from '@angular/core';
+import { Component, OnChanges, SecurityContext, Injector } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 // LIBRARIES
@@ -26,11 +26,12 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   public thumbnailSizes = ThumbnailSize;
 
   constructor(
+    protected injector: Injector,
     private basketService: BasketService,
     private sanitizer: DomSanitizer,
     private contentDownloadDialogService: ContentDownloadDialogService
   ) {
-    super();
+    super(injector);
   }
 
   public ngOnChanges(): void {
@@ -52,9 +53,9 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     }
 
     if (this.itemModel.isInBasket === true) {
-      this.basketService.removeItem(this.itemModel.item);
+      this.basketService.removeItem(this.itemModel.item.id);
     } else {
-      this.basketService.addItem(this.itemModel.item);
+      this.basketService.addItem(this.itemModel.item.id);
     }
   }
 }
