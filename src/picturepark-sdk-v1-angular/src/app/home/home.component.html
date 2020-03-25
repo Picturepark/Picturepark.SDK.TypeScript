@@ -4,19 +4,14 @@
       <mat-toolbar class="header" color="primary">
         <h1 class="mat-h1">Picturepark Content Platform</h1>
         <div style="flex-grow: 1"></div>
-        <div>
-          Server URL : {{authService.apiServer}}
-        </div>
-        <button mat-button color="primary" *ngIf="!authService.isAuthenticated" (click)="login()">Login</button>
+        <div>Server URL : {{ authService.apiServer }}</div>
       </mat-toolbar>
     </div>
     <div class="content">
       <mat-toolbar>
         <div>Elements</div>
         <div class="spacer"></div>
-        <div>
-          {{authService.username}} | <a (click)="authService.logout()">Logout</a>
-        </div>
+        <div>{{ authService.username }} | <a (click)="authService.logout()">Logout</a></div>
       </mat-toolbar>
       <div>
         <mat-card class="card">
@@ -26,7 +21,7 @@
             <button mat-button color="primary" routerLink="/content-picker">View</button>
           </mat-card-actions>
         </mat-card>
-      
+
         <mat-card class="card">
           <mat-card-title>list-item-picker</mat-card-title>
           <mat-card-content>/list-item-picker: Shows a list browser</mat-card-content>
@@ -34,7 +29,7 @@
             <button mat-button color="primary" routerLink="/list-item-picker">View</button>
           </mat-card-actions>
         </mat-card>
-      
+
         <mat-card class="card">
           <mat-card-title>share-manager</mat-card-title>
           <mat-card-content>/share-manager: Shows a share manager</mat-card-content>
