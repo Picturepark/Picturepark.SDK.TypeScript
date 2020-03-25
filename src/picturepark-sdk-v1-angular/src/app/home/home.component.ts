@@ -10,8 +10,4 @@ import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 })
 export class HomeComponent {
   constructor(@Inject(AuthService) public authService: OidcAuthService) {}
-
-  login() {
-    this.authService.login();
-  }
 }

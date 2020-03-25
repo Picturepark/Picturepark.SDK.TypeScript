@@ -25,6 +25,10 @@ const routes: Routes = [
     path: 'share-manager',
     loadChildren: () => import('./share-manager/share-manager.module').then(m => m.ShareManagerModule),
   },
+  {
+    path: '**',
+    component: HomeComponent,
+  },
 ];
 
 @NgModule({

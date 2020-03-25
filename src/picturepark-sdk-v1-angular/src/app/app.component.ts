@@ -13,9 +13,6 @@ export class AppComponent implements OnInit {
   constructor(@Inject(AuthService) public authService: OidcAuthService) {}
 
   public ngOnInit() {
-    if (!this.authService.isAuthenticated) {
-      const path = location.pathname.replace('/elements/', '/');
-      this.authService.login(path + location.search);
-    }
+    this.authService.requireLogin(location.pathname);
   }
 }
