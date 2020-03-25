@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, OnInit, Injector } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 
@@ -7,6 +7,7 @@ import { ThumbnailSize, Share, ContentService } from '@picturepark/sdk-v1-angula
 
 // COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
+import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 
 @Component({
   selector: 'pp-share-browser-item',
@@ -27,9 +28,10 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
   constructor(
     private contentService: ContentService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    protected injector: Injector
   ) {
-    super();
+    super(injector);
   }
 
 
@@ -65,7 +67,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
   }
 
   public updateUrl(event) {
-   event.path[0].src = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
+   event.path[0].src = BROKEN_IMAGE_URL;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

@@ -1,5 +1,9 @@
 export let TRANSLATIONS = {
   Basket: {
+    NoImageForItem: {
+      en: 'There is no image.',
+      de: 'Es ist kein Bild vorhanden'
+    },
     RemoveItem: {
       en: 'Remove',
       de: 'Entfernen'
@@ -95,6 +99,10 @@ export let TRANSLATIONS = {
     SelectMenu: {
       en: 'Select',
       de: 'Selektieren'
+    },
+    Selected: {
+      en: '{0} selected',
+      de: '{0} selektiert'
     },
     ShareImages: {
       en: 'Share'

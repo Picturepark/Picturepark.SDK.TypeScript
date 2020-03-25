@@ -1,66 +1,108 @@
 @import '~@angular/material/theming';
 
 // BROWSER ITEM BASE VARS
-$pp-browser-item: (
-    selected-background: #6f6f6f,
-    contrast: ()
-);
 
 @mixin pp-browser-item-base-theme($theme) {
 
-    $primary: map-get($theme, primary);
+  $primary: map-get($theme, primary);
+
+  pp-content-browser-item,
+  pp-share-browser-item {
 
     .browser-item {
       $self: &;
-      &--selected {
-        // use primary color.
-        box-shadow: 0 0 0 2px mat-color($pp-browser-item, selected-background);
-    
-        #{ $self }__title {
-          background-color: mat-color($pp-browser-item, selected-background);
-          color: mat-color($primary, white-font);
-        }
-    
+
+      &__image-slot {
+        background-color: mat-color($primary, surface-mid);
+
       }
 
-      &--list-view {
-        #{ $self }__title {
-          background-color: transparent;
-
-          .mat-subheading-1 {
-            color: mat-color($primary, light-font);
-          }
-        }
-        #{ $self }__actions {
-          align-self: flex-end;
+      &__basket-icon {
+        mat-icon {
+          background-color: mat-color($primary, opacity-light);
+          border-radius: 15%;
         }
       }
-    
-      &__title {
-        color: mat-color($primary, light-font);
-      }
-      
+       
       &__actions {
+        color: mat-color($primary, on-opacity-light);
+
+        &:hover {
+          background-color: mat-color($primary, opacity-light);
+        }
+
+      }
+
+      &__actions, &__basket-icon {
+        mat-icon {
+          font-size: 16px;
+        }
+      }
+
+      &__image-virtual-item-container {
+        color: mat-color($primary, on-surface-mid);
+      }
+
+      &__title {
+        background-color: mat-color($primary, background-dark);
+        color: mat-color($primary, on-background-dark);
+      }
+
+    }
+
+    .browser-item--selected {
+      box-shadow: 0 0 0 2px mat-color($primary, surface-dark);
+
+      .browser-item__actions {
+        background-color: mat-color($primary, opacity-light);
+      }
+
+      .browser-item__title {
+        background-color: mat-color($primary, surface-dark);
+        color: mat-color($primary, on-surface-dark);
+      }
+
+    }
+
+    .browser-item--list-view {
+
+      .browser-item__image-slot {
+        border-color: mat-color($primary, surface-mid);
+      }
+  
+      .browser-item__title {
+        &__title-content {
+          font-size: mat-font-size($custom-typography, body-2);
+        }
+      }
+
+      .browser-item__list-view-actions {
+        color: mat-color($primary, on-background-dark);
+  
         ul {
           li {
-            float: left; 
             button {
-              mat-icon {     
-                font-size: mat-font-size($custom-typography, display-1);
-                color: mat-color($primary, white-font);
+              mat-icon {
+                font-size: 21px;
               }
             }
-            .material-icons {
-              font-size: mat-font-size($custom-typography, display-2);
-              color: mat-color($primary, white-font);
+  
+            &.in-basket {
+              button {
+                background-color: mat-color($primary, opacity-light);
+                color: mat-color($primary, on-opacity-light);
+              }
             }
           }
         }
       }
-    
-      &__thumbnail-overlay {
-        color: mat-color($primary, white-font);
-        font-size: mat-font-size($custom-typography, caption);
+    }
+
+    .browser-item--selected.browser-item--list-view {
+      .browser-item__title {
+        background-color: mat-color($primary, background-dark);
+        color: mat-color($primary, on-background-dark);
       }
     }
+  }
 }

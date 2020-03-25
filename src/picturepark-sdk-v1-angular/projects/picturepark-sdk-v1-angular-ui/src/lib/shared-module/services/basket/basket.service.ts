@@ -24,6 +24,10 @@ export class BasketService {
     return this.basketSubject.asObservable();
   }
 
+  public getBasketItems(): string[] {
+    return Array.from(this.basketItems);
+  }
+
   public addItem(itemId: string) {
     this.basketItems.add(itemId);
     this.updateStorage();

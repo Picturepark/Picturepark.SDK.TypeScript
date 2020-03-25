@@ -13,21 +13,19 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: SharesManagerComponent
+        component: SharesManagerComponent,
       },
       {
         path: ':shareId',
-        component: ShareManagerItemComponent
-      }
-    ]
+        component: ShareManagerItemComponent,
+      },
+    ],
   },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
-  exports: [ RouterModule ],
-  providers: []
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+  providers: [],
 })
-export class ShareManagerRoutingModule { }
+export class ShareManagerRoutingModule {}

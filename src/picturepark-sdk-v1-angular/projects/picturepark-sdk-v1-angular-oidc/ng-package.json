@@ -3,5 +3,8 @@
   "dest": "../../dist/picturepark-sdk-v1-angular-oidc",
   "lib": {
     "entryFile": "src/public_api.ts"
-  }
+  },
+  "assets": [
+    "./assets/**/*"
+  ]
 }

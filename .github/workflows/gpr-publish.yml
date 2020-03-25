@@ -1,0 +1,70 @@
+name: Picturepark Github Package publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  picturepark-sdk-v1-angular:
+    runs-on: [ubuntu-latest]
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com/
+      
+      - name: Increase version picturepark-sdk-v1-angular
+        working-directory: ./src/picturepark-sdk-v1-angular
+        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
+      - name: Increase version projects/picturepark-sdk-v1-angular
+        working-directory: ./src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular
+        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
+      - name: Increase version projects/picturepark-sdk-v1-angular-oidc
+        working-directory: ./src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular-oidc
+        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
+      - name: Increase version projects/picturepark-sdk-v1-angular-ui
+        working-directory: ./src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular-ui
+        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
+      
+      - name: Build libraries
+        working-directory: ./src/picturepark-sdk-v1-angular
+        run: |
+          npm run init
+          npm run build-libraries
+                
+      - name: Publish package - picturepark-sdk-v1-angular
+        working-directory: ./src/picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular
+        run: |
+          cp package.json package.json.tmp
+          jq '.repository.url = "git://github.com/Picturepark/Picturepark.SDK.TypeScript.git"' package.json.tmp >package.json
+          rm package.json.tmp
+          cat package.json
+          npm publish --tag pre
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
+      - name: Publish package - picturepark-sdk-v1-angular-oidc
+        working-directory: ./src/picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular-oidc
+        run: |
+          cp package.json package.json.tmp
+          jq '.repository.url = "git://github.com/Picturepark/Picturepark.SDK.TypeScript.git"' package.json.tmp >package.json
+          rm package.json.tmp
+          cat package.json
+          npm publish --tag pre
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish package - picturepark-sdk-v1-angular-ui
+        working-directory: ./src/picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular-ui
+        run: |
+          cp package.json package.json.tmp
+          jq '.repository.url = "git://github.com/Picturepark/Picturepark.SDK.TypeScript.git"' package.json.tmp >package.json
+          rm package.json.tmp
+          cat package.json
+          npm publish --tag pre
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

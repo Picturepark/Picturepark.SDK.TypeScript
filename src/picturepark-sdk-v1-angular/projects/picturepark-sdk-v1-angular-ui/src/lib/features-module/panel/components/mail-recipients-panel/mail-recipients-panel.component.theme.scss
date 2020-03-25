@@ -1,0 +1,30 @@
+@import "~@angular/material/theming";
+
+// LIST BROWSER MODULE
+
+@mixin pp-mail-recipients-panel-theme($theme) {
+    $primary: map-get($theme, primary);
+
+    pp-mail-recipients-panel {
+        .panel-container {
+            .panel-content {
+                .recipient {
+                    border-bottom-color: mat-color($primary, divider);
+                }
+
+                ul {
+                    li {
+                        span {
+                            color: mat-color($primary, on-surface-light);
+                        }
+
+                        a {
+                            color: mat-color($primary, on-surface-light);
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}

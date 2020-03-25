@@ -1,33 +1,46 @@
 @import '../theme.scss';
 
 body {
-    background-color: mat-color($picturepark-app-primary, light-background);
+  background-color: mat-color($picturepark-app-primary, background-dark);
 }
 
 .authorization-container {
-    position: relative; background-color: mat-color($picturepark-app-primary, light-background); height: 100vh;
-    mat-progress-bar { position: absolute; top: 0px; }
-    .authorization-content {
-      position: relative; top: 50%; margin: 0 auto; height: 200px; text-align: center;
-        svg {
-            height: 200px;
-            width: 200px;
-            transform: translate(0%, -50%);
-            path {
-                fill: #dcdcdc;
-            }
-        }
+  position: relative;
+  background-color: mat-color($picturepark-app-primary, background-dark);
+  height: 100vh;
+  mat-progress-bar {
+    position: absolute;
+    top: 0px;
+  }
+  .authorization-content {
+    position: relative;
+    top: 50%;
+    margin: 0 auto;
+    height: 200px;
+    text-align: center;
+    svg {
+      height: 200px;
+      width: 200px;
+      transform: translate(0%, -50%);
+      path {
+        fill: #dcdcdc;
+      }
     }
+  }
 }
 
 .menu-container {
-    width: 64px; height: 100vh; float: left;
-  }
-  
+  width: 64px;
+  height: 100vh;
+  float: left;
+}
+
 .application-header {
-    height: 64px;
+  height: 64px;
 }
 
 .application-container {
-    height: calc(100vh - 64px); width: calc(100% - 64px); float: right;
+  height: calc(100vh - 64px);
+  width: calc(100% - 64px);
+  float: right;
 }

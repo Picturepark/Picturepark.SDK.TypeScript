@@ -1,16 +1,19 @@
 // LIBRARY GLOBAL STYLES (keep on top)
 @import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/styles_lib.scss';
-@import '../projects/picturepark-sdk-v1-angular-ui/src/lib/theming/_theming.scss';
 
 // CUSTOM THEME
 @import "theme.scss";
 
+
 @include angular-material-theme($picturepark-app-theme);
 @include picturepark-theme($picturepark-app-theme);
+@include picturepark-components($picturepark-app-theme);
 
 .dark-theme {
   @include angular-material-theme($picturepark-app-theme-dark);
-  @include picturepark-theme($picturepark-app-theme-dark);
+  @include picturepark-theme($picturepark-app-theme-dark);  
+  @include picturepark-components($picturepark-app-theme-dark);  
+  
 }
 
 
@@ -18,59 +21,59 @@
 
 // define classes for current application in case of dark theme
 .dark-theme {
-  .mat-toolbar {
-    background-color: mat-color($mat-picturepark-primary-dark, dialog-background);
-    color: mat-color($mat-picturepark-primary-dark, light-font);
-  }
-  div.wrap {
+  // .mat-toolbar {
+  //   background-color: mat-color($mat-picturepark-primary-dark, surface-light);
+  //   color: mat-color($mat-picturepark-primary-dark, on-surface-light);
+  // }
+  // div.wrap {
 
-    .navbar {
-      border-bottom: 1px solid mat-color($mat-picturepark-primary-dark, light-border);
-    }
-  }
+  //   .navbar {
+  //     border-bottom: 1px solid mat-color($mat-picturepark-primary-dark, divider);
+  //   }
+  // }
 
-  .mat-tab-labels {
-    .mat-tab-label {
-      opacity: 1;
+  // .mat-tab-labels {
+  //   .mat-tab-label {
+  //     opacity: 1;
 
-      .mat-tab-label-content {
-        color: mat-color($mat-picturepark-primary-dark, light-font);
-      }
-    }
+  //     .mat-tab-label-content {
+  //       color: mat-color($mat-picturepark-primary-dark, light-font);
+  //     }
+  //   }
 
-    .mat-tab-label-active {
-      opacity: 1;
+  //   .mat-tab-label-active {
+  //     opacity: 1;
 
-      .mat-tab-label-content {
-        color: white;
-      }
-    }
-  }
+  //     .mat-tab-label-content {
+  //       color: white;
+  //     }
+  //   }
+  // }
 
   .application-header-container {
-    background-color: mat-color($mat-picturepark-primary-dark, dialog-background);
-    border-bottom: 1px solid mat-color($mat-picturepark-primary-dark, light-border);
+    background-color: mat-color($mat-picturepark-primary-dark, surface-light);
+    border-bottom: 1px solid mat-color($mat-picturepark-primary-dark, divider);
   }
 
-  .table-container {
-    .mat-header-cell, .table-container .mat-cell {
-      color: mat-color($mat-picturepark-primary-dark, light-font);
-      background-color: mat-color($mat-picturepark-primary-dark, dialog-background );
-    }
+  // .table-container {
+  //   .mat-header-cell, .table-container .mat-cell {
+  //     background-color: mat-color($mat-picturepark-primary-dark, surface-light );
+  //     color: mat-color($mat-picturepark-primary-dark, on-surface-light);
+  //   }
 
-    tr.selected .mat-cell {
-      color: white;
-      background-color: mat-color($mat-picturepark-primary-dark, light-border);
-    }
-  } 
+  //   tr.selected .mat-cell {
+  //     color: white;
+  //     background-color: mat-color($mat-picturepark-primary-dark, light-border);
+  //   }
+  // } 
 
-  .browser__header .browser__empty-result {
-    color: mat-color($mat-picturepark-primary-dark, light-font);
-  }
+  // .browser__header .browser__empty-result {
+  //   color: mat-color($mat-picturepark-primary-dark, light-font);
+  // }
 
-  .share-manager-item-container {
-    background-color: mat-color($mat-picturepark-primary-dark, light-border) !important;
-  }
+  // .share-manager-item-container {
+  //   background-color: mat-color($mat-picturepark-primary-dark, light-border) !important;
+  // }
 }
 
 // GLOBAL STYLES (keep at bottom)

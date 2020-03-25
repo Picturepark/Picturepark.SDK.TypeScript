@@ -1,4 +1,4 @@
-import { Input, Component, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, Inject, Optional } from '@angular/core';
+import { Input, Component, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, Inject, Optional, Injector } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
@@ -12,6 +12,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 import { FullscreenService, IShareItem } from '../../../content-details-dialog/fullscreen.service';
 import { LazyGetter } from 'lazy-get-decorator';
 import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
+import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 
 @Component({
     selector: 'pp-content-image-preview',
@@ -41,8 +42,10 @@ import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
       private contentService: ContentService,
       private sanitizer: DomSanitizer,
       private fullscreenService: FullscreenService,
-      private cdr: ChangeDetectorRef) {
-      super();
+      private cdr: ChangeDetectorRef,
+      protected injector: Injector
+      ) {
+      super(injector);
     }
 
     /** Gets the script path from either configured PICTUREPARK_UI_SCRIPTPATH or fallback to the configured base href */
@@ -102,7 +105,7 @@ import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
     }
 
     updateUrl(event) {
-      this.thumbnailUrlSafe = 'https://icons-for-free.com/download-icon-broken+image+48px-131985226047038454_512.png';
+      this.thumbnailUrlSafe = BROKEN_IMAGE_URL;
     }
 
     private setPreviewUrl(url: string): void {
