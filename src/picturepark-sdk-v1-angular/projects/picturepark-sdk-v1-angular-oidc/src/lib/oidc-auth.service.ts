@@ -30,6 +30,8 @@ export class OidcAuthService extends AuthService {
       ? this.pictureparkConfiguration.redirectServer
       : window.location.href;
 
+    const base = (document.querySelector('base') || {}).href;
+
     const config: AuthConfig = {
       issuer: this.pictureparkConfiguration.stsServer,
       redirectUri: redirect,
@@ -37,8 +39,8 @@ export class OidcAuthService extends AuthService {
       responseType: 'code',
       scope: this.pictureparkConfiguration.scope
         ? this.pictureparkConfiguration.scope
-        : 'offline_access profile picturepark_api picturepark_account openid',
-      silentRefreshRedirectUri: window.location.origin + '/assets/silent-refresh.html',
+        : 'profile picturepark_api picturepark_account openid',
+      silentRefreshRedirectUri: base + 'assets/silent-refresh.html',
       useSilentRefresh: true,
       sessionChecksEnabled: false,
       clearHashAfterLogin: true,
