@@ -1,14 +1,9 @@
 <div class="list-items-picker-container">
     <div class="list-items-picker-content">
-        <pp-schema-browser
-            class="content-browser"
-            [filter]="filter | async"
+        <pp-schema-browser class="content-browser" [filter]="filter | async"
             (activeSchemaChange)="setUpActiveSchema($event)">
             [searchString]="search | async"
             [activeParentSchema]="activeParentSchema"
-            <!-- [TEMPLATE CLEANSING] Deleted because the activeParentSchema variable is never used -->
-                <!-- [TEMPLATE CLEANSING] [TESTING] Check if the removal of the active parent schema input affects functionality -->
-            <!-- [TEMPLATE CLEANSING] Deleted because the search variable is never used -->
         </pp-schema-browser>
     </div>
 </div>
