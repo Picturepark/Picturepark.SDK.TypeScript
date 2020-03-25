@@ -10,9 +10,11 @@
   width: 100%;
   cursor: pointer;
   @include mat-elevation-transition;
+  user-select: none;
+
 
   &--selected {
-    // use primary color.
+    
     #{ $self }__actions {
       visibility: initial;
     }

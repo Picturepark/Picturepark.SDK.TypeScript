@@ -1,0 +1,13 @@
+@import '~@angular/material/theming';
+
+@mixin app-application-header-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  app-application-header {
+    .application-header-container {
+      background-color: mat-color($primary, surface-light);
+      border-color: mat-color($primary, divider);
+      color: mat-color($primary, on-surface-light);
+    }
+  }
+}

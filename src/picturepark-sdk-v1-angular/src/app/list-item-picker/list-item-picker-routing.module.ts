@@ -13,21 +13,19 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ListItemsPickerComponent
+        component: ListItemsPickerComponent,
       },
       {
         path: ':id',
-        component: ListItemBrowserComponent
-      }
-    ]
-  }
+        component: ListItemBrowserComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
-  exports: [ RouterModule ],
-  providers: []
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+  providers: [],
 })
-export class ListItemPickerRoutingModule { }
+export class ListItemPickerRoutingModule {}

@@ -1,13 +1,19 @@
-import { } from 'jasmine';
+import {} from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
 import { configureTest } from './config';
-import { ContentService, ShareService, ContentSearchRequest, ShareContent, ShareBasicCreateRequest, OutputAccess } from '../lib/api-services';
+import {
+  ContentService,
+  ShareService,
+  ContentSearchRequest,
+  ShareContent,
+  ShareBasicCreateRequest,
+  OutputAccess,
+} from '../lib/api-services';
 
 describe('ShareService', () => {
   beforeEach(configureTest);
 
-  // [TODO] reenable this test
   // it('should create embed share', async(inject([ContentService, ShareService],
   //   async (contentService: ContentService, shareService: ShareService) => {
   //     // arrange

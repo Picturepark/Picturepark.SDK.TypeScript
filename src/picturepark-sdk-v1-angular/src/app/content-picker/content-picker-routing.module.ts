@@ -7,15 +7,13 @@ import { ContentPickerComponent } from './content-picker.component';
 const routes: Routes = [
   {
     path: '',
-    component: ContentPickerComponent
-  }
+    component: ContentPickerComponent,
+  },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
-  exports: [ RouterModule ],
-  providers: []
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+  providers: [],
 })
-export class ContentPickerRoutingModule { }
+export class ContentPickerRoutingModule {}

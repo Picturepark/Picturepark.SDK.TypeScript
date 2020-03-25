@@ -1,0 +1,57 @@
+@import '~@angular/material/theming';
+
+// APPLICATION MENU STYLES VARS
+$pp-application-menu: (
+  contrast: (),
+);
+
+@mixin app-application-menu-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  app-application-menu {
+    // APPLICATION MENU MODULE
+    div {
+      background-color: mat-color($primary, surface-dark);
+      color: mat-color($primary, on-surface-dark);
+
+      .application-menu-logo {
+        border-bottom-color: mat-color($primary, divider);
+        svg {
+          & path {
+            fill: mat-color($primary, on-surface-dark);
+          }
+        }
+      }
+      ul {
+        li {
+          color: mat-color($primary, on-surface-dark);
+          &:hover {
+            background-color: mat-color($primary, opacity-light);
+            color: mat-color($primary, on-opacity-light);
+          }
+          &.active {
+            background-color: mat-color($primary, opacity-light);
+            color: mat-color($primary, on-opacity-light);
+          }
+          & i {
+            font-size: mat-font-size($custom-typography, display-3) !important;
+          }
+          & span {
+            font-size: mat-font-size($custom-typography, display-1) !important;
+          }
+        }
+      }
+    }
+    div.theme-selector {
+      color: mat-color($primary, primary);
+    }
+    span.label {
+      background-color: mat-color($primary, opacity-light);
+      color: mat-color($primary, on-opacity-light);
+      font-size: mat-font-size($custom-typography, caption);
+      &.active {
+        display: inherit;
+      }
+    }
+  }
+}

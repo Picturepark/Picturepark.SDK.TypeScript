@@ -128,3 +128,18 @@ $picturepark-app-primary-dark: mat-palette($mat-picturepark-primary-dark);
 $picturepark-app-accent-dark: mat-palette($mat-picturepark-accent, 400, 200, 700);
 $picturepark-app-warn-dark: mat-palette($mat-red);
 $picturepark-app-theme-dark: mat-dark-theme($picturepark-app-primary-dark, $picturepark-app-accent-dark, $picturepark-app-warn-dark);
+
+// Apply custom components themes 
+@import '../projects/picturepark-sdk-v1-angular-ui/src/lib/theming/_theming.scss';
+@import './app/components/application-menu/application-menu.component.theme.scss';
+@import './app/components/application-header/application-header.component.theme.scss';
+
+
+// LOAD THEME COMPONENTS WITH CUSTOM THEME
+@mixin picturepark-components($theme) {
+
+    // Include custom component themes from the main app 
+    @include app-application-menu-theme($theme);
+    @include app-application-header-theme($theme);
+    
+}
