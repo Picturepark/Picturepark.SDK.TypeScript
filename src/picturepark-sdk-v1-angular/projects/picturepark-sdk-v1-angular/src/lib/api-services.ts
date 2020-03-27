@@ -1775,78 +1775,113 @@ export class ContentService extends PictureparkServiceBase {
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     
-    @LazyGetter()
-    protected get liquidRenderingService(): LiquidRenderingService {
-        return this.injector.get(LiquidRenderingService);
-    }
+  @LazyGetter()
+  protected get liquidRenderingService(): LiquidRenderingService {
+    return this.injector.get(LiquidRenderingService);
+  }
 
-    constructor(protected injector: Injector,
-        @Inject(AuthService) configuration: AuthService,
-        @Inject(HttpClient) http: HttpClient,
-        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
-        super(configuration);
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-    }
+  constructor(
+    protected injector: Injector,
+    @Inject(AuthService) configuration: AuthService,
+    @Inject(HttpClient) http: HttpClient,
+    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
+  ) {
+    super(configuration);
+    this.http = http;
+    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+  }
 
-    public create(resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined,
-        timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, contentCreateRequest: ContentCreateRequest): Observable<ContentDetail> {
-        return this.createCore(resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, contentCreateRequest).pipe(
-            mergeMap(async content => {
-                await this.liquidRenderingService.renderNestedDisplayValues(content);
-                return content;
-            })
-        );
-    }
+  public create(
+    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+    allowMissingDependencies: boolean | undefined,
+    timeout: string | null | undefined,
+    waitSearchDocCreation: boolean | undefined,
+    contentCreateRequest: ContentCreateRequest
+  ): Observable<ContentDetail> {
+    return this.createCore(
+      resolveBehaviors,
+      allowMissingDependencies,
+      timeout,
+      waitSearchDocCreation,
+      contentCreateRequest
+    ).pipe(
+      mergeMap(async content => {
+        await this.liquidRenderingService.renderNestedDisplayValues(content);
+        return content;
+      })
+    );
+  }
 
-    public get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
-        return this.getCore(contentId, resolveBehaviors).pipe(
-            mergeMap(async content => {
-                await this.liquidRenderingService.renderNestedDisplayValues(content);
-                return content;
-            })
-        );
-    }
+  public get(
+    contentId: string,
+    resolveBehaviors: ContentResolveBehavior[] | null | undefined
+  ): Observable<ContentDetail> {
+    return this.getCore(contentId, resolveBehaviors).pipe(
+      mergeMap(async content => {
+        await this.liquidRenderingService.renderNestedDisplayValues(content);
+        return content;
+      })
+    );
+  }
 
-    public getMany(ids: string[] | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail[]> {
-        return this.getManyCore(ids, resolveBehaviors).pipe(
-            mergeMap(async contents => {
-                contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
-                return contents;
-            })
-        );
-    }
+  public getMany(
+    ids: string[] | null,
+    resolveBehaviors: ContentResolveBehavior[] | null | undefined
+  ): Observable<ContentDetail[]> {
+    return this.getManyCore(ids, resolveBehaviors).pipe(
+      mergeMap(async contents => {
+        contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
+        return contents;
+      })
+    );
+  }
 
-    public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
-        return this.searchCore(contentSearchRequest).pipe(
-            mergeMap(async  searchResult => {
-                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
-                return searchResult;
-            })
-        );
-    }
+  public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
+    return this.searchCore(contentSearchRequest).pipe(
+      mergeMap(async searchResult => {
+        await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+        return searchResult;
+      })
+    );
+  }
 
-    public updateMetadata(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined,
-        allowMissingDependencies: boolean | undefined, timeout: string | null | undefined,
-        waitSearchDocCreation: boolean | undefined, updateRequest: ContentMetadataUpdateRequest): Observable<ContentDetail> {
-        return this.updateMetadataCore(contentId, resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, updateRequest).pipe(
-            mergeMap(async content => {
-                await this.liquidRenderingService.renderNestedDisplayValues(content);
-                return content;
-            })
-        );
-    }
+  public updateMetadata(
+    contentId: string,
+    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+    allowMissingDependencies: boolean | undefined,
+    timeout: string | null | undefined,
+    waitSearchDocCreation: boolean | undefined,
+    updateRequest: ContentMetadataUpdateRequest
+  ): Observable<ContentDetail> {
+    return this.updateMetadataCore(
+      contentId,
+      resolveBehaviors,
+      allowMissingDependencies,
+      timeout,
+      waitSearchDocCreation,
+      updateRequest
+    ).pipe(
+      mergeMap(async content => {
+        await this.liquidRenderingService.renderNestedDisplayValues(content);
+        return content;
+      })
+    );
+  }
 
-    public updatePermissions(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined,
-        timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined,
-        updateRequest: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
-        return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
-            mergeMap(async content => {
-                await this.liquidRenderingService.renderNestedDisplayValues(content);
-                return content;
-            })
-        );
-    }
+  public updatePermissions(
+    contentId: string,
+    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+    timeout: string | null | undefined,
+    waitSearchDocCreation: boolean | undefined,
+    updateRequest: ContentPermissionsUpdateRequest
+  ): Observable<ContentDetail> {
+    return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
+      mergeMap(async content => {
+        await this.liquidRenderingService.renderNestedDisplayValues(content);
+        return content;
+      })
+    );
+  }
 
     /**
      * Get content
@@ -7023,37 +7058,42 @@ export class ListItemService extends PictureparkServiceBase {
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     
-    @LazyGetter()
-    protected get liquidRenderingService(): LiquidRenderingService {
-        return this.injector.get(LiquidRenderingService);
-    }
+  @LazyGetter()
+  protected get liquidRenderingService(): LiquidRenderingService {
+    return this.injector.get(LiquidRenderingService);
+  }
 
-    constructor(protected injector: Injector,
-        @Inject(AuthService) configuration: AuthService,
-        @Inject(HttpClient) http: HttpClient,
-        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
-        super(configuration);
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-    }
+  constructor(
+    protected injector: Injector,
+    @Inject(AuthService) configuration: AuthService,
+    @Inject(HttpClient) http: HttpClient,
+    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
+  ) {
+    super(configuration);
+    this.http = http;
+    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+  }
 
-    public get(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
-        return this.getCore(listItemId, resolveBehaviors).pipe(
-            mergeMap(async  listItem => {
-                await this.liquidRenderingService.renderNestedDisplayValues(listItem);
-                return listItem;
-            })
-        );
-    }
+  public get(
+    listItemId: string,
+    resolveBehaviors: ListItemResolveBehavior[] | null | undefined
+  ): Observable<ListItemDetail> {
+    return this.getCore(listItemId, resolveBehaviors).pipe(
+      mergeMap(async listItem => {
+        await this.liquidRenderingService.renderNestedDisplayValues(listItem);
+        return listItem;
+      })
+    );
+  }
 
-    public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
-        return this.searchCore(listItemSearchRequest).pipe(
-            mergeMap(async  searchResult => {
-                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
-                return searchResult;
-            })
-        );
-    }
+  public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
+    return this.searchCore(listItemSearchRequest).pipe(
+      mergeMap(async searchResult => {
+        await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+        return searchResult;
+      })
+    );
+  }
 
     /**
      * Get list item
@@ -13909,46 +13949,48 @@ export class ShareService extends PictureparkServiceBase {
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     
-    @LazyGetter()
-    protected get liquidRenderingService(): LiquidRenderingService {
-        return this.injector.get(LiquidRenderingService);
-    }
+  @LazyGetter()
+  protected get liquidRenderingService(): LiquidRenderingService {
+    return this.injector.get(LiquidRenderingService);
+  }
 
-    constructor(protected injector: Injector,
-        @Inject(AuthService) configuration: AuthService,
-        @Inject(HttpClient) http: HttpClient,
-        @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
-        super(configuration);
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-    }
+  constructor(
+    protected injector: Injector,
+    @Inject(AuthService) configuration: AuthService,
+    @Inject(HttpClient) http: HttpClient,
+    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
+  ) {
+    super(configuration);
+    this.http = http;
+    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
+  }
 
-    public get(id: string): Observable<ShareDetail> {
-        return this.getCore(id).pipe(
-            mergeMap(async  shareDetail => {
-                await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
-                return shareDetail;
-            })
-        );
-    }
+  public get(id: string): Observable<ShareDetail> {
+    return this.getCore(id).pipe(
+      mergeMap(async shareDetail => {
+        await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
+        return shareDetail;
+      })
+    );
+  }
 
-    public getShareJson(token: string, lang: string | null | undefined): Observable<any> {
-        return this.getShareJsonCore(token, lang).pipe(
-            mergeMap(async shareJson => {
-                await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
-                return shareJson;
-            })
-        );
-    }
+  public getShareJson(token: string, lang: string | null | undefined): Observable<any> {
+    return this.getShareJsonCore(token, lang).pipe(
+      mergeMap(async shareJson => {
+        await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
+        return shareJson;
+      })
+    );
+  }
 
-    public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
-        return this.searchCore(shareSearchRequest).pipe(
-            mergeMap(async  searchResult => {
-                await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
-                return searchResult;
-            })
-        );
-    }
+  public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
+    return this.searchCore(shareSearchRequest).pipe(
+      mergeMap(async searchResult => {
+        await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
+        return searchResult;
+      })
+    );
+  }
 
     /**
      * Get
@@ -33134,8 +33176,8 @@ export class FilterBase implements IFilterBase {
     protected _discriminator: string;
 
     getDisplayName(locale: string): string | null {
-        return null;
-    }
+    return null;
+  }
 
     constructor(data?: IFilterBase) {
         if (data) {
@@ -33385,8 +33427,8 @@ export class DateRangeFilter extends FilterBase implements IDateRangeFilter {
     range!: DateRange;
 
     getDisplayName(locale: string) {
-        return this.range && this.range.names ? this.range.names.translate(locale) : 'n/a';
-    }
+    return this.range && this.range.names ? this.range.names.translate(locale) : 'n/a';
+  }
 
     constructor(data?: IDateRangeFilter) {
         super(data);
@@ -33491,9 +33533,9 @@ export class TranslatedStringDictionary implements ITranslatedStringDictionary {
     [key: string]: string | any; 
 
     translate(locale: string) {
-        const language = locale.split('-')[0];
-        return this[language] ? this[language] : this[Object.keys(this)[0]];
-    }
+    const language = locale.split('-')[0];
+    return this[language] ? this[language] : this[Object.keys(this)[0]];
+  }
 
     constructor(data?: ITranslatedStringDictionary) {
         if (data) {
@@ -40496,17 +40538,17 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
     aggregationResults?: AggregationResult[] | undefined;
 
     getDisplayName(locale: string) {
-        let displayName: string | null;
+    let displayName: string | null;
 
-        // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
-        if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
-            displayName = this.name.split('/').pop() || null;
-        } else {
-            displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
-        }
-
-        return displayName ?? this.name;
+    // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
+    if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
+      displayName = this.name.split('/').pop() || null;
+    } else {
+      displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
     }
+
+    return displayName ?? this.name;
+  }
 
     constructor(data?: IAggregationResultItem) {
         if (data) {
@@ -61410,3 +61452,5 @@ function blobToText(blob: any): Observable<string> {
         }
     });
 }
+
+// prettier-ignore

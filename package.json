@@ -8,9 +8,9 @@
     "build:ng": "call \"build/06_BuildProduction.bat\"",
     "docs": "call \"build/07_BuildDocs.bat\"",
     "build": "npm run build:fetch && npm run build:pickers && npm run build:widgets && npm run build:ng",
-    "start:fetch": "start \"\" http://localhost:8090/samples/index.html && http-server \"src/picturepark-sdk-v1-fetch/\" -p 8090",
-    "start:pickers": "start \"\" http://localhost:8090/samples/index.html && http-server \"src/picturepark-sdk-v1-pickers/\" -p 8090",
-    "start:widgets": "start \"\" http://localhost:8090/samples/index.html && http-server \"src/picturepark-sdk-v1-widgets/\" -p 8090",
+    "start:fetch": "start \"\" http://localhost:8090/samples/index.html && http-server \"src/picturepark-sdk-v1-fetch/\" -p 8090 -c-1",
+    "start:pickers": "start \"\" http://localhost:8090/samples/index.html && http-server \"src/picturepark-sdk-v1-pickers/\" -p 8090 -c-1",
+    "start:widgets": "start \"\" http://localhost:8090/samples/index.html && http-server \"src/picturepark-sdk-v1-widgets/\" -p 8090 -c-1",
     "dev:pickers": "watch \"npm run build:pickers\" --ignoreDirectoryPattern=/dist/ src/picturepark-sdk-v1-pickers",
     "dev:widgets": "watch \"npm run build:widgets\" --ignoreDirectoryPattern=/dist/ src/picturepark-sdk-v1-widgets"
   },
