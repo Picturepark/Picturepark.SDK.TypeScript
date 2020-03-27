@@ -11,10 +11,9 @@ import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter } f
   styleUrls: ['./list-items-picker.component.scss'],
 })
 export class ListItemsPickerComponent {
-
   // [TEMPLATE CLEANSING] Deleted because the activeParentSchema variable is never used
   public activeParentSchema = new BehaviorSubject(null);
-  public search = new BehaviorSubject<string>('');
+  public search = new BehaviorSubject('');
   // [TEMPLATE CLEANSING] Deleted because the search variable is never used
   public filter: BehaviorSubject<FilterBase>;
 
