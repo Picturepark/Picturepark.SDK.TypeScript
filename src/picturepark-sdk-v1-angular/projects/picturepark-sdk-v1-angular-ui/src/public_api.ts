@@ -3,6 +3,7 @@
  */
 export {
   PICTUREPARK_UI_CONFIGURATION,
+  PICTUREPARK_UI_SCRIPTPATH,
   PictureparkUIConfigurationFactory,
   PictureparkUIConfiguration,
 } from './lib/configuration';
@@ -51,7 +52,6 @@ export { LanguageService } from './lib/shared-module/services/language/language.
 
 // Classes
 export { ContentModel } from './lib/shared-module/models/content-model';
-export { IOptionModel } from './lib/shared-module/models/ioption.model';
 
 // Utilities
 export * from './lib/utilities/helper';

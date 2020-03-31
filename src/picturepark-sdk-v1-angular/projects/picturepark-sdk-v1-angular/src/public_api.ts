@@ -17,5 +17,8 @@ export { LocalStorageService } from './lib/local-storage.service';
 // functions
 export * from './lib/helper';
 
-// enums
+// modules
+export { LocaleModule } from './lib/locale.module';
+
+// enumerators
 export { StorageKey } from './lib/storage-key.enum';
