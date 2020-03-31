@@ -116,16 +116,16 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     const request = new ListItemSearchRequest({
       pageToken: this.nextPageToken,
       limit: this.pageSize,
-      searchString: this.searchString,
+      searchString: this.searchString || '',
       sort: this.sortInfo,
       searchBehaviors: this.searchBehavior ? [
         this.searchBehavior,
         SearchBehavior.DropInvalidCharactersOnFailure,
         SearchBehavior.WildcardOnSingleTerm,
       ] : [
-        SearchBehavior.DropInvalidCharactersOnFailure,
-        SearchBehavior.WildcardOnSingleTerm,
-      ],
+          SearchBehavior.DropInvalidCharactersOnFailure,
+          SearchBehavior.WildcardOnSingleTerm,
+        ],
       schemaIds: [this.schema.id],
       filter: this.filter ? this.filter : undefined,
       includeAllSchemaChildren: true,
@@ -192,7 +192,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle() {
-      this.isAllSelected() ?
+    this.isAllSelected() ?
       this.selectionService.clear() :
       this.selectionService.addItems(this.items.map(q => q.item));
   }

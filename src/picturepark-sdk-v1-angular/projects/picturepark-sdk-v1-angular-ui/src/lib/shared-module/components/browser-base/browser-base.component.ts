@@ -63,7 +63,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
     @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
 
-    @Input() public searchString = '';
+    @Input() public searchString: string | null;
     /**
     * ### SearchBehavior to be passed on the search request
     * default value
