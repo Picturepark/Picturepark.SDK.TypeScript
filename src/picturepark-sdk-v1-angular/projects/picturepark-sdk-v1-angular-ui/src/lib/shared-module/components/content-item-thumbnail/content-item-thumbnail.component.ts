@@ -4,7 +4,7 @@ import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
-import { ThumbnailSize, Content, ShareDetail} from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, Content, ShareDetail } from '@picturepark/sdk-v1-angular';
 import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
 
 @Component({
@@ -17,6 +17,10 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   @Input() item: Content;
   @Input() itemId: string;
   @Input() shareItem: ShareDetail;
+  /**
+   * If true the image will have a shadow box around
+   */
+  @Input() shadow: boolean;
 
   public isLoading = false;
   public thumbnailUrl: SafeUrl | null;
