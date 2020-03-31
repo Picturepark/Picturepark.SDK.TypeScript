@@ -5,7 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 // LIBRARIES
 import { PictureparkOidcAuthConfiguration, PictureparkOidcModule } from '@picturepark/sdk-v1-angular-oidc';
-import { PictureparkUiModule, LayerPanelsModule } from '@picturepark/sdk-v1-angular-ui';
+import { PictureparkUiModule, LayerPanelsModule, TRANSLATIONS } from '@picturepark/sdk-v1-angular-ui';
+import { LocalStorageService, StorageKey } from '@picturepark/sdk-v1-angular';
 
 // MODULES
 import { AppRoutingModule } from './app-routing.module';
@@ -13,12 +14,11 @@ import { AppRoutingModule } from './app-routing.module';
 // COMPONENTS
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/translations';
 import { environment } from '../environments/environment';
 import { PictureparkAppSetting } from 'src/config';
 import { ApplicationMenuModule } from './components/application-menu/application-menu.module';
 
-export function LocaleIdFactory() {
+export function LocaleIdFactory(localStorageService: LocalStorageService) {
   const translations = TRANSLATIONS;
   translations['ShareManager'] = {
     DeleteShare: {
@@ -39,7 +39,10 @@ export function LocaleIdFactory() {
     },
   };
 
-  return (<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language;
+  return (
+    localStorageService.get(StorageKey.LanguageCode) ||
+    ((<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language)
+  );
 }
 
 // OIDC CONFIG
@@ -72,7 +75,7 @@ export function oidcConfigFactory() {
     HammerModule,
     ApplicationMenuModule,
   ],
-  providers: [{ provide: LOCALE_ID, useFactory: LocaleIdFactory }],
+  providers: [{ provide: LOCALE_ID, useFactory: LocaleIdFactory, deps: [LocalStorageService] }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

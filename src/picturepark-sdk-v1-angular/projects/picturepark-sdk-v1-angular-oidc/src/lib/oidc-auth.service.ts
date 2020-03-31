@@ -1,4 +1,4 @@
-import { Output, EventEmitter, Injectable, Inject, Optional } from '@angular/core';
+import { Output, EventEmitter, Injectable, Inject, Optional, LOCALE_ID } from '@angular/core';
 import { OAuthService, AuthConfig } from 'angular-oauth2-oidc';
 
 import {
@@ -18,7 +18,8 @@ export class OidcAuthService extends AuthService {
   constructor(
     @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration: PictureparkOidcAuthConfiguration,
     @Optional() @Inject(PICTUREPARK_API_URL) pictureparkApiUrl: string,
-    public oauthService: OAuthService
+    public oauthService: OAuthService,
+    @Inject(LOCALE_ID) private locale: string
   ) {
     super(
       pictureparkConfiguration && pictureparkConfiguration.apiServer
@@ -119,11 +120,16 @@ export class OidcAuthService extends AuthService {
       if (this.oauthService.getAccessToken()) {
         options.headers = options.headers.append('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
       }
+
       if (this.pictureparkConfiguration && this.pictureparkConfiguration.customerAlias) {
         options.headers = options.headers.append(
           'Picturepark-CustomerAlias',
           this.pictureparkConfiguration.customerAlias
         );
+      }
+
+      if (this.locale) {
+        options.headers = options.headers.append('Picturepark-Language', this.locale);
       }
     }
     return options;

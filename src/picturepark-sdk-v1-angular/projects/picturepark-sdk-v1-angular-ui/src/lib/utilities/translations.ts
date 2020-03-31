@@ -1,3 +1,5 @@
+import { FALLBACK_LANGUAGE } from './constants';
+
 export let TRANSLATIONS = {
   Basket: {
     NoImageForItem: {
@@ -475,10 +477,7 @@ export let TRANSLATIONS = {
   }
 };
 
-const fallbackLanguage = 'en';
-
 export function translate(key: any, locale: string) {
-
   const language = locale ? locale.split('-')[0].toLowerCase() : '';
   let translations: any = TRANSLATIONS;
 
@@ -500,6 +499,9 @@ export function translate(key: any, locale: string) {
     translations = key;
   }
 
-  return translations && translations[language] ? translations[language] :
-    (language !== fallbackLanguage ? translate(key, fallbackLanguage + '-') : `[!${key}]`);
+  return translations && translations[language]
+    ? translations[language]
+    : language !== FALLBACK_LANGUAGE
+    ? translate(key, FALLBACK_LANGUAGE + '-')
+    : `[!${key}]`;
 }

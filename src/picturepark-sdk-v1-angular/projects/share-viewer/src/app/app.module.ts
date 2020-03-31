@@ -3,18 +3,19 @@ import { NgModule, LOCALE_ID, Injectable } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SearchBoxModule, SharedModule } from '@picturepark/sdk-v1-angular-ui';
+import { SearchBoxModule, SharedModule, TRANSLATIONS } from '@picturepark/sdk-v1-angular-ui';
 import {
   AuthService,
   AccessTokenAuthService,
   PICTUREPARK_CONFIGURATION,
   PictureparkAccessTokenAuthConfiguration,
+  LocalStorageService,
+  StorageKey,
 } from '@picturepark/sdk-v1-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShareDetailModule } from './share-detail/share-detail.module';
 import { environment } from '../environments/environment';
-import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/translations';
 import { PICTUREPARK_UI_SCRIPTPATH } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/configuration';
 
 const translations = TRANSLATIONS;
@@ -76,10 +77,15 @@ export function PictureparkUIScriptPathFactory() {
 }
 
 // Get locale from the config provided
-export function LocaleFactory() {
+export function LocaleFactory(localStorageService: LocalStorageService) {
   const appRootTag = document.getElementsByTagName('app-root')[0];
   const language = appRootTag.getAttribute('language');
-  return language || 'en';
+  return (
+    language ||
+    localStorageService.get(StorageKey.LanguageCode) ||
+    ((<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language) ||
+    'en'
+  );
 }
 
 @NgModule({
@@ -100,7 +106,7 @@ export function LocaleFactory() {
     { provide: AuthService, useClass: AccessTokenAuthService },
     { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
     { provide: PICTUREPARK_UI_SCRIPTPATH, useFactory: PictureparkUIScriptPathFactory },
-    { provide: LOCALE_ID, useFactory: LocaleFactory },
+    { provide: LOCALE_ID, useFactory: LocaleFactory, deps: [LocalStorageService] },
   ],
   bootstrap: [AppComponent],
 })
