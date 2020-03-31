@@ -9,11 +9,11 @@
       </div>
       <ul>
         <li>
-          <span class="full-name">{{ mailRecipient.userEmail.firstName }} {{ mailRecipient.userEmail.lastName }}</span> 
+          <span class="full-name">{{ mailRecipient.userEmail.firstName }} {{ mailRecipient.userEmail.lastName }}</span>
           <a href="mailto:{{ mailRecipient.userEmail.emailAddress }}">{{ mailRecipient.userEmail.emailAddress }}</a>
         </li>
-        <li *ngIf="mailRecipient.url" class="recipient-url">
-            <i class="material-icons" (click)="copyToClipboard(mailRecipient.url!)">filter_none</i>{{ mailRecipient.url }}
+        <li *ngIf="mailRecipient.url as url" class="recipient-url">
+          <i class="material-icons" (click)="copyToClipboard(url)">filter_none</i>{{ url }}
         </li>
       </ul>
     </div>
