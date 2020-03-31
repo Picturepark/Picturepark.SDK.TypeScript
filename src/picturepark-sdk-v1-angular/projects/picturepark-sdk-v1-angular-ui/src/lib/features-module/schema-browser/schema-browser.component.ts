@@ -89,7 +89,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
       pageToken: this.nextPageToken,
       limit: this.pageSize,
       filter: filter ? filter : this.filter!,
-      searchString: this.searchString || '',
+      searchString: this.searchString,
       searchBehaviors: [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
       sort: this.activeSortingType.field === 'relevance' ? [] : [
         new SortInfo({
