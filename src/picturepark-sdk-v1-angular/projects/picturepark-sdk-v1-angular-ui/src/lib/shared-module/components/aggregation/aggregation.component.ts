@@ -55,10 +55,12 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
 
   public autoCompleteOptions: Observable<AggregationResultItem[]>;
 
+  public canExpand = false;
+
   public isLoading = false;
 
   public constructor(@Inject(LOCALE_ID) public locale: string,
-  protected injector: Injector) {
+    protected injector: Injector) {
     super(injector);
     this.autoCompleteOptions = this.aggregationQuery.valueChanges.pipe(
       debounce(() => timer(500)),
@@ -80,6 +82,14 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     if (changes['globalAggregationFilters']) {
       this.aggregationsFiltersCount = this.globalAggregationFilters.filter(
         (item) => item.aggregationName === this.aggregator.name).length;
+    }
+
+    if (changes['expandedAggregationResult'] || changes['isExpanded']) {
+      if (this.expandedAggregationResult && this.expandedAggregationResult.aggregationResultItems) {
+        this.canExpand = this.isExpanded && this.expandedAggregationResult.aggregationResultItems.length > 0;
+      } else {
+        this.canExpand = false;
+      }
     }
   }
 
@@ -210,14 +220,6 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     setTimeout(() => {
       this.isLoading = false;
     }, 500);
-  }
-
-  public canExpand() {
-    if (this.expandedAggregationResult &&  this.expandedAggregationResult.aggregationResultItems) {
-      return this.isExpanded && this.expandedAggregationResult.aggregationResultItems.length > 0;
-    } else {
-       return false;
-    }
   }
 
 }

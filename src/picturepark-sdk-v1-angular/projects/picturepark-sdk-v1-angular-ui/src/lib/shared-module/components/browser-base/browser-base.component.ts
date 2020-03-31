@@ -196,7 +196,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     /**
      * Click event to trigger selection (ctrl + shift click)
      */
-//   [TEMPLATE CLEANSING] Type changed to any as MouseEvent | Event, type Event alway gave error
     public itemClicked(event: any, index: number): void {
         const itemModel = this.items[index];
         if (event instanceof MouseEvent) {

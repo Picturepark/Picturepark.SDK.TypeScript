@@ -31,7 +31,7 @@ import { ContentDetailDialogOptions } from 'projects/picturepark-sdk-v1-angular-
   styleUrls: ['./content-picker.component.scss'],
 })
 export class ContentPickerComponent implements OnInit, OnDestroy {
-  public basketItemsCount = 0;
+  public basketItemsCount = '0';
 
   public selectedItems: Content[] = [];
 
@@ -95,7 +95,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     const basketSubscription = this.basketService.basketChange.subscribe(
-      items => (this.basketItemsCount = items.length)
+      items => (this.basketItemsCount = items.length.toString())
     );
     this.subscription.add(basketSubscription);
 
