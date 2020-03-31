@@ -1,6 +1,5 @@
 import { Component, OnChanges, SecurityContext, Injector } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ThemePalette } from '@angular/material/core';
 
 // LIBRARIES
 import { Content, ThumbnailSize } from '@picturepark/sdk-v1-angular';

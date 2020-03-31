@@ -91,7 +91,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       if (this.schema.sort && this.schema.sort.length > 0) {
         // get first as mat table does not support multiple sorting
         const name = this.schema.sort[0].field;
-        this.activeSortDirection = this.schema.sort[0].direction.toLowerCase() as 'asc' | 'desc';
+        this.activeSortDirection = this.schema.sort[0].direction.toLowerCase() as MatSortDirection;
         this.activeSortColumn = name!;
 
         this.sortInfo = this.schema.sort.map((s) => {
@@ -149,7 +149,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.tableItems.push(...tableItems);
 
     this.dataSource.data = this.tableItems;
-    const selected = this.items.filter( listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
+    const selected = this.items.filter(listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
     this.selectionService.addItems(selected.map(q => q.item));
 
     this.cdr.detectChanges();
@@ -212,7 +212,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${ this.isRowSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.isRowSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
   public rowClick(row: any): void {
