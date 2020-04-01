@@ -9,7 +9,7 @@ import { enthusiasm } from './reducers/index';
 import { StoreState } from './types/index';
 
 import { OidcClientSettings } from '@picturepark/sdk-v1-fetch';
-import { UserManager, UserManagerSettings, User } from 'oidc-client';
+import { UserManager } from 'oidc-client';
 
 import './index.css';
 
