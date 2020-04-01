@@ -27,6 +27,10 @@ export abstract class AggregationListComponent extends BaseComponent implements 
   // Aggregation filters used for Aggregation function.
   public aggregationFilters: AggregationFilter[] = [];
 
+  @Input()
+  // base filter used for Aggregation function.
+  public baseFilter?: FilterBase;
+
   @Output()
   public aggregationFiltersChange = new EventEmitter<AggregationFilter[]>();
 
@@ -46,7 +50,7 @@ export abstract class AggregationListComponent extends BaseComponent implements 
       this.filterChange.emit(null);
     }
 
-    if (changes['aggregators'] || changes['searchString'] || changes['aggregationFilters']) {
+    if (changes['aggregators'] || changes['searchString'] || changes['aggregationFilters'] || changes['baseFilter']) {
       this.updateData();
     }
   }

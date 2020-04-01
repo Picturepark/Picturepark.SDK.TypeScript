@@ -35,6 +35,7 @@ export class ContentAggregationListComponent extends AggregationListComponent {
         searchString: this.searchString,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         aggregationFilters: this.aggregationFilters,
+        filter: this.baseFilter,
         searchType: ContentSearchType.MetadataAndFullText,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly
       });
@@ -52,6 +53,7 @@ export class ContentAggregationListComponent extends AggregationListComponent {
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       aggregators: [aggregator],
       aggregationFilters: this.aggregationFilters,
+      filter: this.baseFilter,
       searchType: ContentSearchType.MetadataAndFullText,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly
     });
