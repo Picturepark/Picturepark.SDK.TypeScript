@@ -55,7 +55,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public sortingTypes: ISortItem[];
     public views: IBrowserView[];
     public activeView: IBrowserView;
-    public activeThumbnailSize: ThumbnailSize | undefined = ThumbnailSize.Medium;
+    public activeThumbnailSize?: ThumbnailSize = ThumbnailSize.Medium;
 
     protected scrollDebounceTime = 0;
 

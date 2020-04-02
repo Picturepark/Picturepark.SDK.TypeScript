@@ -1,7 +1,7 @@
 <div class="wrap">
   <mat-toolbar class="navbar" *ngIf="deviceBreakpoint">
     <button mat-icon-button class="menu" (click)="snav.toggle()" [matBadge]="basketItemsCount"
-      [matBadgeHidden]="basketItemsCount < '1'">
+      [matBadgeHidden]="basketItemsCount === '0'">
       <mat-icon>menu</mat-icon>
     </button>
   </mat-toolbar>

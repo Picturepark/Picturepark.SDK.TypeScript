@@ -39,7 +39,7 @@
       <div class="relation field" *ngIf="relationField.info | async as info" (click)="relationClickHandler(info)">
         <div class="image-wrap"><img [src]="info.fileUrl" /></div>
         <div class="relationFields">
-          <div class="field relation-title" [innerHTML]="undefined"></div>
+          <div class="field relation-title" [innerHTML]="info.name"></div>
           <div class="field relation-description" [innerHTML]="info.list"></div>
         </div>
       </div>
