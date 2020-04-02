@@ -14,7 +14,7 @@ import { ContentModel } from '../../models/content-model';
 export abstract class BaseBrowserItemComponent<TEntity extends IEntityBase> extends BaseComponent {
     // INPUTS
     @Input() public itemModel: ContentModel<TEntity>;
-    @Input() thumbnailSize: ThumbnailSize = ThumbnailSize.Medium;
+    @Input() thumbnailSize?: ThumbnailSize = ThumbnailSize.Medium;
     @Input() isListView: boolean;
     @Input() browser: BaseBrowserComponent<TEntity>;
 
