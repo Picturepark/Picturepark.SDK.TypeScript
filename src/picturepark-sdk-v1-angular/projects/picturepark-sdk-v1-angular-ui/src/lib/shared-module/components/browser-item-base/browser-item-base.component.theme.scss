@@ -23,7 +23,7 @@
           border-radius: 15%;
         }
       }
-       
+
       &__actions {
         color: mat-color($primary, on-opacity-light);
 
@@ -33,7 +33,8 @@
 
       }
 
-      &__actions, &__basket-icon {
+      &__actions,
+      &__basket-icon {
         mat-icon {
           font-size: 16px;
         }
@@ -46,6 +47,7 @@
       &__title {
         background-color: mat-color($primary, background-dark);
         color: mat-color($primary, on-background-dark);
+        font-size: mat-font-size($custom-typography, display-1)
       }
 
     }
@@ -69,7 +71,7 @@
       .browser-item__image-slot {
         border-color: mat-color($primary, surface-mid);
       }
-  
+
       .browser-item__title {
         &__title-content {
           font-size: mat-font-size($custom-typography, body-2);
@@ -78,7 +80,7 @@
 
       .browser-item__list-view-actions {
         color: mat-color($primary, on-background-dark);
-  
+
         ul {
           li {
             button {
@@ -86,7 +88,7 @@
                 font-size: 21px;
               }
             }
-  
+
             &.in-basket {
               button {
                 background-color: mat-color($primary, opacity-light);
