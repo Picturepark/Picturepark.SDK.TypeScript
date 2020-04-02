@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { forkJoin } from 'rxjs';
-import { ShareDetail, IMailRecipient, InfoService, ShareDataBasic, ShareContentDetail, ShareService } from '@picturepark/sdk-v1-angular';
+import { ShareDetail, IMailRecipient, InfoFacade, ShareDataBasic, ShareContentDetail, ShareService } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
 
 @Component({
@@ -19,7 +19,7 @@ export class ShareDetailComponent implements OnInit {
 
   constructor(
     private shareService: ShareService,
-    private infoService: InfoService,
+    private infoFacade: InfoFacade,
     private dialog: MatDialog,
     private route: ActivatedRoute
   ) {
@@ -41,7 +41,7 @@ export class ShareDetailComponent implements OnInit {
 
     const shareInfo = forkJoin([
       this.shareService.getShareJson(searchString, null),
-      this.infoService.getInfo()
+      this.infoFacade.getInfo()
     ]);
 
     shareInfo.subscribe({

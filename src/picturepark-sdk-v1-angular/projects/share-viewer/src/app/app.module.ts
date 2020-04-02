@@ -83,7 +83,7 @@ export function localeFactory(localStorageService: LocalStorageService): string 
   return (
     language ||
     localStorageService.get(StorageKey.LanguageCode) ||
-    ((<any>navigator).languages ? (<any>navigator).languages[0] : navigator.language)
+    (navigator.language || navigator.languages[0]).slice(0, 2)
   );
 }
 

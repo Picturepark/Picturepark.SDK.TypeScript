@@ -6,7 +6,7 @@ import {
   FilterBase,
   AggregatorBase,
   TermsAggregator,
-  InfoService,
+  InfoFacade,
   NestedAggregator,
 } from '@picturepark/sdk-v1-angular';
 
@@ -21,10 +21,10 @@ export class SharesManagerComponent implements OnInit {
   public selectedFilter: FilterBase | null = null;
   public aggregators: AggregatorBase[] = [];
 
-  constructor(private infoService: InfoService) {}
+  constructor(private infoFacade: InfoFacade) {}
 
   async ngOnInit() {
-    const customerInfo = await this.infoService.getInfo().toPromise();
+    const customerInfo = await this.infoFacade.getInfo().toPromise();
 
     this.aggregators = [
       new NestedAggregator({

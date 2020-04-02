@@ -48,7 +48,6 @@ export { TranslationService } from './lib/shared-module/services/translations/tr
 export { LiquidRenderingService } from '@picturepark/sdk-v1-angular';
 export { ContentDownloadDialogService } from './lib/features-module/content-download-dialog/content-download-dialog.service';
 export { DialogService } from './lib/features-module/dialog/dialog.service';
-export { LanguageService } from './lib/shared-module/services/language/language.service';
 
 // Classes
 export { ContentModel } from './lib/shared-module/models/content-model';

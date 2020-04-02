@@ -9,7 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 // LIBRARIES
 import {
   BrokenDependenciesFilter,
-  InfoService,
+  InfoFacade,
   LifeCycleFilter,
   ListItemSearchRequest,
   ListItemService,
@@ -59,7 +59,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   constructor(
     private listItemService: ListItemService,
     private metaDataPreviewService: MetaDataPreviewService,
-    private infoService: InfoService,
+    private infoFacade: InfoFacade,
     private cdr: ChangeDetectorRef,
     injector: Injector
   ) {
@@ -68,7 +68,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   async init(): Promise<void> {
     this.scrollDebounceTime = 100;
-    this.customerInfo = await this.infoService.getInfo().toPromise();
+    this.customerInfo = await this.infoFacade.getInfo().toPromise();
 
     // need to show column names
     this.displayedColumnNames = this.schema.fields!.map(field => {

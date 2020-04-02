@@ -11,6 +11,7 @@ export * from './lib/services/access-token-auth.service';
 
 // services
 export * from './lib/services/api-services';
+export { LanguageService } from './lib/services/language.service';
 export { LiquidRenderingService } from './lib/services/liquid-rendering.service';
 export { LocalStorageService } from './lib/services/local-storage.service';
 
@@ -22,3 +23,6 @@ export { LocaleModule } from './lib/locale.module';
 
 // enumerators
 export { StorageKey } from './lib/utilities/storage-key.enum';
+
+// facades
+export { InfoFacade } from './lib/info.facade';

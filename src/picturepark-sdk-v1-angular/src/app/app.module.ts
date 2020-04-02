@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -69,7 +69,6 @@ export function oidcConfigFactory() {
     ApplicationMenuModule,
     LocaleModule.forRoot(),
   ],
-  // providers: [{ provide: LOCALE_ID, useFactory: LocaleIdFactory }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
