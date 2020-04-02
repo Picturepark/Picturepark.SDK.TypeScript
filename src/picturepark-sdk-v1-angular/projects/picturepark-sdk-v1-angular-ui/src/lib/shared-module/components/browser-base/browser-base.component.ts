@@ -196,7 +196,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
      */
     public itemClicked(event: MouseEvent, index: number): void {
         const itemModel = this.items[index];
-        if (event.ctrlKey || event.type === 'tap') {
+        if (event.ctrlKey) {
             this.lastSelectedIndex = index;
             this.selectionService.toggle(itemModel.item);
             return;
@@ -216,8 +216,14 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         this.selectionService.addItem(itemModel.item);
     }
 
-    public itemPressed(index: number): void {
+    public itemPressed(event: Event, index: number): void {
         const itemModel = this.items[index];
+        if (event.type === 'tap') {
+            this.lastSelectedIndex = index;
+            this.selectionService.toggle(itemModel.item);
+            return;
+        }
+        
         this.lastSelectedIndex = index;
         this.selectionService.clear();
         this.selectionService.addItem(itemModel.item);
