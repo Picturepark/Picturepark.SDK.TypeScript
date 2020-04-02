@@ -194,7 +194,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     /**
      * Click event to trigger selection (ctrl + shift click)
      */
-    public itemClicked(event: any, index: number): void {
+    public itemClicked(event: MouseEvent, index: number): void {
         const itemModel = this.items[index];
         if (event.ctrlKey || event.type === 'tap') {
             this.lastSelectedIndex = index;
