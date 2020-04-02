@@ -6,7 +6,6 @@ import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
 import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize } from '@picturepark/sdk-v1-angular';
@@ -16,7 +15,6 @@ import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
 import { IBrowserView } from './interfaces/browser-view';
 import { debounceTime } from 'rxjs/operators';
-import { Event } from '@angular/router';
 
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
     // Services

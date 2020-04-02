@@ -62,7 +62,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
             this.isLoading = true;
             return this.contentService.downloadThumbnail(
               this.item.id,
-              this.thumbnailSize || ThumbnailSize.Small,
+              this.thumbnailSize,
               null,
               null);
           })
