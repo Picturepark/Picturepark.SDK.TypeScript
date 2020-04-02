@@ -6,7 +6,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 export abstract class BaseComponent implements OnDestroy {
   @LazyGetter()
   protected get breakpointObserver(): BreakpointObserver {
-      return this.injector.get(BreakpointObserver);
+    return this.injector.get(BreakpointObserver);
   }
 
   protected subscription = new Subscription();
@@ -15,11 +15,12 @@ export abstract class BaseComponent implements OnDestroy {
     return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
   }
 
+  @LazyGetter()
   public get isTouchDevice(): boolean {
-    return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
   }
 
-  constructor(protected injector: Injector) { }
+  constructor(protected injector: Injector) {}
 
   public ngOnDestroy(): void {
     if (this.subscription) {

@@ -2,7 +2,6 @@
 import { KnownActions } from '../actions';
 import { StoreState } from '../types/index';
 import { REQUEST_SHARE, REQUEST_CONTENT, RECEIVE_DATA } from '../constants/index';
-import { PublicAccessClient } from '@picturepark/sdk-v1-fetch';
 
 export function enthusiasm(state: StoreState, action: KnownActions): StoreState {
   switch (action.type) {
