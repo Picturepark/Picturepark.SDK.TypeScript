@@ -3,22 +3,22 @@
  */
 
 // exports
-export * from './lib/configuration';
-export * from './lib/entity-base';
-export * from './lib/auth.service';
-export * from './lib/base.service';
-export * from './lib/access-token-auth.service';
+export * from './lib/models/configuration';
+export * from './lib/models/entity-base';
+export * from './lib/services/auth.service';
+export * from './lib/services/base.service';
+export * from './lib/services/access-token-auth.service';
 
 // services
-export * from './lib/api-services';
-export { LiquidRenderingService } from './lib/liquid-rendering.service';
-export { LocalStorageService } from './lib/local-storage.service';
+export * from './lib/services/api-services';
+export { LiquidRenderingService } from './lib/services/liquid-rendering.service';
+export { LocalStorageService } from './lib/services/local-storage.service';
 
 // functions
-export * from './lib/helper';
+export * from './lib/utilities/helper';
 
 // modules
 export { LocaleModule } from './lib/locale.module';
 
 // enumerators
-export { StorageKey } from './lib/storage-key.enum';
+export { StorageKey } from './lib/utilities/storage-key.enum';

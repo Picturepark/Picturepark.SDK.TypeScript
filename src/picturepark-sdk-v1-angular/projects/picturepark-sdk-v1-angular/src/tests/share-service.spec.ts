@@ -9,7 +9,7 @@ import {
   ShareContent,
   ShareBasicCreateRequest,
   OutputAccess,
-} from '../lib/api-services';
+} from '../lib/services/api-services';
 
 describe('ShareService', () => {
   beforeEach(configureTest);
