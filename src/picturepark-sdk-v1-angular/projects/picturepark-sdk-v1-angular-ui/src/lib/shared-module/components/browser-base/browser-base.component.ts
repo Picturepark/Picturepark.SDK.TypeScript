@@ -53,7 +53,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public sortingTypes: ISortItem[];
     public views: IBrowserView[];
     public activeView: IBrowserView;
-    public activeThumbnailSize?: ThumbnailSize = ThumbnailSize.Medium;
+    public activeThumbnailSize: ThumbnailSize = ThumbnailSize.Medium;
 
     protected scrollDebounceTime = 0;
 
@@ -245,7 +245,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     changeView(view: IBrowserView): void {
         this.activeView = view;
-        this.activeThumbnailSize = view.thumbnailSize;
+        if (view.thumbnailSize) {
+            this.activeThumbnailSize = view.thumbnailSize;
+        }
     }
 
     // HANDLE COMPONENENT CLICK EVENT

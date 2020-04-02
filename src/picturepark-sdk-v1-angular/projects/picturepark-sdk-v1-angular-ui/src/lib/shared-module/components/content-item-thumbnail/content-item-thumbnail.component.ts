@@ -4,7 +4,7 @@ import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
-import { ThumbnailSize, Content, ShareDetail } from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, Content, ShareDetail, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
 
 @Component({
@@ -14,7 +14,7 @@ import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
 })
 export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
 
-  @Input() item: Content;
+  @Input() item: Content | ShareContentDetail;
   @Input() itemId: string;
   @Input() shareItem: ShareDetail;
   /**
