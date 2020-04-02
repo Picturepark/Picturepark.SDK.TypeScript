@@ -196,23 +196,28 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
      */
     public itemClicked(event: any, index: number): void {
         const itemModel = this.items[index];
-        if (event instanceof MouseEvent) {
-            if (event.ctrlKey || event.type === 'tap') {
-                this.lastSelectedIndex = index;
-                this.selectionService.toggle(itemModel.item);
-                return;
-            } else if (event.shiftKey) {
-                const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
-                const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
+        if (event.ctrlKey || event.type === 'tap') {
+            this.lastSelectedIndex = index;
+            this.selectionService.toggle(itemModel.item);
+            return;
+        } else if (event.shiftKey) {
+            const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
+            const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
 
-                const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i.item);
+            const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i.item);
 
-                this.selectionService.clear();
-                this.selectionService.addItems(itemsToAdd);
-                return;
-            }
+            this.selectionService.clear();
+            this.selectionService.addItems(itemsToAdd);
+            return;
         }
 
+        this.lastSelectedIndex = index;
+        this.selectionService.clear();
+        this.selectionService.addItem(itemModel.item);
+    }
+
+    public itemPressed(index: number): void {
+        const itemModel = this.items[index];
         this.lastSelectedIndex = index;
         this.selectionService.clear();
         this.selectionService.addItem(itemModel.item);
