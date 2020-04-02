@@ -1,12 +1,11 @@
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { InfoFacade } from '../info.facade';
-import { LocaleModule } from '../locale.module';
 import { StorageKey } from '../utilities/storage-key.enum';
 import { Language } from './api-services';
 import { LocalStorageService } from './local-storage.service';
 
-@Injectable({ providedIn: LocaleModule })
+@Injectable({ providedIn: 'root' })
 export class LanguageService {
   private defaultLanguage: string;
   public currentLanguage: Language;
