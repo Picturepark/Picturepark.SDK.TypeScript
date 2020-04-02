@@ -10,7 +10,7 @@
     <div pp-panel-content [ngClass]="[view]">
       <div class="item" *ngFor="let item of items">
         <div class="thumbnail">
-          <pp-content-item-thumbnail [item]="item" [thumbnailSize]="thumbnailSize.Large" (click)="openInNewWindow(item)"></pp-content-item-thumbnail>
+          <pp-content-item-thumbnail [item]="item" [shareItem]="shareDetail" [thumbnailSize]="thumbnailSize.Large" (click)="openInNewWindow(item)"></pp-content-item-thumbnail>
         </div>
         <div class="item-info" (click)="openInNewWindow(item)">
           <ul>
