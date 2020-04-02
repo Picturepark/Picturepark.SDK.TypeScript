@@ -26,7 +26,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
 
   /**
    *  * If passed into the component, the thumbnail will be retrieved from the shareItem instead of being requested.
-   *  * Maily used for the share viewer as the lack of authentication makes it impossible to request the thumbnail of the content 
+   *  * Mainly used for the share viewer as the lack of authentication makes it impossible to request the thumbnail of the content 
    */
   @Input() shareItem: ShareDetail;
 
@@ -50,6 +50,20 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
 
   async ngOnInit() {
 
+    if (this.shareItem) {
+      const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
+
+      if (content) {
+        const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
+        if (output) {
+          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustResourceUrl(output.viewUrl!);
+        } else {
+          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustResourceUrl(content.iconUrl!);
+        }
+      }
+      return;
+    }
+
     if (this.itemId) {
       const fetchContentResult = await fetchContentById(this.contentService, this.itemId).toPromise();
       if (fetchContentResult) {
@@ -58,44 +72,28 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
     }
 
     if (this.item) {
-      if (this.shareItem) {
-        if (this.shareItem) {
-          const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
-
-          if (content) {
-            const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
-            if (output) {
-              this.thumbnailUrl = this.sanitizer.bypassSecurityTrustResourceUrl(output.viewUrl!);
-            } else {
-              this.thumbnailUrl = this.sanitizer.bypassSecurityTrustResourceUrl(content.iconUrl!);
-            }
-          }
-          return;
-        }
-      } else {
-        const downloadSubscription = this.loadItem.pipe(
-          switchMap(
-            () => {
-              this.isLoading = true;
-              return this.contentService.downloadThumbnail(
-                this.item.id,
-                this.thumbnailSize,
-                null,
-                null);
-            })
-        ).subscribe(response => {
-          if (response) {
-            this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
-            this.isLoading = false;
-          }
-        }, () => {
-          this.thumbnailUrl = null;
+      const downloadSubscription = this.loadItem.pipe(
+        switchMap(
+          () => {
+            this.isLoading = true;
+            return this.contentService.downloadThumbnail(
+              this.item.id,
+              this.thumbnailSize,
+              null,
+              null);
+          })
+      ).subscribe(response => {
+        if (response) {
+          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
           this.isLoading = false;
-        });
+        }
+      }, () => {
+        this.thumbnailUrl = null;
+        this.isLoading = false;
+      });
 
-        this.subscription.add(downloadSubscription);
-        this.markAsVisible();
-      }
+      this.subscription.add(downloadSubscription);
+      this.markAsVisible();
     }
   }
 
