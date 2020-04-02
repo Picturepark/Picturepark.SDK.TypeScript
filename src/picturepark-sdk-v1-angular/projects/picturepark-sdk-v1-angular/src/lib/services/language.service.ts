@@ -26,7 +26,7 @@ export class LanguageService {
           this.languages = this.filterLanguages(info.languages, info.languageConfiguration.systemLanguages);
           this.defaultLanguage = info.languageConfiguration.defaultLanguage ?? info.languages[0].ietf;
           this.changeCurrentLanguage(this.locale || this.defaultLanguage);
-          return true;
+          return this.locale === this.currentLanguage.ietf;
         })
       )
       .toPromise();

@@ -4,7 +4,14 @@ import { LocalStorageService } from './services/local-storage.service';
 import { StorageKey } from './utilities/storage-key.enum';
 
 export function languageFactory(languageService: LanguageService) {
-  const result = () => languageService.loadLanguages();
+  const result = () => {
+    languageService.loadLanguages().then(validLanguage => {
+      if (!validLanguage) {
+        window.location.reload();
+      }
+    });
+  };
+
   return result;
 }
 
