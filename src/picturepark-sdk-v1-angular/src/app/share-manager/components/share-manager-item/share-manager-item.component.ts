@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -10,6 +11,7 @@ import {
   IMailRecipient,
   ShareDeleteManyRequest,
   ShareDetail,
+  BusinessProcessService,
 } from '@picturepark/sdk-v1-angular';
 import {
   ContentDownloadDialogService,
@@ -17,7 +19,6 @@ import {
   TranslationService,
   ContentDetailsDialogComponent,
 } from '@picturepark/sdk-v1-angular-ui';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-share-manager-item',
@@ -46,7 +47,8 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private dialog: MatDialog,
     private translationService: TranslationService,
-    private router: Router
+    private router: Router,
+    private businessProcessService: BusinessProcessService
   ) {
     this.toolBarOptions = [
       {
@@ -59,22 +61,6 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
           });
         },
       },
-      /*{
-      name: 'Share all contents',
-      icon: 'share',
-      action: 'share'
-    },
-    {
-      name: 'Embed all contents',
-      icon: 'code'
-    },
-    {
-      name: 'Expire',
-      icon: 'schedule',
-      action: () => {
-        this.share.expirationDate = new Date();
-      }
-    },*/
       {
         name: 'Delete',
         icon: 'delete',
@@ -92,8 +78,9 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
             .subscribe(result => {
               if (result) {
                 this.shareService
-                  .deleteMany(null, new ShareDeleteManyRequest({ ids: [this.share.id] }))
-                  .subscribe(i => {
+                  .deleteMany(new ShareDeleteManyRequest({ ids: [this.share.id] }))
+                  .subscribe(async i => {
+                    await this.businessProcessService.waitForCompletion(i.id, '02:00:00', true).toPromise();
                     this.router.navigate(['./share-manager']);
                   });
               }

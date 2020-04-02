@@ -1,14 +1,12 @@
 document.write('<base href="' + document.location + '" />');
 
-var app = angular.module('picturepark-share', []);
+const app = angular.module('picturepark-share', []);
 app.config(function ($compileProvider) {
     $compileProvider.preAssignBindingsEnabled(true);
 });
 
 app.component('pictureparkShare', {
     bindings: {
-        token: '@',
-        baseUrl: '@'
     },
     template: `
         <div ng-include src="'message.html'"></div>
@@ -18,17 +16,24 @@ app.component('pictureparkShare', {
 });
 
 function TestController($scope) {
-    var authClient = new picturepark.AuthClient('https://devnext-api.preview-picturepark.com', 'dev');
-    var client = new picturepark.PublicAccessClient(authClient);
-    client.getShare(this.token).then(result => {
+    const authClient = new picturepark.AuthClient(apiUrl, customerAlias);
+    const shareClient = new picturepark.ShareClient(authClient);
+    shareClient.getShareJson(shareToken).then(result => {
         $scope.$apply(() => {
             this.share = result;
             this.records = result.contentSelections;
-            this.token = result.mailRecipients[0].token;
+            this.token = result.data.mailRecipients[0].token;
         });
     });
 
     this.getThumbnail = function (record, size) {
-        return this.baseUrl + "/Go/" + this.token + "/V/" + record.id + "/" + size;
+        if (record) {
+            const output = record.outputs.find(i => i.outputFormatId === size);
+            if (output) {
+                return output.viewUrl;
+            } else {
+                return record.iconUrl;
+            }
+        }
     }
 }

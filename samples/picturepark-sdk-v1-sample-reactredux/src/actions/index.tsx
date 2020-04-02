@@ -1,10 +1,9 @@
 import * as constants from '../constants';
 import {
-  PublicAccessClient,
   ContentClient,
   AccessTokenAuthClient,
   AuthClient,
-  SwaggerException
+  ShareClient,
 } from '@picturepark/sdk-v1-fetch';
 
 export interface RequestShare {
@@ -30,10 +29,10 @@ export function requestShare(server: string, token: string, customerAlias: strin
       type: constants.REQUEST_SHARE,
       payload: token
     });
-
-    let authClient = new AuthClient(server, customerAlias);
-    let publicAccessClient = new PublicAccessClient(authClient);
-    publicAccessClient.getShare(token).then((share) => {
+    
+    const authClient = new AuthClient(server, customerAlias);
+    const clientInfo = new ShareClient(authClient);
+    clientInfo.getShareJson(token).then((share) => {
       dispatch(receiveData(JSON.stringify(share, null, 2)));
     }).catch(error => {
       dispatch(receiveData('Error: \n\n' + JSON.stringify(error, null, 2)));

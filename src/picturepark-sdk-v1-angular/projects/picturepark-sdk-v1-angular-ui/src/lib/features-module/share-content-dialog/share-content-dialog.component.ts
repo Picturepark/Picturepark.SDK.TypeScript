@@ -12,7 +12,7 @@ import { Md5 } from 'ts-md5';
 import {
   ContentSearchRequest, ContentSearchType, ShareService, OutputAccess, ShareContent,
   ShareBasicCreateRequest, BrokenDependenciesFilter, LifeCycleFilter, IUserEmail,
-  ShareDataBasic, ContentService, TermsFilter, Content
+  ShareDataBasic, ContentService, TermsFilter, Content, BusinessProcessService
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -63,7 +63,8 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     private formBuilder: FormBuilder,
     private shareService: ShareService,
     private translatePipe: TranslatePipe,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private businessProcessService: BusinessProcessService
   ) {
     super(data, dialogRef, injector);
 
@@ -83,7 +84,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
   // REMOVE CONTENT FROM DIALOG
   public removeContent(event: Content): void {
-    this.selectedContent.map((item, index) => {
+    this.selectedContent.forEach((item, index) => {
       if (event.id === item.id) { this.selectedContent.splice(index, 1); }
     });
 
@@ -113,7 +114,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   async newSharedContent(contentItems: ShareContent[], recipientsEmails: IUserEmail[]): Promise<void> {
     try {
 
-      const response = await this.shareService.create( null, new ShareBasicCreateRequest({
+      const response = await this.shareService.create(new ShareBasicCreateRequest({
         name: this.sharedContentForm.get('share_name')!.value,
         recipientEmails: recipientsEmails,
         contents: contentItems,
@@ -122,9 +123,11 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
         suppressNotifications: false
       })).toPromise();
 
-      const share = await this.shareService.get(response.shareId!).toPromise();
+      await this.businessProcessService.waitForCompletion(response.id, '02:00:00', true).toPromise();
 
-      (share.data as ShareDataBasic).mailRecipients.map(recipient => this.recipients.push({
+      const share = await this.shareService.get(response.referenceId!).toPromise();
+
+      (share.data as ShareDataBasic).mailRecipients.forEach(recipient => this.recipients.push({
         email: recipient.userEmail.emailAddress,
         url: recipient.url!,
         img: `https://www.gravatar.com/avatar/${Md5.hashStr(recipient.userEmail.emailAddress)}?d=mm&s=48`
@@ -138,7 +141,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       setTimeout(() => {
         // SET NOTIFICATION PROPERTIES
-        this.notificationMessage = `#${response.shareId} ${this.translatePipe.transform('ShareContentDialog.SuccessNotification')}`;
+        this.notificationMessage = `#${response.referenceId} ${this.translatePipe.transform('ShareContentDialog.SuccessNotification')}`;
         this.notificationType = 'success';
         this.notificationStatus = true;
         this.notificationDisplayTime = 10000;
