@@ -6,7 +6,6 @@ import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
 import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize } from '@picturepark/sdk-v1-angular';
@@ -54,7 +53,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public sortingTypes: ISortItem[];
     public views: IBrowserView[];
     public activeView: IBrowserView;
-    public activeThumbnailSize?: ThumbnailSize = ThumbnailSize.Medium;
+    public activeThumbnailSize: ThumbnailSize = ThumbnailSize.Medium;
 
     protected scrollDebounceTime = 0;
 
@@ -196,14 +195,13 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     /**
      * Click event to trigger selection (ctrl + shift click)
      */
-    public itemClicked($event: MouseEvent, index: number): void {
+    public itemClicked(event: MouseEvent, index: number): void {
         const itemModel = this.items[index];
-
-        if ($event.ctrlKey || $event.type === 'tap') {
+        if (event.ctrlKey) {
             this.lastSelectedIndex = index;
-
             this.selectionService.toggle(itemModel.item);
-        } else if ($event.shiftKey) {
+            return;
+        } else if (event.shiftKey) {
             const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
             const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
 
@@ -211,11 +209,25 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
             this.selectionService.clear();
             this.selectionService.addItems(itemsToAdd);
-        } else {
-            this.lastSelectedIndex = index;
-            this.selectionService.clear();
-            this.selectionService.addItem(itemModel.item);
+            return;
         }
+
+        this.lastSelectedIndex = index;
+        this.selectionService.clear();
+        this.selectionService.addItem(itemModel.item);
+    }
+
+    public itemPressed(event: Event, index: number): void {
+        const itemModel = this.items[index];
+        if (event.type === 'tap') {
+            this.lastSelectedIndex = index;
+            this.selectionService.toggle(itemModel.item);
+            return;
+        }
+        
+        this.lastSelectedIndex = index;
+        this.selectionService.clear();
+        this.selectionService.addItem(itemModel.item);
     }
 
     public toggleItems(isSelected: boolean): void {
@@ -245,7 +257,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     changeView(view: IBrowserView): void {
         this.activeView = view;
-        this.activeThumbnailSize = view.thumbnailSize;
+        if (view.thumbnailSize) {
+            this.activeThumbnailSize = view.thumbnailSize;
+        }
     }
 
     // HANDLE COMPONENENT CLICK EVENT

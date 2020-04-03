@@ -19,5 +19,9 @@
       "@picturepark/sdk-v1-angular-oidc": ["projects/picturepark-sdk-v1-angular-oidc/src/public_api.ts"],
       "@picturepark/sdk-v1-angular-ui": ["projects/picturepark-sdk-v1-angular-ui/src/public_api.ts"]
     }
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInjectionParameters": true
   }
 }

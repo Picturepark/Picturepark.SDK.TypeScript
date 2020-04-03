@@ -49,7 +49,7 @@
           <ng-template matTabContent>
             <ul>
               <li *ngFor="let content of selectedContent">
-                <pp-share-content-dialog-item [item]="content" (removeDialogContent)="removeContent($event)" (dblclick)="previewItem(content)"></pp-share-content-dialog-item>
+                <pp-share-content-dialog-item [item]="content" (removeDialogContent)="removeContent($event)" (dblclick)="previewItem(content.id)"></pp-share-content-dialog-item>
               </li>
             </ul>
           </ng-template>

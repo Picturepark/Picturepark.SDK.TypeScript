@@ -46,9 +46,13 @@ export class ShareDetailComponent implements OnInit {
 
     shareInfo.subscribe({
       next: ([shareJson, info]) => {
-        this.logoUrl = info.logosUrl + 'name';
-        this.shareDetail = ShareDetail.fromJS(shareJson);
-        this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
+        if (info.logosUrl) {
+          this.logoUrl = info.logosUrl + 'name';
+        }
+        if (shareJson) {
+          this.shareDetail = ShareDetail.fromJS(shareJson);
+          this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
+        }
         this.isLoading = false;
       }
     });
