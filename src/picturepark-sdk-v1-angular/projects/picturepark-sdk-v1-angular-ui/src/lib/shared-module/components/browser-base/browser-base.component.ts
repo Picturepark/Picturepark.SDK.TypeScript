@@ -72,6 +72,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     */
     @Input() public searchBehavior: SearchBehavior;
     @Input() public filter: FilterBase | null = null;
+    @Input() public baseFilter?: FilterBase;
 
     private _totalResults: number | null = null;
     private _selectedItems: TEntity[] = [];

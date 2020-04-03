@@ -2,8 +2,8 @@ import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/c
 
 // LIBRARIES
 import {
-  ContentService, ThumbnailSize, ContentSearchRequest, SortInfo, SortDirection,
-  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content, ContentSearchResult
+  ContentService, ThumbnailSize, ContentSearchRequest, SortInfo, SortDirection, AndFilter,
+  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content, ContentSearchResult, FilterBase
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -112,7 +112,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       debugMode: false,
       pageToken: this.nextPageToken,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      filter: this.filter ? this.filter : undefined,
+      filter: this.getFilter(),
       channelId: this.channel!.id,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
       limit: this.pageSize,
@@ -185,6 +185,20 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   checkContains(elementClassName: string): boolean {
     const containClasses = ['browser__items'];
     return containClasses.some(iClass => elementClassName.includes(iClass));
+  }
+
+  getFilter(): FilterBase | undefined {
+    if (this.baseFilter && this.filter) {
+      return new AndFilter({ filters: [this.baseFilter, this.filter] });
+    }
+
+    if (this.baseFilter) {
+      return this.baseFilter
+    }
+
+    if (this.filter) {
+      return this.filter
+    }
   }
 
   // CLEAR SELECTION
