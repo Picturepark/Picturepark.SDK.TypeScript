@@ -2,5 +2,12 @@
   "extends": "./tsconfig.lib.json",
   "angularCompilerOptions": {
     "enableIvy": false
+  },
+  "compilerOptions": {
+    "paths": {
+      "@picturepark/sdk-v1-angular": ["dist/picturepark-sdk-v1-angular"],
+      "@picturepark/sdk-v1-angular-oidc": ["dist/picturepark-sdk-v1-angular-oidc"],
+      "@picturepark/sdk-v1-angular-ui": ["dist/picturepark-sdk-v1-angular-ui"]
+    }
   }
 }

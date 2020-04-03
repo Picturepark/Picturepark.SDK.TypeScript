@@ -27,7 +27,7 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
   isLoading = false;
 
   readonly separatorKeysCodes: number[] = [ ENTER, COMMA ];
-  recipients: String[] = [];
+  recipients: string[] = [];
 
   // REGULAR EXPRESSION FOR EMAIL VALIDATION
   private reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;

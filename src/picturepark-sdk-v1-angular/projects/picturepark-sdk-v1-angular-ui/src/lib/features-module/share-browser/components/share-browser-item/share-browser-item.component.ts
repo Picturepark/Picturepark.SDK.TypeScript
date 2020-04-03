@@ -42,7 +42,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
     Promise.all(contentIdsReq.map(contentId => {
       return this.contentService.downloadThumbnail(
         contentId,
-        this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize || ThumbnailSize.Medium,
+        this.isListView ? ThumbnailSize.Small : this.thumbnailSize || ThumbnailSize.Medium,
         null,
         null);
 

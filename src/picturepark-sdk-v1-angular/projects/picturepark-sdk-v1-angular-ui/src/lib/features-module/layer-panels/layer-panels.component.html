@@ -1,5 +1,5 @@
 <mat-card class="custom-shadow" *ngFor="let layer of layers">
-  <mat-card-title>
+  <mat-card-title *ngIf="layer.names">
     {{layer.names | pptranslate}}
   </mat-card-title>
   <mat-card-content>

@@ -1,13 +1,13 @@
 <div class="list-container">
   <div class="list-content" *ngIf="schema | async as schemaDetail">
-    <pp-list-browser 
-      [schema]="schemaDetail"
-      [searchString]="searchQuery | async"
-      [filter]="filter | async"
-      [enableSelection]="true"
-      [selectedItemIds]="selectedItemsIds"
-      (selectedItemsChange)="selectedItemsChange($event)">
-    </pp-list-browser>
+      <pp-list-browser *ngIf="schemaDetail" 
+        [schema]="schemaDetail"
+        [searchString]="(searchQuery | async) || ''"
+        [filter]="filter | async"
+        [enableSelection]="true"
+        [selectedItemIds]="selectedItemsIds"
+        (selectedItemsChange)="selectedItemsChange($event)">
+      </pp-list-browser>
   </div>
   <div class="list-filters">
     <mat-tab-group class="content-panel">
@@ -23,7 +23,7 @@
             [aggregators]="aggregations"
             [aggregationFilters]="aggregationFilters"
             (aggregationFiltersChange)="changeAggregationFilters($event)"
-            [searchString]="searchQuery | async"
+            [searchString]="(searchQuery | async) || ''"
             (filterChange)="filter.next($event)">
           </pp-list-item-aggregation-list>
         </ng-template>

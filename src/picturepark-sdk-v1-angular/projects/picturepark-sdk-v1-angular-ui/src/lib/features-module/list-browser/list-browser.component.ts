@@ -3,7 +3,7 @@ import {
   Input, OnInit, Injector, SimpleChanges, OnChanges
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Sort } from '@angular/material/sort';
+import { Sort, SortDirection as MatSortDirection } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 // LIBRARIES
@@ -15,12 +15,12 @@ import {
   ListItemService,
   SchemaDetail,
   SearchBehavior,
-  SortDirection,
   SortInfo,
   ListItemResolveBehavior,
   ListItem,
   ListItemSearchResult,
   CustomerInfo,
+  SortDirection,
 } from '@picturepark/sdk-v1-angular';
 
 // SERVICES
@@ -53,7 +53,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   public displayedColumns: string[];
   public displayedColumnNames: any[];
   public activeSortColumn: string;
-  public activeSortDirection: string;
+  public activeSortDirection: MatSortDirection;
   public customerInfo: CustomerInfo;
 
   constructor(
@@ -91,9 +91,8 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       if (this.schema.sort && this.schema.sort.length > 0) {
         // get first as mat table does not support multiple sorting
         const name = this.schema.sort[0].field;
-        const direction = this.schema.sort[0].direction.toLowerCase();
+        this.activeSortDirection = this.schema.sort[0].direction.toLowerCase() as MatSortDirection;
         this.activeSortColumn = name!;
-        this.activeSortDirection = direction;
 
         this.sortInfo = this.schema.sort.map((s) => {
           return new SortInfo({
@@ -150,7 +149,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.tableItems.push(...tableItems);
 
     this.dataSource.data = this.tableItems;
-    const selected = this.items.filter( listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
+    const selected = this.items.filter(listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
     this.selectionService.addItems(selected.map(q => q.item));
 
     this.cdr.detectChanges();
@@ -213,7 +212,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${ this.isRowSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.isRowSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
   public rowClick(row: any): void {
