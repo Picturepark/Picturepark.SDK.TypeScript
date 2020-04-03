@@ -8,6 +8,7 @@ Authenticates with the OpenID Connect implicit flow.
 
 **Additional methods:**
 
+- requireLogin(redirectRoute?)
 - login(redirectRoute?)
 - logout(redirectRoute?)
 
@@ -23,7 +24,7 @@ Both methods redirect the user to the external Identity Server which authenticat
 
 Install the required NPM package:
 
-    npm install @picturepark/sdk-v1-angular
+    npm install @picturepark/sdk-v1-angular-oidc
 
 **2. Module registration**
 
@@ -62,9 +63,14 @@ import {
 export class AppModule { }
 ```
 
-**3. Authenticate**
+**3. Silent refresh**
 
-To authenticate and redirect to `/welcome`, inject the `OidcAuthService` instance and call `login()`: 
+In order to be able to refresh the access_token, create a new file in your apps "assets" folder called silent-refresh.html with the following content:
+[silent-refresh.html](../../../src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular-oidc/assets/silent-refresh.html)
+
+**4. Authenticate**
+
+To authenticate and redirect to `/welcome`, inject the `OidcAuthService` instance and call `requireLogin()`: 
 
 ```typescript
 import { AuthService, OidcAuthService } from '@picturepark/sdk-v1-angular';
@@ -77,9 +83,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.authService.isAuthenticated) {
-      this.authService.login('/welcome');
-    }
+    this.authService.requireLogin('/welcome');
   }
 
   ...

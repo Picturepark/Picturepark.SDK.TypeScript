@@ -1,6 +1,6 @@
 {
   "name": "@picturepark/sdk-v1-fetch",
-  "version": "1.6.0-pre.1",
+  "version": "1.6.0-pre.3",
   "main": "dist/amd/picturepark.js",
   "types": "dist/amd/picturepark.d.ts"
 }

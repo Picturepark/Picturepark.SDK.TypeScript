@@ -1,10 +1,10 @@
-import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input, Injector } from '@angular/core';
 
 import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
-import { ThumbnailSize, Content, ShareDetail} from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, Content, ShareDetail, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
 
 @Component({
@@ -14,9 +14,26 @@ import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
 })
 export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
 
-  @Input() item: Content;
+  /**
+   * The item from wich to show the thumbnail
+   */
+  @Input() item: Content | ShareContentDetail;
+
+  /**
+   * The id of the item from wich to show the thumbnail
+   */
   @Input() itemId: string;
+
+  /**
+   *  * If passed into the component, the thumbnail will be retrieved from the shareItem instead of being requested.
+   *  * Mainly used for the share viewer as the lack of authentication makes it impossible to request the thumbnail of the content 
+   */
   @Input() shareItem: ShareDetail;
+
+  /**
+   * If true the image will have a shadow box around
+   */
+  @Input() shadow: boolean;
 
   public isLoading = false;
   public thumbnailUrl: SafeUrl | null;
@@ -26,13 +43,13 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   public constructor(
     private contentService: ContentService,
     private sanitizer: DomSanitizer,
+    protected injector: Injector
   ) {
-    super();
+    super(injector);
   }
 
   async ngOnInit() {
 
-    // Handle shares
     if (this.shareItem) {
       const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
 
@@ -61,7 +78,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
             this.isLoading = true;
             return this.contentService.downloadThumbnail(
               this.item.id,
-              this.thumbnailSize || ThumbnailSize.Small,
+              this.thumbnailSize,
               null,
               null);
           })

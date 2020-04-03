@@ -1,4 +1,4 @@
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges, Component, Inject, LOCALE_ID } from '@angular/core';
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges, Component, Inject, LOCALE_ID, Injector } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounce, map, flatMap } from 'rxjs/operators';
 import { timer, Observable, from } from 'rxjs';
@@ -55,10 +55,13 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
 
   public autoCompleteOptions: Observable<AggregationResultItem[]>;
 
+  public canExpand = false;
+
   public isLoading = false;
 
-  public constructor(@Inject(LOCALE_ID) public locale: string) {
-    super();
+  public constructor(@Inject(LOCALE_ID) public locale: string,
+    protected injector: Injector) {
+    super(injector);
     this.autoCompleteOptions = this.aggregationQuery.valueChanges.pipe(
       debounce(() => timer(500)),
       map((value: string | AggregationResultItem) => typeof value === 'string' ? value : (value.name || '')),
@@ -79,6 +82,14 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     if (changes['globalAggregationFilters']) {
       this.aggregationsFiltersCount = this.globalAggregationFilters.filter(
         (item) => item.aggregationName === this.aggregator.name).length;
+    }
+
+    if (changes['expandedAggregationResult'] || changes['isExpanded']) {
+      if (this.expandedAggregationResult && this.expandedAggregationResult.aggregationResultItems) {
+        this.canExpand = this.isExpanded && this.expandedAggregationResult.aggregationResultItems.length > 0;
+      } else {
+        this.canExpand = false;
+      }
     }
   }
 
@@ -134,8 +145,8 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     return observableResult;
   }
 
-  public queryDisplay(aggregationResultItem: AggregationResultItem): string | undefined {
-    return aggregationResultItem ? aggregationResultItem.name : undefined;
+  public queryDisplay(aggregationResultItem: AggregationResultItem): string {
+    return aggregationResultItem ? aggregationResultItem.name : '';
   }
 
   public autoCompleteOptionSelected(value: AggregationResultItem): void {

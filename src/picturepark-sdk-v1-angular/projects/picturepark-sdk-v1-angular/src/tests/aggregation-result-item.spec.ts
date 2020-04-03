@@ -11,9 +11,7 @@ describe('AggregationResultItem', () => {
   beforeEach(configureTest);
 
   describe('getDisplayName', () => {
-
     describe('if aggregationName is ownerTokenId', () => {
-
       beforeAll(() => {
         aggregationResultItem.filter = new AggregationFilter();
         aggregationResultItem.filter.aggregationName = 'ownerTokenId';

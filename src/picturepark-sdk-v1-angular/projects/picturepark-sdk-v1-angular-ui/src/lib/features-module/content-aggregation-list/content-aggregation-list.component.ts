@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Injector } from '@angular/core';
 
 import {
   ContentService, ContentAggregationRequest, BrokenDependenciesFilter,
@@ -18,11 +18,12 @@ import { AggregationListComponent } from '../../shared-module/components/aggrega
   ],
 })
 export class ContentAggregationListComponent extends AggregationListComponent {
-  @Input()
-  public channelId: string;
 
-  constructor(private contentService: ContentService) {
-    super();
+  @Input() public channelId: string | undefined;
+
+  constructor(protected injector: Injector,
+    private contentService: ContentService) {
+    super(injector);
   }
 
   protected fetchData(): Observable<ObjectAggregationResult | null> {

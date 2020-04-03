@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Injector } from '@angular/core';
 
 // LIBRARIES
 import {
@@ -20,8 +20,9 @@ import { AggregationListComponent } from '../../shared-module/components/aggrega
 })
 export class ListItemAggregationListComponent extends AggregationListComponent {
   @Input() schemaId: string;
-  constructor(private listItemService: ListItemService) {
-    super();
+  constructor(private listItemService: ListItemService,
+    protected injector: Injector) {
+    super(injector);
   }
 
   protected fetchData(): Observable<ObjectAggregationResult | null> {
@@ -44,7 +45,7 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
     return of(null);
   }
 
-  public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult | null> => {
+  public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ListItemAggregationRequest({
       schemaIds: [this.schemaId],
       searchString: this.searchString,

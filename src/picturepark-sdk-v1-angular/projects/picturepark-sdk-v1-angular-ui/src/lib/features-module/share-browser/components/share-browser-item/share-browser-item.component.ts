@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, OnInit, Injector } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 
@@ -28,9 +28,10 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
   constructor(
     private contentService: ContentService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    protected injector: Injector
   ) {
-    super();
+    super(injector);
   }
 
 
@@ -41,7 +42,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
     Promise.all(contentIdsReq.map(contentId => {
       return this.contentService.downloadThumbnail(
         contentId,
-        this.isListView ? ThumbnailSize.Small : this.thumbnailSize as ThumbnailSize || ThumbnailSize.Medium,
+        this.isListView ? ThumbnailSize.Small : this.thumbnailSize || ThumbnailSize.Medium,
         null,
         null);
 

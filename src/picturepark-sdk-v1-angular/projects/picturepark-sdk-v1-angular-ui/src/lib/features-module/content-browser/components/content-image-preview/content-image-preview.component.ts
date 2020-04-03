@@ -1,4 +1,4 @@
-import { Input, Component, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, Inject, Optional } from '@angular/core';
+import { Input, Component, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, Inject, Optional, Injector } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
@@ -42,8 +42,10 @@ import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
       private contentService: ContentService,
       private sanitizer: DomSanitizer,
       private fullscreenService: FullscreenService,
-      private cdr: ChangeDetectorRef) {
-      super();
+      private cdr: ChangeDetectorRef,
+      protected injector: Injector
+      ) {
+      super(injector);
     }
 
     /** Gets the script path from either configured PICTUREPARK_UI_SCRIPTPATH or fallback to the configured base href */

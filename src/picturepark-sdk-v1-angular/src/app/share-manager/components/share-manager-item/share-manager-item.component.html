@@ -15,6 +15,7 @@
       <pp-share-items-panel
         [title]="'Items'"
         [items]="items"
+        [shareDetail]="share"
         (showDetail)="showDetail($event)">
       </pp-share-items-panel>
       <pp-owner-panel [title]="'Owner'" [userId]="userId" id="owner" *ngIf="userId"></pp-owner-panel>

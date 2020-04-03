@@ -6,10 +6,9 @@ import { PanelBaseComponent } from '../panel-base/panel-base.component';
 @Component({
   selector: 'pp-settings-panel',
   templateUrl: './settings-panel.component.html',
-  styleUrls: ['../panel-base/panel-base.component.scss', './settings-panel.component.scss']
+  styleUrls: ['../panel-base/panel-base.component.scss', './settings-panel.component.scss'],
 })
 export class SettingsPanelComponent extends PanelBaseComponent implements OnInit {
-
   @Input() subject: string;
   @Input() accessOriginal: string;
   @Input() creationDate: Date;
@@ -19,7 +18,5 @@ export class SettingsPanelComponent extends PanelBaseComponent implements OnInit
     super();
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

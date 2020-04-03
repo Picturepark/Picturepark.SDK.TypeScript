@@ -3,8 +3,14 @@ import { CommonModule } from '@angular/common';
 
 // LIBRARIES
 import {
-  ApplicationHeaderModule, BasketModule, ContentAggregationListModule, ChannelPickerModule,
-  ContentBrowserModule, SearchBoxModule, SharedModule, LayerPanelsModule, SearchSuggestBoxModule
+  BasketModule,
+  ContentAggregationListModule,
+  ChannelPickerModule,
+  ContentBrowserModule,
+  SearchBoxModule,
+  SharedModule,
+  LayerPanelsModule,
+  SearchSuggestBoxModule,
 } from '@picturepark/sdk-v1-angular-ui';
 
 // MODULES
@@ -14,12 +20,9 @@ import { ContentPickerRoutingModule } from './content-picker-routing.module';
 import { ContentPickerComponent } from './content-picker.component';
 
 @NgModule({
-  declarations: [
-    ContentPickerComponent
-  ],
+  declarations: [ContentPickerComponent],
   imports: [
     CommonModule,
-    ApplicationHeaderModule,
     ContentPickerRoutingModule,
     SharedModule,
     BasketModule,
@@ -28,7 +31,7 @@ import { ContentPickerComponent } from './content-picker.component';
     ChannelPickerModule,
     ContentBrowserModule,
     SearchBoxModule,
-    SearchSuggestBoxModule
-  ]
+    SearchSuggestBoxModule,
+  ],
 })
-export class ContentPickerModule { }
+export class ContentPickerModule {}
