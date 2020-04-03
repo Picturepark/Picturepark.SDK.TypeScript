@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
-import { ShareDetail,
+import {
+  ShareDetail,
   IMailRecipient,
   InfoService,
   ShareDataBasic,
@@ -45,31 +46,13 @@ export class ShareDetailComponent implements OnInit {
     }
 
     this.isLoading = true;
-    this.infoService.getInfo().subscribe( customerInfo => {
+    this.infoService.getInfo().subscribe(customerInfo => {
       this.logoUrl = customerInfo.logosUrl + 'name';
-      this.shareService.getShareJson(searchString, null, customerInfo.baseUrl).subscribe( shareDetailJson => {
+      this.shareService.getShareJson(searchString, null, customerInfo.baseUrl).subscribe(shareDetailJson => {
         this.shareDetail = ShareDetail.fromJS(shareDetailJson);
         this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
-
-    const shareInfo = forkJoin([
-      this.shareService.getShareJson(searchString, null),
-      this.infoService.getInfo()
-    ]);
-
-    shareInfo.subscribe({
-      next: ([shareJson, info]) => {
-        if (info.logosUrl) {
-          this.logoUrl = info.logosUrl + 'name';
-        }
-        if (shareJson) {
-          this.shareDetail = ShareDetail.fromJS(shareJson);
-          this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
-        }
-        this.isLoading = false;
-      });
-
+      })
     });
-
   }
 
   downloadAll(): void {
