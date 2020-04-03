@@ -18,8 +18,8 @@ import { AggregationListComponent } from '../../shared-module/components/aggrega
   ],
 })
 export class ContentAggregationListComponent extends AggregationListComponent {
-  @Input()
-  public channelId: string;
+
+  @Input() public channelId: string | undefined;
 
   constructor(protected injector: Injector,
     private contentService: ContentService) {

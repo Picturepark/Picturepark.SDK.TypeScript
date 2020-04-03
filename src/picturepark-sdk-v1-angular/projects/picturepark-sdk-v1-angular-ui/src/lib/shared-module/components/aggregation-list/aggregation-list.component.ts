@@ -17,7 +17,7 @@ export abstract class AggregationListComponent extends BaseComponent implements 
   public searchString = '';
 
   @Input()
-  public aggregators: AggregatorBase[] | null = [];
+  public aggregators: AggregatorBase[] | undefined = [];
 
   // Filter used for search. E.g.: Nested filter,And filter,Or filter.
   @Output()
