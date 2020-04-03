@@ -1,4 +1,4 @@
-import { Inject, Injectable, LOCALE_ID } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { InfoFacade } from '../info.facade';
 import { StorageKey } from '../utilities/storage-key.enum';
@@ -11,21 +11,17 @@ export class LanguageService {
   public currentLanguage: Language;
   public languages: Language[];
 
-  constructor(
-    @Inject(LOCALE_ID) private locale: string,
-    private infoFacade: InfoFacade,
-    private localStorageService: LocalStorageService
-  ) {}
+  constructor(private infoFacade: InfoFacade, private localStorageService: LocalStorageService) {}
 
-  public loadLanguages(): Promise<boolean> {
+  public loadLanguages(locale?: string): Promise<boolean> {
     return this.infoFacade
       .getInfo()
       .pipe(
         map(info => {
           this.languages = this.filterLanguages(info.languages, info.languageConfiguration.systemLanguages);
           this.defaultLanguage = info.languageConfiguration.defaultLanguage ?? info.languages[0].ietf;
-          this.changeCurrentLanguage(this.locale || this.defaultLanguage);
-          return this.locale === this.currentLanguage.ietf;
+          this.changeCurrentLanguage(locale || this.defaultLanguage);
+          return locale === this.currentLanguage.ietf;
         })
       )
       .toPromise();

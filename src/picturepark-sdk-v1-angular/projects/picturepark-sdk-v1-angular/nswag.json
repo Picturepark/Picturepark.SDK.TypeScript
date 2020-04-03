@@ -40,6 +40,7 @@
         "ContentService.search",
         "ContentService.updateMetadata",
         "ContentService.updatePermissions",
+        "InfoService.getInfo",
         "ListItemService.get",
         "ListItemService.search",
         "ShareService.get",

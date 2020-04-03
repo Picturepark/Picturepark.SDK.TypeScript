@@ -7199,7 +7199,7 @@ export class InfoService extends PictureparkServiceBase {
      * Get info
      * @return CustomerInfo
      */
-    getInfo(): Observable<CustomerInfo> {
+    protected getInfoCore(): Observable<CustomerInfo> {
         let url_ = this.baseUrl + "/v1/Info/customer";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -64576,3 +64576,83 @@ function blobToText(blob: any): Observable<string> {
 }
 
 // prettier-ignore
+
+
+
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CustomerInfoService {
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+  constructor(@Inject(HttpClient) private http: HttpClient, @Inject(PICTUREPARK_API_URL) private baseUrl: string) {}
+
+  public getInfo(): Observable<CustomerInfo> {
+    let url_ = this.baseUrl + '/v1/Info/customer';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGetInfo(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGetInfo(<any>response_);
+            } catch (e) {
+              return <Observable<CustomerInfo>>(<any>_observableThrow(e));
+            }
+          } else {
+            return <Observable<CustomerInfo>>(<any>_observableThrow(response_));
+          }
+        })
+      );
+  }
+
+  protected processGetInfo(response: HttpResponseBase): Observable<CustomerInfo> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
+
+    const _headers: any = {};
+    if (response.headers) {
+      for (const key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap(_responseText => {
+          let result200: any = null;
+          const resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result200 = CustomerInfo.fromJS(resultData200);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap(_responseText => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf<CustomerInfo>(<any>null);
+  }
+}
