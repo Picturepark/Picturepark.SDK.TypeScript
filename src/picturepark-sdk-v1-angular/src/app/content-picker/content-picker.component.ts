@@ -1,8 +1,6 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Injector } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import {
@@ -16,26 +14,36 @@ import {
   LifeCycleFilter,
   ContentSearchType,
   BrokenDependenciesFilter,
+  SearchBehavior,
+  AggregationFilter,
 } from '@picturepark/sdk-v1-angular';
-import { SelectionService, BasketService, ContentModel, ContentBrowserComponent } from '@picturepark/sdk-v1-angular-ui';
+import {
+  SelectionService,
+  BasketService,
+  ContentModel,
+  ContentBrowserComponent,
+  SearchParameters,
+  BaseComponent,
+  ContentDetailDialogOptions,
+} from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
 import { ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 
 // SERVICES
 import { EmbedService } from './embed.service';
-import { ContentDetailDialogOptions } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/features-module/content-details-dialog/ContentDetailDialogOptions';
 
 @Component({
   templateUrl: './content-picker.component.html',
   styleUrls: ['./content-picker.component.scss'],
 })
-export class ContentPickerComponent implements OnInit, OnDestroy {
+export class ContentPickerComponent extends BaseComponent implements OnInit, OnDestroy {
   public itemsInBasket = '0';
 
   public selectedItems: Content[] = [];
 
   public searchText = '';
+  public searchBehavior = SearchBehavior.SimplifiedSearch;
   public selectedChannel: Channel | null = null;
   public selectedFilter: FilterBase | null = null;
 
@@ -47,23 +55,19 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
   public messagePosted = false;
   public postUrl = '';
 
-  private subscription: Subscription = new Subscription();
-
-  public get deviceBreakpoint(): boolean {
-    return this.breakpointObserver.isMatched([Breakpoints.Handset, Breakpoints.Tablet]);
-  }
-
   @ViewChild(ContentBrowserComponent) contentBrowserComponent: ContentBrowserComponent;
 
   constructor(
+    injector: Injector,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private embedService: EmbedService,
     private basketService: BasketService,
     private contentService: ContentService,
-    public selectionService: SelectionService<Content>,
-    public breakpointObserver: BreakpointObserver
-  ) {}
+    public selectionService: SelectionService<Content>
+  ) {
+    super(injector);
+  }
 
   public openDetails(item: ContentModel<Content>) {
     let index = this.contentBrowserComponent.items.findIndex(q => q.item.id === item.item.id);
@@ -94,10 +98,7 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    const basketSubscription = this.basketService.basketChange.subscribe(
-      items => (this.itemsInBasket = items.length.toString())
-    );
-    this.subscription.add(basketSubscription);
+    this.sub = this.basketService.basketChange.subscribe(items => (this.itemsInBasket = items.length.toString()));
 
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
@@ -108,8 +109,9 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     this.selectedItems = items;
   }
 
-  changeFilter(filters: FilterBase[]) {
-
+  addFilter(filter: AggregationFilter) {
+    this.selectedFilter = filter.filter!;
+    console.log(filter);
   }
 
   public async embed() {
@@ -121,8 +123,9 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     }
   }
 
-  public changeSearchQuery(query: string) {
-    this.searchText = query;
+  public changeSearchParameters(searchParameters: SearchParameters) {
+    this.searchText = searchParameters.searchString;
+    this.searchBehavior = (searchParameters.searchBehavior as unknown) as SearchBehavior;
   }
 
   public changeChannel(channel: Channel) {
@@ -143,11 +146,5 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
 
   log(data: any) {
     console.log(data);
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

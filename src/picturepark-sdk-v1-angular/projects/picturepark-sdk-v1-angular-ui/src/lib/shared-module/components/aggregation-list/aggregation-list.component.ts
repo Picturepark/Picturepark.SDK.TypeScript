@@ -80,14 +80,13 @@ export abstract class AggregationListComponent extends BaseComponent implements 
   }
 
   private updateData() {
-    const fetchDataSubscription = this.fetchData()
+    this.sub = this.fetchData()
       .pipe(filter((result) => result !== null))
       .subscribe((result: ObjectAggregationResult) => {
         this.processAggregationResults(result.aggregationResults || []);
 
         this.isLoading.next(false);
       });
-    this.subscription.add(fetchDataSubscription);
   }
 
   private getFilter(aggregationFilters: Array<AggregationFilter[]>): FilterBase | null {

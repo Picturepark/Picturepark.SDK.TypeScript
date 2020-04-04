@@ -1,4 +1,16 @@
-import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, OnInit, Injector, ChangeDetectionStrategy, Inject, LOCALE_ID } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChange,
+  Output,
+  EventEmitter,
+  OnInit,
+  Injector,
+  ChangeDetectionStrategy,
+  Inject,
+  LOCALE_ID,
+} from '@angular/core';
 
 // LIBRARIES
 import {
@@ -14,13 +26,14 @@ import { FormControl, FormBuilder } from '@angular/forms';
 import { debounceTime, tap, switchMap, map, catchError, distinctUntilChanged } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { BaseComponent } from '../../shared-module/components/base.component';
-import { ExtendedSearchBehavior } from '../../shared-module/search-utils';
+import { ExtendedSearchBehavior, SearchParameters } from '../../shared-module/search-utils';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'pp-search-suggest-box',
   templateUrl: './search-suggest-box.component.html',
   styleUrls: ['./search-suggest-box.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchSuggestBoxComponent extends BaseComponent implements OnChanges, OnInit {
   constructor(injector: Injector, private formBuilder: FormBuilder, @Inject(LOCALE_ID) public locale: string) {
@@ -54,9 +67,12 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnChange
   public searchStringChange = new EventEmitter<string>();
 
   @Output()
+  public searchParametersChange = new EventEmitter<SearchParameters>();
+
+  @Output()
   public filterAdd = new EventEmitter<AggregationFilter>();
 
-  suggestions$: Observable<{name: string, results: AggregationResultItem[]}[]>;
+  suggestions$: Observable<{ name: string; results: AggregationResultItem[] }[]>;
 
   public get suggestBox() {
     return this.form.controls['suggestBox'];
@@ -71,8 +87,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnChange
   }
 
   public ngOnInit() {
-    this.suggestions$ = this.suggestBox.valueChanges
-    .pipe(
+    this.suggestions$ = this.suggestBox.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       tap(() => {
@@ -89,21 +104,19 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnChange
             aggs.push(aggregation);
           }
         });
-        return this.aggregate(aggs).pipe(
-          catchError(error => of(null))
-        );
+        return this.aggregate(aggs).pipe(catchError(error => of(null)));
       }),
       map(aggregationResult => {
-        if(!aggregationResult) {
+        if (!aggregationResult) {
           return [];
         }
-        const results = aggregationResult.aggregationResults.map(i => { 
+        const results = aggregationResult.aggregationResults.map(i => {
           const expanded = this.expandAggregationResult(i).aggregationResultItems!;
           const name = this.aggregations.find(j => j.name === i.name);
-          return { name: name?.names?.translate(this.locale) ?? i.name, results: expanded }}
-        );
+          return { name: name?.names?.translate(this.locale) ?? i.name, results: expanded };
+        });
         return results.filter(i => i.results.length > 0);
-        }),
+      }),
       tap(() => {
         this.isLoading = false;
       })
@@ -118,13 +131,22 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnChange
 
   public optionSelected(event: MatAutocompleteSelectedEvent): void {
     const element = event.option.value as AggregationResultItem;
-    this.searchString = element.name;
+    this.searchString = '';
+    if (element.filter) {
+      this.filterAdd.emit(element.filter);
+    }
+  }
+
+  public searchBehaviorChange($event: MatRadioChange) {
+    console.log($event);
+    this.searchBehavior = $event.value;
     this.search();
   }
 
   public search() {
     this.suggestBox.setValue(this.searchString);
     this.searchStringChange.emit(this.searchString);
+    this.searchParametersChange.emit({ searchBehavior: this.searchBehavior, searchString: this.searchString });
   }
 
   public clear() {

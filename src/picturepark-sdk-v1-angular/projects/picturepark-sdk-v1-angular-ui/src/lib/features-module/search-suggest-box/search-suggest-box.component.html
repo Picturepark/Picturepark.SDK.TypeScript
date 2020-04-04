@@ -44,7 +44,7 @@
             {{ 'SearchSuggestBox.SearchSettings' | pptranslate }}
           </mat-option>
           <mat-radio-group
-            class="radio-group" [ngModel]="searchBehavior" [ngModelOptions]="{standalone: true}">
+            class="radio-group" [ngModel]="searchBehavior" [ngModelOptions]="{standalone: true}" (change)="searchBehaviorChange($event)">
             <mat-radio-button class="radio-button" value="SimplifiedSearch">
               {{ 'SearchSuggestBox.SimpleAllSearch' | pptranslate }}
             </mat-radio-button>

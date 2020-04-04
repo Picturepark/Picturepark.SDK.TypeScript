@@ -49,6 +49,7 @@ export { DialogService } from './lib/features-module/dialog/dialog.service';
 
 // Classes
 export { ContentModel } from './lib/shared-module/models/content-model';
+export { BaseComponent } from './lib/shared-module/components/base.component';
 
 // Functions
 export * from './lib/utilities/helper';

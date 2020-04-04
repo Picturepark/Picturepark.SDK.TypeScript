@@ -48,3 +48,11 @@
 .radio-button {
   margin: 5px;
 }
+
+::ng-deep .mat-autocomplete-panel {
+  max-height: 800px !important;
+
+  .mat-option-text {
+    font-size: 16px;
+  }
+}
