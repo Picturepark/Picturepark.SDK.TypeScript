@@ -10,10 +10,19 @@
 
     <span class="spacer"></span>
 
-    <!-- <pp-search-suggest-box [searchString]="searchText" (searchStringChange)="changeSearchQuery($event)" *ngIf="selectedChannel" [aggregations]="selectedChannel?.aggregations" [aggregate]="aggregate">
-    </pp-search-suggest-box> -->
+    <pp-search-suggest-box 
+      [searchString]="searchText" 
+      (searchStringChange)="changeSearchQuery($event)" 
+      (filterChange)="log($event)" 
+      *ngIf="selectedChannel" 
+      [aggregations]="selectedChannel.aggregations" 
+      [aggregate]="aggregate"
+      [showSearchBehaviorPicker]="true">
+    </pp-search-suggest-box>
+    <!--
     <pp-search-box style="width: 20%; font-size: 16px;" [searchString]="searchText"
             (searchStringChange)="changeSearchQuery($event)"></pp-search-box>
+    -->
   </mat-toolbar>
 
   <div class="content-picker-content">

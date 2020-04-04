@@ -1,41 +1,51 @@
-import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, OnInit, Injector, ChangeDetectionStrategy, Inject, LOCALE_ID } from '@angular/core';
 
 // LIBRARIES
 import {
-  ContentSearchResult, AggregatorBase, TermsAggregator, AggregationFilter, AggregationResult, AggregationResultItem, ObjectAggregationResult
+  AggregatorBase,
+  TermsAggregator,
+  AggregationFilter,
+  AggregationResult,
+  AggregationResultItem,
+  ObjectAggregationResult,
 } from '@picturepark/sdk-v1-angular';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { flatMap } from '../../utilities/helper';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { FormControl, FormBuilder } from '@angular/forms';
+import { debounceTime, tap, switchMap, map, catchError, distinctUntilChanged } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { BaseComponent } from '../../shared-module/components/base.component';
+import { ExtendedSearchBehavior } from '../../shared-module/search-utils';
 
 @Component({
   selector: 'pp-search-suggest-box',
   templateUrl: './search-suggest-box.component.html',
-  styleUrls: ['./search-suggest-box.component.scss']
+  styleUrls: ['./search-suggest-box.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchSuggestBoxComponent implements OnChanges, OnInit {
-
-  constructor(private formBuilder: FormBuilder) {
-
-    this.form = this.formBuilder.group({
-      suggestBox: new FormControl('')
-    });
-
+export class SearchSuggestBoxComponent extends BaseComponent implements OnChanges, OnInit {
+  constructor(injector: Injector, private formBuilder: FormBuilder, @Inject(LOCALE_ID) public locale: string) {
+    super(injector);
   }
 
-  public isLoading = false;
-  public result: ContentSearchResult | null = null;
-  public suggestAutocomplete: AggregationResultItem[];
-  form: FormGroup;
+  isLoading = false;
+  hasFocus = false;
+  typed = false;
+
+  form = this.formBuilder.group({
+    suggestBox: new FormControl(''),
+  });
+
+  @Input()
+  public showSearchBehaviorPicker = false;
 
   @Input()
   aggregate: (aggregations: AggregatorBase[]) => Observable<ObjectAggregationResult>;
 
   @Input()
   public aggregations: AggregatorBase[];
+
+  @Input()
+  public searchBehavior: ExtendedSearchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
 
   @Input()
   public searchString = '';
@@ -46,12 +56,29 @@ export class SearchSuggestBoxComponent implements OnChanges, OnInit {
   @Output()
   public filterAdd = new EventEmitter<AggregationFilter>();
 
+  suggestions$: Observable<{name: string, results: AggregationResultItem[]}[]>;
+
+  public get suggestBox() {
+    return this.form.controls['suggestBox'];
+  }
+
+  focus() {
+    this.hasFocus = true;
+  }
+
+  blur() {
+    this.hasFocus = false;
+  }
+
   public ngOnInit() {
-    this.form.controls['suggestBox']
-    .valueChanges
+    this.suggestions$ = this.suggestBox.valueChanges
     .pipe(
       debounceTime(300),
-      tap(() => this.isLoading = true),
+      distinctUntilChanged(),
+      tap(() => {
+        this.isLoading = true;
+        this.typed = true;
+      }),
       switchMap(value => {
         this.searchString = value;
         const aggs: AggregatorBase[] = [];
@@ -63,14 +90,24 @@ export class SearchSuggestBoxComponent implements OnChanges, OnInit {
           }
         });
         return this.aggregate(aggs).pipe(
-          finalize(() => this.isLoading = false),
+          catchError(error => of(null))
         );
+      }),
+      map(aggregationResult => {
+        if(!aggregationResult) {
+          return [];
+        }
+        const results = aggregationResult.aggregationResults.map(i => { 
+          const expanded = this.expandAggregationResult(i).aggregationResultItems!;
+          const name = this.aggregations.find(j => j.name === i.name);
+          return { name: name?.names?.translate(this.locale) ?? i.name, results: expanded }}
+        );
+        return results.filter(i => i.results.length > 0);
+        }),
+      tap(() => {
+        this.isLoading = false;
       })
-    )
-    .subscribe(aggregationResult => {
-      const results = aggregationResult.aggregationResults.map(i => this.expandAggregationResult(i));
-      this.suggestAutocomplete = flatMap(results, i => i.aggregationResultItems!);
-    });
+    );
   }
 
   public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
@@ -85,13 +122,8 @@ export class SearchSuggestBoxComponent implements OnChanges, OnInit {
     this.search();
   }
 
-  public add(event: MatChipInputEvent): boolean {
-    console.log(event);
-    return false;
-  }
-
   public search() {
-    this.form.controls['suggestBox'].setValue(this.searchString);
+    this.suggestBox.setValue(this.searchString);
     this.searchStringChange.emit(this.searchString);
   }
 
@@ -101,7 +133,6 @@ export class SearchSuggestBoxComponent implements OnChanges, OnInit {
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {
-
     if (aggregator.aggregators && aggregator.aggregators.length > 0) {
       return this.expandAggregator(aggregator.aggregators[0]);
     }
@@ -115,9 +146,9 @@ export class SearchSuggestBoxComponent implements OnChanges, OnInit {
       aggregationResult.aggregationResultItems &&
       aggregationResult.aggregationResultItems[0] &&
       aggregationResult.aggregationResultItems[0].aggregationResults &&
-      aggregationResult.aggregationResultItems[0].aggregationResults![0]) {
-
-      return this.expandAggregationResult(aggregationResult.aggregationResultItems[0].aggregationResults![0]);
+      aggregationResult.aggregationResultItems[0].aggregationResults[0]
+    ) {
+      return this.expandAggregationResult(aggregationResult.aggregationResultItems[0].aggregationResults[0]);
     }
 
     return aggregationResult;

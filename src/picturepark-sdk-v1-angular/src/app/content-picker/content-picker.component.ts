@@ -108,6 +108,10 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
     this.selectedItems = items;
   }
 
+  changeFilter(filters: FilterBase[]) {
+
+  }
+
   public async embed() {
     try {
       this.loading = true;
@@ -136,6 +140,10 @@ export class ContentPickerComponent implements OnInit, OnDestroy {
       })
     );
   };
+
+  log(data: any) {
+    console.log(data);
+  }
 
   ngOnDestroy() {
     if (this.subscription) {

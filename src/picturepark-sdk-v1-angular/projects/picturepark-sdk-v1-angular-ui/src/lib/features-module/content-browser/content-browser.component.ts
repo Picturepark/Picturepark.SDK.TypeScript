@@ -113,7 +113,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       pageToken: this.nextPageToken,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       filter: this.filter ? this.filter : undefined,
-      channelId: this.channel!.id,
+      channelId: this.channel.id,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
       limit: this.pageSize,
       searchString: this.searchString,

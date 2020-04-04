@@ -7,7 +7,7 @@ $pp-search-box: (contrast: (),
 
   $primary: map-get($theme, primary);
 
-  pp-search-box {
+  pp-search-box, pp-search-suggest-box {
     
     #search-container {
       border-color: mat-color($primary, surface-mid);

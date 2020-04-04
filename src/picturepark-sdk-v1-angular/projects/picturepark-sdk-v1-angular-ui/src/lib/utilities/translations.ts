@@ -325,6 +325,40 @@ export let TRANSLATIONS = {
       de: 'Fortgeschritten'
     },
   },
+  SearchSuggestBox: {
+    Search: {
+      en: 'Search',
+      de: 'Suchen'
+    },
+    SimpleAnySearch: {
+      en: 'Simple (AND)',
+      de: 'Einfach (AND)'
+    },
+    SimpleAllSearch: {
+      en: 'Simple (OR)',
+      de: 'Einfach (OR)'
+    },
+    AdvancedSearch: {
+      en: 'Advanced',
+      de: 'Fortgeschritten'
+    },
+    SearchSettings: {
+      en: 'Search settings',
+      de: 'Such-Einstellungen'
+    },
+    TypeToSearch: {
+      en: 'Type to search',
+      de: 'Tippen für Vorschläge'
+    },
+    NoMatchingSuggestions: {
+      en: 'No matches',
+      de: 'Keine Vorschläge'
+    },
+    Loading: {
+      en: 'Loading...',
+      de: 'Wird geladen...'
+    }
+  },
   ContentDownloadDialog: {
     AudioMetadata: {
       en: 'Audio',
