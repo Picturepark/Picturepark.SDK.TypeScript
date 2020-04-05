@@ -20,6 +20,7 @@ import {
   AggregationResult,
   AggregationResultItem,
   ObjectAggregationResult,
+  SearchFacade,
 } from '@picturepark/sdk-v1-angular';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FormControl, FormBuilder } from '@angular/forms';
@@ -35,7 +36,7 @@ import { MatRadioChange } from '@angular/material/radio';
   styleUrls: ['./search-suggest-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchSuggestBoxComponent extends BaseComponent implements OnChanges, OnInit {
+export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   constructor(injector: Injector, private formBuilder: FormBuilder, @Inject(LOCALE_ID) public locale: string) {
     super(injector);
   }
@@ -58,19 +59,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnChange
   public aggregations: AggregatorBase[];
 
   @Input()
-  public searchBehavior: ExtendedSearchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
-
-  @Input()
-  public searchString = '';
-
-  @Output()
-  public searchStringChange = new EventEmitter<string>();
-
-  @Output()
-  public searchParametersChange = new EventEmitter<SearchParameters>();
-
-  @Output()
-  public filterAdd = new EventEmitter<AggregationFilter>();
+  public facade: SearchFacade<any>;
 
   suggestions$: Observable<{ name: string; results: AggregationResultItem[] }[]>;
 
@@ -95,7 +84,6 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnChange
         this.typed = true;
       }),
       switchMap(value => {
-        this.searchString = value;
         const aggs: AggregatorBase[] = [];
         this.aggregations.forEach(aggregation => {
           const expanded = this.expandAggregator(aggregation);
@@ -123,35 +111,29 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnChange
     );
   }
 
-  public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
-    if (changes['searchString']) {
-      this.search();
+  public optionSelected(event: MatAutocompleteSelectedEvent): void {
+    const element = event.option.value as AggregationResultItem;
+    this.suggestBox.setValue('');
+    if(element.filter) {
+      this.facade.aggregationFilters = [...this.facade.searchInputState.aggregationFilters, element.filter];
+      // Alternative
+      // this.facade.patchInputState({ aggregationFilters: [...this.facade.aggregationFilters, element.filter] });
     }
   }
 
-  public optionSelected(event: MatAutocompleteSelectedEvent): void {
-    const element = event.option.value as AggregationResultItem;
-    this.searchString = '';
-    if (element.filter) {
-      this.filterAdd.emit(element.filter);
+  search() {
+    if (this.facade.searchInputState.searchString !== this.suggestBox.value) {
+      this.facade.patchInputState({searchString: this.suggestBox.value});
     }
   }
 
   public searchBehaviorChange($event: MatRadioChange) {
-    console.log($event);
-    this.searchBehavior = $event.value;
-    this.search();
-  }
-
-  public search() {
-    this.suggestBox.setValue(this.searchString);
-    this.searchStringChange.emit(this.searchString);
-    this.searchParametersChange.emit({ searchBehavior: this.searchBehavior, searchString: this.searchString });
+    this.facade.patchInputState({ searchBehavior: $event.value })
+    // this.search();
   }
 
   public clear() {
-    this.searchString = '';
-    this.search();
+    this.facade.searchString = '';
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {

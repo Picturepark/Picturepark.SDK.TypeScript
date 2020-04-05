@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 // LIBRARIES
 import {
   OrFilter, PrefixFilter, Schema, SchemaSearchRequest,
-  SchemaService, SearchBehavior, SortDirection, SortInfo, TermFilter, FilterBase, SchemaSearchResult
+  SchemaService, SearchBehavior, SortDirection, SortInfo, TermFilter, FilterBase, SchemaSearchResult, SchemaSearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -29,9 +29,10 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
 
   constructor(
     private schemaService: SchemaService,
+    private facade: SchemaSearchFacade,
     injector: Injector
   ) {
-    super('SchemaBrowserComponent', injector);
+    super('SchemaBrowserComponent', injector, facade);
   }
 
   async init(): Promise<void> {

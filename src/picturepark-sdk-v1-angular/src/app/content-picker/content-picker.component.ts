@@ -16,6 +16,7 @@ import {
   BrokenDependenciesFilter,
   SearchBehavior,
   AggregationFilter,
+  ContentSearchFacade,
 } from '@picturepark/sdk-v1-angular';
 import {
   SelectionService,
@@ -42,7 +43,6 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
 
   public selectedItems: Content[] = [];
 
-  public searchText = '';
   public searchBehavior = SearchBehavior.SimplifiedSearch;
   public selectedChannel: Channel | null = null;
   public selectedFilter: FilterBase | null = null;
@@ -64,6 +64,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     private embedService: EmbedService,
     private basketService: BasketService,
     private contentService: ContentService,
+    public facade: ContentSearchFacade,
     public selectionService: SelectionService<Content>
   ) {
     super(injector);
@@ -124,8 +125,10 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   }
 
   public changeSearchParameters(searchParameters: SearchParameters) {
-    this.searchText = searchParameters.searchString;
-    this.searchBehavior = (searchParameters.searchBehavior as unknown) as SearchBehavior;
+    this.facade.patchInputState({
+      searchString: searchParameters.searchString,
+      searchBehavior: (searchParameters.searchBehavior as unknown) as SearchBehavior
+    });
   }
 
   public changeChannel(channel: Channel) {

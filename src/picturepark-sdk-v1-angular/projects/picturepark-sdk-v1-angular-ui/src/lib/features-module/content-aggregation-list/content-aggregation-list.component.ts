@@ -3,7 +3,7 @@ import { Component, Input, Injector } from '@angular/core';
 
 import {
   ContentService, ContentAggregationRequest, BrokenDependenciesFilter,
-  ContentSearchType, LifeCycleFilter, ObjectAggregationResult, AggregatorBase
+  ContentSearchType, LifeCycleFilter, ObjectAggregationResult, AggregatorBase, ContentSearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -22,7 +22,8 @@ export class ContentAggregationListComponent extends AggregationListComponent {
   @Input() public channelId: string | undefined;
 
   constructor(protected injector: Injector,
-    private contentService: ContentService) {
+    private contentService: ContentService,
+    public facade: ContentSearchFacade) {
     super(injector);
   }
 
@@ -32,7 +33,7 @@ export class ContentAggregationListComponent extends AggregationListComponent {
       const request = new ContentAggregationRequest({
         aggregators: this.aggregators,
         channelId: this.channelId,
-        searchString: this.searchString,
+        searchString: this.facade.searchInputState.searchString,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         aggregationFilters: this.aggregationFilters,
         searchType: ContentSearchType.MetadataAndFullText,
@@ -48,10 +49,10 @@ export class ContentAggregationListComponent extends AggregationListComponent {
   public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ContentAggregationRequest({
       channelId: this.channelId,
-      searchString: this.searchString,
+      searchString: this.facade.searchInputState.searchString,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       aggregators: [aggregator],
-      aggregationFilters: this.aggregationFilters,
+      aggregationFilters: this.facade.searchInputState.aggregationFilters,
       searchType: ContentSearchType.MetadataAndFullText,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly
     });

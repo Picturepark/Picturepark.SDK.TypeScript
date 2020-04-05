@@ -4,7 +4,7 @@ import { Component, Input, Injector } from '@angular/core';
 // LIBRARIES
 import {
   BrokenDependenciesFilter, LifeCycleFilter,
-  ObjectAggregationResult, ListItemAggregationRequest, ListItemService, AggregatorBase
+  ObjectAggregationResult, ListItemAggregationRequest, ListItemService, AggregatorBase, ListItemSearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -21,7 +21,8 @@ import { AggregationListComponent } from '../../shared-module/components/aggrega
 export class ListItemAggregationListComponent extends AggregationListComponent {
   @Input() schemaId: string;
   constructor(private listItemService: ListItemService,
-    protected injector: Injector) {
+    protected injector: Injector,
+    public facade: ListItemSearchFacade) {
     super(injector);
   }
 
@@ -32,7 +33,7 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
       const request = new ListItemAggregationRequest({
         schemaIds: [this.schemaId],
         aggregators: this.aggregators,
-        searchString: this.searchString,
+        searchString: this.facade.searchInputState.searchString,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         aggregationFilters: this.aggregationFilters,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly,
@@ -48,7 +49,7 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
   public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ListItemAggregationRequest({
       schemaIds: [this.schemaId],
-      searchString: this.searchString,
+      searchString: this.facade.searchInputState.searchString,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       aggregators: [aggregator],
       aggregationFilters: this.aggregationFilters,

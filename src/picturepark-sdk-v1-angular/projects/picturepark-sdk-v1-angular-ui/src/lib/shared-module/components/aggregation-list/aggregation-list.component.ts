@@ -1,20 +1,17 @@
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges, OnInit } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 // LIBRARIES
 import {
   AggregationFilter, AggregationResult, ObjectAggregationResult,
-  AggregatorBase, FilterBase, OrFilter, AndFilter
+  AggregatorBase, FilterBase, OrFilter, AndFilter, SearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../components/base.component';
 
 export abstract class AggregationListComponent extends BaseComponent implements OnChanges {
-
-  @Input()
-  public searchString = '';
 
   @Input()
   public aggregators: AggregatorBase[] | undefined = [];
@@ -36,6 +33,8 @@ export abstract class AggregationListComponent extends BaseComponent implements 
   public isLoading = new BehaviorSubject(false);
 
   public aggregationResults: AggregationResult[] = [];
+
+  public abstract facade: SearchFacade<any>;
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes['aggregators'] && changes['aggregators'].previousValue && this.aggregators) {
@@ -67,10 +66,8 @@ export abstract class AggregationListComponent extends BaseComponent implements 
 
     // flatten array and remove undefined.
     this.aggregationFilters = ([] as AggregationFilter[]).concat(...this.aggregationFiltersStates).filter(item => item);
-    const resultFilter = this.getFilter(this.aggregationFiltersStates);
 
-    this.aggregationFiltersChange.emit(this.aggregationFilters);
-    this.filterChange.emit(resultFilter);
+    this.facade.patchInputState({ aggregationFilters: this.aggregationFilters });
 
     this.updateData();
   }
@@ -87,27 +84,6 @@ export abstract class AggregationListComponent extends BaseComponent implements 
 
         this.isLoading.next(false);
       });
-  }
-
-  private getFilter(aggregationFilters: Array<AggregationFilter[]>): FilterBase | null {
-    const preparedFilters = aggregationFilters
-      .map(array => {
-        const filtered = array.filter(aggregationFilter => aggregationFilter.filter)
-          .map(aggregationFilter => aggregationFilter.filter as FilterBase);
-
-        switch (filtered.length) {
-          case 0: return null;
-          case 1: return filtered[0];
-          default: return new OrFilter({ filters: filtered });
-        }
-      })
-      .filter(value => value !== null);
-
-    switch (preparedFilters.length) {
-      case 0: return null;
-      case 1: return preparedFilters[0];
-      default: return new AndFilter({ filters: preparedFilters as FilterBase[] });
-    }
   }
 
   private processAggregationResults(aggregationResults: AggregationResult[]) {

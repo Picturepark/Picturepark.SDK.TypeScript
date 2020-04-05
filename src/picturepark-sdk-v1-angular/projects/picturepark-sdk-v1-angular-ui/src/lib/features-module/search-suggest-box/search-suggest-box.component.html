@@ -26,7 +26,7 @@
             <ng-container *ngIf="suggestions.length > 0; else noResults">
               <mat-optgroup *ngFor="let group of suggestions" [label]="group.name">
                 <mat-option *ngFor="let suggest of group.results" [value]="suggest">
-                  <span [innerHTML]="suggest.name | highlight: this.searchString"></span>
+                  <span [innerHTML]="suggest.name | highlight: this.suggestBox.value"></span>
                   <span> ({{ suggest.count }})</span>
                 </mat-option>
               </mat-optgroup>
@@ -44,7 +44,7 @@
             {{ 'SearchSuggestBox.SearchSettings' | pptranslate }}
           </mat-option>
           <mat-radio-group
-            class="radio-group" [ngModel]="searchBehavior" [ngModelOptions]="{standalone: true}" (change)="searchBehaviorChange($event)">
+            class="radio-group" [ngModel]="(facade.searchInput$ | async)?.searchBehavior" [ngModelOptions]="{standalone: true}" (change)="searchBehaviorChange($event)">
             <mat-radio-button class="radio-button" value="SimplifiedSearch">
               {{ 'SearchSuggestBox.SimpleAllSearch' | pptranslate }}
             </mat-radio-button>
@@ -59,7 +59,7 @@
       </div>
     </mat-autocomplete>
 
-    <button mat-icon-button (click)="clear()" *ngIf="searchString">
+    <button mat-icon-button (click)="clear()" *ngIf="(facade.searchInput$ | async)?.searchString">
       <mat-icon aria-label="Clear">clear</mat-icon>
     </button>
   </form>

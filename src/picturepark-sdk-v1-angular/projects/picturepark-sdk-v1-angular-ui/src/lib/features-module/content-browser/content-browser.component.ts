@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/c
 // LIBRARIES
 import {
   ContentService, ThumbnailSize, ContentSearchRequest, SortInfo, SortDirection,
-  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content, ContentSearchResult
+  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content, ContentSearchResult, SearchFacade, ContentSearchFacade, FilterBase, OrFilter, AggregationFilter, AndFilter
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -19,6 +19,7 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 import { Observable } from 'rxjs';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 import { ContentModel } from '../../shared-module/models/content-model';
+import { groupBy } from '../../utilities/helper';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -39,20 +40,41 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   constructor(
     private basketService: BasketService,
     private contentService: ContentService,
+    private facade: ContentSearchFacade,
     private contentDownloadDialogService: ContentDownloadDialogService,
     injector: Injector
   ) {
-    super('ContentBrowserComponent', injector);
+    super('ContentBrowserComponent', injector, facade);
   }
 
   async init(): Promise<void> {
-    // BASKET SUBSCRIBER
-    const basketSubscription = this.basketService.basketChange.subscribe(basketItems => {
+    this.sub = this.basketService.basketChange.subscribe(basketItems => {
       this.checkItemsInBasket(basketItems);
     });
 
-    // UNSUBSCRIBE
-    this.subscription.add(basketSubscription);
+    this.sub = this.facade.searchInput$.subscribe(input => {
+      console.log(input);
+      this.filter = input.baseFilter || null;
+      this.searchBehavior = input.searchBehavior;
+
+      const filters: FilterBase[] = [];
+      if(input.baseFilter) {
+        filters.push(input.baseFilter);
+      }
+
+      const aggregationFilter = this.getFilter(input.aggregationFilters);
+      if(aggregationFilter) {
+        filters.push(aggregationFilter);
+      }
+
+      this.filter = new AndFilter({
+        filters: filters
+      });
+
+      this.update();
+    });
+
+    // this.facade.patchInputState({});
   }
 
   initSort(): void {
@@ -116,7 +138,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       channelId: this.channel.id,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
       limit: this.pageSize,
-      searchString: this.searchString,
+      searchString: this.facade.searchInputState.searchString,
       searchType: ContentSearchType.MetadataAndFullText,
       searchBehaviors: this.searchBehavior ? [
         this.searchBehavior,
@@ -143,7 +165,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['channel'] || changes['filter'] || changes['searchString'] || changes['searchBehavior']) {
+    if (changes['channel'] && changes['channel'].currentValue) {
+      console.log("Load on channel change");
       this.update();
     }
   }

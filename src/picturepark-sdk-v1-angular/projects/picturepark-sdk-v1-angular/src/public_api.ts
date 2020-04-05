@@ -15,3 +15,6 @@ export { LiquidRenderingService } from './lib/liquid-rendering.service';
 
 // functions
 export * from './lib/helper';
+
+// facade
+export * from './lib/search.facade';

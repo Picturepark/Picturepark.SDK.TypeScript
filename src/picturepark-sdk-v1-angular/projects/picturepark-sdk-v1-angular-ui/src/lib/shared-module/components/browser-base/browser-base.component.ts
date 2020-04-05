@@ -8,13 +8,14 @@ import { LazyGetter } from 'lazy-get-decorator';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize } from '@picturepark/sdk-v1-angular';
+import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize, SearchFacade, AggregationFilter, OrFilter, AndFilter } from '@picturepark/sdk-v1-angular';
 import { SelectionService as SelectionService } from '../../services/selection/selection.service';
 import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
 import { IBrowserView } from './interfaces/browser-view';
 import { debounceTime } from 'rxjs/operators';
+import { groupBy } from '../../../utilities/helper';
 
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
     // Services
@@ -83,7 +84,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string,
-        protected injector: Injector) {
+        protected injector: Injector,
+        protected searchFacade: SearchFacade<TEntity>) {
         super(injector);
 
         this.self = this;
@@ -165,7 +167,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         }
 
         this.isLoading = true;
-        const searchSubscription = request.subscribe(async searchResult => {
+        this.sub = request.subscribe(async searchResult => {
             this.totalResults = searchResult.totalResults;
             this.nextPageToken = searchResult.pageToken;
 
@@ -179,17 +181,47 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
                 this.prepareData(items);
             }
 
+            this.searchFacade.setResultState({
+                totalResults: searchResult.totalResults,
+                results: searchResult.results,
+                nextPageToken: searchResult.pageToken
+            });
+
             this.isLoading = false;
         }, () => {
             this.totalResults = null;
             this.isLoading = false;
         });
-        this.subscription.add(searchSubscription);
     }
 
     protected prepareData(items: ContentModel<TEntity>[]): void {
 
     }
+
+    protected getFilter(aggregationFilters: AggregationFilter[]): FilterBase | undefined {
+        const group = groupBy(aggregationFilters, i => i.aggregationName!);
+        
+        const preparedFilters = Array.from(group)
+          .map(array => {
+            const filtered = array[1].filter(aggregationFilter => aggregationFilter.filter)
+              .map(aggregationFilter => aggregationFilter.filter as FilterBase);
+    
+            switch (filtered.length) {
+              case 0: return undefined;
+              case 1: return filtered[0];
+              default: return new OrFilter({ filters: filtered });
+            }
+          })
+          .filter(value => value !== undefined)
+          .map(i => i);
+    
+        switch (preparedFilters.length) {
+          case 0: return undefined;
+          case 1: return preparedFilters[0];
+          default: return new AndFilter({ filters: preparedFilters as FilterBase[] });
+        }
+      }
+    
 
     /**
      * Click event to trigger selection (ctrl + shift click)

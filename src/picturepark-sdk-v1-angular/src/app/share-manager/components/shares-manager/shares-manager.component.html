@@ -7,7 +7,6 @@
       <mat-tab label="Filters">
         
         <pp-share-aggregation-list
-          [searchString]="searchText"
           [aggregators]="aggregators"
           (filterChange)="selectedFilter = $event">
         </pp-share-aggregation-list>

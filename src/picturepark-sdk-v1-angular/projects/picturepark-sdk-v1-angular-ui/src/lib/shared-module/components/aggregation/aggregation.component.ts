@@ -6,7 +6,7 @@ import { timer, Observable, from } from 'rxjs';
 // LIBRARIES
 import {
   AggregationFilter, AggregationResult, AggregatorBase,
-  AggregationResultItem, TermsAggregator, ObjectAggregationResult
+  AggregationResultItem, TermsAggregator, ObjectAggregationResult, SearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -42,6 +42,9 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
 
   @Input()
   fetchSearchData: (searchString: string, aggregator: AggregatorBase) => Observable<ObjectAggregationResult>;
+
+  @Input()
+  facade: SearchFacade<any>;
 
   public pagingSize = 0;
 

@@ -14,7 +14,6 @@
       <pp-aggregation-item 
         *ngFor="let aggregator of aggregators, let i=index; trackBy: trackByName"
         [isExpanded]="i===0"
-        [searchString]="searchString"
         [aggregator]="aggregator"
         [globalAggregationFilters]="aggregationFilters"
         [aggregationResult]="aggregationResults[i]"

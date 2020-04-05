@@ -21,6 +21,7 @@ import {
   ListItemSearchResult,
   CustomerInfo,
   SortDirection,
+  ListItemSearchFacade,
 } from '@picturepark/sdk-v1-angular';
 
 // SERVICES
@@ -61,9 +62,10 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     private metaDataPreviewService: MetaDataPreviewService,
     private infoService: InfoService,
     private cdr: ChangeDetectorRef,
+    private facade: ListItemSearchFacade,
     injector: Injector
   ) {
-    super('ListBrowserComponent', injector);
+    super('ListBrowserComponent', injector, facade);
   }
 
   async init(): Promise<void> {
@@ -116,7 +118,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     const request = new ListItemSearchRequest({
       pageToken: this.nextPageToken,
       limit: this.pageSize,
-      searchString: this.searchString,
+      searchString: this.facade.searchInputState.searchString,
       sort: this.sortInfo,
       searchBehaviors: this.searchBehavior ? [
         this.searchBehavior,

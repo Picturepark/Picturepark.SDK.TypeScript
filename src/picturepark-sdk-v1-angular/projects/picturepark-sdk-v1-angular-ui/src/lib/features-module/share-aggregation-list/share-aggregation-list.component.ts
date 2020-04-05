@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import { Component, Injector } from '@angular/core';
 
 import {
-  ObjectAggregationResult, AggregatorBase, ShareService, ShareAggregationRequest
+  ObjectAggregationResult, AggregatorBase, ShareService, ShareAggregationRequest, ShareSearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -18,7 +18,8 @@ import { AggregationListComponent } from '../../shared-module/components/aggrega
 })
 export class ShareAggregationListComponent extends AggregationListComponent {
   constructor(private shareService: ShareService,
-    protected injector: Injector) {
+    protected injector: Injector,
+    public facade: ShareSearchFacade) {
     super(injector);
   }
 
@@ -27,7 +28,7 @@ export class ShareAggregationListComponent extends AggregationListComponent {
       this.isLoading.next(true);
       const request = new ShareAggregationRequest({
         aggregators: this.aggregators,
-        searchString: this.searchString,
+        searchString: this.facade.searchInputState.searchString,
         aggregationFilters: this.aggregationFilters
       });
 
@@ -39,7 +40,7 @@ export class ShareAggregationListComponent extends AggregationListComponent {
 
   public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ShareAggregationRequest({
-      searchString: this.searchString,
+      searchString: this.facade.searchInputState.searchString,
       aggregators: [aggregator],
       aggregationFilters: this.aggregationFilters
     });

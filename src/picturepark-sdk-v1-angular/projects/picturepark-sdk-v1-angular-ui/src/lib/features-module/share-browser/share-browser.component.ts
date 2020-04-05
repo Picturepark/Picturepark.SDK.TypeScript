@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 // LIBRARIES
 import {
-  Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult, ThumbnailSize
+  Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult, ThumbnailSize, ShareSearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -27,9 +27,10 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
     private activatedRoute: ActivatedRoute,
     injector: Injector,
     private router: Router,
-    private shareService: ShareService
+    private shareService: ShareService,
+    private facade: ShareSearchFacade
   ) {
-    super('ShareBrowserComponent', injector);
+    super('ShareBrowserComponent', injector, facade);
   }
 
   async init(): Promise<void> {
