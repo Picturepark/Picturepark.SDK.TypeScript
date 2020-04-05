@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 
 // LIBRARIES
 import {
   Channel,
-  FilterBase,
   AggregatorBase,
   TermsAggregator,
-  InfoService,
   NestedAggregator,
+  ShareSearchFacade,
 } from '@picturepark/sdk-v1-angular';
 
 @Component({
@@ -15,23 +14,17 @@ import {
   templateUrl: './shares-manager.component.html',
   styleUrls: ['./shares-manager.component.scss'],
 })
-export class SharesManagerComponent implements OnInit {
-  public searchText = '';
+export class SharesManagerComponent {
   public selectedChannel: Channel | null = null;
-  public selectedFilter: FilterBase | null = null;
   public aggregators: AggregatorBase[] = [];
 
-  constructor(private infoService: InfoService) {}
-
-  async ngOnInit() {
-    const customerInfo = await this.infoService.getInfo().toPromise();
-
-    this.aggregators = [
+  constructor(@Inject(LOCALE_ID) public locale: string, public facade: ShareSearchFacade) {
+    this.facade.searchInputState.aggregators = [
       new NestedAggregator({
         name: 'email',
         names: {
           'x-default': 'Recipients',
-          [customerInfo.languageConfiguration.defaultLanguage!]: 'Recipients',
+          ['en']: 'Recipients', // TODO BRO: Fix
         },
         path: 'data.mailRecipients',
         aggregators: [
@@ -40,7 +33,7 @@ export class SharesManagerComponent implements OnInit {
             name: 'email',
             names: {
               'x-default': 'Recipients',
-              [customerInfo.languageConfiguration.defaultLanguage!]: 'Recipients',
+              ['en']: 'Recipients', // TODO BRO: Fix
             },
             size: 10,
           }),

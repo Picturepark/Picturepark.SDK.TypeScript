@@ -57,7 +57,6 @@
             <pp-content-aggregation-list
               [channelId]="selectedChannel?.id"
               [aggregators]="selectedChannel?.aggregations"
-              (filterChange)="selectedFilter = $event"
             >
             </pp-content-aggregation-list>
           </mat-tab>
@@ -78,10 +77,8 @@
         <pp-content-browser
           #contentBrowser
           [channel]="selectedChannel"
-          [filter]="selectedFilter"
           (previewItemChange)="openDetails($event)"
           (selectedItemsChange)="selectionChange($event)"
-          [searchBehavior]="searchBehavior"
         >
         </pp-content-browser>
         <div class="expand-browser" *ngIf="!snav.opened && !deviceBreakpoint" (click)="snav.toggle()">

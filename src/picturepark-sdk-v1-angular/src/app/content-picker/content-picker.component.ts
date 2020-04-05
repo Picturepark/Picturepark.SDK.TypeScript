@@ -43,9 +43,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
 
   public selectedItems: Content[] = [];
 
-  public searchBehavior = SearchBehavior.SimplifiedSearch;
   public selectedChannel: Channel | null = null;
-  public selectedFilter: FilterBase | null = null;
 
   public aggregations: AggregationResult[] = [];
 
@@ -110,11 +108,6 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     this.selectedItems = items;
   }
 
-  addFilter(filter: AggregationFilter) {
-    this.selectedFilter = filter.filter!;
-    console.log(filter);
-  }
-
   public async embed() {
     try {
       this.loading = true;
@@ -136,13 +129,14 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   }
 
   public aggregate = (aggregators: AggregatorBase[]) => {
+    console.log('aggregate', aggregators);
     return this.contentService.aggregate(
       new ContentAggregationRequest({
         aggregators: aggregators,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly,
         searchType: ContentSearchType.Metadata,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        filter: this.selectedFilter ? this.selectedFilter : undefined,
+        // filter: this.selectedFilter ? this.selectedFilter : undefined,
       })
     );
   };

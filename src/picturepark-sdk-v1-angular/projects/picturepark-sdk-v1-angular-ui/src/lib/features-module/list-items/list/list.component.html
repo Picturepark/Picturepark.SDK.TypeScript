@@ -2,7 +2,6 @@
   <div class="list-content" *ngIf="schema | async as schemaDetail">
       <pp-list-browser *ngIf="schemaDetail" 
         [schema]="schemaDetail"
-        [filter]="filter | async"
         [enableSelection]="true"
         [selectedItemIds]="selectedItemsIds"
         (selectedItemsChange)="selectedItemsChange($event)">

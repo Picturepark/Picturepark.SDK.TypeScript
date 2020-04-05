@@ -59,16 +59,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
     @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
 
-    /**
-    * ### SearchBehavior to be passed on the search request
-    * default value
-    * ``` javascript
-    *       SearchBehavior.SimplifiedSearch
-    * ```
-    */
-    @Input() public searchBehavior: SearchBehavior;
-    @Input() public filter: FilterBase | null = null;
-
     private _selectedItems: TEntity[] = [];
     private lastSelectedIndex = 0;
 
