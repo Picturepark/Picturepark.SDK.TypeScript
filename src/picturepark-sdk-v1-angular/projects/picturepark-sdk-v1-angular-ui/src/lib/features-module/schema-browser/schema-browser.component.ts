@@ -19,7 +19,7 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
   ],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> implements OnInit, OnChanges {
+export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> implements OnChanges {
 
   @Input() public activeParentSchema: BehaviorSubject<Schema>;
   @Output() public activeSchemaChange = new EventEmitter<Schema>();
@@ -36,11 +36,10 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
   }
 
   async init(): Promise<void> {
-    const parentChange = this.activeParentSchema.subscribe(schema => {
+    this.sub = this.activeParentSchema.subscribe(schema => {
       this.parentSchema = schema;
       this.update();
     });
-    this.subscription.add(parentChange);
   }
 
   initSort(): void {
@@ -106,7 +105,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filter'] || changes['searchString']) {
+    if (changes['filter']) {
       this.update();
     }
   }

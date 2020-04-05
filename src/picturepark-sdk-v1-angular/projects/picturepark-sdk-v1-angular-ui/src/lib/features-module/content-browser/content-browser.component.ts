@@ -19,7 +19,6 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 import { Observable } from 'rxjs';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 import { ContentModel } from '../../shared-module/models/content-model';
-import { groupBy } from '../../utilities/helper';
 
 // TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
 // currently experimental feature of material CDK
@@ -53,7 +52,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     });
 
     this.sub = this.facade.searchInput$.subscribe(input => {
-      console.log(input);
       this.filter = input.baseFilter || null;
       this.searchBehavior = input.searchBehavior;
 
@@ -132,9 +130,11 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
     const request = new ContentSearchRequest({
       debugMode: false,
-      pageToken: this.nextPageToken,
+      pageToken: this.facade.searchResultState.nextPageToken,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      filter: this.filter ? this.filter : undefined,
+      aggregationFilters: this.facade.searchInputState.aggregationFilters,
+      aggregators: this.facade.searchInputState.aggregators,
+      filter: this.facade.searchInputState.baseFilter,
       channelId: this.channel.id,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
       limit: this.pageSize,
@@ -167,7 +167,13 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['channel'] && changes['channel'].currentValue) {
       console.log("Load on channel change");
-      this.update();
+      console.log(this.channel);
+      // Trigger load
+      if (this.channel?.aggregations) {
+        this.facade.patchInputState({ aggregators: this.channel.aggregations });
+      } else {
+        this.facade.patchInputState({});
+      }
     }
   }
 

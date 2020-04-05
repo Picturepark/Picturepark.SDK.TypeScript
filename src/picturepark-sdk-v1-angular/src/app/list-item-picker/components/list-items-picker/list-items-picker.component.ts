@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 
@@ -25,7 +25,7 @@ export class ListItemsPickerComponent {
   }
 
   public setUpActiveSchema(schema: Schema): void {
-    this.updateRoute(schema.id!);
+    this.updateRoute(schema.id);
   }
 
   private updateRoute(schemaId: string): void {

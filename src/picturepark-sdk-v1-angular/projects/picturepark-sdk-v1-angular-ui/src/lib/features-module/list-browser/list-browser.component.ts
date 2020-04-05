@@ -178,10 +178,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      (changes['schema'] && !changes['schema'].firstChange) ||
-      (changes['filter'] && !changes['filter'].firstChange) ||
-      (changes['searchString'] && !changes['searchString'].firstChange) ||
-      (changes['searchBehavior'] && !changes['searchBehavior'].firstChange)
+      (changes['schema'] && !changes['schema'].firstChange)
     ) {
       this.update();
     }

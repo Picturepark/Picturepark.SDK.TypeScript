@@ -1,8 +1,10 @@
 <div class="list-items-picker-container">
     <div class="list-items-picker-content">
-        <pp-schema-browser class="content-browser" [filter]="filter | async"
+        {{activeParentSchema | json }}
+
+        <pp-schema-browser class="content-browser"
+            [filter]="filter | async"
             (activeSchemaChange)="setUpActiveSchema($event)">
-            [searchString]="search | async"
             [activeParentSchema]="activeParentSchema"
         </pp-schema-browser>
     </div>

@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AggregationFilter, FilterBase, SearchBehavior, Content } from '../lib/api-services';
-import { ListItem, Schema, Share } from 'dist/picturepark-sdk-v1-angular/public_api';
+import { AggregationFilter, FilterBase, SearchBehavior, Content, ListItem, Schema, Share, AggregatorBase, AggregationResult } from '../lib/api-services';
 
 export interface SearchInputState {
     searchString: string;
     searchBehavior: SearchBehavior;
     aggregationFilters: AggregationFilter[];
     baseFilter?: FilterBase | undefined;
+    aggregators: AggregatorBase[];
 }
 
 export interface SearchResultState<T> {
     totalResults: number,
     results: T[];
     nextPageToken: string | undefined;
+    aggregationResults?: AggregationResult[];
 }
 
 @Injectable({
@@ -24,7 +25,8 @@ export class SearchFacade<T> {
     searchInputState: SearchInputState = {
         searchString: '',
         searchBehavior: SearchBehavior.SimplifiedSearch,
-        aggregationFilters: []
+        aggregationFilters: [],
+        aggregators: []
     };
 
     searchResultState: SearchResultState<T> = {

@@ -1,4 +1,4 @@
-import { Component, Injector, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -21,7 +21,7 @@ import { ContentModel } from '../../shared-module/models/content-model';
     './share-browser.component.scss'
   ]
 })
-export class ShareBrowserComponent extends BaseBrowserComponent<Share> implements OnChanges {
+export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -114,11 +114,5 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
 
   previewItemEvent(item: ContentModel<Share>): void {
     this.router.navigate([item.item.id], { relativeTo: this.activatedRoute });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filter'] || changes['searchString']) {
-      this.update();
-    }
   }
 }

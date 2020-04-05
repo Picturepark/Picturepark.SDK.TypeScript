@@ -8,7 +8,7 @@ import { LazyGetter } from 'lazy-get-decorator';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize, SearchFacade, AggregationFilter, OrFilter, AndFilter } from '@picturepark/sdk-v1-angular';
+import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize, SearchFacade, AggregationFilter, OrFilter, AndFilter, AggregationResult } from '@picturepark/sdk-v1-angular';
 import { SelectionService as SelectionService } from '../../services/selection/selection.service';
 import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
@@ -79,7 +79,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     abstract init(): Promise<void>;
     abstract initSort(): void;
     abstract onScroll(): void;
-    abstract getSearchRequest(): Observable<{ results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
+    abstract getSearchRequest(): Observable<{ results: TEntity[]; totalResults: number; pageToken?: string | undefined, aggregationResults?: AggregationResult[] }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string,
@@ -154,6 +154,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public update(): void {
         this.totalResults = null;
         this.nextPageToken = undefined;
+        this.facade.searchResultState.nextPageToken = undefined;
         this.items = [];
         this.loadData();
     }
@@ -183,7 +184,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
             this.facade.setResultState({
                 totalResults: searchResult.totalResults,
                 results: searchResult.results,
-                nextPageToken: searchResult.pageToken
+                nextPageToken: searchResult.pageToken,
+                aggregationResults: searchResult.aggregationResults
             });
 
             this.isLoading = false;
