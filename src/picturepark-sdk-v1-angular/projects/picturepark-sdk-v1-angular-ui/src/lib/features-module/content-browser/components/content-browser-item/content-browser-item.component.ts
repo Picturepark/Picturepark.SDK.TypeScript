@@ -52,7 +52,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
       return;
     }
 
-    if (this.itemModel.isInBasket === true) {
+    if (this.basketService.contains(this.itemModel.item.id)) {
       this.basketService.removeItem(this.itemModel.item.id);
     } else {
       this.basketService.addItem(this.itemModel.item.id);

@@ -15,7 +15,7 @@ export class ListItemsPickerComponent {
   public activeParentSchema = new BehaviorSubject(null);
 
   constructor(private route: ActivatedRoute, private facade: SchemaSearchFacade, private router: Router) {
-    facade.searchInputState.baseFilter = this.createFilter();
+    facade.searchRequestState.baseFilter = this.createFilter();
   }
 
   public get queryParams(): Params {

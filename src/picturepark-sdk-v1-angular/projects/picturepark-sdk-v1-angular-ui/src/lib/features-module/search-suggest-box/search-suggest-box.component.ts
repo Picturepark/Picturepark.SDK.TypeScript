@@ -12,7 +12,6 @@ import {
 import {
   AggregatorBase,
   TermsAggregator,
-  AggregationFilter,
   AggregationResult,
   AggregationResultItem,
   ObjectAggregationResult,
@@ -115,23 +114,22 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
       // Alternative
       // this.facade.aggregationFilters = [...this.facade.searchInputState.aggregationFilters, element.filter];
 
-      this.facade.patchInputState({ aggregationFilters: [...this.facade.searchInputState.aggregationFilters, element.filter] });
+      this.facade.patchRequestState({ aggregationFilters: [...this.facade.searchRequestState.aggregationFilters, element.filter] });
     }
   }
 
   search() {
-    if (this.facade.searchInputState.searchString !== this.suggestBox.value) {
-      this.facade.patchInputState({searchString: this.suggestBox.value});
+    if (this.facade.searchRequestState.searchString !== this.suggestBox.value) {
+      this.facade.patchRequestState({searchString: this.suggestBox.value});
     }
   }
 
   public searchBehaviorChange($event: MatRadioChange) {
-    this.facade.patchInputState({ searchBehavior: $event.value })
-    // this.search();
+    this.facade.patchRequestState({ searchBehavior: $event.value })
   }
 
   public clear() {
-    this.facade.patchInputState({searchString: ''});
+    this.facade.patchRequestState({searchString: ''});
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {

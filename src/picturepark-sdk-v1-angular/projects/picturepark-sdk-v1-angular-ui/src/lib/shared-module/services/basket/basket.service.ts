@@ -48,6 +48,10 @@ export class BasketService {
     this.updateStorage();
   }
 
+  public contains(id: string) {
+    return this.basketItems.has(id);
+  }
+
   private updateStorage() {
     const itemsArray = Array.from(this.basketItems);
     const value = JSON.stringify(itemsArray);

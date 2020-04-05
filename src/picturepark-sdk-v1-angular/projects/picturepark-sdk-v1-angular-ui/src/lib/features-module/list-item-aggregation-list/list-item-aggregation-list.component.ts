@@ -27,13 +27,15 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
   }
 
   protected fetchData(): Observable<ObjectAggregationResult | null> {
-    if (this.aggregators && this.aggregators.length) {
+    const aggregators = this.facade.searchRequestState.aggregators;
+
+    if (aggregators && aggregators.length) {
       this.isLoading.next(true);
 
       const request = new ListItemAggregationRequest({
         schemaIds: [this.schemaId],
-        aggregators: this.aggregators,
-        searchString: this.facade.searchInputState.searchString,
+        aggregators: aggregators,
+        searchString: this.facade.searchRequestState.searchString,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         aggregationFilters: this.aggregationFilters,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly,
@@ -49,7 +51,7 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
   public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ListItemAggregationRequest({
       schemaIds: [this.schemaId],
-      searchString: this.facade.searchInputState.searchString,
+      searchString: this.facade.searchRequestState.searchString,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       aggregators: [aggregator],
       aggregationFilters: this.aggregationFilters,

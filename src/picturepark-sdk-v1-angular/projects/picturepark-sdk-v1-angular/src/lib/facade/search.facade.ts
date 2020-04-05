@@ -7,6 +7,7 @@ import {
   AggregationResult,
   SortInfo,
 } from '../api-services';
+import { map, distinctUntilChanged, filter } from 'rxjs/operators';
 
 export interface SearchInputState {
   searchString: string;
@@ -26,7 +27,7 @@ export interface SearchResultState<T> {
 }
 
 export abstract class SearchFacade<T, TState extends SearchInputState> {
-  searchInputState: TState;
+  searchRequestState: TState;
 
   searchResultState: SearchResultState<T> = {
     totalResults: 0,
@@ -34,8 +35,32 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     results: [],
   };
 
-  searchInput$ = new BehaviorSubject(this.searchInputState);
+  searchRequest$ = new BehaviorSubject(this.searchRequestState);
   searchResults$ = new BehaviorSubject(this.searchResultState);
+
+  totalResults$ = this.searchResults$.pipe(
+    filter(i => !!i),
+    map(i => i.totalResults),
+    distinctUntilChanged()
+  );
+
+  items$ = this.searchResults$.pipe(
+    filter(i => !!i),
+    map(i => i.results),
+    distinctUntilChanged()
+  );
+
+  aggregationResults$ = this.searchResults$.pipe(
+    filter(i => !!i),
+    map(i => i.aggregationResults),
+    distinctUntilChanged()
+  );
+
+  aggregators$ = this.searchRequest$.pipe(
+    filter(i => !!i),
+    map(i => i.aggregators),
+    distinctUntilChanged()
+  );
 
   abstract getSearchRequest():
     | Observable<{
@@ -47,7 +72,7 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     | undefined;
 
   constructor(partialState: Partial<TState>) {
-    this.searchInputState = {
+    this.searchRequestState = {
       searchString: '',
       searchBehavior: SearchBehavior.SimplifiedSearch,
       pageSize: 75,
@@ -58,13 +83,13 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     } as any; // TODO BRO: Check
   }
 
-  patchInputState(partial: Partial<TState>) {
-    this.setInputState({ ...this.searchInputState, ...partial });
+  patchRequestState(partial: Partial<TState>) {
+    this.setRequestState({ ...this.searchRequestState, ...partial });
   }
 
-  setInputState(inputState: TState) {
-    this.searchInputState = inputState;
-    this.searchInput$.next(this.searchInputState);
+  setRequestState(inputState: TState) {
+    this.searchRequestState = inputState;
+    this.searchRequest$.next(this.searchRequestState);
   }
 
   setResultState(resultState: SearchResultState<T>) {

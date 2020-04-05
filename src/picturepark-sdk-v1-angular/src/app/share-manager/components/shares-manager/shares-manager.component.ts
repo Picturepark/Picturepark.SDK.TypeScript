@@ -19,7 +19,7 @@ export class SharesManagerComponent {
   public aggregators: AggregatorBase[] = [];
 
   constructor(@Inject(LOCALE_ID) public locale: string, public facade: ShareSearchFacade) {
-    this.facade.searchInputState.aggregators = [
+    this.facade.searchRequestState.aggregators = [
       new NestedAggregator({
         name: 'email',
         names: {

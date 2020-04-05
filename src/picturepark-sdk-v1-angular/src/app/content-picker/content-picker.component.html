@@ -55,8 +55,8 @@
         <mat-tab-group class="right-panel filters">
           <mat-tab label="Filters">
             <pp-content-aggregation-list
+              *ngIf="selectedChannel"
               [channelId]="selectedChannel?.id"
-              [aggregators]="selectedChannel?.aggregations"
             >
             </pp-content-aggregation-list>
           </mat-tab>

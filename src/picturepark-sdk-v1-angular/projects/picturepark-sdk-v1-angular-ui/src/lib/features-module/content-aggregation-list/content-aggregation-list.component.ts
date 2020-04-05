@@ -28,12 +28,14 @@ export class ContentAggregationListComponent extends AggregationListComponent {
   }
 
   protected fetchData(): Observable<ObjectAggregationResult | null> {
-    if (this.channelId && this.aggregators && this.aggregators.length) {
+    const aggregators = this.facade.searchRequestState.aggregators;
+
+    if (this.channelId && aggregators && aggregators.length) {
       this.isLoading.next(true);
       const request = new ContentAggregationRequest({
-        aggregators: this.aggregators,
+        aggregators: aggregators,
         channelId: this.channelId,
-        searchString: this.facade.searchInputState.searchString,
+        searchString: this.facade.searchRequestState.searchString,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
         aggregationFilters: this.aggregationFilters,
         searchType: ContentSearchType.MetadataAndFullText,
@@ -49,10 +51,10 @@ export class ContentAggregationListComponent extends AggregationListComponent {
   public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ContentAggregationRequest({
       channelId: this.channelId,
-      searchString: this.facade.searchInputState.searchString,
+      searchString: this.facade.searchRequestState.searchString,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       aggregators: [aggregator],
-      aggregationFilters: this.facade.searchInputState.aggregationFilters,
+      aggregationFilters: this.facade.searchRequestState.aggregationFilters,
       searchType: ContentSearchType.MetadataAndFullText,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly
     });

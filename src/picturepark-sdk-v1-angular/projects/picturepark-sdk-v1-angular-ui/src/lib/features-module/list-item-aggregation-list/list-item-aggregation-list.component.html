@@ -14,7 +14,7 @@
     </mat-toolbar>
     <mat-accordion displayMode="flat" multi="true">
       <pp-aggregation-item
-        *ngFor="let aggregator of aggregators, let i=index; trackBy: trackByName"
+        *ngFor="let aggregator of facade.searchRequestState.aggregators, let i=index; trackBy: trackByName"
         [isExpanded]="i===0"
         [aggregator]="aggregator"
         [globalAggregationFilters]="aggregationFilters"

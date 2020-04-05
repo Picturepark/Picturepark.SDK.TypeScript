@@ -12,7 +12,7 @@
 
     <mat-accordion displayMode="flat" multi="true">
       <pp-aggregation-item 
-        *ngFor="let aggregator of aggregators, let i=index; trackBy: trackByName"
+        *ngFor="let aggregator of aggregators$ | async, let i=index; trackBy: trackByName"
         [isExpanded]="i===0"
         [aggregator]="aggregator"
         [globalAggregationFilters]="aggregationFilters"

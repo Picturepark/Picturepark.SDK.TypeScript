@@ -18,7 +18,6 @@
         <ng-template #listItemFilter>
           <pp-list-item-aggregation-list 
             [schemaId]="schemaId"
-            [aggregators]="aggregations"
             [aggregationFilters]="aggregationFilters"
             (aggregationFiltersChange)="changeAggregationFilters($event)"
             (filterChange)="filter.next($event)">

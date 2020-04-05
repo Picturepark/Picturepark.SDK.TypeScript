@@ -118,7 +118,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   }
 
   public changeSearchParameters(searchParameters: SearchParameters) {
-    this.facade.patchInputState({
+    this.facade.patchRequestState({
       searchString: searchParameters.searchString,
       searchBehavior: (searchParameters.searchBehavior as unknown) as SearchBehavior
     });

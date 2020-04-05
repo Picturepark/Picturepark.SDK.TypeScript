@@ -4,17 +4,13 @@ import { Observable, BehaviorSubject } from 'rxjs';
 // LIBRARIES
 import {
   AggregationFilter, AggregationResult, ObjectAggregationResult,
-  AggregatorBase, FilterBase, SearchFacade
+  AggregatorBase, FilterBase, SearchFacade, SearchInputState
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../components/base.component';
-import { filter } from 'rxjs/operators';
 
 export abstract class AggregationListComponent extends BaseComponent implements OnInit, OnChanges {
-  @Input()
-  public aggregators: AggregatorBase[] | undefined = [];
-
   // Filter used for search. E.g.: Nested filter,And filter,Or filter.
   @Output()
   public filterChange = new EventEmitter<FilterBase | null>();
@@ -33,9 +29,13 @@ export abstract class AggregationListComponent extends BaseComponent implements 
 
   public aggregationResults: AggregationResult[] = [];
 
-  public abstract facade: SearchFacade<any, any>;
+  public abstract facade: SearchFacade<any, SearchInputState>;
+
+  aggregators$: Observable<AggregatorBase[]>;
 
   ngOnInit(): void {
+    this.aggregators$ = this.facade.aggregators$;
+
     this.sub = this.facade.searchResults$.subscribe(i => {
       if (i.aggregationResults) {
         this.processAggregationResults(i.aggregationResults)
@@ -44,7 +44,7 @@ export abstract class AggregationListComponent extends BaseComponent implements 
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes['aggregators'] && changes['aggregators'].previousValue && this.aggregators) {
+    if (changes['aggregators'] && changes['aggregators'].previousValue) {
       this.aggregationResults = [];
       this.aggregationFiltersStates = [];
       this.aggregationFilters = [];
@@ -74,7 +74,7 @@ export abstract class AggregationListComponent extends BaseComponent implements 
     // flatten array and remove undefined.
     this.aggregationFilters = ([] as AggregationFilter[]).concat(...this.aggregationFiltersStates).filter(item => item);
 
-    this.facade.patchInputState({ aggregationFilters: this.aggregationFilters });
+    this.facade.patchRequestState({ aggregationFilters: this.aggregationFilters });
 
     this.updateData();
   }
@@ -101,7 +101,7 @@ export abstract class AggregationListComponent extends BaseComponent implements 
     aggregationResults.forEach(aggregationResult => {
       const nested = this.getNestedAggregator(aggregationResult);
       // tslint:disable-next-line:no-non-null-assertion
-      const aggregatorIndex = this.aggregators!.findIndex(aggregator => {
+      const aggregatorIndex = this.facade.searchRequestState.aggregators.findIndex(aggregator => {
         return nested.name.indexOf(aggregator.name) !== -1;
       });
 

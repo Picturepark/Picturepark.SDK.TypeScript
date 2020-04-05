@@ -27,13 +27,13 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
   }
 
   getSearchRequest(): Observable<ContentSearchResult> | undefined {
-    if (!this.searchInputState.channelId) {
+    if (!this.searchRequestState.channelId) {
       return;
     }
 
-    const searchBehaviors = this.searchInputState.searchBehavior
+    const searchBehaviors = this.searchRequestState.searchBehavior
       ? [
-          this.searchInputState.searchBehavior,
+          this.searchRequestState.searchBehavior,
           SearchBehavior.DropInvalidCharactersOnFailure,
           SearchBehavior.WildcardOnSingleTerm,
         ]
@@ -43,16 +43,16 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
       debugMode: false,
       pageToken: this.searchResultState.nextPageToken,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      aggregationFilters: this.searchInputState.aggregationFilters,
-      aggregators: this.searchInputState.aggregators,
-      filter: this.searchInputState.baseFilter,
-      channelId: this.searchInputState.channelId,
+      aggregationFilters: this.searchRequestState.aggregationFilters,
+      aggregators: this.searchRequestState.aggregators,
+      filter: this.searchRequestState.baseFilter,
+      channelId: this.searchRequestState.channelId,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-      limit: this.searchInputState.pageSize,
-      searchString: this.searchInputState.searchString,
+      limit: this.searchRequestState.pageSize,
+      searchString: this.searchRequestState.searchString,
       searchType: ContentSearchType.MetadataAndFullText,
       searchBehaviors: searchBehaviors,
-      sort: this.searchInputState.sort,
+      sort: this.searchRequestState.sort,
     });
 
     return this.contentService.search(request).pipe(
@@ -61,15 +61,15 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
         return this.contentService
           .aggregate(
             new ContentAggregationRequest({
-              aggregators: this.searchInputState.aggregators,
+              aggregators: this.searchRequestState.aggregators,
               brokenDependenciesFilter: BrokenDependenciesFilter.All,
               lifeCycleFilter: LifeCycleFilter.ActiveOnly,
               searchType: ContentSearchType.MetadataAndFullText,
-              aggregationFilters: this.searchInputState.aggregationFilters,
-              channelId: this.searchInputState.channelId,
-              filter: this.searchInputState.baseFilter,
+              aggregationFilters: this.searchRequestState.aggregationFilters,
+              channelId: this.searchRequestState.channelId,
+              filter: this.searchRequestState.baseFilter,
               searchBehaviors: searchBehaviors,
-              searchString: this.searchInputState.searchString,
+              searchString: this.searchRequestState.searchString,
             })
           )
           .pipe(

@@ -15,17 +15,17 @@ export class ShareSearchFacade extends SearchFacade<Share, SearchInputState> {
     const request = new ShareSearchRequest({
       debugMode: false,
       pageToken: this.searchResultState.nextPageToken,
-      filter: this.searchInputState.baseFilter,
-      limit: this.searchInputState.pageSize,
-      searchString: this.searchInputState.searchString,
+      filter: this.searchRequestState.baseFilter,
+      limit: this.searchRequestState.pageSize,
+      searchString: this.searchRequestState.searchString,
       searchBehaviors: [
         SearchBehavior.SimplifiedSearch,
         SearchBehavior.DropInvalidCharactersOnFailure,
         SearchBehavior.WildcardOnSingleTerm,
       ],
-      aggregationFilters: this.searchInputState.aggregationFilters,
-      aggregators: this.searchInputState.aggregators,
-      sort: this.searchInputState
+      aggregationFilters: this.searchRequestState.aggregationFilters,
+      aggregators: this.searchRequestState.aggregators,
+      sort: this.searchRequestState
         .sort /*this.activeSortingType.field === 'relevance' ? [] : [
               new SortInfo({
                 field: this.activeSortingType.field,

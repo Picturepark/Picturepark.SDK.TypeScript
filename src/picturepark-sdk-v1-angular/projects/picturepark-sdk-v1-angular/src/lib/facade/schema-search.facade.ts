@@ -27,7 +27,7 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
 
   getSearchRequest(): Observable<SchemaSearchResult> | undefined {
     let filter: FilterBase | null = null;
-    const parentSchema = this.searchInputState.parentSchema;
+    const parentSchema = this.searchRequestState.parentSchema;
     if (parentSchema) {
       filter = new OrFilter({
         filters: [
@@ -40,13 +40,13 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
     const request = new SchemaSearchRequest({
       debugMode: false,
       pageToken: this.searchResultState.nextPageToken,
-      limit: this.searchInputState.pageSize,
-      filter: filter ? filter : this.searchInputState.baseFilter, // TODO BRO: Check
-      searchString: this.searchInputState.searchString,
+      limit: this.searchRequestState.pageSize,
+      filter: filter ? filter : this.searchRequestState.baseFilter, // TODO BRO: Check
+      searchString: this.searchRequestState.searchString,
       searchBehaviors: [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
       // aggregationFilters: this.searchInputState.aggregationFilters, TODO BRO: Check
       // aggregators: this.searchInputState.aggregators,
-      sort: this.searchInputState.sort,
+      sort: this.searchRequestState.sort,
     });
 
     return this.schemaService.search(request);

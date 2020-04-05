@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Output, Injector, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Output, Injector } from '@angular/core';
 
 // LIBRARIES
 import {
-  Schema, SchemaSearchFacade, TermFilter
+  Schema, SchemaSearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -32,7 +32,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
 
   async init(): Promise<void> {
     // Trigger load
-    this.facade.patchInputState({});
+    this.facade.patchRequestState({});
   }
 
   initSort(): void {
@@ -71,8 +71,8 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
   }
 
   public setUpActiveSchema(schema: Schema): void {
-    if (schema.childCount > 0 && !this.facade.searchInputState.parentSchema) {
-      this.facade.patchInputState({parentSchema: schema});
+    if (schema.childCount > 0 && !this.facade.searchRequestState.parentSchema) {
+      this.facade.patchRequestState({parentSchema: schema});
     } else {
       this.activeSchemaChange.emit(schema);
     }

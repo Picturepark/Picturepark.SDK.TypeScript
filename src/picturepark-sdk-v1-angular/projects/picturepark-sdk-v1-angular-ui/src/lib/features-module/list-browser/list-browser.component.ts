@@ -63,9 +63,9 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.scrollDebounceTime = 100;
     this.customerInfo = await this.infoService.getInfo().toPromise();
 
-    this.facade.searchInputState.schemaIds = [this.schema.id];
+    this.facade.searchRequestState.schemaIds = [this.schema.id];
     if (this.schema.aggregations) {
-      this.facade.searchInputState.aggregators = this.schema.aggregations;
+      this.facade.searchRequestState.aggregators = this.schema.aggregations;
     }
 
     // need to show column names

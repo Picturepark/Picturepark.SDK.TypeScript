@@ -104,12 +104,12 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['channel'] && changes['channel'].currentValue) {
-      this.facade.searchInputState.channelId = this.channel!.id;
+      this.facade.searchRequestState.channelId = this.channel!.id;
       // Trigger load
       if (this.channel?.aggregations) {
-        this.facade.patchInputState({ aggregators: this.channel.aggregations });
+        this.facade.patchRequestState({ aggregators: this.channel.aggregations });
       } else {
-        this.facade.patchInputState({});
+        this.facade.patchRequestState({});
       }
     }
   }

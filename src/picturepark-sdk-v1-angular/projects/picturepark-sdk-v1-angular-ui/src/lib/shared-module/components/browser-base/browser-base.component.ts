@@ -1,6 +1,5 @@
 import { BaseComponent } from '../base.component';
-import { Injector, OnInit, NgZone, Output, EventEmitter, Input, HostListener } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injector, OnInit, NgZone, Output, EventEmitter, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LazyGetter } from 'lazy-get-decorator';
 
@@ -8,14 +7,13 @@ import { LazyGetter } from 'lazy-get-decorator';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize, SearchFacade, AggregationFilter, OrFilter, AndFilter, AggregationResult, SortInfo, SortDirection } from '@picturepark/sdk-v1-angular';
+import { IEntityBase, ThumbnailSize, SearchFacade, SortInfo, SortDirection } from '@picturepark/sdk-v1-angular';
 import { SelectionService as SelectionService } from '../../services/selection/selection.service';
 import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
 import { IBrowserView } from './interfaces/browser-view';
-import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
-import { groupBy } from '../../../utilities/helper';
+import { debounceTime } from 'rxjs/operators';
 
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
     // Services
@@ -62,7 +60,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     private _selectedItems: TEntity[] = [];
     private lastSelectedIndex = 0;
 
-    totalResults$ = this.facade.searchResults$.pipe(map(i => i.totalResults), distinctUntilChanged());
+    totalResults$ = this.facade.totalResults$;
+    items$ = this.facade.items$;
+    aggregationResults$ = this.facade.aggregationResults$;
 
     abstract init(): Promise<void>;
     abstract initSort(): void;
@@ -116,7 +116,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         await this.init();
 
         // Subscribe to searchInput changes and trigger reload
-        this.sub = this.facade.searchInput$.subscribe(() => this.update());
+        this.sub = this.facade.searchRequest$.subscribe(() => this.update());
     }
 
     get selectedItems(): TEntity[] {
@@ -159,7 +159,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
             this.facade.setResultState({
                 totalResults: searchResult.totalResults,
-                results: searchResult.results,
+                results: [...this.facade.searchResultState.results, ...searchResult.results],
                 nextPageToken: searchResult.pageToken,
                 aggregationResults: searchResult.aggregationResults
             });
@@ -240,9 +240,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
           ];
 
         if (reload) {
-          this.facade.patchInputState({sort});
+          this.facade.patchRequestState({sort});
         } else {
-            this.facade.searchInputState.sort = sort;
+            this.facade.searchRequestState.sort = sort;
         }
     }
 

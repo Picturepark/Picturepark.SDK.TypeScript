@@ -24,11 +24,12 @@ export class ShareAggregationListComponent extends AggregationListComponent {
   }
 
   protected fetchData(): Observable<ObjectAggregationResult | null> {
-    if (this.aggregators && this.aggregators.length) {
+    const aggregators = this.facade.searchRequestState.aggregators;
+    if (aggregators && aggregators.length) {
       this.isLoading.next(true);
       const request = new ShareAggregationRequest({
-        aggregators: this.aggregators,
-        searchString: this.facade.searchInputState.searchString,
+        aggregators: aggregators,
+        searchString: this.facade.searchRequestState.searchString,
         aggregationFilters: this.aggregationFilters
       });
 
@@ -40,7 +41,7 @@ export class ShareAggregationListComponent extends AggregationListComponent {
 
   public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
     const request = new ShareAggregationRequest({
-      searchString: this.facade.searchInputState.searchString,
+      searchString: this.facade.searchRequestState.searchString,
       aggregators: [aggregator],
       aggregationFilters: this.aggregationFilters
     });

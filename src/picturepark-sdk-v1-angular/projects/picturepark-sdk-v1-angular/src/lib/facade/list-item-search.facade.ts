@@ -27,20 +27,20 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
   getSearchRequest(): Observable<ListItemSearchResult> | undefined {
     const request = new ListItemSearchRequest({
       pageToken: this.searchResultState.nextPageToken,
-      limit: this.searchInputState.pageSize,
-      searchString: this.searchInputState.searchString,
-      sort: this.searchInputState.sort,
-      searchBehaviors: this.searchInputState.searchBehavior
+      limit: this.searchRequestState.pageSize,
+      searchString: this.searchRequestState.searchString,
+      sort: this.searchRequestState.sort,
+      searchBehaviors: this.searchRequestState.searchBehavior
         ? [
-            this.searchInputState.searchBehavior,
+            this.searchRequestState.searchBehavior,
             SearchBehavior.DropInvalidCharactersOnFailure,
             SearchBehavior.WildcardOnSingleTerm,
           ]
         : [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
-      schemaIds: this.searchInputState.schemaIds,
-      filter: this.searchInputState.baseFilter,
-      aggregationFilters: this.searchInputState.aggregationFilters,
-      aggregators: this.searchInputState.aggregators,
+      schemaIds: this.searchRequestState.schemaIds,
+      filter: this.searchRequestState.baseFilter,
+      aggregationFilters: this.searchRequestState.aggregationFilters,
+      aggregators: this.searchRequestState.aggregators,
       includeAllSchemaChildren: true,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       debugMode: false,
