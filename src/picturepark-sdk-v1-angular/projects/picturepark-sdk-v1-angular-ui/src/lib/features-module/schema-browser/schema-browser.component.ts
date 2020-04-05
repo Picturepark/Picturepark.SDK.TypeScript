@@ -29,7 +29,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
 
   constructor(
     private schemaService: SchemaService,
-    private facade: SchemaSearchFacade,
+    facade: SchemaSearchFacade,
     injector: Injector
   ) {
     super('SchemaBrowserComponent', injector, facade);
@@ -82,7 +82,9 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
           new TermFilter({ field: 'id', term: this.parentSchema.id! })
         ]
       });
-      this.searchString = '';
+
+      // TODO BRO: Fix
+      this.facade.searchInputState.searchString = '';
     }
 
     const request = new SchemaSearchRequest({
@@ -90,7 +92,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
       pageToken: this.nextPageToken,
       limit: this.pageSize,
       filter: filter ? filter : this.filter!,
-      searchString: this.searchString,
+      searchString: this.facade.searchInputState.searchString,
       searchBehaviors: [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
       sort: this.activeSortingType.field === 'relevance' ? [] : [
         new SortInfo({

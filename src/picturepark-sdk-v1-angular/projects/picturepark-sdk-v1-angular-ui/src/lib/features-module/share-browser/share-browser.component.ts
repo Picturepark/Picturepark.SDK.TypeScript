@@ -28,7 +28,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
     injector: Injector,
     private router: Router,
     private shareService: ShareService,
-    private facade: ShareSearchFacade
+    facade: ShareSearchFacade
   ) {
     super('ShareBrowserComponent', injector, facade);
   }
@@ -85,7 +85,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
       pageToken: this.nextPageToken,
       filter: this.filter ? this.filter : undefined,
       limit: this.pageSize,
-      searchString: this.searchString,
+      searchString: this.facade.searchInputState.searchString,
       searchBehaviors: [
         SearchBehavior.SimplifiedSearch,
         SearchBehavior.DropInvalidCharactersOnFailure,

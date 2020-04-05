@@ -62,7 +62,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     private metaDataPreviewService: MetaDataPreviewService,
     private infoService: InfoService,
     private cdr: ChangeDetectorRef,
-    private facade: ListItemSearchFacade,
+    facade: ListItemSearchFacade,
     injector: Injector
   ) {
     super('ListBrowserComponent', injector, facade);

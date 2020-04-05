@@ -62,7 +62,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
     @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
 
-    @Input() public searchString = '';
     /**
     * ### SearchBehavior to be passed on the search request
     * default value
@@ -85,7 +84,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     constructor(protected componentName: string,
         protected injector: Injector,
-        protected searchFacade: SearchFacade<TEntity>) {
+        public facade: SearchFacade<TEntity>) {
         super(injector);
 
         this.self = this;
@@ -181,7 +180,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
                 this.prepareData(items);
             }
 
-            this.searchFacade.setResultState({
+            this.facade.setResultState({
                 totalResults: searchResult.totalResults,
                 results: searchResult.results,
                 nextPageToken: searchResult.pageToken

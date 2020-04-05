@@ -42,7 +42,7 @@
 
   <div *ngIf="totalResults === 0" class="browser__empty-result mat-typography">
     {{ 'ContentBrowser.NoItems' | pptranslate }}
-    <strong> {{ searchString }}</strong>
+    <strong> {{ this.facade.searchInputState.searchString }}</strong>
     <br />
     {{ 'ContentBrowser.NoItemsHist' | pptranslate }}
     <ul>

@@ -40,7 +40,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   constructor(
     private basketService: BasketService,
     private contentService: ContentService,
-    private facade: ContentSearchFacade,
+    facade: ContentSearchFacade,
     private contentDownloadDialogService: ContentDownloadDialogService,
     injector: Injector
   ) {
