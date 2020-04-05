@@ -7,7 +7,7 @@
       </ng-container>
     </pp-browser-toolbar>
   </div>
-  <div class="table-container" *ngIf="totalResults !== 0" cdkScrollable>
+  <div class="table-container" *ngIf="(totalResults$ | async) !== 0" cdkScrollable>
     <table mat-table matSort (matSortChange)="sortData($event)" [matSortActive]="activeSortColumn"
       [matSortDirection]="activeSortDirection" [dataSource]="dataSource">
       <ng-container *ngIf="enableSelection" matColumnDef="select">
@@ -34,7 +34,7 @@
         [ngClass]="{'selected': isRowSelected(row)}"></tr>
     </table>
   </div>
-  <div *ngIf="totalResults === 0" class="browser__empty-result mat-typography">
+  <div *ngIf="(totalResults$ | async) === 0" class="browser__empty-result mat-typography">
     {{ 'ListBrowser.ItemsWereNotFound' | pptranslate }}
   </div>
 </div>

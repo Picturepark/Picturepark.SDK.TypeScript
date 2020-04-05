@@ -14,7 +14,7 @@ import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
 import { IBrowserView } from './interfaces/browser-view';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
 import { groupBy } from '../../../utilities/helper';
 
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
@@ -47,8 +47,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public configActions: ConfigActions;
     public isLoading = false;
     public items: ContentModel<TEntity>[] = [];
-    public nextPageToken: string | undefined;
-    public readonly pageSize = 75;
     public isAscending: boolean | null = null;
     public activeSortingType: ISortItem;
     public sortingTypes: ISortItem[];
@@ -58,7 +56,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     protected scrollDebounceTime = 0;
 
-    @Output() public totalResultsChange = new EventEmitter<number | null>();
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
     @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
 
@@ -72,9 +69,10 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     @Input() public searchBehavior: SearchBehavior;
     @Input() public filter: FilterBase | null = null;
 
-    private _totalResults: number | null = null;
     private _selectedItems: TEntity[] = [];
     private lastSelectedIndex = 0;
+
+    totalResults$ = this.facade.searchResults$.pipe(map(i => i.totalResults), distinctUntilChanged());
 
     abstract init(): Promise<void>;
     abstract initSort(): void;
@@ -111,7 +109,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
             const nativeElement = scrollable.getElementRef().nativeElement;
             const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
 
-            if (scrollCriteria && !this.isLoading && this.items.length !== this.totalResults) {
+            if (scrollCriteria && !this.isLoading && this.items.length !== this.facade.searchResultState.totalResults) {
                 this.ngZone.run(() => this.onScroll());
             }
         });
@@ -131,15 +129,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         this.sub = this.facade.searchInput$.subscribe(() => this.update());
     }
 
-    get totalResults(): number | null {
-        return this._totalResults;
-    }
-
-    set totalResults(total: number | null) {
-        this._totalResults = total;
-        this.totalResultsChange.emit(total);
-    }
-
     get selectedItems(): TEntity[] {
         return this._selectedItems;
     }
@@ -154,8 +143,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     }
 
     public update(): void {
-        this.totalResults = null;
-        this.nextPageToken = undefined;
         this.facade.searchResultState.nextPageToken = undefined;
         this.items = [];
         this.loadData();
@@ -170,9 +157,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
         this.isLoading = true;
         this.sub = request.subscribe(async searchResult => {
-            this.totalResults = searchResult.totalResults;
-            this.nextPageToken = searchResult.pageToken;
-
             if (searchResult.results) {
                 const items = searchResult.results.map(item => {
                     const contentModel = new ContentModel(item, false);
@@ -192,7 +176,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
             this.isLoading = false;
         }, () => {
-            this.totalResults = null;
             this.isLoading = false;
         });
     }

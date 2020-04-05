@@ -104,8 +104,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['channel'] && changes['channel'].currentValue) {
-      console.log("Load on channel change");
-      console.log(this.channel);
       this.facade.searchInputState.channelId = this.channel!.id;
       // Trigger load
       if (this.channel?.aggregations) {

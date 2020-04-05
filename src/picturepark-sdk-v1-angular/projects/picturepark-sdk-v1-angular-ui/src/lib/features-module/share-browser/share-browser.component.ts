@@ -1,10 +1,9 @@
 import { Component, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
 // LIBRARIES
 import {
-  Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult, ThumbnailSize, ShareSearchFacade
+  Share, ThumbnailSize, ShareSearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -27,8 +26,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
     private activatedRoute: ActivatedRoute,
     injector: Injector,
     private router: Router,
-    private shareService: ShareService,
-    facade: ShareSearchFacade
+    public facade: ShareSearchFacade
   ) {
     super('ShareBrowserComponent', injector, facade);
   }

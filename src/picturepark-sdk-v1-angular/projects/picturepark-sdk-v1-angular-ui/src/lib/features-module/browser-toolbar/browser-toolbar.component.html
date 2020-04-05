@@ -15,7 +15,7 @@
     <ng-content select="[browser-buttons]"></ng-content>
 
     <div class="spacer"></div>
-    <span *ngIf="browser.totalResults" class="items-count mat-body-1">{{ browser.totalResults }} {{ entityName }}</span>
+    <span *ngIf="browser.totalResults$ | async as totalResults" class="items-count mat-body-1">{{ totalResults }} {{ entityName }}</span>
     
     <div class="order-by" *ngIf="sortingEnabled">
       <button mat-icon-button [matMenuTriggerFor]="sortMenu" [matTooltip]="'ContentBrowser.SortingMenu' | pptranslate">

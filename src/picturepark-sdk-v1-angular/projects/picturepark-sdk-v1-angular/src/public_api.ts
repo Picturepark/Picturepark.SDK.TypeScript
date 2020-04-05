@@ -17,4 +17,8 @@ export { LiquidRenderingService } from './lib/liquid-rendering.service';
 export * from './lib/helper';
 
 // facade
-export * from './lib/search.facade';
+export * from './lib/facade/search.facade';
+export * from './lib/facade/content-search.facade';
+export * from './lib/facade/schema-search.facade';
+export * from './lib/facade/share-search.facade';
+export * from './lib/facade/list-item-search.facade';
