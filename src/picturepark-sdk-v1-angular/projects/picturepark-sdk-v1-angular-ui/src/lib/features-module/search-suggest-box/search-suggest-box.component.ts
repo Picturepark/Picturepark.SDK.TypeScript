@@ -1,10 +1,6 @@
 import {
   Component,
   Input,
-  OnChanges,
-  SimpleChange,
-  Output,
-  EventEmitter,
   OnInit,
   Injector,
   ChangeDetectionStrategy,
@@ -21,13 +17,14 @@ import {
   AggregationResultItem,
   ObjectAggregationResult,
   SearchFacade,
+  SearchInputState,
+  IEntityBase,
 } from '@picturepark/sdk-v1-angular';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FormControl, FormBuilder } from '@angular/forms';
 import { debounceTime, tap, switchMap, map, catchError, distinctUntilChanged } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { BaseComponent } from '../../shared-module/components/base.component';
-import { ExtendedSearchBehavior, SearchParameters } from '../../shared-module/search-utils';
 import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
@@ -59,7 +56,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   public aggregations: AggregatorBase[];
 
   @Input()
-  public facade: SearchFacade<any>;
+  facade: SearchFacade<IEntityBase, SearchInputState>;
 
   suggestions$: Observable<{ name: string; results: AggregationResultItem[] }[]>;
 
@@ -115,9 +112,10 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
     const element = event.option.value as AggregationResultItem;
     this.suggestBox.setValue('');
     if(element.filter) {
-      this.facade.aggregationFilters = [...this.facade.searchInputState.aggregationFilters, element.filter];
       // Alternative
-      // this.facade.patchInputState({ aggregationFilters: [...this.facade.aggregationFilters, element.filter] });
+      // this.facade.aggregationFilters = [...this.facade.searchInputState.aggregationFilters, element.filter];
+
+      this.facade.patchInputState({ aggregationFilters: [...this.facade.searchInputState.aggregationFilters, element.filter] });
     }
   }
 
@@ -133,7 +131,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   }
 
   public clear() {
-    this.facade.searchString = '';
+    this.facade.patchInputState({searchString: ''});
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {

@@ -1,18 +1,17 @@
 import { Input, OnChanges, Output, EventEmitter, SimpleChanges, OnInit } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 // LIBRARIES
 import {
   AggregationFilter, AggregationResult, ObjectAggregationResult,
-  AggregatorBase, FilterBase, OrFilter, AndFilter, SearchFacade
+  AggregatorBase, FilterBase, SearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../components/base.component';
+import { filter } from 'rxjs/operators';
 
-export abstract class AggregationListComponent extends BaseComponent implements OnChanges {
-
+export abstract class AggregationListComponent extends BaseComponent implements OnInit, OnChanges {
   @Input()
   public aggregators: AggregatorBase[] | undefined = [];
 
@@ -34,7 +33,15 @@ export abstract class AggregationListComponent extends BaseComponent implements 
 
   public aggregationResults: AggregationResult[] = [];
 
-  public abstract facade: SearchFacade<any>;
+  public abstract facade: SearchFacade<any, any>;
+
+  ngOnInit(): void {
+    this.sub = this.facade.searchResults$.subscribe(i => {
+      if (i.aggregationResults) {
+        this.processAggregationResults(i.aggregationResults)
+      }
+     });
+  }
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes['aggregators'] && changes['aggregators'].previousValue && this.aggregators) {
@@ -45,7 +52,7 @@ export abstract class AggregationListComponent extends BaseComponent implements 
       this.filterChange.emit(null);
     }
 
-    if (changes['aggregators'] || changes['searchString'] || changes['aggregationFilters']) {
+    if (changes['aggregators'] || changes['aggregationFilters']) {
       this.updateData();
     }
   }
@@ -77,13 +84,15 @@ export abstract class AggregationListComponent extends BaseComponent implements 
   }
 
   private updateData() {
+    /*
     this.sub = this.fetchData()
       .pipe(filter((result) => result !== null))
       .subscribe((result: ObjectAggregationResult) => {
+        console.log(result.aggregationResults.map(i => i.toJSON()));
         this.processAggregationResults(result.aggregationResults || []);
 
         this.isLoading.next(false);
-      });
+      });*/
   }
 
   private processAggregationResults(aggregationResults: AggregationResult[]) {

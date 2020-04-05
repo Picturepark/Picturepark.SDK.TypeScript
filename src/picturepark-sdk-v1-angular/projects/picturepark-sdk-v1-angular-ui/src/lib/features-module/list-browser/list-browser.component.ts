@@ -1,24 +1,16 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component,
-  Input, OnInit, Injector, SimpleChanges, OnChanges
+  Input, OnInit, Injector
 } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Sort, SortDirection as MatSortDirection } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 // LIBRARIES
 import {
-  BrokenDependenciesFilter,
   InfoService,
-  LifeCycleFilter,
-  ListItemSearchRequest,
-  ListItemService,
   SchemaDetail,
-  SearchBehavior,
   SortInfo,
-  ListItemResolveBehavior,
   ListItem,
-  ListItemSearchResult,
   CustomerInfo,
   SortDirection,
   ListItemSearchFacade,
@@ -43,7 +35,7 @@ import { lowerFirst } from '../../utilities/helper';
   providers: [TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListBrowserComponent extends BaseBrowserComponent<ListItem> implements OnInit, OnChanges {
+export class ListBrowserComponent extends BaseBrowserComponent<ListItem> implements OnInit {
   @Input() schema: SchemaDetail;
   @Input() selectedItemIds: string[];
   @Input() enableSelection: boolean;
@@ -58,11 +50,10 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   public customerInfo: CustomerInfo;
 
   constructor(
-    private listItemService: ListItemService,
     private metaDataPreviewService: MetaDataPreviewService,
     private infoService: InfoService,
     private cdr: ChangeDetectorRef,
-    facade: ListItemSearchFacade,
+    public facade: ListItemSearchFacade,
     injector: Injector
   ) {
     super('ListBrowserComponent', injector, facade);
@@ -71,6 +62,11 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   async init(): Promise<void> {
     this.scrollDebounceTime = 100;
     this.customerInfo = await this.infoService.getInfo().toPromise();
+
+    this.facade.searchInputState.schemaIds = [this.schema.id];
+    if (this.schema.aggregations) {
+      this.facade.searchInputState.aggregators = this.schema.aggregations;
+    }
 
     // need to show column names
     this.displayedColumnNames = this.schema.fields!.map(field => {
@@ -104,7 +100,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
         });
       }
     }
-    this.loadData();
   }
 
   initSort(): void {
@@ -112,32 +107,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   onScroll(): void {
     this.loadData();
-  }
-
-  getSearchRequest(): Observable<ListItemSearchResult> | undefined {
-    const request = new ListItemSearchRequest({
-      pageToken: this.nextPageToken,
-      limit: this.pageSize,
-      searchString: this.facade.searchInputState.searchString,
-      sort: this.sortInfo,
-      searchBehaviors: this.searchBehavior ? [
-        this.searchBehavior,
-        SearchBehavior.DropInvalidCharactersOnFailure,
-        SearchBehavior.WildcardOnSingleTerm,
-      ] : [
-        SearchBehavior.DropInvalidCharactersOnFailure,
-        SearchBehavior.WildcardOnSingleTerm,
-      ],
-      schemaIds: [this.schema.id],
-      filter: this.filter ? this.filter : undefined,
-      includeAllSchemaChildren: true,
-      brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      debugMode: false,
-      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-      resolveBehaviors: [ListItemResolveBehavior.Content, ListItemResolveBehavior.InnerDisplayValueName]
-    });
-
-    return this.listItemService.search(request);
   }
 
   checkContains(elementClassName: string): boolean {
@@ -174,14 +143,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     });
     this.sortInfo = [sortInfo];
     this.update();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      (changes['schema'] && !changes['schema'].firstChange)
-    ) {
-      this.update();
-    }
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

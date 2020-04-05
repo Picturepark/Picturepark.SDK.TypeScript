@@ -77,31 +77,6 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
     this.loadData();
   }
 
-  getSearchRequest(): Observable<ShareSearchResult> | undefined {
-    if (this.isLoading) { return; }
-
-    const request = new ShareSearchRequest({
-      debugMode: false,
-      pageToken: this.nextPageToken,
-      filter: this.filter ? this.filter : undefined,
-      limit: this.pageSize,
-      searchString: this.facade.searchInputState.searchString,
-      searchBehaviors: [
-        SearchBehavior.SimplifiedSearch,
-        SearchBehavior.DropInvalidCharactersOnFailure,
-        SearchBehavior.WildcardOnSingleTerm
-      ],
-      sort: this.activeSortingType.field === 'relevance' ? [] : [
-        new SortInfo({
-          field: this.activeSortingType.field,
-          direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
-        })
-      ]
-    });
-
-    return this.shareService.search(request);
-  }
-
   // CHECK IF ELEMENT CONTAINS CLASS NAME
   checkContains(elementClassName: string): boolean {
     const containClasses = ['browser__items'];

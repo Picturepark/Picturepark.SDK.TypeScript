@@ -8,7 +8,7 @@ import { LazyGetter } from 'lazy-get-decorator';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize, SearchFacade, AggregationFilter, OrFilter, AndFilter, AggregationResult } from '@picturepark/sdk-v1-angular';
+import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize, SearchFacade, AggregationFilter, OrFilter, AndFilter, AggregationResult, SortInfo, SortDirection } from '@picturepark/sdk-v1-angular';
 import { SelectionService as SelectionService } from '../../services/selection/selection.service';
 import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
@@ -79,12 +79,11 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     abstract init(): Promise<void>;
     abstract initSort(): void;
     abstract onScroll(): void;
-    abstract getSearchRequest(): Observable<{ results: TEntity[]; totalResults: number; pageToken?: string | undefined, aggregationResults?: AggregationResult[] }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string,
         protected injector: Injector,
-        public facade: SearchFacade<TEntity>) {
+        public facade: SearchFacade<TEntity, any>) {
         super(injector);
 
         this.self = this;
@@ -127,6 +126,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
         // Call abstract init class
         await this.init();
+
+        // Subscribe to searchInput changes and trigger reload
+        this.sub = this.facade.searchInput$.subscribe(() => this.update());
     }
 
     get totalResults(): number | null {
@@ -160,7 +162,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     }
 
     public loadData(): void {
-        const request = this.getSearchRequest();
+        const request = this.facade.getSearchRequest();
 
         if (this.isLoading || !request) {
             return;
@@ -198,31 +200,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     protected prepareData(items: ContentModel<TEntity>[]): void {
 
     }
-
-    protected getFilter(aggregationFilters: AggregationFilter[]): FilterBase | undefined {
-        const group = groupBy(aggregationFilters, i => i.aggregationName!);
-        
-        const preparedFilters = Array.from(group)
-          .map(array => {
-            const filtered = array[1].filter(aggregationFilter => aggregationFilter.filter)
-              .map(aggregationFilter => aggregationFilter.filter as FilterBase);
-    
-            switch (filtered.length) {
-              case 0: return undefined;
-              case 1: return filtered[0];
-              default: return new OrFilter({ filters: filtered });
-            }
-          })
-          .filter(value => value !== undefined)
-          .map(i => i);
-    
-        switch (preparedFilters.length) {
-          case 0: return undefined;
-          case 1: return preparedFilters[0];
-          default: return new AndFilter({ filters: preparedFilters as FilterBase[] });
-        }
-      }
-    
 
     /**
      * Click event to trigger selection (ctrl + shift click)
@@ -282,8 +259,17 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         }
 
         this.activeSortingType = newValue;
+        const sort = this.activeSortingType.field === 'relevance' ? [] : [
+            new SortInfo({
+              field: this.activeSortingType.field,
+              direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
+            })
+          ];
+
         if (reload) {
-            this.update();
+          this.facade.patchInputState({sort});
+        } else {
+            this.facade.searchInputState.sort = sort;
         }
     }
 

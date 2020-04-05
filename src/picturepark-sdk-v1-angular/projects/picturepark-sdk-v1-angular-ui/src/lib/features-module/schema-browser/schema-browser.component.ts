@@ -1,10 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output, Injector, SimpleChanges, OnChanges } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Component, EventEmitter, Output, Injector, SimpleChanges, OnChanges } from '@angular/core';
 
 // LIBRARIES
 import {
-  OrFilter, PrefixFilter, Schema, SchemaSearchRequest,
-  SchemaService, SearchBehavior, SortDirection, SortInfo, TermFilter, FilterBase, SchemaSearchResult, SchemaSearchFacade
+  Schema, SchemaSearchFacade, TermFilter
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -19,27 +17,22 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
   ],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> implements OnChanges {
+export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
 
-  @Input() public activeParentSchema: BehaviorSubject<Schema>;
   @Output() public activeSchemaChange = new EventEmitter<Schema>();
 
   public selectedSchemaIndex: number;
-  private parentSchema: Schema | null = null;
 
   constructor(
-    private schemaService: SchemaService,
-    facade: SchemaSearchFacade,
+    public facade: SchemaSearchFacade,
     injector: Injector
   ) {
     super('SchemaBrowserComponent', injector, facade);
   }
 
   async init(): Promise<void> {
-    this.sub = this.activeParentSchema.subscribe(schema => {
-      this.parentSchema = schema;
-      this.update();
-    });
+    // Trigger load
+    this.facade.patchInputState({});
   }
 
   initSort(): void {
@@ -72,52 +65,14 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> impleme
     this.loadData();
   }
 
-  getSearchRequest(): Observable<SchemaSearchResult> | undefined {
-    let filter: FilterBase | null = null;
-    if (this.parentSchema) {
-      filter = new OrFilter({
-        filters: [
-          new PrefixFilter({ field: 'schemaNamespace', prefix: this.parentSchema.id }),
-          new TermFilter({ field: 'id', term: this.parentSchema.id! })
-        ]
-      });
-
-      // TODO BRO: Fix
-      this.facade.searchInputState.searchString = '';
-    }
-
-    const request = new SchemaSearchRequest({
-      debugMode: false,
-      pageToken: this.nextPageToken,
-      limit: this.pageSize,
-      filter: filter ? filter : this.filter!,
-      searchString: this.facade.searchInputState.searchString,
-      searchBehaviors: [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
-      sort: this.activeSortingType.field === 'relevance' ? [] : [
-        new SortInfo({
-          field: this.activeSortingType.field,
-          direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
-        })
-      ]
-    });
-
-    return this.schemaService.search(request);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filter']) {
-      this.update();
-    }
-  }
-
   checkContains(elementClassName: string): boolean {
     const containClasses = ['browser__items'];
     return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 
   public setUpActiveSchema(schema: Schema): void {
-    if (schema.childCount > 0 && !this.parentSchema) {
-      this.activeParentSchema.next(schema);
+    if (schema.childCount > 0 && !this.facade.searchInputState.parentSchema) {
+      this.facade.patchInputState({parentSchema: schema});
     } else {
       this.activeSchemaChange.emit(schema);
     }

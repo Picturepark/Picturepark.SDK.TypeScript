@@ -2,8 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/c
 
 // LIBRARIES
 import {
-  ContentService, ThumbnailSize, ContentSearchRequest, SortInfo, SortDirection,
-  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content, ContentSearchResult, SearchFacade, ContentSearchFacade, FilterBase, OrFilter, AggregationFilter, AndFilter
+  ThumbnailSize, Channel, Content, ContentSearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -16,7 +15,6 @@ import {
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 
 // INTERFACES
-import { Observable } from 'rxjs';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 import { ContentModel } from '../../shared-module/models/content-model';
 
@@ -38,8 +36,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   constructor(
     private basketService: BasketService,
-    private contentService: ContentService,
-    facade: ContentSearchFacade,
+    public facade: ContentSearchFacade,
     private contentDownloadDialogService: ContentDownloadDialogService,
     injector: Injector
   ) {
@@ -50,29 +47,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.sub = this.basketService.basketChange.subscribe(basketItems => {
       this.checkItemsInBasket(basketItems);
     });
-
-    this.sub = this.facade.searchInput$.subscribe(input => {
-      this.filter = input.baseFilter || null;
-      this.searchBehavior = input.searchBehavior;
-
-      const filters: FilterBase[] = [];
-      if(input.baseFilter) {
-        filters.push(input.baseFilter);
-      }
-
-      const aggregationFilter = this.getFilter(input.aggregationFilters);
-      if(aggregationFilter) {
-        filters.push(aggregationFilter);
-      }
-
-      this.filter = new AndFilter({
-        filters: filters
-      });
-
-      this.update();
-    });
-
-    // this.facade.patchInputState({});
   }
 
   initSort(): void {
@@ -124,42 +98,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
   }
 
-  getSearchRequest(): Observable<ContentSearchResult> | undefined {
-    if (!this.channel || !this.channel.id) { return; }
-
-
-    const request = new ContentSearchRequest({
-      debugMode: false,
-      pageToken: this.facade.searchResultState.nextPageToken,
-      brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      aggregationFilters: this.facade.searchInputState.aggregationFilters,
-      aggregators: this.facade.searchInputState.aggregators,
-      filter: this.facade.searchInputState.baseFilter,
-      channelId: this.channel.id,
-      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-      limit: this.pageSize,
-      searchString: this.facade.searchInputState.searchString,
-      searchType: ContentSearchType.MetadataAndFullText,
-      searchBehaviors: this.searchBehavior ? [
-        this.searchBehavior,
-        SearchBehavior.DropInvalidCharactersOnFailure,
-        SearchBehavior.WildcardOnSingleTerm,
-      ] : [
-          SearchBehavior.DropInvalidCharactersOnFailure,
-          SearchBehavior.WildcardOnSingleTerm,
-        ],
-      sort: this.activeSortingType.field === 'relevance' ? [] : [
-        new SortInfo({
-          field: this.activeSortingType.field,
-          direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
-        })
-      ]
-    });
-
-    return this.contentService.search(request);
-  }
-
-
   prepareData(items: ContentModel<Content>[]): void {
     this.checkItemsInBasket(this.basketService.getBasketItems());
   }
@@ -168,6 +106,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     if (changes['channel'] && changes['channel'].currentValue) {
       console.log("Load on channel change");
       console.log(this.channel);
+      this.facade.searchInputState.channelId = this.channel!.id;
       // Trigger load
       if (this.channel?.aggregations) {
         this.facade.patchInputState({ aggregators: this.channel.aggregations });
