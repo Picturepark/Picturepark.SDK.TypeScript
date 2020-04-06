@@ -38,7 +38,6 @@ export class ListComponent implements OnInit, OnDestroy {
   public aggregations: AggregatorBase[] = [];
   public schemaDetail: SchemaDetail | undefined;
   public schema: Observable<SchemaDetail>;
-  public schemaId: string;
   public selectedItems: ListItem[];
   public selectedItemsIds: string[];
 
@@ -75,7 +74,6 @@ export class ListComponent implements OnInit, OnDestroy {
         this.activeSchema.next(schemaDetail);
         this.schemaDetail = schemaDetail;
         this.aggregations = schemaDetail.aggregations!;
-        this.schemaId = paramMap.get('id')!;
 
         const filterQuery = queryParamMap.getAll('filter');
         if (filterQuery) {
