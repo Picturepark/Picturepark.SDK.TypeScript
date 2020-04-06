@@ -10,7 +10,7 @@ import {
   TermFilter,
   ContentAggregationRequest,
   TermsAggregator,
-} from '../lib/api-services';
+} from '../lib/services/api-services';
 
 describe('ContentService', () => {
   beforeEach(configureTest);

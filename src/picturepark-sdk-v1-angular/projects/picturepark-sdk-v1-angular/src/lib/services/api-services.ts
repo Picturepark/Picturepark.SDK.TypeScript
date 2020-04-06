@@ -7199,7 +7199,7 @@ export class InfoService extends PictureparkServiceBase {
      * Get info
      * @return CustomerInfo
      */
-    getInfo(): Observable<CustomerInfo> {
+    protected getInfoCore(): Observable<CustomerInfo> {
         let url_ = this.baseUrl + "/v1/Info/customer";
         url_ = url_.replace(/[?&]$/, "");
 

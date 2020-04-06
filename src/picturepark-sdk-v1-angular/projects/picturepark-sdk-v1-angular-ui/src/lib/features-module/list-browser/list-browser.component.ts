@@ -51,7 +51,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   constructor(
     private metaDataPreviewService: MetaDataPreviewService,
-    private infoService: InfoService,
+    private infoFacade: InfoFacade,
     private cdr: ChangeDetectorRef,
     public facade: ListItemSearchFacade,
     injector: Injector
@@ -61,7 +61,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   async init(): Promise<void> {
     this.scrollDebounceTime = 100;
-    this.customerInfo = await this.infoService.getInfo().toPromise();
+    this.customerInfo = await this.infoFacade.getInfo().toPromise();
 
     this.facade.searchRequestState.schemaIds = [this.schema.id];
     if (this.schema.aggregations) {

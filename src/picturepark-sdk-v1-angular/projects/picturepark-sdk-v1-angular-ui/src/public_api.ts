@@ -1,7 +1,12 @@
 /*
  * Public API Surface of picturepark-sdk-v1-angular-ui
  */
-export { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfigurationFactory } from './lib/configuration';
+export {
+  PICTUREPARK_UI_CONFIGURATION,
+  PICTUREPARK_UI_SCRIPTPATH,
+  PictureparkUIConfigurationFactory,
+  PictureparkUIConfiguration,
+} from './lib/configuration';
 
 // Modules
 export { PictureparkUiModule } from './lib/picturepark-ui.module';
@@ -34,25 +39,23 @@ export { ShareItemsPanelModule } from './lib/features-module/share-items-panel/s
 // Components
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
 export { ListBrowserComponent } from './lib/features-module/list-browser/list-browser.component';
-export {
-    ContentDetailsDialogComponent
-} from './lib/features-module/content-details-dialog/content-details-dialog.component';
+export { ContentDetailsDialogComponent } from './lib/features-module/content-details-dialog/content-details-dialog.component';
 
 // Services
 export { SelectionService } from './lib/shared-module/services/selection/selection.service';
 export { BasketService } from './lib/shared-module/services/basket/basket.service';
 export { TranslationService } from './lib/shared-module/services/translations/translation.service';
 export { LiquidRenderingService } from '@picturepark/sdk-v1-angular';
-export { ContentDownloadDialogService } from
-    './lib/features-module/content-download-dialog/content-download-dialog.service';
+export { ContentDownloadDialogService } from './lib/features-module/content-download-dialog/content-download-dialog.service';
 export { DialogService } from './lib/features-module/dialog/dialog.service';
 
 // Classes
 export { ContentModel } from './lib/shared-module/models/content-model';
 export { BaseComponent } from './lib/shared-module/components/base.component';
 
-// Functions
+// Utilities
 export * from './lib/utilities/helper';
+export { TRANSLATIONS } from './lib/utilities/translations';
 
 // Interfaces
 export { SearchParameters } from './lib/shared-module/search-utils';
