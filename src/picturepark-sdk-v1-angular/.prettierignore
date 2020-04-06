@@ -1,2 +1,2 @@
 **/picturepark-sdk-v1-widgets
-projects/picturepark-sdk-v1-angular/src/lib/api-services.ts
+projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts

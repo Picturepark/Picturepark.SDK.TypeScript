@@ -8,7 +8,7 @@ import {
   ContentSearchType,
   TermsFilter,
   ContentService,
-} from './api-services';
+} from '../services/api-services';
 
 export interface ISearchRequest {
   pageToken?: string | undefined;
