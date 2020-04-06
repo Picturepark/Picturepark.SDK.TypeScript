@@ -90,6 +90,13 @@ export function localeFactory(localStorageService: LocalStorageService): string 
   );
 }
 
+export function getLanguageFactory(): string {
+  const appRootTag = document.getElementsByTagName('app-root')[0];
+  const language = appRootTag.getAttribute('language');
+
+  return language ?? '';
+}
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -103,7 +110,7 @@ export function localeFactory(localStorageService: LocalStorageService): string 
     // Picturepark
     SearchBoxModule,
     SharedModule.forRoot(),
-    LocaleModule.forRoot(localeFactory),
+    LocaleModule.forRoot(getLanguageFactory()),
   ],
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },
