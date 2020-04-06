@@ -14,6 +14,7 @@ import {
   CustomerInfo,
   SortDirection,
   ListItemSearchFacade,
+  InfoFacade,
 } from '@picturepark/sdk-v1-angular';
 
 // SERVICES

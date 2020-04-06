@@ -9,7 +9,7 @@ import {
   BrokenDependenciesFilter,
   LifeCycleFilter,
   ListItemResolveBehavior,
-} from '../api-services';
+} from '../services/api-services';
 import { Observable } from 'rxjs';
 
 export interface ListItemSearchInputState extends SearchInputState {

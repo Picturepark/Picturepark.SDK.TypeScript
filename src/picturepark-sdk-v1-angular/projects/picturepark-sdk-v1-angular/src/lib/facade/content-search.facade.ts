@@ -10,7 +10,7 @@ import {
   LifeCycleFilter,
   ContentSearchType,
   ContentAggregationRequest,
-} from '../api-services';
+} from '../services/api-services';
 import { Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 

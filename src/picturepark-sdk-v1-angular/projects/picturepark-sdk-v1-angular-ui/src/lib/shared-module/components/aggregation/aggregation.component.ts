@@ -170,7 +170,8 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   }
 
   public clear() {
-    // TODO BRO: Implement
+    console.log(this.aggregationResult?.name);
+    console.log(this.expandedAggregator.name);
   }
 
   private updateAggregationResult(aggregationResult: AggregationResult | null): void {

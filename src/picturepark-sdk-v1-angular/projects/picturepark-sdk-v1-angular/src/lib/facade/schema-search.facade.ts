@@ -9,7 +9,7 @@ import {
   TermFilter,
   SchemaSearchRequest,
   SearchBehavior,
-} from '../api-services';
+} from '../services/api-services';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 

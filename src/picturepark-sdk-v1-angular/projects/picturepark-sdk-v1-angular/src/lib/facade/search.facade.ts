@@ -7,7 +7,7 @@ import {
   AggregationResult,
   SortInfo,
   AggregationResultItem,
-} from '../api-services';
+} from '../services/api-services';
 import { map, distinctUntilChanged, filter } from 'rxjs/operators';
 
 export function flatMap<T, U>(array: T[], mapFunc: (x: T) => U[]): U[] {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SearchFacade, SearchInputState } from './search.facade';
-import { Share, ShareService, ShareSearchResult, ShareSearchRequest, SearchBehavior } from '../api-services';
+import { Share, ShareService, ShareSearchResult, ShareSearchRequest, SearchBehavior } from '../services/api-services';
 import { Observable } from 'rxjs';
 
 @Injectable({
