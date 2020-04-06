@@ -1,11 +1,11 @@
 <div class="aggregation-filter">
   <div class="aggregation-filter__filters filters">
-    <mat-toolbar class="filters__active-filters">
-      <span *ngIf="this.aggregationFilters.length === 0">{{ 'ContentAggregationList.NoActiveFilters' | pptranslate }}</span>
-      <span *ngIf="this.aggregationFilters.length === 1">{{ 'ContentAggregationList.SingleActiveFilter' | pptranslate }}</span>
-      <span *ngIf="this.aggregationFilters.length > 1">{{ 'ContentAggregationList.MultipleActiveFilters' | pptranslate:this.aggregationFilters.length }}</span>
+    <mat-toolbar class="filters__active-filters" *ngIf="facade.aggregationFilters$ | async as aggregationFilters">
+      <span *ngIf="aggregationFilters.length === 0">{{ 'ContentAggregationList.NoActiveFilters' | pptranslate }}</span>
+      <span *ngIf="aggregationFilters.length === 1">{{ 'ContentAggregationList.SingleActiveFilter' | pptranslate }}</span>
+      <span *ngIf="aggregationFilters.length > 1">{{ 'ContentAggregationList.MultipleActiveFilters' | pptranslate:aggregationFilters.length }}</span>
       <button 
-        [style.visibility]="this.aggregationFilters.length > 0 ? 'visible' : 'hidden'" 
+        [style.visibility]="aggregationFilters.length > 0 ? 'visible' : 'hidden'" 
         [matTooltip]="'ContentAggregationList.ClearAllFilters' | pptranslate"
         (click)="clearFilters()"
         mat-icon-button>
@@ -17,7 +17,6 @@
         *ngFor="let aggregator of facade.searchRequestState.aggregators, let i=index; trackBy: trackByName"
         [isExpanded]="i===0"
         [aggregator]="aggregator"
-        [globalAggregationFilters]="aggregationFilters"
         [aggregationResult]="aggregationResults[i]"
         (aggregationFiltersChange)="aggregationFiltersChanged(i,$event)"
         [fetchSearchData]="fetchSearchData">

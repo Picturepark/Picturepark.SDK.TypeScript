@@ -19,10 +19,6 @@ import { BaseComponent } from '../base.component';
 })
 export class AggregationComponent extends BaseComponent implements OnChanges {
 
-  // Used for performing aggregate request (autocomplete functionality).
-  @Input()
-  globalAggregationFilters: AggregationFilter[] = [];
-
   @Input()
   aggregator: AggregatorBase;
 
@@ -79,7 +75,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     }
 
     if (changes['globalAggregationFilters']) {
-      this.aggregationsFiltersCount = this.globalAggregationFilters.filter(
+      this.aggregationsFiltersCount = this.facade.searchRequestState.aggregationFilters.filter(
         (item) => item.aggregationName === this.aggregator.name).length;
     }
 

@@ -1,4 +1,4 @@
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges, OnInit } from '@angular/core';
+import { Output, EventEmitter, OnInit } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 // LIBRARIES
@@ -10,14 +10,10 @@ import {
 // COMPONENTS
 import { BaseComponent } from '../../components/base.component';
 
-export abstract class AggregationListComponent extends BaseComponent implements OnInit, OnChanges {
+export abstract class AggregationListComponent extends BaseComponent implements OnInit {
   // Filter used for search. E.g.: Nested filter,And filter,Or filter.
   @Output()
   public filterChange = new EventEmitter<FilterBase | null>();
-
-  @Input()
-  // Aggregation filters used for Aggregation function.
-  public aggregationFilters: AggregationFilter[] = [];
 
   @Output()
   public aggregationFiltersChange = new EventEmitter<AggregationFilter[]>();
@@ -43,56 +39,27 @@ export abstract class AggregationListComponent extends BaseComponent implements 
      });
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
-    if (changes['aggregators'] && changes['aggregators'].previousValue) {
-      this.aggregationResults = [];
-      this.aggregationFiltersStates = [];
-      this.aggregationFilters = [];
-      this.aggregationFiltersChange.emit([]);
-      this.filterChange.emit(null);
-    }
-
-    if (changes['aggregators'] || changes['aggregationFilters']) {
-      this.updateData();
-    }
-  }
-
   protected abstract fetchData(): Observable<ObjectAggregationResult | null>;
   protected abstract fetchSearchData(searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult | null>;
 
   public clearFilters(): void {
     this.aggregationFiltersStates = [];
-    this.aggregationFilters = [];
     this.aggregationFiltersChange.emit([]);
     this.filterChange.emit(null);
-    this.updateData();
+    this.facade.patchRequestState({ aggregationFilters: [] });
   }
 
   public aggregationFiltersChanged(aggregatorIndex: number, aggregationFilters: AggregationFilter[]): void {
     this.aggregationFiltersStates[aggregatorIndex] = aggregationFilters;
 
     // flatten array and remove undefined.
-    this.aggregationFilters = ([] as AggregationFilter[]).concat(...this.aggregationFiltersStates).filter(item => item);
+    const aggFilters = ([] as AggregationFilter[]).concat(...this.aggregationFiltersStates).filter(item => item);
 
-    this.facade.patchRequestState({ aggregationFilters: this.aggregationFilters });
-
-    this.updateData();
+    this.facade.patchRequestState({ aggregationFilters: aggFilters });
   }
 
   public trackByName(index, aggregator: AggregatorBase) {
     return aggregator.name;
-  }
-
-  private updateData() {
-    /*
-    this.sub = this.fetchData()
-      .pipe(filter((result) => result !== null))
-      .subscribe((result: ObjectAggregationResult) => {
-        console.log(result.aggregationResults.map(i => i.toJSON()));
-        this.processAggregationResults(result.aggregationResults || []);
-
-        this.isLoading.next(false);
-      });*/
   }
 
   private processAggregationResults(aggregationResults: AggregationResult[]) {

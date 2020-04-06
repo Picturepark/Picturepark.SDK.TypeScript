@@ -37,7 +37,7 @@ export class ContentAggregationListComponent extends AggregationListComponent {
         channelId: this.channelId,
         searchString: this.facade.searchRequestState.searchString,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        aggregationFilters: this.aggregationFilters,
+        aggregationFilters: this.facade.searchRequestState.aggregationFilters,
         searchType: ContentSearchType.MetadataAndFullText,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly
       });

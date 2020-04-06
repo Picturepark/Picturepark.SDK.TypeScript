@@ -30,7 +30,7 @@ export class ShareAggregationListComponent extends AggregationListComponent {
       const request = new ShareAggregationRequest({
         aggregators: aggregators,
         searchString: this.facade.searchRequestState.searchString,
-        aggregationFilters: this.aggregationFilters
+        aggregationFilters: this.facade.searchRequestState.aggregationFilters
       });
 
       return this.shareService.aggregate(request);
@@ -43,7 +43,7 @@ export class ShareAggregationListComponent extends AggregationListComponent {
     const request = new ShareAggregationRequest({
       searchString: this.facade.searchRequestState.searchString,
       aggregators: [aggregator],
-      aggregationFilters: this.aggregationFilters
+      aggregationFilters: this.facade.searchRequestState.aggregationFilters
     });
 
     return this.shareService.aggregate(request);

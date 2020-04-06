@@ -36,7 +36,7 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
         aggregators: aggregators,
         searchString: this.facade.searchRequestState.searchString,
         brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        aggregationFilters: this.aggregationFilters,
+        aggregationFilters: this.facade.searchRequestState.aggregationFilters,
         lifeCycleFilter: LifeCycleFilter.ActiveOnly,
         includeAllSchemaChildren: true,
       });
@@ -53,7 +53,7 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
       searchString: this.facade.searchRequestState.searchString,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
       aggregators: [aggregator],
-      aggregationFilters: this.aggregationFilters,
+      aggregationFilters: this.facade.searchRequestState.aggregationFilters,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
       includeAllSchemaChildren: false
     });
