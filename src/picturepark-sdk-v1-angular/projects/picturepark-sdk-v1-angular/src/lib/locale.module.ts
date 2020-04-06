@@ -9,7 +9,7 @@ export function languageFactory(
 ): () => Promise<boolean> {
   const languageToSelect = localeFactory(localStorageService);
   return () => {
-    return languageService.loadLanguages(languageToSelect);
+    return languageService.loadLanguages(languageToSelect).toPromise();
   };
 }
 

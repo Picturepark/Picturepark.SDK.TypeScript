@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
-import { CustomerInfo, CustomerInfoService } from './services/api-services';
+import { CustomerInfo } from './services/api-services';
+import { CustomerInfoService } from './services/customer-info.service';
 
 @Injectable({
   providedIn: 'root',
