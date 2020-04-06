@@ -6,8 +6,13 @@ import {
   AggregatorBase,
   AggregationResult,
   SortInfo,
+  AggregationResultItem,
 } from '../api-services';
 import { map, distinctUntilChanged, filter } from 'rxjs/operators';
+
+export function flatMap<T, U>(array: T[], mapFunc: (x: T) => U[]): U[] {
+  return array.reduce((cumulus: U[], next: T) => [...mapFunc(next), ...cumulus], <U[]> []);
+}
 
 export interface SearchInputState {
   searchString: string;
@@ -101,5 +106,35 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
   setResultState(resultState: SearchResultState<T>) {
     this.searchResultState = resultState;
     this.searchResults$.next(resultState);
+  }
+
+  toggleAggregationResult(changedItem: AggregationResultItem) {
+    const add = !changedItem.active;
+    if (add) {
+      this.patchRequestState({aggregationFilters: [...this.searchRequestState.aggregationFilters, changedItem.filter]} as any);
+    } else {
+      const expanded = this.searchResultState.aggregationResults!.map(i => this.expandAggregationResult(i))!;
+      const active = flatMap(expanded, i => i.aggregationResultItems!).filter(i => i && i.active);
+
+      const aggregationName = changedItem.filter?.aggregationName;
+      const toRemove = active.find(i => i.filter?.aggregationName === aggregationName && i.name === changedItem.name);
+      const remaining = active.map(i => i.filter).map(i => i).filter(i => i !== toRemove?.filter)
+
+      this.patchRequestState({aggregationFilters: remaining} as any);
+    }
+  }
+
+  expandAggregationResult(aggregationResult: AggregationResult): AggregationResult {
+    if (
+      aggregationResult &&
+      aggregationResult.aggregationResultItems &&
+      aggregationResult.aggregationResultItems[0] &&
+      aggregationResult.aggregationResultItems[0].aggregationResults &&
+      aggregationResult.aggregationResultItems[0].aggregationResults![0]) {
+
+      return this.expandAggregationResult(aggregationResult.aggregationResultItems[0].aggregationResults![0]);
+    }
+
+    return aggregationResult;
   }
 }

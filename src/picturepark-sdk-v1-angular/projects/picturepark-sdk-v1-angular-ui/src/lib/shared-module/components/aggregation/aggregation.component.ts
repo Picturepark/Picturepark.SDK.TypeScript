@@ -1,4 +1,4 @@
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges, Component, Inject, LOCALE_ID, Injector } from '@angular/core';
+import { Input, OnChanges, Output, EventEmitter, SimpleChanges, Component, Inject, LOCALE_ID, Injector, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounce, map, flatMap } from 'rxjs/operators';
 import { timer, Observable, from } from 'rxjs';
@@ -17,7 +17,7 @@ import { BaseComponent } from '../base.component';
   templateUrl: './aggregation.component.html',
   styleUrls: ['./aggregation.component.scss']
 })
-export class AggregationComponent extends BaseComponent implements OnChanges {
+export class AggregationComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input()
   aggregator: AggregatorBase;
@@ -63,6 +63,15 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
       flatMap(value => this.searchAggregator(value)));
   }
 
+  ngOnInit() {
+    this.sub = this.facade.searchRequest$.subscribe(request => {
+      this.aggregationsFiltersCount = request.aggregationFilters.filter(
+        (item) => item.aggregationName === this.aggregator.name).length;
+
+      this.canExpand = this.canExpand || this.aggregationsFiltersCount > 0;
+    });
+  }
+
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['aggregator']) {
       this.expandedAggregator = this.expandAggregator(this.aggregator);
@@ -72,11 +81,6 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     if (changes['aggregationResult']) {
       this.updateAggregationResult(this.aggregationResult);
       this.aggregationQuery.setValue('');
-    }
-
-    if (changes['globalAggregationFilters']) {
-      this.aggregationsFiltersCount = this.facade.searchRequestState.aggregationFilters.filter(
-        (item) => item.aggregationName === this.aggregator.name).length;
     }
 
     if (changes['expandedAggregationResult'] || changes['isExpanded']) {
@@ -119,7 +123,7 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
       this.hideLoader();
 
       if (result.aggregationResults !== undefined) {
-        const items = this.expandAggregationResult(result.aggregationResults[0]).aggregationResultItems || [];
+        const items = this.facade.expandAggregationResult(result.aggregationResults[0]).aggregationResultItems || [];
 
         const currentSelectedValues = this.expandedAggregationResult!.aggregationResultItems ?
           this.expandedAggregationResult!.aggregationResultItems!.filter(agr => agr.active === true) : [];
@@ -142,27 +146,11 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
   }
 
   public autoCompleteOptionSelected(value: AggregationResultItem): void {
-    const filters = this.expandedAggregationResult!.aggregationResultItems ?
-      this.expandedAggregationResult!.aggregationResultItems!
-        .filter(agr => agr.active === true && agr.filter)
-        .map(agr => agr.filter as AggregationFilter) : [];
-
-    if (value.filter !== undefined) {
-      filters.push(value.filter);
-    }
-
-    this.aggregationFiltersChange.emit(filters);
+    this.facade.toggleAggregationResult(value);
   }
 
   public selectionChanged(changedItem: AggregationResultItem): void {
-    changedItem.active = !changedItem.active;
-
-    const filters = this.expandedAggregationResult!.aggregationResultItems ?
-      this.expandedAggregationResult!.aggregationResultItems!
-        .filter(agr => agr.active === true && agr.filter)
-        .map(agr => agr.filter as AggregationFilter) : [];
-
-    this.aggregationFiltersChange.emit(filters);
+    this.facade.toggleAggregationResult(changedItem);
   }
 
   public get showLess(): boolean {
@@ -181,8 +169,12 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     return aggregationResultItem.name;
   }
 
+  public clear() {
+    // TODO BRO: Implement
+  }
+
   private updateAggregationResult(aggregationResult: AggregationResult | null): void {
-    this.expandedAggregationResult = aggregationResult ? this.expandAggregationResult(aggregationResult) : null;
+    this.expandedAggregationResult = aggregationResult ? this.facade.expandAggregationResult(aggregationResult) : null;
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {
@@ -192,20 +184,6 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     }
 
     return aggregator as TermsAggregator;
-  }
-
-  private expandAggregationResult(aggregationResult: AggregationResult): AggregationResult {
-    if (
-      aggregationResult &&
-      aggregationResult.aggregationResultItems &&
-      aggregationResult.aggregationResultItems[0] &&
-      aggregationResult.aggregationResultItems[0].aggregationResults &&
-      aggregationResult.aggregationResultItems[0].aggregationResults![0]) {
-
-      return this.expandAggregationResult(aggregationResult.aggregationResultItems[0].aggregationResults![0]);
-    }
-
-    return aggregationResult;
   }
 
   public hideLoader(): void {

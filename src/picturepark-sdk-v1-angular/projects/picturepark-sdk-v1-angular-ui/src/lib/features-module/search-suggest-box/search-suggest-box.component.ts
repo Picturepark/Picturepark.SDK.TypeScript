@@ -95,7 +95,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
           return [];
         }
         const results = aggregationResult.aggregationResults.map(i => {
-          const expanded = this.expandAggregationResult(i).aggregationResultItems!;
+          const expanded = this.facade.expandAggregationResult(i).aggregationResultItems!;
           const name = this.aggregations.find(j => j.name === i.name);
           return { name: name?.names?.translate(this.locale) ?? i.name, results: expanded };
         });
@@ -111,10 +111,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
     const element = event.option.value as AggregationResultItem;
     this.suggestBox.setValue('');
     if(element.filter) {
-      // Alternative
-      // this.facade.aggregationFilters = [...this.facade.searchInputState.aggregationFilters, element.filter];
-
-      this.facade.patchRequestState({ aggregationFilters: [...this.facade.searchRequestState.aggregationFilters, element.filter] });
+      this.facade.toggleAggregationResult(element);
     }
   }
 
@@ -138,19 +135,5 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
     }
 
     return aggregator as TermsAggregator;
-  }
-
-  private expandAggregationResult(aggregationResult: AggregationResult): AggregationResult {
-    if (
-      aggregationResult &&
-      aggregationResult.aggregationResultItems &&
-      aggregationResult.aggregationResultItems[0] &&
-      aggregationResult.aggregationResultItems[0].aggregationResults &&
-      aggregationResult.aggregationResultItems[0].aggregationResults[0]
-    ) {
-      return this.expandAggregationResult(aggregationResult.aggregationResultItems[0].aggregationResults[0]);
-    }
-
-    return aggregationResult;
   }
 }
