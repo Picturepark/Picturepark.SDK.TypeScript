@@ -1,21 +1,24 @@
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  AccessTokenAuthService,
-  AuthService,
-  LocaleModule,
-  LocalStorageService,
-  PictureparkAccessTokenAuthConfiguration,
-  PICTUREPARK_CONFIGURATION,
-  StorageKey,
-} from '@picturepark/sdk-v1-angular';
-import { PICTUREPARK_UI_SCRIPTPATH, SearchBoxModule, SharedModule, TRANSLATIONS } from '@picturepark/sdk-v1-angular-ui';
-import { environment } from '../environments/environment';
+import { NgModule } from '@angular/core';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SearchBoxModule, SharedModule } from '@picturepark/sdk-v1-angular-ui';
+import {
+  AuthService,
+  AccessTokenAuthService,
+  PICTUREPARK_CONFIGURATION,
+  PictureparkAccessTokenAuthConfiguration,
+  LocalStorageService,
+  StorageKey,
+  LocaleModule,
+} from '@picturepark/sdk-v1-angular';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShareDetailModule } from './share-detail/share-detail.module';
+import { environment } from '../environments/environment';
+import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/translations';
+import { PICTUREPARK_UI_SCRIPTPATH } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/configuration';
 
 const translations = TRANSLATIONS;
 translations['ShareViewer'] = {
