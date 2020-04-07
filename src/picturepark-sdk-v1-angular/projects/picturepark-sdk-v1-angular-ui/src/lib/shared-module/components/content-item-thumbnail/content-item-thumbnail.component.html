@@ -1,11 +1,24 @@
-<div class="image-container" [class.content-item-thumbnail--list-view]="isListView" (lazyload)="markAsVisible()"
+<!-- <div class="image-container" [class.content-item-thumbnail--list-view]="isListView" (lazyload)="markAsVisible()"
   *ngIf="!virtualItemHtml; else virtualContent">
   <mat-spinner [diameter]="40" *ngIf="isLoading"></mat-spinner>
-  <img *ngIf="!isLoading" class="image" [ngClass]="{'shadow': shadow}" [src]="thumbnailUrl"
+  <img *ngIf="!isLoading" class="content-item-thumbnail__image" [ngClass]="{'shadow': shadow}" [src]="thumbnailUrl"
     [alt]="'ContentBrowser.NoImageForItem' | pptranslate" (error)="updateUrl($event)" />
 </div>
 <ng-template #virtualContent>
-  <div [ngClass]="{'shadow': shadow}" class="virtual-item-container">
-    <div class="virtual-item" [innerHTML]="virtualItemHtml"></div>
+  <div [ngClass]="{'shadow': shadow}" class="content-item-thumbnail__image-virtual-item-container">
+    <div class="content-item-thumbnail__image-virtual-item-display" [innerHTML]="virtualItemHtml"></div>
+  </div>
+</ng-template> -->
+
+
+
+
+<div class="content-item-thumbnail__image-container" [class.content-item-thumbnail--list-view]="isListView" (lazyload)="markAsVisible()" *ngIf="!virtualItemHtml; else virtualContent">
+  <mat-spinner *ngIf="isLoading" [diameter]="40"></mat-spinner> 
+  <img *ngIf="thumbnailUrl as url"  [ngClass]="{'shadow': shadow}" class="content-item-thumbnail__image" [src]="url" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" (error)="updateUrl($event)"/>
+</div>
+<ng-template #virtualContent>
+  <div [ngClass]="{'shadow': shadow}" class="content-item-thumbnail__image-virtual-item-container" >
+    <div class="content-item-thumbnail__image-virtual-item-display" [innerHTML]="virtualItemHtml"></div>
   </div>
 </ng-template>

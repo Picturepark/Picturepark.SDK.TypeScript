@@ -2,10 +2,11 @@ import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input, In
 
 import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
 import { ThumbnailSize, Content, ShareDetail, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'pp-content-item-thumbnail',
@@ -49,19 +50,21 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   }
 
   async ngOnInit() {
-
     if (this.shareItem) {
       const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
 
       if (content) {
         const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
-        if (output) {
-          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustResourceUrl(output.viewUrl!);
-        } else {
-          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustResourceUrl(content.iconUrl!);
+        this.isLoading = true;
+        if ( (output && output.viewUrl) || content.iconUrl) {
+          const thumbnailSubscription = this.loadItem.subscribe(() => {
+            this.isLoading = false;
+            this.thumbnailUrl = this.trust( output ? output.viewUrl : content.iconUrl);
+          });
+          this.subscription.add(thumbnailSubscription);
+          return;
         }
       }
-      return;
     }
 
     if (this.itemId) {
@@ -72,35 +75,21 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
     }
 
     if (this.item) {
+      this.isLoading = true;
       const downloadSubscription = this.loadItem.pipe(
-        switchMap(
-          () => {
-            this.isLoading = true;
-            return this.contentService.downloadThumbnail(
-              this.item.id,
-              this.thumbnailSize,
-              null,
-              null);
-          })
-      ).subscribe(response => {
-        if (response) {
-          this.thumbnailUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data));
-          this.isLoading = false;
-        }
-      }, () => {
-        this.thumbnailUrl = null;
-        this.isLoading = false;
+        switchMap(() => this.contentService.downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)),
+      ).subscribe( response => {
+        this.isLoading = false
+        this.thumbnailUrl = this.trust(URL.createObjectURL(response.data));
       });
-
       this.subscription.add(downloadSubscription);
-      this.markAsVisible();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['item'] && changes['item'].firstChange) {
-      if (this.item.contentSchemaId && NON_VIRTUAL_CONTENT_SCHEMAS_IDS.indexOf(this.item.contentSchemaId) === -1) {
-        if (this.item.displayValues && this.item.displayValues['thumbnail']) {
+      if (this.item.contentSchemaId && !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.item.contentSchemaId)) {
+        if (this.item.displayValues['thumbnail']) {
           this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
         }
       }
@@ -118,6 +107,10 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
         this.loadItem.next();
       }
     }
+  }
+
+  private trust(data: any) {
+    return this.sanitizer.bypassSecurityTrustUrl(data);
   }
 
   public updateUrl(event) {
