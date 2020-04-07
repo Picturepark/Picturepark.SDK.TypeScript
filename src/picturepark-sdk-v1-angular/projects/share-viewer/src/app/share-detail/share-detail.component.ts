@@ -1,18 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
-import { from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
-import {
-  ShareDetail,
-  IMailRecipient,
-  InfoService,
-  ShareDataBasic,
-  ShareContentDetail,
-  ShareService,
-  PICTUREPARK_CONFIGURATION,
-  PictureparkAccessTokenAuthConfiguration,
-} from '@picturepark/sdk-v1-angular';
+import { forkJoin } from 'rxjs';
+import { ShareDetail, IMailRecipient, InfoFacade, ShareDataBasic, ShareContentDetail, ShareService } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
 
 @Component({
@@ -32,7 +22,7 @@ export class ShareDetailComponent implements OnInit {
 
   constructor(
     private shareService: ShareService,
-    private infoService: InfoService,
+    private infoFacade: InfoFacade,
     private dialog: MatDialog,
     private route: ActivatedRoute,
     @Inject(PICTUREPARK_CONFIGURATION)
@@ -57,10 +47,23 @@ export class ShareDetailComponent implements OnInit {
     });
     
     this.isLoading = true;
-    this.shareService.getShareJson(searchString, null).subscribe(shareDetailJson => {
-      this.isLoading = false
-      this.shareDetail = shareDetailJson;
-      this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
+
+    const shareInfo = forkJoin([
+      this.shareService.getShareJson(searchString, null),
+      this.infoFacade.getInfo()
+    ]);
+
+    shareInfo.subscribe({
+      next: ([shareJson, info]) => {
+        if (info.logosUrl) {
+          this.logoUrl = info.logosUrl + 'name';
+        }
+        if (shareJson) {
+          this.shareDetail = ShareDetail.fromJS(shareJson);
+          this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
+        }
+        this.isLoading = false;
+      }
     });
   }
 

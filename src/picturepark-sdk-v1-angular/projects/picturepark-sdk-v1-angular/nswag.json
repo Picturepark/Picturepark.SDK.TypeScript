@@ -40,6 +40,7 @@
         "ContentService.search",
         "ContentService.updateMetadata",
         "ContentService.updatePermissions",
+        "InfoService.getInfo",
         "ListItemService.get",
         "ListItemService.search",
         "ShareService.get",
@@ -65,7 +66,7 @@
         "ShareService",
         "InfoService"
       ],
-      "extensionCode": "src/lib/services.extensions.ts",
+      "extensionCode": "src/lib/services/services.extensions.ts",
       "generateDefaultValues": false,
       "excludedTypeNames": [],
       "excludedParameterNames": [],
@@ -84,7 +85,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": ".",
       "serviceSchemes": null,
-      "output": "src/lib/api-services.ts"
+      "output": "src/lib/services/api-services.ts"
     }
   }
 }

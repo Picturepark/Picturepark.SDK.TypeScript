@@ -2,8 +2,8 @@ import {} from 'jasmine';
 import { async, inject } from '@angular/core/testing';
 
 import { configureTest } from './config';
-import { AuthService } from '../lib/auth.service';
-import { ChannelService } from '../lib/api-services';
+import { AuthService } from '../lib/services/auth.service';
+import { ChannelService } from '../lib/services/api-services';
 
 describe('ChannelService', () => {
   beforeEach(configureTest);

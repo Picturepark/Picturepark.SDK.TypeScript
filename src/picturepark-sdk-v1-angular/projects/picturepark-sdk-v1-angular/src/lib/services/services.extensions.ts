@@ -1,7 +1,7 @@
 import { Inject, Optional } from '@angular/core'; // ignore
 import { HttpClient, HttpHeaders, HttpResponseBase } from '@angular/common/http'; // ignore
-import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators'; // ignore
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs'; // ignore
+import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators'; // ignore
 import { // ignore
   PICTUREPARK_API_URL, // ignore
   ContentCreateRequest, // ignore
@@ -75,11 +75,11 @@ class ContentService extends generated.ContentService {
     @Inject(HttpClient) http: HttpClient,
     @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
   ) {
-    // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
     super(configuration);
-    // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
     this.http = http;
-    // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
@@ -188,7 +188,7 @@ class ListItemService extends generated.ListItemService {
     @Inject(HttpClient) http: HttpClient,
     @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
   ) {
-    // @ts-ignore// @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
+    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
     super(configuration);
     // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
     this.http = http;
