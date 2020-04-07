@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import {
   AggregationResult,
   Channel,
-  FilterBase,
   Content,
   AggregatorBase,
   ContentService,
@@ -15,7 +14,6 @@ import {
   ContentSearchType,
   BrokenDependenciesFilter,
   SearchBehavior,
-  AggregationFilter,
   ContentSearchFacade,
 } from '@picturepark/sdk-v1-angular';
 import {
@@ -120,7 +118,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   public changeSearchParameters(searchParameters: SearchParameters) {
     this.facade.patchRequestState({
       searchString: searchParameters.searchString,
-      searchBehavior: (searchParameters.searchBehavior as unknown) as SearchBehavior
+      searchBehavior: (searchParameters.searchBehavior as unknown) as SearchBehavior,
     });
   }
 
@@ -129,7 +127,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   }
 
   public aggregate = (aggregators: AggregatorBase[]) => {
-    console.log('aggregate', aggregators);
+    console.log(aggregators);
     return this.contentService.aggregate(
       new ContentAggregationRequest({
         aggregators: aggregators,

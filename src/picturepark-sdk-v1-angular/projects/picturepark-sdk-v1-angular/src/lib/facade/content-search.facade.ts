@@ -9,10 +9,8 @@ import {
   BrokenDependenciesFilter,
   LifeCycleFilter,
   ContentSearchType,
-  ContentAggregationRequest,
 } from '../services/api-services';
 import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
 
 export interface ContentSearchInputState extends SearchInputState {
   channelId: string;
@@ -55,31 +53,6 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
       sort: this.searchRequestState.sort,
     });
 
-    return this.contentService.search(request).pipe(
-      switchMap(searchResponse => {
-        // TODO BRO: Remove additional aggregation when backend is fixed
-        return this.contentService
-          .aggregate(
-            new ContentAggregationRequest({
-              aggregators: this.searchRequestState.aggregators,
-              brokenDependenciesFilter: BrokenDependenciesFilter.All,
-              lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-              searchType: ContentSearchType.MetadataAndFullText,
-              aggregationFilters: this.searchRequestState.aggregationFilters,
-              channelId: this.searchRequestState.channelId,
-              filter: this.searchRequestState.baseFilter,
-              searchBehaviors: searchBehaviors,
-              searchString: this.searchRequestState.searchString,
-            })
-          )
-          .pipe(
-            map(aggregate => {
-              // Patch wrong serialized data
-              searchResponse.aggregationResults = aggregate.aggregationResults;
-              return searchResponse;
-            })
-          );
-      })
-    );
+    return this.contentService.search(request);
   }
 }

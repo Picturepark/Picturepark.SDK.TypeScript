@@ -1,12 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  Injector,
-  ChangeDetectionStrategy,
-  Inject,
-  LOCALE_ID,
-} from '@angular/core';
+import { Component, Input, OnInit, Injector, ChangeDetectionStrategy, Inject, LOCALE_ID } from '@angular/core';
 
 // LIBRARIES
 import {
@@ -80,14 +72,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
         this.typed = true;
       }),
       switchMap(value => {
-        const aggs: AggregatorBase[] = [];
-        this.aggregations.forEach(aggregation => {
-          const expanded = this.expandAggregator(aggregation);
-          if (expanded.searchFields && expanded.searchFields.length) {
-            expanded.searchString = value;
-            aggs.push(aggregation);
-          }
-        });
+        const aggs = this.setSearchString(value);
         return this.aggregate(aggs).pipe(catchError(error => of(null)));
       }),
       map(aggregationResult => {
@@ -103,6 +88,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
       }),
       tap(() => {
         this.isLoading = false;
+        this.setSearchString(undefined);
       })
     );
   }
@@ -110,23 +96,36 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   public optionSelected(event: MatAutocompleteSelectedEvent): void {
     const element = event.option.value as AggregationResultItem;
     this.suggestBox.setValue('');
-    if(element.filter) {
+    if (element.filter) {
       this.facade.toggleAggregationResult(element);
     }
   }
 
   search() {
     if (this.facade.searchRequestState.searchString !== this.suggestBox.value) {
-      this.facade.patchRequestState({searchString: this.suggestBox.value});
+      this.facade.patchRequestState({ searchString: this.suggestBox.value });
     }
   }
 
+  setSearchString(searchString: string | undefined) {
+    const aggs: AggregatorBase[] = [];
+    this.aggregations.forEach(aggregation => {
+      const expanded = this.expandAggregator(aggregation);
+      if (expanded.searchFields && expanded.searchFields.length) {
+        expanded.searchString = searchString;
+        aggs.push(aggregation);
+      }
+    });
+
+    return aggs;
+  }
+
   public searchBehaviorChange($event: MatRadioChange) {
-    this.facade.patchRequestState({ searchBehavior: $event.value })
+    this.facade.patchRequestState({ searchBehavior: $event.value });
   }
 
   public clear() {
-    this.facade.patchRequestState({searchString: ''});
+    this.facade.patchRequestState({ searchString: '' });
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {
