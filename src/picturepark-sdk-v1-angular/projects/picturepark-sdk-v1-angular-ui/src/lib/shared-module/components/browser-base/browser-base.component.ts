@@ -139,7 +139,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     }
 
     public loadData(): void {
-        const request = this.facade.getSearchRequest();
+        const request = this.facade.search();
 
         if (this.isLoading || !request) {
             return;

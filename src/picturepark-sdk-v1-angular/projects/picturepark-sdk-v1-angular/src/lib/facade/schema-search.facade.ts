@@ -9,6 +9,8 @@ import {
   TermFilter,
   SchemaSearchRequest,
   SearchBehavior,
+  AggregatorBase,
+  AggregationResult,
 } from '../services/api-services';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -25,7 +27,7 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
     super({});
   }
 
-  getSearchRequest(): Observable<SchemaSearchResult> | undefined {
+  search(): Observable<SchemaSearchResult> | undefined {
     let filter: FilterBase | null = null;
     const parentSchema = this.searchRequestState.parentSchema;
     if (parentSchema) {
@@ -50,5 +52,9 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
     });
 
     return this.schemaService.search(request);
+  }
+
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+    throw new Error("Method not implemented.");
   }
 }

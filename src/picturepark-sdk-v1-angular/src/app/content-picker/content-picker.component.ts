@@ -126,19 +126,6 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     this.selectedChannel = channel;
   }
 
-  public aggregate = (aggregators: AggregatorBase[]) => {
-    console.log(aggregators);
-    return this.contentService.aggregate(
-      new ContentAggregationRequest({
-        aggregators: aggregators,
-        lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-        searchType: ContentSearchType.Metadata,
-        brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        // filter: this.selectedFilter ? this.selectedFilter : undefined,
-      })
-    );
-  };
-
   log(data: any) {
     console.log(data);
   }

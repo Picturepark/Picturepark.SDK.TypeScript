@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SearchFacade, SearchInputState } from './search.facade';
-import { Share, ShareService, ShareSearchResult, ShareSearchRequest, SearchBehavior } from '../services/api-services';
+import { Share, ShareService, ShareSearchResult, ShareSearchRequest, SearchBehavior, AggregatorBase, AggregationResult } from '../services/api-services';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class ShareSearchFacade extends SearchFacade<Share, SearchInputState> {
     super({});
   }
 
-  getSearchRequest(): Observable<ShareSearchResult> | undefined {
+  search(): Observable<ShareSearchResult> | undefined {
     const request = new ShareSearchRequest({
       debugMode: false,
       pageToken: this.searchResultState.nextPageToken,
@@ -35,5 +35,9 @@ export class ShareSearchFacade extends SearchFacade<Share, SearchInputState> {
     });
 
     return this.shareService.search(request);
+  }
+
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+    throw new Error("Method not implemented.");
   }
 }

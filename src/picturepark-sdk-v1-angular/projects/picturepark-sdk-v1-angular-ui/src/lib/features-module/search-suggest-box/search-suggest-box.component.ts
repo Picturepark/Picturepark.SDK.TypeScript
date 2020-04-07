@@ -41,9 +41,6 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   public showSearchBehaviorPicker = false;
 
   @Input()
-  aggregate: (aggregations: AggregatorBase[]) => Observable<ObjectAggregationResult>;
-
-  @Input()
   public aggregations: AggregatorBase[];
 
   @Input()
@@ -73,13 +70,13 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
       }),
       switchMap(value => {
         const aggs = this.setSearchString(value);
-        return this.aggregate(aggs).pipe(catchError(error => of(null)));
+        return this.facade.searchAggregations(aggs)!.pipe(catchError(error => of(null)));
       }),
       map(aggregationResult => {
         if (!aggregationResult) {
           return [];
         }
-        const results = aggregationResult.aggregationResults.map(i => {
+        const results = aggregationResult.map(i => {
           const expanded = this.facade.expandAggregationResult(i).aggregationResultItems!;
           const name = this.aggregations.find(j => j.name === i.name);
           return { name: name?.names?.translate(this.locale) ?? i.name, results: expanded };

@@ -9,6 +9,8 @@ import {
   BrokenDependenciesFilter,
   LifeCycleFilter,
   ListItemResolveBehavior,
+  AggregatorBase,
+  AggregationResult,
 } from '../services/api-services';
 import { Observable } from 'rxjs';
 
@@ -24,7 +26,7 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
     super({ schemaIds: [] });
   }
 
-  getSearchRequest(): Observable<ListItemSearchResult> | undefined {
+  search(): Observable<ListItemSearchResult> | undefined {
     const request = new ListItemSearchRequest({
       pageToken: this.searchResultState.nextPageToken,
       limit: this.searchRequestState.pageSize,
@@ -49,5 +51,9 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
     });
 
     return this.listItemService.search(request);
+  }
+
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+    throw new Error("Method not implemented.");
   }
 }

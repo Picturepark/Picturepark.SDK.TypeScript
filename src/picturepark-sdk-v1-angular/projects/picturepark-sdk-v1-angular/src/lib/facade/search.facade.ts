@@ -73,13 +73,17 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     distinctUntilChanged()
   );
 
-  abstract getSearchRequest():
+  abstract search():
     | Observable<{
         results: T[];
         totalResults: number;
         pageToken?: string | undefined;
         aggregationResults?: AggregationResult[];
       }>
+    | undefined;
+
+  abstract searchAggregations(aggregators: AggregatorBase[]):
+    | Observable<AggregationResult[]>
     | undefined;
 
   constructor(partialState: Partial<TState>) {

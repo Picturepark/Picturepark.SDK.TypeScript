@@ -9,8 +9,11 @@ import {
   BrokenDependenciesFilter,
   LifeCycleFilter,
   ContentSearchType,
+  AggregationResult,
+  AggregatorBase,
 } from '../services/api-services';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface ContentSearchInputState extends SearchInputState {
   channelId: string;
@@ -24,11 +27,26 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
     super({});
   }
 
-  getSearchRequest(): Observable<ContentSearchResult> | undefined {
+  search(): Observable<ContentSearchResult> | undefined {
     if (!this.searchRequestState.channelId) {
       return;
     }
 
+    const request = new ContentSearchRequest(this.getRequest());
+    return this.contentService.search(request);
+  }
+
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+    if (!this.searchRequestState.channelId) {
+      return;
+    }
+
+    const params = { ...this.getRequest(), aggregators: aggregators, pageToken: undefined, limit: 0 };
+    const request = new ContentSearchRequest(params);
+    return this.contentService.search(request).pipe(map(i => i.aggregationResults!)); // TODO BRO: Exception handling
+  }
+
+  private getRequest() {
     const searchBehaviors = this.searchRequestState.searchBehavior
       ? [
           this.searchRequestState.searchBehavior,
@@ -37,7 +55,7 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
         ]
       : [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm];
 
-    const request = new ContentSearchRequest({
+    return {
       debugMode: false,
       pageToken: this.searchResultState.nextPageToken,
       brokenDependenciesFilter: BrokenDependenciesFilter.All,
@@ -51,8 +69,6 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
       searchType: ContentSearchType.MetadataAndFullText,
       searchBehaviors: searchBehaviors,
       sort: this.searchRequestState.sort,
-    });
-
-    return this.contentService.search(request);
+    };
   }
 }
