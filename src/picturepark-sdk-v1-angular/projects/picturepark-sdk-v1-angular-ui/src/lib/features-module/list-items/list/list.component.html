@@ -16,9 +16,7 @@
           </p>
         </div>
         <ng-template #listItemFilter>
-          <pp-list-item-aggregation-list 
-            (aggregationFiltersChange)="changeAggregationFilters($event)"
-            (filterChange)="filter.next($event)">
+          <pp-list-item-aggregation-list (filterChange)="filter.next($event)">
           </pp-list-item-aggregation-list>
         </ng-template>
       </mat-tab>

@@ -13,6 +13,7 @@ import {
   AggregationResult,
 } from '../services/api-services';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface ListItemSearchInputState extends SearchInputState {
   schemaIds: string[];
@@ -27,7 +28,19 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
   }
 
   search(): Observable<ListItemSearchResult> | undefined {
-    const request = new ListItemSearchRequest({
+    const request = new ListItemSearchRequest(this.getRequest());
+
+    return this.listItemService.search(request);
+  }
+
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+    const params = { ...this.getRequest(), aggregators: aggregators, pageToken: undefined, limit: 0 };
+    const request = new ListItemSearchRequest(params);
+    return this.listItemService.search(request).pipe(map(i => i.aggregationResults!)); // TODO BRO: Exception handling
+  }
+
+  private getRequest() {
+    return {
       pageToken: this.searchResultState.nextPageToken,
       limit: this.searchRequestState.pageSize,
       searchString: this.searchRequestState.searchString,
@@ -48,12 +61,6 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
       debugMode: false,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
       resolveBehaviors: [ListItemResolveBehavior.Content, ListItemResolveBehavior.InnerDisplayValueName],
-    });
-
-    return this.listItemService.search(request);
-  }
-
-  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
-    throw new Error("Method not implemented.");
+    }
   }
 }

@@ -41,9 +41,6 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   public showSearchBehaviorPicker = false;
 
   @Input()
-  public aggregations: AggregatorBase[];
-
-  @Input()
   facade: SearchFacade<IEntityBase, SearchInputState>;
 
   suggestions$: Observable<{ name: string; results: AggregationResultItem[] }[]>;
@@ -78,7 +75,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
         }
         const results = aggregationResult.map(i => {
           const expanded = this.facade.expandAggregationResult(i).aggregationResultItems!;
-          const name = this.aggregations.find(j => j.name === i.name);
+          const name = this.facade.searchRequestState.aggregators.find(j => j.name === i.name);
           return { name: name?.names?.translate(this.locale) ?? i.name, results: expanded };
         });
         return results.filter(i => i.results.length > 0);
@@ -106,7 +103,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
 
   setSearchString(searchString: string | undefined) {
     const aggs: AggregatorBase[] = [];
-    this.aggregations.forEach(aggregation => {
+    this.facade.searchRequestState.aggregators.forEach(aggregation => {
       const expanded = this.expandAggregator(aggregation);
       if (expanded.searchFields && expanded.searchFields.length) {
         expanded.searchString = searchString;

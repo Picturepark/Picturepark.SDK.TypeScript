@@ -15,9 +15,6 @@ export abstract class AggregationListComponent extends BaseComponent implements 
   @Output()
   public filterChange = new EventEmitter<FilterBase | null>();
 
-  @Output()
-  public aggregationFiltersChange = new EventEmitter<AggregationFilter[]>();
-
   // Aggregation filters states connected to aggregators by index.
   private aggregationFiltersStates: Array<AggregationFilter[]> = [];
 
@@ -39,12 +36,8 @@ export abstract class AggregationListComponent extends BaseComponent implements 
      });
   }
 
-  protected abstract fetchData(): Observable<ObjectAggregationResult | null>;
-  protected abstract fetchSearchData(searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult | null>;
-
   public clearFilters(): void {
     this.aggregationFiltersStates = [];
-    this.aggregationFiltersChange.emit([]);
     this.filterChange.emit(null);
     this.facade.patchRequestState({ aggregationFilters: [] });
   }

@@ -7,12 +7,6 @@ import {
   AggregationResult,
   Channel,
   Content,
-  AggregatorBase,
-  ContentService,
-  ContentAggregationRequest,
-  LifeCycleFilter,
-  ContentSearchType,
-  BrokenDependenciesFilter,
   SearchBehavior,
   ContentSearchFacade,
 } from '@picturepark/sdk-v1-angular';
@@ -59,7 +53,6 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     private dialog: MatDialog,
     private embedService: EmbedService,
     private basketService: BasketService,
-    private contentService: ContentService,
     public facade: ContentSearchFacade,
     public selectionService: SelectionService<Content>
   ) {

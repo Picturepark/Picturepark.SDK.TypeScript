@@ -24,40 +24,4 @@ export class ListItemAggregationListComponent extends AggregationListComponent {
     public facade: ListItemSearchFacade) {
     super(injector);
   }
-
-  protected fetchData(): Observable<ObjectAggregationResult | null> {
-    const aggregators = this.facade.searchRequestState.aggregators;
-
-    if (aggregators && aggregators.length) {
-      this.isLoading.next(true);
-
-      const request = new ListItemAggregationRequest({
-        schemaIds: this.facade.searchRequestState.schemaIds,
-        aggregators: aggregators,
-        searchString: this.facade.searchRequestState.searchString,
-        brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        aggregationFilters: this.facade.searchRequestState.aggregationFilters,
-        lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-        includeAllSchemaChildren: true,
-      });
-
-      return this.listItemService.aggregate(request);
-    }
-
-    return of(null);
-  }
-
-  public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
-    const request = new ListItemAggregationRequest({
-      schemaIds: this.facade.searchRequestState.schemaIds,
-      searchString: this.facade.searchRequestState.searchString,
-      brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      aggregators: [aggregator],
-      aggregationFilters: this.facade.searchRequestState.aggregationFilters,
-      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-      includeAllSchemaChildren: false
-    });
-
-    return this.listItemService.aggregate(request);
-  }
 }

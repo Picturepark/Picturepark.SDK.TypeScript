@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Component, Input, Injector } from '@angular/core';
 
 import {
@@ -25,40 +25,5 @@ export class ContentAggregationListComponent extends AggregationListComponent {
     private contentService: ContentService,
     public facade: ContentSearchFacade) {
     super(injector);
-  }
-
-  protected fetchData(): Observable<ObjectAggregationResult | null> {
-    const aggregators = this.facade.searchRequestState.aggregators;
-
-    if (this.channelId && aggregators && aggregators.length) {
-      this.isLoading.next(true);
-      const request = new ContentAggregationRequest({
-        aggregators: aggregators,
-        channelId: this.channelId,
-        searchString: this.facade.searchRequestState.searchString,
-        brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        aggregationFilters: this.facade.searchRequestState.aggregationFilters,
-        searchType: ContentSearchType.MetadataAndFullText,
-        lifeCycleFilter: LifeCycleFilter.ActiveOnly
-      });
-
-      return this.contentService.aggregate(request);
-    }
-
-    return of(null);
-  }
-
-  public fetchSearchData = (searchString: string, aggregator: AggregatorBase): Observable<ObjectAggregationResult> => {
-    const request = new ContentAggregationRequest({
-      channelId: this.channelId,
-      searchString: this.facade.searchRequestState.searchString,
-      brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      aggregators: [aggregator],
-      aggregationFilters: this.facade.searchRequestState.aggregationFilters,
-      searchType: ContentSearchType.MetadataAndFullText,
-      lifeCycleFilter: LifeCycleFilter.ActiveOnly
-    });
-
-    return this.contentService.aggregate(request);
   }
 }

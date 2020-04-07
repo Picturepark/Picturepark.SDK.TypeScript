@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SearchFacade, SearchInputState } from './search.facade';
 import { Share, ShareService, ShareSearchResult, ShareSearchRequest, SearchBehavior, AggregatorBase, AggregationResult } from '../services/api-services';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,18 @@ export class ShareSearchFacade extends SearchFacade<Share, SearchInputState> {
   }
 
   search(): Observable<ShareSearchResult> | undefined {
-    const request = new ShareSearchRequest({
+    const request = new ShareSearchRequest(this.getRequest());
+    return this.shareService.search(request);
+  }
+
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+    const params = { ...this.getRequest(), aggregators: aggregators, pageToken: undefined, limit: 0 };
+    const request = new ShareSearchRequest(params);
+    return this.shareService.search(request).pipe(map(i => i.aggregationResults!)); // TODO BRO: Exception handling
+  }
+
+  private getRequest() {
+    return {
       debugMode: false,
       pageToken: this.searchResultState.nextPageToken,
       filter: this.searchRequestState.baseFilter,
@@ -32,12 +44,6 @@ export class ShareSearchFacade extends SearchFacade<Share, SearchInputState> {
                 direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
               })
             ]*/, // TODO BRO: Check that handling is in place
-    });
-
-    return this.shareService.search(request);
-  }
-
-  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
-    throw new Error("Method not implemented.");
+    };
   }
 }

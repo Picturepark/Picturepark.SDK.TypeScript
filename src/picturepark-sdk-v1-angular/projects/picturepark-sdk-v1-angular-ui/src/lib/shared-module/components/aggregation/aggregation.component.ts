@@ -6,7 +6,7 @@ import { timer, Observable, from } from 'rxjs';
 // LIBRARIES
 import {
   AggregationFilter, AggregationResult, AggregatorBase,
-  AggregationResultItem, TermsAggregator, ObjectAggregationResult, SearchFacade, SearchInputState, IEntityBase
+  AggregationResultItem, TermsAggregator, SearchFacade, SearchInputState, IEntityBase
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -28,12 +28,6 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   // Used for expanding aggregation list (by default only first element is expanded).
   @Input()
   public isExpanded: boolean;
-
-  @Output()
-  aggregationFiltersChange: EventEmitter<AggregationFilter[]> = new EventEmitter();
-
-  @Input()
-  fetchSearchData: (searchString: string, aggregator: AggregatorBase) => Observable<ObjectAggregationResult>;
 
   @Input()
   facade: SearchFacade<IEntityBase, SearchInputState>;
@@ -95,16 +89,16 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   public loadMore(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) + this.pagingSize;
 
-    this.sub = this.fetchSearchData(this.facade.searchRequestState.searchString, this.aggregator).subscribe(result => {
-      this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
+    this.sub = this.facade.searchAggregations([this.aggregator])!.subscribe(result => {
+      this.updateAggregationResult(result ? result[0] || null : null);
     });
   }
 
   public loadLess(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) - this.pagingSize;
 
-    this.sub = this.fetchSearchData(this.facade.searchRequestState.searchString, this.aggregator).subscribe(result => {
-      this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
+    this.sub = this.facade.searchAggregations([this.aggregator])!.subscribe(result => {
+      this.updateAggregationResult(result ? result[0] || null : null);
     });
   }
 
@@ -119,11 +113,11 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     this.expandedAggregator.size = this.pagingSize;
 
     this.isLoading = true;
-    const observableResult = this.fetchSearchData(searchString, this.aggregator).pipe(map(result => {
+    const observableResult = this.facade.searchAggregations([this.aggregator])!.pipe(map(result => {
       this.hideLoader();
 
-      if (result.aggregationResults !== undefined) {
-        const items = this.facade.expandAggregationResult(result.aggregationResults[0]).aggregationResultItems || [];
+      if (result !== undefined) {
+        const items = this.facade.expandAggregationResult(result[0]).aggregationResultItems || [];
 
         const currentSelectedValues = this.expandedAggregationResult!.aggregationResultItems ?
           this.expandedAggregationResult!.aggregationResultItems!.filter(agr => agr.active === true) : [];
