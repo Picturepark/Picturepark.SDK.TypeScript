@@ -27,7 +27,7 @@ export class LocaleModule {
       ngModule: LocaleModule,
       providers: [
         LanguageService,
-        { provide: LOCALE_LANGUAGE, useValue: language || '' },
+        { provide: LOCALE_LANGUAGE, useValue: language ?? '' },
         {
           provide: APP_INITIALIZER,
           useFactory: loadLanguagesFactory,

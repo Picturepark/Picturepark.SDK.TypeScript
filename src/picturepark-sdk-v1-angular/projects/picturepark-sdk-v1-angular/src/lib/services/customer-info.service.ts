@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, Optional } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { PictureparkConfiguration } from '../models/configuration';
 import { CustomerInfo } from './api-services';
 import { PICTUREPARK_CONFIGURATION } from './base.service';
-import { PictureparkConfiguration } from '../models/configuration';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ import { PictureparkConfiguration } from '../models/configuration';
 export class CustomerInfoService {
   constructor(
     @Inject(HttpClient) private http: HttpClient,
-    @Optional() @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkConfiguration
+    @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkConfiguration
   ) {}
 
   public getInfo(): Observable<CustomerInfo> {
