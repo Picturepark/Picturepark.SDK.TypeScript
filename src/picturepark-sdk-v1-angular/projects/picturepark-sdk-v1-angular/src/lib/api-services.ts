@@ -7141,6 +7141,40 @@ export class InfoService extends PictureparkServiceBase {
         this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
     }
 
+    
+
+  public getInfoFromUrl(url?: string): Observable<CustomerInfo> {
+    if (!url) {
+      return this.getInfo();
+    }
+    let url_ = url + "/service/Info/customer";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+      return this.http.request("get", url_, transformedOptions_);
+    })).pipe(_observableMergeMap((response_: any) => {
+      return this.processGetInfo(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetInfo(<any>response_);
+        } catch (e) {
+          return <Observable<CustomerInfo>><any>_observableThrow(e);
+        }
+      } else {
+        return <Observable<CustomerInfo>><any>_observableThrow(response_);
+      }
+    }));
+  }
+
     /**
      * Get version
      * @return VersionInfo

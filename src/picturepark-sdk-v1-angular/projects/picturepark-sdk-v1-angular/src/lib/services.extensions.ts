@@ -13,6 +13,7 @@ import { // ignore
   ContentPermissionsUpdateRequest, // ignore
   ListItemResolveBehavior, // ignore
   ListItemDetail, // ignore
+  CustomerInfo, // ignore
   ListItemSearchRequest, // ignore
   ListItemSearchResult, // ignore
   ShareDetail, // ignore
@@ -217,6 +218,42 @@ class ListItemService extends generated.ListItemService {
   }
 }
 
+export class InfoService extends generated.InfoService {
+
+  public getInfoFromUrl(url?: string): Observable<CustomerInfo> {
+    if (!url) {
+      return this.getInfo();
+    }
+    let url_ = url + "/service/Info/customer";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: any = {
+      observe: "response",
+      responseType: "blob",
+      headers: new HttpHeaders({
+        "Accept": "application/json"
+      })
+    };
+
+    return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+      // @ts-ignore: the purpose of this reference is to be copied to the api-services via NSwag // ignore
+      return this.http.request("get", url_, transformedOptions_);
+    })).pipe(_observableMergeMap((response_: any) => {
+      return this.processGetInfo(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processGetInfo(<any>response_);
+        } catch (e) {
+          return <Observable<CustomerInfo>><any>_observableThrow(e);
+        }
+      } else {
+        return <Observable<CustomerInfo>><any>_observableThrow(response_);
+      }
+    }));
+  }
+}
+
 class ShareService extends generated.ShareService {
   @LazyGetter()
   protected get liquidRenderingService(): LiquidRenderingService {
@@ -291,7 +328,7 @@ class ShareService extends generated.ShareService {
     };
 
     return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-      // @ts-ignore// @ts-ignore: the purpose of this reference is to be copied to the api-services via NSwag // ignore
+      // @ts-ignore: the purpose of this reference is to be copied to the api-services via NSwag // ignore
       return this.http.request('get', url_, transformedOptions_);
     })).pipe(_observableMergeMap((response_: any) => {
       return this.processGetShareJson(response_);
