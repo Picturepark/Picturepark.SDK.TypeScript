@@ -3,6 +3,8 @@ import { LanguageService } from './services/language.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { StorageKey } from './utilities/storage-key.enum';
 
+export const LOCALE_LANGUAGE = new InjectionToken<string>('LOCALE_LANGUAGE');
+
 export function getLocaleFactory(localStorageService: LocalStorageService): string {
   return localStorageService.get(StorageKey.LanguageCode) || (navigator.language || navigator.languages[0]).slice(0, 2);
 }
@@ -25,11 +27,11 @@ export class LocaleModule {
       ngModule: LocaleModule,
       providers: [
         LanguageService,
-        { provide: new InjectionToken<string>('Language'), useValue: language },
+        { provide: LOCALE_LANGUAGE, useValue: language ?? '' },
         {
           provide: APP_INITIALIZER,
           useFactory: loadLanguagesFactory,
-          deps: [LocalStorageService, LanguageService, new InjectionToken<string>('Language')],
+          deps: [LocalStorageService, LanguageService, LOCALE_LANGUAGE],
           multi: true,
         },
         { provide: LOCALE_ID, useFactory: getLocaleFactory, deps: [LocalStorageService] },
