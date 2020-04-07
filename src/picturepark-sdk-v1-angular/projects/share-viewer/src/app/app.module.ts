@@ -12,7 +12,6 @@ import {
   LocalStorageService,
   StorageKey,
   LocaleModule,
-  PICTUREPARK_API_URL,
 } from '@picturepark/sdk-v1-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -117,7 +116,6 @@ export function getLanguageFactory(): string {
     { provide: AuthService, useClass: AccessTokenAuthService },
     { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
     { provide: PICTUREPARK_UI_SCRIPTPATH, useFactory: PictureparkUIScriptPathFactory },
-    { provide: PICTUREPARK_API_URL, useValue: PictureparkConfigurationFactory().apiServer },
   ],
   bootstrap: [AppComponent],
 })

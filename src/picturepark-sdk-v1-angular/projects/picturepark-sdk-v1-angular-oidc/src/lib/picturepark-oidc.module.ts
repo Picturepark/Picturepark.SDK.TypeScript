@@ -1,7 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AuthService, PICTUREPARK_CONFIGURATION, PICTUREPARK_API_URL } from '@picturepark/sdk-v1-angular';
+import { AuthService, PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
 import { OidcAuthService, PictureparkOidcAuthConfiguration } from './oidc-auth.service';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 
@@ -26,9 +26,6 @@ export class PictureparkOidcModule {
         typeof config === 'function'
           ? { provide: PICTUREPARK_CONFIGURATION, useFactory: config }
           : { provide: PICTUREPARK_CONFIGURATION, useValue: config },
-        typeof config === 'function'
-          ? { provide: PICTUREPARK_API_URL, useValue: config().apiServer }
-          : { provide: PICTUREPARK_API_URL, useValue: config.apiServer },
       ],
     };
   }
