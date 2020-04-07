@@ -8,8 +8,6 @@ import { CustomerInfo, PICTUREPARK_API_URL } from './api-services';
   providedIn: 'root',
 })
 export class CustomerInfoService {
-  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
   constructor(@Inject(HttpClient) private http: HttpClient, @Inject(PICTUREPARK_API_URL) private baseUrl: string) {}
 
   public getInfo(): Observable<CustomerInfo> {
