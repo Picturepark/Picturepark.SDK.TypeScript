@@ -52,11 +52,11 @@
         </mat-toolbar-row>
         <mat-tab-group class="right-panel filters">
           <mat-tab label="Filters">
-            <pp-content-aggregation-list
+            <pp-aggregation-list
               *ngIf="selectedChannel"
-              [channelId]="selectedChannel?.id"
+              [facade]="facade"
             >
-            </pp-content-aggregation-list>
+            </pp-aggregation-list>
           </mat-tab>
           <mat-tab label="Basket">
             <ng-template mat-tab-label>

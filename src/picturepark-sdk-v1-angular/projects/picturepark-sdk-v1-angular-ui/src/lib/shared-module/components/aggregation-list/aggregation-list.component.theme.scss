@@ -4,7 +4,7 @@
 
   $primary: map-get($theme, primary);
 
-  pp-content-aggregation-list, pp-list-item-aggregation-list, pp-share-aggregation-list {
+  pp-aggregation-list {
     .aggregation-filter {
       background-color: mat-color($primary, background-dark);
 

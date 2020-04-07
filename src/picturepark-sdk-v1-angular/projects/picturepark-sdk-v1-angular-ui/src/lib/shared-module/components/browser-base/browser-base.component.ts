@@ -7,7 +7,7 @@ import { LazyGetter } from 'lazy-get-decorator';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import { IEntityBase, ThumbnailSize, SearchFacade, SortInfo, SortDirection } from '@picturepark/sdk-v1-angular';
+import { IEntityBase, ThumbnailSize, SearchFacade, SortInfo, SortDirection, SearchInputState } from '@picturepark/sdk-v1-angular';
 import { SelectionService as SelectionService } from '../../services/selection/selection.service';
 import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
@@ -71,7 +71,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     constructor(protected componentName: string,
         protected injector: Injector,
-        public facade: SearchFacade<TEntity, any>) {
+        public facade: SearchFacade<TEntity, SearchInputState>) {
         super(injector);
 
         this.self = this;

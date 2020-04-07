@@ -40,35 +40,33 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     results: [],
   };
 
-  searchRequest$ = new BehaviorSubject(this.searchRequestState);
-  searchResults$ = new BehaviorSubject(this.searchResultState);
+  private searchRequest = new BehaviorSubject(this.searchRequestState);
+  private searchResults = new BehaviorSubject(this.searchResultState);
+
+  searchResults$ = this.searchResults.pipe(filter(i => !!i));
+  searchRequest$ = this.searchRequest.pipe(filter(i => !!i));
 
   totalResults$ = this.searchResults$.pipe(
-    filter(i => !!i),
     map(i => i.totalResults),
     distinctUntilChanged()
   );
 
   items$ = this.searchResults$.pipe(
-    filter(i => !!i),
     map(i => i.results),
     distinctUntilChanged()
   );
 
   aggregationResults$ = this.searchResults$.pipe(
-    filter(i => !!i),
     map(i => i.aggregationResults),
     distinctUntilChanged()
   );
 
   aggregators$ = this.searchRequest$.pipe(
-    filter(i => !!i),
     map(i => i.aggregators),
     distinctUntilChanged()
   );
 
   aggregationFilters$ = this.searchRequest$.pipe(
-    filter(i => !!i),
     map(i => i.aggregationFilters),
     distinctUntilChanged()
   );
@@ -104,12 +102,12 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
 
   setRequestState(inputState: TState) {
     this.searchRequestState = inputState;
-    this.searchRequest$.next(this.searchRequestState);
+    this.searchRequest.next(this.searchRequestState);
   }
 
   setResultState(resultState: SearchResultState<T>) {
     this.searchResultState = resultState;
-    this.searchResults$.next(resultState);
+    this.searchResults.next(resultState);
   }
 
   toggleAggregationResult(changedItem: AggregationResultItem) {
@@ -117,7 +115,7 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     if (add) {
       this.patchRequestState({aggregationFilters: [...this.searchRequestState.aggregationFilters, changedItem.filter]} as any);
     } else {
-      const expanded = this.searchResultState.aggregationResults!.map(i => this.expandAggregationResult(i))!;
+      const expanded = this.searchResultState.aggregationResults!.map(i => this.expandAggregationResult(i));
       const active = flatMap(expanded, i => i.aggregationResultItems!).filter(i => i && i.active);
 
       const aggregationName = changedItem.filter?.aggregationName;
@@ -134,9 +132,9 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
       aggregationResult.aggregationResultItems &&
       aggregationResult.aggregationResultItems[0] &&
       aggregationResult.aggregationResultItems[0].aggregationResults &&
-      aggregationResult.aggregationResultItems[0].aggregationResults![0]) {
+      aggregationResult.aggregationResultItems[0].aggregationResults[0]) {
 
-      return this.expandAggregationResult(aggregationResult.aggregationResultItems[0].aggregationResults![0]);
+      return this.expandAggregationResult(aggregationResult.aggregationResultItems[0].aggregationResults[0]);
     }
 
     return aggregationResult;

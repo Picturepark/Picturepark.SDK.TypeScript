@@ -16,6 +16,7 @@ import {
   SchemaDetail,
   SchemaService,
   ListItem,
+  ListItemSearchFacade,
 } from '@picturepark/sdk-v1-angular';
 import { groupBy } from '../../../utilities/helper';
 import { ListBrowserComponent } from '../../list-browser/list-browser.component';
@@ -47,7 +48,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private media: MediaMatcher,
     private schemaService: SchemaService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public facade: ListItemSearchFacade
   ) {
     this.filter = new BehaviorSubject(null);
   }

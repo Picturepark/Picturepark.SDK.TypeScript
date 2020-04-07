@@ -29,7 +29,6 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
 
   search(): Observable<ListItemSearchResult> | undefined {
     const request = new ListItemSearchRequest(this.getRequest());
-
     return this.listItemService.search(request);
   }
 

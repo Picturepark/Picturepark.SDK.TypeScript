@@ -1,19 +1,23 @@
-import { Output, EventEmitter, OnInit } from '@angular/core';
+import { OnInit, Component, Input } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 // LIBRARIES
 import {
-  AggregationFilter, AggregationResult, ObjectAggregationResult,
-  AggregatorBase, FilterBase, SearchFacade, SearchInputState
+  AggregationFilter, AggregationResult,
+  AggregatorBase, SearchFacade, SearchInputState, IEntityBase
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../components/base.component';
 
-export abstract class AggregationListComponent extends BaseComponent implements OnInit {
-  // Filter used for search. E.g.: Nested filter,And filter,Or filter.
-  @Output()
-  public filterChange = new EventEmitter<FilterBase | null>();
+@Component({
+  selector: 'pp-aggregation-list',
+  templateUrl: './aggregation-list.component.html',
+  styleUrls: ['./aggregation-list.component.scss'],
+})
+export class AggregationListComponent extends BaseComponent implements OnInit {
+  @Input()
+  public facade: SearchFacade<IEntityBase, SearchInputState>;
 
   // Aggregation filters states connected to aggregators by index.
   private aggregationFiltersStates: Array<AggregationFilter[]> = [];
@@ -22,23 +26,20 @@ export abstract class AggregationListComponent extends BaseComponent implements 
 
   public aggregationResults: AggregationResult[] = [];
 
-  public abstract facade: SearchFacade<any, SearchInputState>;
-
   aggregators$: Observable<AggregatorBase[]>;
 
   ngOnInit(): void {
     this.aggregators$ = this.facade.aggregators$;
 
-    this.sub = this.facade.searchResults$.subscribe(i => {
-      if (i.aggregationResults) {
-        this.processAggregationResults(i.aggregationResults)
+    this.sub = this.facade.aggregationResults$.subscribe(i => {
+      if (i) {
+        this.processAggregationResults(i)
       }
      });
   }
 
   public clearFilters(): void {
     this.aggregationFiltersStates = [];
-    this.filterChange.emit(null);
     this.facade.patchRequestState({ aggregationFilters: [] });
   }
 

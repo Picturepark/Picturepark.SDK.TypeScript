@@ -1,11 +1,11 @@
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges, Component, Inject, LOCALE_ID, Injector, OnInit } from '@angular/core';
+import { Input, OnChanges, SimpleChanges, Component, Inject, LOCALE_ID, Injector, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounce, map, flatMap } from 'rxjs/operators';
 import { timer, Observable, from } from 'rxjs';
 
 // LIBRARIES
 import {
-  AggregationFilter, AggregationResult, AggregatorBase,
+  AggregationResult, AggregatorBase,
   AggregationResultItem, TermsAggregator, SearchFacade, SearchInputState, IEntityBase
 } from '@picturepark/sdk-v1-angular';
 
@@ -62,7 +62,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
       this.aggregationsFiltersCount = request.aggregationFilters.filter(
         (item) => item.aggregationName === this.aggregator.name).length;
 
-      this.canExpand = this.canExpand || this.aggregationsFiltersCount > 0;
+      this.canExpand = this.isExpanded || this.canExpand || this.aggregationsFiltersCount > 0;
     });
   }
 

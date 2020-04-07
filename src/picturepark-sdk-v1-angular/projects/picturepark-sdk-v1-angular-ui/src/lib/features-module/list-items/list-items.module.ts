@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 // MODULES
 import { ListModule } from './list/list.module';
 import { ListBrowserModule } from '../list-browser/list-browser.module';
-import { ListItemAggregationListModule } from '../list-item-aggregation-list/list-item-aggregation-list.module';
+import { AggregationListModule } from '../../shared-module/components/aggregation-list/aggregation-list.module';
 
 @NgModule({
   declarations: [],
@@ -12,7 +12,7 @@ import { ListItemAggregationListModule } from '../list-item-aggregation-list/lis
     CommonModule,
     ListModule,
     ListBrowserModule,
-    ListItemAggregationListModule
+    AggregationListModule
   ],
   exports: [
     ListModule

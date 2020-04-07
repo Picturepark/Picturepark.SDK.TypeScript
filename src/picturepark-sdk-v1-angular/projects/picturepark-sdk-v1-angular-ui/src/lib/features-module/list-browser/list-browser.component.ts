@@ -64,11 +64,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.scrollDebounceTime = 100;
     this.customerInfo = await this.infoFacade.getInfo().toPromise();
 
-    this.facade.searchRequestState.schemaIds = [this.schema.id];
-    if (this.schema.aggregations) {
-      this.facade.searchRequestState.aggregators = this.schema.aggregations;
-    }
-
     // need to show column names
     this.displayedColumnNames = this.schema.fields!.map(field => {
       const id = field.id.split('.').pop();
@@ -101,6 +96,8 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
         });
       }
     }
+
+    this.facade.patchRequestState({ schemaIds: [this.schema.id], aggregators: this.schema.aggregations ?? [] })
   }
 
   initSort(): void {
