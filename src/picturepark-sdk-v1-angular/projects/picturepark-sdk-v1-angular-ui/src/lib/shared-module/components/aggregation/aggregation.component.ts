@@ -119,10 +119,9 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
       if (result !== undefined) {
         const items = this.facade.expandAggregationResult(result[0]).aggregationResultItems || [];
 
-        const currentSelectedValues = this.expandedAggregationResult!.aggregationResultItems ?
-          this.expandedAggregationResult!.aggregationResultItems!.filter(agr => agr.active === true) : [];
+        const currentSelectedValues = this.expandedAggregationResult?.aggregationResultItems?.filter(agr => agr.active === true) ?? [];
 
-        return items.filter((item) => !currentSelectedValues.some((value => value.name === item.name)));
+        return items.filter(item => !currentSelectedValues.some((value => value.name === item.name)));
 
       }
 
@@ -160,13 +159,13 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
       && this.expandedAggregationResult.aggregationResultItems.filter(x => x && x.count > 0 || x.active).length >= 1;
   }
 
-  public trackByName(index, aggregationResultItem: AggregationResultItem): string {
+  public trackByName(_index, aggregationResultItem: AggregationResultItem): string {
     return aggregationResultItem.name;
   }
 
   public clear() {
-    console.log(this.aggregationResult?.name);
-    console.log(this.expandedAggregator.name);
+    const aggregationFilters = this.facade.searchRequestState.aggregationFilters.filter(i => i.aggregationName !== this.aggregator.name);
+    this.facade.patchRequestState({ aggregationFilters });
   }
 
   private updateAggregationResult(aggregationResult: AggregationResult | null): void {

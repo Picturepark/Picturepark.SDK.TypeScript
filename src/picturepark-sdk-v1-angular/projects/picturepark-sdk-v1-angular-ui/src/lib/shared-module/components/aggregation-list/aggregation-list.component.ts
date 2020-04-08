@@ -19,9 +19,6 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
   @Input()
   public facade: SearchFacade<IEntityBase, SearchInputState>;
 
-  // Aggregation filters states connected to aggregators by index.
-  private aggregationFiltersStates: Array<AggregationFilter[]> = [];
-
   public isLoading = new BehaviorSubject(false);
 
   public aggregationResults: AggregationResult[] = [];
@@ -39,20 +36,10 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
   }
 
   public clearFilters(): void {
-    this.aggregationFiltersStates = [];
     this.facade.patchRequestState({ aggregationFilters: [] });
   }
 
-  public aggregationFiltersChanged(aggregatorIndex: number, aggregationFilters: AggregationFilter[]): void {
-    this.aggregationFiltersStates[aggregatorIndex] = aggregationFilters;
-
-    // flatten array and remove undefined.
-    const aggFilters = ([] as AggregationFilter[]).concat(...this.aggregationFiltersStates).filter(item => item);
-
-    this.facade.patchRequestState({ aggregationFilters: aggFilters });
-  }
-
-  public trackByName(index, aggregator: AggregatorBase) {
+  public trackByName(_index, aggregator: AggregatorBase) {
     return aggregator.name;
   }
 
