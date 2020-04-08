@@ -140,6 +140,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   }
 
   public autoCompleteOptionSelected(value: AggregationResultItem): void {
+    this.aggregationQuery.setValue('');
     this.facade.toggleAggregationResult(value);
   }
 
