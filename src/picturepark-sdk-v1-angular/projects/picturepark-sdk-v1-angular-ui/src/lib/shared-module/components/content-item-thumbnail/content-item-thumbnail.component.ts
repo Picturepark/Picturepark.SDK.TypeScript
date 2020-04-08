@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input, Injector } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input, Injector, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
@@ -11,6 +11,7 @@ import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
   selector: 'pp-content-item-thumbnail',
   templateUrl: './content-item-thumbnail.component.html',
   styleUrls: ['./content-item-thumbnail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
 
@@ -43,7 +44,8 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   public constructor(
     private contentService: ContentService,
     private sanitizer: DomSanitizer,
-    protected injector: Injector
+    protected injector: Injector,
+    private changeDetector: ChangeDetectorRef
   ) {
     super(injector);
   }
@@ -55,12 +57,13 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
       if (content) {
         const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
         this.isLoading = true;
-          const thumbnailSubscription = this.loadItem.subscribe(() => {
-            this.isLoading = false;
-            this.thumbnailUrl = this.trust( output ? output.viewUrl : content.iconUrl);
-          });
-          this.subscription.add(thumbnailSubscription);
-        }
+        const thumbnailSubscription = this.loadItem.subscribe(() => {
+          this.isLoading = false;
+          this.thumbnailUrl = this.trust(output ? output.viewUrl : content.iconUrl);
+          this.changeDetector.detectChanges();
+        });
+        this.subscription.add(thumbnailSubscription);
+      }
       return;
     }
 
@@ -75,9 +78,10 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
       this.isLoading = true;
       const downloadSubscription = this.loadItem.pipe(
         switchMap(() => this.contentService.downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)),
-      ).subscribe( response => {
+      ).subscribe(response => {
         this.isLoading = false
         this.thumbnailUrl = this.trust(URL.createObjectURL(response.data));
+        this.changeDetector.detectChanges();
       });
       this.subscription.add(downloadSubscription);
     }
