@@ -1,9 +1,7 @@
-import { Component, Inject, LOCALE_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 // LIBRARIES
 import {
-  Channel,
-  AggregatorBase,
   TermsAggregator,
   InfoFacade,
   NestedAggregator,
@@ -15,17 +13,20 @@ import {
   templateUrl: './shares-manager.component.html',
   styleUrls: ['./shares-manager.component.scss'],
 })
-export class SharesManagerComponent {
-  public selectedChannel: Channel | null = null;
-  public aggregators: AggregatorBase[] = [];
+export class SharesManagerComponent implements OnInit {
+  initialized = false;
 
-  constructor(@Inject(LOCALE_ID) public locale: string, public facade: ShareSearchFacade) {
+  constructor(public facade: ShareSearchFacade, private infoFacade: InfoFacade) {
+
+  }
+  async ngOnInit() {	
+    const customerInfo = await this.infoFacade.getInfo().toPromise();
     this.facade.searchRequestState.aggregators = [
       new NestedAggregator({
         name: 'email',
         names: {
           'x-default': 'Recipients',
-          ['en']: 'Recipients', // TODO BRO: Fix
+          [customerInfo.languageConfiguration.defaultLanguage!]: 'Recipients',
         },
         path: 'data.mailRecipients',
         aggregators: [
@@ -34,12 +35,13 @@ export class SharesManagerComponent {
             name: 'email',
             names: {
               'x-default': 'Recipients',
-              ['en']: 'Recipients', // TODO BRO: Fix
+              [customerInfo.languageConfiguration.defaultLanguage!]: 'Recipients',
             },
             size: 10,
           }),
         ],
       }),
     ];
+    this.initialized = true;
   }
 }

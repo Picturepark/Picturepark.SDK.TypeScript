@@ -18,8 +18,6 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 import { ContentModel } from '../../shared-module/models/content-model';
 
-// TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
-// currently experimental feature of material CDK
 @Component({
   selector: 'pp-content-browser',
   templateUrl: './content-browser.component.html',

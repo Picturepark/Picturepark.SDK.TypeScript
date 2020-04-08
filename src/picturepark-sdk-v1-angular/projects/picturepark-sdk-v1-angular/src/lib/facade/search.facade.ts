@@ -93,7 +93,7 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
       aggregators: [],
       sort: [],
       ...partialState,
-    } as any; // TODO BRO: Check
+    } as any;
   }
 
   patchRequestState(partial: Partial<TState>) {
