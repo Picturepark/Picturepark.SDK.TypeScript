@@ -2,16 +2,15 @@ import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input, In
 
 import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
 import { ThumbnailSize, Content, ShareDetail, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
-import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'pp-content-item-thumbnail',
   templateUrl: './content-item-thumbnail.component.html',
-  styleUrls: ['./content-item-thumbnail.component.scss']
+  styleUrls: ['./content-item-thumbnail.component.scss'],
 })
 export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
 
@@ -56,15 +55,13 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
       if (content) {
         const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
         this.isLoading = true;
-        if ( (output && output.viewUrl) || content.iconUrl) {
           const thumbnailSubscription = this.loadItem.subscribe(() => {
             this.isLoading = false;
             this.thumbnailUrl = this.trust( output ? output.viewUrl : content.iconUrl);
           });
           this.subscription.add(thumbnailSubscription);
-          return;
         }
-      }
+      return;
     }
 
     if (this.itemId) {
