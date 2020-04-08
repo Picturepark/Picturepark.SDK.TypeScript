@@ -1,5 +1,5 @@
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
-import { NgModule, LOCALE_ID, Injectable } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +9,9 @@ import {
   AccessTokenAuthService,
   PICTUREPARK_CONFIGURATION,
   PictureparkAccessTokenAuthConfiguration,
+  LocalStorageService,
+  StorageKey,
+  LocaleModule,
 } from '@picturepark/sdk-v1-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -76,10 +79,22 @@ export function PictureparkUIScriptPathFactory() {
 }
 
 // Get locale from the config provided
-export function LocaleFactory() {
+export function localeFactory(localStorageService: LocalStorageService): string {
   const appRootTag = document.getElementsByTagName('app-root')[0];
   const language = appRootTag.getAttribute('language');
-  return language || 'en';
+
+  return (
+    language ||
+    localStorageService.get(StorageKey.LanguageCode) ||
+    (navigator.language || navigator.languages[0]).slice(0, 2)
+  );
+}
+
+export function getLanguageFactory(): string {
+  const appRootTag = document.getElementsByTagName('app-root')[0];
+  const language = appRootTag.getAttribute('language');
+
+  return language ?? '';
 }
 
 @NgModule({
@@ -95,12 +110,12 @@ export function LocaleFactory() {
     // Picturepark
     SearchBoxModule,
     SharedModule.forRoot(),
+    LocaleModule.forRoot(getLanguageFactory()),
   ],
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },
     { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
     { provide: PICTUREPARK_UI_SCRIPTPATH, useFactory: PictureparkUIScriptPathFactory },
-    { provide: LOCALE_ID, useFactory: LocaleFactory },
   ],
   bootstrap: [AppComponent],
 })
