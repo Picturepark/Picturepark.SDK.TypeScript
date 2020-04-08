@@ -20,7 +20,7 @@
         </pp-aggregation-item>
       </mat-accordion>
     </div>
-    <div *ngIf="isLoading | async" class="aggregation-filter__loading-spinner">
+    <div *ngIf="loading$ && loading$ | async" class="aggregation-filter__loading-spinner">
       <mat-spinner></mat-spinner>
     </div>
   </div>

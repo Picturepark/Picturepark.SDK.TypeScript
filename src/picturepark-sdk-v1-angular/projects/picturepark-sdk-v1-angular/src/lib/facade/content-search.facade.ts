@@ -13,7 +13,7 @@ import {
   AggregatorBase,
 } from '../services/api-services';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 export interface ContentSearchInputState extends SearchInputState {
   channelId: string;
@@ -31,9 +31,9 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
     if (!this.searchRequestState.channelId) {
       return;
     }
-
     const request = new ContentSearchRequest(this.getRequest());
-    return this.contentService.search(request);
+    this.setLoading(true, request.pageToken);
+    return this.contentService.search(request).pipe(tap(() => this.setLoading(false)));
   }
 
   searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {

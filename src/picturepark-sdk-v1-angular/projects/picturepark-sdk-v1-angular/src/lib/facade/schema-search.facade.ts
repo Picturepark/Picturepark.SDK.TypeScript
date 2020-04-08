@@ -15,6 +15,7 @@ import {
 } from '../services/api-services';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 export interface SchemaSearchInputState extends SearchInputState {
   parentSchema: Schema;
@@ -42,6 +43,8 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
       if (this.searchRequestState.baseFilter) {
         filter = new AndFilter({ filters: [this.searchRequestState.baseFilter, filter] });
       }
+    } else {
+      filter = this.searchRequestState.baseFilter;
     }
 
     const request = new SchemaSearchRequest({
@@ -54,7 +57,8 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
       sort: this.searchRequestState.sort,
     });
 
-    return this.schemaService.search(request);
+    this.setLoading(true, request.pageToken);
+    return this.schemaService.search(request).pipe(tap(() => this.setLoading(false)));
   }
 
   searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {

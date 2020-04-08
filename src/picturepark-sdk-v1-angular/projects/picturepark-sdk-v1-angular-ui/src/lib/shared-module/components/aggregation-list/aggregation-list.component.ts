@@ -1,14 +1,18 @@
 import { OnInit, Component, Input } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 // LIBRARIES
 import {
-  AggregationFilter, AggregationResult,
-  AggregatorBase, SearchFacade, SearchInputState, IEntityBase
+  AggregationResult,
+  AggregatorBase,
+  SearchFacade,
+  SearchInputState,
+  IEntityBase,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../components/base.component';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'pp-aggregation-list',
@@ -19,20 +23,22 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
   @Input()
   public facade: SearchFacade<IEntityBase, SearchInputState>;
 
-  public isLoading = new BehaviorSubject(false);
-
   public aggregationResults: AggregationResult[] = [];
 
   aggregators$: Observable<AggregatorBase[]>;
+  loading$: Observable<boolean>;
 
   ngOnInit(): void {
     this.aggregators$ = this.facade.aggregators$;
 
+    // Show loading if it takes more than 100ms
+    this.loading$ = this.facade.getLoadingInfos('initial').pipe(debounceTime(100));
+
     this.sub = this.facade.aggregationResults$.subscribe(i => {
       if (i) {
-        this.processAggregationResults(i)
+        this.processAggregationResults(i);
       }
-     });
+    });
   }
 
   public clearFilters(): void {
@@ -47,32 +53,14 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
     this.aggregationResults = [];
 
     aggregationResults.forEach(aggregationResult => {
-      const nested = this.getNestedAggregator(aggregationResult);
-      // tslint:disable-next-line:no-non-null-assertion
-      const aggregatorIndex = this.facade.searchRequestState.aggregators.findIndex(aggregator => {
-        return nested.name.indexOf(aggregator.name) !== -1;
-      });
+      const nested = this.facade.expandAggregationResult(aggregationResult);
+      const aggregatorIndex = this.facade.searchRequestState.aggregators.findIndex(aggregator =>
+        nested.name.includes(aggregator.name)
+      );
 
       if (aggregatorIndex > -1) {
         this.aggregationResults[aggregatorIndex] = aggregationResult;
       }
     });
-  }
-
-  private getNestedAggregator(aggregation: AggregationResult): AggregationResult {
-    if (aggregation.aggregationResultItems) {
-
-      const filtered: AggregationResult[][] = aggregation.aggregationResultItems.filter(item =>
-        item.aggregationResults != null
-      ).map(m => m.aggregationResults as AggregationResult[]);
-
-      const aggs = filtered.reduce((acc, val) => acc.concat(val), []);
-
-      if (aggs.length === 1) {
-        return aggs[0];
-      }
-    }
-
-    return aggregation;
   }
 }

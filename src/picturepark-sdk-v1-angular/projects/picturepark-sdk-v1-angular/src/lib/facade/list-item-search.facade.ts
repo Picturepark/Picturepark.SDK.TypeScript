@@ -13,7 +13,7 @@ import {
   AggregationResult,
 } from '../services/api-services';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 export interface ListItemSearchInputState extends SearchInputState {
   schemaIds: string[];
@@ -29,7 +29,8 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
 
   search(): Observable<ListItemSearchResult> | undefined {
     const request = new ListItemSearchRequest(this.getRequest());
-    return this.listItemService.search(request);
+    this.setLoading(true, request.pageToken)
+    return this.listItemService.search(request).pipe(tap(() => this.setLoading(false)));
   }
 
   searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {

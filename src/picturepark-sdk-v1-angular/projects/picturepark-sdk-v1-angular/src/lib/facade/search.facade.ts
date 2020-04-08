@@ -11,7 +11,7 @@ import {
 import { map, distinctUntilChanged, filter } from 'rxjs/operators';
 
 export function flatMap<T, U>(array: T[], mapFunc: (x: T) => U[]): U[] {
-  return array.reduce((cumulus: U[], next: T) => [...mapFunc(next), ...cumulus], <U[]> []);
+  return array.reduce((cumulus: U[], next: T) => [...mapFunc(next), ...cumulus], <U[]>[]);
 }
 
 export interface SearchInputState {
@@ -31,6 +31,11 @@ export interface SearchResultState<T> {
   aggregationResults?: AggregationResult[];
 }
 
+export interface LoadingState {
+  loading: boolean;
+  action?: 'initial' | 'nextpage';
+}
+
 export abstract class SearchFacade<T, TState extends SearchInputState> {
   searchRequestState: TState;
 
@@ -43,8 +48,11 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
   private searchRequest = new BehaviorSubject(this.searchRequestState);
   private searchResults = new BehaviorSubject(this.searchResultState);
 
+  protected loading = new BehaviorSubject<LoadingState>({ loading: false });
+
   searchResults$ = this.searchResults.pipe(filter(i => !!i));
   searchRequest$ = this.searchRequest.pipe(filter(i => !!i));
+  loading$ = this.loading.asObservable();
 
   totalResults$ = this.searchResults$.pipe(
     map(i => i.totalResults),
@@ -80,9 +88,7 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
       }>
     | undefined;
 
-  abstract searchAggregations(aggregators: AggregatorBase[]):
-    | Observable<AggregationResult[]>
-    | undefined;
+  abstract searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined;
 
   constructor(partialState: Partial<TState>) {
     this.searchRequestState = {
@@ -110,19 +116,40 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     this.searchResults.next(resultState);
   }
 
+  /** Returns the loading infos based on a specified state */
+  getLoadingInfos(loadingState: 'all' | 'initial' | 'nextpage') {
+    return this.loading$.pipe(
+      filter(i => loadingState === 'all' || i.action === loadingState || !i.loading),
+      map(i => i.loading)
+    );
+  }
+
+  protected setLoading(loading: boolean, pageToken?: string) {
+    if (loading) {
+      this.loading.next({ loading: true, action: pageToken ? 'nextpage' : 'initial' });
+    } else {
+      this.loading.next({ loading: false });
+    }
+  }
+
   toggleAggregationResult(changedItem: AggregationResultItem) {
     const add = !changedItem.active;
     if (add) {
-      this.patchRequestState({aggregationFilters: [...this.searchRequestState.aggregationFilters, changedItem.filter]} as any);
+      this.patchRequestState({
+        aggregationFilters: [...this.searchRequestState.aggregationFilters, changedItem.filter],
+      } as any);
     } else {
       const expanded = this.searchResultState.aggregationResults!.map(i => this.expandAggregationResult(i));
       const active = flatMap(expanded, i => i.aggregationResultItems!).filter(i => i && i.active);
 
       const aggregationName = changedItem.filter?.aggregationName;
       const toRemove = active.find(i => i.filter?.aggregationName === aggregationName && i.name === changedItem.name);
-      const remaining = active.map(i => i.filter).map(i => i).filter(i => i !== toRemove?.filter)
+      const remaining = active
+        .map(i => i.filter)
+        .map(i => i)
+        .filter(i => i !== toRemove?.filter);
 
-      this.patchRequestState({aggregationFilters: remaining} as any);
+      this.patchRequestState({ aggregationFilters: remaining } as any);
     }
   }
 
@@ -132,8 +159,8 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
       aggregationResult.aggregationResultItems &&
       aggregationResult.aggregationResultItems[0] &&
       aggregationResult.aggregationResultItems[0].aggregationResults &&
-      aggregationResult.aggregationResultItems[0].aggregationResults[0]) {
-
+      aggregationResult.aggregationResultItems[0].aggregationResults[0]
+    ) {
       return this.expandAggregationResult(aggregationResult.aggregationResultItems[0].aggregationResults[0]);
     }
 

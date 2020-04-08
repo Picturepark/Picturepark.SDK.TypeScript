@@ -117,6 +117,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
         // Subscribe to searchInput changes and trigger reload
         this.sub = this.facade.searchRequest$.subscribe(() => this.update());
+
+        // Subscribe to loading
+        this.sub = this.facade.getLoadingInfos('all').subscribe(i => this.isLoading = i);
     }
 
     get selectedItems(): TEntity[] {
@@ -139,13 +142,15 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     }
 
     public loadData(): void {
-        const request = this.facade.search();
-
-        if (this.isLoading || !request) {
+        if (this.isLoading) {
             return;
         }
 
-        this.isLoading = true;
+        const request = this.facade.search();
+        if (!request) {
+            return;
+        }
+
         this.sub = request.subscribe(async searchResult => {
             if (searchResult.results) {
                 const items = searchResult.results.map(item => {
@@ -163,10 +168,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
                 nextPageToken: searchResult.pageToken,
                 aggregationResults: searchResult.aggregationResults
             });
-
-            this.isLoading = false;
-        }, () => {
-            this.isLoading = false;
         });
     }
 

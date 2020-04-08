@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SearchFacade, SearchInputState } from './search.facade';
 import { Share, ShareService, ShareSearchResult, ShareSearchRequest, SearchBehavior, AggregatorBase, AggregationResult } from '../services/api-services';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,8 @@ export class ShareSearchFacade extends SearchFacade<Share, SearchInputState> {
 
   search(): Observable<ShareSearchResult> | undefined {
     const request = new ShareSearchRequest(this.getRequest());
-    return this.shareService.search(request);
+    this.setLoading(true, request.pageToken)
+    return this.shareService.search(request).pipe(tap(() => this.setLoading(false)));
   }
 
   searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
