@@ -63,8 +63,7 @@
         "AggregationResultItem",
         "ContentService",
         "ListItemService",
-        "ShareService",
-        "InfoService"
+        "ShareService"
       ],
       "extensionCode": "src/lib/services/services.extensions.ts",
       "generateDefaultValues": false,

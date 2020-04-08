@@ -13,10 +13,17 @@ export class CustomerInfoService {
   constructor(
     @Inject(HttpClient) private http: HttpClient,
     @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkConfiguration
-  ) {}
+  ) { }
 
   public getInfo(): Observable<CustomerInfo> {
-    let url_ = this.config.apiServer + '/v1/Info/customer';
+    let url_: string;
+    // TODO if CDN is available
+    if (true) {
+      // TODO handle CDN url
+      url_ = 'http://santest-cdn.01.qa-picturepark.com' + '/service/Info/customer';
+    } else {
+      url_ = this.config.apiServer + '/v1/Info/customer';
+    }
     url_ = url_.replace(/[?&]$/, '');
 
     return this.http

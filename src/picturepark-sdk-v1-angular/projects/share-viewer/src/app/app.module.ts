@@ -59,8 +59,6 @@ translations['ShareViewer'] = {
 export function PictureparkConfigurationFactory() {
   if (!environment.production) {
     return <PictureparkAccessTokenAuthConfiguration>{
-      baseUrl: 'https://santest.01.qa-picturepark.com',
-      // apiServer: 'https://santest.01.qa-picturepark.com',
       apiServer: 'https://api.01.qa-picturepark.com',
       customerAlias: 'santest',
       accessToken: '',
@@ -121,4 +119,4 @@ export function getLanguageFactory(): string {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

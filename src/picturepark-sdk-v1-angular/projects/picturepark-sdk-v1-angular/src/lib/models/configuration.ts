@@ -1,5 +1,8 @@
 export interface PictureparkConfiguration {
-  baseUrl?: string;
   apiServer?: string;
   customerAlias?: string;
+}
+
+export interface PictureparkCdnConfiguration extends PictureparkConfiguration {
+  cdnUrl: string;
 }
