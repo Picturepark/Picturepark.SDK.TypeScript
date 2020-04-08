@@ -50,7 +50,7 @@ export class ShareDetailComponent implements OnInit {
           this.logoUrl = info.logosUrl + 'name';
         }
         if (shareJson) {
-          this.shareDetail = ShareDetail.fromJS(shareJson);
+          this.shareDetail = shareJson;
           this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
         }
         this.isLoading = false;
