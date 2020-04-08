@@ -9,7 +9,6 @@ import { MediaMatcher } from '@angular/cdk/layout';
 // LIBRARIES
 import {
   AggregationFilter,
-  AggregatorBase,
   AndFilter,
   FilterBase,
   OrFilter,
@@ -36,7 +35,6 @@ export class ListComponent implements OnInit, OnDestroy {
   public aggregationFilters: AggregationFilter[] = [];
   public searchQuery: Observable<string>;
   public filter: BehaviorSubject<FilterBase | null>;
-  public aggregations: AggregatorBase[] = [];
   public schemaDetail: SchemaDetail | undefined;
   public schema: Observable<SchemaDetail>;
   public selectedItems: ListItem[];
@@ -58,7 +56,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
 
-    this.schema = <Observable<SchemaDetail>>this.route.paramMap.pipe(flatMap((paramMap) => {
+    this.schema = this.route.paramMap.pipe(flatMap(paramMap => {
       const schemaId = paramMap.get('id')!;
       return this.schemaService.get(schemaId);
     }));
@@ -75,14 +73,13 @@ export class ListComponent implements OnInit, OnDestroy {
       ([schemaDetail, paramMap, queryParamMap]) => {
         this.activeSchema.next(schemaDetail);
         this.schemaDetail = schemaDetail;
-        this.aggregations = schemaDetail.aggregations!;
 
         const filterQuery = queryParamMap.getAll('filter');
         if (filterQuery) {
           if (typeof filterQuery === 'string') {
             this.aggregationFilters = [AggregationFilter.fromJS(JSON.parse(filterQuery))];
           } else {
-            this.aggregationFilters = (filterQuery as string[]).map(fq => AggregationFilter.fromJS(JSON.parse(fq)));
+            this.aggregationFilters = filterQuery.map(fq => AggregationFilter.fromJS(JSON.parse(fq)));
           }
           const createdFilter = this.createFilter(this.aggregationFilters);
           this.filter.next(createdFilter!);
