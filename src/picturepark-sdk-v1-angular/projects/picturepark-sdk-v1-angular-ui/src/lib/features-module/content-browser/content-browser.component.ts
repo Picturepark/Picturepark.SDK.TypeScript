@@ -32,6 +32,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   @Input()
   public channel: Channel | null = null;
 
+  basket$ = this.basketService.basketChange;
+
   constructor(
     private basketService: BasketService,
     public facade: ContentSearchFacade,

@@ -7,13 +7,14 @@ import { LazyGetter } from 'lazy-get-decorator';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import { IEntityBase, ThumbnailSize, SearchFacade, SortInfo, SortDirection, SearchInputState } from '@picturepark/sdk-v1-angular';
+import { IEntityBase, ThumbnailSize, SearchFacade, SortInfo, SortDirection, SearchInputState, AggregationResult } from '@picturepark/sdk-v1-angular';
 import { SelectionService as SelectionService } from '../../services/selection/selection.service';
 import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
 import { IBrowserView } from './interfaces/browser-view';
 import { debounceTime } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
     // Services
@@ -62,7 +63,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     totalResults$ = this.facade.totalResults$;
     items$ = this.facade.items$;
-    aggregationResults$ = this.facade.aggregationResults$;
+    aggregationResults$: Observable<AggregationResult[] | undefined> = this.facade.aggregationResults$;
 
     abstract init(): Promise<void>;
     abstract initSort(): void;
@@ -92,8 +93,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     async ngOnInit(): Promise<void> {
         this.configActions = this.pictureParkUIConfig[this.componentName];
 
-        // SCROLL SUBSCRIBER
-        const scrollSubscription = this.scrollDispatcher.scrolled().pipe(debounceTime(this.scrollDebounceTime)).subscribe(scrollable => {
+        // Scroll loader
+        this.sub = this.scrollDispatcher.scrolled().pipe(debounceTime(this.scrollDebounceTime)).subscribe(scrollable => {
             if (!scrollable) { return; }
 
             const nativeElement = scrollable.getElementRef().nativeElement;
@@ -103,14 +104,12 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
                 this.ngZone.run(() => this.onScroll());
             }
         });
-        this.subscription.add(scrollSubscription);
 
-        // ITEM SELECTION SUBSCRIBER
-        const contentItemSelectionSubscription = this.selectionService.selectedItems.subscribe(items => {
+        // Item selection
+        this.sub = this.selectionService.selectedItems.subscribe(items => {
             this.selectedItems = items;
             this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id));
         });
-        this.subscription.add(contentItemSelectionSubscription);
 
         // Call abstract init class
         await this.init();

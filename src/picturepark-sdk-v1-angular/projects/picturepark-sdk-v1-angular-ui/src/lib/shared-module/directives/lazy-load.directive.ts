@@ -1,4 +1,4 @@
-import { Directive, Output, EventEmitter, ElementRef, NgZone, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
+import { Directive, Output, EventEmitter, ElementRef, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 
 @Directive({
 // tslint:disable-next-line: directive-selector
