@@ -144,12 +144,14 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
 
       const aggregationName = changedItem.filter?.aggregationName;
       const toRemove = active.find(i => i.filter?.aggregationName === aggregationName && i.name === changedItem.name);
-      const remaining = active
-        .map(i => i.filter)
-        .map(i => i)
-        .filter(i => i !== toRemove?.filter);
+      if (toRemove) {
+        const remaining = active
+          .map(i => i.filter)
+          .map(i => i)
+          .filter(i => i !== toRemove.filter);
 
-      this.patchRequestState({ aggregationFilters: remaining } as any);
+        this.patchRequestState({ aggregationFilters: remaining } as any);
+      }
     }
   }
 
