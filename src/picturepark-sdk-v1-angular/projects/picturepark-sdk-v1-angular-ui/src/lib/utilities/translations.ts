@@ -461,6 +461,10 @@ export let TRANSLATIONS = {
     },
     ErrorNotification: {
       en: 'There was an error sharing your content, please try again'
+    },
+    CopyToClipboard: {
+      en: 'Copy to clipboard',
+      de: 'In Zwischenablage kopieren'
     }
   },
   ContentDetailsDialog: {

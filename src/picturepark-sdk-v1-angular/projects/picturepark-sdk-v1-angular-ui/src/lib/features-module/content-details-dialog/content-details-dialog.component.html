@@ -8,7 +8,7 @@
     <mat-dialog-content>
       <div class="action-buttons">
         <div>
-          <button mat-stroked-button aria-label="Download" (click)="downloadItem()">
+          <button class="download" mat-stroked-button aria-label="Download" (click)="downloadItem()">
             <mat-icon>get_app</mat-icon>
             {{'ContentDetailsDialog.Download' | pptranslate}}
           </button>
@@ -17,7 +17,8 @@
           <mat-divider [vertical]="true"></mat-divider>
         </div>
         <div *ngIf="data.previous">
-          <button mat-stroked-button aria-label="previous" class="navigation" [disabled]="!data.hasPrevious()" (click)="previous()">
+          <button mat-stroked-button aria-label="previous" class="navigation" [disabled]="!data.hasPrevious()"
+            (click)="previous()">
             <mat-icon>keyboard_arrow_left</mat-icon>
           </button>
         </div>

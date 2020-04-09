@@ -13,7 +13,11 @@
           <a href="mailto:{{ mailRecipient.userEmail.emailAddress }}">{{ mailRecipient.userEmail.emailAddress }}</a>
         </li>
         <li *ngIf="mailRecipient.url as url" class="recipient-url">
-          <i class="material-icons" (click)="copyToClipboard(url)">filter_none</i>{{ url }}
+          <div class="tooltip">
+            <i class="material-icons" (click)="copyToClipboard($event, url)">filter_none</i>
+            <span>{{'ShareContentDialog.CopyToClipboard' | pptranslate}}</span>
+          </div>
+          <a [href]="url">{{ url }}</a>
         </li>
       </ul>
     </div>

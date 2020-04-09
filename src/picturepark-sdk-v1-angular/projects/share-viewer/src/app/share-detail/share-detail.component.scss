@@ -17,13 +17,23 @@
 
             .download {
                 text-align: right;
+
                 @media (max-width: 600px) {
                     text-align: left;
+                }
+
+                button {
+                    border-width: 2px;
+                    border-color: #39acaa;
+
+                    &:hover {
+                        box-shadow: 0px 0px 3px 1px #39acaa;
+                    }
                 }
             }
         }
 
-        ul { 
+        ul {
             list-style: none;
             padding: 0px;
             float: left;

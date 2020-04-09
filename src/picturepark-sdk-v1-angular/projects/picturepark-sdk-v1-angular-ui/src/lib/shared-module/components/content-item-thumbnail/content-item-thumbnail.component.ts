@@ -57,7 +57,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
       if (content) {
         const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
         this.isLoading = true;
-        this.thumbnailUrl$ = this.loadItem.pipe(map(() => this.trust(output!.viewUrl || content.iconUrl)), tap(() => this.isLoading = false));
+        this.thumbnailUrl$ = this.loadItem.pipe(map(() => this.trust(output ? output.viewUrl : content.iconUrl)), tap(() => this.isLoading = false));
       }
       return;
     }
