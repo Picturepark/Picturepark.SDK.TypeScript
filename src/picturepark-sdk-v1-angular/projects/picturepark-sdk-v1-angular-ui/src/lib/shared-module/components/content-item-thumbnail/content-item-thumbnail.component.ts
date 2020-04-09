@@ -1,11 +1,12 @@
-import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input, Injector, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input, Injector, ChangeDetectionStrategy } from '@angular/core';
 
 import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
 import { ThumbnailSize, Content, ShareDetail, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pp-content-item-thumbnail',
@@ -37,7 +38,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   @Input() shadow: boolean;
 
   public isLoading = false;
-  public thumbnailUrl: SafeUrl | null;
+  public thumbnailUrl$: Observable<SafeUrl> | null;
 
   public virtualItemHtml: SafeHtml | null;
 
@@ -45,7 +46,6 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
     private contentService: ContentService,
     private sanitizer: DomSanitizer,
     protected injector: Injector,
-    private changeDetector: ChangeDetectorRef
   ) {
     super(injector);
   }
@@ -57,12 +57,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
       if (content) {
         const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
         this.isLoading = true;
-        const thumbnailSubscription = this.loadItem.subscribe(() => {
-          this.isLoading = false;
-          this.thumbnailUrl = this.trust(output ? output.viewUrl : content.iconUrl);
-          this.changeDetector.detectChanges();
-        });
-        this.subscription.add(thumbnailSubscription);
+        this.thumbnailUrl$ = this.loadItem.pipe(map(() => this.trust(output!.viewUrl || content.iconUrl)), tap(() => this.isLoading = false));
       }
       return;
     }
@@ -76,14 +71,11 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
 
     if (this.item) {
       this.isLoading = true;
-      const downloadSubscription = this.loadItem.pipe(
+      this.thumbnailUrl$ = this.loadItem.pipe(
         switchMap(() => this.contentService.downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)),
-      ).subscribe(response => {
-        this.isLoading = false
-        this.thumbnailUrl = this.trust(URL.createObjectURL(response.data));
-        this.changeDetector.detectChanges();
-      });
-      this.subscription.add(downloadSubscription);
+        map(response => this.trust(URL.createObjectURL(response.data))),
+        tap(() => this.isLoading = false)
+      )
     }
   }
 
@@ -104,7 +96,6 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
 
       if (updateImage) {
         this.isLoading = true;
-        this.thumbnailUrl = null;
         this.loadItem.next();
       }
     }
