@@ -119,6 +119,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   }
 
   public clear() {
+    this.suggestBox.setValue('');
     this.facade.patchRequestState({ searchString: '' });
   }
 
