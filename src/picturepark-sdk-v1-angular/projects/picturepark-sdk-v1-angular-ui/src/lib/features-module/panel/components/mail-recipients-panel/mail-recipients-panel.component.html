@@ -5,7 +5,7 @@
   <div class="panel-content">
     <div class="recipient" *ngFor="let mailRecipient of mailRecipients">
       <div class="recipient-avatar">
-        <img src="{{ mailRecipient.userEmail.emailAddress | ppavatar }}">
+        <img src="{{ mailRecipient.userEmail.emailAddress | ppavatar }}" />
       </div>
       <ul>
         <li>
@@ -15,7 +15,7 @@
         <li *ngIf="mailRecipient.url as url" class="recipient-url">
           <div class="tooltip">
             <i class="material-icons" (click)="copyToClipboard($event, url)">filter_none</i>
-            <span>{{'ShareContentDialog.CopyToClipboard' | pptranslate}}</span>
+            <span>{{ 'ShareContentDialog.CopyToClipboard' | pptranslate }}</span>
           </div>
           <a [href]="url">{{ url }}</a>
         </li>

@@ -1,45 +1,45 @@
 @import '~@angular/material/theming';
 
 @mixin pp-browser-base-theme($theme) {
+  $primary: map-get($theme, primary);
 
-    $primary: map-get($theme, primary);
+  pp-content-browser,
+  pp-list-browser,
+  pp-schema-browser,
+  pp-share-browser {
+    .browser {
+      $self: &;
 
-    pp-content-browser, pp-list-browser, pp-schema-browser, pp-share-browser {
-        .browser {
-            $self: &;
+      background: mat-color($primary, background-dark);
 
-            background: mat-color($primary, background-dark);
-
-            &__header {
-                & mat-toolbar {
-                    border-bottom: 1px solid mat-color($primary, divider);
-                }
-
-                button {
-                    mat-icon { 
-                        font-size: mat-font-size($custom-typography, display-3); 
-                        color: mat-color($primary, on-background-dark);
-                    }
-                    &:hover {
-                        mat-icon {
-                            color: mat-color($primary, opacity-light);
-                        }
-                    }
-                }
-            }
-
-            &__items {
-                &::-webkit-scrollbar-thumb {
-                    background-color: mat-color($primary, surface-mid);
-                }
-
-            }
-            .browser__items--list {
-                .browser__item-container {
-                    border-color: mat-color($primary, divider);
-                  
-                }
-            }
+      &__header {
+        & mat-toolbar {
+          border-bottom: 1px solid mat-color($primary, divider);
         }
+
+        button {
+          mat-icon {
+            font-size: mat-font-size($custom-typography, display-3);
+            color: mat-color($primary, on-background-dark);
+          }
+          &:hover {
+            mat-icon {
+              color: mat-color($primary, opacity-light);
+            }
+          }
+        }
+      }
+
+      &__items {
+        &::-webkit-scrollbar-thumb {
+          background-color: mat-color($primary, surface-mid);
+        }
+      }
+      .browser__items--list {
+        .browser__item-container {
+          border-color: mat-color($primary, divider);
+        }
+      }
     }
+  }
 }

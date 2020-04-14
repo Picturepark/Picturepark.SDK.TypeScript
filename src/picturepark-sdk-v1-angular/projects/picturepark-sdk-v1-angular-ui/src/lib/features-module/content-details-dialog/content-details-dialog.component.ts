@@ -6,7 +6,7 @@ import {
   ContentResolveBehavior,
   ContentService,
   SchemaDetail,
-  SchemaService
+  SchemaService,
 } from '@picturepark/sdk-v1-angular';
 
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
@@ -20,10 +20,9 @@ import { ContentDownloadDialogService } from '../content-download-dialog/content
   selector: 'pp-content-details-dialog',
   templateUrl: './content-details-dialog.component.html',
   styleUrls: ['../dialog/components/dialog-base/dialog-base.component.scss', './content-details-dialog.component.scss'],
-  providers: [TranslatePipe]
+  providers: [TranslatePipe],
 })
 export class ContentDetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
-
   content: ContentDetail;
 
   contentId: string;
@@ -65,7 +64,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   public downloadItem() {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
-      contents: [this.content]
+      contents: [this.content],
     });
   }
 
@@ -91,20 +90,22 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
   loadContent(id: string) {
     this.contentId = id;
-    const contentGetSubscription = this.contentService.get(this.contentId, [
-      ContentResolveBehavior.Content,
-      ContentResolveBehavior.Metadata,
-      ContentResolveBehavior.InnerDisplayValueName,
-      ContentResolveBehavior.InnerDisplayValueList,
-      ContentResolveBehavior.InnerDisplayValueThumbnail,
-      ContentResolveBehavior.OuterDisplayValueName,
-      ContentResolveBehavior.OuterDisplayValueDetail,
-      ContentResolveBehavior.Outputs
-    ]).subscribe(async content => {
-      if (content) {
-        this.content = content;
-      }
-    });
+    const contentGetSubscription = this.contentService
+      .get(this.contentId, [
+        ContentResolveBehavior.Content,
+        ContentResolveBehavior.Metadata,
+        ContentResolveBehavior.InnerDisplayValueName,
+        ContentResolveBehavior.InnerDisplayValueList,
+        ContentResolveBehavior.InnerDisplayValueThumbnail,
+        ContentResolveBehavior.OuterDisplayValueName,
+        ContentResolveBehavior.OuterDisplayValueDetail,
+        ContentResolveBehavior.Outputs,
+      ])
+      .subscribe(async content => {
+        if (content) {
+          this.content = content;
+        }
+      });
 
     this.subscription.add(contentGetSubscription);
   }

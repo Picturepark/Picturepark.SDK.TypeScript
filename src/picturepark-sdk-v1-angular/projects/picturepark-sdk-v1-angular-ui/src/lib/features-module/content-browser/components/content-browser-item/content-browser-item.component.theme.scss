@@ -1,23 +1,21 @@
 @import '~@angular/material/theming';
 
 // CONTENT BROWSER ITEM
-$pp-content-browser-item: (contrast: ());
+$pp-content-browser-item: (
+  contrast: (),
+);
 
 @mixin pp-content-browser-item-theme($theme) {
-
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
 
   pp-content-browser-item {
-
     .browser-item {
       &__basket-icon {
         color: mat-color($primary, on-opacity-light);
         font-size: 16px;
       }
-      
     }
   }
-    
 }

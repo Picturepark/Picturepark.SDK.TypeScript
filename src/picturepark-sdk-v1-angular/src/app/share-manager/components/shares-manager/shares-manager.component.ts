@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // LIBRARIES
-import {
-  TermsAggregator,
-  InfoFacade,
-  NestedAggregator,
-  ShareSearchFacade,
-} from '@picturepark/sdk-v1-angular';
+import { TermsAggregator, InfoFacade, NestedAggregator, ShareSearchFacade } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-shares-manager',
@@ -16,10 +11,8 @@ import {
 export class SharesManagerComponent implements OnInit {
   initialized = false;
 
-  constructor(public facade: ShareSearchFacade, private infoFacade: InfoFacade) {
-
-  }
-  async ngOnInit() {	
+  constructor(public facade: ShareSearchFacade, private infoFacade: InfoFacade) {}
+  async ngOnInit() {
     const customerInfo = await this.infoFacade.getInfo().toPromise();
     this.facade.searchRequestState.aggregators = [
       new NestedAggregator({

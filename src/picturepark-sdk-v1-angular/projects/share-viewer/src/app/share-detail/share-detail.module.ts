@@ -2,14 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ShareDetailComponent } from './share-detail.component';
 import {
-  ContentDetailsDialogModule, PanelModule, BrowserToolbarModule, SharedModule, ContentDownloadDialogModule,
-  ShareItemsPanelModule } from '@picturepark/sdk-v1-angular-ui';
+  ContentDetailsDialogModule,
+  PanelModule,
+  BrowserToolbarModule,
+  SharedModule,
+  ContentDownloadDialogModule,
+  ShareItemsPanelModule,
+} from '@picturepark/sdk-v1-angular-ui';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
-  declarations: [
-    ShareDetailComponent
-  ],
+  declarations: [ShareDetailComponent],
   imports: [
     CommonModule,
     ContentDetailsDialogModule,
@@ -18,10 +21,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     ShareItemsPanelModule,
     MatProgressBarModule,
     SharedModule,
-    ContentDownloadDialogModule
+    ContentDownloadDialogModule,
   ],
-  exports: [
-    ShareDetailComponent
-  ]
+  exports: [ShareDetailComponent],
 })
-export class ShareDetailModule { }
+export class ShareDetailModule {}

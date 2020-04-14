@@ -1,15 +1,11 @@
 import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
 
 // LIBRARIES
-import {
-  ThumbnailSize, Channel, Content, ContentSearchFacade
-} from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, Channel, Content, ContentSearchFacade } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
-import {
-  ShareContentDialogComponent
-} from '../../features-module/share-content-dialog/share-content-dialog.component';
+import { ShareContentDialogComponent } from '../../features-module/share-content-dialog/share-content-dialog.component';
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
@@ -24,11 +20,10 @@ import { ContentModel } from '../../shared-module/models/content-model';
   styleUrls: [
     '../../shared-module/components/browser-base/browser-base.component.scss',
     './content-browser.component.scss',
-    './content-browser-resp.component.scss'
-  ]
+    './content-browser-resp.component.scss',
+  ],
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
-
   @Input()
   public channel: Channel | null = null;
 
@@ -53,41 +48,49 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.sortingTypes = [
       {
         field: 'relevance',
-        name: this.translationService.translate('SortMenu.Relevance')
-      }, {
+        name: this.translationService.translate('SortMenu.Relevance'),
+      },
+      {
         field: 'fileMetadata.fileName',
-        name: this.translationService.translate('SortMenu.FileName')
-      }, {
+        name: this.translationService.translate('SortMenu.FileName'),
+      },
+      {
         field: 'audit.creationDate',
-        name: this.translationService.translate('SortMenu.CreationDate')
-      }, {
+        name: this.translationService.translate('SortMenu.CreationDate'),
+      },
+      {
         field: 'audit.modificationDate',
-        name: this.translationService.translate('SortMenu.ModificationDate')
-      }
+        name: this.translationService.translate('SortMenu.ModificationDate'),
+      },
     ];
     this.activeSortingType = this.sortingTypes[0];
 
-    this.views = [{
-      name: 'List',
-      icon: 'list',
-      type: 'list',
-      thumbnailSize: ThumbnailSize.Small
-    }, {
-      name: 'Small',
-      icon: 'collections',
-      type: 'thumbnailSmall',
-      thumbnailSize: ThumbnailSize.Small
-    }, {
-      name: 'Medium',
-      icon: 'collections',
-      type: 'thumbnailMedium',
-      thumbnailSize: ThumbnailSize.Medium
-    }, {
-      name: 'Large',
-      icon: 'collections',
-      type: 'thumbnailLarge',
-      thumbnailSize: ThumbnailSize.Large
-    }];
+    this.views = [
+      {
+        name: 'List',
+        icon: 'list',
+        type: 'list',
+        thumbnailSize: ThumbnailSize.Small,
+      },
+      {
+        name: 'Small',
+        icon: 'collections',
+        type: 'thumbnailSmall',
+        thumbnailSize: ThumbnailSize.Small,
+      },
+      {
+        name: 'Medium',
+        icon: 'collections',
+        type: 'thumbnailMedium',
+        thumbnailSize: ThumbnailSize.Medium,
+      },
+      {
+        name: 'Large',
+        icon: 'collections',
+        type: 'thumbnailLarge',
+        thumbnailSize: ThumbnailSize.Large,
+      },
+    ];
     this.activeView = this.views[2];
   }
 
@@ -96,7 +99,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   checkItemsInBasket(basketItems: string[]) {
-    this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
+    this.items.forEach(model => (model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id)));
   }
 
   prepareData(items: ContentModel<Content>[]): void {
@@ -128,23 +131,21 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   // OPEN SHARE CONTENT DIALOG
   openShareContentDialog(): void {
-
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
       data: this.selectedItems,
       autoFocus: false,
-      width: '640px'
+      width: '640px',
     });
 
     const instance = dialogRef.componentInstance;
     instance.title = 'ShareContentDialog.CreateShare';
-
   }
 
   // OPEN DOWNLOAD CONTENT DIALOG
   openDownloadContentDialog(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: this.items.filter(i => i.isSelected).map(i => i.item)
+      contents: this.items.filter(i => i.isSelected).map(i => i.item),
     });
   }
 
@@ -158,5 +159,4 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   cancel(): void {
     this.selectionService.clear();
   }
-
 }

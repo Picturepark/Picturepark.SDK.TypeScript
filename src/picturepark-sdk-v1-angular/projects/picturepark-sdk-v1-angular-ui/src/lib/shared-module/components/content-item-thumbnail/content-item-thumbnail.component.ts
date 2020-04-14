@@ -1,4 +1,13 @@
-import { Component, OnChanges, SimpleChanges, SecurityContext, OnInit, Input, Injector, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  SimpleChanges,
+  SecurityContext,
+  OnInit,
+  Input,
+  Injector,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
@@ -12,10 +21,9 @@ import { Observable } from 'rxjs';
   selector: 'pp-content-item-thumbnail',
   templateUrl: './content-item-thumbnail.component.html',
   styleUrls: ['./content-item-thumbnail.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
-
   /**
    * The item from wich to show the thumbnail
    */
@@ -28,7 +36,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
 
   /**
    *  * If passed into the component, the thumbnail will be retrieved from the shareItem instead of being requested.
-   *  * Mainly used for the share viewer as the lack of authentication makes it impossible to request the thumbnail of the content 
+   *  * Mainly used for the share viewer as the lack of authentication makes it impossible to request the thumbnail of the content
    */
   @Input() shareItem: ShareDetail;
 
@@ -45,7 +53,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   public constructor(
     private contentService: ContentService,
     private sanitizer: DomSanitizer,
-    protected injector: Injector,
+    protected injector: Injector
   ) {
     super(injector);
   }
@@ -57,7 +65,10 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
       if (content) {
         const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
         this.isLoading = true;
-        this.thumbnailUrl$ = this.loadItem.pipe(map(() => this.trust(output?.viewUrl || content.iconUrl)), tap(() => this.isLoading = false));
+        this.thumbnailUrl$ = this.loadItem.pipe(
+          map(() => this.trust(output?.viewUrl || content.iconUrl)),
+          tap(() => (this.isLoading = false))
+        );
       }
       return;
     }
@@ -72,10 +83,12 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
     if (this.item) {
       this.isLoading = true;
       this.thumbnailUrl$ = this.loadItem.pipe(
-        switchMap(() => this.contentService.downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)),
+        switchMap(() =>
+          this.contentService.downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
+        ),
         map(response => this.trust(URL.createObjectURL(response.data))),
-        tap(() => this.isLoading = false)
-      )
+        tap(() => (this.isLoading = false))
+      );
     }
   }
 
@@ -90,7 +103,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
 
     if (changes['thumbnailSize'] && !this.virtualItemHtml && this.isVisible) {
       const updateImage =
-        (changes['thumbnailSize'].firstChange) ||
+        changes['thumbnailSize'].firstChange ||
         (changes['thumbnailSize'].previousValue === ThumbnailSize.Small && this.isListView === false) ||
         (changes['thumbnailSize'].previousValue === ThumbnailSize.Medium && this.thumbnailSize === ThumbnailSize.Large);
 

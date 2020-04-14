@@ -47,7 +47,7 @@ import { AggregationListModule } from '../shared-module/components/aggregation-l
     PanelModule,
     ItemToolBarModule,
     ShareItemsPanelModule,
-    ContentDownloadDialogModule
+    ContentDownloadDialogModule,
   ],
   exports: [
     BasketModule,
@@ -69,7 +69,7 @@ import { AggregationListModule } from '../shared-module/components/aggregation-l
     PanelModule,
     ItemToolBarModule,
     ShareItemsPanelModule,
-    ContentDownloadDialogModule
-  ]
+    ContentDownloadDialogModule,
+  ],
 })
-export class FeaturesModule { }
+export class FeaturesModule {}

@@ -119,4 +119,4 @@ export function getLanguageFactory(): string {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

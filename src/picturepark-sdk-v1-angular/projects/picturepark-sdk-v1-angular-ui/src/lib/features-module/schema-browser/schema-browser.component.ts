@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Output, Injector } from '@angular/core';
 
 // LIBRARIES
-import {
-  Schema, SchemaSearchFacade
-} from '@picturepark/sdk-v1-angular';
+import { Schema, SchemaSearchFacade } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
@@ -13,20 +11,16 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
   templateUrl: './schema-browser.component.html',
   styleUrls: [
     '../../shared-module/components/browser-base/browser-base.component.scss',
-    './schema-browser.component.scss'
+    './schema-browser.component.scss',
   ],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
-
   @Output() public activeSchemaChange = new EventEmitter<Schema>();
 
   public selectedSchemaIndex: number;
 
-  constructor(
-    public facade: SchemaSearchFacade,
-    injector: Injector
-  ) {
+  constructor(public facade: SchemaSearchFacade, injector: Injector) {
     super('SchemaBrowserComponent', injector, facade);
   }
 
@@ -39,25 +33,30 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
     this.sortingTypes = [
       {
         field: 'relevance',
-        name: this.translationService.translate('SortMenu.Relevance')
-      }, {
+        name: this.translationService.translate('SortMenu.Relevance'),
+      },
+      {
         field: 'names.en', // TODO BRO: Fix
-        name: this.translationService.translate('SortMenu.FileName')
-      }, {
+        name: this.translationService.translate('SortMenu.FileName'),
+      },
+      {
         field: 'audit.creationDate',
-        name: this.translationService.translate('SortMenu.CreationDate')
-      }, {
+        name: this.translationService.translate('SortMenu.CreationDate'),
+      },
+      {
         field: 'audit.modificationDate',
-        name: this.translationService.translate('SortMenu.ModificationDate')
-      }
+        name: this.translationService.translate('SortMenu.ModificationDate'),
+      },
     ];
     this.activeSortingType = this.sortingTypes[0];
 
-    this.views = [{
-      name: 'Small',
-      icon: 'collections',
-      type: 'thumbnailSmall'
-    }];
+    this.views = [
+      {
+        name: 'Small',
+        icon: 'collections',
+        type: 'thumbnailSmall',
+      },
+    ];
     this.activeView = this.views[0];
   }
 
@@ -72,7 +71,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
 
   public setUpActiveSchema(schema: Schema): void {
     if (schema.childCount > 0 && !this.facade.searchRequestState.parentSchema) {
-      this.facade.patchRequestState({parentSchema: schema});
+      this.facade.patchRequestState({ parentSchema: schema });
     } else {
       this.activeSchemaChange.emit(schema);
     }

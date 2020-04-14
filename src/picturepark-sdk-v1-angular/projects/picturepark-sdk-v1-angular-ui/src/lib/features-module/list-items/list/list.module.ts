@@ -10,17 +10,8 @@ import { ListComponent } from './list.component';
 import { AggregationListModule } from '../../../shared-module/components/aggregation-list/aggregation-list.module';
 
 @NgModule({
-  declarations: [
-    ListComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    ListBrowserModule,
-    AggregationListModule
-  ],
-  exports: [
-    ListComponent
-  ]
+  declarations: [ListComponent],
+  imports: [CommonModule, SharedModule, ListBrowserModule, AggregationListModule],
+  exports: [ListComponent],
 })
-export class ListModule { }
+export class ListModule {}

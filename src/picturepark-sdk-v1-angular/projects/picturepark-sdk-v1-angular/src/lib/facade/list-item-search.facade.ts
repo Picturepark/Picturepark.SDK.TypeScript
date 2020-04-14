@@ -29,7 +29,7 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
 
   search(): Observable<ListItemSearchResult> | undefined {
     const request = new ListItemSearchRequest(this.getRequest());
-    this.setLoading(true, request.pageToken)
+    this.setLoading(true, request.pageToken);
     return this.listItemService.search(request).pipe(tap(() => this.setLoading(false)));
   }
 
@@ -61,6 +61,6 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
       debugMode: false,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
       resolveBehaviors: [ListItemResolveBehavior.Content, ListItemResolveBehavior.InnerDisplayValueName],
-    }
+    };
   }
 }
