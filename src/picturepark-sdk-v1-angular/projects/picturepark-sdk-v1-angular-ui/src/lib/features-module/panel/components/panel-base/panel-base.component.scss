@@ -1,6 +1,6 @@
-.panel-container { 
+.panel-container {
     border-radius: 8px;
-    box-shadow: 0 2px 0 0 rgba(0,0,0,.12);
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, .12);
     margin: 20px 0px;
 
     .panel-header {
@@ -10,7 +10,7 @@
         border-bottom-width: 1px;
         overflow: hidden;
 
-        h3 { 
+        h3 {
             font-size: 18px;
             line-height: 32px;
             font-weight: 300;
@@ -18,13 +18,13 @@
             margin: 0px;
             padding: 16px 0;
         }
-        
+
         .panel-buttons {
             position: absolute;
             right: 30px;
             top: 14px;
 
-            & button { 
+            & button {
                 float: right;
                 font-size: 12px;
                 width: 100px;
@@ -37,9 +37,11 @@
                     border: 2px solid gray;
                     box-shadow: 0 0 3px #3fb3b1;
                 }
-                &.square { 
+
+                &.square {
                     border-width: 2px;
-                    border-style: solid;}
+                    border-style: solid;
+                }
 
                 & mat-icon {
                     font-size: 18px;
@@ -47,16 +49,20 @@
             }
         }
     }
+
     .panel-content {
-        padding: 0px 30px; overflow: hidden;
+        padding: 0px 30px;
+        overflow: hidden;
+
         p {
             font-weight: 400;
             font-size: 13px;
         }
+
         a {
-            color: #8c8c8c;
             font-weight: 200;
             text-decoration: none;
+
             &:hover {
                 text-decoration: underline;
             }

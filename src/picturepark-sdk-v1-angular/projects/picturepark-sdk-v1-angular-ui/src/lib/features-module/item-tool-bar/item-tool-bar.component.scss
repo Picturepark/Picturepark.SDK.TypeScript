@@ -11,6 +11,7 @@
         text-align: center;
 
         & i {
+            opacity: 0.7;
             position: relative;
             top: 50%;
             transform: translateY(-50%);
@@ -40,6 +41,7 @@
             }
 
             button {
+                opacity: 0.6;
                 position: relative;
                 top: 4px;
                 background-color: unset;
@@ -47,6 +49,8 @@
                 cursor: pointer;
 
                 &:hover {
+                    opacity: 1;
+
                     span {
                         display: block;
                     }
@@ -58,7 +62,7 @@
                     position: absolute;
                     top: 44px;
                     white-space: nowrap;
-                    border-radius: 4px;
+                    border-radius: 2px;
                     transform: translate(-30%, 0);
                     padding: 5px 6px;
                     opacity: 0.9;

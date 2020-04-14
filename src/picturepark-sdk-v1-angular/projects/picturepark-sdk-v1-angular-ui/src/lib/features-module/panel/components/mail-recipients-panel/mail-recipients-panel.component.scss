@@ -36,12 +36,35 @@
                     &.recipient-url {
                         font-size: 13px;
 
-                        i {
-                            font-size: 18px;
-                            margin: 0px 6px 0px 0px;
+                        .tooltip {
+                            display: inline;
                             position: relative;
-                            top: 5px;
-                            cursor: pointer;
+
+                            i {
+                                font-size: 18px;
+                                margin: 0px 6px 0px 0px;
+                                position: relative;
+                                top: 5px;
+                                cursor: pointer;
+                            }
+
+                            &:hover {
+                                span {
+                                    display: block;
+                                }
+                            }
+
+                            span {
+                                display: none;
+                                position: absolute;
+                                left: 0px;
+                                top: 20px;
+                                white-space: nowrap;
+                                border-radius: 2px;
+                                transform: translate(-30%, 0);
+                                padding: 4px;
+                                opacity: 0.4;
+                            }
                         }
                     }
                 }

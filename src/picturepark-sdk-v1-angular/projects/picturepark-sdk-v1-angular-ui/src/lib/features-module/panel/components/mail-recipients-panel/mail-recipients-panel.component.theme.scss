@@ -10,6 +10,19 @@
             .panel-content {
                 .recipient {
                     border-bottom-color: mat-color($primary, divider);
+
+                    .recipient-url {
+                        .tooltip {
+                            span {
+                                background-color: mat-color($primary, surface-dark);
+                                color: mat-color($primary, on-surface-dark);
+                            }
+                        }
+
+                        a {
+                            color: mat-color($primary, on-surface-mid)
+                        }
+                    }
                 }
 
                 ul {

@@ -15,18 +15,23 @@ export class MailRecipientsPanelComponent extends PanelBaseComponent implements 
 
   @Input() mailRecipients: IMailRecipient[];
 
+
+
   constructor() {
     super();
   }
 
   // COPY TO CLIPBOARD
-  public copyToClipboard(recipienturl: string): void {
+  public copyToClipboard(event: MouseEvent, recipienturl: string): void {
     const copyBox = document.createElement('textarea');
     copyBox.value = recipienturl;
     document.body.appendChild(copyBox);
     copyBox.select();
     document.execCommand('copy');
     document.body.removeChild(copyBox);
+
+    const element = event.target as HTMLElement;
+    element.innerHTML = 'check';
   }
 
   ngOnInit() {

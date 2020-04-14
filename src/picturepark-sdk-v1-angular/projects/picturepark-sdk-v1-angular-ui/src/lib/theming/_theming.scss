@@ -26,6 +26,7 @@
 @import '../features-module/share-items-panel/share-items-panel.component.theme.scss';
 @import '../features-module/share-content-dialog/components/share-content-dialog-item/share-content-dialog-item.component.theme.scss';
 @import '../features-module/share-content-dialog/components/share-content-recipients-input/share-content-recipients-input.component.theme.scss';
+@import '../features-module/content-details-dialog/content-details-dialog.component.theme.scss';
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
 @mixin picturepark-theme($theme) {
@@ -42,6 +43,7 @@
     @include pp-content-browser-item-theme($theme);
     @include pp-channel-picker-theme($theme);
     @include pp-dialog-base-theme($theme);
+    @include pp-content-details-dialog-theme($theme);
     @include pp-list-browser-theme($theme);
     @include pp-mail-recipients-panel-theme($theme);
     @include pp-settings-panel-theme($theme);
