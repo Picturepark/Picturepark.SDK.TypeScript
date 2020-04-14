@@ -8,10 +8,9 @@ import { ContentDownloadDialogService } from '../content-download-dialog/content
 @Component({
   selector: 'pp-share-items-panel',
   templateUrl: './share-items-panel.component.html',
-  styleUrls: ['./share-items-panel.component.scss']
+  styleUrls: ['./share-items-panel.component.scss'],
 })
 export class ShareItemsPanelComponent extends PanelBaseComponent implements OnInit, OnChanges {
-
   @Input() view: 'grid' | 'list' = 'grid';
   @Input() items: ShareContentDetail[];
   @Input() shareDetail: ShareDetail;
@@ -33,14 +32,12 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
   }
 
   // DELETE ITEM
-  deleteItem(item: ShareContentDetail): void {
-
-  }
+  deleteItem(item: ShareContentDetail): void {}
 
   public downloadItem(item: ShareContentDetail) {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
-      contents: [item]
+      contents: [item],
     });
   }
 
@@ -49,7 +46,6 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
     this.items = changes.items && changes.items.currentValue;
 
     if (this.items) {

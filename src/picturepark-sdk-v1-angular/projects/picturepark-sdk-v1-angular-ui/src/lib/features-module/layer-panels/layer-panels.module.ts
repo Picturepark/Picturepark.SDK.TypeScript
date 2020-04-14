@@ -7,21 +7,9 @@ import { LayerFieldsComponent } from './components/layer-fields/layer-fields.com
 import { LayerPanelsComponent } from './layer-panels.component';
 
 @NgModule({
-  declarations: [
-    LayerPanelsComponent,
-    FieldDetailInfoDialogComponent,
-    LayerFieldsComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule
-  ],
-  exports: [
-    LayerPanelsComponent,
-    FieldDetailInfoDialogComponent
-  ],
-  entryComponents: [
-    FieldDetailInfoDialogComponent,
-  ]
+  declarations: [LayerPanelsComponent, FieldDetailInfoDialogComponent, LayerFieldsComponent],
+  imports: [CommonModule, SharedModule],
+  exports: [LayerPanelsComponent, FieldDetailInfoDialogComponent],
+  entryComponents: [FieldDetailInfoDialogComponent],
 })
-export class LayerPanelsModule { }
+export class LayerPanelsModule {}

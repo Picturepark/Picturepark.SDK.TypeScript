@@ -1,4 +1,4 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 
 @mixin pp-global-theme($theme) {
   $primary: map-get($theme, primary);
@@ -86,20 +86,20 @@
     background-color: mat-color($primary, background-dark);
   }
 
-  // Start Handle Angular Material Pannels Theming 
-  
+  // Start Handle Angular Material Pannels Theming
+
   .mat-menu-content {
     background-color: mat-color($primary, surface-light);
-      
-    .mat-menu-item, 
+
+    .mat-menu-item,
     .mat-menu-item .mat-icon,
     .menu-title {
       color: mat-color($primary, on-surface-light);
     }
-    
+
     .mat-menu-item[disabled] {
       opacity: 0.3;
     }
   }
-  // End Handle Angular Material Pannels Theming 
+  // End Handle Angular Material Pannels Theming
 }

@@ -1,0 +1,18 @@
+@import '~@angular/material/theming';
+
+@mixin pp-content-details-dialog-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  pp-content-details-dialog {
+    .action-buttons {
+      .download {
+        color: mat-color($primary, primary);
+        border-color: mat-color($primary, primary);
+
+        &:hover {
+          box-shadow: 0px 0px 3px 1px mat-color($primary, primary);
+        }
+      }
+    }
+  }
+}

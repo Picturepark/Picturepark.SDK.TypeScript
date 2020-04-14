@@ -2,11 +2,11 @@
   <mat-expansion-panel [expanded]="i === 0">
     <mat-expansion-panel-header>
       <mat-panel-description>
-        {{layer.names | pptranslate}}
+        {{ layer.names | pptranslate }}
       </mat-panel-description>
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
-      <div *ngFor="let field of layer.fields;" class="fields">
+      <div *ngFor="let field of layer.fields" class="fields">
         <pp-layer-fields [field]="field" (relationClick)="relationClickHandler($event)"></pp-layer-fields>
       </div>
     </ng-template>

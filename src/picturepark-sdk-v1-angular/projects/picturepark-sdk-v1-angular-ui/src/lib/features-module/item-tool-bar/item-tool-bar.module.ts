@@ -5,14 +5,8 @@ import { CommonModule } from '@angular/common';
 import { ItemToolBarComponent } from './item-tool-bar.component';
 
 @NgModule({
-  declarations: [
-    ItemToolBarComponent
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    ItemToolBarComponent
-  ]
+  declarations: [ItemToolBarComponent],
+  imports: [CommonModule],
+  exports: [ItemToolBarComponent],
 })
-export class ItemToolBarModule { }
+export class ItemToolBarModule {}

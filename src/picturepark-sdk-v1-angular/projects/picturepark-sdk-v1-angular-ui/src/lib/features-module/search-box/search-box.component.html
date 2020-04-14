@@ -3,20 +3,46 @@
     <button mat-icon-button (click)="search()">
       <mat-icon aria-label="Search">search</mat-icon>
     </button>
-    <input [placeholder]="'SearchBox.Search' | pptranslate" [(ngModel)]="searchString" name="search"
-      (keyup.enter)="search()" />
+    <input
+      [placeholder]="'SearchBox.Search' | pptranslate"
+      [(ngModel)]="searchString"
+      name="search"
+      (keyup.enter)="search()"
+    />
     <button mat-icon-button (click)="clear()">
       <mat-icon aria-label="Clear">clear</mat-icon>
     </button>
   </form>
 
   <div id="search-options-container" *ngIf="showSearchBehaviorPicker">
-    <button mat-icon-button [matMenuTriggerFor]="searchOptions"><mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" role="img" aria-hidden="true">menu</mat-icon></button>
-    
+    <button mat-icon-button [matMenuTriggerFor]="searchOptions">
+      <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" role="img" aria-hidden="true"
+        >menu</mat-icon
+      >
+    </button>
+
     <mat-menu #searchOptions="matMenu" xPosition="after">
-    <button mat-menu-item  (click)="setSearchBehavior('SimplifiedSearchOr')" [class.active]="searchBehavior === 'SimplifiedSearchOr'">{{ 'SearchBox.SimpleAnySearch' | pptranslate }}</button>
-      <button mat-menu-item (click)="setSearchBehavior('SimplifiedSearch')" [class.active]="searchBehavior === 'SimplifiedSearch'">{{ 'SearchBox.SimpleAllSearch' | pptranslate }}</button>
-      <button mat-menu-item (click)="setSearchBehavior('AdvancedSearch')" [class.active]="searchBehavior === 'AdvancedSearch'">{{ 'SearchBox.AdvancedSearch' | pptranslate }}</button>
+      <button
+        mat-menu-item
+        (click)="setSearchBehavior('SimplifiedSearchOr')"
+        [class.active]="searchBehavior === 'SimplifiedSearchOr'"
+      >
+        {{ 'SearchBox.SimpleAnySearch' | pptranslate }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="setSearchBehavior('SimplifiedSearch')"
+        [class.active]="searchBehavior === 'SimplifiedSearch'"
+      >
+        {{ 'SearchBox.SimpleAllSearch' | pptranslate }}
+      </button>
+      <button
+        mat-menu-item
+        (click)="setSearchBehavior('AdvancedSearch')"
+        [class.active]="searchBehavior === 'AdvancedSearch'"
+      >
+        {{ 'SearchBox.AdvancedSearch' | pptranslate }}
+      </button>
     </mat-menu>
   </div>
 </div>

@@ -1,5 +1,12 @@
 <div id="search-container">
-  <form class="form" autocomplete="off" [formGroup]="form" autocomplete="false" matAutocompleteOrigin #origin="matAutocompleteOrigin">
+  <form
+    class="form"
+    autocomplete="off"
+    [formGroup]="form"
+    autocomplete="false"
+    matAutocompleteOrigin
+    #origin="matAutocompleteOrigin"
+  >
     <button mat-icon-button (click)="search()">
       <mat-icon aria-label="Search">search</mat-icon>
     </button>
@@ -22,7 +29,7 @@
           <mat-option *ngIf="isLoading" [disabled]="true">
             Loading
           </mat-option>
-          <ng-container *ngIf="(suggestions$ | async) as suggestions">
+          <ng-container *ngIf="suggestions$ | async as suggestions">
             <ng-container *ngIf="suggestions.length > 0; else noResults">
               <mat-optgroup *ngFor="let group of suggestions" [label]="group.name">
                 <mat-option *ngFor="let suggest of group.results" [value]="suggest">
@@ -44,7 +51,11 @@
             {{ 'SearchSuggestBox.SearchSettings' | pptranslate }}
           </mat-option>
           <mat-radio-group
-            class="radio-group" [ngModel]="(facade.searchRequest$ | async)?.searchBehavior" [ngModelOptions]="{standalone: true}" (change)="searchBehaviorChange($event)">
+            class="radio-group"
+            [ngModel]="(facade.searchRequest$ | async)?.searchBehavior"
+            [ngModelOptions]="{ standalone: true }"
+            (change)="searchBehaviorChange($event)"
+          >
             <mat-radio-button class="radio-button" value="SimplifiedSearch">
               {{ 'SearchSuggestBox.SimpleAllSearch' | pptranslate }}
             </mat-radio-button>

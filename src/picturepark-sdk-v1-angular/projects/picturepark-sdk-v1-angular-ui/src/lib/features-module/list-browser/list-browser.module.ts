@@ -9,16 +9,8 @@ import { ListBrowserComponent } from './list-browser.component';
 import { BrowserToolbarModule } from '../browser-toolbar/browser-toolbar.module';
 
 @NgModule({
-  declarations: [
-    ListBrowserComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    BrowserToolbarModule
-  ],
-  exports: [
-    ListBrowserComponent
-  ]
+  declarations: [ListBrowserComponent],
+  imports: [CommonModule, SharedModule, BrowserToolbarModule],
+  exports: [ListBrowserComponent],
 })
-export class ListBrowserModule { }
+export class ListBrowserModule {}

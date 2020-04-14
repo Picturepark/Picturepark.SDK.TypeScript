@@ -64,15 +64,12 @@ const modules = [
   // CDK
   CdkTableModule,
   LayoutModule,
-  ScrollingModule];
+  ScrollingModule,
+];
 
 @NgModule({
   declarations: [],
-  imports: [
-    ...modules
-  ],
-  exports: [
-    ...modules
-  ]
+  imports: [...modules],
+  exports: [...modules],
 })
-export class MaterialsModule { }
+export class MaterialsModule {}

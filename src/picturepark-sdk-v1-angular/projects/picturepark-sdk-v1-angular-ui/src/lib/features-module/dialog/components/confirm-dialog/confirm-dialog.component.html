@@ -1,17 +1,19 @@
 <div class="dialog-container" #contentContainer>
-    <h3>
-        <span>{{ options.title }}</span>
-        <mat-icon (click)="closeDialog()">close</mat-icon>
-    </h3>
+  <h3>
+    <span>{{ options.title }}</span>
+    <mat-icon (click)="closeDialog()">close</mat-icon>
+  </h3>
 
-    <mat-dialog-content>
-        <div>
-            {{options.message}}
-        </div>
-    </mat-dialog-content>
+  <mat-dialog-content>
+    <div>
+      {{ options.message }}
+    </div>
+  </mat-dialog-content>
 
-    <mat-dialog-actions>
-        <button mat-button (click)="closeDialog()">{{options!.options!.cancelText}}</button>
-        <button mat-button class="active" [mat-dialog-close]="true" color="accent" cdkFocusInitial>{{options!.options!.okText}}</button>
-    </mat-dialog-actions>
+  <mat-dialog-actions>
+    <button mat-button (click)="closeDialog()">{{ options!.options!.cancelText }}</button>
+    <button mat-button class="active" [mat-dialog-close]="true" color="accent" cdkFocusInitial>
+      {{ options!.options!.okText }}
+    </button>
+  </mat-dialog-actions>
 </div>

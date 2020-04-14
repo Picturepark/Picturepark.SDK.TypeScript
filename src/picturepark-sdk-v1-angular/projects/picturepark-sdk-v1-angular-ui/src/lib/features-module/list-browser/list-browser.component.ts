@@ -1,7 +1,4 @@
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component,
-  Input, OnInit, Injector
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Injector } from '@angular/core';
 import { Sort, SortDirection as MatSortDirection } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -32,9 +29,10 @@ import { lowerFirst } from '../../utilities/helper';
   styleUrls: [
     '../../shared-module/components/browser-base/browser-base.component.scss',
     './list-browser.component.scss',
-    './list-browser.component.theme.scss'],
+    './list-browser.component.theme.scss',
+  ],
   providers: [TranslatePipe],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListBrowserComponent extends BaseBrowserComponent<ListItem> implements OnInit {
   @Input() schema: SchemaDetail;
@@ -88,20 +86,19 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
         this.activeSortDirection = this.schema.sort[0].direction.toLowerCase() as MatSortDirection;
         this.activeSortColumn = name!;
 
-        this.sortInfo = this.schema.sort.map((s) => {
+        this.sortInfo = this.schema.sort.map(s => {
           return new SortInfo({
             field: lowerFirst(this.schema.id) + '.' + s.field,
-            direction: s.direction.toLowerCase() === 'asc' ? SortDirection.Asc : SortDirection.Desc
+            direction: s.direction.toLowerCase() === 'asc' ? SortDirection.Asc : SortDirection.Desc,
           });
         });
       }
     }
 
-    this.facade.patchRequestState({ schemaIds: [this.schema.id], aggregators: this.schema.aggregations ?? [] })
+    this.facade.patchRequestState({ schemaIds: [this.schema.id], aggregators: this.schema.aggregations ?? [] });
   }
 
-  initSort(): void {
-  }
+  initSort(): void {}
 
   onScroll(): void {
     this.loadData();
@@ -112,13 +109,14 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   prepareData(items: ContentModel<ListItem>[]): void {
-
     const metadataItems = items.map(m => m.item.content);
     const tableItems = this.metaDataPreviewService.getListItemsTableData(metadataItems, this.schema, this.customerInfo);
     this.tableItems.push(...tableItems);
 
     this.dataSource.data = this.tableItems;
-    const selected = this.items.filter(listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1);
+    const selected = this.items.filter(
+      listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1
+    );
     this.selectionService.addItems(selected.map(q => q.item));
 
     this.cdr.detectChanges();
@@ -137,7 +135,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   sortData(sort: Sort) {
     const sortInfo = new SortInfo({
       field: lowerFirst(this.schema.id) + '.' + sort.active,
-      direction: sort.direction === 'asc' ? SortDirection.Asc : SortDirection.Desc
+      direction: sort.direction === 'asc' ? SortDirection.Asc : SortDirection.Desc,
     });
     this.sortInfo = [sortInfo];
     this.update();
@@ -150,9 +148,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle() {
-      this.isAllSelected() ?
-      this.selectionService.clear() :
-      this.selectionService.addItems(this.items.map(q => q.item));
+    this.isAllSelected() ? this.selectionService.clear() : this.selectionService.addItems(this.items.map(q => q.item));
   }
 
   public isRowSelected(row: any): boolean {
