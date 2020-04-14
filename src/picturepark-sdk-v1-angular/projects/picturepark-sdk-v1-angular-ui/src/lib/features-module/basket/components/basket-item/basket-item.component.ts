@@ -13,13 +13,13 @@ import { BasketService } from '../../../../shared-module/services/basket/basket.
   styleUrls: ['./basket-item.component.scss'],
 })
 export class BasketItemComponent extends BaseComponent {
-  @Input() public item: Content;
+  @Input() public itemId: string;
 
   constructor(private basketService: BasketService, protected injector: Injector) {
     super(injector);
   }
 
   public remove() {
-    this.basketService.removeItem(this.item.id);
+    this.basketService.removeItem(this.itemId);
   }
 }

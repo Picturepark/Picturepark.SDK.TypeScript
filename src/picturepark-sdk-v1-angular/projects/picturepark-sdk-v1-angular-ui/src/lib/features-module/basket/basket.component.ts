@@ -22,7 +22,7 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./basket.component.scss'],
 })
 export class BasketComponent extends BaseComponent implements OnInit {
-  public basketItems: Content[] = [];
+  public basketItemsIds: string[] = [];
 
   public configActions: ConfigActions;
 
@@ -39,43 +39,44 @@ export class BasketComponent extends BaseComponent implements OnInit {
   ) {
     super(injector);
 
-    this.sub = this.basketService.basketChange
-      .pipe(
-        switchMap(itemsIds => {
-          return fetchContents(this.contentService, itemsIds);
-        })
-      )
-      .subscribe(fetchResult => {
-        this.basketItems = fetchResult.results;
-      });
+    this.sub = this.basketService.basketChange.subscribe(itemsIds => {
+      this.basketItemsIds = itemsIds;
+    });
   }
 
-  public previewItem(item: Content): void {
-    this.previewItemChange.emit(new ContentModel(item, true));
+  public previewItem(itemId: string): void {
+    // TODO SAN deal with this
+    // this.previewItemChange.emit(new ContentModel(item, true));
   }
 
   public downloadItems(): void {
-    this.contentDownloadDialogService.showDialog({
-      mode: 'multi',
-      contents: this.basketItems,
-    });
+    fetchContents(this.contentService, this.basketItemsIds).subscribe(fetchResult => {
+      this.contentDownloadDialogService.showDialog({
+        mode: 'multi',
+        contents: fetchResult.results
+      });
+    })
   }
 
   public openShareContentDialog(): void {
-    const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-      data: this.basketItems,
-      autoFocus: false,
-    });
-    dialogRef.componentInstance.title = 'Basket.Share';
+    fetchContents(this.contentService, this.basketItemsIds).subscribe(fetchResult => {
+      const dialogRef = this.dialog.open(ShareContentDialogComponent, {
+        data: fetchResult.results,
+        autoFocus: false
+      });
+      dialogRef.componentInstance.title = 'Basket.Share';
+    })
+
   }
 
   public clearBasket(): void {
     this.basketService.clearBasket();
   }
 
-  public trackByBasket(index, basketItem: Content): string {
-    return basketItem.id;
-  }
+  // Handle TrackBy
+  // public trackByBasket(index, basketItem: Content): string {
+  //   return basketItem.id;
+  // }
 
   ngOnInit() {
     this.configActions = this.pictureParkUIConfig['BasketComponent'];
