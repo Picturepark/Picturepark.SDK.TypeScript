@@ -2,7 +2,6 @@ import { Component, Input, Injector } from '@angular/core';
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
-import { Content } from '@picturepark/sdk-v1-angular';
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
@@ -18,6 +17,7 @@ export class BasketItemComponent extends BaseComponent {
   constructor(private basketService: BasketService, protected injector: Injector) {
     super(injector);
   }
+
 
   public remove() {
     this.basketService.removeItem(this.itemId);

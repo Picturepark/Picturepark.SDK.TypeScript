@@ -21,8 +21,7 @@ import { Observable } from 'rxjs';
   selector: 'pp-content-item-thumbnail',
   templateUrl: './content-item-thumbnail.component.html',
   styleUrls: ['./content-item-thumbnail.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
-  // TODO SAN handle change detection strategy for the cases where item comes as id 
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
   /**
@@ -39,12 +38,12 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
    *  * If passed into the component, the thumbnail will be retrieved from the shareItem instead of being requested.
    *  * Mainly used for the share viewer as the lack of authentication makes it impossible to request the thumbnail of the content
    */
-  @Input() shareItem?: ShareDetail;
+  @Input() shareItem: ShareDetail;
 
   /**
    * If true the image will have a shadow box around
    */
-  @Input() shadow?: boolean;
+  @Input() shadow: boolean;
 
   public isLoading = false;
   public thumbnailUrl$: Observable<SafeUrl> | null;
@@ -61,7 +60,6 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
 
   async ngOnInit() {
     this.isLoading = true;
-
     if (this.shareItem) {
       const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
 
@@ -83,28 +81,28 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
     }
 
     if (this.item) {
-      if (!NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.item.contentSchemaId)) {
-        if (this.item.displayValues['thumbnail']) {
-          this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
-          this.isLoading = false;
-          return;
-        }
-      }
-
       this.thumbnailUrl$ = this.loadItem.pipe(
-        switchMap(() => {
-          return this.contentService.downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
-        }
+        switchMap(() =>
+          this.contentService.downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
         ),
-        map(response => {
-          return this.trust(URL.createObjectURL(response.data));
-        }),
+        map(response => this.trust(URL.createObjectURL(response.data))),
         tap(() => (this.isLoading = false))
       );
     }
+    setTimeout(() => {
+      this.loadItem.next()
+    }, 3000)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['item'] && changes['item'].firstChange) {
+      if (!NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.item.contentSchemaId)) {
+        if (this.item.displayValues['thumbnail']) {
+          this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
+        }
+      }
+    }
+
     if (changes['thumbnailSize'] && !this.virtualItemHtml && this.isVisible) {
       const updateImage =
         changes['thumbnailSize'].firstChange ||
