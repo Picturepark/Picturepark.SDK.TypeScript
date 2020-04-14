@@ -1,125 +1,133 @@
-import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Injector, ChangeDetectionStrategy, Inject, LOCALE_ID } from '@angular/core';
 
 // LIBRARIES
 import {
-  ContentSearchResult, AggregatorBase, TermsAggregator, AggregationFilter, AggregationResult, AggregationResultItem, ObjectAggregationResult
+  AggregatorBase,
+  TermsAggregator,
+  AggregationResult,
+  AggregationResultItem,
+  ObjectAggregationResult,
+  SearchFacade,
+  SearchInputState,
+  IEntityBase,
 } from '@picturepark/sdk-v1-angular';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { flatMap } from '../../utilities/helper';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { FormControl, FormBuilder } from '@angular/forms';
+import { debounceTime, tap, switchMap, map, catchError, distinctUntilChanged } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { BaseComponent } from '../../shared-module/components/base.component';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'pp-search-suggest-box',
   templateUrl: './search-suggest-box.component.html',
-  styleUrls: ['./search-suggest-box.component.scss']
+  styleUrls: ['./search-suggest-box.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchSuggestBoxComponent implements OnChanges, OnInit {
-
-  constructor(private formBuilder: FormBuilder) {
-
-    this.form = this.formBuilder.group({
-      suggestBox: new FormControl('')
-    });
-
+export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
+  constructor(injector: Injector, private formBuilder: FormBuilder, @Inject(LOCALE_ID) public locale: string) {
+    super(injector);
   }
 
-  public isLoading = false;
-  public result: ContentSearchResult | null = null;
-  public suggestAutocomplete: AggregationResultItem[];
-  form: FormGroup;
+  isLoading = false;
+  hasFocus = false;
+  typed = false;
+
+  form = this.formBuilder.group({
+    suggestBox: new FormControl(''),
+  });
 
   @Input()
-  aggregate: (aggregations: AggregatorBase[]) => Observable<ObjectAggregationResult>;
+  public showSearchBehaviorPicker = false;
 
   @Input()
-  public aggregations: AggregatorBase[];
+  facade: SearchFacade<IEntityBase, SearchInputState>;
 
-  @Input()
-  public searchString = '';
+  suggestions$: Observable<{ name: string; results: AggregationResultItem[] }[]>;
 
-  @Output()
-  public searchStringChange = new EventEmitter<string>();
+  public get suggestBox() {
+    return this.form.controls['suggestBox'];
+  }
 
-  @Output()
-  public filterAdd = new EventEmitter<AggregationFilter>();
+  focus() {
+    this.hasFocus = true;
+  }
+
+  blur() {
+    this.hasFocus = false;
+  }
 
   public ngOnInit() {
-    this.form.controls['suggestBox']
-    .valueChanges
-    .pipe(
+    this.suggestions$ = this.suggestBox.valueChanges.pipe(
       debounceTime(300),
-      tap(() => this.isLoading = true),
+      distinctUntilChanged(),
+      tap(() => {
+        this.isLoading = true;
+        this.typed = true;
+      }),
       switchMap(value => {
-        this.searchString = value;
-        const aggs: AggregatorBase[] = [];
-        this.aggregations.forEach(aggregation => {
-          const expanded = this.expandAggregator(aggregation);
-          if (expanded.searchFields && expanded.searchFields.length) {
-            expanded.searchString = value;
-            aggs.push(aggregation);
-          }
+        const aggs = this.setSearchString(value);
+        return this.facade.searchAggregations(aggs)!.pipe(catchError(error => of(null)));
+      }),
+      map(aggregationResult => {
+        if (!aggregationResult) {
+          return [];
+        }
+        const results = aggregationResult.map(i => {
+          const expanded = this.facade.expandAggregationResult(i).aggregationResultItems!;
+          const name = this.facade.searchRequestState.aggregators.find(j => j.name === i.name);
+          return { name: name?.names?.translate(this.locale) ?? i.name, results: expanded };
         });
-        return this.aggregate(aggs).pipe(
-          finalize(() => this.isLoading = false),
-        );
+        return results.filter(i => i.results.length > 0);
+      }),
+      tap(() => {
+        this.isLoading = false;
+        this.setSearchString(undefined);
       })
-    )
-    .subscribe(aggregationResult => {
-      const results = aggregationResult.aggregationResults.map(i => this.expandAggregationResult(i));
-      this.suggestAutocomplete = flatMap(results, i => i.aggregationResultItems!);
-    });
-  }
-
-  public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
-    if (changes['searchString']) {
-      this.search();
-    }
+    );
   }
 
   public optionSelected(event: MatAutocompleteSelectedEvent): void {
     const element = event.option.value as AggregationResultItem;
-    this.searchString = element.name;
-    this.search();
+    this.suggestBox.setValue('');
+    if (element.filter) {
+      this.facade.toggleAggregationResult(element);
+    }
   }
 
-  public add(event: MatChipInputEvent): boolean {
-    console.log(event);
-    return false;
+  search() {
+    if (this.facade.searchRequestState.searchString !== this.suggestBox.value) {
+      this.facade.patchRequestState({ searchString: this.suggestBox.value });
+    }
   }
 
-  public search() {
-    this.form.controls['suggestBox'].setValue(this.searchString);
-    this.searchStringChange.emit(this.searchString);
+  setSearchString(searchString: string | undefined) {
+    const aggs: AggregatorBase[] = [];
+    this.facade.searchRequestState.aggregators.forEach(aggregation => {
+      const expanded = this.expandAggregator(aggregation);
+      if (expanded.searchFields && expanded.searchFields.length) {
+        expanded.searchString = searchString;
+        aggs.push(aggregation);
+      }
+    });
+
+    return aggs;
+  }
+
+  public searchBehaviorChange($event: MatRadioChange) {
+    this.facade.patchRequestState({ searchBehavior: $event.value });
   }
 
   public clear() {
-    this.searchString = '';
-    this.search();
+    this.suggestBox.setValue('');
+    this.facade.patchRequestState({ searchString: '' });
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {
-
     if (aggregator.aggregators && aggregator.aggregators.length > 0) {
       return this.expandAggregator(aggregator.aggregators[0]);
     }
 
     return aggregator as TermsAggregator;
-  }
-
-  private expandAggregationResult(aggregationResult: AggregationResult): AggregationResult {
-    if (
-      aggregationResult &&
-      aggregationResult.aggregationResultItems &&
-      aggregationResult.aggregationResultItems[0] &&
-      aggregationResult.aggregationResultItems[0].aggregationResults &&
-      aggregationResult.aggregationResultItems[0].aggregationResults![0]) {
-
-      return this.expandAggregationResult(aggregationResult.aggregationResultItems[0].aggregationResults![0]);
-    }
-
-    return aggregationResult;
   }
 }

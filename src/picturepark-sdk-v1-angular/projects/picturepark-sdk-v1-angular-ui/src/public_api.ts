@@ -13,7 +13,6 @@ export { PictureparkUiModule } from './lib/picturepark-ui.module';
 export { BasketModule } from './lib/features-module/basket/basket.module';
 export { BrowserToolbarModule } from './lib/features-module/browser-toolbar/browser-toolbar.module';
 export { ChannelPickerModule } from './lib/features-module/channel-picker/channel-picker.module';
-export { ContentAggregationListModule } from './lib/features-module/content-aggregation-list/content-aggregation-list.module';
 export { ContentBrowserModule } from './lib/features-module/content-browser/content-browser.module';
 export { ContentDetailsDialogModule } from './lib/features-module/content-details-dialog/content-details-dialog.module';
 export { DatePickerModule } from './lib/features-module/date-picker/date-picker.module';
@@ -21,7 +20,6 @@ export { DialogModule } from './lib/features-module/dialog/dialog.module';
 export { ItemToolBarModule } from './lib/features-module/item-tool-bar/item-tool-bar.module';
 export { LayerPanelsModule } from './lib/features-module/layer-panels/layer-panels.module';
 export { ListBrowserModule } from './lib/features-module/list-browser/list-browser.module';
-export { ListItemAggregationListModule } from './lib/features-module/list-item-aggregation-list/list-item-aggregation-list.module';
 export { ListItemsModule } from './lib/features-module/list-items/list-items.module';
 export { ListModule } from './lib/features-module/list-items/list/list.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
@@ -29,12 +27,13 @@ export { PanelModule } from './lib/features-module/panel/panel.module';
 export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
 export { SearchSuggestBoxModule } from './lib/features-module/search-suggest-box/search-suggest-box.module';
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
-export { ShareAggregationListModule } from './lib/features-module/share-aggregation-list/share-aggregation-list.module';
 export { SharedModule } from './lib/shared-module/shared-module.module';
 export { ShareBrowserModule } from './lib/features-module/share-browser/share-browser.module';
 export { ShareContentDialogModule } from './lib/features-module/share-content-dialog/share-content-dialog.module';
 export { ContentDownloadDialogModule } from './lib/features-module/content-download-dialog/content-download-dialog.module';
 export { ShareItemsPanelModule } from './lib/features-module/share-items-panel/share-items-panel.module';
+export { AggregationListModule } from './lib/shared-module/components/aggregation-list/aggregation-list.module';
+
 
 // Components
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
@@ -51,6 +50,7 @@ export { DialogService } from './lib/features-module/dialog/dialog.service';
 
 // Classes
 export { ContentModel } from './lib/shared-module/models/content-model';
+export { BaseComponent } from './lib/shared-module/components/base.component';
 
 // Utilities
 export * from './lib/utilities/helper';

@@ -20,6 +20,10 @@ export abstract class BaseComponent implements OnDestroy {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
   }
 
+  public set sub(value: Subscription) {
+    this.subscription.add(value);
+  }
+
   constructor(protected injector: Injector) {}
 
   public ngOnDestroy(): void {

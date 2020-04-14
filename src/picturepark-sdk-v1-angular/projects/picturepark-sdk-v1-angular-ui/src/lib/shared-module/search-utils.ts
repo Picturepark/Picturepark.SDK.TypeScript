@@ -10,7 +10,7 @@ export enum ExtendedSearchBehavior {
     SimplifiedSearch = 'SimplifiedSearch',
     WildcardOnEveryTerm = 'WildcardOnEveryTerm',
     SimplifiedSearchOr = 'SimplifiedSearchOr',
-    AdvancedSearch =  'AdvancedSearch'
+    AdvancedSearch = 'AdvancedSearch'
 }
 
 export interface SearchParameters {

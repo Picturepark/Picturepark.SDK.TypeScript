@@ -2,8 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/c
 
 // LIBRARIES
 import {
-  ContentService, ThumbnailSize, ContentSearchRequest, SortInfo, SortDirection,
-  ContentSearchType, BrokenDependenciesFilter, LifeCycleFilter, Channel, SearchBehavior, Content, ContentSearchResult
+  ThumbnailSize, Channel, Content, ContentSearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -16,12 +15,9 @@ import {
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 
 // INTERFACES
-import { Observable } from 'rxjs';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 import { ContentModel } from '../../shared-module/models/content-model';
 
-// TODO: add virtual scrolling (e.g. do not create a lot of div`s, only that are presented on screen right now)
-// currently experimental feature of material CDK
 @Component({
   selector: 'pp-content-browser',
   templateUrl: './content-browser.component.html',
@@ -36,23 +32,21 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   @Input()
   public channel: Channel | null = null;
 
+  basket$ = this.basketService.basketChange;
+
   constructor(
     private basketService: BasketService,
-    private contentService: ContentService,
+    public facade: ContentSearchFacade,
     private contentDownloadDialogService: ContentDownloadDialogService,
     injector: Injector
   ) {
-    super('ContentBrowserComponent', injector);
+    super('ContentBrowserComponent', injector, facade);
   }
 
   async init(): Promise<void> {
-    // BASKET SUBSCRIBER
-    const basketSubscription = this.basketService.basketChange.subscribe(basketItems => {
+    this.sub = this.basketService.basketChange.subscribe(basketItems => {
       this.checkItemsInBasket(basketItems);
     });
-
-    // UNSUBSCRIBE
-    this.subscription.add(basketSubscription);
   }
 
   initSort(): void {
@@ -105,47 +99,19 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.items.forEach(model => model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id));
   }
 
-  getSearchRequest(): Observable<ContentSearchResult> | undefined {
-    if (!this.channel || !this.channel.id) { return; }
-
-
-    const request = new ContentSearchRequest({
-      debugMode: false,
-      pageToken: this.nextPageToken,
-      brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      filter: this.filter ? this.filter : undefined,
-      channelId: this.channel!.id,
-      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-      limit: this.pageSize,
-      searchString: this.searchString,
-      searchType: ContentSearchType.MetadataAndFullText,
-      searchBehaviors: this.searchBehavior ? [
-        this.searchBehavior,
-        SearchBehavior.DropInvalidCharactersOnFailure,
-        SearchBehavior.WildcardOnSingleTerm,
-      ] : [
-          SearchBehavior.DropInvalidCharactersOnFailure,
-          SearchBehavior.WildcardOnSingleTerm,
-        ],
-      sort: this.activeSortingType.field === 'relevance' ? [] : [
-        new SortInfo({
-          field: this.activeSortingType.field,
-          direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
-        })
-      ]
-    });
-
-    return this.contentService.search(request);
-  }
-
-
   prepareData(items: ContentModel<Content>[]): void {
     this.checkItemsInBasket(this.basketService.getBasketItems());
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['channel'] || changes['filter'] || changes['searchString'] || changes['searchBehavior']) {
-      this.update();
+    if (changes['channel'] && changes['channel'].currentValue) {
+      this.facade.searchRequestState.channelId = this.channel!.id;
+      // Trigger load
+      if (this.channel?.aggregations) {
+        this.facade.patchRequestState({ aggregators: this.channel.aggregations });
+      } else {
+        this.facade.patchRequestState({});
+      }
     }
   }
 

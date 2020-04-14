@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 
 // LIBRARIES
-import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter } from '@picturepark/sdk-v1-angular';
+import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter, SchemaSearchFacade } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-list-items-picker',
@@ -11,13 +11,11 @@ import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter } f
   styleUrls: ['./list-items-picker.component.scss'],
 })
 export class ListItemsPickerComponent {
-  public activeParentSchema = new BehaviorSubject(null);
-  public search = new BehaviorSubject('');
-  public filter: BehaviorSubject<FilterBase>;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-    const newFilter = this.createFilter();
-    this.filter = new BehaviorSubject(newFilter);
+  public activeParentSchema = new BehaviorSubject(null);
+
+  constructor(private route: ActivatedRoute, private facade: SchemaSearchFacade, private router: Router) {
+    facade.searchRequestState.baseFilter = this.createFilter();
   }
 
   public get queryParams(): Params {
@@ -25,7 +23,7 @@ export class ListItemsPickerComponent {
   }
 
   public setUpActiveSchema(schema: Schema): void {
-    this.updateRoute(schema.id!);
+    this.updateRoute(schema.id);
   }
 
   private updateRoute(schemaId: string): void {

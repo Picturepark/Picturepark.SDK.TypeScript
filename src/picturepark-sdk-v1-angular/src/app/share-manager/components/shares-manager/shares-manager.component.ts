@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 // LIBRARIES
 import {
-  Channel,
-  FilterBase,
-  AggregatorBase,
   TermsAggregator,
   InfoFacade,
   NestedAggregator,
+  ShareSearchFacade,
 } from '@picturepark/sdk-v1-angular';
 
 @Component({
@@ -16,17 +14,14 @@ import {
   styleUrls: ['./shares-manager.component.scss'],
 })
 export class SharesManagerComponent implements OnInit {
-  public searchText = '';
-  public selectedChannel: Channel | null = null;
-  public selectedFilter: FilterBase | null = null;
-  public aggregators: AggregatorBase[] = [];
+  initialized = false;
 
-  constructor(private infoFacade: InfoFacade) {}
+  constructor(public facade: ShareSearchFacade, private infoFacade: InfoFacade) {
 
-  async ngOnInit() {
+  }
+  async ngOnInit() {	
     const customerInfo = await this.infoFacade.getInfo().toPromise();
-
-    this.aggregators = [
+    this.facade.searchRequestState.aggregators = [
       new NestedAggregator({
         name: 'email',
         names: {
@@ -47,5 +42,6 @@ export class SharesManagerComponent implements OnInit {
         ],
       }),
     ];
+    this.initialized = true;
   }
 }

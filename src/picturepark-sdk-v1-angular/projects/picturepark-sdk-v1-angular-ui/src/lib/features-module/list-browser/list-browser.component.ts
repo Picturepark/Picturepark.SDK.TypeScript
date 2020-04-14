@@ -1,26 +1,20 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component,
-  Input, OnInit, Injector, SimpleChanges, OnChanges
+  Input, OnInit, Injector
 } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Sort, SortDirection as MatSortDirection } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 // LIBRARIES
 import {
-  BrokenDependenciesFilter,
-  InfoFacade,
-  LifeCycleFilter,
-  ListItemSearchRequest,
-  ListItemService,
+  InfoService,
   SchemaDetail,
-  SearchBehavior,
   SortInfo,
-  ListItemResolveBehavior,
   ListItem,
-  ListItemSearchResult,
   CustomerInfo,
   SortDirection,
+  ListItemSearchFacade,
+  InfoFacade,
 } from '@picturepark/sdk-v1-angular';
 
 // SERVICES
@@ -42,7 +36,7 @@ import { lowerFirst } from '../../utilities/helper';
   providers: [TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListBrowserComponent extends BaseBrowserComponent<ListItem> implements OnInit, OnChanges {
+export class ListBrowserComponent extends BaseBrowserComponent<ListItem> implements OnInit {
   @Input() schema: SchemaDetail;
   @Input() selectedItemIds: string[];
   @Input() enableSelection: boolean;
@@ -57,13 +51,13 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   public customerInfo: CustomerInfo;
 
   constructor(
-    private listItemService: ListItemService,
     private metaDataPreviewService: MetaDataPreviewService,
     private infoFacade: InfoFacade,
     private cdr: ChangeDetectorRef,
+    public facade: ListItemSearchFacade,
     injector: Injector
   ) {
-    super('ListBrowserComponent', injector);
+    super('ListBrowserComponent', injector, facade);
   }
 
   async init(): Promise<void> {
@@ -102,7 +96,8 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
         });
       }
     }
-    this.loadData();
+
+    this.facade.patchRequestState({ schemaIds: [this.schema.id], aggregators: this.schema.aggregations ?? [] })
   }
 
   initSort(): void {
@@ -110,32 +105,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   onScroll(): void {
     this.loadData();
-  }
-
-  getSearchRequest(): Observable<ListItemSearchResult> | undefined {
-    const request = new ListItemSearchRequest({
-      pageToken: this.nextPageToken,
-      limit: this.pageSize,
-      searchString: this.searchString,
-      sort: this.sortInfo,
-      searchBehaviors: this.searchBehavior ? [
-        this.searchBehavior,
-        SearchBehavior.DropInvalidCharactersOnFailure,
-        SearchBehavior.WildcardOnSingleTerm,
-      ] : [
-        SearchBehavior.DropInvalidCharactersOnFailure,
-        SearchBehavior.WildcardOnSingleTerm,
-      ],
-      schemaIds: [this.schema.id],
-      filter: this.filter ? this.filter : undefined,
-      includeAllSchemaChildren: true,
-      brokenDependenciesFilter: BrokenDependenciesFilter.All,
-      debugMode: false,
-      lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-      resolveBehaviors: [ListItemResolveBehavior.Content, ListItemResolveBehavior.InnerDisplayValueName]
-    });
-
-    return this.listItemService.search(request);
   }
 
   checkContains(elementClassName: string): boolean {
@@ -172,17 +141,6 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     });
     this.sortInfo = [sortInfo];
     this.update();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      (changes['schema'] && !changes['schema'].firstChange) ||
-      (changes['filter'] && !changes['filter'].firstChange) ||
-      (changes['searchString'] && !changes['searchString'].firstChange) ||
-      (changes['searchBehavior'] && !changes['searchBehavior'].firstChange)
-    ) {
-      this.update();
-    }
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

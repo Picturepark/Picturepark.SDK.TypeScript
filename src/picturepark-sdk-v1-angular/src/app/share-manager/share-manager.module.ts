@@ -9,7 +9,7 @@ import {
   SharedModule,
   ShareBrowserModule,
   ItemToolBarModule,
-  ShareAggregationListModule,
+  AggregationListModule,
   ShareItemsPanelModule,
 } from '@picturepark/sdk-v1-angular-ui';
 
@@ -27,7 +27,7 @@ import { ApplicationHeaderModule } from '../components/application-header/applic
   imports: [
     CommonModule,
     BrowserToolbarModule,
-    ShareAggregationListModule,
+    AggregationListModule,
     PanelModule,
     ShareManagerRoutingModule,
     SharedModule,

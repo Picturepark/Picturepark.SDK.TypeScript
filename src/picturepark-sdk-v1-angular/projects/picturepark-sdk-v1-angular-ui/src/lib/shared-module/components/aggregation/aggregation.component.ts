@@ -1,12 +1,12 @@
-import { Input, OnChanges, Output, EventEmitter, SimpleChanges, Component, Inject, LOCALE_ID, Injector } from '@angular/core';
+import { Input, OnChanges, SimpleChanges, Component, Inject, LOCALE_ID, Injector, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounce, map, flatMap } from 'rxjs/operators';
 import { timer, Observable, from } from 'rxjs';
 
 // LIBRARIES
 import {
-  AggregationFilter, AggregationResult, AggregatorBase,
-  AggregationResultItem, TermsAggregator, ObjectAggregationResult
+  AggregationResult, AggregatorBase,
+  AggregationResultItem, TermsAggregator, SearchFacade, SearchInputState, IEntityBase
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -17,15 +17,7 @@ import { BaseComponent } from '../base.component';
   templateUrl: './aggregation.component.html',
   styleUrls: ['./aggregation.component.scss']
 })
-export class AggregationComponent extends BaseComponent implements OnChanges {
-
-  // Used for performing aggregate request (autocomplete functionality).
-  @Input()
-  public searchString = '';
-
-  // Used for performing aggregate request (autocomplete functionality).
-  @Input()
-  globalAggregationFilters: AggregationFilter[] = [];
+export class AggregationComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input()
   aggregator: AggregatorBase;
@@ -37,11 +29,8 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
   @Input()
   public isExpanded: boolean;
 
-  @Output()
-  aggregationFiltersChange: EventEmitter<AggregationFilter[]> = new EventEmitter();
-
   @Input()
-  fetchSearchData: (searchString: string, aggregator: AggregatorBase) => Observable<ObjectAggregationResult>;
+  facade: SearchFacade<IEntityBase, SearchInputState>;
 
   public pagingSize = 0;
 
@@ -68,6 +57,15 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
       flatMap(value => this.searchAggregator(value)));
   }
 
+  ngOnInit() {
+    this.sub = this.facade.searchRequest$.subscribe(request => {
+      this.aggregationsFiltersCount = request.aggregationFilters.filter(
+        (item) => item.aggregationName === this.aggregator.name).length;
+
+      this.canExpand = this.isExpanded || this.canExpand || this.aggregationsFiltersCount > 0;
+    });
+  }
+
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['aggregator']) {
       this.expandedAggregator = this.expandAggregator(this.aggregator);
@@ -77,11 +75,6 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     if (changes['aggregationResult']) {
       this.updateAggregationResult(this.aggregationResult);
       this.aggregationQuery.setValue('');
-    }
-
-    if (changes['globalAggregationFilters']) {
-      this.aggregationsFiltersCount = this.globalAggregationFilters.filter(
-        (item) => item.aggregationName === this.aggregator.name).length;
     }
 
     if (changes['expandedAggregationResult'] || changes['isExpanded']) {
@@ -96,23 +89,20 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
   public loadMore(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) + this.pagingSize;
 
-    const fetchDataSubscription = this.fetchSearchData(this.searchString, this.aggregator).subscribe(result => {
-      this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
+    this.sub = this.facade.searchAggregations([this.aggregator])!.subscribe(result => {
+      this.updateAggregationResult(result ? result[0] || null : null);
     });
-    this.subscription.add(fetchDataSubscription);
   }
 
   public loadLess(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) - this.pagingSize;
 
-    const fetchDataSubscription = this.fetchSearchData(this.searchString, this.aggregator).subscribe(result => {
-      this.updateAggregationResult(result.aggregationResults ? result.aggregationResults[0] || null : null);
+    this.sub = this.facade.searchAggregations([this.aggregator])!.subscribe(result => {
+      this.updateAggregationResult(result ? result[0] || null : null);
     });
-    this.subscription.add(fetchDataSubscription);
   }
 
   public searchAggregator(searchString: string): Observable<AggregationResultItem[]> {
-    this.searchString = searchString;
     if (searchString === '') {
       return from([]);
     }
@@ -123,16 +113,15 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     this.expandedAggregator.size = this.pagingSize;
 
     this.isLoading = true;
-    const observableResult = this.fetchSearchData(searchString, this.aggregator).pipe(map(result => {
+    const observableResult = this.facade.searchAggregations([this.aggregator])!.pipe(map(result => {
       this.hideLoader();
 
-      if (result.aggregationResults !== undefined) {
-        const items = this.expandAggregationResult(result.aggregationResults[0]).aggregationResultItems || [];
+      if (result !== undefined) {
+        const items = this.facade.expandAggregationResult(result[0]).aggregationResultItems || [];
 
-        const currentSelectedValues = this.expandedAggregationResult!.aggregationResultItems ?
-          this.expandedAggregationResult!.aggregationResultItems!.filter(agr => agr.active === true) : [];
+        const currentSelectedValues = this.expandedAggregationResult?.aggregationResultItems?.filter(agr => agr.active === true) ?? [];
 
-        return items.filter((item) => !currentSelectedValues.some((value => value.name === item.name)));
+        return items.filter(item => !currentSelectedValues.some((value => value.name === item.name)));
 
       }
 
@@ -150,27 +139,12 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
   }
 
   public autoCompleteOptionSelected(value: AggregationResultItem): void {
-    const filters = this.expandedAggregationResult!.aggregationResultItems ?
-      this.expandedAggregationResult!.aggregationResultItems!
-        .filter(agr => agr.active === true && agr.filter)
-        .map(agr => agr.filter as AggregationFilter) : [];
-
-    if (value.filter !== undefined) {
-      filters.push(value.filter);
-    }
-
-    this.aggregationFiltersChange.emit(filters);
+    this.aggregationQuery.setValue('');
+    this.facade.toggleAggregationResult(value);
   }
 
   public selectionChanged(changedItem: AggregationResultItem): void {
-    changedItem.active = !changedItem.active;
-
-    const filters = this.expandedAggregationResult!.aggregationResultItems ?
-      this.expandedAggregationResult!.aggregationResultItems!
-        .filter(agr => agr.active === true && agr.filter)
-        .map(agr => agr.filter as AggregationFilter) : [];
-
-    this.aggregationFiltersChange.emit(filters);
+    this.facade.toggleAggregationResult(changedItem);
   }
 
   public get showLess(): boolean {
@@ -185,12 +159,17 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
       && this.expandedAggregationResult.aggregationResultItems.filter(x => x && x.count > 0 || x.active).length >= 1;
   }
 
-  public trackByName(index, aggregationResultItem: AggregationResultItem): string {
+  public trackByName(_index, aggregationResultItem: AggregationResultItem): string {
     return aggregationResultItem.name;
   }
 
+  public clear() {
+    const aggregationFilters = this.facade.searchRequestState.aggregationFilters.filter(i => i.aggregationName !== this.aggregator.name);
+    this.facade.patchRequestState({ aggregationFilters });
+  }
+
   private updateAggregationResult(aggregationResult: AggregationResult | null): void {
-    this.expandedAggregationResult = aggregationResult ? this.expandAggregationResult(aggregationResult) : null;
+    this.expandedAggregationResult = aggregationResult ? this.facade.expandAggregationResult(aggregationResult) : null;
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {
@@ -200,20 +179,6 @@ export class AggregationComponent extends BaseComponent implements OnChanges {
     }
 
     return aggregator as TermsAggregator;
-  }
-
-  private expandAggregationResult(aggregationResult: AggregationResult): AggregationResult {
-    if (
-      aggregationResult &&
-      aggregationResult.aggregationResultItems &&
-      aggregationResult.aggregationResultItems[0] &&
-      aggregationResult.aggregationResultItems[0].aggregationResults &&
-      aggregationResult.aggregationResultItems[0].aggregationResults![0]) {
-
-      return this.expandAggregationResult(aggregationResult.aggregationResultItems[0].aggregationResults![0]);
-    }
-
-    return aggregationResult;
   }
 
   public hideLoader(): void {

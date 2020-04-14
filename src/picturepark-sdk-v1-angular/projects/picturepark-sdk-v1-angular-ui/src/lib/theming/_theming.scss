@@ -13,7 +13,6 @@
 @import '../features-module/basket/components/basket-item/basket-item.component.theme.scss';
 @import '../features-module/browser-toolbar/browser-toolbar.component.theme.scss';
 @import '../features-module/search-box/search-box.component.theme.scss';
-@import '../features-module/content-aggregation-list/content-aggregation-list.component.theme.scss';
 @import '../features-module/content-browser/content-browser.component.theme.scss';
 @import '../features-module/content-browser/components/content-browser-item/content-browser-item.component.theme.scss';
 @import '../features-module/channel-picker/channel-picker.component.theme.scss';
@@ -23,7 +22,6 @@
 @import '../features-module/panel/components/settings-panel/settings-panel.component.theme.scss';
 @import '../features-module/schema-browser/components/schema-browser-item/schema-browser-item.component.theme.scss';
 @import '../features-module/share-content-dialog/share-content-dialog.component.theme.scss';
-@import '../features-module/share-aggregation-list/share-aggregation-list.component.theme.scss';
 @import '../features-module/share-browser/components/share-browser-item/share-browser-item.component.theme.scss';
 @import '../features-module/share-items-panel/share-items-panel.component.theme.scss';
 @import '../features-module/share-content-dialog/components/share-content-dialog-item/share-content-dialog-item.component.theme.scss';
@@ -40,7 +38,6 @@
     @include pp-browser-item-base-theme($theme);
     @include pp-browser-toolbar-theme($theme);
     @include pp-search-box-theme($theme);
-    @include pp-content-aggregation-list-theme($theme);
     @include pp-content-browser-theme($theme);
     @include pp-content-browser-item-theme($theme);
     @include pp-channel-picker-theme($theme);
@@ -50,7 +47,6 @@
     @include pp-settings-panel-theme($theme);
     @include pp-item-tool-bar-theme($theme);
     @include pp-share-content-dialog-theme($theme);
-    @include pp-share-aggregation-list-theme($theme);
     @include pp-share-browser-item-theme($theme);
     @include pp-share-items-panel-theme($theme);
     @include pp-share-content-dialog-item-theme($theme);

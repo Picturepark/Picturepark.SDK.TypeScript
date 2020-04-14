@@ -17269,8 +17269,8 @@ export interface SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfB
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Search result from a search for business processes */
@@ -17929,8 +17929,8 @@ export interface SearchBehaviorBaseResultOfBusinessRuleTraceLog extends BaseResu
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -18066,9 +18066,12 @@ export interface UserAudit {
 export interface BusinessRuleTraceLogSearchRequest {
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
     debugMode: boolean;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** List of aggregators that defines how the items should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
@@ -18474,8 +18477,8 @@ export interface SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPer
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Result of a permission set search operation */
@@ -19118,8 +19121,8 @@ export interface SearchBehaviorBaseResultOfContent extends BaseResultOfContent {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -19172,9 +19175,12 @@ export interface ContentAggregationOnChannelRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** Limits the simple search fields to the fields available in the specified channel. Defaults to RootChannel.
 For the ContentAggregationOnChannelRequest only, the existing aggregation saved on the channel are retrieved and used to perform the aggregation. */
@@ -19224,8 +19230,8 @@ export interface ObjectAggregationResult {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Request to aggregate contents based on the specified aggregators */
@@ -19645,8 +19651,8 @@ export interface SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -19688,9 +19694,12 @@ export interface ListItemSearchAndAggregationBaseRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** Broadens the search to include all schema descendant list items. */
     includeAllSchemaChildren: boolean;
@@ -20984,8 +20993,8 @@ export interface SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Result for schema search operation */
@@ -21347,9 +21356,12 @@ export interface ShareSearchAndAggregationBaseRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
 }
 
@@ -21376,8 +21388,8 @@ export interface SearchBehaviorBaseResultOfShare extends BaseResultOfShare {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -21528,8 +21540,8 @@ export interface SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Result from a search for transfers. */
@@ -21739,8 +21751,8 @@ export interface SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFile
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Result from a search for file transfers. */
@@ -21800,8 +21812,8 @@ export interface SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Holds results of the user role search. */
@@ -22014,8 +22026,8 @@ export interface SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUse
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -22066,9 +22078,12 @@ export interface UserSearchAndAggregationBaseRequest {
     lifeCycleFilter: LifeCycleFilter;
     /** Return only users with certain user rights. */
     userRightsFilter?: UserRight[] | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     includeServiceUser: boolean;
 }

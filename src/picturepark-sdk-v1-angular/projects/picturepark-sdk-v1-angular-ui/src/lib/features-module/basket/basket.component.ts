@@ -25,7 +25,6 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
   public basketItems: Content[] = [];
 
-
   public configActions: ConfigActions;
 
   @Output()
@@ -42,12 +41,11 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
     super(injector);
 
-    const basketSubscription = this.basketService.basketChange.pipe(switchMap((itemsIds => {
+    this.sub = this.basketService.basketChange.pipe(switchMap((itemsIds => {
       return fetchContents(this.contentService, itemsIds);
     }))).subscribe(fetchResult => {
       this.basketItems = fetchResult.results;
     });
-    this.subscription.add(basketSubscription);
   }
 
   public previewItem(item: Content): void {

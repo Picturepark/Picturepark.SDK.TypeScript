@@ -1,6 +1,5 @@
 import { BaseComponent } from '../base.component';
-import { Injector, OnInit, NgZone, Output, EventEmitter, Input, HostListener } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injector, OnInit, NgZone, Output, EventEmitter, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LazyGetter } from 'lazy-get-decorator';
 
@@ -8,13 +7,14 @@ import { LazyGetter } from 'lazy-get-decorator';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import { FilterBase, IEntityBase, SearchBehavior, ThumbnailSize } from '@picturepark/sdk-v1-angular';
+import { IEntityBase, ThumbnailSize, SearchFacade, SortInfo, SortDirection, SearchInputState, AggregationResult } from '@picturepark/sdk-v1-angular';
 import { SelectionService as SelectionService } from '../../services/selection/selection.service';
 import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
 import { IBrowserView } from './interfaces/browser-view';
 import { debounceTime } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
     // Services
@@ -46,8 +46,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public configActions: ConfigActions;
     public isLoading = false;
     public items: ContentModel<TEntity>[] = [];
-    public nextPageToken: string | undefined;
-    public readonly pageSize = 75;
     public isAscending: boolean | null = null;
     public activeSortingType: ISortItem;
     public sortingTypes: ISortItem[];
@@ -57,33 +55,24 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     protected scrollDebounceTime = 0;
 
-    @Output() public totalResultsChange = new EventEmitter<number | null>();
     @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
     @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
 
-    @Input() public searchString = '';
-    /**
-    * ### SearchBehavior to be passed on the search request
-    * default value
-    * ``` javascript
-    *       SearchBehavior.SimplifiedSearch
-    * ```
-    */
-    @Input() public searchBehavior: SearchBehavior;
-    @Input() public filter: FilterBase | null = null;
-
-    private _totalResults: number | null = null;
     private _selectedItems: TEntity[] = [];
     private lastSelectedIndex = 0;
+
+    totalResults$ = this.facade.totalResults$;
+    items$ = this.facade.items$;
+    aggregationResults$: Observable<AggregationResult[] | undefined> = this.facade.aggregationResults$;
 
     abstract init(): Promise<void>;
     abstract initSort(): void;
     abstract onScroll(): void;
-    abstract getSearchRequest(): Observable<{ results: TEntity[]; totalResults: number; pageToken?: string | undefined }> | undefined;
     abstract checkContains(elementClassName: string): boolean;
 
     constructor(protected componentName: string,
-        protected injector: Injector) {
+        protected injector: Injector,
+        public facade: SearchFacade<TEntity, SearchInputState>) {
         super(injector);
 
         this.self = this;
@@ -104,37 +93,32 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     async ngOnInit(): Promise<void> {
         this.configActions = this.pictureParkUIConfig[this.componentName];
 
-        // SCROLL SUBSCRIBER
-        const scrollSubscription = this.scrollDispatcher.scrolled().pipe(debounceTime(this.scrollDebounceTime)).subscribe(scrollable => {
+        // Scroll loader
+        this.sub = this.scrollDispatcher.scrolled().pipe(debounceTime(this.scrollDebounceTime)).subscribe(scrollable => {
             if (!scrollable) { return; }
 
             const nativeElement = scrollable.getElementRef().nativeElement;
             const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - (2 * nativeElement.clientHeight);
 
-            if (scrollCriteria && !this.isLoading && this.items.length !== this.totalResults) {
+            if (scrollCriteria && !this.isLoading && this.items.length !== this.facade.searchResultState.totalResults) {
                 this.ngZone.run(() => this.onScroll());
             }
         });
-        this.subscription.add(scrollSubscription);
 
-        // ITEM SELECTION SUBSCRIBER
-        const contentItemSelectionSubscription = this.selectionService.selectedItems.subscribe(items => {
+        // Item selection
+        this.sub = this.selectionService.selectedItems.subscribe(items => {
             this.selectedItems = items;
             this.items.forEach(model => model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id));
         });
-        this.subscription.add(contentItemSelectionSubscription);
 
         // Call abstract init class
         await this.init();
-    }
 
-    get totalResults(): number | null {
-        return this._totalResults;
-    }
+        // Subscribe to searchInput changes and trigger reload
+        this.sub = this.facade.searchRequest$.subscribe(() => this.update());
 
-    set totalResults(total: number | null) {
-        this._totalResults = total;
-        this.totalResultsChange.emit(total);
+        // Subscribe to loading
+        this.sub = this.facade.getLoadingInfos('all').subscribe(i => this.isLoading = i);
     }
 
     get selectedItems(): TEntity[] {
@@ -151,24 +135,22 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     }
 
     public update(): void {
-        this.totalResults = null;
-        this.nextPageToken = undefined;
+        this.facade.searchResultState.nextPageToken = undefined;
         this.items = [];
         this.loadData();
     }
 
     public loadData(): void {
-        const request = this.getSearchRequest();
-
-        if (this.isLoading || !request) {
+        if (this.isLoading) {
             return;
         }
 
-        this.isLoading = true;
-        const searchSubscription = request.subscribe(async searchResult => {
-            this.totalResults = searchResult.totalResults;
-            this.nextPageToken = searchResult.pageToken;
+        const request = this.facade.search();
+        if (!request) {
+            return;
+        }
 
+        this.sub = request.subscribe(async searchResult => {
             if (searchResult.results) {
                 const items = searchResult.results.map(item => {
                     const contentModel = new ContentModel(item, false);
@@ -179,12 +161,13 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
                 this.prepareData(items);
             }
 
-            this.isLoading = false;
-        }, () => {
-            this.totalResults = null;
-            this.isLoading = false;
+            this.facade.setResultState({
+                totalResults: searchResult.totalResults,
+                results: [...this.facade.searchResultState.results, ...searchResult.results],
+                nextPageToken: searchResult.pageToken,
+                aggregationResults: searchResult.aggregationResults
+            });
         });
-        this.subscription.add(searchSubscription);
     }
 
     protected prepareData(items: ContentModel<TEntity>[]): void {
@@ -249,8 +232,17 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         }
 
         this.activeSortingType = newValue;
+        const sort = this.activeSortingType.field === 'relevance' ? [] : [
+            new SortInfo({
+              field: this.activeSortingType.field,
+              direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
+            })
+          ];
+
         if (reload) {
-            this.update();
+          this.facade.patchRequestState({sort});
+        } else {
+            this.facade.searchRequestState.sort = sort;
         }
     }
 

@@ -26,4 +26,9 @@ export { LocaleModule } from './lib/locale.module';
 export { StorageKey } from './lib/utilities/storage-key.enum';
 
 // facades
-export { InfoFacade } from './lib/info.facade';
+export { InfoFacade } from './lib/facade/info.facade';
+export * from './lib/facade/search.facade';
+export * from './lib/facade/content-search.facade';
+export * from './lib/facade/schema-search.facade';
+export * from './lib/facade/share-search.facade';
+export * from './lib/facade/list-item-search.facade';

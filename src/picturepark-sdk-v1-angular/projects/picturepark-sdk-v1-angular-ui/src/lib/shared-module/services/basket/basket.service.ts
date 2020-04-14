@@ -48,6 +48,18 @@ export class BasketService {
     this.updateStorage();
   }
 
+  public contains(id: string) {
+    return this.basketItems.has(id);
+  }
+
+  public toggle(id: string) {
+    if (this.contains(id)) {
+      this.removeItem(id);
+    } else {
+      this.addItem(id);
+    }
+  }
+
   private updateStorage() {
     const itemsArray = Array.from(this.basketItems);
     const value = JSON.stringify(itemsArray);

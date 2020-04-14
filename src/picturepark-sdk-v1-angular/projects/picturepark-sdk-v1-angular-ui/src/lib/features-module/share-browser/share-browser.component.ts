@@ -1,10 +1,9 @@
-import { Component, Injector, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
 // LIBRARIES
 import {
-  Share, ShareSearchRequest, SearchBehavior, ShareService, SortDirection, SortInfo, ShareSearchResult, ThumbnailSize
+  Share, ThumbnailSize, ShareSearchFacade
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -21,15 +20,15 @@ import { ContentModel } from '../../shared-module/models/content-model';
     './share-browser.component.scss'
   ]
 })
-export class ShareBrowserComponent extends BaseBrowserComponent<Share> implements OnChanges {
+export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
 
   constructor(
     private activatedRoute: ActivatedRoute,
     injector: Injector,
     private router: Router,
-    private shareService: ShareService
+    public facade: ShareSearchFacade
   ) {
-    super('ShareBrowserComponent', injector);
+    super('ShareBrowserComponent', injector, facade);
   }
 
   async init(): Promise<void> {
@@ -76,31 +75,6 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
     this.loadData();
   }
 
-  getSearchRequest(): Observable<ShareSearchResult> | undefined {
-    if (this.isLoading) { return; }
-
-    const request = new ShareSearchRequest({
-      debugMode: false,
-      pageToken: this.nextPageToken,
-      filter: this.filter ? this.filter : undefined,
-      limit: this.pageSize,
-      searchString: this.searchString,
-      searchBehaviors: [
-        SearchBehavior.SimplifiedSearch,
-        SearchBehavior.DropInvalidCharactersOnFailure,
-        SearchBehavior.WildcardOnSingleTerm
-      ],
-      sort: this.activeSortingType.field === 'relevance' ? [] : [
-        new SortInfo({
-          field: this.activeSortingType.field,
-          direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc
-        })
-      ]
-    });
-
-    return this.shareService.search(request);
-  }
-
   // CHECK IF ELEMENT CONTAINS CLASS NAME
   checkContains(elementClassName: string): boolean {
     const containClasses = ['browser__items'];
@@ -113,11 +87,5 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> implement
 
   previewItemEvent(item: ContentModel<Share>): void {
     this.router.navigate([item.item.id], { relativeTo: this.activatedRoute });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filter'] || changes['searchString']) {
-      this.update();
-    }
   }
 }

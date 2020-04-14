@@ -9,13 +9,13 @@ import { MediaMatcher } from '@angular/cdk/layout';
 // LIBRARIES
 import {
   AggregationFilter,
-  AggregatorBase,
   AndFilter,
   FilterBase,
   OrFilter,
   SchemaDetail,
   SchemaService,
   ListItem,
+  ListItemSearchFacade,
 } from '@picturepark/sdk-v1-angular';
 import { groupBy } from '../../../utilities/helper';
 import { ListBrowserComponent } from '../../list-browser/list-browser.component';
@@ -35,10 +35,8 @@ export class ListComponent implements OnInit, OnDestroy {
   public aggregationFilters: AggregationFilter[] = [];
   public searchQuery: Observable<string>;
   public filter: BehaviorSubject<FilterBase | null>;
-  public aggregations: AggregatorBase[] = [];
   public schemaDetail: SchemaDetail | undefined;
   public schema: Observable<SchemaDetail>;
-  public schemaId: string;
   public selectedItems: ListItem[];
   public selectedItemsIds: string[];
 
@@ -48,7 +46,8 @@ export class ListComponent implements OnInit, OnDestroy {
     private media: MediaMatcher,
     private schemaService: SchemaService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public facade: ListItemSearchFacade
   ) {
     this.filter = new BehaviorSubject(null);
   }
@@ -57,7 +56,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
 
-    this.schema = <Observable<SchemaDetail>>this.route.paramMap.pipe(flatMap((paramMap) => {
+    this.schema = this.route.paramMap.pipe(flatMap(paramMap => {
       const schemaId = paramMap.get('id')!;
       return this.schemaService.get(schemaId);
     }));
@@ -74,15 +73,13 @@ export class ListComponent implements OnInit, OnDestroy {
       ([schemaDetail, paramMap, queryParamMap]) => {
         this.activeSchema.next(schemaDetail);
         this.schemaDetail = schemaDetail;
-        this.aggregations = schemaDetail.aggregations!;
-        this.schemaId = paramMap.get('id')!;
 
         const filterQuery = queryParamMap.getAll('filter');
         if (filterQuery) {
           if (typeof filterQuery === 'string') {
             this.aggregationFilters = [AggregationFilter.fromJS(JSON.parse(filterQuery))];
           } else {
-            this.aggregationFilters = (filterQuery as string[]).map(fq => AggregationFilter.fromJS(JSON.parse(fq)));
+            this.aggregationFilters = filterQuery.map(fq => AggregationFilter.fromJS(JSON.parse(fq)));
           }
           const createdFilter = this.createFilter(this.aggregationFilters);
           this.filter.next(createdFilter!);

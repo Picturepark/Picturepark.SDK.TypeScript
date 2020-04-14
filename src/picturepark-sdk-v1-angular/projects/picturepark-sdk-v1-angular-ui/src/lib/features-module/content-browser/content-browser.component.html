@@ -18,7 +18,7 @@
     <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
   </div>
 
-  <div *ngIf="totalResults !== 0" class="browser__items" 
+  <div *ngIf="(totalResults$ | async) !== 0" class="browser__items" 
        [class.browser__items--list]="activeView.type === 'list'"
        [class.browser__items--large]="activeView.type === 'thumbnailLarge'"
        [class.browser__items--medium]="activeView.type === 'thumbnailMedium'" cdkScrollable>
@@ -40,9 +40,9 @@
     </div>
   </div>
 
-  <div *ngIf="totalResults === 0" class="browser__empty-result mat-typography">
+  <div *ngIf="(totalResults$ | async) === 0" class="browser__empty-result mat-typography">
     {{ 'ContentBrowser.NoItems' | pptranslate }}
-    <strong> {{ searchString }}</strong>
+    <strong> {{ this.facade.searchRequestState.searchString }}</strong>
     <br />
     {{ 'ContentBrowser.NoItemsHist' | pptranslate }}
     <ul>
