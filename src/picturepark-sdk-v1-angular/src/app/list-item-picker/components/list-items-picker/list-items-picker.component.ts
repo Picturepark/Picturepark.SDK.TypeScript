@@ -3,7 +3,15 @@ import { BehaviorSubject } from 'rxjs';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 
 // LIBRARIES
-import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter, SchemaSearchFacade } from '@picturepark/sdk-v1-angular';
+import {
+  Schema,
+  FilterBase,
+  AndFilter,
+  TermsFilter,
+  NotFilter,
+  ExistsFilter,
+  SchemaSearchFacade,
+} from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-list-items-picker',
@@ -11,7 +19,6 @@ import { Schema, FilterBase, AndFilter, TermsFilter, NotFilter, ExistsFilter, Sc
   styleUrls: ['./list-items-picker.component.scss'],
 })
 export class ListItemsPickerComponent {
-
   public activeParentSchema = new BehaviorSubject(null);
 
   constructor(private route: ActivatedRoute, private facade: SchemaSearchFacade, private router: Router) {

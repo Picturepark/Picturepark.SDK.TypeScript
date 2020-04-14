@@ -1,5 +1,6 @@
-<div class="notification-container" [ngClass]="{ active: notificationData.status, error: notificationData.type === 'error' }">
-  <div class="notification">
-    {{ notificationData.message }}<mat-icon (click)="closeNotification()">close</mat-icon>
-  </div>
+<div
+  class="notification-container"
+  [ngClass]="{ active: notificationData.status, error: notificationData.type === 'error' }"
+>
+  <div class="notification">{{ notificationData.message }}<mat-icon (click)="closeNotification()">close</mat-icon></div>
 </div>

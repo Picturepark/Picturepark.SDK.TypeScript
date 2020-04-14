@@ -10,19 +10,8 @@ import { OwnerPanelComponent } from './components/owner-panel/owner-panel.compon
 import { MailRecipientsPanelComponent } from './components/mail-recipients-panel/mail-recipients-panel.component';
 
 @NgModule({
-  declarations: [
-    MailRecipientsPanelComponent,
-    OwnerPanelComponent,
-    SettingsPanelComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule
-  ],
-  exports: [
-    MailRecipientsPanelComponent,
-    OwnerPanelComponent,
-    SettingsPanelComponent
-  ]
+  declarations: [MailRecipientsPanelComponent, OwnerPanelComponent, SettingsPanelComponent],
+  imports: [CommonModule, SharedModule],
+  exports: [MailRecipientsPanelComponent, OwnerPanelComponent, SettingsPanelComponent],
 })
-export class PanelModule { }
+export class PanelModule {}

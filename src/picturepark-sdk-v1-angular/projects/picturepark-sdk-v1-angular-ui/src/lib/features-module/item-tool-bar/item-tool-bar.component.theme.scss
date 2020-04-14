@@ -1,45 +1,45 @@
 @import '~@angular/material/theming';
 
 // BROWSER TOOLBAR CONTAINER
-$pp-item-tool-bar: (contrast: ());
+$pp-item-tool-bar: (
+  contrast: (),
+);
 
 @mixin pp-item-tool-bar-theme($theme) {
+  $primary: map-get($theme, primary);
 
-    $primary: map-get($theme, primary);
+  pp-item-tool-bar {
+    .tool-bar-container {
+      background: mat-color($primary, surface-dark);
 
-    pp-item-tool-bar {
-        .tool-bar-container {
-            background: mat-color($primary, surface-dark);
-            
-            .to-top {
-                background-color: mat-color($primary, surface-light);
-                color: mat-color($primary, on-surface-light);
+      .to-top {
+        background-color: mat-color($primary, surface-light);
+        color: mat-color($primary, on-surface-light);
+      }
+
+      ul {
+        li {
+          button {
+            color: mat-color($primary, on-surface-dark);
+            &:hover {
+              i {
+                color: mat-color($primary, on-surface-dark);
+              }
             }
-            
-            ul {
-                li {
-                    
-                    button {
-                        color: mat-color($primary, on-surface-dark);
-                        &:hover {
-                            i {
-                                color: mat-color($primary, on-surface-dark);
-                            }
-                        }
-                        
-                        i {
-                            color: mat-color($primary, on-surface-dark);
-                            font-size: mat-font-size($custom-typography, headline);
-                        }
-                        
-                        span {
-                            font-size: mat-font-size($custom-typography, button);
-                            background-color: mat-color($primary, opacity-light);
-                            color: mat-color($primary, on-opacity-light);
-                        }
-                    }
-                }
+
+            i {
+              color: mat-color($primary, on-surface-dark);
+              font-size: mat-font-size($custom-typography, headline);
             }
+
+            span {
+              font-size: mat-font-size($custom-typography, button);
+              background-color: mat-color($primary, opacity-light);
+              color: mat-color($primary, on-opacity-light);
+            }
+          }
         }
+      }
     }
+  }
 }

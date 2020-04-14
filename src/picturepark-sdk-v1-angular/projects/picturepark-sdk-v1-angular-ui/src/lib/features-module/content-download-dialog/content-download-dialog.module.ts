@@ -4,21 +4,10 @@ import { ContentDownloadDialogComponent } from './content-download-dialog.compon
 import { SharedModule } from '../../shared-module/shared-module.module';
 import { DialogModule } from '../dialog/dialog.module';
 
-
 @NgModule({
-  declarations: [
-    ContentDownloadDialogComponent
-  ],
-  imports: [
-    CommonModule,
-    DialogModule,
-    SharedModule
-  ],
-  exports: [
-    ContentDownloadDialogComponent,
-  ],
-  entryComponents: [
-    ContentDownloadDialogComponent
-  ]
+  declarations: [ContentDownloadDialogComponent],
+  imports: [CommonModule, DialogModule, SharedModule],
+  exports: [ContentDownloadDialogComponent],
+  entryComponents: [ContentDownloadDialogComponent],
 })
 export class ContentDownloadDialogModule {}

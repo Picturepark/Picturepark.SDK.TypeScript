@@ -9,13 +9,10 @@ import { PanelBaseComponent } from '../panel-base/panel-base.component';
 @Component({
   selector: 'pp-mail-recipients-panel',
   templateUrl: './mail-recipients-panel.component.html',
-  styleUrls: ['../panel-base/panel-base.component.scss', './mail-recipients-panel.component.scss']
+  styleUrls: ['../panel-base/panel-base.component.scss', './mail-recipients-panel.component.scss'],
 })
 export class MailRecipientsPanelComponent extends PanelBaseComponent implements OnInit {
-
   @Input() mailRecipients: IMailRecipient[];
-
-
 
   constructor() {
     super();
@@ -34,7 +31,5 @@ export class MailRecipientsPanelComponent extends PanelBaseComponent implements 
     element.innerHTML = 'check';
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

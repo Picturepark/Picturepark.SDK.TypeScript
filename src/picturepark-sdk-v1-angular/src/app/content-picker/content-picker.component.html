@@ -15,11 +15,7 @@
 
     <span class="spacer"></span>
 
-    <pp-search-suggest-box
-      *ngIf="selectedChannel"
-      [showSearchBehaviorPicker]="true"
-      [facade]="facade"
-    >
+    <pp-search-suggest-box *ngIf="selectedChannel" [showSearchBehaviorPicker]="true" [facade]="facade">
     </pp-search-suggest-box>
     <!--
     <pp-search-box style="width: 20%; font-size: 16px;" [searchString]="searchText"
@@ -52,11 +48,7 @@
         </mat-toolbar-row>
         <mat-tab-group class="right-panel filters">
           <mat-tab label="Filters">
-            <pp-aggregation-list
-              *ngIf="selectedChannel"
-              [facade]="facade"
-            >
-            </pp-aggregation-list>
+            <pp-aggregation-list *ngIf="selectedChannel" [facade]="facade"> </pp-aggregation-list>
           </mat-tab>
           <mat-tab label="Basket">
             <ng-template mat-tab-label>

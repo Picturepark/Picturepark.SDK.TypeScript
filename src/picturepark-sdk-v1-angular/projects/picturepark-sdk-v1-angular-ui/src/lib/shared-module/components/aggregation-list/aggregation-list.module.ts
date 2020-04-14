@@ -4,15 +4,8 @@ import { AggregationListComponent } from './aggregation-list.component';
 import { SharedModule } from '../../shared-module.module';
 
 @NgModule({
-  declarations: [
-    AggregationListComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule
-  ],
-  exports: [
-    AggregationListComponent
-  ]
+  declarations: [AggregationListComponent],
+  imports: [CommonModule, SharedModule],
+  exports: [AggregationListComponent],
 })
-export class AggregationListModule { }
+export class AggregationListModule {}

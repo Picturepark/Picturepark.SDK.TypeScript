@@ -12,7 +12,12 @@
           <legend>{{ filetype.name }} ({{ filetype.contents.length }})</legend>
           <div *ngIf="data.mode === 'multi'">
             <div *ngFor="let output of selection.getOutputs(filetype)">
-              <mat-checkbox *ngIf="!output.hidden && output.values.length" [name]="filetype.id + '-' + output.id" [(ngModel)]="output.selected" (change)="update()">
+              <mat-checkbox
+                *ngIf="!output.hidden && output.values.length"
+                [name]="filetype.id + '-' + output.id"
+                [(ngModel)]="output.selected"
+                (change)="update()"
+              >
                 {{ output.name }} ({{ output.values.length }})
               </mat-checkbox>
             </div>
@@ -20,8 +25,12 @@
           <div *ngIf="data.mode === 'single'">
             <mat-radio-group>
               <div *ngFor="let output of selection.getOutputs(filetype)">
-                <mat-radio-button *ngIf="!output.hidden && output.values.length" [value]="filetype.id + '-' + output.id"
-                  [checked]="output.selected" (change)="radioChange(output, filetype)">
+                <mat-radio-button
+                  *ngIf="!output.hidden && output.values.length"
+                  [value]="filetype.id + '-' + output.id"
+                  [checked]="output.selected"
+                  (change)="radioChange(output, filetype)"
+                >
                   {{ output.name }} ({{ output.values.length }})
                 </mat-radio-button>
               </div>
@@ -51,7 +60,14 @@
     </button>
     <span class="spacer"></span>
     <button mat-button mat-dialog-close>{{ 'ContentDownloadDialog.Cancel' | pptranslate }}</button>
-    <button mat-flat-button color="accent" *ngIf="!noOutputs" (click)="download()"
-      [disabled]="fileSize === 0 && !hasDynamicOutputs">{{ 'ContentDownloadDialog.Download' | pptranslate }}</button>
+    <button
+      mat-flat-button
+      color="accent"
+      *ngIf="!noOutputs"
+      (click)="download()"
+      [disabled]="fileSize === 0 && !hasDynamicOutputs"
+    >
+      {{ 'ContentDownloadDialog.Download' | pptranslate }}
+    </button>
   </mat-dialog-actions>
 </div>

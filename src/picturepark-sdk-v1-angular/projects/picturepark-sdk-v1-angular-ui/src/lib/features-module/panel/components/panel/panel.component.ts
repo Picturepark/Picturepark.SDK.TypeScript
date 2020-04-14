@@ -7,11 +7,9 @@ import { PanelBaseComponent } from '../panel-base/panel-base.component';
   styleUrls: ['../panel-base/panel-base.component.scss', './panel.component.scss'],
 })
 export class PanelComponent extends PanelBaseComponent {
-
   @Input() title: string;
 
-  constructor(
-  ) {
+  constructor() {
     super();
   }
 }

@@ -7,13 +7,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class BasketService {
   private basketSubject: BehaviorSubject<string[]>;
 
-
   private localStorageKey = 'basketItems';
   private basketItems: Set<string>;
 
   constructor() {
     const itemsString = localStorage.getItem(this.localStorageKey);
-    const itemsArray = itemsString ? JSON.parse(itemsString) as string[] : [];
+    const itemsArray = itemsString ? (JSON.parse(itemsString) as string[]) : [];
 
     this.basketItems = new Set(itemsArray);
 
