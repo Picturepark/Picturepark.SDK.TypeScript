@@ -1,8 +1,10 @@
-import { OnDestroy, Injector } from '@angular/core';
+import { OnDestroy, Injector, Directive } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LazyGetter } from 'lazy-get-decorator';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
+@Directive()
+// tslint:disable-next-line: directive-class-suffix
 export abstract class BaseComponent implements OnDestroy {
   @LazyGetter()
   protected get breakpointObserver(): BreakpointObserver {
