@@ -1,17 +1,11 @@
-<div class="shares-manager-container">
+<div class="shares-manager-container" *ngIf="initialized">
   <div class="content">
-    <pp-share-browser [filter]="selectedFilter"></pp-share-browser>
+    <pp-share-browser></pp-share-browser>
   </div>
   <div class="filters">
     <mat-tab-group>
       <mat-tab label="Filters">
-        
-        <pp-share-aggregation-list
-          [searchString]="searchText"
-          [aggregators]="aggregators"
-          (filterChange)="selectedFilter = $event">
-        </pp-share-aggregation-list>
-        
+        <pp-aggregation-list [facade]="facade"> </pp-aggregation-list>
       </mat-tab>
     </mat-tab-group>
   </div>

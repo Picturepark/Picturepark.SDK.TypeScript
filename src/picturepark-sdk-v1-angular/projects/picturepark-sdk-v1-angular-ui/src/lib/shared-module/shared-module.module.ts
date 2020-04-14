@@ -22,27 +22,23 @@ import { HighlightPipe } from './pipes/highlight.pipe';
 import { PanelComponent } from '../features-module/panel/components/panel/panel.component';
 
 // HammerJS
-import {
-  HammerGestureConfig,
-  HAMMER_GESTURE_CONFIG,
-} from '@angular/platform-browser';
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { ContentItemThumbnailComponent } from './components/content-item-thumbnail/content-item-thumbnail.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
   overrides = <any>{
     pan: {
-      direction: 6
+      direction: 6,
     },
     pinch: {
-      enable: false
+      enable: false,
     },
     rotate: {
-      enable: false
-    }
+      enable: false,
+    },
   };
 }
-
 
 @NgModule({
   declarations: [
@@ -56,13 +52,9 @@ export class HammerConfig extends HammerGestureConfig {
     FileSizePipe,
     TranslatePipe,
     LazyLoadDirective,
-    HighlightPipe
+    HighlightPipe,
   ],
-  imports: [
-    CommonModule,
-    MaterialsModule,
-    ReactiveFormsModule
-  ],
+  imports: [CommonModule, MaterialsModule, ReactiveFormsModule],
   exports: [
     CommonModule,
     FormsModule,
@@ -78,7 +70,7 @@ export class HammerConfig extends HammerGestureConfig {
     FileSizePipe,
     TranslatePipe,
     LazyLoadDirective,
-    HighlightPipe
+    HighlightPipe,
   ],
 })
 export class SharedModule {
@@ -91,8 +83,8 @@ export class SharedModule {
         MetaDataPreviewService,
         NotificationService,
         TranslationService,
-        { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig }
-      ]
+        { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
+      ],
     };
   }
 }

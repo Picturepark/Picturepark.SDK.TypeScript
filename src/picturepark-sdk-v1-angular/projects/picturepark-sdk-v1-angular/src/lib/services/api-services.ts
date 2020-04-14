@@ -7199,7 +7199,7 @@ export class InfoService extends PictureparkServiceBase {
      * Get info
      * @return CustomerInfo
      */
-    getInfo(): Observable<CustomerInfo> {
+    protected getInfoCore(): Observable<CustomerInfo> {
         let url_ = this.baseUrl + "/v1/Info/customer";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -35470,13 +35470,19 @@ export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusin
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfBusinessProcess) {
         super(data);
         if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
     }
 
@@ -35485,7 +35491,11 @@ export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusin
         if (_data) {
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -35500,7 +35510,11 @@ export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusin
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -35512,8 +35526,8 @@ export interface ISearchBehaviorBaseResultOfBusinessProcess extends IBaseResultO
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Search result from a search for business processes */
@@ -39574,13 +39588,19 @@ export class SearchBehaviorBaseResultOfBusinessRuleTraceLog extends BaseResultOf
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfBusinessRuleTraceLog) {
         super(data);
         if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
     }
 
@@ -39589,7 +39609,11 @@ export class SearchBehaviorBaseResultOfBusinessRuleTraceLog extends BaseResultOf
         if (_data) {
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -39604,7 +39628,11 @@ export class SearchBehaviorBaseResultOfBusinessRuleTraceLog extends BaseResultOf
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -39616,8 +39644,8 @@ export interface ISearchBehaviorBaseResultOfBusinessRuleTraceLog extends IBaseRe
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -40468,9 +40496,12 @@ export interface IUserAudit {
 export class BusinessRuleTraceLogSearchRequest implements IBusinessRuleTraceLogSearchRequest {
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
     debugMode!: boolean;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** List of aggregators that defines how the items should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
@@ -40574,9 +40605,12 @@ In the first case, the filter is put in "or" with (eventual) other existing filt
 export interface IBusinessRuleTraceLogSearchRequest {
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
     debugMode: boolean;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** List of aggregators that defines how the items should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
@@ -43038,13 +43072,19 @@ export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermiss
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfPermissionSet) {
         super(data);
         if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
     }
 
@@ -43053,7 +43093,11 @@ export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermiss
         if (_data) {
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -43068,7 +43112,11 @@ export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermiss
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -43080,8 +43128,8 @@ export interface ISearchBehaviorBaseResultOfPermissionSet extends IBaseResultOfP
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Result of a permission set search operation */
@@ -46468,13 +46516,19 @@ export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent imple
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfContent) {
         super(data);
         if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
     }
 
@@ -46483,7 +46537,11 @@ export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent imple
         if (_data) {
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -46498,7 +46556,11 @@ export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent imple
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -46510,8 +46572,8 @@ export interface ISearchBehaviorBaseResultOfContent extends IBaseResultOfContent
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -46814,9 +46876,12 @@ export class ContentAggregationOnChannelRequest implements IContentAggregationOn
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** Limits the simple search fields to the fields available in the specified channel. Defaults to RootChannel.
 For the ContentAggregationOnChannelRequest only, the existing aggregation saved on the channel are retrieved and used to perform the aggregation. */
@@ -46912,9 +46977,12 @@ export interface IContentAggregationOnChannelRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** Limits the simple search fields to the fields available in the specified channel. Defaults to RootChannel.
 For the ContentAggregationOnChannelRequest only, the existing aggregation saved on the channel are retrieved and used to perform the aggregation. */
@@ -47074,8 +47142,8 @@ export class ObjectAggregationResult implements IObjectAggregationResult {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten!: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: IObjectAggregationResult) {
         if (data) {
@@ -47090,7 +47158,13 @@ export class ObjectAggregationResult implements IObjectAggregationResult {
                     this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
                 }
             }
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
         if (!data) {
             this.aggregationResults = [];
@@ -47107,7 +47181,11 @@ export class ObjectAggregationResult implements IObjectAggregationResult {
             }
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -47128,7 +47206,11 @@ export class ObjectAggregationResult implements IObjectAggregationResult {
         }
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -47143,8 +47225,8 @@ export interface IObjectAggregationResult {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Request to aggregate contents based on the specified aggregators */
@@ -49522,13 +49604,19 @@ export class SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem imp
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfListItem) {
         super(data);
         if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
     }
 
@@ -49537,7 +49625,11 @@ export class SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem imp
         if (_data) {
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -49552,7 +49644,11 @@ export class SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem imp
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -49564,8 +49660,8 @@ export interface ISearchBehaviorBaseResultOfListItem extends IBaseResultOfListIt
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -49771,9 +49867,12 @@ export abstract class ListItemSearchAndAggregationBaseRequest implements IListIt
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** Broadens the search to include all schema descendant list items. */
     includeAllSchemaChildren!: boolean;
@@ -49870,9 +49969,12 @@ export interface IListItemSearchAndAggregationBaseRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** Broadens the search to include all schema descendant list items. */
     includeAllSchemaChildren: boolean;
@@ -56949,13 +57051,19 @@ export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema impleme
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfSchema) {
         super(data);
         if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
     }
 
@@ -56964,7 +57072,11 @@ export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema impleme
         if (_data) {
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -56979,7 +57091,11 @@ export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema impleme
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -56991,8 +57107,8 @@ export interface ISearchBehaviorBaseResultOfSchema extends IBaseResultOfSchema {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Result for schema search operation */
@@ -58917,9 +59033,12 @@ export abstract class ShareSearchAndAggregationBaseRequest implements IShareSear
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
 
     constructor(data?: IShareSearchAndAggregationBaseRequest) {
@@ -58979,9 +59098,12 @@ export interface IShareSearchAndAggregationBaseRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
 }
 
@@ -59113,13 +59235,19 @@ export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implement
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfShare) {
         super(data);
         if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
     }
 
@@ -59128,7 +59256,11 @@ export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implement
         if (_data) {
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -59143,7 +59275,11 @@ export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implement
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -59155,8 +59291,8 @@ export interface ISearchBehaviorBaseResultOfShare extends IBaseResultOfShare {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -60021,13 +60157,19 @@ export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer imp
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfTransfer) {
         super(data);
         if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
     }
 
@@ -60036,7 +60178,11 @@ export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer imp
         if (_data) {
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -60051,7 +60197,11 @@ export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer imp
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -60063,8 +60213,8 @@ export interface ISearchBehaviorBaseResultOfTransfer extends IBaseResultOfTransf
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Result from a search for transfers. */
@@ -61163,13 +61313,19 @@ export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTran
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfFileTransfer) {
         super(data);
         if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
     }
 
@@ -61178,7 +61334,11 @@ export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTran
         if (_data) {
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -61193,7 +61353,11 @@ export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTran
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -61205,8 +61369,8 @@ export interface ISearchBehaviorBaseResultOfFileTransfer extends IBaseResultOfFi
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Result from a search for file transfers. */
@@ -61544,13 +61708,19 @@ export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole imp
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfUserRole) {
         super(data);
         if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
     }
 
@@ -61559,7 +61729,11 @@ export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole imp
         if (_data) {
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -61574,7 +61748,11 @@ export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole imp
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -61586,8 +61764,8 @@ export interface ISearchBehaviorBaseResultOfUserRole extends IBaseResultOfUserRo
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Holds results of the user role search. */
@@ -62812,13 +62990,19 @@ export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWit
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 
     constructor(data?: ISearchBehaviorBaseResultOfUserWithRoles) {
         super(data);
         if (data) {
-            this.queryDebugInformation = data.queryDebugInformation && !(<any>data.queryDebugInformation).toJSON ? new QueryDebugInformation(data.queryDebugInformation) : <QueryDebugInformation>this.queryDebugInformation; 
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
         }
     }
 
@@ -62827,7 +63011,11 @@ export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWit
         if (_data) {
             this.searchString = _data["searchString"];
             this.isSearchStringRewritten = _data["isSearchStringRewritten"];
-            this.queryDebugInformation = _data["queryDebugInformation"] ? QueryDebugInformation.fromJS(_data["queryDebugInformation"]) : <any>undefined;
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
         }
     }
 
@@ -62842,7 +63030,11 @@ export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWit
         data = typeof data === 'object' ? data : {};
         data["searchString"] = this.searchString;
         data["isSearchStringRewritten"] = this.isSearchStringRewritten;
-        data["queryDebugInformation"] = this.queryDebugInformation ? this.queryDebugInformation.toJSON() : <any>undefined;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
         super.toJSON(data);
         return data; 
     }
@@ -62854,8 +63046,8 @@ export interface ISearchBehaviorBaseResultOfUserWithRoles extends IBaseResultOfU
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: IQueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -63061,9 +63253,12 @@ export abstract class UserSearchAndAggregationBaseRequest implements IUserSearch
     lifeCycleFilter!: LifeCycleFilter;
     /** Return only users with certain user rights. */
     userRightsFilter?: UserRight[] | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     includeServiceUser!: boolean;
 
@@ -63142,9 +63337,12 @@ export interface IUserSearchAndAggregationBaseRequest {
     lifeCycleFilter: LifeCycleFilter;
     /** Return only users with certain user rights. */
     userRightsFilter?: UserRight[] | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     includeServiceUser: boolean;
 }

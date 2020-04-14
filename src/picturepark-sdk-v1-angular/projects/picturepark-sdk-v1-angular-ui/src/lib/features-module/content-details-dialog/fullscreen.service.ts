@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { ShareOutputBase } from '@picturepark/sdk-v1-angular';
 
 function log(message: string) {
-    if (console) {
-        console.log(message);
-    }
+  if (console) {
+    console.log(message);
+  }
 }
 
 @Injectable({
-    providedIn: 'root'
-  })
+  providedIn: 'root',
+})
 export class FullscreenService {
   loading = false;
   scriptsPath = '/assets/picturepark-sdk-v1-widgets/';
@@ -33,16 +33,18 @@ export class FullscreenService {
     const IndigoPlayer = await this.loadVideoPlayerLibraries();
     const player = IndigoPlayer.init(element, {
       autoplay: true,
-      aspectRatio: width && height ? (width / height) : (16 / 9),
+      aspectRatio: width && height ? width / height : 16 / 9,
       ui: {
-        image: item.previewUrl
+        image: item.previewUrl,
       },
       sources: [
         {
-          type: item.isMovie ? 'mp4' : 'mp4' /* IndigoPlayer does not support mp3, but playback of mp3 defined as mp4 works */,
-          src: item.isMovie ? item.videoUrl : item.audioUrl
-        }
-      ]
+          type: item.isMovie
+            ? 'mp4'
+            : 'mp4' /* IndigoPlayer does not support mp3, but playback of mp3 defined as mp4 works */,
+          src: item.isMovie ? item.videoUrl : item.audioUrl,
+        },
+      ],
     });
     return player;
   }
@@ -53,7 +55,7 @@ export class FullscreenService {
     }
 
     return Promise.all([
-      this.loadScript('https://cdn.jsdelivr.net/npm/indigo-player@1/lib/indigo-player.js', 'IndigoPlayer')
+      this.loadScript('https://cdn.jsdelivr.net/npm/indigo-player@1/lib/indigo-player.js', 'IndigoPlayer'),
     ]).then(([IndigoPlayer]) => {
       return IndigoPlayer;
     });
@@ -70,23 +72,23 @@ export class FullscreenService {
 
     const savedOverflow = document.body.style.overflow;
     const closeCallback = () => {
-        document.body.removeChild(iframeElement);
-        document.body.style.overflow = savedOverflow;
-        // tslint:disable-next-line: no-use-before-declare
-        document.removeEventListener('keydown', keydownCallback, true);
+      document.body.removeChild(iframeElement);
+      document.body.style.overflow = savedOverflow;
+      // tslint:disable-next-line: no-use-before-declare
+      document.removeEventListener('keydown', keydownCallback, true);
     };
 
     const keydownCallback = (e: KeyboardEvent) => {
       // tslint:disable-next-line: deprecation
       const event = e || <KeyboardEvent>window.event;
-      const isEscape = 'key' in event ? (event.key === 'Escape' || event.key === 'Esc') : ((<any>event).keyCode === 27);
+      const isEscape = 'key' in event ? event.key === 'Escape' || event.key === 'Esc' : (<any>event).keyCode === 27;
       if (isEscape) {
         closeCallback();
       }
     };
 
     let pdfLoaded = false;
-    iframeElement.onload = (e) => {
+    iframeElement.onload = e => {
       document.body.style.overflow = 'hidden';
       if (pdfLoaded) {
         closeCallback();
@@ -111,28 +113,38 @@ export class FullscreenService {
             src: i.previewUrl,
             w: i.detail.width,
             h: i.detail.height,
-            origin: i.originalUrl
+            origin: i.originalUrl,
           };
         } else if (i.isPdf) {
           return {
-            html: '<iframe style="position: absolute; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
-              'src="' + this.scriptsPath + 'pdfjs/web/viewer.html?file=' + i.pdfUrl + '&closeButton=false" id="pdfjs_' + i.id + '"></iframe>',
-            origin: i.originalUrl
+            html:
+              '<iframe style="position: absolute; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
+              'src="' +
+              this.scriptsPath +
+              'pdfjs/web/viewer.html?file=' +
+              i.pdfUrl +
+              '&closeButton=false" id="pdfjs_' +
+              i.id +
+              '"></iframe>',
+            origin: i.originalUrl,
           };
         } else if (i.isMovie) {
           return {
             html: '<div id="vjsplayer_' + i.id + '"></div>',
-            origin: i.originalUrl
+            origin: i.originalUrl,
           };
         } else if (i.isAudio) {
           return {
             html: '<div id="vjsplayer_' + i.id + '"></div>',
-            origin: i.originalUrl
+            origin: i.originalUrl,
           };
         } else if (!i.isBinary) {
           return {
-            html: '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' + i.displayValues.detail + '</div>',
-            origin: i.originalUrl
+            html:
+              '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' +
+              i.displayValues.detail +
+              '</div>',
+            origin: i.originalUrl,
           };
         } else {
           // Fallback to preview image
@@ -140,19 +152,23 @@ export class FullscreenService {
             src: i.previewUrl + '?width=800&height=800',
             w: 800,
             h: 800,
-            origin: i.originalUrl
+            origin: i.originalUrl,
           };
         }
       });
 
-      const photoSwipe = new result.photoSwipe(result.element, result.photoSwipeDefault, photoSwipeItems, { index: shareItems.indexOf(shareItem) });
+      const photoSwipe = new result.photoSwipe(result.element, result.photoSwipeDefault, photoSwipeItems, {
+        index: shareItems.indexOf(shareItem),
+      });
       photoSwipe.options.history = false;
-      photoSwipe.options.shareButtons = [{ id: 'download', label: 'Download', url: '{{raw_image_url}}', download: true }];
+      photoSwipe.options.shareButtons = [
+        { id: 'download', label: 'Download', url: '{{raw_image_url}}', download: true },
+      ];
       photoSwipe.options.getImageURLForShare = (shareButtonData: any) => {
         return photoSwipe.currItem.origin || photoSwipe.currItem.src || '';
       };
       photoSwipe.init();
-      photoSwipe.listen('afterChange', function () {
+      photoSwipe.listen('afterChange', function() {
         // TODO: Emit event
       });
 
@@ -181,10 +197,10 @@ export class FullscreenService {
             const elementId = 'vjsplayer_' + item.id;
             const element = document.getElementById(elementId);
             if (element) {
-                const player = await this.renderVideoPlayer(element, item, window.innerWidth, window.innerHeight);
-                if (player) {
-                  loadedPlayers.push(player);
-                }
+              const player = await this.renderVideoPlayer(element, item, window.innerWidth, window.innerHeight);
+              if (player) {
+                loadedPlayers.push(player);
+              }
             }
           }
 
@@ -209,7 +225,7 @@ export class FullscreenService {
         updatePlayers();
       }
 
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         photoSwipe.listen('close', () => {
           cleanupPlayers();
           for (const resizeCallback of resizeCallbacks) {
@@ -221,24 +237,27 @@ export class FullscreenService {
     });
   }
 
-  loadPhotoSwipe(): Promise<{ element: Element, photoSwipe: any, photoSwipeDefault: any }> {
+  loadPhotoSwipe(): Promise<{ element: Element; photoSwipe: any; photoSwipeDefault: any }> {
     if ((<any>window).PhotoSwipe) {
       return Promise.resolve({
         element: this.getPhotoSwipeElement(),
         photoSwipe: (<any>window).PhotoSwipe,
-        photoSwipeDefault: (<any>window).PhotoSwipeUI_Default
+        photoSwipeDefault: (<any>window).PhotoSwipeUI_Default,
       });
     } else {
       return Promise.all([
         this.loadCss('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.css'),
         this.loadCss('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/default-skin/default-skin.css'),
         this.loadScript('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js', 'PhotoSwipe'),
-        this.loadScript('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js', 'PhotoSwipeUI_Default')
+        this.loadScript(
+          'https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js',
+          'PhotoSwipeUI_Default'
+        ),
       ]).then(([css1, css2, photoSwipe, photoSwipeDefault]) => {
         return {
           element: this.getPhotoSwipeElement(),
           photoSwipe: photoSwipe,
-          photoSwipeDefault: photoSwipeDefault
+          photoSwipeDefault: photoSwipeDefault,
         };
       });
     }
@@ -298,13 +317,13 @@ export class FullscreenService {
     if ((<any>window).require) {
       log('Picturepark Widgets > Load external script via require(): ' + url);
       return new Promise(resolve => {
-        (<any>window).require([url], (module) => {
+        (<any>window).require([url], module => {
           resolve(module);
         });
       });
     } else {
       log('Picturepark Widgets > Load external script via tag: ' + url);
-      return new Promise<any>((resolve) => {
+      return new Promise<any>(resolve => {
         const scriptTag = document.createElement('script');
         scriptTag.src = url;
         scriptTag.async = true;
@@ -317,7 +336,7 @@ export class FullscreenService {
   }
 
   loadCss(url): Promise<void> {
-    return new Promise<void>((resolve) => {
+    return new Promise<void>(resolve => {
       const linkElement = document.createElement('link');
       linkElement.type = 'text/css';
       linkElement.rel = 'stylesheet';

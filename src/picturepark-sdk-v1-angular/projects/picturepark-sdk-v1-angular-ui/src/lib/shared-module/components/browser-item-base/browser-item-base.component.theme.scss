@@ -3,18 +3,15 @@
 // BROWSER ITEM BASE VARS
 
 @mixin pp-browser-item-base-theme($theme) {
-
   $primary: map-get($theme, primary);
 
   pp-content-browser-item,
   pp-share-browser-item {
-
     .browser-item {
       $self: &;
 
       &__image-slot {
         background-color: mat-color($primary, surface-mid);
-
       }
 
       &__basket-icon {
@@ -30,7 +27,6 @@
         &:hover {
           background-color: mat-color($primary, opacity-light);
         }
-
       }
 
       &__actions,
@@ -47,9 +43,8 @@
       &__title {
         background-color: mat-color($primary, background-dark);
         color: mat-color($primary, on-background-dark);
-        font-size: mat-font-size($custom-typography, display-1)
+        font-size: mat-font-size($custom-typography, display-1);
       }
-
     }
 
     .browser-item--selected {
@@ -63,11 +58,9 @@
         background-color: mat-color($primary, surface-dark);
         color: mat-color($primary, on-surface-dark);
       }
-
     }
 
     .browser-item--list-view {
-
       .browser-item__image-slot {
         border-color: mat-color($primary, surface-mid);
       }

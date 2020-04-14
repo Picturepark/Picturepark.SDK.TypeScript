@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit, Inject, Injector } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
-import { fetchContents} from '@picturepark/sdk-v1-angular';
+import { fetchContents } from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
@@ -19,12 +19,10 @@ import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'pp-basket',
   templateUrl: './basket.component.html',
-  styleUrls: ['./basket.component.scss']
+  styleUrls: ['./basket.component.scss'],
 })
 export class BasketComponent extends BaseComponent implements OnInit {
-
   public basketItems: Content[] = [];
-
 
   public configActions: ConfigActions;
 
@@ -39,15 +37,17 @@ export class BasketComponent extends BaseComponent implements OnInit {
     protected injector: Injector,
     public dialog: MatDialog
   ) {
-
     super(injector);
 
-    const basketSubscription = this.basketService.basketChange.pipe(switchMap((itemsIds => {
-      return fetchContents(this.contentService, itemsIds);
-    }))).subscribe(fetchResult => {
-      this.basketItems = fetchResult.results;
-    });
-    this.subscription.add(basketSubscription);
+    this.sub = this.basketService.basketChange
+      .pipe(
+        switchMap(itemsIds => {
+          return fetchContents(this.contentService, itemsIds);
+        })
+      )
+      .subscribe(fetchResult => {
+        this.basketItems = fetchResult.results;
+      });
   }
 
   public previewItem(item: Content): void {
@@ -55,18 +55,18 @@ export class BasketComponent extends BaseComponent implements OnInit {
   }
 
   public downloadItems(): void {
-      this.contentDownloadDialogService.showDialog({
-        mode: 'multi',
-        contents: this.basketItems
-      });
+    this.contentDownloadDialogService.showDialog({
+      mode: 'multi',
+      contents: this.basketItems,
+    });
   }
 
   public openShareContentDialog(): void {
-      const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-        data: this.basketItems,
-        autoFocus: false
-      });
-      dialogRef.componentInstance.title = 'Basket.Share';
+    const dialogRef = this.dialog.open(ShareContentDialogComponent, {
+      data: this.basketItems,
+      autoFocus: false,
+    });
+    dialogRef.componentInstance.title = 'Basket.Share';
   }
 
   public clearBasket(): void {

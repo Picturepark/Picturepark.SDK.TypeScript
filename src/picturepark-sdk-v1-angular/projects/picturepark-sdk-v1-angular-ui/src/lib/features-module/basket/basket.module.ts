@@ -9,17 +9,8 @@ import { BasketComponent } from './basket.component';
 import { BasketItemComponent } from './components/basket-item/basket-item.component';
 
 @NgModule({
-  declarations: [
-    BasketComponent,
-    BasketItemComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule
-  ],
-  exports: [
-    BasketComponent,
-    BasketItemComponent
-  ]
+  declarations: [BasketComponent, BasketItemComponent],
+  imports: [CommonModule, SharedModule],
+  exports: [BasketComponent, BasketItemComponent],
 })
-export class BasketModule { }
+export class BasketModule {}

@@ -1,14 +1,53 @@
 // OVERWRITE DEFAULT DATE PICKER STYLES
-pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-underline { display: none; }
-pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-label { top: 2.7em; left: 0.8em; font-size: 13px; }
-pp-date-picker .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
-pp-date-picker .mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label { top: 1.3em; color: rgba(0,0,0,0.54); }
-pp-date-picker .mat-form-field-appearance-legacy.mat-focused input { border: 1px solid rgba(0,0,0,0.54);}
-pp-date-picker .mat-form-field-suffix { bottom: 0.65em; right: 1.2em; }
-pp-date-picker .mat-form-field-infix { border-top: 0; }
-pp-date-picker .mat-form-field.mat-form-field-invalid .mat-form-field-label { color: rgba(0, 0, 0, 0.54); }
-pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-label { z-index: 11; }
-pp-date-picker .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label { transform: none; }
-pp-date-picker .mat-form-field.mat-form-field-invalid .mat-form-field-label { transition: .5s; }
-pp-date-picker .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label { top: 2.2em; color: rgba(0, 0, 0, 0.0); }
-pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-wrapper { padding-bottom: 0; }
+pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-underline {
+  display: none;
+}
+pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-label {
+  top: 2.7em;
+  left: 0.8em;
+  font-size: 13px;
+}
+pp-date-picker
+  .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float
+  .mat-form-field-label,
+pp-date-picker
+  .mat-form-field-appearance-legacy.mat-form-field-can-float
+  .mat-input-server:focus
+  + .mat-form-field-label-wrapper
+  .mat-form-field-label {
+  top: 1.3em;
+  color: rgba(0, 0, 0, 0.54);
+}
+pp-date-picker .mat-form-field-appearance-legacy.mat-focused input {
+  border: 1px solid rgba(0, 0, 0, 0.54);
+}
+pp-date-picker .mat-form-field-suffix {
+  bottom: 0.65em;
+  right: 1.2em;
+}
+pp-date-picker .mat-form-field-infix {
+  border-top: 0;
+}
+pp-date-picker .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+  color: rgba(0, 0, 0, 0.54);
+}
+pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-label {
+  z-index: 11;
+}
+pp-date-picker
+  .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float
+  .mat-form-field-label {
+  transform: none;
+}
+pp-date-picker .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+  transition: 0.5s;
+}
+pp-date-picker
+  .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float
+  .mat-form-field-label {
+  top: 2.2em;
+  color: rgba(0, 0, 0, 0);
+}
+pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 0;
+}

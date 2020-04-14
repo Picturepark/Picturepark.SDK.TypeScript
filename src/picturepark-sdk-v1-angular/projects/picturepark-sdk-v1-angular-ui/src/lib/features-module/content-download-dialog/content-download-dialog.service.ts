@@ -7,19 +7,17 @@ import { ContentDownloadDialogOptions } from './content-download-dialog.interfac
   providedIn: 'root',
 })
 export class ContentDownloadDialogService {
-  constructor(private dialog: MatDialog) {
-
-  }
+  constructor(private dialog: MatDialog) {}
 
   showDialog(options: ContentDownloadDialogOptions): MatDialogRef<ContentDownloadDialogComponent, any> {
     const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
-        data: options,
-        autoFocus: false
-      });
+      data: options,
+      autoFocus: false,
+    });
 
-      const instance = dialogRef.componentInstance;
-      instance.title = 'ContentDownloadDialog.Title';
+    const instance = dialogRef.componentInstance;
+    instance.title = 'ContentDownloadDialog.Title';
 
-      return dialogRef;
+    return dialogRef;
   }
 }

@@ -1,40 +1,62 @@
 <div class="browser">
   <div class="browser__header">
-    <pp-browser-toolbar [selectionEnabled]="false" [sortingEnabled]="false" [browser]="self"
-      entityName="{{ 'ListBrowser.ListItemsLowercase' | pptranslate }}">
+    <pp-browser-toolbar
+      [selectionEnabled]="false"
+      [sortingEnabled]="false"
+      [browser]="self"
+      entityName="{{ 'ListBrowser.ListItemsLowercase' | pptranslate }}"
+    >
       <ng-container browser-buttons>
         <ng-content select="[content-buttons]"></ng-content>
       </ng-container>
     </pp-browser-toolbar>
   </div>
-  <div class="table-container" *ngIf="totalResults !== 0" cdkScrollable>
-    <table mat-table matSort (matSortChange)="sortData($event)" [matSortActive]="activeSortColumn"
-      [matSortDirection]="activeSortDirection" [dataSource]="dataSource">
+  <div class="table-container" *ngIf="(totalResults$ | async) !== 0" cdkScrollable>
+    <table
+      mat-table
+      matSort
+      (matSortChange)="sortData($event)"
+      [matSortActive]="activeSortColumn"
+      [matSortDirection]="activeSortDirection"
+      [dataSource]="dataSource"
+    >
       <ng-container *ngIf="enableSelection" matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="!selectionService.isEmpty() && isAllSelected()"
-            [indeterminate]="!selectionService.isEmpty() && !isAllSelected()" [aria-label]="checkboxLabel()">
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            [checked]="!selectionService.isEmpty() && isAllSelected()"
+            [indeterminate]="!selectionService.isEmpty() && !isAllSelected()"
+            [aria-label]="checkboxLabel()"
+          >
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? toggle(row) : null"
-            [checked]="isRowSelected(row)" [aria-label]="checkboxLabel(row)">
-            </mat-checkbox>
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? toggle(row) : null"
+            [checked]="isRowSelected(row)"
+            [aria-label]="checkboxLabel(row)"
+          >
+          </mat-checkbox>
         </td>
       </ng-container>
       <ng-container *ngFor="let column of displayedColumnNames; let i = index" [cdkColumnDef]="column.id">
         <th mat-header-cell mat-sort-header [disabled]="!column.field.sortable" disableClear="true" *matHeaderCellDef>
           {{ column.names | pptranslate }}
         </th>
-        <td mat-cell *matCellDef="let element" matTooltip="{{element[column.id]}}"> {{ element[column.id] }}</td>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element[column.id] }}">{{ element[column.id] }}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClick(row)"
-        [ngClass]="{'selected': isRowSelected(row)}"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        (click)="rowClick(row)"
+        [ngClass]="{ selected: isRowSelected(row) }"
+      ></tr>
     </table>
   </div>
-  <div *ngIf="totalResults === 0" class="browser__empty-result mat-typography">
+  <div *ngIf="(totalResults$ | async) === 0" class="browser__empty-result mat-typography">
     {{ 'ListBrowser.ItemsWereNotFound' | pptranslate }}
   </div>
 </div>

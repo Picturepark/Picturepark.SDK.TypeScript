@@ -10,22 +10,9 @@ import { ContentBrowserItemComponent } from './components/content-browser-item/c
 import { BrowserToolbarModule } from '../browser-toolbar/browser-toolbar.module';
 import { ContentImagePreviewComponent } from './components/content-image-preview/content-image-preview.component';
 
-
 @NgModule({
-  declarations: [
-    ContentBrowserComponent,
-    ContentBrowserItemComponent,
-    ContentImagePreviewComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    BrowserToolbarModule
-  ],
-  exports: [
-    ContentBrowserComponent,
-    ContentBrowserItemComponent,
-    ContentImagePreviewComponent
-  ]
+  declarations: [ContentBrowserComponent, ContentBrowserItemComponent, ContentImagePreviewComponent],
+  imports: [CommonModule, SharedModule, BrowserToolbarModule],
+  exports: [ContentBrowserComponent, ContentBrowserItemComponent, ContentImagePreviewComponent],
 })
-export class ContentBrowserModule { }
+export class ContentBrowserModule {}

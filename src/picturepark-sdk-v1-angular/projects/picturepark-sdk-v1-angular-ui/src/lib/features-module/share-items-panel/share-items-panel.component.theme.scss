@@ -1,28 +1,25 @@
 @import '~@angular/material/theming';
 
 // SHARE BROWSER ITEM VARS
-$pp-share-items-panel-theme: (contrast: ());
+$pp-share-items-panel-theme: (
+  contrast: (),
+);
 
 @mixin pp-share-items-panel-theme($theme) {
   $primary: map-get($theme, primary);
 
   pp-share-items-panel {
-
     .grid {
-
-      >.item {
-
+      > .item {
         background-color: mat-color($primary, divider);
       }
     }
 
     .list {
-
-      >.item {
-
-        background-color: mat-color($primary, surface-mid);
-        color: mat-color($primary, on-surface-mid);
-
+      > .item {
+        .thumbnail {
+          background-color: mat-color($primary, surface-mid);
+        }
 
         .item-info {
           background-color: mat-color($primary, surface-light);
@@ -32,19 +29,6 @@ $pp-share-items-panel-theme: (contrast: ());
         .item-funcs {
           background-color: mat-color($primary, surface-light);
           color: mat-color($primary, on-surface-light);
-        }
-
-        &:hover {
-
-          .item-info {
-            background-color: mat-color($primary, surface-mid);
-            color: mat-color($primary, on-surface-mid);
-          }
-
-          .item-funcs {
-            background-color: mat-color($primary, surface-mid);
-            color: mat-color($primary, on-surface-mid);
-          }
         }
       }
     }

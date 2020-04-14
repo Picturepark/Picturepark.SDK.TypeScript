@@ -2,44 +2,42 @@
 
 // DIALOG BASE VARS
 $pp-dialog-base: (
-    contrast: ()
+  contrast: (),
 );
 
 @mixin pp-dialog-base-theme($theme) {
+  $primary: map-get($theme, primary);
 
-    $primary: map-get($theme, primary);
+  pp-content-details-dialog,
+  pp-content-download-dialog,
+  pp-confirmation-dialog,
+  pp-share-content-dialog {
+    .dialog,
+    .dialog-container {
+      h3 {
+        color: mat-color($primary, on-surface-light);
+        border-color: mat-color($primary, divider);
+      }
 
-    pp-content-details-dialog, pp-content-download-dialog, pp-confirmation-dialog, pp-share-content-dialog {
+      mat-dialog-content {
+        background-color: mat-color($primary, background-dark);
+        border-color: mat-color($primary, divider);
+        color: mat-color($primary, on-background-dark);
 
-        .dialog, .dialog-container {
-            h3 { 
-                color: mat-color($primary, on-surface-light); 
-                border-color: mat-color($primary, divider); 
-            }
-        
-            mat-dialog-content {
-                background-color: mat-color($primary, background-dark);
-                border-color: mat-color($primary, divider); 
-                color: mat-color($primary, on-background-dark);
-    
-                
-                .mat-tab-body-content {
-                    background-color: mat-color($primary, surface-mid);
-                    color: mat-color($primary, on-surface-mid);
-                }
-            
-            }
-        
-            .loader-container { 
-                background-color: mat-color($primary, surface-light); 
-            }
-        
-            mat-dialog-actions { 
-                background-color: mat-color($primary, surface-light);
-                color: mat-color($primary, on-surface-light);
-            }
+        .mat-tab-body-content {
+          background-color: mat-color($primary, surface-mid);
+          color: mat-color($primary, on-surface-mid);
         }
+      }
+
+      .loader-container {
+        background-color: mat-color($primary, surface-light);
+      }
+
+      mat-dialog-actions {
+        background-color: mat-color($primary, surface-light);
+        color: mat-color($primary, on-surface-light);
+      }
     }
-
-
+  }
 }

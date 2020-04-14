@@ -1,5 +1,5 @@
 export interface ConfirmRecipients {
-    email: string;
-    url: string;
-    img?: string;
+  email: string;
+  url: string;
+  img?: string;
 }

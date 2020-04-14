@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 // LIBRARIES
 import {
   BasketModule,
-  ContentAggregationListModule,
+  AggregationListModule,
   ChannelPickerModule,
   ContentBrowserModule,
   SearchBoxModule,
@@ -26,7 +26,7 @@ import { ContentPickerComponent } from './content-picker.component';
     ContentPickerRoutingModule,
     SharedModule,
     BasketModule,
-    ContentAggregationListModule,
+    AggregationListModule,
     LayerPanelsModule,
     ChannelPickerModule,
     ContentBrowserModule,

@@ -10,18 +10,8 @@ import { ShareBrowserItemComponent } from './components/share-browser-item/share
 import { BrowserToolbarModule } from '../browser-toolbar/browser-toolbar.module';
 
 @NgModule({
-  declarations: [
-    ShareBrowserComponent,
-    ShareBrowserItemComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    BrowserToolbarModule
-  ],
-  exports: [
-    ShareBrowserComponent,
-    ShareBrowserItemComponent
-  ]
+  declarations: [ShareBrowserComponent, ShareBrowserItemComponent],
+  imports: [CommonModule, SharedModule, BrowserToolbarModule],
+  exports: [ShareBrowserComponent, ShareBrowserItemComponent],
 })
-export class ShareBrowserModule { }
+export class ShareBrowserModule {}

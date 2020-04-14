@@ -1,122 +1,114 @@
 .dialog-container {
-    height: 100%;
+  height: 100%;
 
-    .dialog-content {
-        overflow: hidden;
-        margin: 0px -24px;
-        height: calc(100% - 25px);
-        background-color: #f8f8f8;
+  .dialog-content {
+    overflow: hidden;
+    margin: 0px -24px;
+    height: calc(100% - 25px);
 
-        mat-dialog-content {
-            position: relative;
+    mat-dialog-content {
+      position: relative;
 
-            .action-buttons {
-                @media (max-width: 725px) {
-                    position: unset;
-                    right: unset;
-                    top: unset;
-                    z-index: unset;
-                    padding-right: 10px;
-                }
-
-                position: absolute;
-                right: 20px;
-                top: 0;
-                z-index: 100;
-                padding: 10px;
-                padding-right: 30px;
-                display: flex;
-                flex-direction: row;
-                justify-content: flex-end;
-
-                div {
-                    padding-left: 8px;
-
-                    .navigation {
-                        min-width: 40px;
-                        padding: 0 8px;
-                    }
-
-                    mat-divider {
-                        height: 100%;
-                        margin: 0 8px;
-                    }
-                }
-            }
-
-            .overview-wrap {
-                display: flex;
-                flex-direction: row;
-                padding: 2px;
-                overflow: hidden;
-                height: 99%;
-                overflow: auto;
-
-                @media (max-width: 600px) {
-                    flex-direction: column;
-                }
-
-                &::-webkit-scrollbar {
-                    width: 10px;
-                }
-
-                &::-webkit-scrollbar-thumb {
-                    background-color: darkgrey;
-                    outline: 1px solid slategrey;
-                }
-
-            }
-
-            .mat-tab-header {
-                height: 56px;
-                background: #eeeeee;
-                border-left: 0px solid #d8d8d8;
-                border-bottom: 0px solid #d8d8d8;
-            }
-
-            .content-preview {
-                flex: 60;
-                padding: 24px;
-
-                @media (max-width: 535px) {
-                    width: 100%;
-                    padding: 0;
-                }
-            }
-
-            .content-info {
-                float: left;
-                flex: 30;
-
-                @media (max-width: 535px) {
-                    width: 100%;
-                }
-
-                ul {
-                    margin: 24px;
-                    list-style: none;
-                    padding: 0;
-
-                    span {
-                        color: #444;
-                        font-weight: 500;
-                        padding: 0px 0px 0px 5px;
-                    }
-                }
-            }
-
-            .image-container {
-                width: 100%;
-            }
-
-            img {
-                width: 100%;
-            }
-
+      .action-buttons {
+        @media (max-width: 725px) {
+          position: unset;
+          right: unset;
+          top: unset;
+          z-index: unset;
+          padding-right: 10px;
         }
+
+        position: absolute;
+        right: 20px;
+        top: 0;
+        z-index: 100;
+        padding: 10px;
+        padding-right: 30px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        .download {
+          border-width: 2px;
+        }
+
+        div {
+          padding-left: 8px;
+
+          .navigation {
+            min-width: 40px;
+            padding: 0 8px;
+          }
+
+          mat-divider {
+            height: 100%;
+            margin: 0 8px;
+          }
+        }
+      }
+
+      .overview-wrap {
+        display: flex;
+        flex-direction: row;
+        padding: 2px;
+        overflow: hidden;
+        height: 99%;
+        overflow: auto;
+
+        @media (max-width: 600px) {
+          flex-direction: column;
+        }
+
+        &::-webkit-scrollbar {
+          width: 10px;
+        }
+      }
+
+      .mat-tab-header {
+        height: 56px;
+      }
+
+      .content-preview {
+        flex: 60;
+        padding: 24px;
+
+        @media (max-width: 535px) {
+          width: 100%;
+          padding: 0;
+        }
+      }
+
+      .content-info {
+        float: left;
+        flex: 30;
+
+        @media (max-width: 535px) {
+          width: 100%;
+        }
+
+        ul {
+          margin: 24px;
+          list-style: none;
+          padding: 0;
+
+          span {
+            font-weight: 500;
+            padding: 0px 0px 0px 5px;
+          }
+        }
+      }
+
+      .image-container {
+        width: 100%;
+      }
+
+      img {
+        width: 100%;
+      }
     }
+  }
 }
 
 .mat-dialog-content {
-    max-height: 100vh;
+  max-height: 100vh;
 }

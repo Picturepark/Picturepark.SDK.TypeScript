@@ -1,17 +1,16 @@
 @import '~@angular/material/theming';
 
 // SHARE CONTENT DIALOG
-$pp-share-content-dialog: (input-focus-border-color: #444,
-  contrast: ());
+$pp-share-content-dialog: (
+  input-focus-border-color: #444,
+  contrast: (),
+);
 
 @mixin pp-share-content-dialog-theme($theme) {
-
   $primary: map-get($theme, primary);
   $warn: map-get($theme, warn);
 
   pp-share-content-dialog {
-
-
     #share-name.error-active {
       border-color: mat-color($warn);
     }

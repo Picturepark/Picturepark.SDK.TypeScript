@@ -1,64 +1,73 @@
 .settings {
-    .settings-wrap {
-        display: flex;
-        flex-direction: row;
+  .settings-wrap {
+    display: flex;
+    flex-direction: row;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+
+    .left {
+      flex: 8;
+    }
+
+    .right {
+      flex: 3;
+      padding: 14px 0;
+
+      .download {
+        text-align: right;
 
         @media (max-width: 600px) {
-            flex-direction: column;
+          text-align: left;
         }
 
-        .left {
-            flex: 8;
+        button {
+          border-width: 2px;
+          border-color: #39acaa;
+
+          &:hover {
+            box-shadow: 0px 0px 3px 1px #39acaa;
+          }
         }
-
-        .right {
-            flex: 3;
-            padding: 14px 0;
-
-            .download {
-                text-align: right;
-                @media (max-width: 600px) {
-                    text-align: left;
-                }
-            }
-        }
-
-        ul { 
-            list-style: none;
-            padding: 0px;
-            float: left;
-
-            li {
-                font-weight: 400;
-                font-size: 13px;
-                color: #727272;
-                line-height: 38px;
-
-                &.expiration {
-                    color: red;
-                }
-            }
-
-            &.settings-menu {
-                width: 30%;
-            }
-
-            &.settings-info {
-                width: 70%;
-            }
-        }
-
-        .description {
-            padding-top: 10px;
-            white-space: pre-wrap;
-            font-size: 13px;
-        }
-
+      }
     }
+
+    ul {
+      list-style: none;
+      padding: 0px;
+      float: left;
+
+      li {
+        font-weight: 400;
+        font-size: 13px;
+        color: #727272;
+        line-height: 38px;
+
+        &.expiration {
+          color: red;
+        }
+      }
+
+      &.settings-menu {
+        width: 30%;
+      }
+
+      &.settings-info {
+        width: 70%;
+      }
+    }
+
+    .description {
+      padding-top: 10px;
+      white-space: pre-wrap;
+      font-size: 13px;
+    }
+  }
 }
 
 .expired-box {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    font-size: 13px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: 13px;
 }

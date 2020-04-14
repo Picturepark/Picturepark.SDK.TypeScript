@@ -9,16 +9,8 @@ import { ShareItemsPanelComponent } from '../share-items-panel/share-items-panel
 import { ContentDownloadDialogModule } from '../content-download-dialog/content-download-dialog.module';
 
 @NgModule({
-  declarations: [
-    ShareItemsPanelComponent,
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    ContentDownloadDialogModule
-  ],
-  exports: [
-    ShareItemsPanelComponent,
-  ]
+  declarations: [ShareItemsPanelComponent],
+  imports: [CommonModule, SharedModule, ContentDownloadDialogModule],
+  exports: [ShareItemsPanelComponent],
 })
-export class ShareItemsPanelModule { }
+export class ShareItemsPanelModule {}
