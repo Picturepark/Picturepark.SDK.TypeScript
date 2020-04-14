@@ -9,10 +9,9 @@ import { PanelBaseComponent } from '../panel-base/panel-base.component';
 @Component({
   selector: 'pp-mail-recipients-panel',
   templateUrl: './mail-recipients-panel.component.html',
-  styleUrls: ['../panel-base/panel-base.component.scss', './mail-recipients-panel.component.scss']
+  styleUrls: ['../panel-base/panel-base.component.scss', './mail-recipients-panel.component.scss'],
 })
 export class MailRecipientsPanelComponent extends PanelBaseComponent implements OnInit {
-
   @Input() mailRecipients: IMailRecipient[];
 
   constructor() {
@@ -20,16 +19,17 @@ export class MailRecipientsPanelComponent extends PanelBaseComponent implements 
   }
 
   // COPY TO CLIPBOARD
-  public copyToClipboard(recipienturl: string): void {
+  public copyToClipboard(event: MouseEvent, recipienturl: string): void {
     const copyBox = document.createElement('textarea');
     copyBox.value = recipienturl;
     document.body.appendChild(copyBox);
     copyBox.select();
     document.execCommand('copy');
     document.body.removeChild(copyBox);
+
+    const element = event.target as HTMLElement;
+    element.innerHTML = 'check';
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

@@ -1,4 +1,4 @@
 export interface ISortItem {
-    field: string;
-    name: string;
+  field: string;
+  name: string;
 }

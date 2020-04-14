@@ -5,8 +5,13 @@ import { timer, Observable, from } from 'rxjs';
 
 // LIBRARIES
 import {
-  AggregationResult, AggregatorBase,
-  AggregationResultItem, TermsAggregator, SearchFacade, SearchInputState, IEntityBase
+  AggregationResult,
+  AggregatorBase,
+  AggregationResultItem,
+  TermsAggregator,
+  SearchFacade,
+  SearchInputState,
+  IEntityBase,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -15,10 +20,9 @@ import { BaseComponent } from '../base.component';
 @Component({
   selector: 'pp-aggregation-item',
   templateUrl: './aggregation.component.html',
-  styleUrls: ['./aggregation.component.scss']
+  styleUrls: ['./aggregation.component.scss'],
 })
 export class AggregationComponent extends BaseComponent implements OnInit, OnChanges {
-
   @Input()
   aggregator: AggregatorBase;
 
@@ -48,19 +52,20 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
 
   public isLoading = false;
 
-  public constructor(@Inject(LOCALE_ID) public locale: string,
-    protected injector: Injector) {
+  public constructor(@Inject(LOCALE_ID) public locale: string, protected injector: Injector) {
     super(injector);
     this.autoCompleteOptions = this.aggregationQuery.valueChanges.pipe(
       debounce(() => timer(500)),
-      map((value: string | AggregationResultItem) => typeof value === 'string' ? value : (value.name || '')),
-      flatMap(value => this.searchAggregator(value)));
+      map((value: string | AggregationResultItem) => (typeof value === 'string' ? value : value.name || '')),
+      flatMap(value => this.searchAggregator(value))
+    );
   }
 
   ngOnInit() {
     this.sub = this.facade.searchRequest$.subscribe(request => {
       this.aggregationsFiltersCount = request.aggregationFilters.filter(
-        (item) => item.aggregationName === this.aggregator.name).length;
+        item => item.aggregationName === this.aggregator.name
+      ).length;
 
       this.canExpand = this.isExpanded || this.canExpand || this.aggregationsFiltersCount > 0;
     });
@@ -113,20 +118,22 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     this.expandedAggregator.size = this.pagingSize;
 
     this.isLoading = true;
-    const observableResult = this.facade.searchAggregations([this.aggregator])!.pipe(map(result => {
-      this.hideLoader();
+    const observableResult = this.facade.searchAggregations([this.aggregator])!.pipe(
+      map(result => {
+        this.hideLoader();
 
-      if (result !== undefined) {
-        const items = this.facade.expandAggregationResult(result[0]).aggregationResultItems || [];
+        if (result !== undefined) {
+          const items = this.facade.expandAggregationResult(result[0]).aggregationResultItems || [];
 
-        const currentSelectedValues = this.expandedAggregationResult?.aggregationResultItems?.filter(agr => agr.active === true) ?? [];
+          const currentSelectedValues =
+            this.expandedAggregationResult?.aggregationResultItems?.filter(agr => agr.active === true) ?? [];
 
-        return items.filter(item => !currentSelectedValues.some((value => value.name === item.name)));
+          return items.filter(item => !currentSelectedValues.some(value => value.name === item.name));
+        }
 
-      }
-
-      return [];
-    }));
+        return [];
+      })
+    );
 
     this.expandedAggregator.searchString = undefined;
     this.expandedAggregator.size = sizeStore;
@@ -148,15 +155,19 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   }
 
   public get showLess(): boolean {
-    return !!this.expandedAggregationResult
-      && !!this.expandedAggregationResult.aggregationResultItems
-      && this.expandedAggregationResult.aggregationResultItems.filter(x => x && !x.active).length > this.pagingSize;
+    return (
+      !!this.expandedAggregationResult &&
+      !!this.expandedAggregationResult.aggregationResultItems &&
+      this.expandedAggregationResult.aggregationResultItems.filter(x => x && !x.active).length > this.pagingSize
+    );
   }
 
   public get active(): boolean {
-    return !!this.expandedAggregationResult
-      && !!this.expandedAggregationResult.aggregationResultItems
-      && this.expandedAggregationResult.aggregationResultItems.filter(x => x && x.count > 0 || x.active).length >= 1;
+    return (
+      !!this.expandedAggregationResult &&
+      !!this.expandedAggregationResult.aggregationResultItems &&
+      this.expandedAggregationResult.aggregationResultItems.filter(x => (x && x.count > 0) || x.active).length >= 1
+    );
   }
 
   public trackByName(_index, aggregationResultItem: AggregationResultItem): string {
@@ -164,7 +175,9 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   }
 
   public clear() {
-    const aggregationFilters = this.facade.searchRequestState.aggregationFilters.filter(i => i.aggregationName !== this.aggregator.name);
+    const aggregationFilters = this.facade.searchRequestState.aggregationFilters.filter(
+      i => i.aggregationName !== this.aggregator.name
+    );
     this.facade.patchRequestState({ aggregationFilters });
   }
 
@@ -173,7 +186,6 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {
-
     if (aggregator.aggregators && aggregator.aggregators.length > 0) {
       return this.expandAggregator(aggregator.aggregators[0]);
     }
@@ -186,5 +198,4 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
       this.isLoading = false;
     }, 500);
   }
-
 }

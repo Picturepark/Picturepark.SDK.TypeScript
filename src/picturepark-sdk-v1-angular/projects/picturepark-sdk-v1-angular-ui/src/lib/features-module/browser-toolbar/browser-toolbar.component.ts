@@ -10,7 +10,7 @@ import { BaseComponent } from '../../shared-module/components/base.component';
 @Component({
   selector: 'pp-browser-toolbar',
   templateUrl: './browser-toolbar.component.html',
-  styleUrls: ['./browser-toolbar.component.scss']
+  styleUrls: ['./browser-toolbar.component.scss'],
 })
 export class BrowserToolbarComponent extends BaseComponent implements OnInit {
   @Input()

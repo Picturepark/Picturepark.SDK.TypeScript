@@ -2,15 +2,13 @@
 
 // BASKET VARS
 $pp-basket: (
-    contrast: ()
+  contrast: (),
 );
 
 @mixin pp-basket-theme($theme) {
-
   $primary: map-get($theme, primary);
 
   pp-basket {
-
     .basket {
       background-color: mat-color($primary, background-dark);
       .mat-toolbar {
@@ -28,7 +26,7 @@ $pp-basket: (
           }
         }
       }
-      
+
       .basket__empty {
         color: mat-color($primary, on-background-dark);
       }

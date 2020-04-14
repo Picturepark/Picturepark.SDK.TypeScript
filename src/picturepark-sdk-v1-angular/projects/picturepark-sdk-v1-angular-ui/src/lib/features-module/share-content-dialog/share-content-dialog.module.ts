@@ -12,22 +12,9 @@ import { ShareContentDialogItemComponent } from './components/share-content-dial
 import { ShareContentRecipientsInputComponent } from './components/share-content-recipients-input/share-content-recipients-input.component';
 
 @NgModule({
-  declarations: [
-    ShareContentDialogComponent,
-    ShareContentDialogItemComponent,
-    ShareContentRecipientsInputComponent
-  ],
-  imports: [
-    CommonModule,
-    DatePickerModule,
-    NotificationModule,
-    SharedModule
-  ],
-  exports:  [
-    ShareContentDialogComponent
-  ],
-  entryComponents: [
-    ShareContentDialogComponent
-  ]
+  declarations: [ShareContentDialogComponent, ShareContentDialogItemComponent, ShareContentRecipientsInputComponent],
+  imports: [CommonModule, DatePickerModule, NotificationModule, SharedModule],
+  exports: [ShareContentDialogComponent],
+  entryComponents: [ShareContentDialogComponent],
 })
-export class ShareContentDialogModule { }
+export class ShareContentDialogModule {}

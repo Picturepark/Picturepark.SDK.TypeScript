@@ -12,22 +12,12 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
-  declarations: [
-    ConfirmDialogComponent
-  ],
-  imports: [
-    CommonModule,
-    ContentBrowserModule,
-    LayerPanelsModule,
-    NotificationModule,
-    SharedModule
-  ],
-  exports: [
-    NotificationModule
-  ],
+  declarations: [ConfirmDialogComponent],
+  imports: [CommonModule, ContentBrowserModule, LayerPanelsModule, NotificationModule, SharedModule],
+  exports: [NotificationModule],
   entryComponents: [
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
     // ShareContentRecipientsInputComponent
-  ]
+  ],
 })
 export class DialogModule {}

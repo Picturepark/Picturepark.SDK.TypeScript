@@ -1,10 +1,10 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 
 // LIST BROWSER MODULE
 $pp-list-browser: (
-  contrast: ());
+  contrast: (),
+);
 
 @mixin pp-settings-panel-theme($theme) {
   $primary: map-get($theme, primary);
-
 }

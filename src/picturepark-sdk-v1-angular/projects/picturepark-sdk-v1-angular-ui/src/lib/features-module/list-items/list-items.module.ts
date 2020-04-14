@@ -8,14 +8,7 @@ import { AggregationListModule } from '../../shared-module/components/aggregatio
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    ListModule,
-    ListBrowserModule,
-    AggregationListModule
-  ],
-  exports: [
-    ListModule
-  ]
+  imports: [CommonModule, ListModule, ListBrowserModule, AggregationListModule],
+  exports: [ListModule],
 })
-export class ListItemsModule { }
+export class ListItemsModule {}

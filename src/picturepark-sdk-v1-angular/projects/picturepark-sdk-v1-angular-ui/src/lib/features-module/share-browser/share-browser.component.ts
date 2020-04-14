@@ -2,9 +2,7 @@ import { Component, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // LIBRARIES
-import {
-  Share, ThumbnailSize, ShareSearchFacade
-} from '@picturepark/sdk-v1-angular';
+import { Share, ThumbnailSize, ShareSearchFacade } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
@@ -17,11 +15,10 @@ import { ContentModel } from '../../shared-module/models/content-model';
   templateUrl: './share-browser.component.html',
   styleUrls: [
     '../../shared-module/components/browser-base/browser-base.component.scss',
-    './share-browser.component.scss'
-  ]
+    './share-browser.component.scss',
+  ],
 })
 export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
-
   constructor(
     private activatedRoute: ActivatedRoute,
     injector: Injector,
@@ -39,34 +36,40 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
     this.sortingTypes = [
       {
         field: 'relevance',
-        name: this.translationService.translate('SortMenu.Relevance')
-      }, {
+        name: this.translationService.translate('SortMenu.Relevance'),
+      },
+      {
         field: 'audit.creationDate',
-        name: this.translationService.translate('SortMenu.CreationDate')
-      }, {
+        name: this.translationService.translate('SortMenu.CreationDate'),
+      },
+      {
         field: 'audit.modificationDate',
-        name: this.translationService.translate('SortMenu.ModificationDate')
-      }
+        name: this.translationService.translate('SortMenu.ModificationDate'),
+      },
     ];
     this.activeSortingType = this.sortingTypes[1];
     this.isAscending = false;
 
-    this.views = [{
-      name: 'Small',
-      icon: 'collections',
-      type: 'thumbnailSmall',
-      thumbnailSize: ThumbnailSize.Small
-    }, {
-      name: 'Medium',
-      icon: 'collections',
-      type: 'thumbnailMedium',
-      thumbnailSize: ThumbnailSize.Medium
-    }, {
-      name: 'Large',
-      icon: 'collections',
-      type: 'thumbnailLarge',
-      thumbnailSize: ThumbnailSize.Large
-    }];
+    this.views = [
+      {
+        name: 'Small',
+        icon: 'collections',
+        type: 'thumbnailSmall',
+        thumbnailSize: ThumbnailSize.Small,
+      },
+      {
+        name: 'Medium',
+        icon: 'collections',
+        type: 'thumbnailMedium',
+        thumbnailSize: ThumbnailSize.Medium,
+      },
+      {
+        name: 'Large',
+        icon: 'collections',
+        type: 'thumbnailLarge',
+        thumbnailSize: ThumbnailSize.Large,
+      },
+    ];
 
     this.activeView = this.views[1];
   }

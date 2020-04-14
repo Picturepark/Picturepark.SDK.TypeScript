@@ -1,27 +1,25 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="share-viewer-item-container">
   <div class="share-viewer-item-content-container">
+    <br />
+    <div *ngIf="showSearchBox">
+      <pp-search-box [searchString]="searchString" (searchStringChange)="updateRoute($event)"> </pp-search-box>
       <br />
-      <div *ngIf="showSearchBox">
-        <pp-search-box [searchString]="searchString" (searchStringChange)="updateRoute($event)">
-        </pp-search-box>
-        <br />
-      </div>
+    </div>
 
-      <div *ngIf="showConsent">
-        <pp-panel>
-          <div pp-panel-content class="consent">
-            <div class="text" [innerHTML]="'ShareViewer.Consent' | pptranslate">
-            </div>
-            <div>
-                <button mat-flat-button color="accent" (click)="confirmConsent()">
-                  {{ 'ShareViewer.OK' | pptranslate }}
-                </button>
-            </div>
+    <div *ngIf="showConsent">
+      <pp-panel>
+        <div pp-panel-content class="consent">
+          <div class="text" [innerHTML]="'ShareViewer.Consent' | pptranslate"></div>
+          <div>
+            <button mat-flat-button color="accent" (click)="confirmConsent()">
+              {{ 'ShareViewer.OK' | pptranslate }}
+            </button>
           </div>
-        </pp-panel>
-      </div>
+        </div>
+      </pp-panel>
+    </div>
 
-      <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
   </div>
 </div>

@@ -23,6 +23,6 @@ export class LayerField {
     this.fieldsetFields = [];
     this.relatedField = field;
     this.name = field.names && field.names['x-default'];
-    this.title = metadata._displayValues && metadata._displayValues.list || '';
+    this.title = (metadata._displayValues && metadata._displayValues.list) || '';
   }
 }

@@ -1,8 +1,22 @@
 pp-share-content-dialog {
-    .mat-tab-label { text-transform: uppercase; }
-    .mat-dialog-container { padding: 0px !important; }
-    .input-content {
-        mat-spinner { width: 20px !important; height: 20px !important; position: absolute !important; left: 8px; top: 10px; z-index: 20; }
-        mat-spinner svg { width: 20px !important; height: 20px !important; }
+  .mat-tab-label {
+    text-transform: uppercase;
+  }
+  .mat-dialog-container {
+    padding: 0px !important;
+  }
+  .input-content {
+    mat-spinner {
+      width: 20px !important;
+      height: 20px !important;
+      position: absolute !important;
+      left: 8px;
+      top: 10px;
+      z-index: 20;
     }
+    mat-spinner svg {
+      width: 20px !important;
+      height: 20px !important;
+    }
+  }
 }

@@ -1,12 +1,36 @@
-.notification-container { 
-    position: relative; top: 0px; left: 0px; width: 100%; height: 0px; overflow: hidden; transition: 0.5s; 
-    &.active { 
-        height: 50px;
-        .notification { bottom: 0px; }
-    }
-    &.error { background-color: #f74931; }
+.notification-container {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 0px;
+  overflow: hidden;
+  transition: 0.5s;
+  &.active {
+    height: 50px;
     .notification {
-        position: relative; bottom: 50px; font-size: 14px; background-color: #50be3c; color: white; height: 50px; line-height: 50px; text-align: left; padding: 0px 24px; transition: 0.5s;
-        mat-icon { font-size: 14px; float: right; line-height: 50px; cursor: pointer; }
+      bottom: 0px;
     }
+  }
+  &.error {
+    background-color: #f74931;
+  }
+  .notification {
+    position: relative;
+    bottom: 50px;
+    font-size: 14px;
+    background-color: #50be3c;
+    color: white;
+    height: 50px;
+    line-height: 50px;
+    text-align: left;
+    padding: 0px 24px;
+    transition: 0.5s;
+    mat-icon {
+      font-size: 14px;
+      float: right;
+      line-height: 50px;
+      cursor: pointer;
+    }
+  }
 }
