@@ -1,12 +1,7 @@
 <div class="wrap">
   <mat-toolbar class="navbar" *ngIf="deviceBreakpoint">
-    <button
-      mat-icon-button
-      class="menu"
-      (click)="snav.toggle()"
-      [matBadge]="itemsInBasket"
-      [matBadgeHidden]="itemsInBasket === '0'"
-    >
+    <button mat-icon-button class="menu" (click)="snav.toggle()" [matBadge]="itemsInBasket"
+      [matBadgeHidden]="itemsInBasket === '0'">
       <mat-icon>menu</mat-icon>
     </button>
   </mat-toolbar>
@@ -25,26 +20,21 @@
 
   <div class="content-picker-content">
     <mat-sidenav-container style="width:100%">
-      <mat-sidenav
-        #snav
-        [mode]="deviceBreakpoint ? 'over' : 'side'"
-        disableClose="true"
-        position="end"
-        [fixedInViewport]="deviceBreakpoint ? false : true"
-        fixedTopGap="64"
-        [opened]="deviceBreakpoint ? false : true"
-        style="width: 375px;"
-      >
+      <mat-sidenav #snav [mode]="deviceBreakpoint ? 'over' : 'side'" disableClose="true" position="end"
+        [fixedInViewport]="deviceBreakpoint ? false : true" fixedTopGap="64" [opened]="deviceBreakpoint ? false : true"
+        style="width: 375px;">
         <mat-toolbar-row *ngIf="deviceBreakpoint">
           <pp-channel-picker style="width: 100%" [channel]="selectedChannel" (channelChange)="changeChannel($event)">
           </pp-channel-picker>
         </mat-toolbar-row>
         <mat-toolbar-row *ngIf="deviceBreakpoint">
-          <pp-search-box
+          <!-- <pp-search-box
             style="width: 100%; font-size: 16px;"
             [searchString]="'searchText'"
             (searchParametersChange)="changeSearchParameters($event)"
-          ></pp-search-box>
+          ></pp-search-box> -->
+          <pp-search-suggest-box *ngIf="selectedChannel" [showSearchBehaviorPicker]="true" [facade]="facade">
+          </pp-search-suggest-box>
         </mat-toolbar-row>
         <mat-tab-group class="right-panel filters">
           <mat-tab label="Filters">
@@ -52,9 +42,8 @@
           </mat-tab>
           <mat-tab label="Basket">
             <ng-template mat-tab-label>
-              <span [matBadge]="itemsInBasket" matBadgeOverlap="false" [matBadgeHidden]="itemsInBasket === '0'"
-                >Basket</span
-              >
+              <span [matBadge]="itemsInBasket" matBadgeOverlap="false"
+                [matBadgeHidden]="itemsInBasket === '0'">Basket</span>
             </ng-template>
             <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>
           </mat-tab>
@@ -64,12 +53,8 @@
         </div>
       </mat-sidenav>
       <mat-sidenav-content class="content">
-        <pp-content-browser
-          #contentBrowser
-          [channel]="selectedChannel"
-          (previewItemChange)="openDetails($event)"
-          (selectedItemsChange)="selectionChange($event)"
-        >
+        <pp-content-browser #contentBrowser [channel]="selectedChannel" (previewItemChange)="openDetails($event)"
+          (selectedItemsChange)="selectionChange($event)">
         </pp-content-browser>
         <div class="expand-browser" *ngIf="!snav.opened && !deviceBreakpoint" (click)="snav.toggle()">
           <i class="material-icons">keyboard_arrow_left</i>
