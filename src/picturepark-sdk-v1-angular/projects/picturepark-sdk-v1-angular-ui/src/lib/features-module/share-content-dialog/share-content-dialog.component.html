@@ -78,15 +78,27 @@
       <mat-tab-group autoFocus="false">
         <mat-tab label="{{ 'ShareContentDialog.Items' | pptranslate }}">
           <ng-template matTabContent>
-            <ul>
-              <li *ngFor="let content of selectedContent">
+            <!-- <div class="selected-items">
+              <div class="selected-item-wrapper" *ngFor="let content of selectedContent">
                 <pp-share-content-dialog-item
                   [item]="content"
                   (removeDialogContent)="removeContent($event)"
                   (dblclick)="previewItem(content.id)"
                 ></pp-share-content-dialog-item>
-              </li>
-            </ul>
+              </div>
+            </div> -->
+            <mat-grid-list cols="4" >
+              <mat-grid-tile
+              *ngFor="let content of selectedContent">
+                  <div class="selected-item-wrapper" >
+                    <pp-share-content-dialog-item
+                      [item]="content"
+                      (removeDialogContent)="removeContent($event)"
+                      (dblclick)="previewItem(content.id)"
+                    ></pp-share-content-dialog-item>
+                  </div>
+              </mat-grid-tile>
+            </mat-grid-list>
           </ng-template>
         </mat-tab>
       </mat-tab-group>
