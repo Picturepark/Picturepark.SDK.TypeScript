@@ -17,6 +17,7 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
 })
 export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
   @Output() public activeSchemaChange = new EventEmitter<Schema>();
+  @Output() public parentSchemaChange = new EventEmitter<Schema>();
 
   public selectedSchemaIndex: number;
 
@@ -70,8 +71,8 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
   }
 
   public setUpActiveSchema(schema: Schema): void {
-    if (schema.childCount > 0 && !this.facade.searchRequestState.parentSchema) {
-      this.facade.patchRequestState({ parentSchema: schema });
+    if (schema.childCount > 0) {
+      this.parentSchemaChange.emit(schema);
     } else {
       this.activeSchemaChange.emit(schema);
     }
