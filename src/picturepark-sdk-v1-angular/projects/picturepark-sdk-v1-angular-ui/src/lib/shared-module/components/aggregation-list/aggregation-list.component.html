@@ -1,0 +1,35 @@
+<div class="aggregation-filter">
+  <div class="aggregation-filter__filters filters">
+    <mat-toolbar class="filters__active-filters" *ngIf="facade.aggregationFilters$ | async as aggregationFilters">
+      <span *ngIf="aggregationFilters.length === 0">{{ 'ContentAggregationList.NoActiveFilters' | pptranslate }}</span>
+      <span *ngIf="aggregationFilters.length === 1">{{
+        'ContentAggregationList.SingleActiveFilter' | pptranslate
+      }}</span>
+      <span *ngIf="aggregationFilters.length > 1">{{
+        'ContentAggregationList.MultipleActiveFilters' | pptranslate: aggregationFilters.length
+      }}</span>
+      <button
+        [style.visibility]="aggregationFilters.length > 0 ? 'visible' : 'hidden'"
+        [matTooltip]="'ContentAggregationList.ClearAllFilters' | pptranslate"
+        (click)="clearFilters()"
+        mat-icon-button
+      >
+        <mat-icon aria-label="Clear filters">clear</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <mat-accordion displayMode="flat" multi="true">
+      <pp-aggregation-item
+        *ngFor="let aggregator of facade.searchRequestState.aggregators; let i = index; trackBy: trackByName"
+        [isExpanded]="i === 0"
+        [aggregator]="aggregator"
+        [aggregationResult]="aggregationResults[i]"
+        [facade]="facade"
+      >
+      </pp-aggregation-item>
+    </mat-accordion>
+  </div>
+  <div *ngIf="loading$ && loading$ | async" class="aggregation-filter__loading-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>

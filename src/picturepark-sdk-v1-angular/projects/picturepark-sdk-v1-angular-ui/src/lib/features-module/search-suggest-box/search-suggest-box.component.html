@@ -1,35 +1,77 @@
-<form class="form" autocomplete="off" [formGroup]="form" autocomplete="false">
-  <button mat-icon-button (click)="search()">
-    <mat-icon aria-label="Search">search</mat-icon>
-  </button>
+<div id="search-container">
+  <form
+    class="form"
+    autocomplete="off"
+    [formGroup]="form"
+    autocomplete="false"
+    matAutocompleteOrigin
+    #origin="matAutocompleteOrigin"
+  >
+    <button mat-icon-button (click)="search()">
+      <mat-icon aria-label="Search">search</mat-icon>
+    </button>
 
-  <mat-chip-list #chipList aria-label="Share name">
-    <!--
-    <mat-chip *ngFor="let recipient of recipients" [selectable]="selectable" [removable]="removable" (removed)="remove(recipient)">
-      {{recipient}} <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-    </mat-chip>
-    -->
-    <input [placeholder]="'SearchBox.Search' | pptranslate" 
-          [matChipInputFor]="chipList"
-          (matChipInputTokenEnd)="add($event)"
-          (keyup.enter)="search()"
-          [matAutocomplete]="auto"
-          formControlName="suggestBox">
-  </mat-chip-list>
+    <input
+      [placeholder]="'SearchBox.Search' | pptranslate"
+      (keyup.enter)="search()"
+      [matAutocomplete]="auto"
+      [matAutocompleteConnectedTo]="origin"
+      (focus)="focus()"
+      formControlName="suggestBox"
+    />
 
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
-    <mat-option *ngIf="isLoading" class="is-loading">
-      <mat-spinner></mat-spinner>
-    </mat-option>
-    <ng-container *ngIf="!isLoading">
-      <mat-option *ngFor="let suggest of suggestAutocomplete" [value]="suggest">
-        <span [innerHTML]="suggest.name | highlight: this.searchString"></span>
-        <span> ({{suggest.count}})</span>
-      </mat-option>
-    </ng-container>
-  </mat-autocomplete>    
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
+      <div class="autocomplete-wrap">
+        <div class="autocomplete-options">
+          <mat-option *ngIf="hasFocus && !typed" [disabled]="true">
+            {{ 'SearchSuggestBox.TypeToSearch' | pptranslate }}
+          </mat-option>
+          <mat-option *ngIf="isLoading" [disabled]="true">
+            Loading
+          </mat-option>
+          <ng-container *ngIf="suggestions$ | async as suggestions">
+            <ng-container *ngIf="suggestions.length > 0; else noResults">
+              <mat-optgroup *ngFor="let group of suggestions" [label]="group.name">
+                <mat-option *ngFor="let suggest of group.results" [value]="suggest">
+                  <span [innerHTML]="suggest.name | highlight: this.suggestBox.value"></span>
+                  <span> ({{ suggest.count }})</span>
+                </mat-option>
+              </mat-optgroup>
+            </ng-container>
+            <ng-template #noResults>
+              <mat-option [disabled]="true">
+                {{ 'SearchSuggestBox.NoMatchingSuggestions' | pptranslate }}
+              </mat-option>
+            </ng-template>
+          </ng-container>
+        </div>
 
-  <button mat-icon-button (click)="clear()">
-    <mat-icon aria-label="Clear">clear</mat-icon>
-  </button>
-</form>
+        <div class="autocomplete-config" *ngIf="showSearchBehaviorPicker">
+          <mat-option *ngIf="hasFocus" [disabled]="true">
+            {{ 'SearchSuggestBox.SearchSettings' | pptranslate }}
+          </mat-option>
+          <mat-radio-group
+            class="radio-group"
+            [ngModel]="(facade.searchRequest$ | async)?.searchBehavior"
+            [ngModelOptions]="{ standalone: true }"
+            (change)="searchBehaviorChange($event)"
+          >
+            <mat-radio-button class="radio-button" value="SimplifiedSearch">
+              {{ 'SearchSuggestBox.SimpleAllSearch' | pptranslate }}
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" value="SimplifiedSearchOr">
+              {{ 'SearchSuggestBox.SimpleAnySearch' | pptranslate }}
+            </mat-radio-button>
+            <mat-radio-button class="radio-button" value="AdvancedSearch">
+              {{ 'SearchSuggestBox.AdvancedSearch' | pptranslate }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </mat-autocomplete>
+
+    <button mat-icon-button (click)="clear()" *ngIf="(facade.searchRequest$ | async)?.searchString">
+      <mat-icon aria-label="Clear">clear</mat-icon>
+    </button>
+  </form>
+</div>

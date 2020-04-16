@@ -1,18 +1,32 @@
-input { 
-    position: relative; 
-    font-weight: 400; 
-    font-size: 13px; 
-    color: #2f2f2f; 
-    line-height: 17px; 
-    border-radius: 4px; 
-    padding: 11px 6px 10px; 
-    border: 1px solid #fff; 
-    background-color: white; 
-    z-index: 10;
+input {
+  position: relative;
+  font-weight: 400;
+  font-size: 13px;
+  color: #2f2f2f;
+  line-height: 17px;
+  border-radius: 4px;
+  padding: 11px 6px 10px;
+  border: 1px solid #fff;
+  background-color: white;
+  z-index: 10;
 }
-input.error-active { border: 1px solid #f74931; }
+input.error-active {
+  border: 1px solid #f74931;
+}
 
-mat-datepicker-toggle { position: relative; z-index: 11;}
+mat-datepicker-toggle {
+  position: relative;
+  z-index: 11;
+}
 
-.date-picker-error { position: absolute; top: 20px; color: #f74931; transition: .5s; z-index: 1; font-size: 10px; }
-.date-picker-error.active { top: 50px; }
+.date-picker-error {
+  position: absolute;
+  top: 20px;
+  color: #f74931;
+  transition: 0.5s;
+  z-index: 1;
+  font-size: 10px;
+}
+.date-picker-error.active {
+  top: 50px;
+}

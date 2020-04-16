@@ -8,15 +8,8 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
-  declarations: [
-    NotificationComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-  ],
-  exports: [
-    NotificationComponent
-  ]
+  declarations: [NotificationComponent],
+  imports: [CommonModule, SharedModule],
+  exports: [NotificationComponent],
 })
-export class NotificationModule { }
+export class NotificationModule {}

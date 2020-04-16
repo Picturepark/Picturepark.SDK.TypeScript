@@ -12,14 +12,12 @@
   @include mat-elevation-transition;
   user-select: none;
 
-
   &--selected {
-    
     #{ $self }__actions {
       visibility: initial;
     }
   }
-  
+
   &--list-view {
     display: inline-flex;
     flex-direction: row;
@@ -32,30 +30,28 @@
     #{ $self }__image-slot {
       width: 15%;
       overflow: hidden;
-      margin: 10px; 
+      margin: 10px;
       border-top-style: solid;
       border-top-width: 5px;
       border-bottom-style: solid;
       border-bottom-width: 5px;
     }
-    
+
     #{ $self }__title {
       flex-grow: 1;
       margin: 10px;
       width: 85%;
-      
     }
-    
+
     #{ $self }__actions {
       align-self: flex-end;
     }
 
     #{ $self }__list-view-actions {
-      
       position: absolute;
       right: 30px;
       top: 5px;
-      ul { 
+      ul {
         list-style: none;
         margin: 0px;
         padding: 0px;
@@ -68,14 +64,20 @@
             height: 26px;
             line-height: 26px;
             border-radius: 2px;
-            .clear { display: none; }
+            .clear {
+              display: none;
+            }
           }
           &.in-basket {
             display: inherit;
             button {
               &:hover {
-                .remove { display: none; }
-                .clear { display: inherit; }
+                .remove {
+                  display: none;
+                }
+                .clear {
+                  display: inherit;
+                }
               }
             }
           }
@@ -114,7 +116,7 @@
       display: contents;
     }
   }
-  
+
   &__actions {
     visibility: hidden;
     position: absolute;
@@ -142,7 +144,4 @@
       }
     }
   }
-
-
-
 }

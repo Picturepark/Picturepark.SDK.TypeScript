@@ -4,15 +4,12 @@ import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, OnInit
 import { ContentSearchResult } from '@picturepark/sdk-v1-angular';
 import { ExtendedSearchBehavior, SearchParameters } from '../../shared-module/search-utils';
 
-
-
 @Component({
   selector: 'pp-search-box',
   templateUrl: './search-box.component.html',
-  styleUrls: ['./search-box.component.scss']
+  styleUrls: ['./search-box.component.scss'],
 })
 export class SearchBoxComponent implements OnChanges, OnInit {
-
   public result: ContentSearchResult | null = null;
 
   @Input()
@@ -63,7 +60,7 @@ export class SearchBoxComponent implements OnChanges, OnInit {
   public emitValues() {
     this.searchParametersChange.emit({
       searchString: this.searchString,
-      searchBehavior: this.searchBehavior
+      searchBehavior: this.searchBehavior,
     });
     this.searchStringChange.emit(this.searchString);
   }

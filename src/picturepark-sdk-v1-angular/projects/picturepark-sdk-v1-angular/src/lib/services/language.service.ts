@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { InfoFacade } from '../info.facade';
+import { InfoFacade } from '../facade/info.facade';
 import { StorageKey } from '../utilities/storage-key.enum';
 import { Language } from './api-services';
 import { LocalStorageService } from './local-storage.service';

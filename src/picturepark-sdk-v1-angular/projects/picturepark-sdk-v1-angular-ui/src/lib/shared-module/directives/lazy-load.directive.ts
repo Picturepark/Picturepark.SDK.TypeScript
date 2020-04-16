@@ -1,17 +1,15 @@
-import { Directive, Output, EventEmitter, ElementRef, NgZone, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
+import { Directive, Output, EventEmitter, ElementRef, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 
 @Directive({
-// tslint:disable-next-line: directive-selector
-  selector: '[lazyload]'
+  // tslint:disable-next-line: directive-selector
+  selector: '[lazyload]',
 })
 export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
   @Output() public lazyload: EventEmitter<any> = new EventEmitter();
   private intersectionObserver: IntersectionObserver;
   private element: Element;
 
-  constructor(
-    private elementRef: ElementRef
-  ) { }
+  constructor(private elementRef: ElementRef) {}
 
   public ngOnInit() {
     this.element = this.elementRef.nativeElement;

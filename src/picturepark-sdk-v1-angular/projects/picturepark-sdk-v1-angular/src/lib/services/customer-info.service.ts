@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
@@ -26,12 +26,20 @@ export class CustomerInfoService {
     }
     url_ = url_.replace(/[?&]$/, '');
 
-    return this.http
-      .get<CustomerInfo>(url_, { headers: { 'Picturepark-CustomerAlias': this.config.customerAlias! } })
-      .pipe(
-        mergeMap((response_: any) => {
-          return of(CustomerInfo.fromJS(response_));
-        })
-      );
+    const options_: any = {
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+      }),
+    };
+
+    if (this.config.customerAlias) {
+      options_.headers = options_.headers.append('Picturepark-CustomerAlias', this.config.customerAlias);
+    }
+
+    return this.http.get<CustomerInfo>(url_, options_).pipe(
+      mergeMap((response_: any) => {
+        return of(CustomerInfo.fromJS(response_));
+      })
+    );
   }
 }

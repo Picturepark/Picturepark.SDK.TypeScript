@@ -1,8 +1,12 @@
 <div class="share-content-item">
   <pp-content-item-thumbnail [shadow]="true" [item]="item"></pp-content-item-thumbnail>
-  <button color="accent" class="share-content-item__remove-button"
-    [matTooltip]="'ShareContentDialog.RemoveItem' | pptranslate" (click)="remove(); $event.preventDefault();"
-    mat-mini-fab>
+  <button
+    color="accent"
+    class="share-content-item__remove-button"
+    [matTooltip]="'ShareContentDialog.RemoveItem' | pptranslate"
+    (click)="remove(); $event.preventDefault()"
+    mat-mini-fab
+  >
     <mat-icon aria-label="'ShareContentDialog.Clear' | pptranslate">remove</mat-icon>
   </button>
 </div>

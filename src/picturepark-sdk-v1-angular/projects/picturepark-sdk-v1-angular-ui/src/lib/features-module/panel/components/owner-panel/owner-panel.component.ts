@@ -12,7 +12,6 @@ import { PanelBaseComponent } from '../panel-base/panel-base.component';
   styleUrls: ['../panel-base/panel-base.component.scss', './owner-panel.component.scss'],
 })
 export class OwnerPanelComponent extends PanelBaseComponent implements OnInit {
-
   @Input() userId: string;
   @Input() shareUser: ShareUser;
 
@@ -20,14 +19,11 @@ export class OwnerPanelComponent extends PanelBaseComponent implements OnInit {
   userAvatar: string;
   user: UserDetail;
 
-  constructor(
-    private userService: UserService
-  ) {
+  constructor(private userService: UserService) {
     super();
   }
 
   ngOnInit() {
-
     if (this.shareUser) {
       return;
     }
@@ -36,7 +32,5 @@ export class OwnerPanelComponent extends PanelBaseComponent implements OnInit {
       this.user = data;
     });
     this.subscription.add(userSubscriber);
-
   }
-
 }

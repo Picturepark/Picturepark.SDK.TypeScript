@@ -12,7 +12,6 @@ import { NotificationService } from '../../../../shared-module/services/notifica
 import { Notification } from '../../../notification/interfaces/notification.interface';
 
 export class DialogBaseComponent extends BaseComponent implements OnInit, OnDestroy {
-
   // SUBSCRIBERS
   notificationSubscriber: Subscription;
 
@@ -29,7 +28,6 @@ export class DialogBaseComponent extends BaseComponent implements OnInit, OnDest
     super(injector);
     this.notificationService = injector.get(NotificationService);
   }
-
 
   // CLOSE DIALOG
   public closeDialog(): void {

@@ -1,47 +1,46 @@
 @import '~@angular/material/theming';
 
-$pp-search-box: (contrast: (),
+$pp-search-box: (
+  contrast: (),
 );
 
 @mixin pp-search-box-theme($theme) {
-
   $primary: map-get($theme, primary);
 
-  pp-search-box {
-    
+  pp-search-box,
+  pp-search-suggest-box {
     #search-container {
       border-color: mat-color($primary, surface-mid);
-      
+
       .form {
         background-color: mat-color($primary, surface-mid);
         color: mat-color($primary, on-surface-mid);
-        
+
         input {
           color: mat-color($primary, on-surface-mid);
-          
+
           &::placeholder {
             color: mat-color($primary, on-surface-mid);
           }
         }
       }
-      
+
       #search-options-container {
         color: mat-color($primary, surface-mid);
       }
     }
-    
-    #search-container:focus-within {
 
+    #search-container:focus-within {
       border-color: mat-color($primary, opacity-light);
 
       .form {
         background-color: mat-color($primary, opacity-light);
-        
+
         color: mat-color($primary, on-surface-dark);
-        
+
         input {
           color: mat-color($primary, on-surface-dark);
-          
+
           &::placeholder {
             color: mat-color($primary, on-surface-dark);
           }

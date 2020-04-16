@@ -8,15 +8,8 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 import { ChannelPickerComponent } from './channel-picker.component';
 
 @NgModule({
-  declarations: [
-    ChannelPickerComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule
-  ],
-  exports: [
-    ChannelPickerComponent
-  ]
+  declarations: [ChannelPickerComponent],
+  imports: [CommonModule, SharedModule],
+  exports: [ChannelPickerComponent],
 })
-export class ChannelPickerModule { }
+export class ChannelPickerModule {}

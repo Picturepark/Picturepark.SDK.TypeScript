@@ -59,8 +59,8 @@ translations['ShareViewer'] = {
 export function PictureparkConfigurationFactory() {
   if (!environment.production) {
     return <PictureparkAccessTokenAuthConfiguration>{
-      apiServer: 'https://api.01.qa-picturepark.com',
-      customerAlias: 'santest',
+      apiServer: 'https://dev.picturepark.com',
+      customerAlias: 'testAlias',
       accessToken: '',
     };
   }
