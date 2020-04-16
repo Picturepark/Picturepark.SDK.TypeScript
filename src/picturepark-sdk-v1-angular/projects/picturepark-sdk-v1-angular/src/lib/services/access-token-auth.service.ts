@@ -56,5 +56,3 @@ export class AccessTokenAuthService extends AuthService {
 export interface PictureparkAccessTokenAuthConfiguration extends PictureparkConfiguration {
   accessToken?: string;
 }
-
-
