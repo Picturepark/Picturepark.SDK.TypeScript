@@ -61,6 +61,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
   public outputFormatFallback = [
     { fileSchemaId: 'ImageMetadata', outputFormatId: 'Preview' },
+    { fileSchemaId: 'VectorMetadata', outputFormatId: 'Pdf' },
     { fileSchemaId: 'DocumentMetadata', outputFormatId: 'Pdf' },
     { fileSchemaId: 'AudioMetadata', outputFormatId: 'AudioSmall' },
     { fileSchemaId: 'VideoMetadata', outputFormatId: 'VideoLarge' },
