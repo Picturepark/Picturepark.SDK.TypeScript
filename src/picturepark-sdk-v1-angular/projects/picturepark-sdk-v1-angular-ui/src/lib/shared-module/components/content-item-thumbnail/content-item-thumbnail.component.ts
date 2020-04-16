@@ -60,9 +60,43 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
 
   async ngOnInit() {
     this.isLoading = true;
-    if (this.shareItem) {
-      const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
+    // if (this.shareItem) {
+    //   const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
 
+    //   if (content) {
+    //     const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
+    //     this.thumbnailUrl$ = this.loadItem.pipe(
+    //       map(() => this.trust(output?.viewUrl || content.iconUrl)),
+    //       tap(() => (this.isLoading = false))
+    //     );
+    //   }
+    //   return;
+    // }
+
+    // if (this.itemId) {
+    //   const fetchContentResult = await fetchContentById(this.contentService, this.itemId).toPromise();
+    //   if (fetchContentResult) {
+    //     this.item = fetchContentResult;
+    //   }
+    //   this.itemUpdated(this.item);
+    // }
+
+    // if (this.item) {
+    //   this.thumbnailUrl$ = this.loadItem.pipe(
+    //     switchMap(() =>
+    //       this.contentService.downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
+    //     ),
+    //     map(response => this.trust(URL.createObjectURL(response.data))),
+    //     tap(() => (this.isLoading = false))
+    //   );
+    // }
+
+  }
+
+  async ngOnChanges(changes: SimpleChanges) {
+
+    if (changes['shareItem']) {
+      const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
       if (content) {
         const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
         this.thumbnailUrl$ = this.loadItem.pipe(
@@ -70,38 +104,34 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
           tap(() => (this.isLoading = false))
         );
       }
-      return;
-    }
+    } else {
+      if (changes['itemId']) {
 
-    if (this.itemId) {
-      const fetchContentResult = await fetchContentById(this.contentService, this.itemId).toPromise();
-      if (fetchContentResult) {
-        this.item = fetchContentResult;
+        this.sub = fetchContentById(this.contentService, this.itemId).subscribe( fetchContentResult => {
+          if (fetchContentResult) {
+            this.item = fetchContentResult;
+          }
+          this.itemUpdated(this.item);
+        });
+
+      }
+
+      // this.thumbnailUrl$ = this.loadItem.pipe(
+      //   switchMap(() =>
+      //     this.contentService.downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
+      //   ),
+      //   map(response => this.trust(URL.createObjectURL(response.data))),
+      //   tap(() => (this.isLoading = false))
+      // );
+      // setTimeout(() => {
+      //   this.loadItem.next();
+      // }, 3000);
+  
+      if (changes['item'] ) {
+        this.itemUpdated(this.item);
       }
     }
 
-    if (this.item) {
-      this.thumbnailUrl$ = this.loadItem.pipe(
-        switchMap(() =>
-          this.contentService.downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
-        ),
-        map(response => this.trust(URL.createObjectURL(response.data))),
-        tap(() => (this.isLoading = false))
-      );
-    }
-    setTimeout(() => {
-      this.loadItem.next()
-    }, 3000)
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['item'] && changes['item'].firstChange) {
-      if (!NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.item.contentSchemaId)) {
-        if (this.item.displayValues['thumbnail']) {
-          this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
-        }
-      }
-    }
 
     if (changes['thumbnailSize'] && !this.virtualItemHtml && this.isVisible) {
       const updateImage =
@@ -114,6 +144,22 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
         this.loadItem.next();
       }
     }
+  }
+
+  itemUpdated(item: Content | ShareContentDetail) {
+    if (!NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(item.contentSchemaId)) {
+      if (item.displayValues['thumbnail']) {
+        this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, item.displayValues['thumbnail']);
+      }
+    }
+
+    this.thumbnailUrl$ = this.loadItem.pipe(
+      switchMap(() =>
+        this.contentService.downloadThumbnail(item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
+      ),
+      map(response => this.trust(URL.createObjectURL(response.data))),
+      tap(() => (this.isLoading = false))
+    );
   }
 
   private trust(data: any) {
