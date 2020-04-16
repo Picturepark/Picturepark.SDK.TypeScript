@@ -24,6 +24,7 @@ import {
   SchemaDetail,
   ThumbnailSize,
   ContentResolveBehavior,
+  TranslatedStringDictionary,
 } from '@picturepark/sdk-v1-angular';
 import * as moment_ from 'moment';
 import { map, switchMap } from 'rxjs/operators';
@@ -161,6 +162,7 @@ export class LayerFieldService {
 
       case FieldTranslatedString:
         layerField.value = fieldValue['x-default'];
+        layerField.values = TranslatedStringDictionary.fromJS(fieldValue);
         break;
 
       case FieldDateTimeArray:

@@ -1,9 +1,19 @@
 <div class="raw">
-  <div class="label" *ngIf="!noname" #name [matTooltip]="field.name">{{ field.name }}</div>
+  <ng-container *ngIf="!noname">
+    <div *ngIf="field.names; else nameLabel" class="label" matTooltip="{{ field.names | pptranslate }}">
+      {{ field.names | pptranslate }}
+    </div>
+    <ng-template #nameLabel>
+      <div class="label" [matTooltip]="field.name">{{ field.name }}</div>
+    </ng-template>
+  </ng-container>
 
-  <div class="value" *ngIf="field.value">
-    {{ field.value }}
+  <div class="value" *ngIf="field.values; else value">
+    {{ field.values | pptranslate }}
   </div>
+  <ng-template #value>
+    <div class="value">{{ field.value }}</div>
+  </ng-template>
 
   <div class="value" *ngIf="field.tagboxFields?.length">
     <span *ngFor="let tagboxField of field.tagboxFields; let last = last; index as i">
