@@ -248,7 +248,7 @@ class ShareService extends generated.ShareService {
   }
 
 
-  public getShareByToken(token: string, lang: string | null | undefined, cdnUrl?: string): Observable<any> {
+  public getShareByToken(token: string, lang: string | null | undefined, cdnUrl?: string): Observable<ShareDetail> {
     if (cdnUrl) {
       return this.getShareByTokenFromUrl(token, lang, cdnUrl + '/json/{token}?').pipe(
         mergeMap(async shareJson => {

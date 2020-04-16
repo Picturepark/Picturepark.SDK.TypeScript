@@ -15,12 +15,10 @@ export class CustomerInfoService {
     @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkConfiguration
   ) { }
 
-  public getInfo(): Observable<CustomerInfo> {
+  public getInfo(cdnUrl?: string): Observable<CustomerInfo> {
     let url_: string;
-    // TODO if CDN is available
-    if (true) {
-      // TODO handle CDN url
-      url_ = 'http://santest-cdn.01.qa-picturepark.com' + '/service/Info/customer';
+    if (cdnUrl) {
+      url_ = cdnUrl + '/service/Info/customer';
     } else {
       url_ = this.config.apiServer + '/v1/Info/customer';
     }

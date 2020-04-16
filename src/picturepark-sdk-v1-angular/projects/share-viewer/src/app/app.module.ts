@@ -19,6 +19,7 @@ import { ShareDetailModule } from './share-detail/share-detail.module';
 import { environment } from '../environments/environment';
 import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/translations';
 import { PICTUREPARK_UI_SCRIPTPATH } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/configuration';
+import { PictureparkCdnConfiguration, PICTUREPARK_CDN } from '../models/cdn-config';
 
 const translations = TRANSLATIONS;
 translations['ShareViewer'] = {
@@ -55,6 +56,19 @@ translations['ShareViewer'] = {
     de: 'Alles herunterladen',
   },
 };
+
+export function PictureparkCdnFactory() {
+  if (!environment.production) {
+    return <PictureparkCdnConfiguration>{
+      cdnUrl: 'http://santest-cdn.01.qa-picturepark.com'
+    };
+  }
+
+  const appRootTag = document.getElementsByTagName('app-root')[0];
+  return <PictureparkCdnConfiguration>{
+    cdnUrl: appRootTag.getAttribute('picturepark-cdn-url'),
+  };
+}
 
 export function PictureparkConfigurationFactory() {
   if (!environment.production) {
@@ -115,6 +129,7 @@ export function getLanguageFactory(): string {
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },
     { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
+    { provide: PICTUREPARK_CDN, useFactory: PictureparkCdnFactory },
     { provide: PICTUREPARK_UI_SCRIPTPATH, useFactory: PictureparkUIScriptPathFactory },
   ],
   bootstrap: [AppComponent],
