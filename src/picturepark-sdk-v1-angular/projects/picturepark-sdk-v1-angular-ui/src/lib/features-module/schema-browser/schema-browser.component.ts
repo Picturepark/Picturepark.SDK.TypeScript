@@ -71,7 +71,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
   }
 
   public setUpActiveSchema(schema: Schema): void {
-    if (schema.childCount > 0) {
+    if (schema.childCount > 0 && schema.id !== this.facade.searchRequestState.parentSchema?.id) {
       this.parentSchemaChange.emit(schema);
     } else {
       this.activeSchemaChange.emit(schema);
