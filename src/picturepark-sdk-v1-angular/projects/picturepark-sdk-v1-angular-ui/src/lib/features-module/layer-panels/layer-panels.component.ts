@@ -5,7 +5,6 @@ import { take } from 'rxjs/operators';
 import { Layer } from './models/layer';
 import { LayerFieldService } from './services/layer-field.service';
 import { RelationFieldInfo } from './models/relation-field-info';
-import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS } from '../../utilities/constants';
 
 @Component({
   selector: 'pp-layer-panels',
@@ -42,7 +41,7 @@ export class LayerPanelsComponent implements OnInit {
           return;
         }
 
-        const isVirtualContent = NON_VIRTUAL_CONTENT_SCHEMAS_IDS.indexOf(this.content.contentSchemaId) < 0;
+        const isVirtualContent = this.content.isVirtual();
         const schemas = this.showContentSchema && isVirtualContent ? [this.content.contentSchemaId] : [];
 
         if (contentSchema.layerSchemaIds) {
