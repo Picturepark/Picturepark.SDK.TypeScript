@@ -368,6 +368,10 @@ export let TRANSLATIONS = {
       en: 'Images',
       de: 'Bilder',
     },
+    VectorMetadata: {
+      en: 'Vector',
+      de: 'Vektor',
+    },
     FileMetadata: {
       en: 'Other',
       de: 'Andere',

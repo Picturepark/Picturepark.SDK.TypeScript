@@ -5473,8 +5473,84 @@ export class IdentityProviderClient extends PictureparkClientBase {
     }
 
     /**
+     * Get basic info for all providers
+     * @return Array of identity provider basic information
+     */
+    getAllBasicInfos(): Promise<IdentityProviderBasicInfo[]> {
+        let url_ = this.baseUrl + "/v1/IdentityProviders/basicInfo";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetAllBasicInfos(_response);
+        });
+    }
+
+    protected processGetAllBasicInfos(response: Response): Promise<IdentityProviderBasicInfo[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <IdentityProviderBasicInfo[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<IdentityProviderBasicInfo[]>(<any>null);
+    }
+
+    /**
      * Get identity provider
      * @param id Identity provider ID.
+     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
      */
     get(id: string | null): Promise<IdentityProvider> {
         let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";
@@ -5554,6 +5630,7 @@ export class IdentityProviderClient extends PictureparkClientBase {
      * Update identity provider
      * @param id Identity provider ID.
      * @param provider Update request
+     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
      */
     update(id: string | null, provider: IdentityProviderEditable): Promise<IdentityProvider> {
         let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";
@@ -15665,8 +15742,11 @@ export interface UserEmailAlreadyExistsException extends PictureparkValidationEx
     email?: string | undefined;
 }
 
-export interface UserRoleAssignedException extends PictureparkValidationException {
+export interface UnableToDeleteUserRoleException extends PictureparkValidationException {
     userRoleId?: string | undefined;
+}
+
+export interface UserRoleAssignedException extends UnableToDeleteUserRoleException {
 }
 
 export interface UserNotFoundException extends PictureparkBusinessException {
@@ -15736,11 +15816,22 @@ export interface UserDoesNotSupportLocalLoginException extends PictureparkValida
 }
 
 export interface UserAttributeNotSynchronizableException extends PictureparkValidationException {
-    attributeName?: string | undefined;
+    attributePath?: string | undefined;
+}
+
+export interface UnableToMapMultipleClaimTypesIntoSameAttributeException extends PictureparkValidationException {
+    attributePath?: string | undefined;
 }
 
 export interface UnableToChangeUserRolesForFederatedUser extends PictureparkValidationException {
     affectedUserId?: string | undefined;
+}
+
+export interface UnableToDeleteDefaultUserRoleException extends UnableToDeleteUserRoleException {
+}
+
+export interface UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException extends UnableToDeleteUserRoleException {
+    identityProviderIds?: string[] | undefined;
 }
 
 export interface RenderingException extends PictureparkBusinessException {
@@ -15757,6 +15848,7 @@ export enum RenderingCategory {
     Document = <any>"Document",
     Video = <any>"Video",
     Audio = <any>"Audio",
+    Vector = <any>"Vector",
 }
 
 export interface ServiceProviderDeleteException extends PictureparkException {
@@ -17971,6 +18063,8 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
 
 /** Contains a trace for a single document affected by potentially multiple business rules being evaluated and executed. */
 export interface BusinessRuleTraceLog {
+    /** ID of the trace. */
+    id?: string | undefined;
     /** ID of the document. */
     documentId?: string | undefined;
     /** Type of the document. */
@@ -18655,6 +18749,10 @@ export interface OutputDataDocument extends OutputDataBase {
     pageCount?: number;
 }
 
+/** Output information for a vector file. */
+export interface OutputDataVector extends OutputDataBase {
+}
+
 /** Default output information */
 export interface OutputDataDefault extends OutputDataBase {
 }
@@ -19334,6 +19432,7 @@ export interface IdentityProviderEditable {
     fallbackUserRoleId?: string | undefined;
 }
 
+/** Represents an identity provider defined in IdentityServer and its Picturepark configuration */
 export interface IdentityProvider extends IdentityProviderEditable {
     /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
     id?: string | undefined;
@@ -19348,6 +19447,16 @@ export interface IdpGroupToUserRoleMapping {
     group?: string | undefined;
     /** User role ID as defined in CP */
     userRoleId?: string | undefined;
+}
+
+/** Basic information about an identity provider */
+export interface IdentityProviderBasicInfo {
+    /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
+    id?: string | undefined;
+    /** Name of the identity provider as defined in IdentityServer */
+    name?: string | undefined;
+    /** Display name of the identity provider as defined in IdentityServer */
+    displayName?: string | undefined;
 }
 
 /** The version view item for the environment. */
@@ -19836,6 +19945,8 @@ export interface SourceOutputFormats {
     document?: string | undefined;
     /** The source to be used for content of type Audio */
     audio?: string | undefined;
+    /** The source to be used for content of type Vector */
+    vector?: string | undefined;
 }
 
 export interface FormatBase {
@@ -20123,9 +20234,11 @@ Values can be set it range of 0 to 9, where a lower value is a higher quality. *
 export interface DocumentFormatBase extends FormatBase {
 }
 
-/** Renders a TIFF preview image. */
+/** Render a document to a raster image */
 export interface DocumentStillFormat extends DocumentFormatBase {
     extension?: string | undefined;
+    /** Allows resizing of the image. */
+    resizeAction?: ResizeAction | undefined;
 }
 
 export interface PdfFormat extends DocumentFormatBase {
@@ -20140,6 +20253,22 @@ export interface PdfFormat extends DocumentFormatBase {
     extractFullText?: boolean;
 }
 
+/** Base class for rendering vector graphics. */
+export interface VectorFormatBase extends FormatBase {
+}
+
+/** Render a PDF to SVG */
+export interface SvgFormat extends VectorFormatBase {
+    extension?: string | undefined;
+}
+
+/** Render a vector graphic to a raster image */
+export interface VectorStillFormat extends VectorFormatBase {
+    extension?: string | undefined;
+    /** Specifies output dimensions for raster operation */
+    resizeAction?: ResizeAction | undefined;
+}
+
 /** Represents the editable part of the output format. */
 export interface OutputFormatEditable extends OutputFormatRenderingSpecification {
     /** Language specific names. */
@@ -20149,6 +20278,8 @@ export interface OutputFormatEditable extends OutputFormatRenderingSpecification
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
 If set, the customer's default language is required. */
     downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
+    /** Indicates if outputs derived from original output format should be accessible also for users not having AccessOriginal permission on the content. */
+    viewForAll?: boolean;
 }
 
 /** Represents an output format. */
@@ -21703,6 +21834,16 @@ export interface VideoStream {
     streamSize?: number | undefined;
     width?: number | undefined;
     rotation?: number | undefined;
+}
+
+export interface VectorMetadata extends FileMetadata {
+    author?: string | undefined;
+    creator?: string | undefined;
+    publisher?: string | undefined;
+    company?: string | undefined;
+    title?: string | undefined;
+    pageCount?: number;
+    epsInfo?: EpsMetadata | undefined;
 }
 
 export interface FileTransferOutput {
