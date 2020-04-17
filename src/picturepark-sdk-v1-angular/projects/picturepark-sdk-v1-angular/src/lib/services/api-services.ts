@@ -64823,3 +64823,5 @@ function blobToText(blob: any): Observable<string> {
         }
     });
 }
+
+// prettier-ignore

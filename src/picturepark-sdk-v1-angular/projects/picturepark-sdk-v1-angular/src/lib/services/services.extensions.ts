@@ -28,6 +28,7 @@ import { AuthService } from './auth.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
 import { PictureparkServiceBase } from './base.service';
 import * as generated from './api-services';
+// prettier-ignore
 
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
   translate(locale: string) {

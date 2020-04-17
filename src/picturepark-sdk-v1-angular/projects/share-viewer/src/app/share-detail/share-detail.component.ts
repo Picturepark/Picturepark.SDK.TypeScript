@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { forkJoin, Observable } from 'rxjs';
 import {
   ShareDetail,
   IMailRecipient,
@@ -9,10 +8,10 @@ import {
   ShareDataBasic,
   ShareContentDetail,
   ShareService,
-  CustomerInfo,
 } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
 import { PictureparkCdnConfiguration, PICTUREPARK_CDN } from '../../models/cdn-config';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-share-detail',
@@ -47,28 +46,20 @@ export class ShareDetailComponent implements OnInit {
     }
 
     this.isLoading = true;
+    const shareInfo = forkJoin([this.shareService.getShareByToken(searchString, null, this.cdnConfig.cdnUrl), this.infoFacade.getInfo(this.cdnConfig.cdnUrl)]);
 
-    let infoObservable: Observable<CustomerInfo>;
-    let shareObservable: Observable<ShareDetail>;
-    if (this.cdnConfig.cdnUrl) {
-      infoObservable = this.infoFacade.getInfo(this.cdnConfig.cdnUrl);
-      shareObservable = this.shareService.getShareByToken(searchString, null, this.cdnConfig.cdnUrl);
-    } else {
-      infoObservable = this.infoFacade.getInfo();
-      shareObservable = this.shareService.getShareByToken(searchString, null);
-    }
-
-    infoObservable.subscribe(info => {
-      if (info.logosUrl) {
-        this.logoUrl = info.logosUrl + 'name';
-      }
-    })
-
-    shareObservable.subscribe(share => {
-      this.shareDetail = share;
-      this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
-      this.isLoading = false;
-    })
+    shareInfo.subscribe({
+      next: ([shareJson, info]) => {
+        if (info.logosUrl) {
+          this.logoUrl = info.logosUrl + 'name';
+        }
+        if (shareJson) {
+          this.shareDetail = shareJson;
+          this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
+        }
+        this.isLoading = false;
+      },
+    });
   }
 
   downloadAll(): void {
