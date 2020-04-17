@@ -32,6 +32,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { LayerField } from '../models/layer-field';
 import { RelationFieldInfo } from '../models/relation-field-info';
 import { forkJoin } from 'rxjs';
+import { TranslatePipe } from '../../../shared-module/pipes/translate.pipe';
 
 const moment = moment_;
 
@@ -39,7 +40,11 @@ const moment = moment_;
   providedIn: 'root',
 })
 export class LayerFieldService {
-  constructor(private sanitizer: DomSanitizer, private contentService: ContentService) {}
+  constructor(
+    private sanitizer: DomSanitizer,
+    private contentService: ContentService,
+    private translatePipe: TranslatePipe
+  ) {}
 
   public generate(field: FieldBase, schemaMetadata: any, allSchemas: SchemaDetail[]): LayerField | null {
     const fieldValue = schemaMetadata[field.id];
@@ -161,8 +166,7 @@ export class LayerFieldService {
         break;
 
       case FieldTranslatedString:
-        layerField.value = fieldValue['x-default'];
-        layerField.values = TranslatedStringDictionary.fromJS(fieldValue);
+        layerField.value = this.translatePipe.transform(TranslatedStringDictionary.fromJS(fieldValue));
         break;
 
       case FieldDateTimeArray:
@@ -195,6 +199,10 @@ export class LayerFieldService {
         layerField = null;
         break;
       }
+    }
+
+    if (field.names && layerField) {
+      layerField.name = this.translatePipe.transform(field.names);
     }
 
     return layerField;
