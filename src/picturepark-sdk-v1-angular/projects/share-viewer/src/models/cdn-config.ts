@@ -1,8 +1,7 @@
-import { InjectionToken } from '@angular/core';
+import { PictureparkConfiguration } from '@picturepark/sdk-v1-angular';
 
-export const PICTUREPARK_CDN = new InjectionToken<string>('PICTUREPARK_CDN');
 
-export interface PictureparkCdnConfiguration {
+export interface PictureparkCdnConfiguration extends PictureparkConfiguration{
     cdnUrl: string;
 }
 

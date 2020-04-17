@@ -8,9 +8,10 @@ import {
   ShareDataBasic,
   ShareContentDetail,
   ShareService,
+  PICTUREPARK_CONFIGURATION,
 } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
-import { PictureparkCdnConfiguration, PICTUREPARK_CDN } from '../../models/cdn-config';
+import { PictureparkCdnConfiguration } from '../../models/cdn-config';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -30,8 +31,8 @@ export class ShareDetailComponent implements OnInit {
     private infoFacade: InfoFacade,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    @Inject(PICTUREPARK_CDN) private cdnConfig: PictureparkCdnConfiguration
-  ) { }
+    @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkCdnConfiguration
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(paramMap => {
@@ -46,7 +47,10 @@ export class ShareDetailComponent implements OnInit {
     }
 
     this.isLoading = true;
-    const shareInfo = forkJoin([this.shareService.getShareByToken(searchString, null, this.cdnConfig.cdnUrl), this.infoFacade.getInfo(this.cdnConfig.cdnUrl)]);
+    const shareInfo = forkJoin([
+      this.shareService.getShareByToken(searchString, null, this.config.cdnUrl),
+      this.infoFacade.getInfo(this.config.cdnUrl),
+    ]);
 
     shareInfo.subscribe({
       next: ([shareJson, info]) => {
@@ -96,5 +100,4 @@ export class ShareDetailComponent implements OnInit {
       maxHeight: '99vh',
     });
   }
-
 }

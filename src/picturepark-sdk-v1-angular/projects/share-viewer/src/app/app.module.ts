@@ -8,7 +8,6 @@ import {
   AuthService,
   AccessTokenAuthService,
   PICTUREPARK_CONFIGURATION,
-  PictureparkAccessTokenAuthConfiguration,
   LocalStorageService,
   StorageKey,
   LocaleModule,
@@ -19,7 +18,7 @@ import { ShareDetailModule } from './share-detail/share-detail.module';
 import { environment } from '../environments/environment';
 import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/translations';
 import { PICTUREPARK_UI_SCRIPTPATH } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/configuration';
-import { PictureparkCdnConfiguration, PICTUREPARK_CDN } from '../models/cdn-config';
+import { PictureparkCdnConfiguration } from '../models/cdn-config';
 
 const translations = TRANSLATIONS;
 translations['ShareViewer'] = {
@@ -57,33 +56,20 @@ translations['ShareViewer'] = {
   },
 };
 
-export function PictureparkCdnFactory() {
+export function PictureparkConfigurationFactory() {
   if (!environment.production) {
     return <PictureparkCdnConfiguration>{
+      apiServer: 'https://dev.picturepark.com',
+      customerAlias: 'testAlias',
       cdnUrl: '',
     };
   }
 
   const appRootTag = document.getElementsByTagName('app-root')[0];
   return <PictureparkCdnConfiguration>{
-    cdnUrl: appRootTag.getAttribute('picturepark-cdn-url'),
-  };
-}
-
-export function PictureparkConfigurationFactory() {
-  if (!environment.production) {
-    return <PictureparkAccessTokenAuthConfiguration>{
-      apiServer: 'https://dev.picturepark.com',
-      customerAlias: 'testAlias',
-      accessToken: '',
-    };
-  }
-
-  const appRootTag = document.getElementsByTagName('app-root')[0];
-  return <PictureparkAccessTokenAuthConfiguration>{
     apiServer: appRootTag.getAttribute('picturepark-api-server'),
     customerAlias: appRootTag.getAttribute('picturepark-customer-alias'),
-    accessToken: '',
+    cdnUrl: appRootTag.getAttribute('picturepark-cdn-url'),
   };
 }
 
@@ -129,7 +115,6 @@ export function getLanguageFactory(): string {
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },
     { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
-    { provide: PICTUREPARK_CDN, useFactory: PictureparkCdnFactory },
     { provide: PICTUREPARK_UI_SCRIPTPATH, useFactory: PictureparkUIScriptPathFactory },
   ],
   bootstrap: [AppComponent],
