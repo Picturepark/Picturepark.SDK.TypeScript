@@ -43695,6 +43695,10 @@ They are available only for file base contents, and they depends on the output f
     /** List of content rights the user has on this content */
     contentRights?: ContentRight[] | undefined;
 
+    isVirtual() {
+    return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
+  }
+
     constructor(data?: IContentDetail) {
         if (data) {
             for (var property in data) {
@@ -47099,6 +47103,10 @@ export class Content implements IContent {
     brokenRelationTargetIds?: string[] | undefined;
     /** Life cycle of content */
     lifeCycle!: LifeCycle;
+
+    isVirtual() {
+    return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
+  }
 
     constructor(data?: IContent) {
         if (data) {
@@ -58469,6 +58477,10 @@ by the LayerSchemaIds property. */
     /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
     iconUrl?: string | undefined;
 
+    isVirtual() {
+    return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
+  }
+
     constructor(data?: IShareContentDetail) {
         if (data) {
             for (var property in data) {
@@ -65396,3 +65408,12 @@ function blobToText(blob: any): Observable<string> {
 }
 
 // prettier-ignore
+
+export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
+  'AudioMetadata',
+  'DocumentMetadata',
+  'FileMetadata',
+  'ImageMetadata',
+  'VideoMetadata',
+  'VectorMetadata',
+];
