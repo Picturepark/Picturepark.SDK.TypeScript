@@ -14371,7 +14371,7 @@ export class ShareService extends PictureparkServiceBase {
   protected getShareByTokenFromUrl(token: string, lang: string | null | undefined, url: string): Observable<any> {
     let url_ = url;
     if (token === undefined || token === null) {
-      throw new Error('The parameter \'token\' must be defined.');
+      throw new Error("The parameter 'token' must be defined.");
     }
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
     if (lang !== undefined) {
@@ -14383,25 +14383,34 @@ export class ShareService extends PictureparkServiceBase {
       observe: 'response',
       responseType: 'blob',
       headers: new HttpHeaders({
-        'Accept': 'application/json'
-      })
+        Accept: 'application/json',
+      }),
     };
 
-    return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-      return this.http.request('get', url_, transformedOptions_);
-    })).pipe(_observableMergeMap((response_: any) => {
-      return this.processGetShareJson(response_);
-    })).pipe(_observableCatch((response_: any) => {
-      if (response_ instanceof HttpResponseBase) {
-        try {
-          return this.processGetShareJson(<any>response_);
-        } catch (e) {
-          return <Observable<any>><any>_observableThrow(e);
-        }
-      } else {
-        return <Observable<any>><any>_observableThrow(response_);
-      }
-    }));
+    return _observableFrom(this.transformOptions(options_))
+      .pipe(
+        _observableMergeMap(transformedOptions_ => {
+          return this.http.request('get', url_, transformedOptions_);
+        })
+      )
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGetShareJson(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGetShareJson(<any>response_);
+            } catch (e) {
+              return <Observable<any>>(<any>_observableThrow(e));
+            }
+          } else {
+            return <Observable<any>>(<any>_observableThrow(response_));
+          }
+        })
+      );
   }
 
   public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {

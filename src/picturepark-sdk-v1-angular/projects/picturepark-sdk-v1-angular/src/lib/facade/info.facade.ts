@@ -8,7 +8,7 @@ import { CustomerInfoService } from '../services/customer-info.service';
   providedIn: 'root',
 })
 export class InfoFacade {
-  constructor(private infoService: CustomerInfoService) { }
+  constructor(private infoService: CustomerInfoService) {}
 
   public getInfo(cdnUrl?: string): Observable<CustomerInfo> {
     return this.infoService.getInfo(cdnUrl).pipe(shareReplay(1));

@@ -13,7 +13,7 @@ export class CustomerInfoService {
   constructor(
     @Inject(HttpClient) private http: HttpClient,
     @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkConfiguration
-  ) { }
+  ) {}
 
   public getInfo(cdnUrl?: string): Observable<CustomerInfo> {
     let url_: string;

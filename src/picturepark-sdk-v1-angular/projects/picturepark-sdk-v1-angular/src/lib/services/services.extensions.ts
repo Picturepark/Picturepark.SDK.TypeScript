@@ -2,6 +2,7 @@ import { Inject, Optional } from '@angular/core'; // ignore
 import { HttpClient, HttpHeaders, HttpResponseBase } from '@angular/common/http'; // ignore
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs'; // ignore
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators'; // ignore
+// prettier-ignore
 import { // ignore
   PICTUREPARK_API_URL, // ignore
   ContentCreateRequest, // ignore
@@ -27,7 +28,6 @@ import { AuthService } from './auth.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
 import { PictureparkServiceBase } from './base.service';
 import * as generated from './api-services';
-// prettier-ignore
 
 export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
   'AudioMetadata',
@@ -274,7 +274,6 @@ class ShareService extends generated.ShareService {
     );
   }
 
-
   public getShareByToken(token: string, lang: string | null | undefined, cdnUrl?: string): Observable<ShareDetail> {
     if (cdnUrl) {
       return this.getShareByTokenFromUrl(token, lang, cdnUrl + '/json/{token}?').pipe(
@@ -302,7 +301,7 @@ class ShareService extends generated.ShareService {
   protected getShareByTokenFromUrl(token: string, lang: string | null | undefined, url: string): Observable<any> {
     let url_ = url;
     if (token === undefined || token === null) {
-      throw new Error('The parameter \'token\' must be defined.');
+      throw new Error("The parameter 'token' must be defined.");
     }
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
     if (lang !== undefined) {
@@ -314,28 +313,36 @@ class ShareService extends generated.ShareService {
       observe: 'response',
       responseType: 'blob',
       headers: new HttpHeaders({
-        'Accept': 'application/json'
-      })
+        Accept: 'application/json',
+      }),
     };
 
-    return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-      // @ts-ignore: the purpose of this reference is to be copied to the api-services via NSwag // ignore
-      return this.http.request('get', url_, transformedOptions_);
-    })).pipe(_observableMergeMap((response_: any) => {
-      return this.processGetShareJson(response_);
-    })).pipe(_observableCatch((response_: any) => {
-      if (response_ instanceof HttpResponseBase) {
-        try {
-          return this.processGetShareJson(<any>response_);
-        } catch (e) {
-          return <Observable<any>><any>_observableThrow(e);
-        }
-      } else {
-        return <Observable<any>><any>_observableThrow(response_);
-      }
-    }));
+    return _observableFrom(this.transformOptions(options_))
+      .pipe(
+        _observableMergeMap(transformedOptions_ => {
+          // @ts-ignore: the purpose of this reference is to be copied to the api-services via NSwag // ignore
+          return this.http.request('get', url_, transformedOptions_);
+        })
+      )
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGetShareJson(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGetShareJson(<any>response_);
+            } catch (e) {
+              return <Observable<any>>(<any>_observableThrow(e));
+            }
+          } else {
+            return <Observable<any>>(<any>_observableThrow(response_));
+          }
+        })
+      );
   }
-
 
   public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
     return this.searchCore(shareSearchRequest).pipe(

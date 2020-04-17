@@ -60,7 +60,7 @@ translations['ShareViewer'] = {
 export function PictureparkCdnFactory() {
   if (!environment.production) {
     return <PictureparkCdnConfiguration>{
-      cdnUrl: ''
+      cdnUrl: '',
     };
   }
 
@@ -134,4 +134,4 @@ export function getLanguageFactory(): string {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
