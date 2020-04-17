@@ -6,7 +6,6 @@ import { // ignore
   PICTUREPARK_API_URL, // ignore
   ContentCreateRequest, // ignore
   ContentResolveBehavior, // ignore
-  ContentDetail, // ignore
   ContentSearchRequest, // ignore
   ContentSearchResult, // ignore
   ContentMetadataUpdateRequest, // ignore
@@ -30,10 +29,37 @@ import { PictureparkServiceBase } from './base.service';
 import * as generated from './api-services';
 // prettier-ignore
 
+export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
+  'AudioMetadata',
+  'DocumentMetadata',
+  'FileMetadata',
+  'ImageMetadata',
+  'VideoMetadata',
+  'VectorMetadata',
+];
+
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
   translate(locale: string) {
     const language = locale.split('-')[0];
     return this[language] ? this[language] : this[Object.keys(this)[0]];
+  }
+}
+
+class Content extends generated.Content {
+  isVirtual() {
+    return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
+  }
+}
+
+class ContentDetail extends generated.ContentDetail {
+  isVirtual() {
+    return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
+  }
+}
+
+class ShareContentDetail extends generated.ShareContentDetail {
+  isVirtual() {
+    return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
   }
 }
 
