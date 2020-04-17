@@ -60,7 +60,7 @@ translations['ShareViewer'] = {
 export function PictureparkCdnFactory() {
   if (!environment.production) {
     return <PictureparkCdnConfiguration>{
-      cdnUrl: 'http://santest-cdn.01.qa-picturepark.com'
+      cdnUrl: ''
     };
   }
 
