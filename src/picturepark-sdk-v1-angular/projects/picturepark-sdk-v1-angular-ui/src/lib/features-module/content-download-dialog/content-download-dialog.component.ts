@@ -31,6 +31,7 @@ import {
   IContentDownload,
   IContentDownloadOutput,
 } from './content-download-dialog.interfaces';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -74,7 +75,8 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     private outputService: OutputService,
     protected injector: Injector,
     private renderer: Renderer2,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private http: HttpClient
   ) {
     super(data, dialogRef, injector);
 
@@ -142,7 +144,13 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     const linkSubscription = this.contentService.createDownloadLink(request).subscribe(download => {
       linkSubscription.unsubscribe();
       if (download.downloadUrl) {
-        window.location.replace(download.downloadUrl);
+        debugger;
+        this.http.get(download.downloadUrl, { responseType: 'blob' }).subscribe(result => {
+          debugger;
+          const url = window.URL.createObjectURL(result);
+          window.location.href = url;
+        });
+        // window.location.replace(download.downloadUrl);
         this.dialogRef.close(true);
       }
     });
