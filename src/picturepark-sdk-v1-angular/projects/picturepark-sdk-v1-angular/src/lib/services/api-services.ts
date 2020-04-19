@@ -6830,8 +6830,107 @@ export class IdentityProviderService extends PictureparkServiceBase {
     }
 
     /**
+     * Get basic info for all providers
+     * @return Array of identity provider basic information
+     */
+    getAllBasicInfos(): Observable<IdentityProviderBasicInfo[]> {
+        let url_ = this.baseUrl + "/v1/IdentityProviders/basicInfo";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetAllBasicInfos(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllBasicInfos(<any>response_);
+                } catch (e) {
+                    return <Observable<IdentityProviderBasicInfo[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<IdentityProviderBasicInfo[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllBasicInfos(response: HttpResponseBase): Observable<IdentityProviderBasicInfo[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(IdentityProviderBasicInfo.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<IdentityProviderBasicInfo[]>(<any>null);
+    }
+
+    /**
      * Get identity provider
      * @param id Identity provider ID.
+     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
      */
     get(id: string | null): Observable<IdentityProvider> {
         let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";
@@ -6930,6 +7029,7 @@ export class IdentityProviderService extends PictureparkServiceBase {
      * Update identity provider
      * @param id Identity provider ID.
      * @param provider Update request
+     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
      */
     update(id: string | null, provider: IdentityProviderEditable): Observable<IdentityProvider> {
         let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";
@@ -19908,6 +20008,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnableToDeleteUserRoleException") {
+            let result = new UnableToDeleteUserRoleException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UserNotFoundException") {
             let result = new UserNotFoundException();
             result.init(data);
@@ -19978,8 +20083,23 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnableToMapMultipleClaimTypesIntoSameAttributeException") {
+            let result = new UnableToMapMultipleClaimTypesIntoSameAttributeException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UnableToChangeUserRolesForFederatedUser") {
             let result = new UnableToChangeUserRolesForFederatedUser();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnableToDeleteDefaultUserRoleException") {
+            let result = new UnableToDeleteDefaultUserRoleException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException") {
+            let result = new UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException();
             result.init(data);
             return result;
         }
@@ -21268,6 +21388,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnableToDeleteUserRoleException") {
+            let result = new UnableToDeleteUserRoleException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UserNotFoundException") {
             let result = new UserNotFoundException();
             result.init(data);
@@ -21338,8 +21463,23 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnableToMapMultipleClaimTypesIntoSameAttributeException") {
+            let result = new UnableToMapMultipleClaimTypesIntoSameAttributeException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UnableToChangeUserRolesForFederatedUser") {
             let result = new UnableToChangeUserRolesForFederatedUser();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnableToDeleteDefaultUserRoleException") {
+            let result = new UnableToDeleteDefaultUserRoleException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException") {
+            let result = new UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException();
             result.init(data);
             return result;
         }
@@ -22580,6 +22720,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnableToDeleteUserRoleException") {
+            let result = new UnableToDeleteUserRoleException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UserInactiveOrDeletedException") {
             let result = new UserInactiveOrDeletedException();
             result.init(data);
@@ -22610,8 +22755,23 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnableToMapMultipleClaimTypesIntoSameAttributeException") {
+            let result = new UnableToMapMultipleClaimTypesIntoSameAttributeException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UnableToChangeUserRolesForFederatedUser") {
             let result = new UnableToChangeUserRolesForFederatedUser();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnableToDeleteDefaultUserRoleException") {
+            let result = new UnableToDeleteDefaultUserRoleException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException") {
+            let result = new UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException();
             result.init(data);
             return result;
         }
@@ -23655,12 +23815,12 @@ export interface IUserEmailAlreadyExistsException extends IPictureparkValidation
     email?: string | undefined;
 }
 
-export class UserRoleAssignedException extends PictureparkValidationException implements IUserRoleAssignedException {
+export class UnableToDeleteUserRoleException extends PictureparkValidationException implements IUnableToDeleteUserRoleException {
     userRoleId?: string | undefined;
 
-    constructor(data?: IUserRoleAssignedException) {
+    constructor(data?: IUnableToDeleteUserRoleException) {
         super(data);
-        this._discriminator = "UserRoleAssignedException";
+        this._discriminator = "UnableToDeleteUserRoleException";
     }
 
     init(_data?: any) {
@@ -23670,9 +23830,24 @@ export class UserRoleAssignedException extends PictureparkValidationException im
         }
     }
 
-    static fromJS(data: any): UserRoleAssignedException {
+    static fromJS(data: any): UnableToDeleteUserRoleException {
         data = typeof data === 'object' ? data : {};
-        let result = new UserRoleAssignedException();
+        if (data["kind"] === "UserRoleAssignedException") {
+            let result = new UserRoleAssignedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnableToDeleteDefaultUserRoleException") {
+            let result = new UnableToDeleteDefaultUserRoleException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException") {
+            let result = new UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException();
+            result.init(data);
+            return result;
+        }
+        let result = new UnableToDeleteUserRoleException();
         result.init(data);
         return result;
     }
@@ -23685,8 +23860,36 @@ export class UserRoleAssignedException extends PictureparkValidationException im
     }
 }
 
-export interface IUserRoleAssignedException extends IPictureparkValidationException {
+export interface IUnableToDeleteUserRoleException extends IPictureparkValidationException {
     userRoleId?: string | undefined;
+}
+
+export class UserRoleAssignedException extends UnableToDeleteUserRoleException implements IUserRoleAssignedException {
+
+    constructor(data?: IUserRoleAssignedException) {
+        super(data);
+        this._discriminator = "UserRoleAssignedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): UserRoleAssignedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRoleAssignedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUserRoleAssignedException extends IUnableToDeleteUserRoleException {
 }
 
 export class UserNotFoundException extends PictureparkBusinessException implements IUserNotFoundException {
@@ -24280,7 +24483,7 @@ export interface IUserDoesNotSupportLocalLoginException extends IPictureparkVali
 }
 
 export class UserAttributeNotSynchronizableException extends PictureparkValidationException implements IUserAttributeNotSynchronizableException {
-    attributeName?: string | undefined;
+    attributePath?: string | undefined;
 
     constructor(data?: IUserAttributeNotSynchronizableException) {
         super(data);
@@ -24290,7 +24493,7 @@ export class UserAttributeNotSynchronizableException extends PictureparkValidati
     init(_data?: any) {
         super.init(_data);
         if (_data) {
-            this.attributeName = _data["attributeName"];
+            this.attributePath = _data["attributePath"];
         }
     }
 
@@ -24303,14 +24506,48 @@ export class UserAttributeNotSynchronizableException extends PictureparkValidati
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["attributeName"] = this.attributeName;
+        data["attributePath"] = this.attributePath;
         super.toJSON(data);
         return data; 
     }
 }
 
 export interface IUserAttributeNotSynchronizableException extends IPictureparkValidationException {
-    attributeName?: string | undefined;
+    attributePath?: string | undefined;
+}
+
+export class UnableToMapMultipleClaimTypesIntoSameAttributeException extends PictureparkValidationException implements IUnableToMapMultipleClaimTypesIntoSameAttributeException {
+    attributePath?: string | undefined;
+
+    constructor(data?: IUnableToMapMultipleClaimTypesIntoSameAttributeException) {
+        super(data);
+        this._discriminator = "UnableToMapMultipleClaimTypesIntoSameAttributeException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.attributePath = _data["attributePath"];
+        }
+    }
+
+    static fromJS(data: any): UnableToMapMultipleClaimTypesIntoSameAttributeException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnableToMapMultipleClaimTypesIntoSameAttributeException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["attributePath"] = this.attributePath;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUnableToMapMultipleClaimTypesIntoSameAttributeException extends IPictureparkValidationException {
+    attributePath?: string | undefined;
 }
 
 export class UnableToChangeUserRolesForFederatedUser extends PictureparkValidationException implements IUnableToChangeUserRolesForFederatedUser {
@@ -24345,6 +24582,76 @@ export class UnableToChangeUserRolesForFederatedUser extends PictureparkValidati
 
 export interface IUnableToChangeUserRolesForFederatedUser extends IPictureparkValidationException {
     affectedUserId?: string | undefined;
+}
+
+export class UnableToDeleteDefaultUserRoleException extends UnableToDeleteUserRoleException implements IUnableToDeleteDefaultUserRoleException {
+
+    constructor(data?: IUnableToDeleteDefaultUserRoleException) {
+        super(data);
+        this._discriminator = "UnableToDeleteDefaultUserRoleException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): UnableToDeleteDefaultUserRoleException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnableToDeleteDefaultUserRoleException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUnableToDeleteDefaultUserRoleException extends IUnableToDeleteUserRoleException {
+}
+
+export class UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException extends UnableToDeleteUserRoleException implements IUnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException {
+    identityProviderIds?: string[] | undefined;
+
+    constructor(data?: IUnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException) {
+        super(data);
+        this._discriminator = "UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["identityProviderIds"])) {
+                this.identityProviderIds = [] as any;
+                for (let item of _data["identityProviderIds"])
+                    this.identityProviderIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.identityProviderIds)) {
+            data["identityProviderIds"] = [];
+            for (let item of this.identityProviderIds)
+                data["identityProviderIds"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException extends IUnableToDeleteUserRoleException {
+    identityProviderIds?: string[] | undefined;
 }
 
 export class RenderingException extends PictureparkBusinessException implements IRenderingException {
@@ -24424,6 +24731,7 @@ export enum RenderingCategory {
     Document = "Document",
     Video = "Video",
     Audio = "Audio",
+    Vector = "Vector",
 }
 
 export class ServiceProviderDeleteException extends PictureparkException implements IServiceProviderDeleteException {
@@ -39896,6 +40204,8 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
 
 /** Contains a trace for a single document affected by potentially multiple business rules being evaluated and executed. */
 export class BusinessRuleTraceLog implements IBusinessRuleTraceLog {
+    /** ID of the trace. */
+    id?: string | undefined;
     /** ID of the document. */
     documentId?: string | undefined;
     /** Type of the document. */
@@ -39944,6 +40254,7 @@ export class BusinessRuleTraceLog implements IBusinessRuleTraceLog {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.documentId = _data["documentId"];
             this.documentType = _data["documentType"];
             if (Array.isArray(_data["ruleIds"])) {
@@ -39979,6 +40290,7 @@ export class BusinessRuleTraceLog implements IBusinessRuleTraceLog {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["documentId"] = this.documentId;
         data["documentType"] = this.documentType;
         if (Array.isArray(this.ruleIds)) {
@@ -40008,6 +40320,8 @@ export class BusinessRuleTraceLog implements IBusinessRuleTraceLog {
 
 /** Contains a trace for a single document affected by potentially multiple business rules being evaluated and executed. */
 export interface IBusinessRuleTraceLog {
+    /** ID of the trace. */
+    id?: string | undefined;
     /** ID of the document. */
     documentId?: string | undefined;
     /** Type of the document. */
@@ -43381,6 +43695,10 @@ They are available only for file base contents, and they depends on the output f
     /** List of content rights the user has on this content */
     contentRights?: ContentRight[] | undefined;
 
+    isVirtual() {
+    return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
+  }
+
     constructor(data?: IContentDetail) {
         if (data) {
             for (var property in data) {
@@ -43720,6 +44038,11 @@ export abstract class OutputDataBase implements IOutputDataBase {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputDataVector") {
+            let result = new OutputDataVector();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "OutputDataDefault") {
             let result = new OutputDataDefault();
             result.init(data);
@@ -44015,6 +44338,36 @@ export class OutputDataDocument extends OutputDataBase implements IOutputDataDoc
 export interface IOutputDataDocument extends IOutputDataBase {
     /** Number of document's pages. */
     pageCount?: number;
+}
+
+/** Output information for a vector file. */
+export class OutputDataVector extends OutputDataBase implements IOutputDataVector {
+
+    constructor(data?: IOutputDataVector) {
+        super(data);
+        this._discriminator = "OutputDataVector";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): OutputDataVector {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputDataVector();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Output information for a vector file. */
+export interface IOutputDataVector extends IOutputDataBase {
 }
 
 /** Default output information */
@@ -46751,6 +47104,10 @@ export class Content implements IContent {
     /** Life cycle of content */
     lifeCycle!: LifeCycle;
 
+    isVirtual() {
+    return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
+  }
+
     constructor(data?: IContent) {
         if (data) {
             for (var property in data) {
@@ -47799,6 +48156,7 @@ export interface IIdentityProviderEditable {
     fallbackUserRoleId?: string | undefined;
 }
 
+/** Represents an identity provider defined in IdentityServer and its Picturepark configuration */
 export class IdentityProvider extends IdentityProviderEditable implements IIdentityProvider {
     /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
     id?: string | undefined;
@@ -47837,6 +48195,7 @@ export class IdentityProvider extends IdentityProviderEditable implements IIdent
     }
 }
 
+/** Represents an identity provider defined in IdentityServer and its Picturepark configuration */
 export interface IIdentityProvider extends IIdentityProviderEditable {
     /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
     id?: string | undefined;
@@ -47888,6 +48247,58 @@ export interface IIdpGroupToUserRoleMapping {
     group?: string | undefined;
     /** User role ID as defined in CP */
     userRoleId?: string | undefined;
+}
+
+/** Basic information about an identity provider */
+export class IdentityProviderBasicInfo implements IIdentityProviderBasicInfo {
+    /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
+    id?: string | undefined;
+    /** Name of the identity provider as defined in IdentityServer */
+    name?: string | undefined;
+    /** Display name of the identity provider as defined in IdentityServer */
+    displayName?: string | undefined;
+
+    constructor(data?: IIdentityProviderBasicInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.displayName = _data["displayName"];
+        }
+    }
+
+    static fromJS(data: any): IdentityProviderBasicInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new IdentityProviderBasicInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["displayName"] = this.displayName;
+        return data; 
+    }
+}
+
+/** Basic information about an identity provider */
+export interface IIdentityProviderBasicInfo {
+    /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
+    id?: string | undefined;
+    /** Name of the identity provider as defined in IdentityServer */
+    name?: string | undefined;
+    /** Display name of the identity provider as defined in IdentityServer */
+    displayName?: string | undefined;
 }
 
 /** The version view item for the environment. */
@@ -50713,6 +51124,8 @@ export class SourceOutputFormats implements ISourceOutputFormats {
     document?: string | undefined;
     /** The source to be used for content of type Audio */
     audio?: string | undefined;
+    /** The source to be used for content of type Vector */
+    vector?: string | undefined;
 
     constructor(data?: ISourceOutputFormats) {
         if (data) {
@@ -50729,6 +51142,7 @@ export class SourceOutputFormats implements ISourceOutputFormats {
             this.video = _data["video"];
             this.document = _data["document"];
             this.audio = _data["audio"];
+            this.vector = _data["vector"];
         }
     }
 
@@ -50745,6 +51159,7 @@ export class SourceOutputFormats implements ISourceOutputFormats {
         data["video"] = this.video;
         data["document"] = this.document;
         data["audio"] = this.audio;
+        data["vector"] = this.vector;
         return data; 
     }
 }
@@ -50759,6 +51174,8 @@ export interface ISourceOutputFormats {
     document?: string | undefined;
     /** The source to be used for content of type Audio */
     audio?: string | undefined;
+    /** The source to be used for content of type Vector */
+    vector?: string | undefined;
 }
 
 export abstract class FormatBase implements IFormatBase {
@@ -50849,6 +51266,19 @@ export abstract class FormatBase implements IFormatBase {
         }
         if (data["kind"] === "PdfFormat") {
             let result = new PdfFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VectorFormatBase") {
+            throw new Error("The abstract class 'VectorFormatBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "SvgFormat") {
+            let result = new SvgFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VectorStillFormat") {
+            let result = new VectorStillFormat();
             result.init(data);
             return result;
         }
@@ -52022,12 +52452,17 @@ export abstract class DocumentFormatBase extends FormatBase implements IDocument
 export interface IDocumentFormatBase extends IFormatBase {
 }
 
-/** Renders a TIFF preview image. */
+/** Render a document to a raster image */
 export class DocumentStillFormat extends DocumentFormatBase implements IDocumentStillFormat {
     extension?: string | undefined;
+    /** Allows resizing of the image. */
+    resizeAction?: ResizeAction | undefined;
 
     constructor(data?: IDocumentStillFormat) {
         super(data);
+        if (data) {
+            this.resizeAction = data.resizeAction && !(<any>data.resizeAction).toJSON ? new ResizeAction(data.resizeAction) : <ResizeAction>this.resizeAction; 
+        }
         this._discriminator = "DocumentStillFormat";
     }
 
@@ -52035,6 +52470,7 @@ export class DocumentStillFormat extends DocumentFormatBase implements IDocument
         super.init(_data);
         if (_data) {
             this.extension = _data["extension"];
+            this.resizeAction = _data["resizeAction"] ? ResizeAction.fromJS(_data["resizeAction"]) : <any>undefined;
         }
     }
 
@@ -52048,14 +52484,17 @@ export class DocumentStillFormat extends DocumentFormatBase implements IDocument
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["extension"] = this.extension;
+        data["resizeAction"] = this.resizeAction ? this.resizeAction.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
 }
 
-/** Renders a TIFF preview image. */
+/** Render a document to a raster image */
 export interface IDocumentStillFormat extends IDocumentFormatBase {
     extension?: string | undefined;
+    /** Allows resizing of the image. */
+    resizeAction?: IResizeAction | undefined;
 }
 
 export class PdfFormat extends DocumentFormatBase implements IPdfFormat {
@@ -52116,6 +52555,125 @@ export interface IPdfFormat extends IDocumentFormatBase {
     extractFullText?: boolean;
 }
 
+/** Base class for rendering vector graphics. */
+export abstract class VectorFormatBase extends FormatBase implements IVectorFormatBase {
+
+    constructor(data?: IVectorFormatBase) {
+        super(data);
+        this._discriminator = "VectorFormatBase";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): VectorFormatBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "SvgFormat") {
+            let result = new SvgFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VectorStillFormat") {
+            let result = new VectorStillFormat();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'VectorFormatBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Base class for rendering vector graphics. */
+export interface IVectorFormatBase extends IFormatBase {
+}
+
+/** Render a PDF to SVG */
+export class SvgFormat extends VectorFormatBase implements ISvgFormat {
+    extension?: string | undefined;
+
+    constructor(data?: ISvgFormat) {
+        super(data);
+        this._discriminator = "SvgFormat";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.extension = _data["extension"];
+        }
+    }
+
+    static fromJS(data: any): SvgFormat {
+        data = typeof data === 'object' ? data : {};
+        let result = new SvgFormat();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Render a PDF to SVG */
+export interface ISvgFormat extends IVectorFormatBase {
+    extension?: string | undefined;
+}
+
+/** Render a vector graphic to a raster image */
+export class VectorStillFormat extends VectorFormatBase implements IVectorStillFormat {
+    extension?: string | undefined;
+    /** Specifies output dimensions for raster operation */
+    resizeAction?: ResizeAction | undefined;
+
+    constructor(data?: IVectorStillFormat) {
+        super(data);
+        if (data) {
+            this.resizeAction = data.resizeAction && !(<any>data.resizeAction).toJSON ? new ResizeAction(data.resizeAction) : <ResizeAction>this.resizeAction; 
+        }
+        this._discriminator = "VectorStillFormat";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.extension = _data["extension"];
+            this.resizeAction = _data["resizeAction"] ? ResizeAction.fromJS(_data["resizeAction"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): VectorStillFormat {
+        data = typeof data === 'object' ? data : {};
+        let result = new VectorStillFormat();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        data["resizeAction"] = this.resizeAction ? this.resizeAction.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Render a vector graphic to a raster image */
+export interface IVectorStillFormat extends IVectorFormatBase {
+    extension?: string | undefined;
+    /** Specifies output dimensions for raster operation */
+    resizeAction?: IResizeAction | undefined;
+}
+
 /** Represents the editable part of the output format. */
 export class OutputFormatEditable extends OutputFormatRenderingSpecification implements IOutputFormatEditable {
     /** Language specific names. */
@@ -52125,6 +52683,8 @@ export class OutputFormatEditable extends OutputFormatRenderingSpecification imp
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
 If set, the customer's default language is required. */
     downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
+    /** Indicates if outputs derived from original output format should be accessible also for users not having AccessOriginal permission on the content. */
+    viewForAll?: boolean;
 
     constructor(data?: IOutputFormatEditable) {
         super(data);
@@ -52143,6 +52703,7 @@ If set, the customer's default language is required. */
             this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : new TranslatedStringDictionary();
             this.retentionTime = _data["retentionTime"];
             this.downloadFileNamePatterns = _data["downloadFileNamePatterns"] ? TranslatedStringDictionary.fromJS(_data["downloadFileNamePatterns"]) : <any>undefined;
+            this.viewForAll = _data["viewForAll"];
         }
     }
 
@@ -52158,6 +52719,7 @@ If set, the customer's default language is required. */
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["retentionTime"] = this.retentionTime;
         data["downloadFileNamePatterns"] = this.downloadFileNamePatterns ? this.downloadFileNamePatterns.toJSON() : <any>undefined;
+        data["viewForAll"] = this.viewForAll;
         super.toJSON(data);
         return data; 
     }
@@ -52172,6 +52734,8 @@ export interface IOutputFormatEditable extends IOutputFormatRenderingSpecificati
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
 If set, the customer's default language is required. */
     downloadFileNamePatterns?: ITranslatedStringDictionary | undefined;
+    /** Indicates if outputs derived from original output format should be accessible also for users not having AccessOriginal permission on the content. */
+    viewForAll?: boolean;
 }
 
 /** Represents an output format. */
@@ -57913,6 +58477,10 @@ by the LayerSchemaIds property. */
     /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
     iconUrl?: string | undefined;
 
+    isVirtual() {
+    return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
+  }
+
     constructor(data?: IShareContentDetail) {
         if (data) {
             for (var property in data) {
@@ -60535,6 +61103,11 @@ export class FileMetadata implements IFileMetadata {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "VectorMetadata") {
+            let result = new VectorMetadata();
+            result.init(data);
+            return result;
+        }
         let result = new FileMetadata();
         result.init(data);
         return result;
@@ -61164,6 +61737,67 @@ export interface IVideoStream {
     streamSize?: number | undefined;
     width?: number | undefined;
     rotation?: number | undefined;
+}
+
+export class VectorMetadata extends FileMetadata implements IVectorMetadata {
+    author?: string | undefined;
+    creator?: string | undefined;
+    publisher?: string | undefined;
+    company?: string | undefined;
+    title?: string | undefined;
+    pageCount?: number;
+    epsInfo?: EpsMetadata | undefined;
+
+    constructor(data?: IVectorMetadata) {
+        super(data);
+        if (data) {
+            this.epsInfo = data.epsInfo && !(<any>data.epsInfo).toJSON ? new EpsMetadata(data.epsInfo) : <EpsMetadata>this.epsInfo; 
+        }
+        this._discriminator = "VectorMetadata";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.author = _data["author"];
+            this.creator = _data["creator"];
+            this.publisher = _data["publisher"];
+            this.company = _data["company"];
+            this.title = _data["title"];
+            this.pageCount = _data["pageCount"];
+            this.epsInfo = _data["epsInfo"] ? EpsMetadata.fromJS(_data["epsInfo"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): VectorMetadata {
+        data = typeof data === 'object' ? data : {};
+        let result = new VectorMetadata();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["author"] = this.author;
+        data["creator"] = this.creator;
+        data["publisher"] = this.publisher;
+        data["company"] = this.company;
+        data["title"] = this.title;
+        data["pageCount"] = this.pageCount;
+        data["epsInfo"] = this.epsInfo ? this.epsInfo.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IVectorMetadata extends IFileMetadata {
+    author?: string | undefined;
+    creator?: string | undefined;
+    publisher?: string | undefined;
+    company?: string | undefined;
+    title?: string | undefined;
+    pageCount?: number;
+    epsInfo?: IEpsMetadata | undefined;
 }
 
 export class FileTransferOutput implements IFileTransferOutput {
@@ -64774,3 +65408,12 @@ function blobToText(blob: any): Observable<string> {
 }
 
 // prettier-ignore
+
+export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
+  'AudioMetadata',
+  'DocumentMetadata',
+  'FileMetadata',
+  'ImageMetadata',
+  'VideoMetadata',
+  'VectorMetadata',
+];

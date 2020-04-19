@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
-import { NON_VIRTUAL_CONTENT_SCHEMAS_IDS, BROKEN_IMAGE_URL } from '../../../utilities/constants';
+import { BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap, map, tap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
 import { ThumbnailSize, Content, ShareDetail, ShareContentDetail } from '@picturepark/sdk-v1-angular';
@@ -116,6 +116,12 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
 
       }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['item'] && changes['item'].firstChange) {
+      if (this.item.contentSchemaId && this.item.isVirtual()) {
+        if (this.item.displayValues['thumbnail']) {
+          this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
+        }
       // this.thumbnailUrl$ = this.loadItem.pipe(
       //   switchMap(() =>
       //     this.contentService.downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
