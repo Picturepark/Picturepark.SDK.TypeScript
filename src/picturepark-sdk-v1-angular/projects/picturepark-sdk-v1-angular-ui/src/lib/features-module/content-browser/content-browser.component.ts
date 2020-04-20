@@ -12,7 +12,6 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 
 // INTERFACES
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
-import { ContentModel } from '../../shared-module/models/content-model';
 
 @Component({
   selector: 'pp-content-browser',
@@ -38,11 +37,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     super('ContentBrowserComponent', injector, facade);
   }
 
-  async init(): Promise<void> {
-    this.sub = this.basketService.basketChange.subscribe(basketItems => {
-      this.checkItemsInBasket(basketItems);
-    });
-  }
+  async init(): Promise<void> {}
 
   initSort(): void {
     this.sortingTypes = [
@@ -98,14 +93,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.loadData();
   }
 
-  checkItemsInBasket(basketItems: string[]) {
-    this.items.forEach(model => (model.isInBasket = basketItems.some(basketItem => basketItem === model.item.id)));
-  }
-
-  prepareData(items: ContentModel<Content>[]): void {
-    this.checkItemsInBasket(this.basketService.getBasketItems());
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['channel'] && changes['channel'].currentValue) {
       this.facade.searchRequestState.channelId = this.channel!.id;
@@ -119,7 +106,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   public previewSelectedItem(): void {
-    const content = this.items.find(i => i.item === this.selectedItems[0]);
+    const content = this.items.find(i => i === this.selectedItems[0]);
     if (content) {
       this.previewItem(content);
     }
@@ -145,7 +132,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   openDownloadContentDialog(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: this.items.filter(i => i.isSelected).map(i => i.item),
+      contents: this.selectedItems,
     });
   }
 

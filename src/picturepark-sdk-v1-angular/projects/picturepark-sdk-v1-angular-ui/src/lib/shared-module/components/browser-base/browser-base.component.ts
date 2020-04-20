@@ -17,7 +17,6 @@ import {
   AggregationResult,
 } from '@picturepark/sdk-v1-angular';
 import { SelectionService } from '../../services/selection/selection.service';
-import { ContentModel } from '../../models/content-model';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
 import { IBrowserView } from './interfaces/browser-view';
@@ -53,7 +52,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
   public configActions: ConfigActions;
   public isLoading = false;
-  public items: ContentModel<TEntity>[] = [];
+  public items: TEntity[] = [];
   public isAscending: boolean | null = null;
   public activeSortingType: ISortItem;
   public sortingTypes: ISortItem[];
@@ -64,7 +63,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   protected scrollDebounceTime = 0;
 
   @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
-  @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
+  @Output() public previewItemChange = new EventEmitter<TEntity>();
 
   private _selectedItems: TEntity[] = [];
   private lastSelectedIndex = 0;
@@ -125,7 +124,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     // Item selection
     this.sub = this.selectionService.selectedItems.subscribe(items => {
       this.selectedItems = items;
-      this.items.forEach(model => (model.isSelected = items.some(selectedItem => selectedItem.id === model.item.id)));
     });
 
     // Call abstract init class
@@ -147,8 +145,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.selectedItemsChange.emit(items);
   }
 
-  public trackByItem(index: number, item: ContentModel<TEntity>): string {
-    return item.item.id;
+  public trackByItem(index: number, item: TEntity): string {
+    return item.id;
   }
 
   public update(): void {
@@ -169,11 +167,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     this.sub = request.subscribe(async searchResult => {
       if (searchResult.results) {
-        const items = searchResult.results.map(item => {
-          const contentModel = new ContentModel(item, false);
-          contentModel.isSelected = this.selectedItems.some(selected => selected.id === item.id);
-          return contentModel;
-        });
+        const items = searchResult.results.map(i => i);
         this.items.push(...items);
         this.prepareData(items);
       }
@@ -187,7 +181,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     });
   }
 
-  protected prepareData(items: ContentModel<TEntity>[]): void {}
+  protected prepareData(items: TEntity[]): void {}
 
   /**
    * Click event to trigger selection (ctrl + shift click)
@@ -196,13 +190,13 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     const itemModel = this.items[index];
     if (event.ctrlKey) {
       this.lastSelectedIndex = index;
-      this.selectionService.toggle(itemModel.item);
+      this.selectionService.toggle(itemModel);
       return;
     } else if (event.shiftKey) {
       const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
       const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
 
-      const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i.item);
+      const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i);
 
       this.selectionService.clear();
       this.selectionService.addItems(itemsToAdd);
@@ -211,31 +205,31 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     this.lastSelectedIndex = index;
     this.selectionService.clear();
-    this.selectionService.addItem(itemModel.item);
+    this.selectionService.addItem(itemModel);
   }
 
   public itemPressed(event: Event, index: number): void {
     const itemModel = this.items[index];
     if (event.type === 'tap') {
       this.lastSelectedIndex = index;
-      this.selectionService.toggle(itemModel.item);
+      this.selectionService.toggle(itemModel);
       return;
     }
 
     this.lastSelectedIndex = index;
     this.selectionService.clear();
-    this.selectionService.addItem(itemModel.item);
+    this.selectionService.addItem(itemModel);
   }
 
   public toggleItems(isSelected: boolean): void {
     if (isSelected === true) {
-      this.selectionService.addItems(this.items.map(model => model.item));
+      this.selectionService.addItems(this.items.map(model => model));
     } else {
       this.selectionService.clear();
     }
   }
 
-  public previewItem(item: ContentModel<TEntity>): void {
+  public previewItem(item: TEntity): void {
     this.previewItemChange.emit(item);
   }
 
