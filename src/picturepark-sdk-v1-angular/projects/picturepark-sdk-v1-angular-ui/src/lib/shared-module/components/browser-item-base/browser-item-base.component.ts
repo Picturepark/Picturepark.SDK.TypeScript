@@ -8,18 +8,15 @@ import { ThumbnailSize, IEntityBase } from '@picturepark/sdk-v1-angular';
 import { BaseBrowserComponent } from '../browser-base/browser-base.component';
 import { BaseComponent } from '../base.component';
 
-// INTERFACES
-import { ContentModel } from '../../models/content-model';
-
 export abstract class BaseBrowserItemComponent<TEntity extends IEntityBase> extends BaseComponent {
   // INPUTS
-  @Input() public itemModel: ContentModel<TEntity>;
+  @Input() public itemModel: TEntity;
   @Input() thumbnailSize: ThumbnailSize = ThumbnailSize.Medium;
   @Input() isListView: boolean;
   @Input() browser: BaseBrowserComponent<TEntity>;
 
   // OUTPUTS
-  @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
+  @Output() public previewItemChange = new EventEmitter<TEntity>();
 
   protected isVisible = false;
   protected loadItem = new Subject<void>();
