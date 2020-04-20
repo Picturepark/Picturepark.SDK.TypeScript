@@ -24,8 +24,6 @@
       </div>
     </mat-toolbar>
     <div class="basket__items">
-      <!-- TODO handle track by -->
-      <!-- <div class="basket__item-container" *ngFor="let basketItemId of basketItemsIds; trackBy: trackByBasket"></div> -->
       <div class="basket__item-container" *ngFor="let basketItemId of basketItemsIds">
         <pp-basket-item class="basket__item" [itemId]="basketItemId" (dblclick)="previewItem(basketItemId)">
         </pp-basket-item>

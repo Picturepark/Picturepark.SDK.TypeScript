@@ -67,7 +67,7 @@
         <pp-content-browser
           #contentBrowser
           [channel]="selectedChannel"
-          (previewItemChange)="openDetails($event)"
+          (previewItemChange)="openDetails($event.id)"
           (selectedItemsChange)="selectionChange($event)"
         >
         </pp-content-browser>

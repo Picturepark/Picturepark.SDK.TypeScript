@@ -8,9 +8,9 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { SafeUrl, SafeHtml, DomSanitizer } from '@angular/platform-browser';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { BROKEN_IMAGE_URL } from '../../../utilities/constants';
-import { switchMap, map, tap, timeout, catchError } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
 import { ThumbnailSize, Content, ShareDetail, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
@@ -47,7 +47,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   public isLoading = true;
   public thumbnailUrl$: Observable<SafeUrl | undefined> | null;
 
-  public virtualItemHtml: SafeHtml | null;
+  public virtualItemHtml$: Observable<string | null> | null;
 
   public constructor(
     private contentService: ContentService,
@@ -75,29 +75,21 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
           this.sub = fetchContentById(this.contentService, this.itemId).subscribe(item => {
             if (item) {
               this.item = item;
-              if (this.item.isVirtual()) {
-                this.handleVirtualItem(this.item);
-                return;
-              }
               this.loadItem.next();
             }
           });
-          this.handleThumbnail();
+          this.handleItemDisplay();
         }
       }
 
       if (changes['item']) {
         if (this.item) {
-          if (this.item.isVirtual()) {
-            this.handleVirtualItem(this.item);
-          } else {
-            this.handleThumbnail();
-          }
+          this.handleItemDisplay();
         }
       }
     }
 
-    if (changes['thumbnailSize'] && !this.virtualItemHtml && this.isVisible) {
+    if (changes['thumbnailSize'] && !this.item?.isVirtual() && this.isVisible) {
       const updateImage =
         changes['thumbnailSize'].firstChange ||
         (changes['thumbnailSize'].previousValue === ThumbnailSize.Small && this.isListView === false) ||
@@ -110,14 +102,19 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
     }
   }
 
-  handleVirtualItem(item: Content | ShareContentDetail) {
-    if (item.displayValues['thumbnail']) {
-      this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, item.displayValues['thumbnail']);
-      this.thumbnailUrl$ = null;
-    }
-  }
+  handleItemDisplay() {
+    this.virtualItemHtml$ = this.loadItem.pipe(
+      map(() => {
+        if (this.item?.isVirtual()) {
+          if (this.item.displayValues['thumbnail']) {
+            this.thumbnailUrl$ = null;
+            return this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
+          }
+        }
+        return null;
+      })
+    );
 
-  handleThumbnail() {
     this.thumbnailUrl$ = this.loadItem.pipe(
       switchMap(() => {
         if (this.item) {

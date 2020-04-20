@@ -13,7 +13,6 @@ import { ShareContentDialogComponent } from '../../features-module/share-content
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 import { ContentService, Content } from '@picturepark/sdk-v1-angular';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'pp-basket',
@@ -26,7 +25,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
   public configActions: ConfigActions;
 
   @Output()
-  public previewItemChange = new EventEmitter<Content>();
+  public previewItemChange = new EventEmitter<string>();
 
   constructor(
     @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
@@ -44,9 +43,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
   }
 
   public previewItem(itemId: string): void {
-    // TODO SAN deal with this
-    // this.previewItemChange.emit(new ContentModel(item, true));
-    // this.previewItemChange.emit(item: Content);
+    this.previewItemChange.emit(itemId);
   }
 
   public downloadItems(): void {
@@ -71,11 +68,6 @@ export class BasketComponent extends BaseComponent implements OnInit {
   public clearBasket(): void {
     this.basketService.clearBasket();
   }
-
-  // Handle TrackBy
-  // public trackByBasket(index, basketItem: Content): string {
-  //   return basketItem.id;
-  // }
 
   ngOnInit() {
     this.configActions = this.pictureParkUIConfig['BasketComponent'];
