@@ -7,7 +7,6 @@ import { AggregationResult, Channel, Content, SearchBehavior, ContentSearchFacad
 import {
   SelectionService,
   BasketService,
-  ContentModel,
   ContentBrowserComponent,
   SearchParameters,
   BaseComponent,
@@ -53,12 +52,12 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     super(injector);
   }
 
-  public openDetails(item: ContentModel<Content>) {
-    let index = this.contentBrowserComponent.items.findIndex(q => q.item.id === item.item.id);
+  public openDetails(item: Content) {
+    let index = this.contentBrowserComponent.items.findIndex(q => q.id === item.id);
 
     this.dialog.open(ContentDetailsDialogComponent, {
       data: <ContentDetailDialogOptions>{
-        id: item.item.id,
+        id: item.id,
         showMetadata: true,
         hasPrevious: () => {
           return index !== 0;
@@ -68,11 +67,11 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
         },
         previous: () => {
           index--;
-          return this.contentBrowserComponent.items[index].item.id;
+          return this.contentBrowserComponent.items[index].id;
         },
         next: () => {
           index++;
-          return this.contentBrowserComponent.items[index].item.id;
+          return this.contentBrowserComponent.items[index].id;
         },
       },
       autoFocus: false,

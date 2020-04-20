@@ -7,6 +7,8 @@ import { ThumbnailSize, Share, ContentService } from '@picturepark/sdk-v1-angula
 // COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
 import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
+import { Observable } from 'rxjs';
+import { debounceTime, map, share } from 'rxjs/operators';
 
 @Component({
   selector: 'pp-share-browser-item',
@@ -23,6 +25,8 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
   public isLoading = true;
 
   public thumbnailUrls: SafeUrl[] = [];
+
+  isSelected$: Observable<boolean> | undefined;
 
   constructor(private contentService: ContentService, private sanitizer: DomSanitizer, protected injector: Injector) {
     super(injector);
@@ -58,7 +62,13 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
   }
 
   public ngOnInit(): void {
-    this.getThumbnails(this.itemModel.item.contentIds);
+    this.getThumbnails(this.itemModel.contentIds);
+
+    this.isSelected$ = this.browser.selectedItemsChange.pipe(
+      debounceTime(10),
+      map(items => items.some(selectedItem => selectedItem.id === this.itemModel.id)),
+      share()
+    );
   }
 
   public updateUrl(event) {
@@ -75,7 +85,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
       if (updateImage) {
         this.isLoading = true;
         this.thumbnailUrls = [];
-        this.getThumbnails(this.itemModel.item.contentIds);
+        this.getThumbnails(this.itemModel.contentIds);
       }
     }
   }

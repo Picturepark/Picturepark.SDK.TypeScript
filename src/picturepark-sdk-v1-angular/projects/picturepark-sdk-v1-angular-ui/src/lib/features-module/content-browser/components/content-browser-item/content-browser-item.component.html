@@ -4,7 +4,7 @@
   [class.browser-item--list-view]="isListView"
 >
   <div class="browser-item__image-slot">
-    <pp-content-item-thumbnail [item]="itemModel.item" [thumbnailSize]="thumbnailSize" [isListView]="isListView">
+    <pp-content-item-thumbnail [item]="itemModel" [thumbnailSize]="thumbnailSize" [isListView]="isListView">
     </pp-content-item-thumbnail>
 
     <div class="browser-item__actions" *ngIf="!isListView">
@@ -33,7 +33,7 @@
     </div>
   </div>
   <div *ngIf="thumbnailSize !== thumbnailSizes.Small || isListView" class="browser-item__title">
-    <div class="browser-item__title__title-content">{{ itemModel.item.displayValues!['name'] || 'n/a' }}</div>
+    <div class="browser-item__title__title-content">{{ itemModel.displayValues!['name'] || 'n/a' }}</div>
     <div class="mat-subheading-1" *ngIf="isListView" [innerHtml]="listItemHtml || 'n/a'"></div>
   </div>
   <div class="browser-item__list-view-actions" *ngIf="isListView">

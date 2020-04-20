@@ -96,7 +96,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
       }
 
       if (this.shareContent) {
-        const shareOutput = this.shareContent.outputs!.find(i => i.outputFormatId === this.outputId);
+        const shareOutput = this.shareContent.outputs.find(i => i.outputFormatId === this.outputId);
         if (shareOutput && shareOutput.viewUrl) {
           this.setPreviewUrl(shareOutput.viewUrl);
           return;
@@ -181,9 +181,9 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         pdfUrl: isPdf ? response.downloadUrl : '',
 
         displayValues: {},
-        previewUrl: isImage ? response.downloadUrl! : this.thumbnailUrl,
+        previewUrl: isImage ? response.downloadUrl : this.thumbnailUrl,
 
-        originalUrl: response.downloadUrl!,
+        originalUrl: response.downloadUrl,
         outputs: this.content.outputs! as any[],
 
         detail: {
@@ -227,12 +227,12 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
             originalUrl: originalOutput ? originalOutput.downloadUrl : null,
             pdfUrl: pdfOutput ? pdfOutput.downloadUrl : null,
             videoUrl: s.outputs.find(i => i.outputFormatId === 'VideoLarge')
-              ? s.outputs!.find(i => i.outputFormatId! === 'VideoLarge')!.downloadUrl
+              ? s.outputs.find(i => i.outputFormatId === 'VideoLarge')!.downloadUrl
               : s.outputs.find(i => i.outputFormatId === 'VideoSmall')
-              ? s.outputs!.find(i => i.outputFormatId! === 'VideoSmall')!.downloadUrl
+              ? s.outputs.find(i => i.outputFormatId === 'VideoSmall')!.downloadUrl
               : null,
             audioUrl: s.outputs.find(i => i.outputFormatId === 'AudioSmall')
-              ? s.outputs!.find(i => i.outputFormatId! === 'AudioSmall')!.viewUrl
+              ? s.outputs.find(i => i.outputFormatId === 'AudioSmall')!.viewUrl
               : null,
             outputs: s.outputs,
           };
@@ -240,6 +240,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
       };
 
       item = share.items.find(i => i.id === this.content.id)!;
+      items = share.items;
     }
 
     if (item.isMovie || item.isAudio) {

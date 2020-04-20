@@ -84,7 +84,6 @@ export { ContentDownloadDialogService } from './lib/features-module/content-down
 export { DialogService } from './lib/features-module/dialog/dialog.service';
 
 // Classes
-export { ContentModel } from './lib/shared-module/models/content-model';
 export { BaseComponent } from './lib/shared-module/components/base.component';
 
 // Utilities
@@ -103,5 +102,3 @@ export { HighlightPipe } from './lib/shared-module/pipes/highlight.pipe';
 export { TranslatePipe } from './lib/shared-module/pipes/translate.pipe';
 export { FileSizePipe } from './lib/shared-module/pipes/filesize.pipe';
 export { AvatarPipe, AvatarHashedPipe } from './lib/shared-module/pipes/avatar.pipe';
-
-
