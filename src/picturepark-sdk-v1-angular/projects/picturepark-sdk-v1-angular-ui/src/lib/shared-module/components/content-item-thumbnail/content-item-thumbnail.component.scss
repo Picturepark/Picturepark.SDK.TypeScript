@@ -19,8 +19,8 @@
   &__image-virtual-item-container {
     display: flex;
     padding: 8px;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     overflow: hidden;
 
     position: absolute;
