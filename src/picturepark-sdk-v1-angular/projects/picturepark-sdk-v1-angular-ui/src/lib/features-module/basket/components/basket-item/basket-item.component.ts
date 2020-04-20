@@ -18,7 +18,6 @@ export class BasketItemComponent extends BaseComponent {
     super(injector);
   }
 
-
   public remove() {
     this.basketService.removeItem(this.itemId);
   }

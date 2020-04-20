@@ -53,20 +53,19 @@ export class BasketComponent extends BaseComponent implements OnInit {
     fetchContents(this.contentService, this.basketItemsIds).subscribe(fetchResult => {
       this.contentDownloadDialogService.showDialog({
         mode: 'multi',
-        contents: fetchResult.results
+        contents: fetchResult.results,
       });
-    })
+    });
   }
 
   public openShareContentDialog(): void {
     fetchContents(this.contentService, this.basketItemsIds).subscribe(fetchResult => {
       const dialogRef = this.dialog.open(ShareContentDialogComponent, {
         data: fetchResult.results,
-        autoFocus: false
+        autoFocus: false,
       });
       dialogRef.componentInstance.title = 'Basket.Share';
-    })
-
+    });
   }
 
   public clearBasket(): void {
