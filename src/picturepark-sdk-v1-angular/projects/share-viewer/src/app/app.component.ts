@@ -19,12 +19,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // Needed because changes to the local storage [edge] are not updated on soft refresh in a tab [PP9-9217]
-    window.addEventListener('storage', (e) => {
+    window.addEventListener('storage', e => {
       if (e.key && e.newValue) {
         window.localStorage.setItem(e.key, e.newValue);
-        this.showConsent = !window.localStorage.getItem('Picturepark.ShareCookieConsent')
+        this.showConsent = !window.localStorage.getItem('Picturepark.ShareCookieConsent');
       }
-   });
+    });
   }
 
   updateRoute(searchString: string): void {
