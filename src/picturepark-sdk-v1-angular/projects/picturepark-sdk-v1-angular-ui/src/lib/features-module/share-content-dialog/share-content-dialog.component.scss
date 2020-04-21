@@ -63,15 +63,21 @@
     padding: 0px 0px 0px 0px;
     max-height: 25vh;
 
+    .selected-items {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
       .selected-item-wrapper {
-        min-height: 150px;
-        min-width: 150px;
         position: relative;
-        margin: 5px;
+        margin: 1%;
+        width: 23%;
+        // padding-top used to create and 1:1 aspect ratio [https://www.w3schools.com/howto/howto_css_aspect_ratio.asp]
+        padding-top: 23%;
       }
+    }
   }
 
-  
   #share-name.error-active {
     border-style: solid;
     border-width: 1px;
