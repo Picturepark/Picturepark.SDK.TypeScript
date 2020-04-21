@@ -9,7 +9,7 @@
       (click)="selectedSchemaChange(i)"
     >
       <pp-schema-browser-item
-        [schema]="schema.item"
+        [schema]="schema"
         (activeSchemaChange)="setUpActiveSchema($event)"
         [selected]="selectedSchemaIndex == i"
       ></pp-schema-browser-item>

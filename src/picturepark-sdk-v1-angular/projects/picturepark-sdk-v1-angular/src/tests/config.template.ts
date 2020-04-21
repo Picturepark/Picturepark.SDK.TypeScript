@@ -12,7 +12,7 @@ export const testAccessToken = '{AccessToken}';
 export const testCustomerAlias = '{CustomerAlias}';
 
 export function configureTest() {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 25000;
   TestBed.configureTestingModule({
     imports: [HttpClientModule],
     providers: [
