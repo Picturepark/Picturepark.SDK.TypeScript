@@ -2,7 +2,6 @@ import { Component, Output, EventEmitter, OnInit, Inject, Injector } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
-import { fetchContents } from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
@@ -12,7 +11,7 @@ import { ShareContentDialogComponent } from '../../features-module/share-content
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
-import { ContentService, Content } from '@picturepark/sdk-v1-angular';
+import { Content } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-basket',
@@ -20,49 +19,46 @@ import { ContentService, Content } from '@picturepark/sdk-v1-angular';
   styleUrls: ['./basket.component.scss'],
 })
 export class BasketComponent extends BaseComponent implements OnInit {
-  public basketItemsIds: string[] = [];
+  public basketItems: Content[] = [];
 
   public configActions: ConfigActions;
 
   @Output()
-  public previewItemChange = new EventEmitter<string>();
+  public previewItemChange = new EventEmitter<Content>();
 
   constructor(
     @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private basketService: BasketService,
-    private contentService: ContentService,
     private contentDownloadDialogService: ContentDownloadDialogService,
     protected injector: Injector,
     public dialog: MatDialog
   ) {
     super(injector);
 
-    this.sub = this.basketService.basketChange.subscribe(itemsIds => {
-      this.basketItemsIds = itemsIds;
-    });
+    this.sub = this.basketService.basketItemsChanges.subscribe(items => (this.basketItems = items));
   }
 
-  public previewItem(itemId: string): void {
-    this.previewItemChange.emit(itemId);
+  public previewItem(item: Content): void {
+    this.previewItemChange.emit(item);
   }
 
   public downloadItems(): void {
-    fetchContents(this.contentService, this.basketItemsIds).subscribe(fetchResult => {
-      this.contentDownloadDialogService.showDialog({
-        mode: 'multi',
-        contents: fetchResult.results,
-      });
+    this.contentDownloadDialogService.showDialog({
+      mode: 'multi',
+      contents: this.basketItems,
     });
   }
 
   public openShareContentDialog(): void {
-    fetchContents(this.contentService, this.basketItemsIds).subscribe(fetchResult => {
-      const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-        data: fetchResult.results,
-        autoFocus: false,
-      });
-      dialogRef.componentInstance.title = 'Basket.Share';
+    const dialogRef = this.dialog.open(ShareContentDialogComponent, {
+      data: this.basketItems,
+      autoFocus: false,
     });
+    dialogRef.componentInstance.title = 'Basket.Share';
+  }
+
+  basketItemTracker(index: number, item: Content): string {
+    return item.id;
   }
 
   public clearBasket(): void {

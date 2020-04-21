@@ -8,12 +8,12 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap, map, tap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
 import { ThumbnailSize, Content, ShareDetail, ShareContentDetail } from '@picturepark/sdk-v1-angular';
-import { ContentService, fetchContentById } from '@picturepark/sdk-v1-angular';
+import { ContentService } from '@picturepark/sdk-v1-angular';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -26,12 +26,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   /**
    * The item from wich to show the thumbnail
    */
-  @Input() item?: Content | ShareContentDetail;
-
-  /**
-   * The id of the item from wich to show the thumbnail
-   */
-  @Input() itemId?: string;
+  @Input() item: Content | ShareContentDetail;
 
   /**
    *  * If passed into the component, the thumbnail will be retrieved from the shareItem instead of being requested.
@@ -45,9 +40,9 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   @Input() shadow: boolean;
 
   public isLoading = true;
-  public thumbnailUrl$: Observable<SafeUrl | undefined> | null;
+  public thumbnailUrl$: Observable<SafeUrl> | null;
 
-  public virtualItemHtml$: Observable<string | null> | null;
+  public virtualItemHtml: SafeHtml | null;
 
   public constructor(
     private contentService: ContentService,
@@ -60,7 +55,11 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   async ngOnChanges(changes: SimpleChanges) {
     if (changes['shareItem']) {
       if (this.shareItem) {
-        const content = this.shareItem.contentSelections.find(i => i.id === this.item!.id);
+        if (this.item.isVirtual()) {
+          this.handleVirtualItem();
+        } else {
+        }
+        const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
         if (content) {
           const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
           this.thumbnailUrl$ = this.loadItem.pipe(
@@ -70,21 +69,24 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
         }
       }
     } else {
-      if (changes['itemId']) {
-        if (this.itemId) {
-          this.sub = fetchContentById(this.contentService, this.itemId).subscribe(item => {
-            if (item) {
-              this.item = item;
-              this.loadItem.next();
-            }
-          });
-          this.handleItemDisplay();
-        }
-      }
-
       if (changes['item']) {
-        if (this.item) {
-          this.handleItemDisplay();
+        if (this.item.isVirtual()) {
+          this.handleVirtualItem();
+        } else {
+          this.thumbnailUrl$ = this.loadItem.pipe(
+            switchMap(() => {
+              return this.contentService.downloadThumbnail(
+                this.item.id,
+                this.thumbnailSize || ThumbnailSize.Small,
+                null,
+                null
+              );
+            }),
+            map(response => {
+              this.isLoading = false;
+              return this.trust(URL.createObjectURL(response.data));
+            })
+          );
         }
       }
     }
@@ -102,39 +104,12 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
     }
   }
 
-  handleItemDisplay() {
-    this.virtualItemHtml$ = this.loadItem.pipe(
-      map(() => {
-        if (this.item?.isVirtual()) {
-          if (this.item.displayValues['thumbnail']) {
-            this.thumbnailUrl$ = null;
-            return this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
-          }
-        }
-        return null;
-      })
-    );
-
-    this.thumbnailUrl$ = this.loadItem.pipe(
-      switchMap(() => {
-        if (this.item) {
-          return this.contentService.downloadThumbnail(
-            this.item.id,
-            this.thumbnailSize || ThumbnailSize.Small,
-            null,
-            null
-          );
-        } else {
-          return of(null);
-        }
-      }),
-      map(response => {
-        if (response) {
-          this.isLoading = false;
-          return this.trust(URL.createObjectURL(response.data));
-        }
-      })
-    );
+  handleVirtualItem() {
+    if (this.item.displayValues['thumbnail']) {
+      this.thumbnailUrl$ = null;
+      this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
+      this.isLoading = false;
+    }
   }
 
   private trust(data: any) {

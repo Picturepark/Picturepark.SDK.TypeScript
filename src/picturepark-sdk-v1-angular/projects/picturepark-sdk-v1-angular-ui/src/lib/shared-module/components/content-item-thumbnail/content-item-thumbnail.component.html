@@ -1,6 +1,6 @@
-<ng-container *ngIf="virtualItemHtml$ | async as itemHtml; else virtualContent">
+<ng-container *ngIf="virtualItemHtml; else virtualContent">
   <div [ngClass]="{ shadow: shadow }" class="content-item-thumbnail__image-virtual-item-container">
-    <div class="content-item-thumbnail__image-virtual-item-display" [innerHTML]="itemHtml"></div>
+    <div class="content-item-thumbnail__image-virtual-item-display" [innerHTML]="virtualItemHtml"></div>
   </div>
 </ng-container>
 <ng-template #virtualContent>

@@ -52,12 +52,12 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     super(injector);
   }
 
-  public openDetails(itemId: string) {
-    let index = this.contentBrowserComponent.items.findIndex(q => q.id === itemId);
+  public openDetails(item: Content) {
+    let index = this.contentBrowserComponent.items.findIndex(q => q.id === item.id);
 
     this.dialog.open(ContentDetailsDialogComponent, {
       data: <ContentDetailDialogOptions>{
-        id: itemId,
+        id: item.id,
         showMetadata: true,
         hasPrevious: () => {
           return index !== 0;
