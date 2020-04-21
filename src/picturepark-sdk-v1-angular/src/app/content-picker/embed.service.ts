@@ -3,12 +3,10 @@ import {
   ShareService,
   ShareEmbedCreateRequest,
   OutputAccess,
-  ShareDetail,
   ShareContent,
   Content,
   BusinessProcessService,
 } from '@picturepark/sdk-v1-angular';
-import { ContentModel } from '@picturepark/sdk-v1-angular-ui';
 
 @Injectable({
   providedIn: 'root',

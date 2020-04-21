@@ -7,9 +7,6 @@ import { Share, ThumbnailSize, ShareSearchFacade } from '@picturepark/sdk-v1-ang
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 
-// INTERFACES
-import { ContentModel } from '../../shared-module/models/content-model';
-
 @Component({
   selector: 'pp-share-browser',
   templateUrl: './share-browser.component.html',
@@ -88,7 +85,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
     this.router.navigate([item.id], { relativeTo: this.activatedRoute });
   }
 
-  previewItemEvent(item: ContentModel<Share>): void {
-    this.router.navigate([item.item.id], { relativeTo: this.activatedRoute });
+  previewItemEvent(item: Share): void {
+    this.router.navigate([item.id], { relativeTo: this.activatedRoute });
   }
 }

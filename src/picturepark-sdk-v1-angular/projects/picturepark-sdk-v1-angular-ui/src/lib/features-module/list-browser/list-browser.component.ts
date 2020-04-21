@@ -20,7 +20,6 @@ import { MetaDataPreviewService } from '../../shared-module/services/metadata-pr
 // PIPES
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
-import { ContentModel } from '../../shared-module/models/content-model';
 import { lowerFirst } from '../../utilities/helper';
 
 @Component({
@@ -108,16 +107,16 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     return false;
   }
 
-  prepareData(items: ContentModel<ListItem>[]): void {
-    const metadataItems = items.map(m => m.item.content);
+  prepareData(items: ListItem[]): void {
+    const metadataItems = items.map(m => m.content);
     const tableItems = this.metaDataPreviewService.getListItemsTableData(metadataItems, this.schema, this.customerInfo);
     this.tableItems.push(...tableItems);
 
     this.dataSource.data = this.tableItems;
     const selected = this.items.filter(
-      listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.item.id) !== -1
+      listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.id) !== -1
     );
-    this.selectionService.addItems(selected.map(q => q.item));
+    this.selectionService.addItems(selected.map(q => q));
 
     this.cdr.detectChanges();
   }
@@ -148,7 +147,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle() {
-    this.isAllSelected() ? this.selectionService.clear() : this.selectionService.addItems(this.items.map(q => q.item));
+    this.isAllSelected() ? this.selectionService.clear() : this.selectionService.addItems(this.items.map(q => q));
   }
 
   public isRowSelected(row: any): boolean {
@@ -156,9 +155,9 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   public toggle(row: any) {
-    const index = this.items.findIndex(item => item.item.id === row._refId);
+    const index = this.items.findIndex(item => item.id === row._refId);
     const itemModel = this.items[index];
-    this.selectionService.toggle(itemModel.item);
+    this.selectionService.toggle(itemModel);
   }
 
   /** The label for the checkbox on the passed row */
