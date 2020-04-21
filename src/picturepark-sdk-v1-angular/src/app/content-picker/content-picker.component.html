@@ -15,7 +15,12 @@
 
     <span class="spacer"></span>
 
-    <pp-search-suggest-box *ngIf="selectedChannel" [showSearchBehaviorPicker]="true" [facade]="facade">
+    <pp-search-suggest-box
+      class="search-suggest-box-desktop"
+      *ngIf="selectedChannel"
+      [showSearchBehaviorPicker]="true"
+      [facade]="facade"
+    >
     </pp-search-suggest-box>
     <!--
     <pp-search-box style="width: 20%; font-size: 16px;" [searchString]="searchText"
@@ -40,13 +45,13 @@
           </pp-channel-picker>
         </mat-toolbar-row>
         <mat-toolbar-row *ngIf="deviceBreakpoint">
-          <pp-search-suggest-box *ngIf="selectedChannel" [showSearchBehaviorPicker]="true" [facade]="facade">
+          <pp-search-suggest-box
+            class="search-suggest-box-mobile"
+            *ngIf="selectedChannel"
+            [showSearchBehaviorPicker]="true"
+            [facade]="facade"
+          >
           </pp-search-suggest-box>
-          <!-- <pp-search-box
-            style="width: 100%; font-size: 16px;"
-            [searchString]="'searchText'"
-            (searchParametersChange)="changeSearchParameters($event)"
-          ></pp-search-box> -->
         </mat-toolbar-row>
         <mat-tab-group class="right-panel filters">
           <mat-tab label="Filters">
