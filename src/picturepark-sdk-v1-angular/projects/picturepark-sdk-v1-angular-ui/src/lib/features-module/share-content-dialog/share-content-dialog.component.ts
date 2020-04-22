@@ -217,7 +217,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     // SHOW SHARE NAME LOADER
     this.spinnerLoader = true;
 
-    const contentSearch = this.contentService
+    this.sub = this.contentService
       .search(
         new ContentSearchRequest({
           limit: 1,
@@ -249,8 +249,6 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
           this.sharedContentForm.get('share_name')!.setValue(shareName);
         }, 200);
       });
-
-    this.subscription.add(contentSearch);
   }
 
   ngAfterViewInit() {

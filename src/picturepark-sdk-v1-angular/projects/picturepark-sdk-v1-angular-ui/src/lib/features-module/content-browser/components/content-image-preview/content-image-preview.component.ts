@@ -120,11 +120,9 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
           )
         : this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
 
-      const downloadPreviewSubscription = request.subscribe(response => {
+      this.sub = request.subscribe(response => {
         this.setPreviewUrl(URL.createObjectURL(response.data));
       });
-
-      this.subscription.add(downloadPreviewSubscription);
     }
   }
 
@@ -158,16 +156,40 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         ? outputs.filter(o => o.outputFormatId === 'VideoSmall')[0]
         : outputs.filter(o => o.outputFormatId === 'Preview')[0];
 
-      const request = new ContentDownloadLinkCreateRequest({
-        contents: [
-          new ContentDownloadRequestItem({
-            contentId: this.content.id,
-            outputFormatId: previewOutput.outputFormatId,
-          }),
-        ],
-      });
+      // TODO SAN deal with the section bellow
+      // const request = new ContentDownloadLinkCreateRequest({
+      //   contents: [
+      //     new ContentDownloadRequestItem({
+      //       contentId: this.content.id,
+      //       outputFormatId: previewOutput.outputFormatId,
+      //     }),
+      //   ],
+      // });
 
-      const response = await this.contentService.createDownloadLink(request).toPromise();
+      // const response = await this.contentService.createDownloadLink(request).toPromise();
+      // item = {
+      //   id: this.content.id,
+
+      //   isPdf: isPdf,
+      //   isImage: isImage,
+      //   isMovie: this.isVideo,
+      //   isAudio: this.isAudio,
+      //   isBinary: false,
+      //   videoUrl: this.isVideo ? response.downloadUrl : '',
+      //   audioUrl: this.isAudio ? response.downloadUrl : '',
+      //   pdfUrl: isPdf ? response.downloadUrl : '',
+
+      //   displayValues: {},
+      //   previewUrl: isImage ? response.downloadUrl : this.thumbnailUrl,
+
+      //   originalUrl: response.downloadUrl,
+      //   outputs: this.content.outputs! as any[],
+
+      //   detail: {
+      //     width: (<any>previewOutput.detail).width,
+      //     height: (<any>previewOutput.detail).height,
+      //   },
+      // };
       item = {
         id: this.content.id,
 
@@ -176,14 +198,14 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         isMovie: this.isVideo,
         isAudio: this.isAudio,
         isBinary: false,
-        videoUrl: this.isVideo ? response.downloadUrl : '',
-        audioUrl: this.isAudio ? response.downloadUrl : '',
-        pdfUrl: isPdf ? response.downloadUrl : '',
+        videoUrl: this.isVideo ? '' : '',
+        audioUrl: this.isAudio ? '' : '',
+        pdfUrl: isPdf ? '' : '',
 
         displayValues: {},
-        previewUrl: isImage ? response.downloadUrl : this.thumbnailUrl,
+        previewUrl: isImage ? '' : this.thumbnailUrl,
 
-        originalUrl: response.downloadUrl,
+        originalUrl: '',
         outputs: this.content.outputs! as any[],
 
         detail: {

@@ -13,6 +13,9 @@ import {
   OutputSearchRequest,
   ContentResolveBehavior,
   IShareOutputBase,
+  BusinessProcess,
+  BusinessProcessService,
+  OutputResolveManyRequest,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -76,6 +79,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     protected injector: Injector,
     private renderer: Renderer2,
     private translationService: TranslationService,
+    private businessProcessService: BusinessProcessService,
     private http: HttpClient
   ) {
     super(data, dialogRef, injector);
@@ -140,19 +144,20 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
     const request = new ContentDownloadLinkCreateRequest({
       contents: data.map(i => ({ contentId: i.contentId, outputFormatId: i.outputFormatId })),
+      notifyProgress: true,
     });
-    const linkSubscription = this.contentService.createDownloadLink(request).subscribe(download => {
-      linkSubscription.unsubscribe();
-      if (download.downloadUrl) {
-        debugger;
-        this.http.get(download.downloadUrl, { responseType: 'blob' }).subscribe(result => {
+    this.sub = this.contentService.createDownloadLink(request).subscribe(businessProcess => {
+      debugger;
+      this.businessProcessService.waitForCompletion(businessProcess.id, '02:00:00', true).subscribe(
+        result => {
           debugger;
-          const url = window.URL.createObjectURL(result);
-          window.location.href = url;
-        });
-        // window.location.replace(download.downloadUrl);
-        this.dialogRef.close(true);
-      }
+          // TODO build the download URL with the referenceID
+          // const downloadUrl
+          // window.location.replace(downloadUrl);
+        },
+        error => {}
+      );
+      this.dialogRef.close(true);
     });
   }
 
@@ -216,13 +221,17 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
         return;
       }
 
-      const detailSubscription = this.contentService
-        .get(this.data.contents[0].id, [ContentResolveBehavior.Outputs])
-        .subscribe(async content => {
-          await this.setSelection(content.outputs!);
-        });
+      this.contentService.getOutputs(this.data.contents[0].id).subscribe(output => {
+        debugger;
+        this.setSelection(output);
+      });
 
-      this.subscription.add(detailSubscription);
+      // TODO SAN to remove
+      this.sub = this.contentService
+        .get(this.data.contents[0].id, [ContentResolveBehavior.Outputs])
+        .subscribe(content => {
+          this.setSelection(content.outputs!);
+        });
     } else {
       if (this.data.contents.every(content => content.outputs)) {
         const outputs = flatMap(this.data.contents, content => content.outputs!);
@@ -241,7 +250,19 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   private fetchOutputs(): void {
-    const outputSubscription = fetchAll(
+    debugger;
+    if (this.data.contents.length <= 1000) {
+      const request = new OutputResolveManyRequest({ contentIds: this.data.contents.map(i => i.id) });
+      this.contentService.getOutputsMany(request).subscribe(async outputs => {
+        debugger;
+        await this.getSelection(outputs, this.data.contents);
+        this.update();
+        this.loader = false;
+      });
+    } else {
+      // TODO SAN handle with the case of more than 1000 contents
+    }
+    this.sub = fetchAll(
       req => this.outputService.search(req),
       new OutputSearchRequest({
         contentIds: this.data.contents.map(i => i.id),
@@ -253,6 +274,5 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       this.update();
       this.loader = false;
     });
-    this.subscription.add(outputSubscription);
   }
 }

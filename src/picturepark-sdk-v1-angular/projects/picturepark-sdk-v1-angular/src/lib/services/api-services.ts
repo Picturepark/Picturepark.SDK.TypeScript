@@ -4588,43 +4588,42 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
-     * Create download link
-     * @param request Content download link request
-     * @return Download link
+     * Get outputs
+     * @param id ID of content.
+     * @return Array of Result of output resolution.
      */
-    createDownloadLink(request: ContentDownloadLinkCreateRequest): Observable<DownloadLink> {
-        let url_ = this.baseUrl + "/v1/Contents/downloadLinks";
+    getOutputs(id: string | null): Observable<OutputResolveResult[]> {
+        let url_ = this.baseUrl + "/v1/Contents/{id}/outputs";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(request);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",			
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("post", url_, transformedOptions_);
+            return this.http.request("get", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreateDownloadLink(response_);
+            return this.processGetOutputs(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateDownloadLink(<any>response_);
+                    return this.processGetOutputs(<any>response_);
                 } catch (e) {
-                    return <Observable<DownloadLink>><any>_observableThrow(e);
+                    return <Observable<OutputResolveResult[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<DownloadLink>><any>_observableThrow(response_);
+                return <Observable<OutputResolveResult[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreateDownloadLink(response: HttpResponseBase): Observable<DownloadLink> {
+    protected processGetOutputs(response: HttpResponseBase): Observable<OutputResolveResult[]> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -4635,7 +4634,11 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = DownloadLink.fromJS(resultData200);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OutputResolveResult.fromJS(item));
+            }
             return _observableOf(result200);
             }));
         } else if (status === 400) {
@@ -4683,7 +4686,106 @@ export class ContentService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<DownloadLink>(<any>null);
+        return _observableOf<OutputResolveResult[]>(<any>null);
+    }
+
+    /**
+     * Create download link
+     * @param request Content download link request
+     * @return Download link
+     */
+    createDownloadLink(request: ContentDownloadLinkCreateRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Contents/downloadLinks";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreateDownloadLink(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateDownloadLink(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateDownloadLink(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
     }
 
     /**
@@ -5476,6 +5578,109 @@ export class ContentService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<ContentReferencesResult>(<any>null);
+    }
+
+    /**
+     * Get outputs
+     * @param request Output resolve many request.
+     * @return Array of Result of output resolution.
+     */
+    getOutputsMany(request: OutputResolveManyRequest): Observable<OutputResolveResult[]> {
+        let url_ = this.baseUrl + "/v1/Contents/many/outputs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetOutputsMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOutputsMany(<any>response_);
+                } catch (e) {
+                    return <Observable<OutputResolveResult[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OutputResolveResult[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOutputsMany(response: HttpResponseBase): Observable<OutputResolveResult[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OutputResolveResult.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OutputResolveResult[]>(<any>null);
     }
 
     /**
@@ -38520,6 +38725,11 @@ export abstract class BusinessRuleTransformation implements IBusinessRuleTransfo
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SplitTransformation") {
+            let result = new SplitTransformation();
+            result.init(data);
+            return result;
+        }
         throw new Error("The abstract class 'BusinessRuleTransformation' cannot be instantiated.");
     }
 
@@ -38785,6 +38995,56 @@ export class ProjectionTransformation extends BusinessRuleTransformation impleme
 export interface IProjectionTransformation extends IBusinessRuleTransformation {
     /** Transformations to apply. */
     transformations?: BusinessRuleTransformation[] | undefined;
+}
+
+/** Splits the input by separators, optionally trimming the entries afterwards. */
+export class SplitTransformation extends BusinessRuleTransformation implements ISplitTransformation {
+    /** Separators to use, supports variables, an array of strings including escape sequences or null to split on any white space character. */
+    separators?: any | undefined;
+    /** Keeps empty items. Empty items will be returned as empty strings. */
+    keepEmpty?: boolean;
+    /** Trims each entry for punctuation and white space. */
+    trim?: boolean;
+
+    constructor(data?: ISplitTransformation) {
+        super(data);
+        this._discriminator = "SplitTransformation";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.separators = _data["separators"];
+            this.keepEmpty = _data["keepEmpty"];
+            this.trim = _data["trim"];
+        }
+    }
+
+    static fromJS(data: any): SplitTransformation {
+        data = typeof data === 'object' ? data : {};
+        let result = new SplitTransformation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["separators"] = this.separators;
+        data["keepEmpty"] = this.keepEmpty;
+        data["trim"] = this.trim;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Splits the input by separators, optionally trimming the entries afterwards. */
+export interface ISplitTransformation extends IBusinessRuleTransformation {
+    /** Separators to use, supports variables, an array of strings including escape sequences or null to split on any white space character. */
+    separators?: any | undefined;
+    /** Keeps empty items. Empty items will be returned as empty strings. */
+    keepEmpty?: boolean;
+    /** Trims each entry for punctuation and white space. */
+    trim?: boolean;
 }
 
 /** Action to be performed by a business rule */
@@ -45411,14 +45671,20 @@ export interface IMetadataReferencesPagingRequest extends IPagingRequest {
     fetchReferencedByRestrictedItem?: boolean;
 }
 
-/** Download link information */
-export class DownloadLink implements IDownloadLink {
-    /** Token of the download, used to generate the url. */
-    downloadToken!: string;
-    /** Url of the download link. */
-    downloadUrl!: string;
+/** Result of output resolution. */
+export class OutputResolveResult implements IOutputResolveResult {
+    /** ID of output. */
+    id?: string | undefined;
+    /** ID of output format. */
+    outputFormatId!: string;
+    /** ID of content. */
+    contentId!: string;
+    /** Rendering state of output. */
+    renderingState!: OutputRenderingState;
+    /** Whether this Output belongs to a dynamic OutputFormat */
+    dynamicRendering!: boolean;
 
-    constructor(data?: IDownloadLink) {
+    constructor(data?: IOutputResolveResult) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -45429,38 +45695,52 @@ export class DownloadLink implements IDownloadLink {
 
     init(_data?: any) {
         if (_data) {
-            this.downloadToken = _data["downloadToken"];
-            this.downloadUrl = _data["downloadUrl"];
+            this.id = _data["id"];
+            this.outputFormatId = _data["outputFormatId"];
+            this.contentId = _data["contentId"];
+            this.renderingState = _data["renderingState"];
+            this.dynamicRendering = _data["dynamicRendering"];
         }
     }
 
-    static fromJS(data: any): DownloadLink {
+    static fromJS(data: any): OutputResolveResult {
         data = typeof data === 'object' ? data : {};
-        let result = new DownloadLink();
+        let result = new OutputResolveResult();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["downloadToken"] = this.downloadToken;
-        data["downloadUrl"] = this.downloadUrl;
+        data["id"] = this.id;
+        data["outputFormatId"] = this.outputFormatId;
+        data["contentId"] = this.contentId;
+        data["renderingState"] = this.renderingState;
+        data["dynamicRendering"] = this.dynamicRendering;
         return data; 
     }
 }
 
-/** Download link information */
-export interface IDownloadLink {
-    /** Token of the download, used to generate the url. */
-    downloadToken: string;
-    /** Url of the download link. */
-    downloadUrl: string;
+/** Result of output resolution. */
+export interface IOutputResolveResult {
+    /** ID of output. */
+    id?: string | undefined;
+    /** ID of output format. */
+    outputFormatId: string;
+    /** ID of content. */
+    contentId: string;
+    /** Rendering state of output. */
+    renderingState: OutputRenderingState;
+    /** Whether this Output belongs to a dynamic OutputFormat */
+    dynamicRendering: boolean;
 }
 
 /** Request to create a content download link */
 export class ContentDownloadLinkCreateRequest implements IContentDownloadLinkCreateRequest {
     /** List of content information to generate the download link */
     contents!: ContentDownloadRequestItem[];
+    /** Indicates if a progress message shall be shown to the user, notifying once the download is completed. */
+    notifyProgress!: boolean;
 
     constructor(data?: IContentDownloadLinkCreateRequest) {
         if (data) {
@@ -45488,6 +45768,7 @@ export class ContentDownloadLinkCreateRequest implements IContentDownloadLinkCre
                 for (let item of _data["contents"])
                     this.contents!.push(ContentDownloadRequestItem.fromJS(item));
             }
+            this.notifyProgress = _data["notifyProgress"];
         }
     }
 
@@ -45505,6 +45786,7 @@ export class ContentDownloadLinkCreateRequest implements IContentDownloadLinkCre
             for (let item of this.contents)
                 data["contents"].push(item.toJSON());
         }
+        data["notifyProgress"] = this.notifyProgress;
         return data; 
     }
 }
@@ -45513,6 +45795,8 @@ export class ContentDownloadLinkCreateRequest implements IContentDownloadLinkCre
 export interface IContentDownloadLinkCreateRequest {
     /** List of content information to generate the download link */
     contents: IContentDownloadRequestItem[];
+    /** Indicates if a progress message shall be shown to the user, notifying once the download is completed. */
+    notifyProgress: boolean;
 }
 
 /** Information needed to generate a content download link */
@@ -46256,6 +46540,57 @@ export interface IContentManyReferencesRequest {
     references?: IMetadataReferencesPagingRequest | undefined;
     /** Limits the number of the returned share references by setting paging information. */
     shares?: IPagingRequest | undefined;
+}
+
+/** Resolves outputs available for given content ids. */
+export class OutputResolveManyRequest implements IOutputResolveManyRequest {
+    /** The IDs of the contents whose outputs should to be retrieved. */
+    contentIds!: string[];
+
+    constructor(data?: IOutputResolveManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.contentIds = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["contentIds"])) {
+                this.contentIds = [] as any;
+                for (let item of _data["contentIds"])
+                    this.contentIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): OutputResolveManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputResolveManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.contentIds)) {
+            data["contentIds"] = [];
+            for (let item of this.contentIds)
+                data["contentIds"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Resolves outputs available for given content ids. */
+export interface IOutputResolveManyRequest {
+    /** The IDs of the contents whose outputs should to be retrieved. */
+    contentIds: string[];
 }
 
 /** Base class for the content metadata batch requests. */
@@ -63894,7 +64229,11 @@ For the aggregation values, only the original Filter of the search request is us
 aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
 Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
+    /** Includes the service user in result. */
     includeServiceUser!: boolean;
+    /** Restricts the results to users that are editable for calling user.
+If set to true, IncludeServiceUser is ignored. */
+    editableOnly!: boolean;
 
     constructor(data?: IUserSearchAndAggregationBaseRequest) {
         if (data) {
@@ -63926,6 +64265,7 @@ Moreover, an AggregationFilter ensures that the related value is returned in the
                     this.aggregationFilters!.push(AggregationFilter.fromJS(item));
             }
             this.includeServiceUser = _data["includeServiceUser"];
+            this.editableOnly = _data["editableOnly"];
         }
     }
 
@@ -63955,6 +64295,7 @@ Moreover, an AggregationFilter ensures that the related value is returned in the
                 data["aggregationFilters"].push(item.toJSON());
         }
         data["includeServiceUser"] = this.includeServiceUser;
+        data["editableOnly"] = this.editableOnly;
         return data; 
     }
 }
@@ -63978,7 +64319,11 @@ For the aggregation values, only the original Filter of the search request is us
 aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
 Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
+    /** Includes the service user in result. */
     includeServiceUser: boolean;
+    /** Restricts the results to users that are editable for calling user.
+If set to true, IncludeServiceUser is ignored. */
+    editableOnly: boolean;
 }
 
 /** Represents user search request. */

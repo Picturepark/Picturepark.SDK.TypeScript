@@ -47,12 +47,11 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
     )
       .then(items => {
         items.map(item => {
-          const downloadSubscription = item.subscribe(response => {
+          this.sub = item.subscribe(response => {
             if (response) {
               this.thumbnailUrls.push(this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data)));
             }
           });
-          this.subscription.add(downloadSubscription);
         });
         this.isLoading = false;
       })

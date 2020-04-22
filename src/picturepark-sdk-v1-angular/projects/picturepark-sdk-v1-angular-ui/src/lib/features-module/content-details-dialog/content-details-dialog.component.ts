@@ -90,7 +90,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
   loadContent(id: string) {
     this.contentId = id;
-    const contentGetSubscription = this.contentService
+    this.sub = this.contentService
       .get(this.contentId, [
         ContentResolveBehavior.Content,
         ContentResolveBehavior.Metadata,
@@ -106,7 +106,5 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
           this.content = content;
         }
       });
-
-    this.subscription.add(contentGetSubscription);
   }
 }
