@@ -1,11 +1,14 @@
 import { Component, Inject, Injector } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmOptions } from './confirm-dialog.interface';
-import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
+import { DialogBaseComponent } from '../../../../shared-module/components/dialog-base/dialog-base.component';
 @Component({
   selector: 'pp-confirmation-dialog',
   templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['../dialog-base/dialog-base.component.scss', './confirm-dialog.component.scss'],
+  styleUrls: [
+    '../../../../shared-module/components/dialog-base/dialog-base.component.scss',
+    './confirm-dialog.component.scss',
+  ],
 })
 export class ConfirmDialogComponent extends DialogBaseComponent {
   constructor(

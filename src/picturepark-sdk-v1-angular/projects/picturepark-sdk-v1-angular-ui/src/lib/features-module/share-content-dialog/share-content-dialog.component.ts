@@ -37,7 +37,7 @@ import {
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
+import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
 
 // INTERFACES
 import { ConfirmRecipients } from './interfaces/confirm-recipients.interface';
@@ -48,7 +48,10 @@ import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 @Component({
   selector: 'pp-share-content-dialog',
   templateUrl: './share-content-dialog.component.html',
-  styleUrls: ['../dialog/components/dialog-base/dialog-base.component.scss', './share-content-dialog.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/dialog-base/dialog-base.component.scss',
+    './share-content-dialog.component.scss',
+  ],
   providers: [TranslatePipe],
 })
 export class ShareContentDialogComponent extends DialogBaseComponent implements AfterViewInit, OnInit, OnDestroy {

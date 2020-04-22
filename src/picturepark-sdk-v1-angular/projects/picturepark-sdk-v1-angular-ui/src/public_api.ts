@@ -8,9 +8,6 @@ export { SearchSuggestBoxComponent } from './lib/features-module/search-suggest-
 export { ContentDownloadDialogComponent } from './lib/features-module/content-download-dialog/content-download-dialog.component';
 export { ShareItemsPanelComponent } from './lib/features-module/share-items-panel/share-items-panel.component';
 export { ItemToolBarComponent } from './lib/features-module/item-tool-bar/item-tool-bar.component';
-export { SettingsPanelComponent } from './lib/features-module/panel/components/settings-panel/settings-panel.component';
-export { OwnerPanelComponent } from './lib/features-module/panel/components/owner-panel/owner-panel.component';
-export { MailRecipientsPanelComponent } from './lib/features-module/panel/components/mail-recipients-panel/mail-recipients-panel.component';
 export { ShareContentDialogComponent } from './lib/features-module/share-content-dialog/share-content-dialog.component';
 export { ShareBrowserItemComponent } from './lib/features-module/share-browser/components/share-browser-item/share-browser-item.component';
 export { ShareBrowserComponent } from './lib/features-module/share-browser/share-browser.component';
@@ -26,7 +23,10 @@ export { BasketItemComponent } from './lib/features-module/basket/components/bas
 export { BasketComponent } from './lib/features-module/basket/basket.component';
 export { FeaturesModule } from './lib/features-module/features-module.module';
 
-export { PanelComponent } from './lib/features-module/panel/components/panel/panel.component';
+export { PanelComponent } from './lib/shared-module/components/panel/panel.component';
+export { OwnerPanelComponent } from './lib/shared-module/components/owner-panel/owner-panel.component';
+export { MailRecipientsPanelComponent } from './lib/shared-module/components/mail-recipients-panel/mail-recipients-panel.component';
+export { SettingsPanelComponent } from './lib/shared-module/components/settings-panel/settings-panel.component';
 export { ContentItemThumbnailComponent } from './lib/shared-module/components/content-item-thumbnail/content-item-thumbnail.component';
 export { AggregationComponent } from './lib/shared-module/components/aggregation/aggregation.component';
 export { MaterialsModule } from './lib/materials-module/materials-module.module';
@@ -56,7 +56,6 @@ export { ListBrowserModule } from './lib/features-module/list-browser/list-brows
 export { ListItemsModule } from './lib/features-module/list-items/list-items.module';
 export { ListModule } from './lib/features-module/list-items/list/list.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
-export { PanelModule } from './lib/features-module/panel/panel.module';
 export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
 export { SearchSuggestBoxModule } from './lib/features-module/search-suggest-box/search-suggest-box.module';
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';

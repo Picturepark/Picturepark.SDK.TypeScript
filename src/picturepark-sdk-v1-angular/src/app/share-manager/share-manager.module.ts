@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 // LIBRARIES
 import {
   BrowserToolbarModule,
-  PanelModule,
   SearchBoxModule,
   SharedModule,
   ShareBrowserModule,
@@ -28,7 +27,6 @@ import { ApplicationHeaderModule } from '../components/application-header/applic
     CommonModule,
     BrowserToolbarModule,
     AggregationListModule,
-    PanelModule,
     ShareManagerRoutingModule,
     SharedModule,
     SearchBoxModule,

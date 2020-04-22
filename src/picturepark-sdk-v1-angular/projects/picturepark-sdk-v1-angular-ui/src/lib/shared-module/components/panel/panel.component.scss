@@ -1,3 +1,4 @@
+pp-panel,
 .panel-container {
   border-radius: 8px;
   box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.12);
@@ -23,29 +24,31 @@
       position: absolute;
       right: 30px;
       top: 14px;
+    }
+  }
 
-      & button {
-        float: right;
-        font-size: 12px;
-        width: 100px;
-        border-radius: 0px;
-        line-height: 30px;
-        margin: 0px 0px 0px 15px;
-        border: 2px solid #fff;
+  [pp-panel-buttons] {
+    button {
+      float: right;
+      font-size: 12px;
+      width: 100px;
+      border-radius: 0px;
+      line-height: 30px;
+      margin: 0px 0px 0px 15px;
+      border: 2px solid #fff;
 
-        &:hover {
-          border: 2px solid gray;
-          box-shadow: 0 0 3px #3fb3b1;
-        }
+      &:hover {
+        border: 2px solid gray;
+        box-shadow: 0 0 3px #3fb3b1;
+      }
 
-        &.square {
-          border-width: 2px;
-          border-style: solid;
-        }
+      &.square {
+        border-width: 2px;
+        border-style: solid;
+      }
 
-        & mat-icon {
-          font-size: 18px;
-        }
+      & mat-icon {
+        font-size: 18px;
       }
     }
   }
@@ -53,7 +56,9 @@
   .panel-content {
     padding: 0px 30px;
     overflow: hidden;
+  }
 
+  [pp-panel-content] {
     p {
       font-weight: 400;
       font-size: 13px;

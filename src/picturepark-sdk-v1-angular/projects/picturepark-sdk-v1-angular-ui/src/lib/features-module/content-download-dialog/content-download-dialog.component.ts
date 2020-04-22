@@ -16,7 +16,7 @@ import {
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
+import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
 import {
   OutputSelection,
   IOutputPerOutputFormatSelection,
@@ -36,7 +36,7 @@ import {
   selector: 'pp-content-download-dialog',
   templateUrl: './content-download-dialog.component.html',
   styleUrls: [
-    '../dialog/components/dialog-base/dialog-base.component.scss',
+    '../../shared-module/components/dialog-base/dialog-base.component.scss',
     './content-download-dialog.component.scss',
   ],
 })

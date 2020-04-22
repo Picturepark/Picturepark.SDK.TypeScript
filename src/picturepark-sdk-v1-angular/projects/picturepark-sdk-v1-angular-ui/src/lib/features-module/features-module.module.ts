@@ -14,7 +14,6 @@ import { LayerPanelsModule } from './layer-panels/layer-panels.module';
 import { ListItemsModule } from './list-items/list-items.module';
 import { ListBrowserModule } from './list-browser/list-browser.module';
 import { NotificationModule } from './notification/notification.module';
-import { PanelModule } from './panel/panel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
 import { SchemaBrowserModule } from './schema-browser/schema-browser.module';
 import { ShareBrowserModule } from './share-browser/share-browser.module';
@@ -44,7 +43,6 @@ import { AggregationListModule } from '../shared-module/components/aggregation-l
     SearchBoxModule,
     ShareBrowserModule,
     ShareContentDialogModule,
-    PanelModule,
     ItemToolBarModule,
     ShareItemsPanelModule,
     ContentDownloadDialogModule,
@@ -66,7 +64,6 @@ import { AggregationListModule } from '../shared-module/components/aggregation-l
     SearchBoxModule,
     ShareBrowserModule,
     ShareContentDialogModule,
-    PanelModule,
     ItemToolBarModule,
     ShareItemsPanelModule,
     ContentDownloadDialogModule,

@@ -19,11 +19,14 @@ import { TranslatePipe } from './pipes/translate.pipe';
 import { LazyLoadDirective } from './directives/lazy-load.directive';
 import { AggregationComponent } from './components/aggregation/aggregation.component';
 import { HighlightPipe } from './pipes/highlight.pipe';
-import { PanelComponent } from '../features-module/panel/components/panel/panel.component';
+import { PanelComponent } from './components/panel/panel.component';
 
 // HammerJS
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { ContentItemThumbnailComponent } from './components/content-item-thumbnail/content-item-thumbnail.component';
+import { MailRecipientsPanelComponent } from './components/mail-recipients-panel/mail-recipients-panel.component';
+import { OwnerPanelComponent } from './components/owner-panel/owner-panel.component';
+import { SettingsPanelComponent } from './components/settings-panel/settings-panel.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -46,6 +49,9 @@ export class HammerConfig extends HammerGestureConfig {
     AggregationComponent,
     ContentItemThumbnailComponent,
     PanelComponent,
+    MailRecipientsPanelComponent,
+    OwnerPanelComponent,
+    SettingsPanelComponent,
     // PIPES
     AvatarPipe,
     AvatarHashedPipe,
@@ -64,6 +70,9 @@ export class HammerConfig extends HammerGestureConfig {
     AggregationComponent,
     ContentItemThumbnailComponent,
     PanelComponent,
+    MailRecipientsPanelComponent,
+    OwnerPanelComponent,
+    SettingsPanelComponent,
     // PIPES
     AvatarPipe,
     AvatarHashedPipe,

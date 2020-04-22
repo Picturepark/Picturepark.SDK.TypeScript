@@ -4,8 +4,10 @@
 @import '../shared-module/components/aggregation-list/aggregation-list.component.theme.scss';
 @import '../shared-module/components/browser-base/browser-base.component.theme.scss';
 @import '../shared-module/components/browser-item-base/browser-item-base.component.theme.scss';
-@import '../features-module/dialog/components/dialog-base/dialog-base.component.theme.scss'; // TODO: Move to shared module
-@import '../features-module/panel/components/panel-base/panel-base.component.theme.scss'; // TODO: Move to shared module
+@import '../shared-module/components/dialog-base/dialog-base.component.theme.scss';
+@import '../shared-module/components/panel/panel.component.theme.scss';
+@import '../shared-module/components/mail-recipients-panel/mail-recipients-panel.component.theme.scss';
+@import '../shared-module/components/settings-panel/settings-panel.component.theme.scss';
 @import '../styles/global_styles.theme.scss';
 
 // Feature themes
@@ -18,8 +20,6 @@
 @import '../features-module/channel-picker/channel-picker.component.theme.scss';
 @import '../features-module/item-tool-bar/item-tool-bar.component.theme.scss';
 @import '../features-module/list-browser/list-browser.component.theme.scss';
-@import '../features-module/panel/components/mail-recipients-panel/mail-recipients-panel.component.theme.scss';
-@import '../features-module/panel/components/settings-panel/settings-panel.component.theme.scss';
 @import '../features-module/schema-browser/components/schema-browser-item/schema-browser-item.component.theme.scss';
 @import '../features-module/share-content-dialog/share-content-dialog.component.theme.scss';
 @import '../features-module/share-browser/components/share-browser-item/share-browser-item.component.theme.scss';
@@ -53,7 +53,7 @@
   @include pp-share-items-panel-theme($theme);
   @include pp-share-content-dialog-item-theme($theme);
   @include pp-share-content-recipients-input-theme($theme);
-  @include pp-panel-base-theme($theme);
+  @include pp-panel-theme($theme);
   @include pp-global-theme($theme);
   @include pp-schema-browser-item-theme($theme);
 }

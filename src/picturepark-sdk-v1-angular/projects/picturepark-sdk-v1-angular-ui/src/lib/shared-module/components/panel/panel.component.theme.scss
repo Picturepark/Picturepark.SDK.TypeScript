@@ -1,11 +1,11 @@
 @import '~@angular/material/theming';
 
 // PANEL BASE VARS
-$pp-panel-base: (
+$pp-panel: (
   contrast: (),
 );
 
-@mixin pp-panel-base-theme($theme) {
+@mixin pp-panel-theme($theme) {
   $primary: map-get($theme, primary);
 
   pp-mail-recipients-panel,

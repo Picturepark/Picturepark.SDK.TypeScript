@@ -3,13 +3,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 // COMPONENTS
-import { BaseComponent } from '../../../../shared-module/components/base.component';
+import { BaseComponent } from '../base.component';
 
 // SERVICES
-import { NotificationService } from '../../../../shared-module/services/notification/notification.service';
+import { NotificationService } from '../../services/notification/notification.service';
 
 // INTERFACES
-import { Notification } from '../../../notification/interfaces/notification.interface';
+import { Notification } from '../../../features-module/notification/interfaces/notification.interface';
 
 export class DialogBaseComponent extends BaseComponent implements OnInit, OnDestroy {
   // SUBSCRIBERS

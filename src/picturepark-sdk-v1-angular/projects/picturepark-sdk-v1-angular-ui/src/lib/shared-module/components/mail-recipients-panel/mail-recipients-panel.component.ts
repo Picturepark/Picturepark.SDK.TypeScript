@@ -1,17 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
-
+import { Component, Input } from '@angular/core';
 // LIBRARIES
 import { IMailRecipient } from '@picturepark/sdk-v1-angular';
-
 // COMPONENTS
-import { PanelBaseComponent } from '../panel-base/panel-base.component';
+import { PanelComponent } from '../panel/panel.component';
 
 @Component({
   selector: 'pp-mail-recipients-panel',
   templateUrl: './mail-recipients-panel.component.html',
-  styleUrls: ['../panel-base/panel-base.component.scss', './mail-recipients-panel.component.scss'],
+  styleUrls: ['../panel/panel.component.scss', './mail-recipients-panel.component.scss'],
 })
-export class MailRecipientsPanelComponent extends PanelBaseComponent implements OnInit {
+export class MailRecipientsPanelComponent extends PanelComponent {
   @Input() mailRecipients: IMailRecipient[];
 
   constructor() {
@@ -30,6 +28,4 @@ export class MailRecipientsPanelComponent extends PanelBaseComponent implements 
     const element = event.target as HTMLElement;
     element.innerHTML = 'check';
   }
-
-  ngOnInit() {}
 }
