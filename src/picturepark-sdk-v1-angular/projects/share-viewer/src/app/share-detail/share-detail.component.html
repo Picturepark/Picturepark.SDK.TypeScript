@@ -44,15 +44,13 @@
     </div>
   </pp-panel>
 
-  <pp-mail-recipients-panel
-    [title]="'Recipients'"
+  <pp-share-mail-recipients-panel
     [mailRecipients]="mailRecipients"
     *ngIf="mailRecipients && mailRecipients.length"
-  ></pp-mail-recipients-panel>
+  ></pp-share-mail-recipients-panel>
 
   <pp-share-items-panel
     *ngIf="!shareDetail.expired"
-    [title]="'Items'"
     [items]="shareDetail.contentSelections"
     [shareDetail]="shareDetail"
     (showDetail)="showDetail($event)"

@@ -8,10 +8,10 @@ $pp-panel: (
 @mixin pp-panel-theme($theme) {
   $primary: map-get($theme, primary);
 
-  pp-mail-recipients-panel,
-  pp-owner-panel,
   pp-panel,
-  pp-settings-panel {
+  pp-share-mail-recipients-panel,
+  pp-share-owner-panel,
+  pp-share-settings-panel {
     .panel-container {
       background-color: mat-color($primary, surface-light);
       color: mat-color($primary, on-surface-light);

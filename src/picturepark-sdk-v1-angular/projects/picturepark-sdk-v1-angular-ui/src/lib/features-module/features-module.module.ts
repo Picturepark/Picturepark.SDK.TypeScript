@@ -8,7 +8,6 @@ import { ContentBrowserModule } from './content-browser/content-browser.module';
 import { ContentDetailsDialogModule } from './content-details-dialog/content-details-dialog.module';
 import { ChannelPickerModule } from './channel-picker/channel-picker.module';
 import { DatePickerModule } from './date-picker/date-picker.module';
-import { DialogModule } from './dialog/dialog.module';
 
 import { LayerPanelsModule } from './layer-panels/layer-panels.module';
 import { ListItemsModule } from './list-items/list-items.module';
@@ -22,6 +21,9 @@ import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
 import { ShareItemsPanelModule } from './share-items-panel/share-items-panel.module';
 import { ContentDownloadDialogModule } from './content-download-dialog/content-download-dialog.module';
 import { AggregationListModule } from '../shared-module/components/aggregation-list/aggregation-list.module';
+import { ShareMailRecipientsPanelModule } from '../features-module/share-mail-recipients-panel/share-mail-recipients-panel.module';
+import { ShareOwnerPanelModule } from '../features-module/share-owner-panel/share-owner-panel.module';
+import { ShareSettingsPanelModule } from '../features-module/share-settings-panel/share-settings-panel.module';
 
 @NgModule({
   declarations: [],
@@ -34,7 +36,6 @@ import { AggregationListModule } from '../shared-module/components/aggregation-l
     ChannelPickerModule,
     CommonModule,
     DatePickerModule,
-    DialogModule,
     LayerPanelsModule,
     ListItemsModule,
     ListBrowserModule,
@@ -46,6 +47,9 @@ import { AggregationListModule } from '../shared-module/components/aggregation-l
     ItemToolBarModule,
     ShareItemsPanelModule,
     ContentDownloadDialogModule,
+    ShareMailRecipientsPanelModule,
+    ShareOwnerPanelModule,
+    ShareSettingsPanelModule,
   ],
   exports: [
     BasketModule,
@@ -54,7 +58,6 @@ import { AggregationListModule } from '../shared-module/components/aggregation-l
     ContentDetailsDialogModule,
     ChannelPickerModule,
     DatePickerModule,
-    DialogModule,
     LayerPanelsModule,
     ListItemsModule,
     ListBrowserModule,
@@ -67,6 +70,9 @@ import { AggregationListModule } from '../shared-module/components/aggregation-l
     ItemToolBarModule,
     ShareItemsPanelModule,
     ContentDownloadDialogModule,
+    ShareMailRecipientsPanelModule,
+    ShareOwnerPanelModule,
+    ShareSettingsPanelModule,
   ],
 })
 export class FeaturesModule {}

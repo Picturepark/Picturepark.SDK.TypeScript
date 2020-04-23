@@ -10,11 +10,11 @@ import {
 } from '@picturepark/sdk-v1-angular';
 
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
-import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
 import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
 
 // SERVICES
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
 
 @Component({
   selector: 'pp-content-details-dialog',

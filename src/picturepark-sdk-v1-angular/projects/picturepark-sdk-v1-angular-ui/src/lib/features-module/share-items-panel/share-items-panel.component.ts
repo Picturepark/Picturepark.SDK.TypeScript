@@ -9,7 +9,7 @@ import { ContentDownloadDialogService } from '../content-download-dialog/content
   templateUrl: './share-items-panel.component.html',
   styleUrls: ['./share-items-panel.component.scss'],
 })
-export class ShareItemsPanelComponent extends PanelComponent implements OnInit, OnChanges {
+export class ShareItemsPanelComponent implements OnInit, OnChanges {
   @Input() view: 'grid' | 'list' = 'grid';
   @Input() items: ShareContentDetail[];
   @Input() shareDetail: ShareDetail;
@@ -21,9 +21,7 @@ export class ShareItemsPanelComponent extends PanelComponent implements OnInit, 
 
   public thumbnailSize = ThumbnailSize;
 
-  constructor(private contentDownloadDialogService: ContentDownloadDialogService) {
-    super();
-  }
+  constructor(private contentDownloadDialogService: ContentDownloadDialogService) {}
 
   // OPEN IN NEW WINDOW
   openInNewWindow(item: ShareContentDetail): void {
