@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 // LIBRARIES
 import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk-v1-angular';
-import { PanelComponent } from '../../shared-module/components/panel/panel.component';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
 @Component({
