@@ -42,6 +42,12 @@ $pp-share-content-dialog: (
     }
   }
 
+  .selected-items-content {
+    .selected-item-wrapper {
+      background-color: mat-color($primary, surface-light)
+    }
+  }
+
   .mat-tab-header {
     background-color: mat-color($primary, surface-mid);
   }
