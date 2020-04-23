@@ -1,9 +1,9 @@
-<ng-container *ngIf="virtualItemHtml; else virtualContent">
+<ng-container *ngIf="virtualItemHtml; else thumbnailDisplay">
   <div [ngClass]="{ shadow: shadow }" class="content-item-thumbnail__image-virtual-item-container">
     <div class="content-item-thumbnail__image-virtual-item-display" [innerHTML]="virtualItemHtml"></div>
   </div>
 </ng-container>
-<ng-template #virtualContent>
+<ng-template #thumbnailDisplay>
   <div
     class="content-item-thumbnail__image-container"
     [class.content-item-thumbnail--list-view]="isListView"

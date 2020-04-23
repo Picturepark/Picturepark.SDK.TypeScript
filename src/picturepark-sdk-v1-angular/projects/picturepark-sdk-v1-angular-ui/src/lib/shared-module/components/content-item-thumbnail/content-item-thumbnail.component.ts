@@ -14,7 +14,7 @@ import { switchMap, map, tap } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
 import { ThumbnailSize, Content, ShareDetail, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { ContentService } from '@picturepark/sdk-v1-angular';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pp-content-item-thumbnail',
@@ -39,7 +39,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
    */
   @Input() shadow: boolean;
 
-  public isLoading = true;
+  public isLoading = false;
   public thumbnailUrl$: Observable<SafeUrl> | null;
 
   public virtualItemHtml: SafeHtml | null;
@@ -58,14 +58,15 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
         if (this.item.isVirtual()) {
           this.handleVirtualItem();
         } else {
-        }
-        const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
-        if (content) {
-          const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
-          this.thumbnailUrl$ = this.loadItem.pipe(
-            map(() => this.trust(output?.viewUrl || content.iconUrl)),
-            tap(() => (this.isLoading = false))
-          );
+          const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
+          if (content) {
+            const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
+            this.isLoading = true;
+            this.thumbnailUrl$ = this.loadItem.pipe(
+              map(() => this.trust(output?.viewUrl || content.iconUrl)),
+              tap(() => (this.isLoading = false))
+            );
+          }
         }
       }
     } else {
@@ -75,6 +76,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
         } else {
           this.thumbnailUrl$ = this.loadItem.pipe(
             switchMap(() => {
+              this.isLoading = true;
               return this.contentService.downloadThumbnail(
                 this.item.id,
                 this.thumbnailSize || ThumbnailSize.Small,

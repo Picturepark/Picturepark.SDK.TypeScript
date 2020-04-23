@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Content, ContentService, fetchContents } from '@picturepark/sdk-v1-angular';
-import * as _ from 'lodash';
 import { BasketChange, BasketOperation } from './interfaces/basket-change';
 
 @Injectable({
@@ -42,7 +41,7 @@ export class BasketService {
         change.itemsIds.forEach(itemId => this.basketItemsIds.delete(itemId));
 
         // Handle basketItems
-        _.remove(this.basketItems, item => change.itemsIds.includes(item.id));
+        this.basketItems = this.basketItems.filter(item => !change.itemsIds.includes(item.id));
         this.basketItemsSubject.next(this.basketItems);
       } else if (change.operation === BasketOperation.cleared) {
         // Handle basketItemsIds

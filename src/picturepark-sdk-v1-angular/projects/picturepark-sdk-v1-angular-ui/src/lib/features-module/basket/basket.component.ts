@@ -57,7 +57,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
     dialogRef.componentInstance.title = 'Basket.Share';
   }
 
-  basketItemTracker(index: number, item: Content): string {
+  trackByBasket(index: number, item: Content): string {
     return item.id;
   }
 
