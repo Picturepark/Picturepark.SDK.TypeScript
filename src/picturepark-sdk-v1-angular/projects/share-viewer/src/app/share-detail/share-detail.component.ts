@@ -49,14 +49,14 @@ export class ShareDetailComponent implements OnInit {
     this.isLoading = true;
     const shareInfo = forkJoin([
       this.shareService.getShareByToken(searchString, null, this.config.cdnUrl),
-      // this.infoFacade.getInfo(this.config.cdnUrl),
+      this.infoFacade.getInfo(this.config.cdnUrl),
     ]);
 
     shareInfo.subscribe({
-      next: ([shareJson]) => {
-        // if (info.logosUrl) {
-        //   this.logoUrl = info.logosUrl + 'name';
-        // }
+      next: ([shareJson, info]) => {
+        if (info.logosUrl) {
+          this.logoUrl = info.logosUrl + 'name';
+        }
         if (shareJson) {
           this.shareDetail = shareJson;
           this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;

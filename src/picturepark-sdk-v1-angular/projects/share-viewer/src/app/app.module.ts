@@ -56,12 +56,21 @@ translations['ShareViewer'] = {
   },
 };
 
+function getCdnUrl(): string | null {
+  if (!environment.production) {
+    return '';
+  }
+
+  const appRootTag = document.getElementsByTagName('app-root')[0];
+  return appRootTag.getAttribute('picturepark-cdn-url');
+}
+
 export function PictureparkConfigurationFactory() {
   if (!environment.production) {
     return <PictureparkCdnConfiguration>{
-      apiServer: 'https://api.01.qa-picturepark.com',
-      customerAlias: 'santest',
-      cdnUrl: 'http://santest-cdn.01.qa-picturepark.com',
+      apiServer: 'https://dev.picturepark.com',
+      customerAlias: 'testalias',
+      cdnUrl: getCdnUrl(),
     };
   }
 
@@ -69,7 +78,7 @@ export function PictureparkConfigurationFactory() {
   return <PictureparkCdnConfiguration>{
     apiServer: appRootTag.getAttribute('picturepark-api-server'),
     customerAlias: appRootTag.getAttribute('picturepark-customer-alias'),
-    cdnUrl: appRootTag.getAttribute('picturepark-cdn-url'),
+    cdnUrl: getCdnUrl(),
   };
 }
 
@@ -110,7 +119,7 @@ export function getLanguageFactory(): string {
     // Picturepark
     SearchBoxModule,
     SharedModule.forRoot(),
-    LocaleModule.forRoot(getLanguageFactory(), 'http://santest-cdn.01.qa-picturepark.com'),
+    LocaleModule.forRoot(getLanguageFactory(), getCdnUrl()),
   ],
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },

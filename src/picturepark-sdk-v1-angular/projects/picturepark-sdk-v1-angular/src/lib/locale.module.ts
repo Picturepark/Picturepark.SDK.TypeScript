@@ -24,7 +24,7 @@ export function loadLanguagesFactory(
 
 @NgModule({})
 export class LocaleModule {
-  static forRoot(language?: string, cdnUrl?: string): ModuleWithProviders {
+  static forRoot(language?: string, cdnUrl?: string | null): ModuleWithProviders {
     return {
       ngModule: LocaleModule,
       providers: [
