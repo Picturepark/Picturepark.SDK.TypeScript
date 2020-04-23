@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, OnDestroy, Injector, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { Subscription } from 'rxjs';
 
 // LIBRARIES
@@ -13,7 +14,6 @@ import {
   OutputSearchRequest,
   ContentResolveBehavior,
   IShareOutputBase,
-  BusinessProcess,
   BusinessProcessService,
   OutputResolveManyRequest,
 } from '@picturepark/sdk-v1-angular';
@@ -25,6 +25,7 @@ import {
   IOutputPerOutputFormatSelection,
   IOutputPerSchemaSelection,
 } from './components/output-selection';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
@@ -34,7 +35,6 @@ import {
   IContentDownload,
   IContentDownloadOutput,
 } from './content-download-dialog.interfaces';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -80,7 +80,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     private renderer: Renderer2,
     private translationService: TranslationService,
     private businessProcessService: BusinessProcessService,
-    private http: HttpClient
+    private matBottomSheet: MatBottomSheet
   ) {
     super(data, dialogRef, injector);
 
@@ -250,7 +250,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   private fetchOutputs(): void {
-    debugger;
+    // this.openSnackbar();
     if (this.data.contents.length <= 1000) {
       const request = new OutputResolveManyRequest({ contentIds: this.data.contents.map(i => i.id) });
       this.contentService.getOutputsMany(request).subscribe(async outputs => {
@@ -273,6 +273,15 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       await this.getSelection(outputs.results, this.data.contents);
       this.update();
       this.loader = false;
+    });
+  }
+
+  openSnackbar() {
+    const sheetRef = this.matBottomSheet.open(SnackbarComponent, {
+      data: { test: 'am a test' },
+    });
+    sheetRef.afterDismissed().subscribe(data => {
+      debugger;
     });
   }
 }
