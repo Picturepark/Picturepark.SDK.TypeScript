@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Output, Injector } from '@angular/core';
-
+import { Component, EventEmitter, Injector, Output } from '@angular/core';
 // LIBRARIES
 import { Schema, SchemaSearchFacade } from '@picturepark/sdk-v1-angular';
-
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 
@@ -19,7 +17,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
   @Output() public activeSchemaChange = new EventEmitter<Schema>();
   @Output() public parentSchemaChange = new EventEmitter<Schema>();
 
-  public selectedSchemaIndex: number;
+  public selectedSchemaId: string;
 
   constructor(public facade: SchemaSearchFacade, injector: Injector) {
     super('SchemaBrowserComponent', injector, facade);
@@ -78,7 +76,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
     }
   }
 
-  public selectedSchemaChange(index: number): void {
-    this.selectedSchemaIndex = index;
+  public onItemSelected(schemaId: string): void {
+    this.selectedSchemaId = schemaId;
   }
 }
