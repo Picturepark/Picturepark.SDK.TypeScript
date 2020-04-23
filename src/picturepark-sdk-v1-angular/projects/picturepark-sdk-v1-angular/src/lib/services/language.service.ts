@@ -14,8 +14,8 @@ export class LanguageService {
 
   constructor(private infoFacade: InfoFacade, private localStorageService: LocalStorageService) {}
 
-  public loadLanguages(locale?: string): Observable<boolean> {
-    return this.infoFacade.getInfo().pipe(
+  public loadLanguages(locale?: string, cdnUrl?: string): Observable<boolean> {
+    return this.infoFacade.getInfo(cdnUrl).pipe(
       map(info => {
         this.languages = this.filterLanguages(info.languages, info.languageConfiguration.systemLanguages);
         this.defaultLanguage = info.languageConfiguration.defaultLanguage ?? info.languages[0].ietf;

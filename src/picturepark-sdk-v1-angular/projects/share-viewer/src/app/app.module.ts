@@ -59,9 +59,9 @@ translations['ShareViewer'] = {
 export function PictureparkConfigurationFactory() {
   if (!environment.production) {
     return <PictureparkCdnConfiguration>{
-      apiServer: 'https://dev.picturepark.com',
-      customerAlias: 'testAlias',
-      cdnUrl: '',
+      apiServer: 'https://api.01.qa-picturepark.com',
+      customerAlias: 'santest',
+      cdnUrl: 'http://santest-cdn.01.qa-picturepark.com',
     };
   }
 
@@ -110,7 +110,7 @@ export function getLanguageFactory(): string {
     // Picturepark
     SearchBoxModule,
     SharedModule.forRoot(),
-    LocaleModule.forRoot(getLanguageFactory()),
+    LocaleModule.forRoot(getLanguageFactory(), 'http://santest-cdn.01.qa-picturepark.com'),
   ],
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },
