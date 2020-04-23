@@ -16,12 +16,12 @@ import {
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
+import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
 import {
   OutputSelection,
   IOutputPerOutputFormatSelection,
   IOutputPerSchemaSelection,
 } from './components/output-selection';
-import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
 
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
