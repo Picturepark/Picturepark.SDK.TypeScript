@@ -96,7 +96,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
       ];
       this.activeSortingType = this.sortingTypes[0];
     }
-    this.setSortingType(this.activeSortingType, false);
+    this.setSort(this.activeSortingType, this.isAscending ?? true, false);
 
     this.pictureParkUIConfig = injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
   }
@@ -233,11 +233,11 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.previewItemChange.emit(item);
   }
 
-  setSortingType(newValue: ISortItem, reload: boolean = true): void {
+  setSort(newValue: ISortItem, isAscending: boolean, reload: boolean = true): void {
     if (newValue.field === 'relevance') {
       this.isAscending = null;
-    } else if (this.isAscending === null) {
-      this.isAscending = true;
+    } else {
+      this.isAscending = isAscending;
     }
 
     this.activeSortingType = newValue;

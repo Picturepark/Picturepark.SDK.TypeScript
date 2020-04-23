@@ -49,7 +49,7 @@
           <button
             mat-menu-item
             [disabled]="browser.activeSortingType.field === 'relevance'"
-            (click)="browser.isAscending = true; browser.update()"
+            (click)="setSortDirection(true)"
             [class.active]="browser.isAscending === true"
           >
             <span>{{ 'SortMenu.Ascending' | pptranslate }}</span>
@@ -57,7 +57,7 @@
           <button
             mat-menu-item
             [disabled]="browser.activeSortingType.field === 'relevance'"
-            (click)="browser.isAscending = false; browser.update()"
+            (click)="setSortDirection(false)"
             [class.active]="browser.isAscending === false"
           >
             <span>{{ 'SortMenu.Descending' | pptranslate }}</span>
@@ -65,7 +65,7 @@
           <mat-divider></mat-divider>
           <button
             mat-menu-item
-            (click)="browser.setSortingType(sort)"
+            (click)="setSortField(sort)"
             *ngFor="let sort of browser.sortingTypes"
             [class.active]="browser.activeSortingType.field === sort.field"
           >
