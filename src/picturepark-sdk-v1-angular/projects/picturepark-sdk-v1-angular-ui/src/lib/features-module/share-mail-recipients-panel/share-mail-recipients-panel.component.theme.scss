@@ -1,0 +1,42 @@
+@import '~@angular/material/theming';
+
+// LIST BROWSER MODULE
+
+@mixin pp-share-mail-recipients-panel-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  pp-share-mail-recipients-panel {
+    .panel-container {
+      .panel-content {
+        .recipient {
+          border-bottom-color: mat-color($primary, divider);
+
+          .recipient-url {
+            .tooltip {
+              span {
+                background-color: mat-color($primary, surface-dark);
+                color: mat-color($primary, on-surface-dark);
+              }
+            }
+
+            a {
+              color: mat-color($primary, on-surface-mid);
+            }
+          }
+        }
+
+        ul {
+          li {
+            span {
+              color: mat-color($primary, on-surface-light);
+            }
+
+            a {
+              color: mat-color($primary, on-surface-light);
+            }
+          }
+        }
+      }
+    }
+  }
+}
