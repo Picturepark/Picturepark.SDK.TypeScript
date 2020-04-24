@@ -8,7 +8,6 @@ import {
   AuthService,
   AccessTokenAuthService,
   PICTUREPARK_CONFIGURATION,
-  PictureparkAccessTokenAuthConfiguration,
   LocalStorageService,
   StorageKey,
   LocaleModule,
@@ -19,6 +18,7 @@ import { ShareDetailModule } from './share-detail/share-detail.module';
 import { environment } from '../environments/environment';
 import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/utilities/translations';
 import { PICTUREPARK_UI_SCRIPTPATH } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/configuration';
+import { PictureparkCdnConfiguration } from '../models/cdn-config';
 
 const translations = TRANSLATIONS;
 translations['ShareViewer'] = {
@@ -56,20 +56,29 @@ translations['ShareViewer'] = {
   },
 };
 
+function getCdnUrl(): string | null {
+  if (!environment.production) {
+    return '';
+  }
+
+  const appRootTag = document.getElementsByTagName('app-root')[0];
+  return appRootTag.getAttribute('picturepark-cdn-url');
+}
+
 export function PictureparkConfigurationFactory() {
   if (!environment.production) {
-    return <PictureparkAccessTokenAuthConfiguration>{
+    return <PictureparkCdnConfiguration>{
       apiServer: 'https://dev.picturepark.com',
-      customerAlias: 'testAlias',
-      accessToken: '',
+      customerAlias: 'testalias',
+      cdnUrl: getCdnUrl(),
     };
   }
 
   const appRootTag = document.getElementsByTagName('app-root')[0];
-  return <PictureparkAccessTokenAuthConfiguration>{
+  return <PictureparkCdnConfiguration>{
     apiServer: appRootTag.getAttribute('picturepark-api-server'),
     customerAlias: appRootTag.getAttribute('picturepark-customer-alias'),
-    accessToken: '',
+    cdnUrl: getCdnUrl(),
   };
 }
 
@@ -110,7 +119,7 @@ export function getLanguageFactory(): string {
     // Picturepark
     SearchBoxModule,
     SharedModule.forRoot(),
-    LocaleModule.forRoot(getLanguageFactory()),
+    LocaleModule.forRoot(getLanguageFactory(), getCdnUrl()),
   ],
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },

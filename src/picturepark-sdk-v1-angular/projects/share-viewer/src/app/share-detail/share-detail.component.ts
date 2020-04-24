@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { forkJoin } from 'rxjs';
 import {
   ShareDetail,
   IMailRecipient,
@@ -9,8 +8,11 @@ import {
   ShareDataBasic,
   ShareContentDetail,
   ShareService,
+  PICTUREPARK_CONFIGURATION,
 } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
+import { PictureparkCdnConfiguration } from '../../models/cdn-config';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-share-detail',
@@ -28,7 +30,8 @@ export class ShareDetailComponent implements OnInit {
     private shareService: ShareService,
     private infoFacade: InfoFacade,
     private dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkCdnConfiguration
   ) {}
 
   ngOnInit(): void {
@@ -44,8 +47,10 @@ export class ShareDetailComponent implements OnInit {
     }
 
     this.isLoading = true;
-
-    const shareInfo = forkJoin([this.shareService.getShareJson(searchString, null), this.infoFacade.getInfo()]);
+    const shareInfo = forkJoin([
+      this.shareService.getShareByToken(searchString, null, this.config.cdnUrl),
+      this.infoFacade.getInfo(this.config.cdnUrl),
+    ]);
 
     shareInfo.subscribe({
       next: ([shareJson, info]) => {

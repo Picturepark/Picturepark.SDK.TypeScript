@@ -15,8 +15,13 @@ export class CustomerInfoService {
     @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkConfiguration
   ) {}
 
-  public getInfo(): Observable<CustomerInfo> {
-    let url_ = this.config.apiServer + '/v1/Info/customer';
+  public getInfo(cdnUrl?: string): Observable<CustomerInfo> {
+    let url_: string;
+    if (cdnUrl) {
+      url_ = cdnUrl + '/service/Info/customer';
+    } else {
+      url_ = this.config.apiServer + '/v1/Info/customer';
+    }
     url_ = url_.replace(/[?&]$/, '');
 
     const options_: any = {

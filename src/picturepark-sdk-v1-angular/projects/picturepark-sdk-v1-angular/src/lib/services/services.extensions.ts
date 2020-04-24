@@ -1,5 +1,5 @@
 import { Inject, Optional } from '@angular/core'; // ignore
-import { HttpClient } from '@angular/common/http'; // ignore
+import { HttpClient, HttpHeaders, HttpResponseBase } from '@angular/common/http'; // ignore
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs'; // ignore
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators'; // ignore
 // prettier-ignore
@@ -13,6 +13,7 @@ import { // ignore
   ContentPermissionsUpdateRequest, // ignore
   ListItemResolveBehavior, // ignore
   ListItemDetail, // ignore
+  CustomerInfo, // ignore
   ListItemSearchRequest, // ignore
   ListItemSearchResult, // ignore
   ShareDetail, // ignore
@@ -24,9 +25,8 @@ import { Injector } from '@angular/core';
 import { mergeMap } from 'rxjs/operators';
 import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
-import { PictureparkServiceBase } from './base.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
-
+import { PictureparkServiceBase } from './base.service';
 import * as generated from './api-services';
 
 export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
@@ -274,13 +274,74 @@ class ShareService extends generated.ShareService {
     );
   }
 
-  public getShareJson(token: string, lang: string | null | undefined): Observable<any> {
-    return this.getShareJsonCore(token, lang).pipe(
-      mergeMap(async shareJson => {
-        await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
-        return shareJson;
-      })
-    );
+  public getShareByToken(token: string, lang: string | null | undefined, cdnUrl?: string): Observable<ShareDetail> {
+    if (cdnUrl) {
+      return this.getShareByTokenFromUrl(token, lang, cdnUrl + '/json/{token}?').pipe(
+        mergeMap(async shareJson => {
+          await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
+          return shareJson;
+        })
+      );
+    } else {
+      return this.getShareJsonCore(token, lang).pipe(
+        mergeMap(async shareJson => {
+          await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
+          return shareJson;
+        })
+      );
+    }
+  }
+
+  /**
+   * Get share json
+   * @param token Share token
+   * @param lang (optional) Language code
+   * @return ShareDetail
+   */
+  protected getShareByTokenFromUrl(token: string, lang: string | null | undefined, url: string): Observable<any> {
+    let url_ = url;
+    if (token === undefined || token === null) {
+      throw new Error("The parameter 'token' must be defined.");
+    }
+    url_ = url_.replace('{token}', encodeURIComponent('' + token));
+    if (lang !== undefined) {
+      url_ += 'lang=' + encodeURIComponent('' + lang) + '&';
+    }
+    url_ = url_.replace(/[?&]$/, '');
+
+    const options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+      }),
+    };
+
+    return _observableFrom(this.transformOptions(options_))
+      .pipe(
+        _observableMergeMap(transformedOptions_ => {
+          // @ts-ignore: the purpose of this reference is to be copied to the api-services via NSwag // ignore
+          return this.http.request('get', url_, transformedOptions_);
+        })
+      )
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGetShareJson(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGetShareJson(<any>response_);
+            } catch (e) {
+              return <Observable<any>>(<any>_observableThrow(e));
+            }
+          } else {
+            return <Observable<any>>(<any>_observableThrow(response_));
+          }
+        })
+      );
   }
 
   public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
