@@ -71,3 +71,9 @@ input#recipient {
     top: 46px;
   }
 }
+
+.is-loading {
+  mat-spinner {
+    margin: auto;
+  }
+}
