@@ -33,10 +33,10 @@ export class LayerPanelsComponent implements OnInit {
     this.schemaService
       .getManyReferenced([this.content.contentSchemaId])
       .pipe(take(1))
-      .subscribe(schemaDetails => {
+      .subscribe((schemaDetails) => {
         this.allSchemas = [...this.schemas, ...schemaDetails];
 
-        const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
+        const contentSchema = this.schemas.find((i) => i.id === this.content.contentSchemaId);
         if (!contentSchema) {
           return;
         }
@@ -52,8 +52,8 @@ export class LayerPanelsComponent implements OnInit {
           schemas.push(this.content.contentSchemaId);
         }
 
-        schemas.forEach(layerSchemaId => {
-          const schema: SchemaDetail | undefined = this.schemas.find(i => i.id === layerSchemaId);
+        schemas.forEach((layerSchemaId) => {
+          const schema: SchemaDetail | undefined = this.schemas.find((i) => i.id === layerSchemaId);
           if (!schema) {
             return;
           }
@@ -72,7 +72,7 @@ export class LayerPanelsComponent implements OnInit {
             fields: [],
           };
 
-          schema.fields.forEach(schemaField => {
+          schema.fields.forEach((schemaField) => {
             if (schemaMetadata[schemaField.id]) {
               const layerField = this.layerFieldService.generate(schemaField, schemaMetadata, this.allSchemas);
 

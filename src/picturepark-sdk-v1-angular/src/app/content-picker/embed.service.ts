@@ -17,7 +17,7 @@ export class EmbedService {
   async embed(selectedItems: Content[], postUrl: string) {
     if (selectedItems.length > 0) {
       const contentItems = selectedItems.map(
-        i =>
+        (i) =>
           new ShareContent({
             contentId: i.id,
             outputFormatIds: ['Original'],

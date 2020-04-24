@@ -25,7 +25,7 @@ export class ShareOwnerPanelComponent implements OnInit {
     this.userService
       .get(this.userId)
       .pipe(take(1))
-      .subscribe(data => {
+      .subscribe((data) => {
         this.user = data;
       });
   }

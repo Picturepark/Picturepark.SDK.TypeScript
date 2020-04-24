@@ -25,23 +25,23 @@ export class BasketService {
     this.basketItemsSubject = new BehaviorSubject([]);
     this.basketChanges = new BehaviorSubject({ operation: BasketOperation.added, itemsIds: itemsIdsArray });
 
-    this.basketChanges.subscribe(change => {
+    this.basketChanges.subscribe((change) => {
       if (change.operation === BasketOperation.added) {
         // Handle basketItemsIds
-        change.itemsIds.forEach(itemId => this.basketItemsIds.add(itemId));
+        change.itemsIds.forEach((itemId) => this.basketItemsIds.add(itemId));
 
         // Handle basketItems
-        const sub = fetchContents(this.contentService, change.itemsIds).subscribe(response => {
+        const sub = fetchContents(this.contentService, change.itemsIds).subscribe((response) => {
           this.basketItems = this.basketItems.concat(response.results);
           this.basketItemsSubject.next(this.basketItems);
           sub.unsubscribe();
         });
       } else if (change.operation === BasketOperation.removed) {
         // Handle basketItemsIds
-        change.itemsIds.forEach(itemId => this.basketItemsIds.delete(itemId));
+        change.itemsIds.forEach((itemId) => this.basketItemsIds.delete(itemId));
 
         // Handle basketItems
-        this.basketItems = this.basketItems.filter(item => !change.itemsIds.includes(item.id));
+        this.basketItems = this.basketItems.filter((item) => !change.itemsIds.includes(item.id));
         this.basketItemsSubject.next(this.basketItems);
       } else if (change.operation === BasketOperation.cleared) {
         // Handle basketItemsIds

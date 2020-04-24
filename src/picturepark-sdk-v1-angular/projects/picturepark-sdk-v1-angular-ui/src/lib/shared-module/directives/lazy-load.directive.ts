@@ -20,7 +20,7 @@ export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
     if ('IntersectionObserver' in window) {
       if (!this.intersectionObserver) {
         // Set up intersection observer
-        this.intersectionObserver = new IntersectionObserver(entries => this.onIntersection(entries), {});
+        this.intersectionObserver = new IntersectionObserver((entries) => this.onIntersection(entries), {});
       }
       if (this.intersectionObserver && this.element) {
         // Start observing an element
@@ -37,7 +37,7 @@ export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
 
   private onIntersection(entries: IntersectionObserverEntry[]) {
     // Loop through the entries
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       // https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry/isIntersecting
       if (entry.isIntersecting && entry.target === this.element) {
         this.load();

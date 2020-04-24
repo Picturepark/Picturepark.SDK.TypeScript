@@ -108,7 +108,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.sub = this.scrollDispatcher
       .scrolled()
       .pipe(debounceTime(this.scrollDebounceTime))
-      .subscribe(scrollable => {
+      .subscribe((scrollable) => {
         if (!scrollable) {
           return;
         }
@@ -122,7 +122,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
       });
 
     // Item selection
-    this.sub = this.selectionService.selectedItems.subscribe(items => {
+    this.sub = this.selectionService.selectedItems.subscribe((items) => {
       this.selectedItems = items;
     });
 
@@ -133,7 +133,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.sub = this.facade.searchRequest$.subscribe(() => this.update());
 
     // Subscribe to loading
-    this.sub = this.facade.getLoadingInfos('all').subscribe(i => (this.isLoading = i));
+    this.sub = this.facade.getLoadingInfos('all').subscribe((i) => (this.isLoading = i));
   }
 
   get selectedItems(): TEntity[] {
@@ -165,9 +165,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
       return;
     }
 
-    this.sub = request.subscribe(async searchResult => {
+    this.sub = request.subscribe(async (searchResult) => {
       if (searchResult.results) {
-        const items = searchResult.results.map(i => i);
+        const items = searchResult.results.map((i) => i);
         this.items.push(...items);
         this.prepareData(items);
       }
@@ -196,7 +196,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
       const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
       const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
 
-      const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i);
+      const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map((i) => i);
 
       this.selectionService.clear();
       this.selectionService.addItems(itemsToAdd);
@@ -223,7 +223,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
   public toggleItems(isSelected: boolean): void {
     if (isSelected === true) {
-      this.selectionService.addItems(this.items.map(model => model));
+      this.selectionService.addItems(this.items.map((model) => model));
     } else {
       this.selectionService.clear();
     }

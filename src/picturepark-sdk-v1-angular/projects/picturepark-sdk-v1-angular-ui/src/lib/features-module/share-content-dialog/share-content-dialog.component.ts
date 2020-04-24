@@ -151,7 +151,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       const share = await this.shareService.get(response.referenceId!).toPromise();
 
-      (share.data as ShareDataBasic).mailRecipients.forEach(recipient =>
+      (share.data as ShareDataBasic).mailRecipients.forEach((recipient) =>
         this.recipients.push({
           email: recipient.userEmail.emailAddress,
           url: recipient.url!,
@@ -195,7 +195,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       // CONTENT ITEMS
       const contentItems = this.selectedContent.map(
-        item =>
+        (item) =>
           new ShareContent({
             contentId: item.id,
             outputFormatIds: ['Original'],
@@ -203,7 +203,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       );
 
       // RECIPIENTS EMAILS
-      const recipientsEmails = this.sharedContentForm.get('recipients')!.value.map(recipientEmail => {
+      const recipientsEmails = this.sharedContentForm.get('recipients')!.value.map((recipientEmail) => {
         return { emailAddress: recipientEmail };
       });
 
@@ -230,11 +230,11 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
           debugMode: false,
           filter: new TermsFilter({
             field: 'id',
-            terms: selectedContent.map(i => i.id),
+            terms: selectedContent.map((i) => i.id),
           }),
         })
       )
-      .subscribe(data => {
+      .subscribe((data) => {
         // GENERATE SHARE NAME
         const shareName =
           data.totalResults - 1 > 0

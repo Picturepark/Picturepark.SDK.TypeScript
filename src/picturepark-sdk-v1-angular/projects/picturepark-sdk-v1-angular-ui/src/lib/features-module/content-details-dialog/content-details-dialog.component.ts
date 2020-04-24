@@ -52,9 +52,11 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   }
 
   loadSchemas(): void {
-    this.schemaService.getMany(this.content.layerSchemaIds!.concat(this.content.contentSchemaId)).subscribe(schemas => {
-      this.schemas = schemas;
-    });
+    this.schemaService
+      .getMany(this.content.layerSchemaIds!.concat(this.content.contentSchemaId))
+      .subscribe((schemas) => {
+        this.schemas = schemas;
+      });
   }
 
   tabChange(event: MatTabChangeEvent): void {
@@ -104,7 +106,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
         ContentResolveBehavior.OuterDisplayValueDetail,
         ContentResolveBehavior.Outputs,
       ])
-      .subscribe(async content => {
+      .subscribe(async (content) => {
         if (content) {
           this.content = content;
         }

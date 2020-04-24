@@ -23,20 +23,20 @@ export class ExportService {
 
   public getReferencedData(referencedData: Observable<ReferencedData>): Observable<ReferencedData> {
     return referencedData.pipe(
-      flatMap(referenced => {
+      flatMap((referenced) => {
         return zip(of(referenced), this.schemaService.getMany(referenced.schemaIds));
       }),
-      map(data => {
+      map((data) => {
         const newReferencedData: ReferencedData = data[0];
         const schemas: SchemaDetail[] = data[1];
 
         newReferencedData.schemaDetails.push(...schemas);
         const schemaIds = new Set<string>();
 
-        schemas.forEach(s => {
-          s.fields!.filter(f => FieldHelper.isReferencedField(f))
+        schemas.forEach((s) => {
+          s.fields!.filter((f) => FieldHelper.isReferencedField(f))
             .filter((f: FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox) => {
-              return !newReferencedData.schemaDetails.some(x => x.id === f.schemaId);
+              return !newReferencedData.schemaDetails.some((x) => x.id === f.schemaId);
             })
             .forEach((f: FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox) => schemaIds.add(f.schemaId));
         });

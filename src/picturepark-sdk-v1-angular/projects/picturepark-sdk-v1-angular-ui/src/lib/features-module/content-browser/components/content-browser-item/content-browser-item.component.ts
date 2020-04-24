@@ -41,12 +41,12 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
 
   ngOnInit(): void {
     this.isInBasket$ = this.basketService.basketChange.pipe(
-      map(items => items.some(selectedItem => selectedItem === this.itemModel.id))
+      map((items) => items.some((selectedItem) => selectedItem === this.itemModel.id))
     );
 
     this.isSelected$ = this.browser.selectedItemsChange.pipe(
       debounceTime(10),
-      map(items => items.some(selectedItem => selectedItem.id === this.itemModel.id)),
+      map((items) => items.some((selectedItem) => selectedItem.id === this.itemModel.id)),
       share()
     );
   }
