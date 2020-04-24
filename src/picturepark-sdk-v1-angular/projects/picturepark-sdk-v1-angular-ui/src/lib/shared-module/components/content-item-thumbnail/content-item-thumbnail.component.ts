@@ -10,7 +10,7 @@ import {
 
 import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BROKEN_IMAGE_URL } from '../../../utilities/constants';
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap, map, tap, finalize } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
 import { ThumbnailSize, Content, ShareDetail, ShareContentDetail } from '@picturepark/sdk-v1-angular';
 import { ContentService } from '@picturepark/sdk-v1-angular';
@@ -64,7 +64,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
             this.isLoading = true;
             this.thumbnailUrl$ = this.loadItem.pipe(
               map(() => this.trust(output?.viewUrl || content.iconUrl)),
-              tap(() => (this.isLoading = false))
+              finalize(() => (this.isLoading = false))
             );
           }
         }
@@ -75,8 +75,8 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
           this.handleVirtualItem();
         } else {
           this.thumbnailUrl$ = this.loadItem.pipe(
+            tap(() => (this.isLoading = true)),
             switchMap(() => {
-              this.isLoading = true;
               return this.contentService.downloadThumbnail(
                 this.item.id,
                 this.thumbnailSize || ThumbnailSize.Small,
@@ -85,9 +85,9 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
               );
             }),
             map(response => {
-              this.isLoading = false;
               return this.trust(URL.createObjectURL(response.data));
-            })
+            }),
+            finalize(() => (this.isLoading = false))
           );
         }
       }
