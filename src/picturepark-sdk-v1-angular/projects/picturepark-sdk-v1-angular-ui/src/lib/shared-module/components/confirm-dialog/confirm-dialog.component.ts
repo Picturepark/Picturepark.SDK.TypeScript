@@ -1,6 +1,6 @@
 import { Component, Inject, Injector } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ConfirmOptions } from '../../interfaces/confirm/confirm-dialog.interface';
+import { ConfirmOptions } from './confirm-dialog.interface';
 import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
 @Component({
   selector: 'pp-confirmation-dialog',
