@@ -48,7 +48,7 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
       .pipe(
         debounceTime(300),
         tap(() => (this.isLoading = true)),
-        switchMap(value =>
+        switchMap((value) =>
           this.shareService
             .aggregate(
               new ShareAggregationRequest({
@@ -72,9 +72,9 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
             .pipe(finalize(() => (this.isLoading = false)))
         )
       )
-      .subscribe(users => {
+      .subscribe((users) => {
         this.recipientsAutocomplete = users.aggregationResults[0]!.aggregationResultItems![0].aggregationResults![0].aggregationResultItems!.map(
-          i => i.name
+          (i) => i.name
         );
       });
   }

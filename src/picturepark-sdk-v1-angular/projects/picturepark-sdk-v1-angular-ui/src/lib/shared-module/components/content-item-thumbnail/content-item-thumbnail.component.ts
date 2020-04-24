@@ -58,9 +58,9 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
         if (this.item.isVirtual()) {
           this.handleVirtualItem();
         } else {
-          const content = this.shareItem.contentSelections.find(i => i.id === this.item.id);
+          const content = this.shareItem.contentSelections.find((i) => i.id === this.item.id);
           if (content) {
-            const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
+            const output = content.outputs.find((i) => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
             this.isLoading = true;
             this.thumbnailUrl$ = this.loadItem.pipe(
               map(() => this.trust(output?.viewUrl || content.iconUrl)),
@@ -82,7 +82,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
                 .downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
                 .pipe(finalize(() => (this.isLoading = false)));
             }),
-            map(response => this.trust(URL.createObjectURL(response.data)))
+            map((response) => this.trust(URL.createObjectURL(response.data)))
           );
         }
       }

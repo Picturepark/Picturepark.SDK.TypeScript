@@ -35,7 +35,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
   ) {
     super(injector);
 
-    this.sub = this.basketService.basketItemsChanges.subscribe(items => (this.basketItems = items));
+    this.sub = this.basketService.basketItemsChanges.subscribe((items) => (this.basketItems = items));
   }
 
   public previewItem(item: Content): void {

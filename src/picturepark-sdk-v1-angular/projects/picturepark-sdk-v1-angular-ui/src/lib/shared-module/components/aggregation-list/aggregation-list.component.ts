@@ -34,7 +34,7 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
     // Show loading if it takes more than 100ms
     this.loading$ = this.facade.getLoadingInfos('initial').pipe(debounceTime(100));
 
-    this.sub = this.facade.aggregationResults$.subscribe(i => {
+    this.sub = this.facade.aggregationResults$.subscribe((i) => {
       if (i) {
         this.processAggregationResults(i);
       }
@@ -52,9 +52,9 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
   private processAggregationResults(aggregationResults: AggregationResult[]) {
     this.aggregationResults = [];
 
-    aggregationResults.forEach(aggregationResult => {
+    aggregationResults.forEach((aggregationResult) => {
       const nested = this.facade.expandAggregationResult(aggregationResult);
-      const aggregatorIndex = this.facade.searchRequestState.aggregators.findIndex(aggregator =>
+      const aggregatorIndex = this.facade.searchRequestState.aggregators.findIndex((aggregator) =>
         nested.name.includes(aggregator.name)
       );
 

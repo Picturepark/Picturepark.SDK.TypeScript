@@ -40,14 +40,14 @@ export class MetaDataPreviewService {
   public prepareTableColumns(allColumnNames: string[], tableData: any[]): string[] {
     const existedColumnsSet = new Set<string>();
 
-    tableData.forEach(data => {
+    tableData.forEach((data) => {
       for (const property of data) {
         existedColumnsSet.add(property);
       }
     });
 
     const existedColumns = Array.from(existedColumnsSet);
-    const intersections = allColumnNames.filter((x: string) => existedColumns.map(i => i.includes(x)));
+    const intersections = allColumnNames.filter((x: string) => existedColumns.map((i) => i.includes(x)));
 
     return intersections;
   }
@@ -60,9 +60,9 @@ export class MetaDataPreviewService {
   ): any[] {
     const allData: any[] = [];
 
-    metadataItems.map(item => {
+    metadataItems.map((item) => {
       const preview = {};
-      schemas.forEach(schema => {
+      schemas.forEach((schema) => {
         const previewData = this.getPreviewData(schema, item[schema.id], info, withId);
         for (const prop of previewData) {
           preview[`${schema.id}.${prop}`] = previewData[prop];
@@ -84,8 +84,8 @@ export class MetaDataPreviewService {
     withId: boolean = true
   ): any[] {
     return metadataItems
-      .map(data => this.getPreviewData(schema, data, info, withId))
-      .filter(x => Object.keys(x).length > 0);
+      .map((data) => this.getPreviewData(schema, data, info, withId))
+      .filter((x) => Object.keys(x).length > 0);
   }
 
   private getPreviewData(schema: SchemaDetail, metadata: any, customerInfo: CustomerInfo, withId: boolean = true): any {
@@ -98,7 +98,7 @@ export class MetaDataPreviewService {
       }
 
       // find field
-      const field = schema && schema.fields && schema.fields.filter(fieldData => fieldData.id === fieldId)[0];
+      const field = schema && schema.fields && schema.fields.filter((fieldData) => fieldData.id === fieldId)[0];
       if (isNil(field)) {
         continue;
       }
@@ -155,7 +155,7 @@ export class MetaDataPreviewService {
           fields[fieldId] = this.translationService.translate('ListBrowser.NeverTriggered');
         }
       } else if (fieldType === FieldMultiFieldset) {
-        fields[fieldId] = value.map(q => q._displayValues.name).join();
+        fields[fieldId] = value.map((q) => q._displayValues.name).join();
       } else if (fieldType === FieldSingleTagbox) {
         if (value._displayValues) {
           fields[fieldId] = value._displayValues.name;

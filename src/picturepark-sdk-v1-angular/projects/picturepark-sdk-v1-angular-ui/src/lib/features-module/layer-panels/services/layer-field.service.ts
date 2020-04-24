@@ -71,12 +71,12 @@ export class LayerFieldService {
 
       case FieldSingleFieldset:
         const referencedToSingleFieldset: SchemaDetail | undefined = allSchemas.find(
-          i => i.id === (field as FieldSingleFieldset).schemaId
+          (i) => i.id === (field as FieldSingleFieldset).schemaId
         );
 
         const layerFieldSingleFieldset = new LayerField(field, fieldValue);
         if (referencedToSingleFieldset && referencedToSingleFieldset.fields) {
-          referencedToSingleFieldset.fields.forEach(rf => {
+          referencedToSingleFieldset.fields.forEach((rf) => {
             if (fieldValue[rf.id]) {
               const referencedField = this.generate(rf, fieldValue, allSchemas);
               if (referencedField) {
@@ -90,13 +90,13 @@ export class LayerFieldService {
 
       case FieldMultiFieldset:
         const referencedToMultiFieldset: SchemaDetail | undefined = allSchemas.find(
-          i => i.id === (field as FieldMultiFieldset).schemaId
+          (i) => i.id === (field as FieldMultiFieldset).schemaId
         );
 
         layerField.fieldsetFields = fieldValue.map((value: any) => {
           const lf = new LayerField(field, value);
           if (referencedToMultiFieldset && referencedToMultiFieldset.fields) {
-            referencedToMultiFieldset.fields.forEach(rf => {
+            referencedToMultiFieldset.fields.forEach((rf) => {
               if (value[rf.id]) {
                 const referencedField = this.generate(rf, value, allSchemas);
                 if (referencedField) {
@@ -115,7 +115,7 @@ export class LayerFieldService {
 
         if (targetSingleFieldId && targetSingleFielDocType && targetSingleFielDocType === 'Content') {
           const referencedToSingleRelation: SchemaDetail | undefined = allSchemas.find(
-            i => i.id === (field as FieldSingleRelation).schemaId
+            (i) => i.id === (field as FieldSingleRelation).schemaId
           );
           if (referencedToSingleRelation) {
             layerField.relationFields = [
@@ -127,7 +127,7 @@ export class LayerFieldService {
 
       case FieldMultiRelation:
         const referencedToMultiRelation: SchemaDetail | undefined = allSchemas.find(
-          i => i.id === (field as FieldMultiRelation).schemaId
+          (i) => i.id === (field as FieldMultiRelation).schemaId
         );
 
         const relationsFields = fieldValue
@@ -217,7 +217,7 @@ export class LayerFieldService {
     let relationfields;
     if (referencedSchema && referencedSchema.fields) {
       relationfields = referencedSchema.fields
-        .map(rf => {
+        .map((rf) => {
           if (fieldValue[rf.id]) {
             const referencedField = this.generate(rf, fieldValue, allSchemas);
             if (referencedField) {
@@ -225,7 +225,7 @@ export class LayerFieldService {
             }
           }
         })
-        .filter(x => x);
+        .filter((x) => x);
     }
 
     const thumbnailDownload = this.contentService.downloadThumbnail(targetId, ThumbnailSize.Small, null, null);
@@ -235,7 +235,7 @@ export class LayerFieldService {
     ]);
 
     const relationFieldInfo = forkJoin([thumbnailDownload, contentDetail]).pipe(
-      map(response => {
+      map((response) => {
         return new RelationFieldInfo(
           targetId,
           response[1].displayValues!['name'],

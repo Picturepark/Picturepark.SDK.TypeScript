@@ -65,7 +65,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
 
   checkContains(elementClassName: string): boolean {
     const containClasses = ['browser__items'];
-    return containClasses.some(iClass => elementClassName.includes(iClass));
+    return containClasses.some((iClass) => elementClassName.includes(iClass));
   }
 
   public setUpActiveSchema(schema: Schema): void {

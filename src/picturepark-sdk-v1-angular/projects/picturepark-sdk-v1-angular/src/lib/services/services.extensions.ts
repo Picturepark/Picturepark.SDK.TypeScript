@@ -124,7 +124,7 @@ class ContentService extends generated.ContentService {
       waitSearchDocCreation,
       contentCreateRequest
     ).pipe(
-      mergeMap(async content => {
+      mergeMap(async (content) => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
@@ -136,7 +136,7 @@ class ContentService extends generated.ContentService {
     resolveBehaviors: ContentResolveBehavior[] | null | undefined
   ): Observable<ContentDetail> {
     return this.getCore(contentId, resolveBehaviors).pipe(
-      mergeMap(async content => {
+      mergeMap(async (content) => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
@@ -148,8 +148,8 @@ class ContentService extends generated.ContentService {
     resolveBehaviors: ContentResolveBehavior[] | null | undefined
   ): Observable<ContentDetail[]> {
     return this.getManyCore(ids, resolveBehaviors).pipe(
-      mergeMap(async contents => {
-        contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
+      mergeMap(async (contents) => {
+        contents.forEach(async (content) => await this.liquidRenderingService.renderNestedDisplayValues(content));
         return contents;
       })
     );
@@ -157,7 +157,7 @@ class ContentService extends generated.ContentService {
 
   public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
     return this.searchCore(contentSearchRequest).pipe(
-      mergeMap(async searchResult => {
+      mergeMap(async (searchResult) => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })
@@ -180,7 +180,7 @@ class ContentService extends generated.ContentService {
       waitSearchDocCreation,
       updateRequest
     ).pipe(
-      mergeMap(async content => {
+      mergeMap(async (content) => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
@@ -195,7 +195,7 @@ class ContentService extends generated.ContentService {
     updateRequest: ContentPermissionsUpdateRequest
   ): Observable<ContentDetail> {
     return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
-      mergeMap(async content => {
+      mergeMap(async (content) => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
@@ -228,7 +228,7 @@ class ListItemService extends generated.ListItemService {
     resolveBehaviors: ListItemResolveBehavior[] | null | undefined
   ): Observable<ListItemDetail> {
     return this.getCore(listItemId, resolveBehaviors).pipe(
-      mergeMap(async listItem => {
+      mergeMap(async (listItem) => {
         await this.liquidRenderingService.renderNestedDisplayValues(listItem);
         return listItem;
       })
@@ -237,7 +237,7 @@ class ListItemService extends generated.ListItemService {
 
   public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
     return this.searchCore(listItemSearchRequest).pipe(
-      mergeMap(async searchResult => {
+      mergeMap(async (searchResult) => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })
@@ -267,7 +267,7 @@ class ShareService extends generated.ShareService {
 
   public get(id: string): Observable<ShareDetail> {
     return this.getCore(id).pipe(
-      mergeMap(async shareDetail => {
+      mergeMap(async (shareDetail) => {
         await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
         return shareDetail;
       })
@@ -277,14 +277,14 @@ class ShareService extends generated.ShareService {
   public getShareByToken(token: string, lang: string | null | undefined, cdnUrl?: string): Observable<ShareDetail> {
     if (cdnUrl) {
       return this.getShareByTokenFromUrl(token, lang, cdnUrl + '/json/{token}?').pipe(
-        mergeMap(async shareJson => {
+        mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
       );
     } else {
       return this.getShareJsonCore(token, lang).pipe(
-        mergeMap(async shareJson => {
+        mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
@@ -319,7 +319,7 @@ class ShareService extends generated.ShareService {
 
     return _observableFrom(this.transformOptions(options_))
       .pipe(
-        _observableMergeMap(transformedOptions_ => {
+        _observableMergeMap((transformedOptions_) => {
           // @ts-ignore: the purpose of this reference is to be copied to the api-services via NSwag // ignore
           return this.http.request('get', url_, transformedOptions_);
         })
@@ -346,7 +346,7 @@ class ShareService extends generated.ShareService {
 
   public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
     return this.searchCore(shareSearchRequest).pipe(
-      mergeMap(async searchResult => {
+      mergeMap(async (searchResult) => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })

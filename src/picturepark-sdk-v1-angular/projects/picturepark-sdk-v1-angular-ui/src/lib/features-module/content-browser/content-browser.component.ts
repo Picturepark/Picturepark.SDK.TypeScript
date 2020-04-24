@@ -106,7 +106,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   public previewSelectedItem(): void {
-    const content = this.items.find(i => i === this.selectedItems[0]);
+    const content = this.items.find((i) => i === this.selectedItems[0]);
     if (content) {
       this.previewItem(content);
     }
@@ -139,7 +139,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   // CHECK IF ELEMENT CONTAINS CLASS NAME
   checkContains(elementClassName: string): boolean {
     const containClasses = ['browser__items'];
-    return containClasses.some(iClass => elementClassName.includes(iClass));
+    return containClasses.some((iClass) => elementClassName.includes(iClass));
   }
 
   // CLEAR SELECTION

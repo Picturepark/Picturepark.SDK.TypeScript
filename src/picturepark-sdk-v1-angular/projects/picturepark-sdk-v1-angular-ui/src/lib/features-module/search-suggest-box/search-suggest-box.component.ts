@@ -65,20 +65,20 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
         this.isLoading = true;
         this.typed = true;
       }),
-      switchMap(value => {
+      switchMap((value) => {
         const aggs = this.setSearchString(value);
-        return this.facade.searchAggregations(aggs)!.pipe(catchError(error => of(null)));
+        return this.facade.searchAggregations(aggs)!.pipe(catchError((error) => of(null)));
       }),
-      map(aggregationResult => {
+      map((aggregationResult) => {
         if (!aggregationResult) {
           return [];
         }
-        const results = aggregationResult.map(i => {
+        const results = aggregationResult.map((i) => {
           const expanded = this.facade.expandAggregationResult(i).aggregationResultItems!;
-          const name = this.facade.searchRequestState.aggregators.find(j => j.name === i.name);
+          const name = this.facade.searchRequestState.aggregators.find((j) => j.name === i.name);
           return { name: name?.names?.translate(this.locale) ?? i.name, results: expanded };
         });
-        return results.filter(i => i.results.length > 0);
+        return results.filter((i) => i.results.length > 0);
       }),
       tap(() => {
         this.isLoading = false;
@@ -103,7 +103,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
 
   setSearchString(searchString: string | undefined) {
     const aggs: AggregatorBase[] = [];
-    this.facade.searchRequestState.aggregators.forEach(aggregation => {
+    this.facade.searchRequestState.aggregators.forEach((aggregation) => {
       const expanded = this.expandAggregator(aggregation);
       if (expanded.searchFields && expanded.searchFields.length) {
         expanded.searchString = searchString;
