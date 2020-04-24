@@ -64,6 +64,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
             this.isLoading = true;
             this.thumbnailUrl$ = this.loadItem.pipe(
               map(() => this.trust(output?.viewUrl || content.iconUrl)),
+              tap(() => (this.isLoading = false)),
               finalize(() => (this.isLoading = false))
             );
           }
@@ -77,17 +78,11 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
           this.thumbnailUrl$ = this.loadItem.pipe(
             tap(() => (this.isLoading = true)),
             switchMap(() => {
-              return this.contentService.downloadThumbnail(
-                this.item.id,
-                this.thumbnailSize || ThumbnailSize.Small,
-                null,
-                null
-              );
+              return this.contentService
+                .downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
+                .pipe(finalize(() => (this.isLoading = false)));
             }),
-            map(response => {
-              return this.trust(URL.createObjectURL(response.data));
-            }),
-            finalize(() => (this.isLoading = false))
+            map(response => this.trust(URL.createObjectURL(response.data)))
           );
         }
       }
