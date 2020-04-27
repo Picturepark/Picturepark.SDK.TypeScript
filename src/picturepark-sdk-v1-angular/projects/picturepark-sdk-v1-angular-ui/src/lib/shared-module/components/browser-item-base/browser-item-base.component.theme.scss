@@ -11,7 +11,7 @@
       $self: &;
 
       &__image-slot {
-        background-color: mat-color($primary, surface-mid);
+        background-color: mat-color($primary, background-dark);
       }
 
       &__basket-icon {
