@@ -4,7 +4,6 @@ import { MatTableDataSource } from '@angular/material/table';
 
 // LIBRARIES
 import {
-  InfoService,
   SchemaDetail,
   SortInfo,
   ListItem,
@@ -94,7 +93,11 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       }
     }
 
-    this.facade.patchRequestState({ schemaIds: [this.schema.id], aggregators: this.schema.aggregations ?? [] });
+    this.facade.patchRequestState({
+      schemaIds: [this.schema.id],
+      aggregators: this.schema.aggregations ?? [],
+      sort: this.sortInfo,
+    });
   }
 
   initSort(): void {}
@@ -137,7 +140,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       direction: sort.direction === 'asc' ? SortDirection.Asc : SortDirection.Desc,
     });
     this.sortInfo = [sortInfo];
-    this.update();
+    this.facade.patchRequestState({ sort: this.sortInfo });
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
