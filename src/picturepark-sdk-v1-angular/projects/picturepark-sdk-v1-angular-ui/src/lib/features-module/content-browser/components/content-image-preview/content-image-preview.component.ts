@@ -23,6 +23,7 @@ import {
   ThumbnailSize,
   ShareContentDetail,
   ShareDetail,
+  BusinessProcessService,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -60,7 +61,8 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
     private sanitizer: DomSanitizer,
     private fullscreenService: FullscreenService,
     private cdr: ChangeDetectorRef,
-    protected injector: Injector
+    protected injector: Injector,
+    private businessProcessService: BusinessProcessService
   ) {
     super(injector);
   }
@@ -156,40 +158,24 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         ? outputs.filter(o => o.outputFormatId === 'VideoSmall')[0]
         : outputs.filter(o => o.outputFormatId === 'Preview')[0];
 
-      // TODO SAN deal with the section bellow
-      // const request = new ContentDownloadLinkCreateRequest({
-      //   contents: [
-      //     new ContentDownloadRequestItem({
-      //       contentId: this.content.id,
-      //       outputFormatId: previewOutput.outputFormatId,
-      //     }),
-      //   ],
-      // });
-
-      // const response = await this.contentService.createDownloadLink(request).toPromise();
-      // item = {
-      //   id: this.content.id,
-
-      //   isPdf: isPdf,
-      //   isImage: isImage,
-      //   isMovie: this.isVideo,
-      //   isAudio: this.isAudio,
-      //   isBinary: false,
-      //   videoUrl: this.isVideo ? response.downloadUrl : '',
-      //   audioUrl: this.isAudio ? response.downloadUrl : '',
-      //   pdfUrl: isPdf ? response.downloadUrl : '',
-
-      //   displayValues: {},
-      //   previewUrl: isImage ? response.downloadUrl : this.thumbnailUrl,
-
-      //   originalUrl: response.downloadUrl,
-      //   outputs: this.content.outputs! as any[],
-
-      //   detail: {
-      //     width: (<any>previewOutput.detail).width,
-      //     height: (<any>previewOutput.detail).height,
-      //   },
-      // };
+      const downloadLinkRequest = new ContentDownloadLinkCreateRequest({
+        contents: [
+          new ContentDownloadRequestItem({
+            contentId: this.content.id,
+            outputFormatId: previewOutput.outputFormatId,
+          }),
+        ],
+        notifyProgress: true,
+      });
+      let downloadUrl = '';
+      const DownloadLinkBusinessProcess = await this.contentService.createDownloadLink(downloadLinkRequest).toPromise();
+      if (DownloadLinkBusinessProcess.referenceId) {
+        await this.businessProcessService.waitForCompletion(DownloadLinkBusinessProcess.id, null, false).toPromise();
+        const downloadLink = await this.contentService
+          .getDownloadLink(DownloadLinkBusinessProcess.referenceId)
+          .toPromise();
+        downloadUrl = downloadLink.downloadUrl;
+      }
       item = {
         id: this.content.id,
 
@@ -198,14 +184,14 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         isMovie: this.isVideo,
         isAudio: this.isAudio,
         isBinary: false,
-        videoUrl: this.isVideo ? '' : '',
-        audioUrl: this.isAudio ? '' : '',
-        pdfUrl: isPdf ? '' : '',
+        videoUrl: this.isVideo ? downloadUrl : '',
+        audioUrl: this.isAudio ? downloadUrl : '',
+        pdfUrl: isPdf ? downloadUrl : '',
 
         displayValues: {},
-        previewUrl: isImage ? '' : this.thumbnailUrl,
+        previewUrl: isImage ? downloadUrl : this.thumbnailUrl,
 
-        originalUrl: '',
+        originalUrl: downloadUrl,
         outputs: this.content.outputs! as any[],
 
         detail: {
@@ -213,6 +199,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
           height: (<any>previewOutput.detail).height,
         },
       };
+
       items = [item];
     } else {
       let index = 0;

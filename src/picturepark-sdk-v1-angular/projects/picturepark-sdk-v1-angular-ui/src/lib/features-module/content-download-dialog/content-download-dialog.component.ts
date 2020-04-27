@@ -31,7 +31,7 @@ import {
   IContentDownload,
   IContentDownloadOutput,
 } from './content-download-dialog.interfaces';
-import { DialogService } from '../dialog/dialog.service';
+import { DialogService } from '../../shared-module/services/dialog/dialog.service';
 
 @Component({
   selector: 'pp-content-download-dialog',
