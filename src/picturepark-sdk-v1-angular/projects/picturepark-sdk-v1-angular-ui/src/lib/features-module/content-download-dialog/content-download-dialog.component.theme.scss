@@ -5,8 +5,10 @@
 
   pp-content-download-dialog {
     mat-dialog-content {
-      .loader-wrapper {
-        background-color: mat-color($primary, opacity-light);
+      .content-wrapper {
+        .loader-wrapper {
+          background-color: mat-color($primary, opacity-light);
+        }
       }
     }
     fieldset {

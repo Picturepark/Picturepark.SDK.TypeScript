@@ -7,15 +7,12 @@ import {
   ContentDownloadLinkCreateRequest,
   ContentService,
   Content,
-  fetchAll,
-  OutputRenderingState,
-  OutputService,
-  OutputSearchRequest,
-  ContentResolveBehavior,
   IShareOutputBase,
   BusinessProcessService,
   PICTUREPARK_CONFIGURATION,
   PictureparkConfiguration,
+  CustomerInfo,
+  OutputResolveManyRequest,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -83,7 +80,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     private translationService: TranslationService,
     private businessProcessService: BusinessProcessService,
     private snackBar: MatSnackBar,
-    private outputService: OutputService,
     private dialogService: DialogService
   ) {
     super(data, dialogRef, injector);
@@ -161,44 +157,44 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
         });
       }, 8000);
 
-      this.businessProcessService.waitForCompletion(businessProcess.id, null, false).subscribe(
-        businessProcessResult => {
-          // TODO build the download URL with the referenceID
-          clearTimeout(downloadTimmer);
-          if (!isTimmerRunning) {
-            // download immedeatly
-            // window.location.replace(downloadUrl);
-            this.dialogRef.close();
-          } else {
-            this.dialogService
-              .confirm(
-                {
-                  title: this.translationService.translate('ContentDownloadDialog.ConfirmDownloadTitle'),
-                  message: this.translationService.translate('ContentDownloadDialog.ConfirmDownloadMessage'),
-                  options: {
-                    okText: this.translationService.translate('ContentDownloadDialog.Download'),
-                    cancelText: this.translationService.translate('ContentDownloadDialog.ConfirmDownloadTitle'),
+      if (!businessProcess.referenceId) {
+        this.snackBar.open(this.translationService.translate('ContentDownloadDialog.DownloadError'), undefined, {
+          duration: 3000,
+        });
+        this.dialogRef.close();
+        return;
+      }
+
+      this.businessProcessService.waitForCompletion(businessProcess.id, null, false).subscribe(() => {
+        if (businessProcess.referenceId) {
+          this.contentService.getDownloadLink(businessProcess.referenceId).subscribe(downloadLink => {
+            clearTimeout(downloadTimmer);
+            if (isTimmerRunning) {
+              window.location.replace(downloadLink.downloadUrl);
+              this.dialogRef.close();
+            } else {
+              this.dialogService
+                .confirm(
+                  {
+                    title: this.translationService.translate('ContentDownloadDialog.ConfirmDownloadTitle'),
+                    message: this.translationService.translate('ContentDownloadDialog.ConfirmDownloadMessage'),
+                    options: {
+                      okText: this.translationService.translate('ContentDownloadDialog.Download'),
+                      cancelText: this.translationService.translate('ContentDownloadDialog.Cancel'),
+                    },
                   },
-                },
-                { disableClose: true }
-              )
-              .afterClosed()
-              .subscribe(confirmDialogResult => {
-                // TODO check different results from here
-                debugger;
-                if (confirmDialogResult) {
-                  //  download
-                  // window.location.replace(downloadUrl);
-                }
-              });
-          }
-        },
-        error => {
-          this.snackBar.open(this.translationService.translate('ContentDownloadDialog.DownloadError'), undefined, {
-            duration: 3000,
+                  { disableClose: true }
+                )
+                .afterClosed()
+                .subscribe(confirmDialogResult => {
+                  if (confirmDialogResult) {
+                    window.location.replace(downloadLink.downloadUrl);
+                  }
+                });
+            }
           });
         }
-      );
+      });
     });
   }
 
@@ -216,11 +212,18 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   public update(): void {
     this.enableAdvanced = this.selection.hasThumbnails;
     this.advancedMode = !this.selection.hasHiddenThumbnails;
-    const outputs = this.selection.getSelectedOutputs();
+    const outputs = this.selection.getSelectedOutputs() as any;
     this.hasDynamicOutputs = outputs.some(i => i.dynamicRendering && !i.detail!.fileSizeInBytes);
-    if (outputs.length > 0 && false) {
-      // TODO SAN get the filesize from somewhere else
-      this.fileSize = outputs.map(i => i.detail!.fileSizeInBytes || 0).reduce((total, value) => total + value);
+    if (outputs.length > 0) {
+      this.fileSize = outputs
+        .map(i => {
+          if (i.detail) {
+            return i.detail!.fileSizeInBytes || 0;
+          } else {
+            return i.fileSize || 0;
+          }
+        })
+        .reduce((total, value) => total + value);
     } else {
       this.fileSize = 0;
     }
@@ -263,16 +266,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
         return;
       }
 
-      // this.sub = this.contentService.getOutputs(this.data.contents[0].id).subscribe(output => {
-      //   this.setSelection(output);
-      // });
-
-      // TODO SAN to remove
-      this.sub = this.contentService
-        .get(this.data.contents[0].id, [ContentResolveBehavior.Outputs])
-        .subscribe(content => {
-          this.setSelection(content.outputs!);
-        });
+      this.sub = this.contentService.getOutputs(this.data.contents[0].id).subscribe(output => {
+        this.setSelection(output);
+      });
     } else {
       if (this.data.contents.every(content => content.outputs)) {
         const outputs = flatMap(this.data.contents, content => content.outputs!);
@@ -284,45 +280,21 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     }
   }
 
-  private async setSelection(outputs: IContentDownloadOutput[]): Promise<void> {
+  private async setSelection(outputs: IContentDownloadOutput[]) {
     await this.getSelection(outputs, this.data.contents);
     this.update();
     this.loader = false;
   }
 
   private fetchOutputs(): void {
-    // this.openSnackbar();
-    // if (this.data.contents.length <= 1000) {
-    //   const request = new OutputResolveManyRequest({ contentIds: this.data.contents.map(i => i.id) });
-    //   this.sub = this.contentService.getOutputsMany(request).subscribe(async outputs => {
-    //     await this.getSelection(outputs, this.data.contents);
-    //     this.update();
-    //     this.loader = false;
-    //   });
-    // } else {
-    //   // TODO SAN handle with the case of more than 1000 contents
-    // }
-    this.sub = fetchAll(
-      req => this.outputService.search(req),
-      new OutputSearchRequest({
-        contentIds: this.data.contents.map(i => i.id),
-        renderingStates: [OutputRenderingState.Completed],
-        limit: 1000,
-      })
-    ).subscribe(async outputs => {
-      await this.getSelection(outputs.results, this.data.contents);
-      this.update();
-      this.loader = false;
-    });
+    if (this.data.contents.length <= 1000) {
+      const request = new OutputResolveManyRequest({ contentIds: this.data.contents.map(i => i.id) });
+      this.sub = this.contentService.getOutputsMany(request).subscribe(async outputs => {
+        await this.getSelection(outputs, this.data.contents);
+        this.update();
+        this.loader = false;
+      });
+    } else {
+    }
   }
-
-  // openSnackbar() {
-  //   const sheetRef = this.matBottomSheet.open(SnackbarComponent, {
-  //     data: { test: 'am a test' },
-  //     disableClose: true,
-  //   });
-  //   sheetRef.afterDismissed().subscribe(data => {
-  //     debugger;
-  //   });
-  // }
 }

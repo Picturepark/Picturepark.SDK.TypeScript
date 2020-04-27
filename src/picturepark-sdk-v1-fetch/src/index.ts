@@ -3821,6 +3821,85 @@ export class ContentClient extends PictureparkClientBase {
     }
 
     /**
+     * Resolve download token to Url
+     * @param token Token
+     * @return Download link information
+     */
+    getDownloadLink(token: string | null): Promise<DownloadLink> {
+        let url_ = this.baseUrl + "/v1/Contents/downloadLink/{token}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetDownloadLink(_response);
+        });
+    }
+
+    protected processGetDownloadLink(response: Response): Promise<DownloadLink> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <DownloadLink>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<DownloadLink>(<any>null);
+    }
+
+    /**
      * Create multiple contents
      * @param request Content create many request.
      * @return Business process
@@ -19158,6 +19237,8 @@ export interface OutputResolveResult {
     renderingState: OutputRenderingState;
     /** Whether this Output belongs to a dynamic OutputFormat */
     dynamicRendering: boolean;
+    /** Size of file, if already known */
+    fileSize?: number | undefined;
 }
 
 /** Request to create a content download link */
@@ -19174,6 +19255,14 @@ export interface ContentDownloadRequestItem {
     contentId: string;
     /** ID of the output format that is going to be downloaded. */
     outputFormatId: string;
+}
+
+/** Download link information */
+export interface DownloadLink {
+    /** Token of the download, used to generate the url. */
+    downloadToken: string;
+    /** Url of the download link. */
+    downloadUrl: string;
 }
 
 /** Request to create multiple contents */

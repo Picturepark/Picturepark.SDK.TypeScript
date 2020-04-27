@@ -4789,6 +4789,104 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
+     * Resolve download token to Url
+     * @param token Token
+     * @return Download link information
+     */
+    getDownloadLink(token: string | null): Observable<DownloadLink> {
+        let url_ = this.baseUrl + "/v1/Contents/downloadLink/{token}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetDownloadLink(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDownloadLink(<any>response_);
+                } catch (e) {
+                    return <Observable<DownloadLink>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DownloadLink>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetDownloadLink(response: HttpResponseBase): Observable<DownloadLink> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DownloadLink.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DownloadLink>(<any>null);
+    }
+
+    /**
      * Create multiple contents
      * @param request Content create many request.
      * @return Business process
@@ -45683,6 +45781,8 @@ export class OutputResolveResult implements IOutputResolveResult {
     renderingState!: OutputRenderingState;
     /** Whether this Output belongs to a dynamic OutputFormat */
     dynamicRendering!: boolean;
+    /** Size of file, if already known */
+    fileSize?: number | undefined;
 
     constructor(data?: IOutputResolveResult) {
         if (data) {
@@ -45700,6 +45800,7 @@ export class OutputResolveResult implements IOutputResolveResult {
             this.contentId = _data["contentId"];
             this.renderingState = _data["renderingState"];
             this.dynamicRendering = _data["dynamicRendering"];
+            this.fileSize = _data["fileSize"];
         }
     }
 
@@ -45717,6 +45818,7 @@ export class OutputResolveResult implements IOutputResolveResult {
         data["contentId"] = this.contentId;
         data["renderingState"] = this.renderingState;
         data["dynamicRendering"] = this.dynamicRendering;
+        data["fileSize"] = this.fileSize;
         return data; 
     }
 }
@@ -45733,6 +45835,8 @@ export interface IOutputResolveResult {
     renderingState: OutputRenderingState;
     /** Whether this Output belongs to a dynamic OutputFormat */
     dynamicRendering: boolean;
+    /** Size of file, if already known */
+    fileSize?: number | undefined;
 }
 
 /** Request to create a content download link */
@@ -45843,6 +45947,52 @@ export interface IContentDownloadRequestItem {
     contentId: string;
     /** ID of the output format that is going to be downloaded. */
     outputFormatId: string;
+}
+
+/** Download link information */
+export class DownloadLink implements IDownloadLink {
+    /** Token of the download, used to generate the url. */
+    downloadToken!: string;
+    /** Url of the download link. */
+    downloadUrl!: string;
+
+    constructor(data?: IDownloadLink) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.downloadToken = _data["downloadToken"];
+            this.downloadUrl = _data["downloadUrl"];
+        }
+    }
+
+    static fromJS(data: any): DownloadLink {
+        data = typeof data === 'object' ? data : {};
+        let result = new DownloadLink();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["downloadToken"] = this.downloadToken;
+        data["downloadUrl"] = this.downloadUrl;
+        return data; 
+    }
+}
+
+/** Download link information */
+export interface IDownloadLink {
+    /** Token of the download, used to generate the url. */
+    downloadToken: string;
+    /** Url of the download link. */
+    downloadUrl: string;
 }
 
 /** Request to create multiple contents */
