@@ -8,9 +8,6 @@ export { SearchSuggestBoxComponent } from './lib/features-module/search-suggest-
 export { ContentDownloadDialogComponent } from './lib/features-module/content-download-dialog/content-download-dialog.component';
 export { ShareItemsPanelComponent } from './lib/features-module/share-items-panel/share-items-panel.component';
 export { ItemToolBarComponent } from './lib/features-module/item-tool-bar/item-tool-bar.component';
-export { SettingsPanelComponent } from './lib/features-module/panel/components/settings-panel/settings-panel.component';
-export { OwnerPanelComponent } from './lib/features-module/panel/components/owner-panel/owner-panel.component';
-export { MailRecipientsPanelComponent } from './lib/features-module/panel/components/mail-recipients-panel/mail-recipients-panel.component';
 export { ShareContentDialogComponent } from './lib/features-module/share-content-dialog/share-content-dialog.component';
 export { ShareBrowserItemComponent } from './lib/features-module/share-browser/components/share-browser-item/share-browser-item.component';
 export { ShareBrowserComponent } from './lib/features-module/share-browser/share-browser.component';
@@ -24,12 +21,13 @@ export { ContentBrowserItemComponent } from './lib/features-module/content-brows
 export { BrowserToolbarComponent } from './lib/features-module/browser-toolbar/browser-toolbar.component';
 export { BasketItemComponent } from './lib/features-module/basket/components/basket-item/basket-item.component';
 export { BasketComponent } from './lib/features-module/basket/basket.component';
-export { FeaturesModule } from './lib/features-module/features-module.module';
+export { ShareOwnerPanelComponent } from './lib/features-module/share-owner-panel/share-owner-panel.component';
+export { ShareMailRecipientsPanelComponent } from './lib/features-module/share-mail-recipients-panel/share-mail-recipients-panel.component';
+export { ShareSettingsPanelComponent } from './lib/features-module/share-settings-panel/share-settings-panel.component';
 
-export { PanelComponent } from './lib/features-module/panel/components/panel/panel.component';
+export { PanelComponent } from './lib/shared-module/components/panel/panel.component';
 export { ContentItemThumbnailComponent } from './lib/shared-module/components/content-item-thumbnail/content-item-thumbnail.component';
 export { AggregationComponent } from './lib/shared-module/components/aggregation/aggregation.component';
-export { MaterialsModule } from './lib/materials-module/materials-module.module';
 
 /*
  * Public API Surface of picturepark-sdk-v1-angular-ui
@@ -49,14 +47,12 @@ export { ChannelPickerModule } from './lib/features-module/channel-picker/channe
 export { ContentBrowserModule } from './lib/features-module/content-browser/content-browser.module';
 export { ContentDetailsDialogModule } from './lib/features-module/content-details-dialog/content-details-dialog.module';
 export { DatePickerModule } from './lib/features-module/date-picker/date-picker.module';
-export { DialogModule } from './lib/features-module/dialog/dialog.module';
 export { ItemToolBarModule } from './lib/features-module/item-tool-bar/item-tool-bar.module';
 export { LayerPanelsModule } from './lib/features-module/layer-panels/layer-panels.module';
 export { ListBrowserModule } from './lib/features-module/list-browser/list-browser.module';
 export { ListItemsModule } from './lib/features-module/list-items/list-items.module';
 export { ListModule } from './lib/features-module/list-items/list/list.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
-export { PanelModule } from './lib/features-module/panel/panel.module';
 export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
 export { SearchSuggestBoxModule } from './lib/features-module/search-suggest-box/search-suggest-box.module';
 export { SnackBarModule } from './lib/features-module/snackbar/snackbar.module';
@@ -67,6 +63,11 @@ export { ShareContentDialogModule } from './lib/features-module/share-content-di
 export { ContentDownloadDialogModule } from './lib/features-module/content-download-dialog/content-download-dialog.module';
 export { ShareItemsPanelModule } from './lib/features-module/share-items-panel/share-items-panel.module';
 export { AggregationListModule } from './lib/shared-module/components/aggregation-list/aggregation-list.module';
+export { FeaturesModule } from './lib/features-module/features-module.module';
+export { MaterialsModule } from './lib/materials-module/materials-module.module';
+export { ShareOwnerPanelModule } from './lib/features-module/share-owner-panel/share-owner-panel.module';
+export { ShareMailRecipientsPanelModule } from './lib/features-module/share-mail-recipients-panel/share-mail-recipients-panel.module';
+export { ShareSettingsPanelModule } from './lib/features-module/share-settings-panel/share-settings-panel.module';
 
 // Components
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
@@ -82,7 +83,7 @@ export { BasketService } from './lib/shared-module/services/basket/basket.servic
 export { TranslationService } from './lib/shared-module/services/translations/translation.service';
 export { LiquidRenderingService } from '@picturepark/sdk-v1-angular';
 export { ContentDownloadDialogService } from './lib/features-module/content-download-dialog/content-download-dialog.service';
-export { DialogService } from './lib/features-module/dialog/dialog.service';
+export { DialogService } from './lib/shared-module/services/dialog/dialog.service';
 
 // Classes
 export { BaseComponent } from './lib/shared-module/components/base.component';

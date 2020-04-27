@@ -37,7 +37,7 @@ import {
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
-import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
+import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
 
 // INTERFACES
 import { ConfirmRecipients } from './interfaces/confirm-recipients.interface';
@@ -48,7 +48,10 @@ import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 @Component({
   selector: 'pp-share-content-dialog',
   templateUrl: './share-content-dialog.component.html',
-  styleUrls: ['../dialog/components/dialog-base/dialog-base.component.scss', './share-content-dialog.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/dialog-base/dialog-base.component.scss',
+    './share-content-dialog.component.scss',
+  ],
   providers: [TranslatePipe],
 })
 export class ShareContentDialogComponent extends DialogBaseComponent implements AfterViewInit, OnInit, OnDestroy {
@@ -148,7 +151,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       const share = await this.shareService.get(response.referenceId!).toPromise();
 
-      (share.data as ShareDataBasic).mailRecipients.forEach(recipient =>
+      (share.data as ShareDataBasic).mailRecipients.forEach((recipient) =>
         this.recipients.push({
           email: recipient.userEmail.emailAddress,
           url: recipient.url!,
@@ -192,7 +195,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       // CONTENT ITEMS
       const contentItems = this.selectedContent.map(
-        item =>
+        (item) =>
           new ShareContent({
             contentId: item.id,
             outputFormatIds: ['Original'],
@@ -200,7 +203,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       );
 
       // RECIPIENTS EMAILS
-      const recipientsEmails = this.sharedContentForm.get('recipients')!.value.map(recipientEmail => {
+      const recipientsEmails = this.sharedContentForm.get('recipients')!.value.map((recipientEmail) => {
         return { emailAddress: recipientEmail };
       });
 
@@ -227,11 +230,11 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
           debugMode: false,
           filter: new TermsFilter({
             field: 'id',
-            terms: selectedContent.map(i => i.id),
+            terms: selectedContent.map((i) => i.id),
           }),
         })
       )
-      .subscribe(data => {
+      .subscribe((data) => {
         // GENERATE SHARE NAME
         const shareName =
           data.totalResults - 1 > 0

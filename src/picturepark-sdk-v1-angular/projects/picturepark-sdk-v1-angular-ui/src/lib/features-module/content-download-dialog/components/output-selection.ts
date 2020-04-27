@@ -37,7 +37,7 @@ export class OutputSelection {
   private selection: { [fileSchemaId: string]: IOutputPerSchemaSelection };
 
   public get hasHiddenThumbnails(): boolean {
-    return this.getThumbnailOutputs().some(i => i.hidden);
+    return this.getThumbnailOutputs().some((i) => i.hidden);
   }
 
   constructor(
@@ -48,23 +48,23 @@ export class OutputSelection {
   ) {
     this.selection = {};
 
-    contents.forEach(content => {
+    contents.forEach((content) => {
       const isBinary = content.contentType !== ContentType.Virtual;
       const schemaId = isBinary ? content.contentSchemaId : ContentType.Virtual.toString();
       const schemaItems = (this.selection[schemaId] = this.selection[schemaId] || {
         id: schemaId,
         contents: isBinary
-          ? contents.filter(i => i.contentSchemaId === schemaId)
-          : contents.filter(i => i.contentType === ContentType.Virtual),
+          ? contents.filter((i) => i.contentSchemaId === schemaId)
+          : contents.filter((i) => i.contentType === ContentType.Virtual),
         outputs: {},
         name: translationService.translate(`ContentDownloadDialog.${schemaId}`),
       });
 
       let contentOutputs: IContentDownloadOutput[];
       if (isBinary) {
-        contentOutputs = outputs.filter(i => i.contentId === content.id);
+        contentOutputs = outputs.filter((i) => i.contentId === content.id);
       } else {
-        let output = outputs.find(i => i.contentId === content.id);
+        let output = outputs.find((i) => i.contentId === content.id);
         if (!output) {
           output = {
             outputFormatId: 'Original',
@@ -78,7 +78,7 @@ export class OutputSelection {
         contentOutputs = [output];
       }
 
-      contentOutputs.forEach(output => {
+      contentOutputs.forEach((output) => {
         const outputFormatItems = (schemaItems.outputs[output.outputFormatId] = schemaItems.outputs[
           output.outputFormatId
         ] || {
@@ -100,7 +100,7 @@ export class OutputSelection {
   }
 
   public getFileFormats(): IOutputPerSchemaSelection[] {
-    return Object.keys(this.selection).map(fileFormat => this.selection[fileFormat]);
+    return Object.keys(this.selection).map((fileFormat) => this.selection[fileFormat]);
   }
 
   public hasOutputs(fileFormat: IOutputPerSchemaSelection): boolean {
@@ -109,33 +109,33 @@ export class OutputSelection {
 
   public getOutputs(fileFormat: IOutputPerSchemaSelection): IOutputPerOutputFormatSelection[] {
     return Object.keys(fileFormat.outputs)
-      .map(outputFormat => fileFormat.outputs[outputFormat])
+      .map((outputFormat) => fileFormat.outputs[outputFormat])
       .sort((x, y) => (x.id === 'Original' ? -1 : x.name.localeCompare(y.name)));
   }
 
   public getSelectedOutputs(): IContentDownloadOutput[] {
     const selectedOutputs = this.getAllOutputs();
     const outputs = flatMap(
-      selectedOutputs.filter(i => i.selected),
-      i => i.values
-    ).map(i => i.output);
+      selectedOutputs.filter((i) => i.selected),
+      (i) => i.values
+    ).map((i) => i.output);
     return outputs;
   }
 
   public toggleThumbnails(): void {
     const thumbnails = this.getThumbnailOutputs();
-    const hasHidden = thumbnails.some(i => i.hidden);
-    thumbnails.forEach(i => (i.hidden = !hasHidden));
+    const hasHidden = thumbnails.some((i) => i.hidden);
+    thumbnails.forEach((i) => (i.hidden = !hasHidden));
   }
 
   private getAllOutputs(): IOutputPerOutputFormatSelection[] {
     return flatMap(
-      this.getFileFormats().map(fileFormat => this.getOutputs(fileFormat)),
-      i => i
+      this.getFileFormats().map((fileFormat) => this.getOutputs(fileFormat)),
+      (i) => i
     );
   }
 
   private getThumbnailOutputs(): IOutputPerOutputFormatSelection[] {
-    return this.getAllOutputs().filter(output => output.id.indexOf('Thumbnail') === 0);
+    return this.getAllOutputs().filter((output) => output.id.indexOf('Thumbnail') === 0);
   }
 }

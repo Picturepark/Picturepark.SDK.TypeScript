@@ -10,7 +10,7 @@ import { CustomerInfoService } from '../services/customer-info.service';
 export class InfoFacade {
   constructor(private infoService: CustomerInfoService) {}
 
-  public getInfo(): Observable<CustomerInfo> {
-    return this.infoService.getInfo().pipe(shareReplay(1));
+  public getInfo(cdnUrl?: string): Observable<CustomerInfo> {
+    return this.infoService.getInfo(cdnUrl).pipe(shareReplay(1));
   }
 }

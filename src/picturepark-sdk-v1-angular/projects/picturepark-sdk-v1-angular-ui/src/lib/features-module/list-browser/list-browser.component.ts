@@ -62,13 +62,13 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.customerInfo = await this.infoFacade.getInfo().toPromise();
 
     // need to show column names
-    this.displayedColumnNames = this.schema.fields!.map(field => {
+    this.displayedColumnNames = this.schema.fields!.map((field) => {
       const id = field.id.split('.').pop();
       const names = field.names;
       return { id, names, field };
     });
 
-    this.displayedColumns = this.schema.fields!.map(field => {
+    this.displayedColumns = this.schema.fields!.map((field) => {
       const id = field.id.split('.').pop();
       return id!;
     });
@@ -85,7 +85,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
         this.activeSortDirection = this.schema.sort[0].direction.toLowerCase() as MatSortDirection;
         this.activeSortColumn = name!;
 
-        this.sortInfo = this.schema.sort.map(s => {
+        this.sortInfo = this.schema.sort.map((s) => {
           return new SortInfo({
             field: lowerFirst(this.schema.id) + '.' + s.field,
             direction: s.direction.toLowerCase() === 'asc' ? SortDirection.Asc : SortDirection.Desc,
@@ -108,15 +108,15 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   prepareData(items: ListItem[]): void {
-    const metadataItems = items.map(m => m.content);
+    const metadataItems = items.map((m) => m.content);
     const tableItems = this.metaDataPreviewService.getListItemsTableData(metadataItems, this.schema, this.customerInfo);
     this.tableItems.push(...tableItems);
 
     this.dataSource.data = this.tableItems;
     const selected = this.items.filter(
-      listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.id) !== -1
+      (listItem) => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.id) !== -1
     );
-    this.selectionService.addItems(selected.map(q => q));
+    this.selectionService.addItems(selected.map((q) => q));
 
     this.cdr.detectChanges();
   }
@@ -147,7 +147,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle() {
-    this.isAllSelected() ? this.selectionService.clear() : this.selectionService.addItems(this.items.map(q => q));
+    this.isAllSelected() ? this.selectionService.clear() : this.selectionService.addItems(this.items.map((q) => q));
   }
 
   public isRowSelected(row: any): boolean {
@@ -155,7 +155,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   public toggle(row: any) {
-    const index = this.items.findIndex(item => item.id === row._refId);
+    const index = this.items.findIndex((item) => item.id === row._refId);
     const itemModel = this.items[index];
     this.selectionService.toggle(itemModel);
   }

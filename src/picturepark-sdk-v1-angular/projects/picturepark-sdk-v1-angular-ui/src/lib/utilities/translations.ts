@@ -512,10 +512,6 @@ export let TRANSLATIONS = {
     ErrorNotification: {
       en: 'There was an error sharing your content, please try again',
     },
-    CopyToClipboard: {
-      en: 'Copy to clipboard',
-      de: 'In Zwischenablage kopieren',
-    },
   },
   ContentDetailsDialog: {
     Download: {
@@ -525,6 +521,50 @@ export let TRANSLATIONS = {
     Overview: {
       en: 'Overview',
       de: 'Übersicht',
+    },
+  },
+  ShareMailRecipientsPanel: {
+    CopyToClipboard: {
+      en: 'Copy to clipboard',
+      de: 'In Zwischenablage kopieren',
+    },
+    Recipients: {
+      en: 'Recipients',
+      de: 'Empfänger',
+    },
+  },
+  ShareOwnerPanel: {
+    Owner: {
+      en: 'Owner',
+      de: 'Inhaber',
+    },
+  },
+  ShareSettingsPanel: {
+    Settings: {
+      en: 'Settings',
+      de: 'Einstellungen',
+    },
+    Subject: {
+      en: 'Subject',
+      de: 'Gegenstand',
+    },
+    AccessOriginal: {
+      en: 'Access original',
+      de: 'Zugang original',
+    },
+    CreationDate: {
+      en: 'Date created',
+      de: 'Erstellungsdatum',
+    },
+    ModificationDate: {
+      en: 'Date Modified',
+      de: 'Modifikationsdatum',
+    },
+  },
+  ShareItemsPanel: {
+    Items: {
+      en: 'Items',
+      de: 'Items',
     },
   },
 };

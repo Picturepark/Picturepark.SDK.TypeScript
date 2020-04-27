@@ -53,7 +53,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   }
 
   public openDetails(item: Content) {
-    let index = this.contentBrowserComponent.items.findIndex(q => q.id === item.id);
+    let index = this.contentBrowserComponent.items.findIndex((q) => q.id === item.id);
 
     this.dialog.open(ContentDetailsDialogComponent, {
       data: <ContentDetailDialogOptions>{
@@ -81,7 +81,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   }
 
   public ngOnInit() {
-    this.sub = this.basketService.basketChange.subscribe(items => (this.itemsInBasket = items.length.toString()));
+    this.sub = this.basketService.basketChange.subscribe((items) => (this.itemsInBasket = items.length.toString()));
 
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];

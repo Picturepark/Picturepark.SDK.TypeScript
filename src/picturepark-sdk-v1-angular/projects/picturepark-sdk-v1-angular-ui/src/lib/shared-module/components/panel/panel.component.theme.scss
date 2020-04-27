@@ -1,0 +1,45 @@
+@import '~@angular/material/theming';
+
+// PANEL BASE VARS
+$pp-panel: (
+  contrast: (),
+);
+
+@mixin pp-panel-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  pp-panel,
+  pp-share-mail-recipients-panel,
+  pp-share-owner-panel,
+  pp-share-settings-panel {
+    .panel-container {
+      background-color: mat-color($primary, surface-light);
+      color: mat-color($primary, on-surface-light);
+
+      .panel-header {
+        border-bottom-color: mat-color($primary, divider);
+
+        .panel-buttons {
+          & button {
+            border-color: mat-color($primary, divider);
+
+            &:hover {
+              border-color: mat-color($primary, primary);
+              box-shadow: 0 0 3px mat-color($primary, primary);
+            }
+
+            &.square {
+              border: 2px solid mat-color($primary, primary);
+            }
+          }
+        }
+      }
+
+      .panel-content {
+        a {
+          color: mat-color($primary, on-surface-mid);
+        }
+      }
+    }
+  }
+}

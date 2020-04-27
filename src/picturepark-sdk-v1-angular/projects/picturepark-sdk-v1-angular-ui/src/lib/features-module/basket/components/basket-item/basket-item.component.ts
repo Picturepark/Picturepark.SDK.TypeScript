@@ -2,10 +2,10 @@ import { Component, Input, Injector } from '@angular/core';
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
-import { Content } from '@picturepark/sdk-v1-angular';
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
+import { Content } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-basket-item',

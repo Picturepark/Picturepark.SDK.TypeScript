@@ -1,8 +1,6 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 // LIBRARIES
 import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk-v1-angular';
-import { PanelBaseComponent } from '../panel/components/panel-base/panel-base.component';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
 
 @Component({
@@ -10,7 +8,7 @@ import { ContentDownloadDialogService } from '../content-download-dialog/content
   templateUrl: './share-items-panel.component.html',
   styleUrls: ['./share-items-panel.component.scss'],
 })
-export class ShareItemsPanelComponent extends PanelBaseComponent implements OnInit, OnChanges {
+export class ShareItemsPanelComponent implements OnInit, OnChanges {
   @Input() view: 'grid' | 'list' = 'grid';
   @Input() items: ShareContentDetail[];
   @Input() shareDetail: ShareDetail;
@@ -22,9 +20,7 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
 
   public thumbnailSize = ThumbnailSize;
 
-  constructor(private contentDownloadDialogService: ContentDownloadDialogService) {
-    super();
-  }
+  constructor(private contentDownloadDialogService: ContentDownloadDialogService) {}
 
   // OPEN IN NEW WINDOW
   openInNewWindow(item: ShareContentDetail): void {

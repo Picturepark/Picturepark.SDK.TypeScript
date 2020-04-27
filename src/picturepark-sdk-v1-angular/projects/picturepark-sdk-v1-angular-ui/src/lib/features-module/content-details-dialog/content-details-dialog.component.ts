@@ -10,7 +10,7 @@ import {
 } from '@picturepark/sdk-v1-angular';
 
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
-import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
+import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
 import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
 
 // SERVICES
@@ -19,7 +19,10 @@ import { ContentDownloadDialogService } from '../content-download-dialog/content
 @Component({
   selector: 'pp-content-details-dialog',
   templateUrl: './content-details-dialog.component.html',
-  styleUrls: ['../dialog/components/dialog-base/dialog-base.component.scss', './content-details-dialog.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/dialog-base/dialog-base.component.scss',
+    './content-details-dialog.component.scss',
+  ],
   providers: [TranslatePipe],
 })
 export class ContentDetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
@@ -49,9 +52,11 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   }
 
   loadSchemas(): void {
-    this.schemaService.getMany(this.content.layerSchemaIds!.concat(this.content.contentSchemaId)).subscribe(schemas => {
-      this.schemas = schemas;
-    });
+    this.schemaService
+      .getMany(this.content.layerSchemaIds!.concat(this.content.contentSchemaId))
+      .subscribe((schemas) => {
+        this.schemas = schemas;
+      });
   }
 
   tabChange(event: MatTabChangeEvent): void {
@@ -101,7 +106,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
         ContentResolveBehavior.OuterDisplayValueDetail,
         ContentResolveBehavior.Outputs,
       ])
-      .subscribe(async content => {
+      .subscribe(async (content) => {
         if (content) {
           this.content = content;
         }

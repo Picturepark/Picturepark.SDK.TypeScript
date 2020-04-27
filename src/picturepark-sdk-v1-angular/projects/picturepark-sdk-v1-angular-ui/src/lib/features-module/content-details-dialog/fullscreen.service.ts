@@ -15,7 +15,7 @@ export class FullscreenService {
   scriptsPath = '/assets/picturepark-sdk-v1-widgets/';
 
   showDetailById(shareItemId: string, shareItems: IShareItem[]) {
-    const shareItem = shareItems.filter(i => i.id === shareItemId)[0];
+    const shareItem = shareItems.filter((i) => i.id === shareItemId)[0];
     if (shareItem.isPdf && shareItems.length === 1) {
       this.showPdfJsItem(shareItem);
       this.loading = false;
@@ -88,7 +88,7 @@ export class FullscreenService {
     };
 
     let pdfLoaded = false;
-    iframeElement.onload = e => {
+    iframeElement.onload = (e) => {
       document.body.style.overflow = 'hidden';
       if (pdfLoaded) {
         closeCallback();
@@ -102,12 +102,12 @@ export class FullscreenService {
   }
 
   showPhotoSwipeItem(shareItem: IShareItem, shareItems: IShareItem[]) {
-    return this.loadPhotoSwipe().then(result => {
+    return this.loadPhotoSwipe().then((result) => {
       if (!shareItems) {
         shareItems = [shareItem];
       }
 
-      const photoSwipeItems = shareItems.map(i => {
+      const photoSwipeItems = shareItems.map((i) => {
         if (i.isImage && i.detail) {
           return {
             src: i.previewUrl,
@@ -168,7 +168,7 @@ export class FullscreenService {
         return photoSwipe.currItem.origin || photoSwipe.currItem.src || '';
       };
       photoSwipe.init();
-      photoSwipe.listen('afterChange', function() {
+      photoSwipe.listen('afterChange', function () {
         // TODO: Emit event
       });
 
@@ -187,7 +187,7 @@ export class FullscreenService {
         });
       };
 
-      if (shareItems.filter(i => i.isMovie || i.isAudio || i.isPdf).length > 0) {
+      if (shareItems.filter((i) => i.isMovie || i.isAudio || i.isPdf).length > 0) {
         const updatePlayers = async () => {
           cleanupPlayers();
 
@@ -205,7 +205,7 @@ export class FullscreenService {
           }
 
           // Handle pdfjs iframe close event
-          for (const i of shareItems.filter(s => s.isPdf)) {
+          for (const i of shareItems.filter((s) => s.isPdf)) {
             const elementId = 'pdfjs_' + i.id;
             const element: any = document.getElementById(elementId);
             if (element) {
@@ -225,7 +225,7 @@ export class FullscreenService {
         updatePlayers();
       }
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         photoSwipe.listen('close', () => {
           cleanupPlayers();
           for (const resizeCallback of resizeCallbacks) {
@@ -316,14 +316,14 @@ export class FullscreenService {
   loadScript(url: string, globalName: string): Promise<any> {
     if ((<any>window).require) {
       log('Picturepark Widgets > Load external script via require(): ' + url);
-      return new Promise(resolve => {
-        (<any>window).require([url], module => {
+      return new Promise((resolve) => {
+        (<any>window).require([url], (module) => {
           resolve(module);
         });
       });
     } else {
       log('Picturepark Widgets > Load external script via tag: ' + url);
-      return new Promise<any>(resolve => {
+      return new Promise<any>((resolve) => {
         const scriptTag = document.createElement('script');
         scriptTag.src = url;
         scriptTag.async = true;
@@ -336,7 +336,7 @@ export class FullscreenService {
   }
 
   loadCss(url): Promise<void> {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       const linkElement = document.createElement('link');
       linkElement.type = 'text/css';
       linkElement.rel = 'stylesheet';

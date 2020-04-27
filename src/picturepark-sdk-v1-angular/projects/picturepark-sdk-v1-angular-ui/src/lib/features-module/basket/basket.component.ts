@@ -2,7 +2,6 @@ import { Component, Output, EventEmitter, OnInit, Inject, Injector } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
-import { fetchContents } from '@picturepark/sdk-v1-angular';
 import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
@@ -12,8 +11,7 @@ import { ShareContentDialogComponent } from '../../features-module/share-content
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
-import { ContentService, Content } from '@picturepark/sdk-v1-angular';
-import { switchMap } from 'rxjs/operators';
+import { Content } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'pp-basket',
@@ -31,22 +29,13 @@ export class BasketComponent extends BaseComponent implements OnInit {
   constructor(
     @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private basketService: BasketService,
-    private contentService: ContentService,
     private contentDownloadDialogService: ContentDownloadDialogService,
     protected injector: Injector,
     public dialog: MatDialog
   ) {
     super(injector);
 
-    this.sub = this.basketService.basketChange
-      .pipe(
-        switchMap(itemsIds => {
-          return fetchContents(this.contentService, itemsIds);
-        })
-      )
-      .subscribe(fetchResult => {
-        this.basketItems = fetchResult.results;
-      });
+    this.sub = this.basketService.basketItemsChanges.subscribe((items) => (this.basketItems = items));
   }
 
   public previewItem(item: Content): void {
@@ -68,12 +57,12 @@ export class BasketComponent extends BaseComponent implements OnInit {
     dialogRef.componentInstance.title = 'Basket.Share';
   }
 
-  public clearBasket(): void {
-    this.basketService.clearBasket();
+  trackByBasket(index: number, item: Content): string {
+    return item.id;
   }
 
-  public trackByBasket(index, basketItem: Content): string {
-    return basketItem.id;
+  public clearBasket(): void {
+    this.basketService.clearBasket();
   }
 
   ngOnInit() {

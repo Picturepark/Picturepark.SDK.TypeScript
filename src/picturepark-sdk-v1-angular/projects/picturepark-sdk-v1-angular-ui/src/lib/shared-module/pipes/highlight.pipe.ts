@@ -6,10 +6,10 @@ export class HighlightPipe implements PipeTransform {
     const pattern = search
       .replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
       .split(' ')
-      .filter(t => t.length > 0)
+      .filter((t) => t.length > 0)
       .join('|');
     const regex = new RegExp(pattern, 'gi');
 
-    return search ? text.replace(regex, match => `<b>${match}</b>`) : text;
+    return search ? text.replace(regex, (match) => `<b>${match}</b>`) : text;
   }
 }

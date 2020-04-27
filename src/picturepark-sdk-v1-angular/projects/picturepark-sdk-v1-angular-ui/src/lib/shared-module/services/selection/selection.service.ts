@@ -20,7 +20,7 @@ export class SelectionService<TEntity extends IEntityBase> {
   }
 
   public addItems(items: TEntity[]) {
-    items.forEach(item => this.items.add(item));
+    items.forEach((item) => this.items.add(item));
     this.updateSubject();
   }
 
@@ -44,7 +44,7 @@ export class SelectionService<TEntity extends IEntityBase> {
   }
 
   public getById(value: string): TEntity | undefined {
-    return Array.from(this.items.values()).find(i => i.id === value);
+    return Array.from(this.items.values()).find((i) => i.id === value);
   }
 
   public clear() {
