@@ -11,7 +11,6 @@ import {
   BusinessProcessService,
   PICTUREPARK_CONFIGURATION,
   PictureparkConfiguration,
-  CustomerInfo,
   OutputResolveManyRequest,
 } from '@picturepark/sdk-v1-angular';
 
@@ -212,7 +211,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   public update(): void {
     this.enableAdvanced = this.selection.hasThumbnails;
     this.advancedMode = !this.selection.hasHiddenThumbnails;
-    const outputs = this.selection.getSelectedOutputs() as any;
+    const outputs = this.selection.getSelectedOutputs();
     this.hasDynamicOutputs = outputs.some(i => i.dynamicRendering && !i.detail!.fileSizeInBytes);
     if (outputs.length > 0) {
       this.fileSize = outputs
