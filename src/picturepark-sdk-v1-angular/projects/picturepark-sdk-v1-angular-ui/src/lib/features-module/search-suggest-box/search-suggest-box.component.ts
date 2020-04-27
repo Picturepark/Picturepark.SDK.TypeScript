@@ -4,16 +4,14 @@ import { Component, Input, OnInit, Injector, ChangeDetectionStrategy, Inject, LO
 import {
   AggregatorBase,
   TermsAggregator,
-  AggregationResult,
   AggregationResultItem,
-  ObjectAggregationResult,
   SearchFacade,
   SearchInputState,
   IEntityBase,
 } from '@picturepark/sdk-v1-angular';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FormControl, FormBuilder } from '@angular/forms';
-import { debounceTime, tap, switchMap, map, catchError, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, tap, switchMap, map, catchError, distinctUntilChanged, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { BaseComponent } from '../../shared-module/components/base.component';
 import { MatRadioChange } from '@angular/material/radio';
@@ -58,6 +56,10 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.sub = this.facade.searchString$
+      .pipe(filter((searchString) => searchString !== this.suggestBox.value))
+      .subscribe((searchString) => this.suggestBox.setValue(searchString));
+
     this.suggestions$ = this.suggestBox.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),

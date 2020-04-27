@@ -24,6 +24,7 @@ export { BasketComponent } from './lib/features-module/basket/basket.component';
 export { ShareOwnerPanelComponent } from './lib/features-module/share-owner-panel/share-owner-panel.component';
 export { ShareMailRecipientsPanelComponent } from './lib/features-module/share-mail-recipients-panel/share-mail-recipients-panel.component';
 export { ShareSettingsPanelComponent } from './lib/features-module/share-settings-panel/share-settings-panel.component';
+export { ConfirmDialogComponent } from './lib/shared-module/components/confirm-dialog/confirm-dialog.component';
 
 export { PanelComponent } from './lib/shared-module/components/panel/panel.component';
 export { ContentItemThumbnailComponent } from './lib/shared-module/components/content-item-thumbnail/content-item-thumbnail.component';

@@ -82,7 +82,6 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
 
   public ngOnInit() {
     this.sub = this.basketService.basketChange.subscribe((items) => (this.itemsInBasket = items.length.toString()));
-
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
     }

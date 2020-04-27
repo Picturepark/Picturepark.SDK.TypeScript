@@ -79,6 +79,11 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     distinctUntilChanged()
   );
 
+  searchString$ = this.searchRequest$.pipe(
+    map((i) => i.searchString),
+    distinctUntilChanged()
+  );
+
   abstract search():
     | Observable<{
         results: T[];
