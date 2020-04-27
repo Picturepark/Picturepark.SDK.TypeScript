@@ -1,0 +1,8 @@
+@import '~@angular/material/theming';
+
+@mixin pp-snackbar-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  pp-snackbar {
+  }
+}

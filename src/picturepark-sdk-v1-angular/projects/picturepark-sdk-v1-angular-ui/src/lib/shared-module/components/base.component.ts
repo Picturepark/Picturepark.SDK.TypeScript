@@ -29,6 +29,7 @@ export abstract class BaseComponent implements OnDestroy {
   constructor(protected injector: Injector) {}
 
   public ngOnDestroy(): void {
+    debugger;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

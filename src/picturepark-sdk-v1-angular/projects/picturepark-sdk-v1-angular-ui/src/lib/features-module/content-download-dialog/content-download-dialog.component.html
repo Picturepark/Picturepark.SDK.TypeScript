@@ -5,6 +5,9 @@
   </h3>
   <pp-notification [notification]="notification"></pp-notification>
   <mat-dialog-content *ngIf="selection">
+    <div class="loader-wrapper" *ngIf="waintingDownload">
+      <mat-spinner></mat-spinner>
+    </div>
     <div *ngIf="!singleItem" class="note-dynamic">{{ 'ContentDownloadDialog.NoteDynamic' | pptranslate }}</div>
     <form *ngIf="!noOutputs">
       <div *ngFor="let filetype of selection.getFileFormats()">
@@ -59,14 +62,16 @@
       <span *ngIf="advancedMode">{{ 'ContentDownloadDialog.Simple' | pptranslate }}</span>
     </button>
     <span class="spacer"></span>
-    <button mat-button mat-dialog-close>{{ 'ContentDownloadDialog.Cancel' | pptranslate }}</button>
+    <button mat-button mat-dialog-close (click)="cancel()">{{ 'ContentDownloadDialog.Cancel' | pptranslate }}</button>
     <button
       mat-flat-button
       color="accent"
       *ngIf="!noOutputs"
       (click)="download()"
-      [disabled]="fileSize === 0 && !hasDynamicOutputs"
+      [disabled]="(false && !hasDynamicOutputs) || waintingDownload"
     >
+      <!-- TODO SAN handle fileSize -->
+      <!-- [disabled]="filezSize === 0 && !hasDynamicOutputs" -->
       {{ 'ContentDownloadDialog.Download' | pptranslate }}
     </button>
   </mat-dialog-actions>

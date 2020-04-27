@@ -415,6 +415,18 @@ export let TRANSLATIONS = {
     NoteDynamic: {
       en: 'Note: For downloading dynamic formats, please select a single item only.',
     },
+    ConfirmDownloadTitle: {
+      en: 'Download ready',
+    },
+    ConfirmDownloadMessage: {
+      en: 'A download is now ready, do you want to proceed with the download?',
+    },
+    DownloadPending: {
+      en: 'The download will start shortly',
+    },
+    DownloadError: {
+      en: 'There was a problem with the download',
+    },
   },
   SchemaBrowser: {
     Ascending: {
