@@ -54,7 +54,9 @@
                     <li [innerHTML]="content!.displayValues!['detail']"></li>
                   </ng-container>
                   <ng-template #fallbackToThumbnail>
-                    <li [innerHTML]="content!.displayValues!['thumbnail']"></li>
+                    <div class="virtual-item-wrapper">
+                      <li [innerHTML]="content!.displayValues!['thumbnail']"></li>
+                    </div>
                   </ng-template>
                 </ul>
               </div>

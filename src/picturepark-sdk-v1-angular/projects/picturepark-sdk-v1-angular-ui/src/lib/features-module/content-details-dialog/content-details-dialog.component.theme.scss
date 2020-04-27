@@ -14,5 +14,9 @@
         }
       }
     }
+
+    .virtual-item-wrapper {
+      background-color: mat-color($primary, background-light);
+    }
   }
 }
