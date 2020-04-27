@@ -2,12 +2,14 @@
   display: flex;
 
   .form {
+    width: 100%;
     display: flex;
     flex: 1;
     border-radius: 4px;
     transition: background 100ms ease-in;
 
     input {
+      width: 100%;
       background: transparent;
       border: none;
       outline: none;

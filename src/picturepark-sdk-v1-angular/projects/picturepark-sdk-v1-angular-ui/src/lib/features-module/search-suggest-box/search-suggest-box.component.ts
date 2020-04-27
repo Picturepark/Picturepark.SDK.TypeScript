@@ -4,9 +4,7 @@ import { Component, Input, OnInit, Injector, ChangeDetectionStrategy, Inject, LO
 import {
   AggregatorBase,
   TermsAggregator,
-  AggregationResult,
   AggregationResultItem,
-  ObjectAggregationResult,
   SearchFacade,
   SearchInputState,
   IEntityBase,
