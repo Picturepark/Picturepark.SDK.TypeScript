@@ -168,11 +168,11 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         notifyProgress: true,
       });
       let downloadUrl = '';
-      const DownloadLinkBusinessProcess = await this.contentService.createDownloadLink(downloadLinkRequest).toPromise();
-      if (DownloadLinkBusinessProcess.referenceId) {
-        await this.businessProcessService.waitForCompletion(DownloadLinkBusinessProcess.id, null, false).toPromise();
+      const downloadLinkBusinessProcess = await this.contentService.createDownloadLink(downloadLinkRequest).toPromise();
+      if (downloadLinkBusinessProcess.referenceId) {
+        await this.businessProcessService.waitForCompletion(downloadLinkBusinessProcess.id, null, false).toPromise();
         const downloadLink = await this.contentService
-          .getDownloadLink(DownloadLinkBusinessProcess.referenceId)
+          .getDownloadLink(downloadLinkBusinessProcess.referenceId)
           .toPromise();
         downloadUrl = downloadLink.downloadUrl;
       }

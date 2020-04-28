@@ -22,7 +22,6 @@
 @import '../features-module/share-content-dialog/share-content-dialog.component.theme.scss';
 @import '../features-module/share-browser/components/share-browser-item/share-browser-item.component.theme.scss';
 @import '../features-module/share-items-panel/share-items-panel.component.theme.scss';
-@import '../features-module/snackbar/snackbar.component.theme.scss';
 @import '../features-module/share-content-dialog/components/share-content-dialog-item/share-content-dialog-item.component.theme.scss';
 @import '../features-module/share-content-dialog/components/share-content-recipients-input/share-content-recipients-input.component.theme.scss';
 @import '../features-module/content-details-dialog/content-details-dialog.component.theme.scss';
@@ -54,7 +53,6 @@
   @include pp-share-content-dialog-theme($theme);
   @include pp-share-browser-item-theme($theme);
   @include pp-share-items-panel-theme($theme);
-  @include pp-snackbar-theme($theme);
   @include pp-share-content-dialog-item-theme($theme);
   @include pp-share-content-recipients-input-theme($theme);
   @include pp-panel-theme($theme);

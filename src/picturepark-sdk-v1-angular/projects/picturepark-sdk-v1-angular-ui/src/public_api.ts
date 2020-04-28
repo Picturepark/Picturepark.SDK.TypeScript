@@ -55,7 +55,6 @@ export { ListModule } from './lib/features-module/list-items/list/list.module';
 export { NotificationModule } from './lib/features-module/notification/notification.module';
 export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
 export { SearchSuggestBoxModule } from './lib/features-module/search-suggest-box/search-suggest-box.module';
-export { SnackBarModule } from './lib/features-module/snackbar/snackbar.module';
 export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
 export { SharedModule } from './lib/shared-module/shared-module.module';
 export { ShareBrowserModule } from './lib/features-module/share-browser/share-browser.module';

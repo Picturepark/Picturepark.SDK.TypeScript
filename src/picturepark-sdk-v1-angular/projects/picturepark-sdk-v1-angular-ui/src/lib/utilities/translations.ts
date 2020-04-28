@@ -427,6 +427,9 @@ export let TRANSLATIONS = {
     DownloadError: {
       en: 'There was a problem with the download',
     },
+    TooManyContentsError: {
+      en: 'The download of more than 1000 contents is not supported.',
+    },
   },
   SchemaBrowser: {
     Ascending: {

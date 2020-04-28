@@ -57,9 +57,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   public noOutputs = false;
   public hasDynamicOutputs = false;
   public singleItem = false;
-  public waintingDownload = false;
-
+  public waitingDownload = false;
   public loader = false;
+  public tooManyContents = false;
 
   public outputFormatFallback = [
     { fileSchemaId: 'ImageMetadata', outputFormatId: 'Preview' },
@@ -145,7 +145,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       contents: data.map((i) => ({ contentId: i.contentId, outputFormatId: i.outputFormatId })),
       notifyProgress: true,
     });
-    this.waintingDownload = true;
+    this.waitingDownload = true;
     this.sub = this.contentService.createDownloadLink(request).subscribe((businessProcess) => {
       let isTimmerRunning = true;
       const downloadTimmer = setTimeout(() => {
@@ -216,11 +216,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     if (outputs.length > 0) {
       this.fileSize = outputs
         .map((i) => {
-          if (i.detail) {
-            return i.detail!.fileSizeInBytes || 0;
-          } else {
-            return i.fileSize || 0;
-          }
+          return i.detail?.fileSizeInBytes || i.fileSize || 0;
         })
         .reduce((total, value) => total + value);
     } else {
@@ -258,7 +254,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     const containerHeight = this.contentContainer.nativeElement.offsetHeight;
     this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight + 56}px`);
 
-    if (this.data.contents.length === 1) {
+    if (this.data.contents.length > 1000) {
+      this.tooManyContents = true;
+    } else if (this.data.contents.length === 1) {
       const outputs = this.data.contents[0]?.outputs;
       if (outputs) {
         await this.setSelection(outputs);
@@ -286,14 +284,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   private fetchOutputs(): void {
-    if (this.data.contents.length <= 1000) {
-      const request = new OutputResolveManyRequest({ contentIds: this.data.contents.map((i) => i.id) });
-      this.sub = this.contentService.getOutputsMany(request).subscribe(async (outputs) => {
-        await this.getSelection(outputs, this.data.contents);
-        this.update();
-        this.loader = false;
-      });
-    } else {
-    }
+    const request = new OutputResolveManyRequest({ contentIds: this.data.contents.map((i) => i.id) });
+    this.sub = this.contentService.getOutputsMany(request).subscribe((outputs) => {
+      this.setSelection(outputs);
+    });
   }
 }

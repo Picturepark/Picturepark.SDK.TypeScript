@@ -6,49 +6,54 @@
   <pp-notification [notification]="notification"></pp-notification>
   <mat-dialog-content *ngIf="selection">
     <div class="content-wrapper">
-      <div class="loader-wrapper" *ngIf="waintingDownload">
-        <mat-spinner></mat-spinner>
-      </div>
-      <div *ngIf="!singleItem" class="note-dynamic">{{ 'ContentDownloadDialog.NoteDynamic' | pptranslate }}</div>
-      <form *ngIf="!noOutputs">
-        <div *ngFor="let filetype of selection.getFileFormats()">
-          <fieldset *ngIf="selection.hasOutputs(filetype)">
-            <legend>{{ filetype.name }} ({{ filetype.contents.length }})</legend>
-            <div *ngIf="data.mode === 'multi'">
-              <div *ngFor="let output of selection.getOutputs(filetype)">
-                <mat-checkbox
-                  *ngIf="!output.hidden && output.values.length"
-                  [name]="filetype.id + '-' + output.id"
-                  [(ngModel)]="output.selected"
-                  (change)="update()"
-                >
-                  {{ output.name }} ({{ output.values.length }})
-                </mat-checkbox>
-              </div>
-            </div>
-            <div *ngIf="data.mode === 'single'">
-              <mat-radio-group>
+      <ng-container *ngIf="!tooManyContents; else contensMessage">
+        <div class="loader-wrapper" *ngIf="waitingDownload">
+          <mat-spinner></mat-spinner>
+        </div>
+        <div *ngIf="!singleItem" class="note-dynamic">{{ 'ContentDownloadDialog.NoteDynamic' | pptranslate }}</div>
+        <form *ngIf="!noOutputs">
+          <div *ngFor="let filetype of selection.getFileFormats()">
+            <fieldset *ngIf="selection.hasOutputs(filetype)">
+              <legend>{{ filetype.name }} ({{ filetype.contents.length }})</legend>
+              <div *ngIf="data.mode === 'multi'">
                 <div *ngFor="let output of selection.getOutputs(filetype)">
-                  <mat-radio-button
+                  <mat-checkbox
                     *ngIf="!output.hidden && output.values.length"
-                    [value]="filetype.id + '-' + output.id"
-                    [checked]="output.selected"
-                    (change)="radioChange(output, filetype)"
+                    [name]="filetype.id + '-' + output.id"
+                    [(ngModel)]="output.selected"
+                    (change)="update()"
                   >
                     {{ output.name }} ({{ output.values.length }})
-                  </mat-radio-button>
+                  </mat-checkbox>
                 </div>
-              </mat-radio-group>
-            </div>
-          </fieldset>
+              </div>
+              <div *ngIf="data.mode === 'single'">
+                <mat-radio-group>
+                  <div *ngFor="let output of selection.getOutputs(filetype)">
+                    <mat-radio-button
+                      *ngIf="!output.hidden && output.values.length"
+                      [value]="filetype.id + '-' + output.id"
+                      [checked]="output.selected"
+                      (change)="radioChange(output, filetype)"
+                    >
+                      {{ output.name }} ({{ output.values.length }})
+                    </mat-radio-button>
+                  </div>
+                </mat-radio-group>
+              </div>
+            </fieldset>
+          </div>
+        </form>
+        <div *ngIf="noOutputs">{{ 'ContentDownloadDialog.NoAccess' | pptranslate }}</div>
+        <div class="filesize" *ngIf="fileSize || hasDynamicOutputs">
+          <span *ngIf="!hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}</span>
+          <span *ngIf="hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSizeDynamicOutputs' | pptranslate }}</span>
+          {{ fileSize | filesize }}
         </div>
-      </form>
-      <div *ngIf="noOutputs">{{ 'ContentDownloadDialog.NoAccess' | pptranslate }}</div>
-      <div class="filesize" *ngIf="fileSize || hasDynamicOutputs">
-        <span *ngIf="!hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}</span>
-        <span *ngIf="hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSizeDynamicOutputs' | pptranslate }}</span>
-        {{ fileSize | filesize }}
-      </div>
+      </ng-container>
+      <ng-template #contensMessage>
+        <span>{{ 'ContentDownloadDialog.TooManyContentsError' | pptranslate }}</span>
+      </ng-template>
     </div>
   </mat-dialog-content>
 
@@ -70,7 +75,7 @@
       color="accent"
       *ngIf="!noOutputs"
       (click)="download()"
-      [disabled]="(fileSize === 0 && !hasDynamicOutputs) || waintingDownload"
+      [disabled]="(fileSize === 0 && !hasDynamicOutputs) || waitingDownload"
     >
       {{ 'ContentDownloadDialog.Download' | pptranslate }}
     </button>
