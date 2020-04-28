@@ -1,2 +1,3 @@
 **/picturepark-sdk-v1-widgets
+**/polyfills.ts
 projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts
