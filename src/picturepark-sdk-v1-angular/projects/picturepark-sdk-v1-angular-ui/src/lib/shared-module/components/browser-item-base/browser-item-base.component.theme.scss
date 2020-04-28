@@ -5,15 +5,15 @@
 @mixin pp-browser-item-base-theme($theme) {
   $primary: map-get($theme, primary);
 
+  pp-share-browser-item {
+    .browser-item__image-slot {
+      background-color: mat-color($primary, surface-mid);
+    }
+  }
+
   pp-content-browser-item,
   pp-share-browser-item {
     .browser-item {
-      $self: &;
-
-      &__image-slot {
-        background-color: mat-color($primary, background-dark);
-      }
-
       &__basket-icon {
         mat-icon {
           background-color: mat-color($primary, opacity-light);
