@@ -36,7 +36,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
     const contentIdsReq = contentIds.slice(0, 3);
 
     Promise.all(
-      contentIdsReq.map(contentId => {
+      contentIdsReq.map((contentId) => {
         return this.contentService.downloadThumbnail(
           contentId,
           this.isListView ? ThumbnailSize.Small : this.thumbnailSize || ThumbnailSize.Medium,
@@ -45,9 +45,9 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
         );
       })
     )
-      .then(items => {
-        items.map(item => {
-          this.sub = item.subscribe(response => {
+      .then((items) => {
+        items.map((item) => {
+          this.sub = item.subscribe((response) => {
             if (response) {
               this.thumbnailUrls.push(this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data)));
             }
@@ -55,7 +55,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
         });
         this.isLoading = false;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
@@ -65,7 +65,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
     this.isSelected$ = this.browser.selectedItemsChange.pipe(
       debounceTime(10),
-      map(items => items.some(selectedItem => selectedItem.id === this.itemModel.id)),
+      map((items) => items.some((selectedItem) => selectedItem.id === this.itemModel.id)),
       share()
     );
   }

@@ -28,7 +28,7 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
 
   public ngOnInit(): void {
     this.sub = this.channelService.getAll().subscribe(
-      channels => {
+      (channels) => {
         this.channels = channels;
 
         this.channelsChange.emit(this.channels);

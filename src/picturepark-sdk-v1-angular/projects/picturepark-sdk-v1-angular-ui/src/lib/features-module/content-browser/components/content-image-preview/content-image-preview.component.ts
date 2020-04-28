@@ -98,7 +98,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
       }
 
       if (this.shareContent) {
-        const shareOutput = this.shareContent.outputs.find(i => i.outputFormatId === this.outputId);
+        const shareOutput = this.shareContent.outputs.find((i) => i.outputFormatId === this.outputId);
         if (shareOutput && shareOutput.viewUrl) {
           this.setPreviewUrl(shareOutput.viewUrl);
           return;
@@ -110,7 +110,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
 
       // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
       const output = this.content.outputs!.find(
-        i => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed
+        (i) => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed
       );
       const request = output
         ? this.contentService.download(
@@ -122,7 +122,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
           )
         : this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
 
-      this.sub = request.subscribe(response => {
+      this.sub = request.subscribe((response) => {
         this.setPreviewUrl(URL.createObjectURL(response.data));
       });
     }
@@ -147,16 +147,16 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
     if (!this.shareContent) {
       const outputs = this.content.outputs!;
 
-      const pdfOutput = outputs.find(i => i.outputFormatId === 'Pdf');
+      const pdfOutput = outputs.find((i) => i.outputFormatId === 'Pdf');
       isPdf = pdfOutput !== undefined;
 
       const previewOutput = isPdf
-        ? outputs.filter(o => o.outputFormatId === 'Pdf')[0]
+        ? outputs.filter((o) => o.outputFormatId === 'Pdf')[0]
         : this.isAudio
-        ? outputs.filter(o => o.outputFormatId === 'AudioSmall')[0]
+        ? outputs.filter((o) => o.outputFormatId === 'AudioSmall')[0]
         : this.isVideo
-        ? outputs.filter(o => o.outputFormatId === 'VideoSmall')[0]
-        : outputs.filter(o => o.outputFormatId === 'Preview')[0];
+        ? outputs.filter((o) => o.outputFormatId === 'VideoSmall')[0]
+        : outputs.filter((o) => o.outputFormatId === 'Preview')[0];
 
       const downloadLinkRequest = new ContentDownloadLinkCreateRequest({
         contents: [
@@ -209,12 +209,12 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         name: this.shareDetail!.name,
         creator: this.shareDetail!.creator,
         description: this.shareDetail!.description,
-        items: this.shareDetail!.contentSelections.map(s => {
-          const previewOutput = s.outputs.find(o => o.outputFormatId === 'Preview');
-          const originalOutput = s.outputs.find(o => o.outputFormatId === 'Original');
+        items: this.shareDetail!.contentSelections.map((s) => {
+          const previewOutput = s.outputs.find((o) => o.outputFormatId === 'Preview');
+          const originalOutput = s.outputs.find((o) => o.outputFormatId === 'Original');
           const detail = originalOutput ? originalOutput.detail : previewOutput ? previewOutput.detail : null;
 
-          const pdfOutput = s.outputs.find(i => i.outputFormatId === 'Pdf');
+          const pdfOutput = s.outputs.find((i) => i.outputFormatId === 'Pdf');
           return <IShareItem>{
             id: s.id,
             index: index++,
@@ -235,20 +235,20 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
 
             originalUrl: originalOutput ? originalOutput.downloadUrl : null,
             pdfUrl: pdfOutput ? pdfOutput.downloadUrl : null,
-            videoUrl: s.outputs.find(i => i.outputFormatId === 'VideoLarge')
-              ? s.outputs.find(i => i.outputFormatId === 'VideoLarge')!.downloadUrl
-              : s.outputs.find(i => i.outputFormatId === 'VideoSmall')
-              ? s.outputs.find(i => i.outputFormatId === 'VideoSmall')!.downloadUrl
+            videoUrl: s.outputs.find((i) => i.outputFormatId === 'VideoLarge')
+              ? s.outputs.find((i) => i.outputFormatId === 'VideoLarge')!.downloadUrl
+              : s.outputs.find((i) => i.outputFormatId === 'VideoSmall')
+              ? s.outputs.find((i) => i.outputFormatId === 'VideoSmall')!.downloadUrl
               : null,
-            audioUrl: s.outputs.find(i => i.outputFormatId === 'AudioSmall')
-              ? s.outputs.find(i => i.outputFormatId === 'AudioSmall')!.viewUrl
+            audioUrl: s.outputs.find((i) => i.outputFormatId === 'AudioSmall')
+              ? s.outputs.find((i) => i.outputFormatId === 'AudioSmall')!.viewUrl
               : null,
             outputs: s.outputs,
           };
         }),
       };
 
-      item = share.items.find(i => i.id === this.content.id)!;
+      item = share.items.find((i) => i.id === this.content.id)!;
       items = share.items;
     }
 
