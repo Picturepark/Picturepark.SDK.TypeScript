@@ -34,11 +34,9 @@
 }
 
 .schema-content {
-  &--selected {
-    border-style: solid;
-    border-width: 2px;
-    border-radius: 3px;
-  }
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 3px;
 }
 
 .schema-info {

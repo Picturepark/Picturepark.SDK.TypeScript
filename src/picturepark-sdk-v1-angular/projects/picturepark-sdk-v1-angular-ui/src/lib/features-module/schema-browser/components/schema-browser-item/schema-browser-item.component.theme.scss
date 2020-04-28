@@ -14,6 +14,7 @@ $pp-schema-browser-item: (
       color: mat-color($primary, on-surface-light);
 
       .schema-content {
+        border-color: rgba(mat-color($primary, primary), 0);
         &--selected {
           border-color: mat-color($primary, primary);
         }
