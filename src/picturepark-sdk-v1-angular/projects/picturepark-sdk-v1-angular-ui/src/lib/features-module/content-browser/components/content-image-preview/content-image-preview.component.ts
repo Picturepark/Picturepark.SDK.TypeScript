@@ -16,14 +16,13 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import {
   ContentService,
   ContentType,
-  ContentDownloadLinkCreateRequest,
   ContentDownloadRequestItem,
   ContentDetail,
   OutputRenderingState,
   ThumbnailSize,
   ShareContentDetail,
   ShareDetail,
-  BusinessProcessService,
+  DownloadFacade,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -62,7 +61,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
     private fullscreenService: FullscreenService,
     private cdr: ChangeDetectorRef,
     protected injector: Injector,
-    private businessProcessService: BusinessProcessService
+    private downloadFacade: DownloadFacade
   ) {
     super(injector);
   }
@@ -158,24 +157,18 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         ? outputs.filter((o) => o.outputFormatId === 'VideoSmall')[0]
         : outputs.filter((o) => o.outputFormatId === 'Preview')[0];
 
-      const downloadLinkRequest = new ContentDownloadLinkCreateRequest({
-        contents: [
+      let downloadUrl = '';
+      this.downloadFacade
+        .getDownloadLink([
           new ContentDownloadRequestItem({
             contentId: this.content.id,
             outputFormatId: previewOutput.outputFormatId,
           }),
-        ],
-        notifyProgress: true,
-      });
-      let downloadUrl = '';
-      const downloadLinkBusinessProcess = await this.contentService.createDownloadLink(downloadLinkRequest).toPromise();
-      if (downloadLinkBusinessProcess.referenceId) {
-        await this.businessProcessService.waitForCompletion(downloadLinkBusinessProcess.id, null, false).toPromise();
-        const downloadLink = await this.contentService
-          .getDownloadLink(downloadLinkBusinessProcess.referenceId)
-          .toPromise();
-        downloadUrl = downloadLink.downloadUrl;
-      }
+        ])
+        .subscribe((downloadLink) => {
+          downloadUrl = downloadLink.downloadUrl;
+        });
+
       item = {
         id: this.content.id,
 

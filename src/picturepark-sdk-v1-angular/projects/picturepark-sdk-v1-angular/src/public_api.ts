@@ -27,6 +27,7 @@ export { StorageKey } from './lib/utilities/storage-key.enum';
 
 // facades
 export { InfoFacade } from './lib/facade/info.facade';
+export { DownloadFacade } from './lib/facade/download.facade';
 export * from './lib/facade/search.facade';
 export * from './lib/facade/content-search.facade';
 export * from './lib/facade/schema-search.facade';

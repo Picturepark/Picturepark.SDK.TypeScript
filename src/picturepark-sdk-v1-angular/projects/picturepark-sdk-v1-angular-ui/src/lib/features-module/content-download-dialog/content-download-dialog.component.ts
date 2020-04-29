@@ -8,10 +8,8 @@ import {
   ContentService,
   Content,
   IShareOutputBase,
-  BusinessProcessService,
-  PICTUREPARK_CONFIGURATION,
-  PictureparkConfiguration,
   OutputResolveManyRequest,
+  DownloadFacade,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -70,15 +68,14 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ContentDownloadDialogOptions,
-    @Inject(PICTUREPARK_CONFIGURATION) private pictureparkConfiguration: PictureparkConfiguration,
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
     protected injector: Injector,
     private renderer: Renderer2,
     private translationService: TranslationService,
-    private businessProcessService: BusinessProcessService,
     private snackBar: MatSnackBar,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private downloadFacade: DownloadFacade
   ) {
     super(data, dialogRef, injector);
 
@@ -139,60 +136,50 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       }
     }
 
-    const request = new ContentDownloadLinkCreateRequest({
-      contents: data.map((i) => ({ contentId: i.contentId, outputFormatId: i.outputFormatId })),
-      notifyProgress: true,
-    });
     this.waitingDownload = true;
-    this.sub = this.contentService.createDownloadLink(request).subscribe((businessProcess) => {
-      let isTimmerRunning = true;
-      const downloadTimmer = setTimeout(() => {
-        isTimmerRunning = false;
-        this.dialogRef.close();
-        this.snackBar.open(this.translationService.translate('ContentDownloadDialog.DownloadPending'), undefined, {
-          duration: 3000,
-        });
-      }, 8000);
-
-      if (!businessProcess.referenceId) {
-        this.snackBar.open(this.translationService.translate('ContentDownloadDialog.DownloadError'), undefined, {
-          duration: 3000,
-        });
-        this.dialogRef.close();
-        return;
-      }
-
-      this.businessProcessService.waitForCompletion(businessProcess.id, null, false).subscribe(() => {
-        if (businessProcess.referenceId) {
-          this.contentService.getDownloadLink(businessProcess.referenceId).subscribe((downloadLink) => {
-            clearTimeout(downloadTimmer);
-            if (isTimmerRunning) {
-              window.location.replace(downloadLink.downloadUrl);
-              this.dialogRef.close();
-            } else {
-              this.dialogService
-                .confirm(
-                  {
-                    title: this.translationService.translate('ContentDownloadDialog.ConfirmDownloadTitle'),
-                    message: this.translationService.translate('ContentDownloadDialog.ConfirmDownloadMessage'),
-                    options: {
-                      okText: this.translationService.translate('ContentDownloadDialog.Download'),
-                      cancelText: this.translationService.translate('ContentDownloadDialog.Cancel'),
-                    },
-                  },
-                  { disableClose: true }
-                )
-                .afterClosed()
-                .subscribe((confirmDialogResult) => {
-                  if (confirmDialogResult) {
-                    window.location.replace(downloadLink.downloadUrl);
-                  }
-                });
-            }
-          });
-        }
+    const downloadTimmer = setTimeout(() => {
+      this.waitingDownload = false;
+      this.dialogRef.close();
+      this.snackBar.open(this.translationService.translate('ContentDownloadDialog.DownloadPending'), undefined, {
+        duration: 3000,
       });
-    });
+    }, 8000);
+
+    const contents = data.map((i) => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }));
+    this.downloadFacade.getDownloadLink(contents).subscribe(
+      (downloadLink) => {
+        clearTimeout(downloadTimmer);
+        if (this.waitingDownload) {
+          window.location.replace(downloadLink.downloadUrl);
+          this.dialogRef.close();
+        } else {
+          this.dialogService
+            .confirm(
+              {
+                title: this.translationService.translate('ContentDownloadDialog.ConfirmDownloadTitle'),
+                message: this.translationService.translate('ContentDownloadDialog.ConfirmDownloadMessage'),
+                options: {
+                  okText: this.translationService.translate('ContentDownloadDialog.Download'),
+                  cancelText: this.translationService.translate('ContentDownloadDialog.Cancel'),
+                },
+              },
+              { disableClose: true }
+            )
+            .afterClosed()
+            .subscribe((confirmDialogResult) => {
+              if (confirmDialogResult) {
+                window.location.replace(downloadLink.downloadUrl);
+              }
+            });
+        }
+      },
+      () => {
+        this.snackBar.open(this.translationService.translate('ContentDownloadDialog.DownloadError'), undefined, {
+          duration: 5000,
+        });
+        this.dialogRef.close();
+      }
+    );
   }
 
   public toggleAdvanced(): void {
