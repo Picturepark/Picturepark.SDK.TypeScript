@@ -6,7 +6,7 @@
   <pp-notification [notification]="notification"></pp-notification>
   <mat-dialog-content *ngIf="selection">
     <div class="content-wrapper">
-      <ng-container *ngIf="!tooManyContents; else contensMessage">
+      <ng-container *ngIf="!tooManyContents; else tooManycontentsMessage">
         <div class="loader-wrapper" *ngIf="waitingDownload">
           <mat-spinner></mat-spinner>
         </div>
@@ -51,7 +51,7 @@
           {{ fileSize | filesize }}
         </div>
       </ng-container>
-      <ng-template #contensMessage>
+      <ng-template #tooManycontentsMessage>
         <span>{{ 'ContentDownloadDialog.TooManyContentsError' | pptranslate }}</span>
       </ng-template>
     </div>
