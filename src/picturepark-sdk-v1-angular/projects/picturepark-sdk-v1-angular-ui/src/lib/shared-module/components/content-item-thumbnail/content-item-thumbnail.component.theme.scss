@@ -8,7 +8,8 @@
       $self: &;
 
       &__image-virtual-item-container {
-        color: mat-color($primary, on-surface-mid);
+        color: mat-color($primary, on-surface-dark);
+        background-color: rgba(mat-color($primary, surface-dark), 0.7);
       }
     }
   }

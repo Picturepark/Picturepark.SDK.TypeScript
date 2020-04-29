@@ -28,6 +28,7 @@ export { ShareSettingsPanelComponent } from './lib/features-module/share-setting
 export { PanelComponent } from './lib/shared-module/components/panel/panel.component';
 export { ContentItemThumbnailComponent } from './lib/shared-module/components/content-item-thumbnail/content-item-thumbnail.component';
 export { AggregationComponent } from './lib/shared-module/components/aggregation/aggregation.component';
+export { ConfirmDialogComponent } from './lib/shared-module/components/confirm-dialog/confirm-dialog.component';
 
 /*
  * Public API Surface of picturepark-sdk-v1-angular-ui
