@@ -418,7 +418,7 @@ export let TRANSLATIONS = {
     },
     ConfirmDownloadMessage: {
       en: 'A download is now ready, do you want to proceed with the download?',
-      de: 'Ein Download ist jetzt fertig. Möchten Sie mit dem Download fortfahren?',
+      de: 'Ein Download ist jetzt bereit. Möchten Sie mit dem Download fortfahren?',
     },
     DownloadPending: {
       en: 'The download will start shortly',
@@ -426,7 +426,7 @@ export let TRANSLATIONS = {
     },
     DownloadError: {
       en: 'There was a problem with the download',
-      de: 'Beim Herunterladen ist ein Problem aufgetreten',
+      de: 'Beim Herunterladen ist ein Fehler aufgetreten',
     },
     TooManyContentsError: {
       en: 'The download of more than 1000 items is not supported.',

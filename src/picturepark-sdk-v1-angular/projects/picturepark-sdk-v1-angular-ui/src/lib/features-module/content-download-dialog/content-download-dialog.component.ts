@@ -19,7 +19,7 @@ import {
   IOutputPerOutputFormatSelection,
   IOutputPerSchemaSelection,
 } from './components/output-selection';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
@@ -137,12 +137,11 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     }
 
     this.waitingDownload = true;
+    let snackBar: MatSnackBarRef<SimpleSnackBar>;
     const downloadTimmer = setTimeout(() => {
       this.waitingDownload = false;
       this.dialogRef.close();
-      this.snackBar.open(this.translationService.translate('ContentDownloadDialog.DownloadPending'), undefined, {
-        duration: 3000,
-      });
+      snackBar = this.snackBar.open(this.translationService.translate('ContentDownloadDialog.DownloadPending'));
     }, 8000);
 
     const contents = data.map((i) => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }));
@@ -153,6 +152,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
           window.location.replace(downloadLink.downloadUrl);
           this.dialogRef.close();
         } else {
+          snackBar.dismiss();
           this.dialogService
             .confirm(
               {
