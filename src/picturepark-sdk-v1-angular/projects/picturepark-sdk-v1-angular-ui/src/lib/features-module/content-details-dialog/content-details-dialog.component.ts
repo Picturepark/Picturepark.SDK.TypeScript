@@ -104,6 +104,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
         ContentResolveBehavior.InnerDisplayValueThumbnail,
         ContentResolveBehavior.OuterDisplayValueName,
         ContentResolveBehavior.OuterDisplayValueDetail,
+        ContentResolveBehavior.OuterDisplayValueThumbnail,
         ContentResolveBehavior.Outputs,
       ])
       .subscribe(async (content) => {

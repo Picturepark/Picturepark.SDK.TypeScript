@@ -50,12 +50,14 @@
               </div>
               <div class="content-info" *ngIf="!playing">
                 <ul>
-                  <ng-container *ngIf="content!.displayValues!['detail']; else fallbackToThumbnail">
-                    <li [innerHTML]="content!.displayValues!['detail']"></li>
+                  <ng-container *ngIf="content?.displayValues as displayValues">
+                    <ng-container *ngIf="displayValues['detail'] as detail; else fallbackToThumbnail">
+                      <li [innerHTML]="detail"></li>
+                    </ng-container>
+                    <ng-template #fallbackToThumbnail>
+                      <li [innerHTML]="displayValues['thumbnail']"></li>
+                    </ng-template>
                   </ng-container>
-                  <ng-template #fallbackToThumbnail>
-                    <li [innerHTML]="content!.displayValues!['thumbnail']"></li>
-                  </ng-template>
                 </ul>
               </div>
             </div>
