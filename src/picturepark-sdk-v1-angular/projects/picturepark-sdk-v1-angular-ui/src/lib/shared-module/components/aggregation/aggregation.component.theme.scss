@@ -55,10 +55,10 @@
     }
 
     mat-form-field.search {
-      background-color: mat-color($primary, surface-mid);
+      background-color: mat-color($primary, surface-light);
 
       .search-icon {
-        color: mat-color($primary, on-surface-mid);
+        color: mat-color($primary, on-surface-light);
       }
     }
   }

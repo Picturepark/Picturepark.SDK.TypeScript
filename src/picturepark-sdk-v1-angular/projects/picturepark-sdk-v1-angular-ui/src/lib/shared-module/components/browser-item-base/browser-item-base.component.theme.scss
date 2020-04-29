@@ -8,8 +8,6 @@
   pp-content-browser-item,
   pp-share-browser-item {
     .browser-item {
-      $self: &;
-
       &__image-slot {
         background-color: mat-color($primary, surface-mid);
       }
