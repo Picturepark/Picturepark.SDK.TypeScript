@@ -10,7 +10,6 @@
         <div class="loader-wrapper" *ngIf="waitingDownload">
           <mat-spinner></mat-spinner>
         </div>
-        <div *ngIf="!singleItem" class="note-dynamic">{{ 'ContentDownloadDialog.NoteDynamic' | pptranslate }}</div>
         <form *ngIf="!noOutputs">
           <div *ngFor="let filetype of selection.getFileFormats()">
             <fieldset *ngIf="selection.hasOutputs(filetype)">

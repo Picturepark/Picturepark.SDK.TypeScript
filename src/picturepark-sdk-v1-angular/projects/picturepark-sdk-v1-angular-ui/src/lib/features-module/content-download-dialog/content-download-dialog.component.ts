@@ -56,7 +56,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   public filteredData: Content[];
   public noOutputs = false;
   public hasDynamicOutputs = false;
-  public singleItem = false;
   public waitingDownload = false;
   public loader = false;
   public tooManyContents = false;
@@ -125,7 +124,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
     this.selection = selection;
     this.noOutputs = !fileFormats.some((i) => selection.getOutputs(i).length > 0);
-    this.singleItem = fileFormats.length === 1 && fileFormats[0].contents.length === 1;
   }
 
   public download(): void {
@@ -212,7 +210,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     this.enableAdvanced = this.selection.hasThumbnails;
     this.advancedMode = !this.selection.hasHiddenThumbnails;
     const outputs = this.selection.getSelectedOutputs();
-    this.hasDynamicOutputs = outputs.some((i) => i.dynamicRendering && !i.detail!.fileSizeInBytes);
+    this.hasDynamicOutputs = outputs.some((i) => i.dynamicRendering);
     if (outputs.length > 0) {
       this.fileSize = outputs
         .map((i) => {

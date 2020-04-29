@@ -412,23 +412,25 @@ export let TRANSLATIONS = {
     NoAccess: {
       en: 'No access to any format',
     },
-    NoteDynamic: {
-      en: 'Note: For downloading dynamic formats, please select a single item only.',
-    },
     ConfirmDownloadTitle: {
       en: 'Download ready',
+      de: 'Download bereit',
     },
     ConfirmDownloadMessage: {
       en: 'A download is now ready, do you want to proceed with the download?',
+      de: 'Ein Download ist jetzt fertig. Möchten Sie mit dem Download fortfahren?',
     },
     DownloadPending: {
       en: 'The download will start shortly',
+      de: 'Der Download wird in Kürze beginnen',
     },
     DownloadError: {
       en: 'There was a problem with the download',
+      de: 'Beim Herunterladen ist ein Problem aufgetreten',
     },
     TooManyContentsError: {
       en: 'The download of more than 1000 items is not supported.',
+      de: 'Das Herunterladen von mehr als 1000 Elementen wird nicht unterstützt.',
     },
   },
   SchemaBrowser: {
