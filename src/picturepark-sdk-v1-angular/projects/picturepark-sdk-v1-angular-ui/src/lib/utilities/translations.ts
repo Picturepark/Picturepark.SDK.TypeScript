@@ -421,16 +421,16 @@ export let TRANSLATIONS = {
       de: 'Ein Download ist jetzt bereit. Möchten Sie mit dem Download fortfahren?',
     },
     DownloadPending: {
-      en: 'The download will start shortly',
-      de: 'Der Download wird in Kürze beginnen',
+      en: 'Preparing download. You will be notified once it is ready.',
+      de: 'Der Download wird vorbereitet. Sie werden benachrichtigt, sobald er verfügbar ist.',
     },
     DownloadError: {
       en: 'There was a problem with the download',
       de: 'Beim Herunterladen ist ein Fehler aufgetreten',
     },
     TooManyContentsError: {
-      en: 'The download of more than 1000 items is not supported.',
-      de: 'Das Herunterladen von mehr als 1000 Elementen wird nicht unterstützt.',
+      en: 'Download cannot contain more than 1000 content items.',
+      de: 'Download kann nicht mehr als 1000 Content Items enthalten',
     },
   },
   SchemaBrowser: {

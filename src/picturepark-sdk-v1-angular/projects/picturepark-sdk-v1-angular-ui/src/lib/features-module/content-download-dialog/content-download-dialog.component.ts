@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import {
-  ContentDownloadLinkCreateRequest,
   ContentService,
   Content,
   IShareOutputBase,
@@ -30,6 +29,7 @@ import {
   IContentDownloadOutput,
 } from './content-download-dialog.interfaces';
 import { DialogService } from '../../shared-module/services/dialog/dialog.service';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -137,11 +137,16 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     }
 
     this.waitingDownload = true;
-    let snackBar: MatSnackBarRef<SimpleSnackBar>;
+    let snackBar: MatSnackBarRef<SnackbarComponent>;
     const downloadTimmer = setTimeout(() => {
       this.waitingDownload = false;
       this.dialogRef.close();
-      snackBar = this.snackBar.open(this.translationService.translate('ContentDownloadDialog.DownloadPending'));
+      snackBar = this.snackBar.openFromComponent(SnackbarComponent, {
+        data: {
+          displayText: this.translationService.translate('ContentDownloadDialog.DownloadPending'),
+          showLoader: true,
+        },
+      });
     }, 8000);
 
     const contents = data.map((i) => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }));
