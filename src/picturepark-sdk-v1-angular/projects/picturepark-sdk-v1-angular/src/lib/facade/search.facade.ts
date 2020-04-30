@@ -175,7 +175,7 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     return aggregationResult;
   }
 
-  protected toSearchBehavior(searchMode: SearchMode) {
+  toSearchBehavior(searchMode: SearchMode) {
     let searchBehavior: SearchBehavior | undefined;
 
     switch (searchMode) {
