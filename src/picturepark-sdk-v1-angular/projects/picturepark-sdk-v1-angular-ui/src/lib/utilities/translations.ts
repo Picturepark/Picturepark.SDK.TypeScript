@@ -312,11 +312,11 @@ export let TRANSLATIONS = {
       en: 'Search',
       de: 'Suchen',
     },
-    SimpleAnySearch: {
+    SimpleOrSearch: {
       en: 'Simple (any)',
       de: 'Einfach (irgendein)',
     },
-    SimpleAllSearch: {
+    SimpleAndSearch: {
       en: 'Simple (all)',
       de: 'Einfach (alle)',
     },
@@ -330,13 +330,13 @@ export let TRANSLATIONS = {
       en: 'Search',
       de: 'Suchen',
     },
-    SimpleAnySearch: {
-      en: 'Simple (AND)',
-      de: 'Einfach (AND)',
-    },
-    SimpleAllSearch: {
+    SimpleOrSearch: {
       en: 'Simple (OR)',
       de: 'Einfach (OR)',
+    },
+    SimpleAndSearch: {
+      en: 'Simple (AND)',
+      de: 'Einfach (AND)',
     },
     AdvancedSearch: {
       en: 'Advanced',

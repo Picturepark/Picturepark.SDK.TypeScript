@@ -24,6 +24,7 @@ export { LocaleModule } from './lib/locale.module';
 
 // enumerators
 export { StorageKey } from './lib/utilities/storage-key.enum';
+export { SearchMode } from './lib/models/search-mode';
 
 // facades
 export { InfoFacade } from './lib/facade/info.facade';

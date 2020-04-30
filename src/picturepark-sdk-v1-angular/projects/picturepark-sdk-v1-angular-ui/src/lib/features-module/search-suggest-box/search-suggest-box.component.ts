@@ -116,8 +116,8 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
     return aggs;
   }
 
-  public searchBehaviorChange($event: MatRadioChange) {
-    this.facade.patchRequestState({ searchBehavior: $event.value });
+  public searchModeChange($event: MatRadioChange) {
+    this.facade.patchRequestState({ searchMode: $event.value });
   }
 
   public clear() {

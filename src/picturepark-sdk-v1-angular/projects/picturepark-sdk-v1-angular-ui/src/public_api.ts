@@ -96,9 +96,6 @@ export { TRANSLATIONS } from './lib/utilities/translations';
 export { SearchParameters } from './lib/shared-module/search-utils';
 export { ContentDetailDialogOptions } from './lib/features-module/content-details-dialog/ContentDetailDialogOptions';
 
-// Enums
-export { ExtendedSearchBehavior } from './lib/shared-module/search-utils';
-
 // Pipes
 export { HighlightPipe } from './lib/shared-module/pipes/highlight.pipe';
 export { TranslatePipe } from './lib/shared-module/pipes/translate.pipe';

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
-import { AggregationResult, Channel, Content, SearchBehavior, ContentSearchFacade } from '@picturepark/sdk-v1-angular';
+import { AggregationResult, Channel, Content, ContentSearchFacade } from '@picturepark/sdk-v1-angular';
 import {
   SelectionService,
   BasketService,
@@ -103,7 +103,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   public changeSearchParameters(searchParameters: SearchParameters) {
     this.facade.patchRequestState({
       searchString: searchParameters.searchString,
-      searchBehavior: (searchParameters.searchBehavior as unknown) as SearchBehavior,
+      searchMode: searchParameters.searchMode,
     });
   }
 

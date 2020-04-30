@@ -22,25 +22,13 @@
     </button>
 
     <mat-menu #searchOptions="matMenu" xPosition="after">
-      <button
-        mat-menu-item
-        (click)="setSearchBehavior('SimplifiedSearchOr')"
-        [class.active]="searchBehavior === 'SimplifiedSearchOr'"
-      >
-        {{ 'SearchBox.SimpleAnySearch' | pptranslate }}
+      <button mat-menu-item (click)="setSearchMode('or')" [class.active]="searchMode === 'or'">
+        {{ 'SearchBox.SimpleOrSearch' | pptranslate }}
       </button>
-      <button
-        mat-menu-item
-        (click)="setSearchBehavior('SimplifiedSearch')"
-        [class.active]="searchBehavior === 'SimplifiedSearch'"
-      >
-        {{ 'SearchBox.SimpleAllSearch' | pptranslate }}
+      <button mat-menu-item (click)="setSearchMode('and')" [class.active]="searchMode === 'and'">
+        {{ 'SearchBox.SimpleAndSearch' | pptranslate }}
       </button>
-      <button
-        mat-menu-item
-        (click)="setSearchBehavior('AdvancedSearch')"
-        [class.active]="searchBehavior === 'AdvancedSearch'"
-      >
+      <button mat-menu-item (click)="setSearchMode('advanced')" [class.active]="searchMode === 'advanced'">
         {{ 'SearchBox.AdvancedSearch' | pptranslate }}
       </button>
     </mat-menu>
