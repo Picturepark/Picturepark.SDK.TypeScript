@@ -9,6 +9,7 @@ import {
   AggregationResultItem,
 } from '../services/api-services';
 import { map, distinctUntilChanged, filter } from 'rxjs/operators';
+import { SearchMode } from '../models/search-mode';
 
 export function flatMap<T, U>(array: T[], mapFunc: (x: T) => U[]): U[] {
   return array.reduce((cumulus: U[], next: T) => [...mapFunc(next), ...cumulus], <U[]>[]);
@@ -16,7 +17,7 @@ export function flatMap<T, U>(array: T[], mapFunc: (x: T) => U[]): U[] {
 
 export interface SearchInputState {
   searchString: string;
-  searchBehavior: SearchBehavior;
+  searchMode: SearchMode;
   aggregationFilters: AggregationFilter[];
   baseFilter?: FilterBase | undefined;
   aggregators: AggregatorBase[];
@@ -79,6 +80,11 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     distinctUntilChanged()
   );
 
+  searchString$ = this.searchRequest$.pipe(
+    map((i) => i.searchString),
+    distinctUntilChanged()
+  );
+
   abstract search():
     | Observable<{
         results: T[];
@@ -93,7 +99,7 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
   constructor(partialState: Partial<TState>) {
     this.searchRequestState = {
       searchString: '',
-      searchBehavior: SearchBehavior.SimplifiedSearch,
+      searchMode: SearchMode.And,
       pageSize: 75,
       aggregationFilters: [],
       aggregators: [],
@@ -167,5 +173,25 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     }
 
     return aggregationResult;
+  }
+
+  toSearchBehavior(searchMode: SearchMode) {
+    let searchBehavior: SearchBehavior | undefined;
+
+    switch (searchMode) {
+      case SearchMode.Advanced:
+        searchBehavior = undefined;
+        break;
+
+      case SearchMode.And:
+        searchBehavior = SearchBehavior.SimplifiedSearch;
+        break;
+
+      case SearchMode.Or:
+        searchBehavior = SearchBehavior.SimplifiedSearchOr;
+        break;
+    }
+
+    return searchBehavior;
   }
 }

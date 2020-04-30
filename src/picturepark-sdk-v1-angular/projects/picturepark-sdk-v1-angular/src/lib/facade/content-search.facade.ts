@@ -47,12 +47,9 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
   }
 
   private getRequest() {
-    const searchBehaviors = this.searchRequestState.searchBehavior
-      ? [
-          this.searchRequestState.searchBehavior,
-          SearchBehavior.DropInvalidCharactersOnFailure,
-          SearchBehavior.WildcardOnSingleTerm,
-        ]
+    const searchBehavior = this.toSearchBehavior(this.searchRequestState.searchMode);
+    const searchBehaviors = searchBehavior
+      ? [searchBehavior, SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm]
       : [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm];
 
     return {

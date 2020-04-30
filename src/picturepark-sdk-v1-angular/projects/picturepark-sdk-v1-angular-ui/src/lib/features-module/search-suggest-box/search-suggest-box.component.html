@@ -52,17 +52,17 @@
           </mat-option>
           <mat-radio-group
             class="radio-group"
-            [ngModel]="(facade.searchRequest$ | async)?.searchBehavior"
+            [ngModel]="(facade.searchRequest$ | async)?.searchMode"
             [ngModelOptions]="{ standalone: true }"
-            (change)="searchBehaviorChange($event)"
+            (change)="searchModeChange($event)"
           >
-            <mat-radio-button class="radio-button" value="SimplifiedSearch">
-              {{ 'SearchSuggestBox.SimpleAllSearch' | pptranslate }}
+            <mat-radio-button class="radio-button" value="and">
+              {{ 'SearchSuggestBox.SimpleAndSearch' | pptranslate }}
             </mat-radio-button>
-            <mat-radio-button class="radio-button" value="SimplifiedSearchOr">
-              {{ 'SearchSuggestBox.SimpleAnySearch' | pptranslate }}
+            <mat-radio-button class="radio-button" value="or">
+              {{ 'SearchSuggestBox.SimpleOrSearch' | pptranslate }}
             </mat-radio-button>
-            <mat-radio-button class="radio-button" value="AdvancedSearch">
+            <mat-radio-button class="radio-button" value="advanced">
               {{ 'SearchSuggestBox.AdvancedSearch' | pptranslate }}
             </mat-radio-button>
           </mat-radio-group>

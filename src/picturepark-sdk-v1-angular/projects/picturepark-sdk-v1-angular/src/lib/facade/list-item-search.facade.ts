@@ -40,17 +40,14 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
   }
 
   private getRequest() {
+    const searchBehavior = this.toSearchBehavior(this.searchRequestState.searchMode);
     return {
       pageToken: this.searchResultState.nextPageToken,
       limit: this.searchRequestState.pageSize,
       searchString: this.searchRequestState.searchString,
       sort: this.searchRequestState.sort,
-      searchBehaviors: this.searchRequestState.searchBehavior
-        ? [
-            this.searchRequestState.searchBehavior,
-            SearchBehavior.DropInvalidCharactersOnFailure,
-            SearchBehavior.WildcardOnSingleTerm,
-          ]
+      searchBehaviors: searchBehavior
+        ? [searchBehavior, SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm]
         : [SearchBehavior.DropInvalidCharactersOnFailure, SearchBehavior.WildcardOnSingleTerm],
       schemaIds: this.searchRequestState.schemaIds,
       filter: this.searchRequestState.baseFilter,
