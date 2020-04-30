@@ -14,7 +14,7 @@ import { DialogBaseComponent } from '../../shared-module/components/dialog-base/
 import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
 
 // SERVICES
-import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 
 @Component({
   selector: 'pp-content-details-dialog',

@@ -27,7 +27,7 @@ import {
   ContentDownloadDialogOptions,
   IContentDownload,
   IContentDownloadOutput,
-} from './content-download-dialog.interfaces';
+} from './interfaces/content-download-dialog.interfaces';
 import { DialogService } from '../../shared-module/services/dialog/dialog.service';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 

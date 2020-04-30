@@ -1,6 +1,6 @@
 // LIBRARIES
 import { ContentType, OutputDataBase } from '@picturepark/sdk-v1-angular';
-import { IContentDownload, IContentDownloadOutput } from '../content-download-dialog.interfaces';
+import { IContentDownload, IContentDownloadOutput } from '../interfaces/content-download-dialog.interfaces';
 
 // SERVICES
 import {
