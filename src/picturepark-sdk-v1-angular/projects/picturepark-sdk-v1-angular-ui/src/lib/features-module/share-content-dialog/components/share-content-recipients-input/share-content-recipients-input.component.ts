@@ -75,7 +75,6 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
   }
 
   updateRecipients(): void {
-    debugger;
     // Exit if suggestions open
     if (this.recipientsAutocomplete.length) {
       return;
