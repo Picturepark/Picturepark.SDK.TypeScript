@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 
 // MD5 HASH
 import { Md5 } from 'ts-md5';
@@ -95,9 +95,9 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
     this.sharedContentForm = this.formBuilder.group({
       share_name: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]),
-      recipients: this.formBuilder.array([], [Validators.required]),
+      recipientSearch: new FormControl(''),
+      recipients: new FormArray([], [Validators.required]),
       expire_date: new FormControl(''),
-      recipientsSearch: new FormControl(''),
     });
   }
 
