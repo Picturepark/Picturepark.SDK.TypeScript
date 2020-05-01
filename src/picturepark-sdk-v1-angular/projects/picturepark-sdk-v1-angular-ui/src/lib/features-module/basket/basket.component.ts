@@ -10,7 +10,7 @@ import { ShareContentDialogComponent } from '../../features-module/share-content
 
 // SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
-import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 import { Content } from '@picturepark/sdk-v1-angular';
 
 @Component({

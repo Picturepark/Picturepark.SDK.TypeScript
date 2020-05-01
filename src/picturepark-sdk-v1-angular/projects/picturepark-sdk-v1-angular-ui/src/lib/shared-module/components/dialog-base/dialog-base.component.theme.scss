@@ -14,7 +14,7 @@ $pp-dialog-base: (
   pp-share-content-dialog {
     .dialog,
     .dialog-container {
-      h3 {
+      .header {
         color: mat-color($primary, on-surface-light);
         border-color: mat-color($primary, divider);
       }

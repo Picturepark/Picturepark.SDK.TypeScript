@@ -27,7 +27,7 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const channelSubscription = this.channelService.getAll().subscribe(
+    this.sub = this.channelService.getAll().subscribe(
       (channels) => {
         this.channels = channels;
 
@@ -45,7 +45,6 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
         this.channels = [];
       }
     );
-    this.subscription.add(channelSubscription);
   }
 
   public changeChannel(channel: Channel): void {

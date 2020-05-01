@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 // LIBRARIES
 import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk-v1-angular';
-import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 
 @Component({
   selector: 'pp-share-items-panel',

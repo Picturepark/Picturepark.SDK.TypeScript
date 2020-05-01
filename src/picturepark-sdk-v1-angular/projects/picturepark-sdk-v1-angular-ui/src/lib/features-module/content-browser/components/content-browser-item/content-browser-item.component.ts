@@ -9,7 +9,7 @@ import { BaseBrowserItemComponent } from '../../../../shared-module/components/b
 
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
-import { ContentDownloadDialogService } from '../../../content-download-dialog/content-download-dialog.service';
+import { ContentDownloadDialogService } from '../../../content-download-dialog/services/content-download-dialog.service';
 import { map, debounceTime, share } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 

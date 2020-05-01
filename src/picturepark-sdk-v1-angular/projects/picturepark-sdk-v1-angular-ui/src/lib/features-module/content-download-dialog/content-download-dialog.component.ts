@@ -4,15 +4,11 @@ import { Subscription } from 'rxjs';
 
 // LIBRARIES
 import {
-  ContentDownloadLinkCreateRequest,
   ContentService,
   Content,
-  fetchAll,
-  OutputRenderingState,
-  OutputService,
-  OutputSearchRequest,
-  ContentResolveBehavior,
   IShareOutputBase,
+  OutputResolveManyRequest,
+  DownloadFacade,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -22,6 +18,7 @@ import {
   IOutputPerOutputFormatSelection,
   IOutputPerSchemaSelection,
 } from './components/output-selection';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
@@ -30,7 +27,9 @@ import {
   ContentDownloadDialogOptions,
   IContentDownload,
   IContentDownloadOutput,
-} from './content-download-dialog.interfaces';
+} from './interfaces/content-download-dialog.interfaces';
+import { DialogService } from '../../shared-module/services/dialog/dialog.service';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -55,9 +54,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   public filteredData: Content[];
   public noOutputs = false;
   public hasDynamicOutputs = false;
-  public singleItem = false;
-
+  public waitingDownload = false;
   public loader = false;
+  public tooManyContents = false;
 
   public outputFormatFallback = [
     { fileSchemaId: 'ImageMetadata', outputFormatId: 'Preview' },
@@ -71,10 +70,12 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     @Inject(MAT_DIALOG_DATA) public data: ContentDownloadDialogOptions,
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
-    private outputService: OutputService,
     protected injector: Injector,
     private renderer: Renderer2,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private snackBar: MatSnackBar,
+    private dialogService: DialogService,
+    private downloadFacade: DownloadFacade
   ) {
     super(data, dialogRef, injector);
 
@@ -120,7 +121,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
     this.selection = selection;
     this.noOutputs = !fileFormats.some((i) => selection.getOutputs(i).length > 0);
-    this.singleItem = fileFormats.length === 1 && fileFormats[0].contents.length === 1;
   }
 
   public download(): void {
@@ -136,16 +136,55 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       }
     }
 
-    const request = new ContentDownloadLinkCreateRequest({
-      contents: data.map((i) => ({ contentId: i.contentId, outputFormatId: i.outputFormatId })),
-    });
-    const linkSubscription = this.contentService.createDownloadLink(request).subscribe((download) => {
-      linkSubscription.unsubscribe();
-      if (download.downloadUrl) {
-        window.location.replace(download.downloadUrl);
-        this.dialogRef.close(true);
+    this.waitingDownload = true;
+    let snackBar: MatSnackBarRef<SnackbarComponent>;
+    const downloadTimmer = setTimeout(() => {
+      this.waitingDownload = false;
+      this.dialogRef.close();
+      snackBar = this.snackBar.openFromComponent(SnackbarComponent, {
+        data: {
+          displayText: this.translationService.translate('ContentDownloadDialog.DownloadPending'),
+          showLoader: true,
+        },
+      });
+    }, 8000);
+
+    const contents = data.map((i) => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }));
+    this.downloadFacade.getDownloadLink(contents).subscribe(
+      (downloadLink) => {
+        clearTimeout(downloadTimmer);
+        if (this.waitingDownload) {
+          window.location.replace(downloadLink.downloadUrl);
+          this.dialogRef.close();
+        } else {
+          snackBar.dismiss();
+          this.dialogService
+            .confirm(
+              {
+                title: this.translationService.translate('ContentDownloadDialog.ConfirmDownloadTitle'),
+                message: this.translationService.translate('ContentDownloadDialog.ConfirmDownloadMessage'),
+                options: {
+                  okText: this.translationService.translate('ContentDownloadDialog.Download'),
+                  cancelText: this.translationService.translate('ContentDownloadDialog.Cancel'),
+                },
+              },
+              { disableClose: true }
+            )
+            .afterClosed()
+            .subscribe((confirmDialogResult) => {
+              if (confirmDialogResult) {
+                window.location.replace(downloadLink.downloadUrl);
+              }
+            });
+        }
+      },
+      () => {
+        this.snackBar.open(this.translationService.translate('ContentDownloadDialog.DownloadError'), undefined, {
+          duration: 5000,
+        });
+        this.dialogRef.close();
       }
-    });
+    );
   }
 
   public toggleAdvanced(): void {
@@ -163,9 +202,13 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     this.enableAdvanced = this.selection.hasThumbnails;
     this.advancedMode = !this.selection.hasHiddenThumbnails;
     const outputs = this.selection.getSelectedOutputs();
-    this.hasDynamicOutputs = outputs.some((i) => i.dynamicRendering && !i.detail!.fileSizeInBytes);
+    this.hasDynamicOutputs = outputs.some((i) => i.dynamicRendering);
     if (outputs.length > 0) {
-      this.fileSize = outputs.map((i) => i.detail!.fileSizeInBytes || 0).reduce((total, value) => total + value);
+      this.fileSize = outputs
+        .map((i) => {
+          return i.detail?.fileSizeInBytes || i.fileSize || 0;
+        })
+        .reduce((total, value) => total + value);
     } else {
       this.fileSize = 0;
     }
@@ -201,20 +244,18 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     const containerHeight = this.contentContainer.nativeElement.offsetHeight;
     this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight + 56}px`);
 
-    if (this.data.contents.length === 1) {
+    if (this.data.contents.length > 1000) {
+      this.tooManyContents = true;
+    } else if (this.data.contents.length === 1) {
       const outputs = this.data.contents[0]?.outputs;
       if (outputs) {
         await this.setSelection(outputs);
         return;
       }
 
-      const detailSubscription = this.contentService
-        .get(this.data.contents[0].id, [ContentResolveBehavior.Outputs])
-        .subscribe(async (content) => {
-          await this.setSelection(content.outputs!);
-        });
-
-      this.subscription.add(detailSubscription);
+      this.sub = this.contentService.getOutputs(this.data.contents[0].id).subscribe((output) => {
+        this.setSelection(output);
+      });
     } else {
       if (this.data.contents.every((content) => content.outputs)) {
         const outputs = flatMap(this.data.contents, (content) => content.outputs!);
@@ -226,25 +267,16 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     }
   }
 
-  private async setSelection(outputs: IContentDownloadOutput[]): Promise<void> {
+  private async setSelection(outputs: IContentDownloadOutput[]) {
     await this.getSelection(outputs, this.data.contents);
     this.update();
     this.loader = false;
   }
 
   private fetchOutputs(): void {
-    const outputSubscription = fetchAll(
-      (req) => this.outputService.search(req),
-      new OutputSearchRequest({
-        contentIds: this.data.contents.map((i) => i.id),
-        renderingStates: [OutputRenderingState.Completed],
-        limit: 1000,
-      })
-    ).subscribe(async (outputs) => {
-      await this.getSelection(outputs.results, this.data.contents);
-      this.update();
-      this.loader = false;
+    const request = new OutputResolveManyRequest({ contentIds: this.data.contents.map((i) => i.id) });
+    this.sub = this.contentService.getOutputsMany(request).subscribe((outputs) => {
+      this.setSelection(outputs);
     });
-    this.subscription.add(outputSubscription);
   }
 }

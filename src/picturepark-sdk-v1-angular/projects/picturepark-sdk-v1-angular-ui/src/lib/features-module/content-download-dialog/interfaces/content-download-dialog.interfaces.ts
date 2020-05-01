@@ -5,6 +5,7 @@ export interface IContentDownloadOutput {
   outputFormatId: string;
   detail?: OutputDataBase | undefined;
   dynamicRendering: boolean;
+  fileSize?: number;
 }
 
 export interface IContentDownload {

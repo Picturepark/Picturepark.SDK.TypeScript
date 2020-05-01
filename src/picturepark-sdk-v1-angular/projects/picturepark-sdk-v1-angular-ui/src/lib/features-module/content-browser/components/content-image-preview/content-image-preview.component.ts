@@ -16,13 +16,13 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import {
   ContentService,
   ContentType,
-  ContentDownloadLinkCreateRequest,
   ContentDownloadRequestItem,
   ContentDetail,
   OutputRenderingState,
   ThumbnailSize,
   ShareContentDetail,
   ShareDetail,
+  DownloadFacade,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -60,7 +60,8 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
     private sanitizer: DomSanitizer,
     private fullscreenService: FullscreenService,
     private cdr: ChangeDetectorRef,
-    protected injector: Injector
+    protected injector: Injector,
+    private downloadFacade: DownloadFacade
   ) {
     super(injector);
   }
@@ -120,11 +121,9 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
           )
         : this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
 
-      const downloadPreviewSubscription = request.subscribe((response) => {
+      this.sub = request.subscribe((response) => {
         this.setPreviewUrl(URL.createObjectURL(response.data));
       });
-
-      this.subscription.add(downloadPreviewSubscription);
     }
   }
 
@@ -158,16 +157,18 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         ? outputs.filter((o) => o.outputFormatId === 'VideoSmall')[0]
         : outputs.filter((o) => o.outputFormatId === 'Preview')[0];
 
-      const request = new ContentDownloadLinkCreateRequest({
-        contents: [
+      let downloadUrl = '';
+      this.downloadFacade
+        .getDownloadLink([
           new ContentDownloadRequestItem({
             contentId: this.content.id,
             outputFormatId: previewOutput.outputFormatId,
           }),
-        ],
-      });
+        ])
+        .subscribe((downloadLink) => {
+          downloadUrl = downloadLink.downloadUrl;
+        });
 
-      const response = await this.contentService.createDownloadLink(request).toPromise();
       item = {
         id: this.content.id,
 
@@ -176,14 +177,14 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         isMovie: this.isVideo,
         isAudio: this.isAudio,
         isBinary: false,
-        videoUrl: this.isVideo ? response.downloadUrl : '',
-        audioUrl: this.isAudio ? response.downloadUrl : '',
-        pdfUrl: isPdf ? response.downloadUrl : '',
+        videoUrl: this.isVideo ? downloadUrl : '',
+        audioUrl: this.isAudio ? downloadUrl : '',
+        pdfUrl: isPdf ? downloadUrl : '',
 
         displayValues: {},
-        previewUrl: isImage ? response.downloadUrl : this.thumbnailUrl,
+        previewUrl: isImage ? downloadUrl : this.thumbnailUrl,
 
-        originalUrl: response.downloadUrl,
+        originalUrl: downloadUrl,
         outputs: this.content.outputs! as any[],
 
         detail: {
@@ -191,6 +192,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
           height: (<any>previewOutput.detail).height,
         },
       };
+
       items = [item];
     } else {
       let index = 0;
