@@ -37,27 +37,26 @@
         <mat-tab label="{{ 'ContentDetailsDialog.Overview' | pptranslate }}">
           <ng-template matTabContent>
             <div class="overview-wrap" *ngIf="content">
-              <div class="content-preview" *ngIf="content.contentType !== 'Virtual'">
-                <pp-content-image-preview
-                  [content]="content"
-                  [shareDetail]="data.shareDetail"
-                  [shareContent]="data.shareContent"
-                  [width]="700"
-                  [height]="600"
-                  (playChange)="playing = $event"
-                >
-                </pp-content-image-preview>
+              <div class="content-preview">
+                <ng-container *ngIf="content.contentType !== 'Virtual'; else virtualItem">
+                  <pp-content-image-preview
+                    [content]="content"
+                    [shareDetail]="data.shareDetail"
+                    [shareContent]="data.shareContent"
+                    [width]="700"
+                    [height]="600"
+                    (playChange)="playing = $event"
+                  >
+                  </pp-content-image-preview>
+                </ng-container>
+                <ng-template #virtualItem>
+                  <div *ngIf="content?.displayValues as displayValues" [innerHTML]="displayValues['thumbnail']"></div>
+                </ng-template>
               </div>
+
               <div class="content-info" *ngIf="!playing">
                 <ul>
-                  <ng-container *ngIf="content?.displayValues as displayValues">
-                    <ng-container *ngIf="displayValues['detail'] as detail; else fallbackToThumbnail">
-                      <li [innerHTML]="detail"></li>
-                    </ng-container>
-                    <ng-template #fallbackToThumbnail>
-                      <li [innerHTML]="displayValues['thumbnail']"></li>
-                    </ng-template>
-                  </ng-container>
+                  <li *ngIf="content?.displayValues as displayValues" [innerHTML]="displayValues['detail']"></li>
                 </ul>
               </div>
             </div>
