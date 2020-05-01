@@ -1,0 +1,9 @@
+.snackbar-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .loader {
+    padding-left: 10px;
+  }
+}

@@ -82,7 +82,7 @@ export { SelectionService } from './lib/shared-module/services/selection/selecti
 export { BasketService } from './lib/shared-module/services/basket/basket.service';
 export { TranslationService } from './lib/shared-module/services/translations/translation.service';
 export { LiquidRenderingService } from '@picturepark/sdk-v1-angular';
-export { ContentDownloadDialogService } from './lib/features-module/content-download-dialog/content-download-dialog.service';
+export { ContentDownloadDialogService } from './lib/features-module/content-download-dialog/services/content-download-dialog.service';
 export { DialogService } from './lib/shared-module/services/dialog/dialog.service';
 
 // Classes

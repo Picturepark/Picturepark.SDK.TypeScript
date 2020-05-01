@@ -11,7 +11,7 @@ import { ShareContentDialogComponent } from '../../features-module/share-content
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 
 // INTERFACES
-import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 
 @Component({
   selector: 'pp-content-browser',

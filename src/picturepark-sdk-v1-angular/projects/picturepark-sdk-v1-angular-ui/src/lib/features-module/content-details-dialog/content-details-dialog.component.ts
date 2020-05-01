@@ -14,7 +14,7 @@ import { DialogBaseComponent } from '../../shared-module/components/dialog-base/
 import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
 
 // SERVICES
-import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 
 @Component({
   selector: 'pp-content-details-dialog',
@@ -95,7 +95,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
   loadContent(id: string) {
     this.contentId = id;
-    const contentGetSubscription = this.contentService
+    this.sub = this.contentService
       .get(this.contentId, [
         ContentResolveBehavior.Content,
         ContentResolveBehavior.Metadata,
@@ -112,7 +112,5 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
           this.content = content;
         }
       });
-
-    this.subscription.add(contentGetSubscription);
   }
 }
