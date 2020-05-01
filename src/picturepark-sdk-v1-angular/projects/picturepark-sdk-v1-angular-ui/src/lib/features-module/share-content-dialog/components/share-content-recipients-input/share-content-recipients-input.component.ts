@@ -1,6 +1,6 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, Input, OnInit, Injector, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { TermsAggregator, ShareService, ShareAggregationRequest, NestedAggregator } from '@picturepark/sdk-v1-angular';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -14,6 +14,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 export class ShareContentRecipientsInputComponent extends BaseComponent implements OnInit {
   @Input() parentForm: FormGroup;
   recipients: FormArray;
+  recipientSearch: AbstractControl;
 
   @ViewChild('matChipListInput') matChipListInput: ElementRef<HTMLInputElement>;
   recipientsAutocomplete: string[] = [];
@@ -30,8 +31,9 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
 
   ngOnInit(): void {
     this.recipients = <FormArray>this.parentForm.controls['recipients'];
-    this.parentForm.controls['recipientSearch'].setValidators([Validators.pattern(this.reg)]);
-    (<FormArray>this.parentForm.controls['recipientSearch']).valueChanges
+    this.recipientSearch = this.parentForm.controls['recipientSearch'];
+    this.recipientSearch.setValidators([Validators.pattern(this.reg)]);
+    this.sub = (<FormArray>this.recipientSearch).valueChanges
       .pipe(
         debounceTime(300),
         tap(() => (this.isLoading = true)),
@@ -68,19 +70,20 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
 
   optionSelected(event: MatAutocompleteSelectedEvent): void {
     this.recipientsAutocomplete = [];
-    this.parentForm.controls['recipientSearch'].setValue(event.option.value);
+    this.recipientSearch.setValue(event.option.value);
     this.updateRecipients();
   }
 
   updateRecipients(): void {
+    debugger;
     // Exit if suggestions open
     if (this.recipientsAutocomplete.length) {
       return;
     }
 
     // Add our email
-    if (!this.parentForm.controls['recipientSearch'].errors) {
-      const value = this.parentForm.controls['recipientSearch'].value;
+    if (!this.recipientSearch.errors) {
+      const value = this.recipientSearch.value;
       this.recipients.push(new FormControl(value.trim(), [Validators.email]));
 
       this.recipients.markAsTouched();
@@ -88,7 +91,7 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
       /**
        * this.matChipListInput.nativeElement.value = ''
        * Used instead of :
-       * this.parentForm.controls['recipientSearch'].setValue('');
+       * this.recipientSearch.setValue('');
        * Because the updating of the value a formControl that is
        * associated to the input inside a mat-chip-list does not work
        */
@@ -103,6 +106,6 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
   // HANDLE COMPONENENT ENTER KEY PRESS EVENT
   @HostListener('document:keydown.Enter', ['$event'])
   handleEnterDown(event: any): void {
-    this.parentForm.controls['recipientSearch'].markAsTouched();
+    this.recipientSearch.markAsTouched();
   }
 }
