@@ -34,9 +34,10 @@
     #{ $self }__item-container {
       height: 120px;
     }
+
     &--list {
-      grid-template-columns: 1fr;
-      grid-gap: 10px;
+      display: flex;
+      flex-direction: column;
       #{ $self }__item-container {
         width: 70%;
         margin: 0 auto;
