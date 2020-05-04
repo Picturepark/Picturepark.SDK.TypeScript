@@ -3190,7 +3190,7 @@ export class ContentService extends PictureparkServiceBase {
       waitSearchDocCreation,
       contentCreateRequest
     ).pipe(
-      mergeMap(async content => {
+      mergeMap(async (content) => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
@@ -3202,7 +3202,7 @@ export class ContentService extends PictureparkServiceBase {
     resolveBehaviors: ContentResolveBehavior[] | null | undefined
   ): Observable<ContentDetail> {
     return this.getCore(contentId, resolveBehaviors).pipe(
-      mergeMap(async content => {
+      mergeMap(async (content) => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
@@ -3214,8 +3214,8 @@ export class ContentService extends PictureparkServiceBase {
     resolveBehaviors: ContentResolveBehavior[] | null | undefined
   ): Observable<ContentDetail[]> {
     return this.getManyCore(ids, resolveBehaviors).pipe(
-      mergeMap(async contents => {
-        contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
+      mergeMap(async (contents) => {
+        contents.forEach(async (content) => await this.liquidRenderingService.renderNestedDisplayValues(content));
         return contents;
       })
     );
@@ -3223,7 +3223,7 @@ export class ContentService extends PictureparkServiceBase {
 
   public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
     return this.searchCore(contentSearchRequest).pipe(
-      mergeMap(async searchResult => {
+      mergeMap(async (searchResult) => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })
@@ -3246,7 +3246,7 @@ export class ContentService extends PictureparkServiceBase {
       waitSearchDocCreation,
       updateRequest
     ).pipe(
-      mergeMap(async content => {
+      mergeMap(async (content) => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
@@ -3261,7 +3261,7 @@ export class ContentService extends PictureparkServiceBase {
     updateRequest: ContentPermissionsUpdateRequest
   ): Observable<ContentDetail> {
     return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
-      mergeMap(async content => {
+      mergeMap(async (content) => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
@@ -7849,7 +7849,7 @@ export class ListItemService extends PictureparkServiceBase {
     resolveBehaviors: ListItemResolveBehavior[] | null | undefined
   ): Observable<ListItemDetail> {
     return this.getCore(listItemId, resolveBehaviors).pipe(
-      mergeMap(async listItem => {
+      mergeMap(async (listItem) => {
         await this.liquidRenderingService.renderNestedDisplayValues(listItem);
         return listItem;
       })
@@ -7858,7 +7858,7 @@ export class ListItemService extends PictureparkServiceBase {
 
   public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
     return this.searchCore(listItemSearchRequest).pipe(
-      mergeMap(async searchResult => {
+      mergeMap(async (searchResult) => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })
@@ -14640,7 +14640,7 @@ export class ShareService extends PictureparkServiceBase {
 
   public get(id: string): Observable<ShareDetail> {
     return this.getCore(id).pipe(
-      mergeMap(async shareDetail => {
+      mergeMap(async (shareDetail) => {
         await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
         return shareDetail;
       })
@@ -14650,14 +14650,14 @@ export class ShareService extends PictureparkServiceBase {
   public getShareByToken(token: string, lang: string | null | undefined, cdnUrl?: string): Observable<ShareDetail> {
     if (cdnUrl) {
       return this.getShareByTokenFromUrl(token, lang, cdnUrl + '/json/{token}?').pipe(
-        mergeMap(async shareJson => {
+        mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
       );
     } else {
       return this.getShareJsonCore(token, lang).pipe(
-        mergeMap(async shareJson => {
+        mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
@@ -14692,7 +14692,7 @@ export class ShareService extends PictureparkServiceBase {
 
     return _observableFrom(this.transformOptions(options_))
       .pipe(
-        _observableMergeMap(transformedOptions_ => {
+        _observableMergeMap((transformedOptions_) => {
           return this.http.request('get', url_, transformedOptions_);
         })
       )
@@ -14718,7 +14718,7 @@ export class ShareService extends PictureparkServiceBase {
 
   public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
     return this.searchCore(shareSearchRequest).pipe(
-      mergeMap(async searchResult => {
+      mergeMap(async (searchResult) => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })
@@ -54834,6 +54834,10 @@ that reference the layer. */
     /** The number of fields generated by the schema in the search index for filtering, searching and sorting. */
     searchFieldCount?: SearchFieldCount | undefined;
 
+    get filteredLayerSchemaIds(): string[] | undefined {
+    return this.layerSchemaIds?.filter((lsi) => !SYSTEM_CONTENT_SCHEMAS_IDS.includes(lsi));
+  }
+
     constructor(data?: ISchemaDetail) {
         if (data) {
             for (var property in data) {
@@ -65972,3 +65976,5 @@ export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
   'VideoMetadata',
   'VectorMetadata',
 ];
+
+export const SYSTEM_CONTENT_SCHEMAS_IDS = ['XmpMetadata', 'ExifMetadata'];

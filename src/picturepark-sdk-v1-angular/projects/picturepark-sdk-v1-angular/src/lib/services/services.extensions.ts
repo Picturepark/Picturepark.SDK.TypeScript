@@ -13,7 +13,6 @@ import { // ignore
   ContentPermissionsUpdateRequest, // ignore
   ListItemResolveBehavior, // ignore
   ListItemDetail, // ignore
-  CustomerInfo, // ignore
   ListItemSearchRequest, // ignore
   ListItemSearchResult, // ignore
   ShareDetail, // ignore
@@ -38,6 +37,8 @@ export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
   'VectorMetadata',
 ];
 
+export const SYSTEM_CONTENT_SCHEMAS_IDS = ['XmpMetadata', 'ExifMetadata'];
+
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
   translate(locale: string) {
     const language = locale.split('-')[0];
@@ -60,6 +61,12 @@ class ContentDetail extends generated.ContentDetail {
 class ShareContentDetail extends generated.ShareContentDetail {
   isVirtual() {
     return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
+  }
+}
+
+class SchemaDetail extends generated.SchemaDetail {
+  get filteredLayerSchemaIds(): string[] | undefined {
+    return this.layerSchemaIds?.filter((lsi) => !SYSTEM_CONTENT_SCHEMAS_IDS.includes(lsi));
   }
 }
 

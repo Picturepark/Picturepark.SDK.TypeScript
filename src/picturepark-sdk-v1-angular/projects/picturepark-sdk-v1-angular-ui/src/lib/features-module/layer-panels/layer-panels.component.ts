@@ -44,8 +44,8 @@ export class LayerPanelsComponent implements OnInit {
         const isVirtualContent = this.content.isVirtual();
         const schemas = this.showContentSchema && isVirtualContent ? [this.content.contentSchemaId] : [];
 
-        if (contentSchema.layerSchemaIds) {
-          schemas.push(...contentSchema.layerSchemaIds);
+        if (contentSchema.filteredLayerSchemaIds) {
+          schemas.push(...contentSchema.filteredLayerSchemaIds);
         }
 
         if (this.showContentSchema && !isVirtualContent) {
