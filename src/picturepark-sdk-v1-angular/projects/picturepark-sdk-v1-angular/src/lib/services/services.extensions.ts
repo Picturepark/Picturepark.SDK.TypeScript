@@ -37,7 +37,7 @@ export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
   'VectorMetadata',
 ];
 
-export const SYSTEM_CONTENT_SCHEMAS_IDS = ['XmpMetadata', 'ExifMetadata'];
+export const SYSTEM_LAYER_SCHEMA_IDS = ['XmpMetadata', 'ExifMetadata'];
 
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
   translate(locale: string) {
