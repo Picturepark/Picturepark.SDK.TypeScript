@@ -2,29 +2,28 @@
   <mat-form-field
     class="chip-list-content"
     [ngClass]="{
-      'error-active':
-        parentForm.controls['recipients'].touched &&
-        (parentForm.controls['recipients'].hasError('required') || parentForm.controls['recipients'].errors?.error)
+      'error-active': recipientSearch.touched && recipientSearch.errors
     }"
   >
     <mat-chip-list #chipList aria-label="Share name">
       <mat-chip
-        *ngFor="let recipient of recipients"
-        [selectable]="selectable"
-        [removable]="removable"
-        (removed)="remove(recipient)"
+        *ngFor="let recipient of recipients.controls"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="remove(recipient.value)"
       >
-        {{ recipient }} <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        {{ recipient.value }} <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
       <input
+        #matChipListInput
         [matChipInputFor]="chipList"
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="addOnBlur"
-        (matChipInputTokenEnd)="add($event)"
+        [matChipInputAddOnBlur]="false"
+        (matChipInputTokenEnd)="updateRecipients()"
+        (blur)="updateRecipients()"
         id="share-recipients"
-        formControlName="recipientsSearch"
+        formControlName="recipientSearch"
         [matAutocomplete]="auto"
-        autocomplete="off"
       />
     </mat-chip-list>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
@@ -38,24 +37,16 @@
       </ng-container>
     </mat-autocomplete>
   </mat-form-field>
-  <div
-    class="chip-input-error active"
-    *ngIf="
-      parentForm.controls['recipients'].touched &&
-      parentForm.controls['recipients'].hasError('required') &&
-      recipients.length === 0
-    "
-  >
-    Please, add a recipient for sharing the images
-  </div>
-  <div
-    class="chip-input-error active"
-    *ngIf="
-      parentForm.controls['recipients'].touched &&
-      parentForm.controls['recipients'].errors?.error &&
-      !parentForm.controls['recipients'].hasError('required')
-    "
-  >
-    Sorry, but this is not an email
-  </div>
+  <ng-container *ngIf="recipientSearch.touched && recipientSearch.errors">
+    <ng-container *ngIf="recipients.touched && recipients.hasError('required'); else invalidEmail">
+      <div class="chip-input-error active">
+        {{ 'ShareMailRecipientsPanel.RecipientsRequired' | pptranslate }}
+      </div>
+    </ng-container>
+    <ng-template #invalidEmail>
+      <div class="chip-input-error active">
+        {{ 'ShareMailRecipientsPanel.RecipientsInvalid' | pptranslate }}
+      </div>
+    </ng-template>
+  </ng-container>
 </div>
