@@ -20,7 +20,6 @@ import { distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
   styleUrls: ['./list-items-picker.component.scss'],
 })
 export class ListItemsPickerComponent extends BaseComponent implements OnInit {
-  public activeSchemaId$: Observable<string>;
   public parentSchemaId$: Observable<string>;
 
   constructor(
@@ -35,7 +34,6 @@ export class ListItemsPickerComponent extends BaseComponent implements OnInit {
 
   public ngOnInit(): void {
     this.facade.searchRequestState.baseFilter = this.createFilter();
-    this.activeSchemaId$ = this.route.paramMap.pipe(map((params) => params.get('schemaId') || ''));
     this.parentSchemaId$ = this.route.queryParamMap.pipe(map((params) => params.get('parentSchemaId') || ''));
 
     // Load on page navigation and initial load
