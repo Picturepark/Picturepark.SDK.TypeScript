@@ -537,6 +537,14 @@ export let TRANSLATIONS = {
       en: 'Recipients',
       de: 'Empfänger',
     },
+    RecipientsRequired: {
+      en: 'Please, add a recipient for sharing the images',
+      de: 'Bitte fügen Sie einen Empfänger für die Freigabe der Bilder hinzu',
+    },
+    RecipientsInvalid: {
+      en: 'The Email field does not have a valid e  mail address.',
+      de: 'Das Email Feld hat keine gültige Email-Adresse.',
+    },
   },
   ShareOwnerPanel: {
     Owner: {
@@ -544,6 +552,7 @@ export let TRANSLATIONS = {
       de: 'Inhaber',
     },
   },
+
   ShareSettingsPanel: {
     Settings: {
       en: 'Settings',
