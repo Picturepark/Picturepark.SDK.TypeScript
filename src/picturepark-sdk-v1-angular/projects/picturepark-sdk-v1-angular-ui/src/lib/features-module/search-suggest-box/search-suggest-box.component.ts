@@ -39,6 +39,9 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   public showSearchBehaviorPicker = false;
 
   @Input()
+  public minCharacters = 2;
+
+  @Input()
   facade: SearchFacade<IEntityBase, SearchInputState>;
 
   suggestions$: Observable<{ name: string; results: AggregationResultItem[] }[]>;
@@ -67,8 +70,13 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
         this.isLoading = true;
         this.typed = true;
       }),
-      switchMap((value) => {
-        const aggs = this.setSearchString(value);
+      switchMap((searchString) => {
+        // Don't call the backend if we have an empty search string or less than the requested minCharacters
+        if (!searchString || searchString.length < this.minCharacters) {
+          return of(null);
+        }
+
+        const aggs = this.setSearchString(searchString);
         return this.facade.searchAggregations(aggs)!.pipe(catchError((error) => of(null)));
       }),
       map((aggregationResult) => {
