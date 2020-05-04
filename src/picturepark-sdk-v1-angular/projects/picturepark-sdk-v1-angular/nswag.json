@@ -66,8 +66,7 @@
         "ShareService",
         "Content",
         "ContentDetail",
-        "ShareContentDetail",
-        "SchemaDetail"
+        "ShareContentDetail"
       ],
       "extensionCode": "src/lib/services/services.extensions.ts",
       "generateDefaultValues": false,

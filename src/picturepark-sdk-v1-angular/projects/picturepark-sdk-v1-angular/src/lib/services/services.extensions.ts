@@ -64,12 +64,6 @@ class ShareContentDetail extends generated.ShareContentDetail {
   }
 }
 
-class SchemaDetail extends generated.SchemaDetail {
-  get filteredLayerSchemaIds(): string[] | undefined {
-    return this.layerSchemaIds?.filter((lsi) => !SYSTEM_CONTENT_SCHEMAS_IDS.includes(lsi));
-  }
-}
-
 class FilterBase extends generated.FilterBase {
   getDisplayName(locale: string): string | null {
     return null;
