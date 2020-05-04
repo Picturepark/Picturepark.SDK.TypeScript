@@ -13,7 +13,6 @@ import { // ignore
   ContentPermissionsUpdateRequest, // ignore
   ListItemResolveBehavior, // ignore
   ListItemDetail, // ignore
-  CustomerInfo, // ignore
   ListItemSearchRequest, // ignore
   ListItemSearchResult, // ignore
   ShareDetail, // ignore
@@ -37,6 +36,8 @@ export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
   'VideoMetadata',
   'VectorMetadata',
 ];
+
+export const SYSTEM_LAYER_SCHEMA_IDS = ['XmpMetadata', 'ExifMetadata'];
 
 class TranslatedStringDictionary extends generated.TranslatedStringDictionary {
   translate(locale: string) {
