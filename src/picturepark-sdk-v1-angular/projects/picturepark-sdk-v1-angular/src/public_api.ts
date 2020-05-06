@@ -18,6 +18,7 @@ export { LocalStorageService } from './lib/services/local-storage.service';
 
 // functions
 export * from './lib/utilities/helper';
+export * from './lib/utilities/search.util';
 
 // modules
 export { LocaleModule } from './lib/locale.module';

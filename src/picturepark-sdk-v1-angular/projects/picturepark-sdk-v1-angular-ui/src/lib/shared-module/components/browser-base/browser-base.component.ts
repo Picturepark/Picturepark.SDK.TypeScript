@@ -152,6 +152,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   public update(): void {
     this.facade.searchResultState.nextPageToken = undefined;
     this.items = [];
+    this.selectedItems = [];
     this.loadData();
   }
 
