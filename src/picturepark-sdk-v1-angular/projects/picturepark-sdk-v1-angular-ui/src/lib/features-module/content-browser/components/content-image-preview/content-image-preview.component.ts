@@ -9,8 +9,12 @@ import {
   Inject,
   Optional,
   Injector,
+  OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { LazyGetter } from 'lazy-get-decorator';
+import { throttleTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 // LIBRARIES
 import {
@@ -25,19 +29,23 @@ import {
   DownloadFacade,
 } from '@picturepark/sdk-v1-angular';
 
-// COMPONENTS
-import { BaseComponent } from '../../../../shared-module/components/base.component';
+// SERVICES
 import { FullscreenService, IShareItem } from '../../../content-details-dialog/fullscreen.service';
-import { LazyGetter } from 'lazy-get-decorator';
 import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
 import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
+
+// COMPONENTS
+import { BaseComponent } from '../../../../shared-module/components/base.component';
+
+// INTERFACES
+import { FullScreenDisplayItems } from './interfaces/content-image-preview.interfaces';
 
 @Component({
   selector: 'pp-content-image-preview',
   templateUrl: './content-image-preview.component.html',
   styleUrls: ['./content-image-preview.component.scss'],
 })
-export class ContentImagePreviewComponent extends BaseComponent implements OnChanges {
+export class ContentImagePreviewComponent extends BaseComponent implements OnInit, OnChanges {
   thumbnailUrl: string;
   thumbnailUrlSafe: SafeUrl;
   pdfUrl: SafeUrl;
@@ -50,6 +58,8 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
   @Input() public shareDetail?: ShareDetail;
 
   @Output() public playChange = new EventEmitter<boolean>();
+
+  displayFullscreen = new Subject<FullScreenDisplayItems>();
 
   isLoading = true;
   playing = false;
@@ -87,6 +97,27 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
 
   get isAudio(): boolean {
     return this.content.contentType === ContentType.Audio;
+  }
+
+  ngOnInit() {
+    this.sub = this.displayFullscreen
+      .pipe(throttleTime(1000, undefined, { leading: true }))
+      .subscribe((displayItems) => {
+        const selectedItem = displayItems.selectedItem;
+        const items = displayItems.items;
+
+        if (selectedItem.isMovie || selectedItem.isAudio) {
+          this.playMedia(true, selectedItem);
+          return;
+        }
+
+        if (selectedItem.isPdf) {
+          this.showPdf(selectedItem);
+          return;
+        }
+
+        this.fullscreenService.showDetailById(selectedItem.id, items);
+      });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -137,7 +168,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
     this.isLoading = false;
   }
 
-  async showFullscreen(): Promise<void> {
+  async showFullscreen() {
     let isPdf = this.content.contentType === ContentType.InterchangeDocument;
     const isImage = !this.isVideo && !isPdf;
     let item: IShareItem;
@@ -157,17 +188,14 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         ? outputs.filter((o) => o.outputFormatId === 'VideoSmall')[0]
         : outputs.filter((o) => o.outputFormatId === 'Preview')[0];
 
-      let downloadUrl = '';
-      this.downloadFacade
+      const downloadLink = await this.downloadFacade
         .getDownloadLink([
           new ContentDownloadRequestItem({
             contentId: this.content.id,
             outputFormatId: previewOutput.outputFormatId,
           }),
         ])
-        .subscribe((downloadLink) => {
-          downloadUrl = downloadLink.downloadUrl;
-        });
+        .toPromise();
 
       item = {
         id: this.content.id,
@@ -177,14 +205,14 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
         isMovie: this.isVideo,
         isAudio: this.isAudio,
         isBinary: false,
-        videoUrl: this.isVideo ? downloadUrl : '',
-        audioUrl: this.isAudio ? downloadUrl : '',
-        pdfUrl: isPdf ? downloadUrl : '',
+        videoUrl: this.isVideo ? downloadLink.downloadUrl : '',
+        audioUrl: this.isAudio ? downloadLink.downloadUrl : '',
+        pdfUrl: isPdf ? downloadLink.downloadUrl : '',
 
         displayValues: {},
-        previewUrl: isImage ? downloadUrl : this.thumbnailUrl,
+        previewUrl: isImage ? downloadLink.downloadUrl : this.thumbnailUrl,
 
-        originalUrl: downloadUrl,
+        originalUrl: downloadLink.downloadUrl,
         outputs: this.content.outputs! as any[],
 
         detail: {
@@ -245,17 +273,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnCha
       items = share.items;
     }
 
-    if (item.isMovie || item.isAudio) {
-      this.playMedia(true, item);
-      return;
-    }
-
-    if (item.isPdf) {
-      this.showPdf(item);
-      return;
-    }
-
-    this.fullscreenService.showDetailById(item.id, items);
+    this.displayFullscreen.next({ selectedItem: item, items });
   }
 
   showPdf(item: IShareItem): void {
