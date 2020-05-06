@@ -48,10 +48,10 @@ export class ListItemsPickerComponent extends BaseComponent implements OnInit {
         })
       )
       .subscribe((i) => {
-        if (i) {
-          this.request.parentSchema = Schema.fromJS(i);
-        }
-        this.facade.patchRequestState({ baseFilter: this.createFilter() });
+        this.facade.patchRequestState({
+          baseFilter: this.createFilter(),
+          parentSchema: i ? Schema.fromJS(i) : undefined,
+        });
       });
   }
 
