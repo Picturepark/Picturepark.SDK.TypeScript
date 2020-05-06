@@ -12,9 +12,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { throttleTime } from 'rxjs/internal/operators/throttleTime';
-import { Subject } from 'rxjs/internal/Subject';
 import { LazyGetter } from 'lazy-get-decorator';
+import { throttleTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 // LIBRARIES
 import {
@@ -38,7 +38,7 @@ import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 import { BaseComponent } from '../../../../shared-module/components/base.component';
 
 // INTERFACES
-import { FullScreenDisplayItems } from './interfaces/content-image-peview.interfaces';
+import { FullScreenDisplayItems } from './interfaces/content-image-preview.interfaces';
 
 @Component({
   selector: 'pp-content-image-preview',
@@ -100,22 +100,24 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
   }
 
   ngOnInit() {
-    this.displayFullscreen.pipe(throttleTime(1000, undefined, { leading: true })).subscribe((displayItems) => {
-      const selectedItem = displayItems.selectedItem;
-      const items = displayItems.items;
+    this.sub = this.displayFullscreen
+      .pipe(throttleTime(1000, undefined, { leading: true }))
+      .subscribe((displayItems) => {
+        const selectedItem = displayItems.selectedItem;
+        const items = displayItems.items;
 
-      if (selectedItem.isMovie || selectedItem.isAudio) {
-        this.playMedia(true, selectedItem);
-        return;
-      }
+        if (selectedItem.isMovie || selectedItem.isAudio) {
+          this.playMedia(true, selectedItem);
+          return;
+        }
 
-      if (selectedItem.isPdf) {
-        this.showPdf(selectedItem);
-        return;
-      }
+        if (selectedItem.isPdf) {
+          this.showPdf(selectedItem);
+          return;
+        }
 
-      this.fullscreenService.showDetailById(selectedItem.id, items);
-    });
+        this.fullscreenService.showDetailById(selectedItem.id, items);
+      });
   }
 
   ngOnChanges(changes: SimpleChanges) {
