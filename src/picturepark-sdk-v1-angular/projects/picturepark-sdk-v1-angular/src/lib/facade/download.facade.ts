@@ -4,9 +4,10 @@ import {
   IContentDownloadRequestItem,
   ContentService,
   BusinessProcessService,
+  BusinessProcessLifeCycleNotHitException,
 } from '../services/api-services';
 import { throwError, merge } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, retryWhen, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,16 @@ export class DownloadFacade {
               return throwError('Business process did not return a referenceId');
             }
             return this.contentService.getDownloadLink(businessProcess.referenceId);
-          })
+          }),
+          retryWhen((errors) =>
+            errors.pipe(
+              tap((error) => {
+                if (!(error instanceof BusinessProcessLifeCycleNotHitException)) {
+                  throw error;
+                }
+              })
+            )
+          )
         );
       })
     );
