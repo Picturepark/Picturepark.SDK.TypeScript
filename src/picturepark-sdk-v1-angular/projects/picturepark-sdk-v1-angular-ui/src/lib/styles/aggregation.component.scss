@@ -1,66 +1,67 @@
 pp-aggregation-item {
-    mat-expansion-panel {
-        border-radius: 0px !important;
-        mat-expansion-panel-header {
-            line-height: 56px;
-            transition: 300ms;
-            .mat-content {
-                position: relative;
-            }
-            mat-panel-title {
-                font-weight: 500;
-                font-size: 13px;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                button {
-                    position: absolute !important;
-                    top: 8px;
-                    right: 25px;
-                    mat-icon {
-                        font-size: 21px !important;
-                    }
-                }
-            }
+  mat-expansion-panel {
+    border-radius: 0px !important;
+    mat-expansion-panel-header {
+      line-height: 56px;
+      transition: 300ms;
+      .mat-content {
+        position: relative;
+      }
+      mat-panel-title {
+        font-weight: 500;
+        font-size: 13px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        button {
+          position: absolute !important;
+          top: 8px;
+          right: 25px;
+          mat-icon {
+            font-size: 21px !important;
+          }
         }
-        mat-progress-bar {
-            right: 35px;
-            width: calc(100% + 35px) !important;
-            height: 2px !important;
-        }
+      }
     }
-    .mat-expansion-panel-content .mat-expansion-panel-body { 
-        padding: 0;
-        overflow: auto;
-        max-height: 450px;
+    mat-progress-bar {
+      right: 35px;
+      width: calc(100% + 35px) !important;
+      height: 2px !important;
     }
-    mat-form-field.search { 
-        display: flex; 
-        margin: 20px; 
-        border-radius: 2px; 
-        margin: 20px 20px 10px 20px;
-        .search-icon {
-            position: absolute;
-            left: 8px;
-            top: 8px;
-            font-size: 21px;
-        }
-        .mat-form-field-wrapper {
-            width: 100%; padding: 0px;
-            .mat-form-field-infix {
-                padding: 0px 0px 0px 35px;
-                border-top: 0px;
-                height: 36px;
-                line-height: 36px;
-                input {
-                    font-size: 16px;
-                }
-                .mat-form-field-label-wrapper {
-                    display: none;
-                }                
-            }
-            .mat-form-field-underline {
-                display: none;
-            }
-        }
+  }
+  .mat-expansion-panel-content .mat-expansion-panel-body {
+    padding: 0;
+    overflow: auto;
+    max-height: 450px;
+  }
+  mat-form-field.search {
+    display: flex;
+    margin: 20px;
+    border-radius: 2px;
+    margin: 20px 20px 10px 20px;
+    .search-icon {
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      font-size: 21px;
     }
+    .mat-form-field-wrapper {
+      width: 100%;
+      padding: 0px;
+      .mat-form-field-infix {
+        padding: 0px 0px 0px 35px;
+        border-top: 0px;
+        height: 36px;
+        line-height: 36px;
+        input {
+          font-size: 16px;
+        }
+        .mat-form-field-label-wrapper {
+          display: none;
+        }
+      }
+      .mat-form-field-underline {
+        display: none;
+      }
+    }
+  }
 }

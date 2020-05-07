@@ -1,92 +1,149 @@
 .dialog-container {
-    position: relative; min-width: 500px;
-    ul {
-        list-style: none; min-height: 35px; padding: 0px 15px;
-        li { 
-            position: relative;
-            float: left;
-            &:last-child label { position: relative; bottom: 0.9em; }
-            input { 
-                font-weight: 400; line-height: 17px; border-radius: 4px; padding: 11px 6px 10px; border: none; border: 1px solid #fff; transition: 500ms;position: relative; z-index: 10;
-                &:focus { 
-                    border-style: solid;
-                    border-width: 1px;
-                    outline: -webkit-focus-ring-color auto 0px !important;
-                }
+  position: relative;
+  min-width: 500px;
+  ul {
+    list-style: none;
+    min-height: 35px;
+    padding: 0px 15px;
+    li {
+      position: relative;
+      float: left;
+      &:last-child label {
+        position: relative;
+        bottom: 0.9em;
+      }
+      input {
+        font-weight: 400;
+        line-height: 17px;
+        border-radius: 4px;
+        padding: 11px 6px 10px;
+        border: none;
+        border: 1px solid #fff;
+        transition: 500ms;
+        position: relative;
+        z-index: 10;
+        &:focus {
+          border-style: solid;
+          border-width: 1px;
+          outline: -webkit-focus-ring-color auto 0px !important;
+        }
+      }
+    }
 
+    .label-content {
+      width: 20%;
+      label {
+        line-height: 40px;
+      }
+    }
+
+    .input-content {
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      &.active {
+        input {
+          outline: none;
+        }
+        mat-spinner {
+          display: inherit;
+        }
+      }
+      mat-spinner {
+        display: none;
+      }
+      mat-spinner svg {
+        width: 20px !important;
+        height: 20px !important;
+      }
+    }
+  }
+
+  .selected-items-content {
+    padding: 0px 0px 0px 0px;
+    max-height: 25vh;
+
+    .selected-items {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      .selected-item-wrapper {
+        position: relative;
+        margin: 1%;
+        width: 23%;
+        // padding-top used to create and 1:1 aspect ratio [https://www.w3schools.com/howto/howto_css_aspect_ratio.asp]
+        padding-top: 23%;
+      }
+    }
+  }
+
+  #share-name.error-active {
+    border-style: solid;
+    border-width: 1px;
+  }
+
+  pp-share-content-recipients-input {
+    width: 100%;
+  }
+
+  .share-name-error {
+    top: 25px;
+    transition: 0.5s;
+    z-index: 1;
+    &.active {
+      top: 45px;
+    }
+  }
+
+  .share-content-confirmation-container {
+    .share-content-confirmation {
+      padding: 24px 24px;
+      overflow: hidden;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      .user-image-container {
+        width: 48px;
+        float: left;
+        border-radius: 50%;
+        height: 48px;
+        overflow: hidden;
+        margin: 0px 25px 0px 0px;
+      }
+      .user-info-container {
+        float: left;
+        ul {
+          margin: 0px;
+          padding: 0px;
+          li {
+            float: none;
+            mat-icon {
+              position: relative;
+              top: 5px;
+              cursor: pointer;
             }
+          }
         }
-
-        .label-content {
-            width: 20%;
-            label { line-height: 40px; }
-        }
-
-        .input-content {
-            width: 80%; 
-            display: flex;
-            flex-direction: column;
-            &.active {
-                input { outline: none; }
-                mat-spinner { display: inherit; }
-            }
-            mat-spinner { display: none; }
-            mat-spinner svg { width: 20px !important; height: 20px !important; }
-        }
+      }
+      &:last-child {
+        border-bottom: 0px;
+      }
     }
-
-    .selected-items-content { 
-        padding: 0px 0px 0px 0px; max-height: 25vh;
-        ul li { 
-            float: left; width: 10%; min-width: 120px; min-height: 150px;
-        }
-    }
-
-    #share-name.error-active {
-        border-style: solid;
-        border-width: 1px;
-    }
-
-    pp-share-content-recipients-input { width: 100%; }
-
-
-    .share-name-error { 
-        top: 25px; transition: .5s; z-index: 1; 
-        &.active { top: 45px; }
-    }
-
-    .share-content-confirmation-container {
-        .share-content-confirmation { 
-            padding: 24px 24px; overflow: hidden; 
-            border-bottom-style: solid;
-            border-bottom-width: 1px;
-            .user-image-container { width: 48px; float: left; border-radius: 50%; height: 48px; overflow: hidden; margin: 0px 25px 0px 0px; }
-            .user-info-container { 
-                float: left;
-                ul { 
-                    margin: 0px; padding: 0px;
-                    li { 
-                        float: none; 
-                        mat-icon { position: relative; top: 5px; cursor: pointer; }
-                    }
-                }
-            }
-            &:last-child { border-bottom: 0px; }
-        }
-    }
+  }
 }
 
-@media (max-width: 600px) { 
-    .dialog-container {
-        min-width: unset;
-        ul {
-            li.label-content, li.input-content {
-                width: 100%;
-            } 
-        }
-    }            
-
-    .mat-dialog-content { 
-        padding: 5px;
+@media (max-width: 600px) {
+  .dialog-container {
+    min-width: unset;
+    ul {
+      li.label-content,
+      li.input-content {
+        width: 100%;
+      }
     }
+  }
+
+  .mat-dialog-content {
+    padding: 5px;
+  }
 }

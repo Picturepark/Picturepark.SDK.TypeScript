@@ -1,13 +1,10 @@
 @import '~@angular/material/theming';
 
 @mixin pp-aggregation-theme($theme) {
-
   $primary: map-get($theme, primary);
 
   pp-aggregation-item {
-
     .aggregation {
-
       border-color: mat-color($primary, divider);
 
       &__option-title {
@@ -19,7 +16,6 @@
 
         .mat-content {
           border-bottom: 1px solid mat-color($primary, divider);
-          ;
         }
 
         mat-panel-title {
@@ -34,7 +30,6 @@
       }
 
       .mat-list-base {
-
         .mat-list-item,
         .mat-list-option,
         .mat-subheader {
@@ -43,7 +38,6 @@
       }
 
       .mat-list-item.mat-list-option .mat-list-item-content {
-
         .mat-pseudo-checkbox {
           color: mat-color($primary, on-background-dark);
 
@@ -60,14 +54,12 @@
       }
     }
 
-
     mat-form-field.search {
-      background-color: mat-color($primary, surface-mid);
+      background-color: mat-color($primary, surface-light);
 
       .search-icon {
-        color: mat-color($primary, on-surface-mid);
+        color: mat-color($primary, on-surface-light);
       }
     }
-
   }
 }

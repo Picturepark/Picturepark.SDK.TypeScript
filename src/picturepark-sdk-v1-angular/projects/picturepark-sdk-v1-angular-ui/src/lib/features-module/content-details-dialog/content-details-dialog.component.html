@@ -1,5 +1,5 @@
 <div class="dialog-container" #contentContainer>
-  <h3>
+  <h3 class="header">
     <span *ngIf="content && content.displayValues">{{ content.displayValues['name'] }}</span>
     <span *ngIf="contentId && !(content && content.displayValues)">{{ contentId }}</span>
     <mat-icon (click)="closeDialog()">close</mat-icon>
@@ -8,16 +8,22 @@
     <mat-dialog-content>
       <div class="action-buttons">
         <div>
-          <button mat-stroked-button aria-label="Download" (click)="downloadItem()">
+          <button class="download" mat-stroked-button aria-label="Download" (click)="downloadItem()">
             <mat-icon>get_app</mat-icon>
-            {{'ContentDetailsDialog.Download' | pptranslate}}
+            {{ 'ContentDetailsDialog.Download' | pptranslate }}
           </button>
         </div>
         <div *ngIf="data.next || data.previous">
           <mat-divider [vertical]="true"></mat-divider>
         </div>
         <div *ngIf="data.previous">
-          <button mat-stroked-button aria-label="previous" class="navigation" [disabled]="!data.hasPrevious()" (click)="previous()">
+          <button
+            mat-stroked-button
+            aria-label="previous"
+            class="navigation"
+            [disabled]="!data.hasPrevious()"
+            (click)="previous()"
+          >
             <mat-icon>keyboard_arrow_left</mat-icon>
           </button>
         </div>
@@ -28,22 +34,29 @@
         </div>
       </div>
       <mat-tab-group (selectedTabChange)="tabChange($event)">
-        <mat-tab label="{{'ContentDetailsDialog.Overview' | pptranslate}}">
+        <mat-tab label="{{ 'ContentDetailsDialog.Overview' | pptranslate }}">
           <ng-template matTabContent>
             <div class="overview-wrap" *ngIf="content">
-              <div class="content-preview" *ngIf="content.contentType !== 'Virtual'">
-                <pp-content-image-preview [content]="content" [shareDetail]="data.shareDetail"
-                  [shareContent]="data.shareContent" [width]="700" [height]="600" (playChange)="playing = $event">
-                </pp-content-image-preview>
+              <div class="content-preview">
+                <ng-container *ngIf="content.contentType !== 'Virtual'; else virtualItem">
+                  <pp-content-image-preview
+                    [content]="content"
+                    [shareDetail]="data.shareDetail"
+                    [shareContent]="data.shareContent"
+                    [width]="700"
+                    [height]="600"
+                    (playChange)="playing = $event"
+                  >
+                  </pp-content-image-preview>
+                </ng-container>
+                <ng-template #virtualItem>
+                  <div *ngIf="content?.displayValues as displayValues" [innerHTML]="displayValues['thumbnail']"></div>
+                </ng-template>
               </div>
+
               <div class="content-info" *ngIf="!playing">
                 <ul>
-                  <ng-container *ngIf="(content!.displayValues)!['detail']; else fallbackToThumbnail">
-                    <li [innerHTML]="(content!.displayValues)!['detail']"></li>
-                  </ng-container>
-                  <ng-template #fallbackToThumbnail>
-                    <li [innerHTML]="(content!.displayValues)!['thumbnail']"></li>
-                  </ng-template>
+                  <li *ngIf="content?.displayValues as displayValues" [innerHTML]="displayValues['detail']"></li>
                 </ul>
               </div>
             </div>
@@ -52,8 +65,13 @@
         <mat-tab label="Metadata" *ngIf="data.showMetadata">
           <ng-template matTabContent>
             <div class="metadata-wrap" *ngIf="content">
-              <pp-layer-panels *ngIf="schemas" [content]="content" [schemas]="schemas" [showContentSchema]="true"
-                (relationClick)="setContent($event.contentId)"></pp-layer-panels>
+              <pp-layer-panels
+                *ngIf="schemas"
+                [content]="content"
+                [schemas]="schemas"
+                [showContentSchema]="true"
+                (relationClick)="setContent($event.contentId)"
+              ></pp-layer-panels>
             </div>
           </ng-template>
         </mat-tab>

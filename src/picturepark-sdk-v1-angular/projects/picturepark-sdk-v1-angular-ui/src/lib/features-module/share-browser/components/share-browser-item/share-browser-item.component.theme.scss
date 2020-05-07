@@ -1,18 +1,17 @@
 @import '~@angular/material/theming';
 
 // SHARE BROWSER ITEM VARS
-$pp-share-browser-item: (contrast: ());
+$pp-share-browser-item: (
+  contrast: (),
+);
 
 @mixin pp-share-browser-item-theme($theme) {
-
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
 
   pp-share-browser-item {
-
     .browser-item {
-
       &__items-num-container {
         color: mat-color($primary, on-opacity-light);
       }
@@ -25,7 +24,6 @@ $pp-share-browser-item: (contrast: ());
           font-size: mat-font-size($custom-typography, display-1);
         }
       }
-
     }
   }
 }

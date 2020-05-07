@@ -2,8 +2,7 @@
 @import '../projects/picturepark-sdk-v1-angular-ui/src/lib/styles/styles_lib.scss';
 
 // CUSTOM THEME
-@import "theme.scss";
-
+@import 'theme.scss';
 
 @include angular-material-theme($picturepark-app-theme);
 @include picturepark-theme($picturepark-app-theme);
@@ -11,13 +10,9 @@
 
 .dark-theme {
   @include angular-material-theme($picturepark-app-theme-dark);
-  @include picturepark-theme($picturepark-app-theme-dark);  
-  @include picturepark-components($picturepark-app-theme-dark);  
-  
+  @include picturepark-theme($picturepark-app-theme-dark);
+  @include picturepark-components($picturepark-app-theme-dark);
 }
-
-
-
 
 // define classes for current application in case of dark theme
 .dark-theme {
@@ -65,7 +60,7 @@
   //     color: white;
   //     background-color: mat-color($mat-picturepark-primary-dark, light-border);
   //   }
-  // } 
+  // }
 
   // .browser__header .browser__empty-result {
   //   color: mat-color($mat-picturepark-primary-dark, light-font);

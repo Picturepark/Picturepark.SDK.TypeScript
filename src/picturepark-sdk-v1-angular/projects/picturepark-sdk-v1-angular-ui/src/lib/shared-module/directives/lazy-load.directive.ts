@@ -1,17 +1,15 @@
-import { Directive, Output, EventEmitter, ElementRef, NgZone, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
+import { Directive, Output, EventEmitter, ElementRef, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 
 @Directive({
-// tslint:disable-next-line: directive-selector
-  selector: '[lazyload]'
+  // tslint:disable-next-line: directive-selector
+  selector: '[lazyload]',
 })
 export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
   @Output() public lazyload: EventEmitter<any> = new EventEmitter();
   private intersectionObserver: IntersectionObserver;
   private element: Element;
 
-  constructor(
-    private elementRef: ElementRef
-  ) { }
+  constructor(private elementRef: ElementRef) {}
 
   public ngOnInit() {
     this.element = this.elementRef.nativeElement;
@@ -22,7 +20,7 @@ export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
     if ('IntersectionObserver' in window) {
       if (!this.intersectionObserver) {
         // Set up intersection observer
-        this.intersectionObserver = new IntersectionObserver(entries => this.onIntersection(entries), {});
+        this.intersectionObserver = new IntersectionObserver((entries) => this.onIntersection(entries), {});
       }
       if (this.intersectionObserver && this.element) {
         // Start observing an element
@@ -39,7 +37,7 @@ export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
 
   private onIntersection(entries: IntersectionObserverEntry[]) {
     // Loop through the entries
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       // https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry/isIntersecting
       if (entry.isIntersecting && entry.target === this.element) {
         this.load();

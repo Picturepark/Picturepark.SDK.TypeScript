@@ -3662,11 +3662,90 @@ export class ContentClient extends PictureparkClientBase {
     }
 
     /**
+     * Get outputs
+     * @param id ID of content.
+     * @return Array of Result of output resolution.
+     */
+    getOutputs(id: string | null): Promise<OutputResolveResult[]> {
+        let url_ = this.baseUrl + "/v1/Contents/{id}/outputs";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetOutputs(_response);
+        });
+    }
+
+    protected processGetOutputs(response: Response): Promise<OutputResolveResult[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <OutputResolveResult[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<OutputResolveResult[]>(<any>null);
+    }
+
+    /**
      * Create download link
      * @param request Content download link request
      * @return Download link
      */
-    createDownloadLink(request: ContentDownloadLinkCreateRequest): Promise<DownloadLink> {
+    createDownloadLink(request: ContentDownloadLinkCreateRequest): Promise<BusinessProcess> {
         let url_ = this.baseUrl + "/v1/Contents/downloadLinks";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3688,7 +3767,86 @@ export class ContentClient extends PictureparkClientBase {
         });
     }
 
-    protected processCreateDownloadLink(response: Response): Promise<DownloadLink> {
+    protected processCreateDownloadLink(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Resolve download token to Url
+     * @param token Token
+     * @return Download link information
+     */
+    getDownloadLink(token: string | null): Promise<DownloadLink> {
+        let url_ = this.baseUrl + "/v1/Contents/downloadLink/{token}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetDownloadLink(_response);
+        });
+    }
+
+    protected processGetDownloadLink(response: Response): Promise<DownloadLink> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -4379,6 +4537,86 @@ export class ContentClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<ContentReferencesResult>(<any>null);
+    }
+
+    /**
+     * Get outputs
+     * @param request Output resolve many request.
+     * @return Array of Result of output resolution.
+     */
+    getOutputsMany(request: OutputResolveManyRequest): Promise<OutputResolveResult[]> {
+        let url_ = this.baseUrl + "/v1/Contents/many/outputs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetOutputsMany(_response);
+        });
+    }
+
+    protected processGetOutputsMany(response: Response): Promise<OutputResolveResult[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <OutputResolveResult[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<OutputResolveResult[]>(<any>null);
     }
 
     /**
@@ -5473,8 +5711,84 @@ export class IdentityProviderClient extends PictureparkClientBase {
     }
 
     /**
+     * Get basic info for all providers
+     * @return Array of identity provider basic information
+     */
+    getAllBasicInfos(): Promise<IdentityProviderBasicInfo[]> {
+        let url_ = this.baseUrl + "/v1/IdentityProviders/basicInfo";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetAllBasicInfos(_response);
+        });
+    }
+
+    protected processGetAllBasicInfos(response: Response): Promise<IdentityProviderBasicInfo[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <IdentityProviderBasicInfo[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<IdentityProviderBasicInfo[]>(<any>null);
+    }
+
+    /**
      * Get identity provider
      * @param id Identity provider ID.
+     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
      */
     get(id: string | null): Promise<IdentityProvider> {
         let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";
@@ -5554,6 +5868,7 @@ export class IdentityProviderClient extends PictureparkClientBase {
      * Update identity provider
      * @param id Identity provider ID.
      * @param provider Update request
+     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
      */
     update(id: string | null, provider: IdentityProviderEditable): Promise<IdentityProvider> {
         let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";
@@ -15665,8 +15980,11 @@ export interface UserEmailAlreadyExistsException extends PictureparkValidationEx
     email?: string | undefined;
 }
 
-export interface UserRoleAssignedException extends PictureparkValidationException {
+export interface UnableToDeleteUserRoleException extends PictureparkValidationException {
     userRoleId?: string | undefined;
+}
+
+export interface UserRoleAssignedException extends UnableToDeleteUserRoleException {
 }
 
 export interface UserNotFoundException extends PictureparkBusinessException {
@@ -15736,11 +16054,22 @@ export interface UserDoesNotSupportLocalLoginException extends PictureparkValida
 }
 
 export interface UserAttributeNotSynchronizableException extends PictureparkValidationException {
-    attributeName?: string | undefined;
+    attributePath?: string | undefined;
+}
+
+export interface UnableToMapMultipleClaimTypesIntoSameAttributeException extends PictureparkValidationException {
+    attributePath?: string | undefined;
 }
 
 export interface UnableToChangeUserRolesForFederatedUser extends PictureparkValidationException {
     affectedUserId?: string | undefined;
+}
+
+export interface UnableToDeleteDefaultUserRoleException extends UnableToDeleteUserRoleException {
+}
+
+export interface UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException extends UnableToDeleteUserRoleException {
+    identityProviderIds?: string[] | undefined;
 }
 
 export interface RenderingException extends PictureparkBusinessException {
@@ -15757,6 +16086,7 @@ export enum RenderingCategory {
     Document = <any>"Document",
     Video = <any>"Video",
     Audio = <any>"Audio",
+    Vector = <any>"Vector",
 }
 
 export interface ServiceProviderDeleteException extends PictureparkException {
@@ -17269,8 +17599,8 @@ export interface SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfB
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Search result from a search for business processes */
@@ -17739,6 +18069,16 @@ export interface ProjectionTransformation extends BusinessRuleTransformation {
     transformations?: BusinessRuleTransformation[] | undefined;
 }
 
+/** Splits the input by separators, optionally trimming the entries afterwards. */
+export interface SplitTransformation extends BusinessRuleTransformation {
+    /** Separators to use, supports variables, an array of strings including escape sequences or null to split on any white space character. */
+    separators?: any | undefined;
+    /** Keeps empty items. Empty items will be returned as empty strings. */
+    keepEmpty?: boolean;
+    /** Trims each entry for punctuation and white space. */
+    trim?: boolean;
+}
+
 /** Action to be performed by a business rule */
 export interface BusinessRuleAction {
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
@@ -17929,8 +18269,8 @@ export interface SearchBehaviorBaseResultOfBusinessRuleTraceLog extends BaseResu
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -17971,6 +18311,8 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
 
 /** Contains a trace for a single document affected by potentially multiple business rules being evaluated and executed. */
 export interface BusinessRuleTraceLog {
+    /** ID of the trace. */
+    id?: string | undefined;
     /** ID of the document. */
     documentId?: string | undefined;
     /** Type of the document. */
@@ -18066,9 +18408,12 @@ export interface UserAudit {
 export interface BusinessRuleTraceLogSearchRequest {
     /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
     debugMode: boolean;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** List of aggregators that defines how the items should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
@@ -18474,8 +18819,8 @@ export interface SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPer
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Result of a permission set search operation */
@@ -18650,6 +18995,10 @@ export interface Sprite {
 export interface OutputDataDocument extends OutputDataBase {
     /** Number of document's pages. */
     pageCount?: number;
+}
+
+/** Output information for a vector file. */
+export interface OutputDataVector extends OutputDataBase {
 }
 
 /** Default output information */
@@ -18876,18 +19225,28 @@ export interface MetadataReferencesPagingRequest extends PagingRequest {
     fetchReferencedByRestrictedItem?: boolean;
 }
 
-/** Download link information */
-export interface DownloadLink {
-    /** Token of the download, used to generate the url. */
-    downloadToken: string;
-    /** Url of the download link. */
-    downloadUrl: string;
+/** Result of output resolution. */
+export interface OutputResolveResult {
+    /** ID of output. */
+    id?: string | undefined;
+    /** ID of output format. */
+    outputFormatId: string;
+    /** ID of content. */
+    contentId: string;
+    /** Rendering state of output. */
+    renderingState: OutputRenderingState;
+    /** Whether this Output belongs to a dynamic OutputFormat */
+    dynamicRendering: boolean;
+    /** Size of file, if already known */
+    fileSize?: number | undefined;
 }
 
 /** Request to create a content download link */
 export interface ContentDownloadLinkCreateRequest {
     /** List of content information to generate the download link */
     contents: ContentDownloadRequestItem[];
+    /** Indicates if a progress message shall be shown to the user, notifying once the download is completed. */
+    notifyProgress: boolean;
 }
 
 /** Information needed to generate a content download link */
@@ -18896,6 +19255,14 @@ export interface ContentDownloadRequestItem {
     contentId: string;
     /** ID of the output format that is going to be downloaded. */
     outputFormatId: string;
+}
+
+/** Download link information */
+export interface DownloadLink {
+    /** Token of the download, used to generate the url. */
+    downloadToken: string;
+    /** Url of the download link. */
+    downloadUrl: string;
 }
 
 /** Request to create multiple contents */
@@ -19023,6 +19390,12 @@ export interface ContentManyReferencesRequest {
     shares?: PagingRequest | undefined;
 }
 
+/** Resolves outputs available for given content ids. */
+export interface OutputResolveManyRequest {
+    /** The IDs of the contents whose outputs should to be retrieved. */
+    contentIds: string[];
+}
+
 /** Base class for the content metadata batch requests. */
 export interface MetadataValuesChangeRequestBase {
     /** Changes that need to be applied to the existing content metadata. The same set of changes is applied to all contents. */
@@ -19118,8 +19491,8 @@ export interface SearchBehaviorBaseResultOfContent extends BaseResultOfContent {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -19172,9 +19545,12 @@ export interface ContentAggregationOnChannelRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** Limits the simple search fields to the fields available in the specified channel. Defaults to RootChannel.
 For the ContentAggregationOnChannelRequest only, the existing aggregation saved on the channel are retrieved and used to perform the aggregation. */
@@ -19224,8 +19600,8 @@ export interface ObjectAggregationResult {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Request to aggregate contents based on the specified aggregators */
@@ -19328,6 +19704,7 @@ export interface IdentityProviderEditable {
     fallbackUserRoleId?: string | undefined;
 }
 
+/** Represents an identity provider defined in IdentityServer and its Picturepark configuration */
 export interface IdentityProvider extends IdentityProviderEditable {
     /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
     id?: string | undefined;
@@ -19342,6 +19719,16 @@ export interface IdpGroupToUserRoleMapping {
     group?: string | undefined;
     /** User role ID as defined in CP */
     userRoleId?: string | undefined;
+}
+
+/** Basic information about an identity provider */
+export interface IdentityProviderBasicInfo {
+    /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
+    id?: string | undefined;
+    /** Name of the identity provider as defined in IdentityServer */
+    name?: string | undefined;
+    /** Display name of the identity provider as defined in IdentityServer */
+    displayName?: string | undefined;
 }
 
 /** The version view item for the environment. */
@@ -19645,8 +20032,8 @@ export interface SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -19688,9 +20075,12 @@ export interface ListItemSearchAndAggregationBaseRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
     /** Broadens the search to include all schema descendant list items. */
     includeAllSchemaChildren: boolean;
@@ -19827,6 +20217,8 @@ export interface SourceOutputFormats {
     document?: string | undefined;
     /** The source to be used for content of type Audio */
     audio?: string | undefined;
+    /** The source to be used for content of type Vector */
+    vector?: string | undefined;
 }
 
 export interface FormatBase {
@@ -20114,9 +20506,11 @@ Values can be set it range of 0 to 9, where a lower value is a higher quality. *
 export interface DocumentFormatBase extends FormatBase {
 }
 
-/** Renders a TIFF preview image. */
+/** Render a document to a raster image */
 export interface DocumentStillFormat extends DocumentFormatBase {
     extension?: string | undefined;
+    /** Allows resizing of the image. */
+    resizeAction?: ResizeAction | undefined;
 }
 
 export interface PdfFormat extends DocumentFormatBase {
@@ -20131,6 +20525,22 @@ export interface PdfFormat extends DocumentFormatBase {
     extractFullText?: boolean;
 }
 
+/** Base class for rendering vector graphics. */
+export interface VectorFormatBase extends FormatBase {
+}
+
+/** Render a PDF to SVG */
+export interface SvgFormat extends VectorFormatBase {
+    extension?: string | undefined;
+}
+
+/** Render a vector graphic to a raster image */
+export interface VectorStillFormat extends VectorFormatBase {
+    extension?: string | undefined;
+    /** Specifies output dimensions for raster operation */
+    resizeAction?: ResizeAction | undefined;
+}
+
 /** Represents the editable part of the output format. */
 export interface OutputFormatEditable extends OutputFormatRenderingSpecification {
     /** Language specific names. */
@@ -20140,6 +20550,8 @@ export interface OutputFormatEditable extends OutputFormatRenderingSpecification
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
 If set, the customer's default language is required. */
     downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
+    /** Indicates if outputs derived from original output format should be accessible also for users not having AccessOriginal permission on the content. */
+    viewForAll?: boolean;
 }
 
 /** Represents an output format. */
@@ -20984,8 +21396,8 @@ export interface SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Result for schema search operation */
@@ -21347,9 +21759,12 @@ export interface ShareSearchAndAggregationBaseRequest {
     searchBehaviors?: SearchBehavior[] | undefined;
     /** An optional search filter. Limits the document result set. */
     filter?: FilterBase | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
 }
 
@@ -21376,8 +21791,8 @@ export interface SearchBehaviorBaseResultOfShare extends BaseResultOfShare {
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -21528,8 +21943,8 @@ export interface SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Result from a search for transfers. */
@@ -21693,6 +22108,16 @@ export interface VideoStream {
     rotation?: number | undefined;
 }
 
+export interface VectorMetadata extends FileMetadata {
+    author?: string | undefined;
+    creator?: string | undefined;
+    publisher?: string | undefined;
+    company?: string | undefined;
+    title?: string | undefined;
+    pageCount?: number;
+    epsInfo?: EpsMetadata | undefined;
+}
+
 export interface FileTransferOutput {
     id?: string | undefined;
     filePath?: string | undefined;
@@ -21739,8 +22164,8 @@ export interface SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFile
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Result from a search for file transfers. */
@@ -21800,8 +22225,8 @@ export interface SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Holds results of the user role search. */
@@ -22014,8 +22439,8 @@ export interface SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUse
     searchString?: string | undefined;
     /** Flag to notify if the SearchString was modified compared to the original requested one */
     isSearchStringRewritten?: boolean;
-    /** Additional information regarding the query execution and reason of the matched documents. */
-    queryDebugInformation?: QueryDebugInformation | undefined;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
@@ -22066,11 +22491,18 @@ export interface UserSearchAndAggregationBaseRequest {
     lifeCycleFilter: LifeCycleFilter;
     /** Return only users with certain user rights. */
     userRightsFilter?: UserRight[] | undefined;
-    /** Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when
-filtering an aggregation that matches the same AggregationName or another aggregation.
-In the first case, the filter is put in "or" with (eventual) other existing filters. In the second case it is put in "and". */
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
+    /** Includes the service user in result. */
     includeServiceUser: boolean;
+    /** Restricts the results to users that are editable for calling user.
+If set to true, IncludeServiceUser is ignored. */
+    editableOnly: boolean;
 }
 
 /** Represents user search request. */

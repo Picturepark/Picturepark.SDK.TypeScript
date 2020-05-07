@@ -11,11 +11,9 @@ import { Content } from '@picturepark/sdk-v1-angular';
 @Component({
   selector: 'pp-share-content-dialog-item',
   templateUrl: './share-content-dialog-item.component.html',
-  styleUrls: ['./share-content-dialog-item.component.scss', './share-content-dialog-item-resp.component.scss']
+  styleUrls: ['./share-content-dialog-item.component.scss', './share-content-dialog-item-resp.component.scss'],
 })
-export class ShareContentDialogItemComponent extends BaseComponent implements  OnDestroy {
-
-
+export class ShareContentDialogItemComponent extends BaseComponent implements OnDestroy {
   @Input()
   public item: Content;
 

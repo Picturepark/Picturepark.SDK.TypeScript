@@ -6,10 +6,9 @@ import { Notification } from '../../interfaces/notification.interface';
 @Component({
   selector: 'pp-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss']
+  styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent implements OnChanges {
-
   @Input() notification: Notification;
   notificationData: Notification;
 
@@ -21,12 +20,11 @@ export class NotificationComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
     if (changes.notification && changes.notification.currentValue) {
       this.notificationData = changes.notification.currentValue;
-      setTimeout(() => { this.closeNotification(); }, this.notificationData.displayTime);
+      setTimeout(() => {
+        this.closeNotification();
+      }, this.notificationData.displayTime);
     }
-
   }
-
 }

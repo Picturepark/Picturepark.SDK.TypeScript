@@ -6,24 +6,26 @@ import {
   ContentResolveBehavior,
   ContentService,
   SchemaDetail,
-  SchemaService
+  SchemaService,
 } from '@picturepark/sdk-v1-angular';
 
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
-import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
+import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
 import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
 
 // SERVICES
-import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 
 @Component({
   selector: 'pp-content-details-dialog',
   templateUrl: './content-details-dialog.component.html',
-  styleUrls: ['../dialog/components/dialog-base/dialog-base.component.scss', './content-details-dialog.component.scss'],
-  providers: [TranslatePipe]
+  styleUrls: [
+    '../../shared-module/components/dialog-base/dialog-base.component.scss',
+    './content-details-dialog.component.scss',
+  ],
+  providers: [TranslatePipe],
 })
 export class ContentDetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
-
   content: ContentDetail;
 
   contentId: string;
@@ -50,9 +52,11 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   }
 
   loadSchemas(): void {
-    this.schemaService.getMany(this.content.layerSchemaIds!.concat(this.content.contentSchemaId)).subscribe(schemas => {
-      this.schemas = schemas;
-    });
+    this.schemaService
+      .getMany(this.content.layerSchemaIds!.concat(this.content.contentSchemaId))
+      .subscribe((schemas) => {
+        this.schemas = schemas;
+      });
   }
 
   tabChange(event: MatTabChangeEvent): void {
@@ -65,7 +69,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   public downloadItem() {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
-      contents: [this.content]
+      contents: [this.content],
     });
   }
 
@@ -91,21 +95,22 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
   loadContent(id: string) {
     this.contentId = id;
-    const contentGetSubscription = this.contentService.get(this.contentId, [
-      ContentResolveBehavior.Content,
-      ContentResolveBehavior.Metadata,
-      ContentResolveBehavior.InnerDisplayValueName,
-      ContentResolveBehavior.InnerDisplayValueList,
-      ContentResolveBehavior.InnerDisplayValueThumbnail,
-      ContentResolveBehavior.OuterDisplayValueName,
-      ContentResolveBehavior.OuterDisplayValueDetail,
-      ContentResolveBehavior.Outputs
-    ]).subscribe(async content => {
-      if (content) {
-        this.content = content;
-      }
-    });
-
-    this.subscription.add(contentGetSubscription);
+    this.sub = this.contentService
+      .get(this.contentId, [
+        ContentResolveBehavior.Content,
+        ContentResolveBehavior.Metadata,
+        ContentResolveBehavior.InnerDisplayValueName,
+        ContentResolveBehavior.InnerDisplayValueList,
+        ContentResolveBehavior.InnerDisplayValueThumbnail,
+        ContentResolveBehavior.OuterDisplayValueName,
+        ContentResolveBehavior.OuterDisplayValueDetail,
+        ContentResolveBehavior.OuterDisplayValueThumbnail,
+        ContentResolveBehavior.Outputs,
+      ])
+      .subscribe(async (content) => {
+        if (content) {
+          this.content = content;
+        }
+      });
   }
 }

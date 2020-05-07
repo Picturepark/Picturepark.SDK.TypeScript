@@ -45,7 +45,7 @@ export function InputConverter(converter?: (value: any) => any) {
       } else if (metadata.name === 'Number') {
         converter = NumberConverter;
       } else {
-        throw new Error('There is no converter for the given property type \'' + metadata.name + '\'.');
+        throw new Error("There is no converter for the given property type '" + metadata.name + "'.");
       }
     }
 
@@ -53,11 +53,11 @@ export function InputConverter(converter?: (value: any) => any) {
     if (definition) {
       Object.defineProperty(target, key, {
         get: definition.get,
-        set: newValue => {
+        set: (newValue) => {
           definition!.set!(converter!(newValue));
         },
         enumerable: true,
-        configurable: true
+        configurable: true,
       });
     } else {
       Object.defineProperty(target, key, {
@@ -68,7 +68,7 @@ export function InputConverter(converter?: (value: any) => any) {
           this['__' + key] = converter!(newValue);
         },
         enumerable: true,
-        configurable: true
+        configurable: true,
       });
     }
   };

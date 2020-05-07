@@ -4387,13 +4387,107 @@
         ]
       }
     },
+    "/v1/Contents/{id}/outputs": {
+      "get": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Get outputs",
+        "description": "Retrieves all outputs available for content, also dynamic rendered outputs are returned, if requested.",
+        "operationId": "Content_GetOutputs",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of content.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of Result of output resolution.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OutputResolveResult"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkValidationException"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkNotFoundException"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkConflictException"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "content_read"
+            ]
+          }
+        ]
+      }
+    },
     "/v1/Contents/downloadLinks": {
       "post": {
         "tags": [
           "Content"
         ],
         "summary": "Create download link",
-        "description": "Creates a download link for one or more contents.",
+        "description": "Creates a download link for one or more contents. The operation is executed asynchronously and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
         "operationId": "Content_CreateDownloadLink",
         "requestBody": {
           "x-name": "request",
@@ -4411,6 +4505,96 @@
         "responses": {
           "200": {
             "description": "Download link",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessProcess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkValidationException"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkNotFoundException"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkConflictException"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "content_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Contents/downloadLink/{token}": {
+      "get": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Resolve download token to Url",
+        "operationId": "Content_GetDownloadLink",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "Token",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Download link information",
             "content": {
               "application/json": {
                 "schema": {
@@ -5143,6 +5327,100 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ContentReferencesResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkValidationException"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkNotFoundException"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkConflictException"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "content_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Contents/many/outputs": {
+      "post": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Get outputs",
+        "description": "Retrieves all outputs available for contents, also dynamic rendered outputs are returned, if requested.\nA maximum of 1000 content ids can be specified.",
+        "operationId": "Content_GetOutputsMany",
+        "requestBody": {
+          "x-name": "request",
+          "description": "Output resolve many request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OutputResolveManyRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Array of Result of output resolution.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OutputResolveResult"
+                  }
                 }
               }
             }
@@ -6439,6 +6717,87 @@
         ]
       }
     },
+    "/v1/IdentityProviders/basicInfo": {
+      "get": {
+        "tags": [
+          "IdentityProviders"
+        ],
+        "summary": "Get basic info for all providers",
+        "description": "Gets basic information for all identity providers configured",
+        "operationId": "IdentityProvider_GetAllBasicInfos",
+        "responses": {
+          "200": {
+            "description": "Array of identity provider basic information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IdentityProviderBasicInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkValidationException"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkNotFoundException"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkConflictException"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "identityprovider_read"
+            ]
+          }
+        ]
+      }
+    },
     "/v1/IdentityProviders/{id}": {
       "get": {
         "tags": [
@@ -6461,7 +6820,7 @@
         ],
         "responses": {
           "200": {
-            "description": null,
+            "description": "Represents an identity provider defined in IdentityServer and its Picturepark configuration",
             "content": {
               "application/json": {
                 "schema": {
@@ -6563,7 +6922,7 @@
         },
         "responses": {
           "200": {
-            "description": null,
+            "description": "Represents an identity provider defined in IdentityServer and its Picturepark configuration",
             "content": {
               "application/json": {
                 "schema": {
@@ -18342,6 +18701,17 @@
       "UserRoleAssignedException": {
         "allOf": [
           {
+            "$ref": "#/components/schemas/UnableToDeleteUserRoleException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "UnableToDeleteUserRoleException": {
+        "allOf": [
+          {
             "$ref": "#/components/schemas/PictureparkValidationException"
           },
           {
@@ -18615,7 +18985,24 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "attributeName": {
+              "attributePath": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "UnableToMapMultipleClaimTypesIntoSameAttributeException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "attributePath": {
                 "type": "string",
                 "nullable": true
               }
@@ -18635,6 +19022,37 @@
               "affectedUserId": {
                 "type": "string",
                 "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "UnableToDeleteDefaultUserRoleException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/UnableToDeleteUserRoleException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/UnableToDeleteUserRoleException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "identityProviderIds": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -18679,14 +19097,16 @@
           "Image",
           "Document",
           "Video",
-          "Audio"
+          "Audio",
+          "Vector"
         ],
         "enum": [
           "Unknown",
           "Image",
           "Document",
           "Video",
-          "Audio"
+          "Audio",
+          "Vector"
         ]
       },
       "ServiceProviderDeleteException": {
@@ -24535,13 +24955,12 @@
                 "description": "Flag to notify if the SearchString was modified compared to the original requested one"
               },
               "queryDebugInformation": {
-                "description": "Additional information regarding the query execution and reason of the matched documents.",
+                "type": "array",
+                "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
                 "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/QueryDebugInformation"
-                  }
-                ]
+                "items": {
+                  "$ref": "#/components/schemas/QueryDebugInformation"
+                }
               }
             }
           }
@@ -25960,7 +26379,8 @@
             "JoinByTransformation": "#/components/schemas/JoinByTransformation",
             "LookupCacheTransformation": "#/components/schemas/LookupCacheTransformation",
             "NGramTransformation": "#/components/schemas/NGramTransformation",
-            "ProjectionTransformation": "#/components/schemas/ProjectionTransformation"
+            "ProjectionTransformation": "#/components/schemas/ProjectionTransformation",
+            "SplitTransformation": "#/components/schemas/SplitTransformation"
           }
         },
         "description": "Business rule transformation",
@@ -26103,6 +26523,32 @@
                 "items": {
                   "$ref": "#/components/schemas/BusinessRuleTransformation"
                 }
+              }
+            }
+          }
+        ]
+      },
+      "SplitTransformation": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BusinessRuleTransformation"
+          },
+          {
+            "type": "object",
+            "description": "Splits the input by separators, optionally trimming the entries afterwards.",
+            "additionalProperties": false,
+            "properties": {
+              "separators": {
+                "description": "Separators to use, supports variables, an array of strings including escape sequences or null to split on any white space character.",
+                "nullable": true
+              },
+              "keepEmpty": {
+                "type": "boolean",
+                "description": "Keeps empty items. Empty items will be returned as empty strings."
+              },
+              "trim": {
+                "type": "boolean",
+                "description": "Trims each entry for punctuation and white space."
               }
             }
           }
@@ -26773,13 +27219,12 @@
                 "description": "Flag to notify if the SearchString was modified compared to the original requested one"
               },
               "queryDebugInformation": {
-                "description": "Additional information regarding the query execution and reason of the matched documents.",
+                "type": "array",
+                "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
                 "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/QueryDebugInformation"
-                  }
-                ]
+                "items": {
+                  "$ref": "#/components/schemas/QueryDebugInformation"
+                }
               }
             }
           }
@@ -26826,6 +27271,11 @@
           "documentType"
         ],
         "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the trace.",
+            "nullable": true
+          },
           "documentId": {
             "type": "string",
             "description": "ID of the document.",
@@ -27098,7 +27548,7 @@
           },
           "aggregationFilters": {
             "type": "array",
-            "description": "Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when\nfiltering an aggregation that matches the same AggregationName or another aggregation.\nIn the first case, the filter is put in \"or\" with (eventual) other existing filters. In the second case it is put in \"and\".",
+            "description": "Special filters used to filter down independently the aggregations' values and the search results on specific conditions.\nFor the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated\nby the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.\nFor the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the\naggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).\nMoreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AggregationFilter"
@@ -28398,13 +28848,12 @@
                 "description": "Flag to notify if the SearchString was modified compared to the original requested one"
               },
               "queryDebugInformation": {
-                "description": "Additional information regarding the query execution and reason of the matched documents.",
+                "type": "array",
+                "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
                 "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/QueryDebugInformation"
-                  }
-                ]
+                "items": {
+                  "$ref": "#/components/schemas/QueryDebugInformation"
+                }
               }
             }
           }
@@ -28789,6 +29238,7 @@
             "OutputDataAudio": "#/components/schemas/OutputDataAudio",
             "OutputDataVideo": "#/components/schemas/OutputDataVideo",
             "OutputDataDocument": "#/components/schemas/OutputDataDocument",
+            "OutputDataVector": "#/components/schemas/OutputDataVector",
             "OutputDataDefault": "#/components/schemas/OutputDataDefault"
           }
         },
@@ -28972,6 +29422,18 @@
                 "format": "int32"
               }
             }
+          }
+        ]
+      },
+      "OutputDataVector": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OutputDataBase"
+          },
+          {
+            "type": "object",
+            "description": "Output information for a vector file.",
+            "additionalProperties": false
           }
         ]
       },
@@ -29511,24 +29973,49 @@
           }
         }
       },
-      "DownloadLink": {
+      "OutputResolveResult": {
         "type": "object",
-        "description": "Download link information",
+        "description": "Result of output resolution.",
         "additionalProperties": false,
         "required": [
-          "downloadToken",
-          "downloadUrl"
+          "outputFormatId",
+          "contentId",
+          "renderingState",
+          "dynamicRendering"
         ],
         "properties": {
-          "downloadToken": {
+          "id": {
             "type": "string",
-            "description": "Token of the download, used to generate the url.",
+            "description": "ID of output.",
+            "nullable": true
+          },
+          "outputFormatId": {
+            "type": "string",
+            "description": "ID of output format.",
             "minLength": 1
           },
-          "downloadUrl": {
+          "contentId": {
             "type": "string",
-            "description": "Url of the download link.",
+            "description": "ID of content.",
             "minLength": 1
+          },
+          "renderingState": {
+            "description": "Rendering state of output.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OutputRenderingState"
+              }
+            ]
+          },
+          "dynamicRendering": {
+            "type": "boolean",
+            "description": "Whether this Output belongs to a dynamic OutputFormat"
+          },
+          "fileSize": {
+            "type": "integer",
+            "description": "Size of file, if already known",
+            "format": "int64",
+            "nullable": true
           }
         }
       },
@@ -29537,7 +30024,8 @@
         "description": "Request to create a content download link",
         "additionalProperties": false,
         "required": [
-          "contents"
+          "contents",
+          "notifyProgress"
         ],
         "properties": {
           "contents": {
@@ -29546,6 +30034,10 @@
             "items": {
               "$ref": "#/components/schemas/ContentDownloadRequestItem"
             }
+          },
+          "notifyProgress": {
+            "type": "boolean",
+            "description": "Indicates if a progress message shall be shown to the user, notifying once the download is completed."
           }
         }
       },
@@ -29566,6 +30058,27 @@
           "outputFormatId": {
             "type": "string",
             "description": "ID of the output format that is going to be downloaded.",
+            "minLength": 1
+          }
+        }
+      },
+      "DownloadLink": {
+        "type": "object",
+        "description": "Download link information",
+        "additionalProperties": false,
+        "required": [
+          "downloadToken",
+          "downloadUrl"
+        ],
+        "properties": {
+          "downloadToken": {
+            "type": "string",
+            "description": "Token of the download, used to generate the url.",
+            "minLength": 1
+          },
+          "downloadUrl": {
+            "type": "string",
+            "description": "Url of the download link.",
             "minLength": 1
           }
         }
@@ -29945,6 +30458,23 @@
           }
         }
       },
+      "OutputResolveManyRequest": {
+        "type": "object",
+        "description": "Resolves outputs available for given content ids.",
+        "additionalProperties": false,
+        "required": [
+          "contentIds"
+        ],
+        "properties": {
+          "contentIds": {
+            "type": "array",
+            "description": "The IDs of the contents whose outputs should to be retrieved.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "ContentFieldsBatchUpdateRequest": {
         "allOf": [
           {
@@ -30318,13 +30848,12 @@
                 "description": "Flag to notify if the SearchString was modified compared to the original requested one"
               },
               "queryDebugInformation": {
-                "description": "Additional information regarding the query execution and reason of the matched documents.",
+                "type": "array",
+                "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
                 "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/QueryDebugInformation"
-                  }
-                ]
+                "items": {
+                  "$ref": "#/components/schemas/QueryDebugInformation"
+                }
               }
             }
           }
@@ -30553,7 +31082,7 @@
           },
           "aggregationFilters": {
             "type": "array",
-            "description": "Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when\nfiltering an aggregation that matches the same AggregationName or another aggregation.\nIn the first case, the filter is put in \"or\" with (eventual) other existing filters. In the second case it is put in \"and\".",
+            "description": "Special filters used to filter down independently the aggregations' values and the search results on specific conditions.\nFor the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated\nby the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.\nFor the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the\naggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).\nMoreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AggregationFilter"
@@ -30638,13 +31167,12 @@
             "description": "Flag to notify if the SearchString was modified compared to the original requested one."
           },
           "queryDebugInformation": {
-            "description": "Additional information regarding the query execution and reason of the matched documents.",
+            "type": "array",
+            "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
             "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/QueryDebugInformation"
-              }
-            ]
+            "items": {
+              "$ref": "#/components/schemas/QueryDebugInformation"
+            }
           }
         }
       },
@@ -30939,6 +31467,7 @@
           },
           {
             "type": "object",
+            "description": "Represents an identity provider defined in IdentityServer and its Picturepark configuration",
             "additionalProperties": false,
             "properties": {
               "id": {
@@ -31004,6 +31533,28 @@
           "userRoleId": {
             "type": "string",
             "description": "User role ID as defined in CP",
+            "nullable": true
+          }
+        }
+      },
+      "IdentityProviderBasicInfo": {
+        "type": "object",
+        "description": "Basic information about an identity provider",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identity provider ID (has to match an existing IdP defined in IdentityServer)",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the identity provider as defined in IdentityServer",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Display name of the identity provider as defined in IdentityServer",
             "nullable": true
           }
         }
@@ -31887,13 +32438,12 @@
                 "description": "Flag to notify if the SearchString was modified compared to the original requested one"
               },
               "queryDebugInformation": {
-                "description": "Additional information regarding the query execution and reason of the matched documents.",
+                "type": "array",
+                "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
                 "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/QueryDebugInformation"
-                  }
-                ]
+                "items": {
+                  "$ref": "#/components/schemas/QueryDebugInformation"
+                }
               }
             }
           }
@@ -32096,7 +32646,7 @@
           },
           "aggregationFilters": {
             "type": "array",
-            "description": "Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when\nfiltering an aggregation that matches the same AggregationName or another aggregation.\nIn the first case, the filter is put in \"or\" with (eventual) other existing filters. In the second case it is put in \"and\".",
+            "description": "Special filters used to filter down independently the aggregations' values and the search results on specific conditions.\nFor the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated\nby the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.\nFor the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the\naggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).\nMoreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AggregationFilter"
@@ -32477,6 +33027,11 @@
             "type": "string",
             "description": "The source to be used for content of type Audio",
             "nullable": true
+          },
+          "vector": {
+            "type": "string",
+            "description": "The source to be used for content of type Vector",
+            "nullable": true
           }
         }
       },
@@ -32500,7 +33055,10 @@
             "Mp3AudioFormat": "#/components/schemas/Mp3AudioFormat",
             "DocumentFormatBase": "#/components/schemas/DocumentFormatBase",
             "DocumentStillFormat": "#/components/schemas/DocumentStillFormat",
-            "PdfFormat": "#/components/schemas/PdfFormat"
+            "PdfFormat": "#/components/schemas/PdfFormat",
+            "VectorFormatBase": "#/components/schemas/VectorFormatBase",
+            "SvgFormat": "#/components/schemas/SvgFormat",
+            "VectorStillFormat": "#/components/schemas/VectorStillFormat"
           }
         },
         "x-abstract": true,
@@ -33327,12 +33885,21 @@
           },
           {
             "type": "object",
-            "description": "Renders a TIFF preview image.",
+            "description": "Render a document to a raster image",
             "additionalProperties": false,
             "properties": {
               "extension": {
                 "type": "string",
                 "nullable": true
+              },
+              "resizeAction": {
+                "description": "Allows resizing of the image.",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ResizeAction"
+                  }
+                ]
               }
             }
           }
@@ -33367,6 +33934,64 @@
               "extractFullText": {
                 "type": "boolean",
                 "description": "Whether to extract document full text from this output."
+              }
+            }
+          }
+        ]
+      },
+      "VectorFormatBase": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FormatBase"
+          },
+          {
+            "type": "object",
+            "description": "Base class for rendering vector graphics.",
+            "x-abstract": true,
+            "additionalProperties": false
+          }
+        ]
+      },
+      "SvgFormat": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/VectorFormatBase"
+          },
+          {
+            "type": "object",
+            "description": "Render a PDF to SVG",
+            "additionalProperties": false,
+            "properties": {
+              "extension": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "VectorStillFormat": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/VectorFormatBase"
+          },
+          {
+            "type": "object",
+            "description": "Render a vector graphic to a raster image",
+            "additionalProperties": false,
+            "properties": {
+              "extension": {
+                "type": "string",
+                "nullable": true
+              },
+              "resizeAction": {
+                "description": "Specifies output dimensions for raster operation",
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ResizeAction"
+                  }
+                ]
               }
             }
           }
@@ -33464,6 +34089,10 @@
                     "$ref": "#/components/schemas/TranslatedStringDictionary"
                   }
                 ]
+              },
+              "viewForAll": {
+                "type": "boolean",
+                "description": "Indicates if outputs derived from original output format should be accessible also for users not having AccessOriginal permission on the content."
               }
             }
           }
@@ -35997,13 +36626,12 @@
                 "description": "Flag to notify if the SearchString was modified compared to the original requested one"
               },
               "queryDebugInformation": {
-                "description": "Additional information regarding the query execution and reason of the matched documents.",
+                "type": "array",
+                "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
                 "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/QueryDebugInformation"
-                  }
-                ]
+                "items": {
+                  "$ref": "#/components/schemas/QueryDebugInformation"
+                }
               }
             }
           }
@@ -37177,7 +37805,7 @@
           },
           "aggregationFilters": {
             "type": "array",
-            "description": "Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when\nfiltering an aggregation that matches the same AggregationName or another aggregation.\nIn the first case, the filter is put in \"or\" with (eventual) other existing filters. In the second case it is put in \"and\".",
+            "description": "Special filters used to filter down independently the aggregations' values and the search results on specific conditions.\nFor the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated\nby the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.\nFor the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the\naggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).\nMoreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AggregationFilter"
@@ -37239,13 +37867,12 @@
                 "description": "Flag to notify if the SearchString was modified compared to the original requested one"
               },
               "queryDebugInformation": {
-                "description": "Additional information regarding the query execution and reason of the matched documents.",
+                "type": "array",
+                "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
                 "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/QueryDebugInformation"
-                  }
-                ]
+                "items": {
+                  "$ref": "#/components/schemas/QueryDebugInformation"
+                }
               }
             }
           }
@@ -37679,13 +38306,12 @@
                 "description": "Flag to notify if the SearchString was modified compared to the original requested one"
               },
               "queryDebugInformation": {
-                "description": "Additional information regarding the query execution and reason of the matched documents.",
+                "type": "array",
+                "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
                 "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/QueryDebugInformation"
-                  }
-                ]
+                "items": {
+                  "$ref": "#/components/schemas/QueryDebugInformation"
+                }
               }
             }
           }
@@ -37823,7 +38449,8 @@
             "AudioMetadata": "#/components/schemas/AudioMetadata",
             "DocumentMetadata": "#/components/schemas/DocumentMetadata",
             "ImageMetadata": "#/components/schemas/ImageMetadata",
-            "VideoMetadata": "#/components/schemas/VideoMetadata"
+            "VideoMetadata": "#/components/schemas/VideoMetadata",
+            "VectorMetadata": "#/components/schemas/VectorMetadata"
           }
         },
         "additionalProperties": false,
@@ -38297,6 +38924,51 @@
           }
         }
       },
+      "VectorMetadata": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FileMetadata"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "author": {
+                "type": "string",
+                "nullable": true
+              },
+              "creator": {
+                "type": "string",
+                "nullable": true
+              },
+              "publisher": {
+                "type": "string",
+                "nullable": true
+              },
+              "company": {
+                "type": "string",
+                "nullable": true
+              },
+              "title": {
+                "type": "string",
+                "nullable": true
+              },
+              "pageCount": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "epsInfo": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/EpsMetadata"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
       "FileTransferOutput": {
         "type": "object",
         "additionalProperties": false,
@@ -38451,13 +39123,12 @@
                 "description": "Flag to notify if the SearchString was modified compared to the original requested one"
               },
               "queryDebugInformation": {
-                "description": "Additional information regarding the query execution and reason of the matched documents.",
+                "type": "array",
+                "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
                 "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/QueryDebugInformation"
-                  }
-                ]
+                "items": {
+                  "$ref": "#/components/schemas/QueryDebugInformation"
+                }
               }
             }
           }
@@ -38632,13 +39303,12 @@
                 "description": "Flag to notify if the SearchString was modified compared to the original requested one"
               },
               "queryDebugInformation": {
-                "description": "Additional information regarding the query execution and reason of the matched documents.",
+                "type": "array",
+                "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
                 "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/QueryDebugInformation"
-                  }
-                ]
+                "items": {
+                  "$ref": "#/components/schemas/QueryDebugInformation"
+                }
               }
             }
           }
@@ -39283,13 +39953,12 @@
                 "description": "Flag to notify if the SearchString was modified compared to the original requested one"
               },
               "queryDebugInformation": {
-                "description": "Additional information regarding the query execution and reason of the matched documents.",
+                "type": "array",
+                "description": "Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed.",
                 "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/QueryDebugInformation"
-                  }
-                ]
+                "items": {
+                  "$ref": "#/components/schemas/QueryDebugInformation"
+                }
               }
             }
           }
@@ -39458,7 +40127,8 @@
         "additionalProperties": false,
         "required": [
           "lifeCycleFilter",
-          "includeServiceUser"
+          "includeServiceUser",
+          "editableOnly"
         ],
         "properties": {
           "searchString": {
@@ -39501,14 +40171,19 @@
           },
           "aggregationFilters": {
             "type": "array",
-            "description": "Special filters used to filter down the aggregations' values on specific conditions. The behavior is different when\nfiltering an aggregation that matches the same AggregationName or another aggregation.\nIn the first case, the filter is put in \"or\" with (eventual) other existing filters. In the second case it is put in \"and\".",
+            "description": "Special filters used to filter down independently the aggregations' values and the search results on specific conditions.\nFor the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated\nby the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.\nFor the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the\naggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).\nMoreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/AggregationFilter"
             }
           },
           "includeServiceUser": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Includes the service user in result."
+          },
+          "editableOnly": {
+            "type": "boolean",
+            "description": "Restricts the results to users that are editable for calling user.\nIf set to true, IncludeServiceUser is ignored."
           }
         }
       },

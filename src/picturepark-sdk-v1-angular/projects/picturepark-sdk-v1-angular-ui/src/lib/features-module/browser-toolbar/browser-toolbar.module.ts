@@ -8,15 +8,8 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 import { BrowserToolbarComponent } from './browser-toolbar.component';
 
 @NgModule({
-  declarations: [
-    BrowserToolbarComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule
-  ],
-  exports: [
-    BrowserToolbarComponent
-  ]
+  declarations: [BrowserToolbarComponent],
+  imports: [CommonModule, SharedModule],
+  exports: [BrowserToolbarComponent],
 })
-export class BrowserToolbarModule { }
+export class BrowserToolbarModule {}

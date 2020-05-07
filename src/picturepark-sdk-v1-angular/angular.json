@@ -41,13 +41,8 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -55,7 +50,7 @@
               "budgets": [
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "18kb"
                 }
               ],
               "fileReplacements": [
@@ -100,26 +95,16 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": [],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ]
+            "assets": ["src/favicon.ico", "src/assets"]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -144,9 +129,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -162,13 +145,16 @@
           "options": {
             "tsConfig": "projects/picturepark-sdk-v1-angular/tsconfig.lib.json",
             "project": "projects/picturepark-sdk-v1-angular/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
+            "development": {
+              "tsConfig": "projects/picturepark-sdk-v1-angular/tsconfig.lib.dev.json"
+            },
             "production": {
               "tsConfig": "projects/picturepark-sdk-v1-angular/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -184,9 +170,7 @@
               "projects/picturepark-sdk-v1-angular/tsconfig.lib.json",
               "projects/picturepark-sdk-v1-angular/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -202,13 +186,16 @@
           "options": {
             "tsConfig": "projects/picturepark-sdk-v1-angular-oidc/tsconfig.lib.json",
             "project": "projects/picturepark-sdk-v1-angular-oidc/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
+            "development": {
+              "tsConfig": "projects/picturepark-sdk-v1-angular-oidc/tsconfig.lib.dev.json"
+            },
             "production": {
               "tsConfig": "projects/picturepark-sdk-v1-angular-oidc/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -224,9 +211,7 @@
               "projects/picturepark-sdk-v1-angular-oidc/tsconfig.lib.json",
               "projects/picturepark-sdk-v1-angular-oidc/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -242,13 +227,16 @@
           "options": {
             "tsConfig": "projects/picturepark-sdk-v1-angular-ui/tsconfig.lib.json",
             "project": "projects/picturepark-sdk-v1-angular-ui/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
+            "development": {
+              "tsConfig": "projects/picturepark-sdk-v1-angular-ui/tsconfig.lib.dev.json"
+            },
             "production": {
               "tsConfig": "projects/picturepark-sdk-v1-angular-ui/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -264,9 +252,7 @@
               "projects/picturepark-sdk-v1-angular-ui/tsconfig.lib.json",
               "projects/picturepark-sdk-v1-angular-ui/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -291,13 +277,8 @@
             "polyfills": "projects/share-viewer/src/polyfills.ts",
             "tsConfig": "projects/share-viewer/tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "projects/share-viewer/src/favicon.ico",
-              "projects/share-viewer/src/assets"
-            ],
-            "styles": [
-              "projects/share-viewer/src/styles.scss"
-            ],
+            "assets": ["projects/share-viewer/src/favicon.ico", "projects/share-viewer/src/assets"],
+            "styles": ["projects/share-viewer/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -324,8 +305,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "18kb",
+                  "maximumError": "30kb"
                 }
               ]
             }
@@ -355,26 +336,16 @@
             "polyfills": "projects/share-viewer/src/polyfills.ts",
             "tsConfig": "projects/share-viewer/tsconfig.spec.json",
             "karmaConfig": "projects/share-viewer/karma.conf.js",
-            "assets": [
-              "projects/share-viewer/src/favicon.ico",
-              "projects/share-viewer/src/assets"
-            ],
-            "styles": [
-              "projects/share-viewer/src/styles.scss"
-            ],
+            "assets": ["projects/share-viewer/src/favicon.ico", "projects/share-viewer/src/assets"],
+            "styles": ["projects/share-viewer/src/styles.scss"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "projects/share-viewer/tsconfig.app.json",
-              "projects/share-viewer/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["projects/share-viewer/tsconfig.app.json", "projects/share-viewer/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

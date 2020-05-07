@@ -1,31 +1,52 @@
 <div [formGroup]="parentForm" class="chip-list-container">
-  <mat-form-field class="chip-list-content" [ngClass]="{'error-active': parentForm.controls['recipients'].touched && (
-    parentForm.controls['recipients'].hasError('required') ||
-    parentForm.controls['recipients'].errors?.error
-  )}">
+  <mat-form-field
+    class="chip-list-content"
+    [ngClass]="{
+      'error-active': recipientSearch.touched && recipientSearch.errors
+    }"
+  >
     <mat-chip-list #chipList aria-label="Share name">
-      <mat-chip *ngFor="let recipient of recipients" [selectable]="selectable" [removable]="removable" (removed)="remove(recipient)">
-        {{recipient}} <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      <mat-chip
+        *ngFor="let recipient of recipients.controls"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="remove(recipient.value)"
+      >
+        {{ recipient.value }} <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
-      <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" id="share-recipients"
-        formControlName="recipientsSearch" [matAutocomplete]="auto" autocomplete="off">
+      <input
+        #matChipListInput
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="false"
+        (matChipInputTokenEnd)="updateRecipients()"
+        (blur)="updateRecipients()"
+        id="share-recipients"
+        formControlName="recipientSearch"
+        [matAutocomplete]="auto"
+      />
     </mat-chip-list>
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
-        <mat-option *ngIf="isLoading" class="is-loading">
-          <mat-spinner></mat-spinner>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
+      <mat-option *ngIf="isLoading" class="is-loading">
+        <mat-spinner [diameter]="30"></mat-spinner>
+      </mat-option>
+      <ng-container *ngIf="!isLoading">
+        <mat-option *ngFor="let recipient of recipientsAutocomplete" [value]="recipient">
+          <span>{{ recipient }}</span>
         </mat-option>
-        <ng-container *ngIf="!isLoading">
-          <mat-option *ngFor="let recipient of recipientsAutocomplete" [value]="recipient">
-            <span>{{ recipient }}</span>
-          </mat-option>
-        </ng-container>
-      </mat-autocomplete>    
+      </ng-container>
+    </mat-autocomplete>
   </mat-form-field>
-  <div class="chip-input-error active" *ngIf="parentForm.controls['recipients'].touched && parentForm.controls['recipients'].hasError('required') && recipients.length === 0">
-    Please, add a recipient for sharing the images
-  </div>
-  <div class="chip-input-error active" *ngIf="parentForm.controls['recipients'].touched && parentForm.controls['recipients'].errors?.error && !parentForm.controls['recipients'].hasError('required')">
-    Sorry, but this is not an email
-  </div>
+  <ng-container *ngIf="recipientSearch.touched && recipientSearch.errors">
+    <ng-container *ngIf="recipients.touched && recipients.hasError('required'); else invalidEmail">
+      <div class="chip-input-error active">
+        {{ 'ShareMailRecipientsPanel.RecipientsRequired' | pptranslate }}
+      </div>
+    </ng-container>
+    <ng-template #invalidEmail>
+      <div class="chip-input-error active">
+        {{ 'ShareMailRecipientsPanel.RecipientsInvalid' | pptranslate }}
+      </div>
+    </ng-template>
+  </ng-container>
 </div>

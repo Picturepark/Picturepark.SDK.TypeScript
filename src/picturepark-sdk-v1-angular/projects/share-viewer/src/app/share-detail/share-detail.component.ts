@@ -1,14 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { forkJoin } from 'rxjs';
-import { ShareDetail, IMailRecipient, InfoService, ShareDataBasic, ShareContentDetail, ShareService } from '@picturepark/sdk-v1-angular';
+import {
+  ShareDetail,
+  IMailRecipient,
+  InfoFacade,
+  ShareDataBasic,
+  ShareContentDetail,
+  ShareService,
+  PICTUREPARK_CONFIGURATION,
+} from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
+import { PictureparkCdnConfiguration } from '../../models/cdn-config';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-share-detail',
   templateUrl: './share-detail.component.html',
-  styleUrls: ['./share-detail.component.scss']
+  styleUrls: ['./share-detail.component.scss'],
 })
 export class ShareDetailComponent implements OnInit {
   public shareDetail: ShareDetail;
@@ -19,14 +28,14 @@ export class ShareDetailComponent implements OnInit {
 
   constructor(
     private shareService: ShareService,
-    private infoService: InfoService,
+    private infoFacade: InfoFacade,
     private dialog: MatDialog,
-    private route: ActivatedRoute
-  ) {
-  }
+    private route: ActivatedRoute,
+    @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkCdnConfiguration
+  ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(paramMap => {
+    this.route.paramMap.subscribe((paramMap) => {
       const shareToken = paramMap.get('token')!;
       this.update(shareToken);
     });
@@ -38,10 +47,9 @@ export class ShareDetailComponent implements OnInit {
     }
 
     this.isLoading = true;
-
     const shareInfo = forkJoin([
-      this.shareService.getShareJson(searchString, null),
-      this.infoService.getInfo()
+      this.shareService.getShareByToken(searchString, null, this.config.cdnUrl),
+      this.infoFacade.getInfo(this.config.cdnUrl),
     ]);
 
     shareInfo.subscribe({
@@ -50,11 +58,11 @@ export class ShareDetailComponent implements OnInit {
           this.logoUrl = info.logosUrl + 'name';
         }
         if (shareJson) {
-          this.shareDetail = ShareDetail.fromJS(shareJson);
+          this.shareDetail = shareJson;
           this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
         }
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -64,34 +72,32 @@ export class ShareDetailComponent implements OnInit {
 
   showDetail(item: ShareContentDetail): void {
     let index = this.shareDetail.contentSelections.indexOf(item);
-    this.dialog.open(ContentDetailsDialogComponent,
-      {
-        data: <ContentDetailDialogOptions>{
-          id: item.id,
-          shareContent: item,
-          shareDetail: this.shareDetail,
-          showMetadata: false,
-          hasPrevious: () => {
-            return index !== 0;
-          },
-          hasNext: () => {
-            return this.shareDetail.contentSelections.length > index + 1;
-          },
-          previous: () => {
-            index--;
-            return this.shareDetail.contentSelections[index];
-          },
-          next: () => {
-            index++;
-            return this.shareDetail.contentSelections[index];
-          }
+    this.dialog.open(ContentDetailsDialogComponent, {
+      data: <ContentDetailDialogOptions>{
+        id: item.id,
+        shareContent: item,
+        shareDetail: this.shareDetail,
+        showMetadata: false,
+        hasPrevious: () => {
+          return index !== 0;
         },
-        autoFocus: false,
-        width: '980px',
-        height: '700px',
-        maxWidth: '98vw',
-        maxHeight: '99vh'
-      }
-    );
+        hasNext: () => {
+          return this.shareDetail.contentSelections.length > index + 1;
+        },
+        previous: () => {
+          index--;
+          return this.shareDetail.contentSelections[index];
+        },
+        next: () => {
+          index++;
+          return this.shareDetail.contentSelections[index];
+        },
+      },
+      autoFocus: false,
+      width: '980px',
+      height: '700px',
+      maxWidth: '98vw',
+      maxHeight: '99vh',
+    });
   }
 }

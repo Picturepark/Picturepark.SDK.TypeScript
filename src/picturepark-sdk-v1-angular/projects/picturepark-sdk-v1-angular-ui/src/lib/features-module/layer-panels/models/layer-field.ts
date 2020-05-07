@@ -22,7 +22,6 @@ export class LayerField {
   constructor(field: FieldBase, metadata: any) {
     this.fieldsetFields = [];
     this.relatedField = field;
-    this.name = field.names && field.names['x-default'];
-    this.title = metadata._displayValues && metadata._displayValues.list || '';
+    this.title = (metadata._displayValues && metadata._displayValues.list) || '';
   }
 }

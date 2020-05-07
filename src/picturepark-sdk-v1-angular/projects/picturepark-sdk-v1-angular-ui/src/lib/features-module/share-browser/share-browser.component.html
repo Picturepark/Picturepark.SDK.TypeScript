@@ -4,28 +4,31 @@
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   </div>
 
-  <div *ngIf="totalResults !== 0" 
+  <div
+    *ngIf="(totalResults$ | async) !== 0"
     class="browser__items browser__items--medium"
     [class.browser__items--list]="activeView.type === 'list'"
     [class.browser__items--large]="activeView.type === 'thumbnailLarge'"
-    [class.browser__items--medium]="activeView.type === 'thumbnailMedium'">
+    [class.browser__items--medium]="activeView.type === 'thumbnailMedium'"
+  >
     <div class="browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
-      <pp-share-browser-item 
+      <pp-share-browser-item
         class="browser__item"
         [browser]="self"
         [itemModel]="itemModel"
         [thumbnailSize]="activeThumbnailSize"
         [isListView]="false"
         (previewItemChange)="previewItemEvent($event)"
-        (click)="itemClicked($event,i)" 
-        (dblclick)="itemDetails(itemModel.item)">
+        (click)="itemClicked($event, i)"
+        (dblclick)="itemDetails(itemModel)"
+      >
       </pp-share-browser-item>
     </div>
   </div>
 
-  <div *ngIf="totalResults === 0" class="browser__empty-result mat-typography">
+  <div *ngIf="(totalResults$ | async) === 0" class="browser__empty-result mat-typography">
     {{ 'ContentBrowser.NoItems' | pptranslate }}
-    <strong> {{ searchString }}</strong>
+    <strong> {{ this.facade.searchRequestState.searchString }}</strong>
     <br />
     {{ 'ContentBrowser.NoItemsHist' | pptranslate }}
     <ul>
