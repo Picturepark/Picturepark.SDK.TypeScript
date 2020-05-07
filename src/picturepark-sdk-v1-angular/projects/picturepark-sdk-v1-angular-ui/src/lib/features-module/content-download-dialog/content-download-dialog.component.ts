@@ -179,6 +179,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
         }
       },
       () => {
+        clearTimeout(downloadTimmer);
         this.snackBar.open(this.translationService.translate('ContentDownloadDialog.DownloadError'), undefined, {
           duration: 5000,
         });
