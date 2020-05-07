@@ -3,7 +3,7 @@ import { SearchInputState } from '../facade/search.facade';
 import { SearchMode } from '../models/search-mode';
 import { AggregationFilter } from '../services/api-services';
 
-export function updateUrlFromState(searchState: SearchInputState, query: Params, router: Router) {
+export function updateUrlFromSearchState(searchState: SearchInputState, query: Params, router: Router) {
   delete query['filter'];
 
   Object.keys(searchState).forEach((key) => {
@@ -30,7 +30,7 @@ export function updateUrlFromState(searchState: SearchInputState, query: Params,
   router.navigate([], { queryParams: query });
 }
 
-export function getState(searchInfo: {
+export function getSearchState(searchInfo: {
   searchString: string;
   searchMode: string;
   filter: AggregationFilter[];
