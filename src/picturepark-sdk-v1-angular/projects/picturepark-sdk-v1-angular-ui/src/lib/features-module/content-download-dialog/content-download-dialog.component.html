@@ -4,13 +4,13 @@
     <mat-icon (click)="closeDialog()">close</mat-icon>
   </h3>
   <pp-notification [notification]="notification"></pp-notification>
-  <mat-dialog-content *ngIf="selection">
+  <mat-dialog-content>
     <div class="content-wrapper">
       <ng-container *ngIf="!tooManyContents; else tooManyContentsMessage">
         <div class="loader-wrapper" *ngIf="waitingDownload">
           <mat-spinner></mat-spinner>
         </div>
-        <form *ngIf="!noOutputs">
+        <form *ngIf="!noOutputs && selection">
           <div *ngFor="let filetype of selection.getFileFormats()">
             <fieldset *ngIf="selection.hasOutputs(filetype)">
               <legend>{{ filetype.name }} ({{ filetype.contents.length }})</legend>
@@ -55,12 +55,6 @@
       </ng-template>
     </div>
   </mat-dialog-content>
-
-  <div class="loader-container" #loaderContainer [ngClass]="{ active: loader }">
-    <div class="loader">
-      <mat-spinner></mat-spinner>
-    </div>
-  </div>
 
   <mat-dialog-actions align="end">
     <button mat-button class="option" [disabled]="waitingDownload" (click)="toggleAdvanced()" *ngIf="enableAdvanced">

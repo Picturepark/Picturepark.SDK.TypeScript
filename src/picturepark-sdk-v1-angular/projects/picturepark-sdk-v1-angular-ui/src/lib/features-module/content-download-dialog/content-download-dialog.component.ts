@@ -55,7 +55,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   public noOutputs = false;
   public hasDynamicOutputs = false;
   public waitingDownload = false;
-  public loader = false;
   public tooManyContents = false;
 
   public outputFormatFallback = [
@@ -78,8 +77,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     private downloadFacade: DownloadFacade
   ) {
     super(data, dialogRef, injector);
-
-    this.loader = true;
   }
 
   async getSelection(outputs: IContentDownloadOutput[], contents: IContentDownload[]) {
@@ -241,10 +238,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   async ngOnInit() {
     super.init();
 
-    // SET LOADER HEIGHT DYNAMIC
-    const containerHeight = this.contentContainer.nativeElement.offsetHeight;
-    this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight + 56}px`);
-
     if (this.data.contents.length > 1000) {
       this.tooManyContents = true;
     } else if (this.data.contents.length === 1) {
@@ -271,7 +264,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   private async setSelection(outputs: IContentDownloadOutput[]) {
     await this.getSelection(outputs, this.data.contents);
     this.update();
-    this.loader = false;
   }
 
   private fetchOutputs(): void {
