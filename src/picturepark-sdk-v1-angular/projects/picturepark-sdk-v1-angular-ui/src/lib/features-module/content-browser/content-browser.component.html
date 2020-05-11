@@ -64,6 +64,7 @@
           (previewItemChange)="previewItem($event)"
           (click)="itemClicked($event, i)"
           (dblclick)="previewItem(itemModel)"
+          (changeInBasket)="handleBasketChanges($event)"
         >
         </pp-content-browser-item>
       </ng-template>
