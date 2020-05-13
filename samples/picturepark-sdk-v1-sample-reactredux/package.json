@@ -9,7 +9,7 @@
     "typescript": "^2.8.0"
   },
   "dependencies": {
-    "@picturepark/sdk-v1-fetch": "file:../../src/picturepark-sdk-v1-fetch",
+    "@picturepark/sdk-v1-fetch": "1.6.0-pre.3",
     "@picturepark/sdk-v1-pickers": "^1.5.3",
     "@types/enzyme": "^3.1.8",
     "@types/jest": "^23.3.1",

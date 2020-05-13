@@ -1,51 +1,61 @@
 <div class="share-manager-item-loader">
-    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 </div>
 
 <ng-container *ngIf="shareDetail">
-    <pp-panel
-        class="settings"
-        [title]="shareDetail.name">
-        <div pp-panel-content class="settings-wrap">
-            <div class="left">
-                <div *ngIf="shareDetail.description" [innerHTML]="shareDetail.description" class="description">
-                </div>
-                <ul class="settings-menu">
-                    <li>{{ 'ShareViewer.CreationDate' | pptranslate }}</li>
-                    <li *ngIf="shareDetail.expirationDate">{{ 'ShareViewer.ExpirationDate' | pptranslate }}</li>
-                    <li>{{ 'ShareViewer.Creator' | pptranslate }}</li>
-                </ul>
-                <ul class="settings-info">
-                    <li>{{ shareDetail.audit.creationDate | date: 'yyyy-MM-dd HH:mm': undefined: 'en-US' }}</li> <!-- TODO: Add support for more locales -->
-                    <li *ngIf="shareDetail.expirationDate" class="expiration">{{ shareDetail.expirationDate | date: 'yyyy-MM-dd HH:mm': undefined: 'en-US' }}</li>
-                    <li>{{ shareDetail.creator.displayName }}</li>
-                </ul>
-            </div>
-            <div class="right">
-                <div class="download">
-                    <button mat-flat-button aria-label="Download" color="accent" *ngIf="shareDetail.data!.url" (click)="downloadAll()" [disabled]="!shareDetail.contentSelections.length">
-                        {{ 'ShareViewer.DownloadAll' | pptranslate }}
-                    </button>
-                </div>
-            </div>
+  <pp-panel class="settings" [title]="shareDetail.name">
+    <div pp-panel-content class="settings-wrap">
+      <div class="left">
+        <div *ngIf="shareDetail.description" [innerHTML]="shareDetail.description" class="description"></div>
+        <ul class="settings-menu">
+          <li>{{ 'ShareViewer.CreationDate' | pptranslate }}</li>
+          <li *ngIf="shareDetail.expirationDate">{{ 'ShareViewer.ExpirationDate' | pptranslate }}</li>
+          <li>{{ 'ShareViewer.Creator' | pptranslate }}</li>
+        </ul>
+        <ul class="settings-info">
+          <li>{{ shareDetail.audit.creationDate | date: 'yyyy-MM-dd HH:mm':undefined:'en-US' }}</li>
+          <!-- TODO: Add support for more locales -->
+          <li *ngIf="shareDetail.expirationDate" class="expiration">
+            {{ shareDetail.expirationDate | date: 'yyyy-MM-dd HH:mm':undefined:'en-US' }}
+          </li>
+          <li>{{ shareDetail.creator.displayName }}</li>
+        </ul>
+      </div>
+      <div class="right">
+        <div class="download">
+          <button
+            mat-stroked-button
+            aria-label="Download"
+            color="accent"
+            *ngIf="shareDetail.data!.url"
+            (click)="downloadAll()"
+            [disabled]="!shareDetail.contentSelections.length"
+          >
+            {{ 'ShareViewer.DownloadAll' | pptranslate }}
+          </button>
         </div>
-    </pp-panel>
+      </div>
+    </div>
+  </pp-panel>
 
-    <pp-panel *ngIf="shareDetail.expired">
-        <div pp-panel-content class="expired-box">
-            {{'ShareViewer.Expired' | pptranslate}}
-        </div>
-    </pp-panel>
-    
-    <pp-mail-recipients-panel [title]="'Recipients'" [mailRecipients]="mailRecipients" *ngIf="mailRecipients && mailRecipients.length"></pp-mail-recipients-panel>
-    
-    <pp-share-items-panel
-        *ngIf="!shareDetail.expired"
-        [title]="'Items'"
-        [items]="shareDetail.contentSelections"
-        [shareDetail]="shareDetail"
-        (showDetail)="showDetail($event)">
-    </pp-share-items-panel>
-    
-    <img *ngIf="logoUrl" [src]="logoUrl" width="160">
+  <pp-panel *ngIf="shareDetail.expired">
+    <div pp-panel-content class="expired-box">
+      {{ 'ShareViewer.Expired' | pptranslate }}
+    </div>
+  </pp-panel>
+
+  <pp-share-mail-recipients-panel
+    [mailRecipients]="mailRecipients"
+    *ngIf="mailRecipients && mailRecipients.length"
+  ></pp-share-mail-recipients-panel>
+
+  <pp-share-items-panel
+    *ngIf="!shareDetail.expired"
+    [items]="shareDetail.contentSelections"
+    [shareDetail]="shareDetail"
+    (showDetail)="showDetail($event)"
+  >
+  </pp-share-items-panel>
+
+  <img *ngIf="logoUrl" [src]="logoUrl" width="160" />
 </ng-container>

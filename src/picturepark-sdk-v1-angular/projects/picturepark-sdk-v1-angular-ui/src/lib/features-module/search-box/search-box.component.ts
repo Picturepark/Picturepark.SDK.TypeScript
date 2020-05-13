@@ -1,25 +1,22 @@
 import { Component, Input, OnChanges, SimpleChange, Output, EventEmitter, OnInit } from '@angular/core';
 
 // LIBRARIES
-import { ContentSearchResult } from '@picturepark/sdk-v1-angular';
-import { ExtendedSearchBehavior, SearchParameters } from '../../shared-module/search-utils';
-
-
+import { ContentSearchResult, SearchMode } from '@picturepark/sdk-v1-angular';
+import { SearchParameters } from '../../shared-module/search-utils';
 
 @Component({
   selector: 'pp-search-box',
   templateUrl: './search-box.component.html',
-  styleUrls: ['./search-box.component.scss']
+  styleUrls: ['./search-box.component.scss'],
 })
 export class SearchBoxComponent implements OnChanges, OnInit {
-
   public result: ContentSearchResult | null = null;
 
   @Input()
   public searchString = '';
 
   @Input()
-  public searchBehavior: ExtendedSearchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
+  public searchMode: SearchMode = SearchMode.And;
 
   @Input()
   public showSearchBehaviorPicker = false;
@@ -38,9 +35,9 @@ export class SearchBoxComponent implements OnChanges, OnInit {
     if (changes['searchString']) {
       this.search();
     }
-    if (changes['searchBehavior']) {
-      if (!this.searchBehavior) {
-        this.searchBehavior = ExtendedSearchBehavior.SimplifiedSearch;
+    if (changes['searchMode']) {
+      if (!this.searchMode) {
+        this.searchMode = SearchMode.And;
       }
       this.emitValues();
     }
@@ -55,15 +52,15 @@ export class SearchBoxComponent implements OnChanges, OnInit {
     this.emitValues();
   }
 
-  public setSearchBehavior(searchBehavior) {
-    this.searchBehavior = searchBehavior;
+  public setSearchMode(searchMode: any) {
+    this.searchMode = searchMode;
     this.emitValues();
   }
 
   public emitValues() {
     this.searchParametersChange.emit({
       searchString: this.searchString,
-      searchBehavior: this.searchBehavior
+      searchMode: this.searchMode,
     });
     this.searchStringChange.emit(this.searchString);
   }

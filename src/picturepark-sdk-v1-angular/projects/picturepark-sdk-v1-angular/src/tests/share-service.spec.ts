@@ -10,7 +10,7 @@ import {
   ShareBasicCreateRequest,
   OutputAccess,
   BusinessProcessService,
-} from '../lib/api-services';
+} from '../lib/services/api-services';
 
 describe('ShareService', () => {
   beforeEach(configureTest);
@@ -31,7 +31,7 @@ describe('ShareService', () => {
 
         // act
         const contents = response.results.map(
-          i =>
+          (i) =>
             new ShareContent({
               contentId: i.id,
               outputFormatIds: ['Original'],

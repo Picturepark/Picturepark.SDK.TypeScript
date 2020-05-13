@@ -8,15 +8,8 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 import { SearchBoxComponent } from './search-box.component';
 
 @NgModule({
-  declarations: [
-    SearchBoxComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-  ],
-  exports: [
-    SearchBoxComponent
-  ]
+  declarations: [SearchBoxComponent],
+  imports: [CommonModule, SharedModule],
+  exports: [SearchBoxComponent],
 })
-export class SearchBoxModule { }
+export class SearchBoxModule {}

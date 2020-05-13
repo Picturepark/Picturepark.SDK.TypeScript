@@ -1,5 +1,5 @@
 import { configureTest } from './config';
-import { AggregationResultItem, AggregationFilter } from '../lib/api-services';
+import { AggregationResultItem, AggregationFilter } from '../lib/services/api-services';
 
 describe('AggregationResultItem', () => {
   let aggregationResultItem: AggregationResultItem;

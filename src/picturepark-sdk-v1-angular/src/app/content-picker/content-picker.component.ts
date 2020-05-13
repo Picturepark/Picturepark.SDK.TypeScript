@@ -3,24 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
-import {
-  AggregationResult,
-  Channel,
-  FilterBase,
-  Content,
-  AggregatorBase,
-  ContentService,
-  ContentAggregationRequest,
-  LifeCycleFilter,
-  ContentSearchType,
-  BrokenDependenciesFilter,
-  SearchBehavior,
-  AggregationFilter,
-} from '@picturepark/sdk-v1-angular';
+import { AggregationResult, Channel, Content, ContentSearchFacade } from '@picturepark/sdk-v1-angular';
 import {
   SelectionService,
   BasketService,
-  ContentModel,
   ContentBrowserComponent,
   SearchParameters,
   BaseComponent,
@@ -42,10 +28,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
 
   public selectedItems: Content[] = [];
 
-  public searchText = '';
-  public searchBehavior = SearchBehavior.SimplifiedSearch;
   public selectedChannel: Channel | null = null;
-  public selectedFilter: FilterBase | null = null;
 
   public aggregations: AggregationResult[] = [];
 
@@ -63,18 +46,18 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     private dialog: MatDialog,
     private embedService: EmbedService,
     private basketService: BasketService,
-    private contentService: ContentService,
+    public facade: ContentSearchFacade,
     public selectionService: SelectionService<Content>
   ) {
     super(injector);
   }
 
-  public openDetails(item: ContentModel<Content>) {
-    let index = this.contentBrowserComponent.items.findIndex(q => q.item.id === item.item.id);
+  public openDetails(item: Content) {
+    let index = this.contentBrowserComponent.items.findIndex((q) => q.id === item.id);
 
     this.dialog.open(ContentDetailsDialogComponent, {
       data: <ContentDetailDialogOptions>{
-        id: item.item.id,
+        id: item.id,
         showMetadata: true,
         hasPrevious: () => {
           return index !== 0;
@@ -84,11 +67,11 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
         },
         previous: () => {
           index--;
-          return this.contentBrowserComponent.items[index].item.id;
+          return this.contentBrowserComponent.items[index].id;
         },
         next: () => {
           index++;
-          return this.contentBrowserComponent.items[index].item.id;
+          return this.contentBrowserComponent.items[index].id;
         },
       },
       autoFocus: false,
@@ -98,8 +81,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   }
 
   public ngOnInit() {
-    this.sub = this.basketService.basketChange.subscribe(items => (this.itemsInBasket = items.length.toString()));
-
+    this.sub = this.basketService.basketChange.subscribe((items) => (this.itemsInBasket = items.length.toString()));
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
     }
@@ -107,11 +89,6 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
 
   public selectionChange(items: Content[]): void {
     this.selectedItems = items;
-  }
-
-  addFilter(filter: AggregationFilter) {
-    this.selectedFilter = filter.filter!;
-    console.log(filter);
   }
 
   public async embed() {
@@ -124,25 +101,15 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   }
 
   public changeSearchParameters(searchParameters: SearchParameters) {
-    this.searchText = searchParameters.searchString;
-    this.searchBehavior = (searchParameters.searchBehavior as unknown) as SearchBehavior;
+    this.facade.patchRequestState({
+      searchString: searchParameters.searchString,
+      searchMode: searchParameters.searchMode,
+    });
   }
 
   public changeChannel(channel: Channel) {
     this.selectedChannel = channel;
   }
-
-  public aggregate = (aggregators: AggregatorBase[]) => {
-    return this.contentService.aggregate(
-      new ContentAggregationRequest({
-        aggregators: aggregators,
-        lifeCycleFilter: LifeCycleFilter.ActiveOnly,
-        searchType: ContentSearchType.Metadata,
-        brokenDependenciesFilter: BrokenDependenciesFilter.All,
-        filter: this.selectedFilter ? this.selectedFilter : undefined,
-      })
-    );
-  };
 
   log(data: any) {
     console.log(data);

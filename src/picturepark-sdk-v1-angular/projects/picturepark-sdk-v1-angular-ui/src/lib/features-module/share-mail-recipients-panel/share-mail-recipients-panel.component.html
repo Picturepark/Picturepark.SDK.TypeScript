@@ -1,0 +1,22 @@
+<pp-panel [title]="'ShareMailRecipientsPanel.Recipients' | pptranslate">
+  <div pp-panel-content>
+    <div class="recipient" *ngFor="let mailRecipient of mailRecipients">
+      <div class="recipient-avatar">
+        <img src="{{ mailRecipient.userEmail.emailAddress | ppavatar }}" [alt]="mailRecipient.userEmail.emailAddress" />
+      </div>
+      <ul>
+        <li>
+          <span class="full-name">{{ mailRecipient.userEmail.firstName }} {{ mailRecipient.userEmail.lastName }}</span>
+          <a href="mailto:{{ mailRecipient.userEmail.emailAddress }}">{{ mailRecipient.userEmail.emailAddress }}</a>
+        </li>
+        <li *ngIf="mailRecipient.url as url" class="recipient-url">
+          <div class="tooltip">
+            <i class="material-icons" (click)="copyToClipboard($event, url)">filter_none</i>
+            <span>{{ 'ShareMailRecipientsPanel.CopyToClipboard' | pptranslate }}</span>
+          </div>
+          <a [href]="url">{{ url }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</pp-panel>

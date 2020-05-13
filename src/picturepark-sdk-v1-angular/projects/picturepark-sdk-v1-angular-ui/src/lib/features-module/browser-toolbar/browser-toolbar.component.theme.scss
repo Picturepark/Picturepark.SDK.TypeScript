@@ -1,53 +1,51 @@
 @import '~@angular/material/theming';
 
 // BROWSER TOOLBAR VARS
-$pp-browser-toolbar: (contrast: ());
+$pp-browser-toolbar: (
+  contrast: (),
+);
 
 @mixin pp-browser-toolbar-theme($theme) {
-
   $primary: map-get($theme, primary);
 
   pp-browser-toolbar {
-
     // BROWSER TOOLBAR MODULE
     .browser-toolbar-container {
       background-color: mat-color($primary, background-dark);
       border-color: mat-color($primary, divider);
-    
+
       .browser-toolbar-content {
         .select {
           button {
             background-color: mat-color($primary, background-dark);
             color: mat-color($primary, primary);
             font-size: mat-font-size($custom-typography, display-1);
-            
+
             i {
               font-size: mat-font-size($custom-typography, display-4);
               color: mat-color($primary, on-background-dark);
             }
-            
+
             &:hover {
               i {
                 background-color: mat-color($primary, primary);
                 color: mat-color($primary, on-primary);
               }
             }
-            
           }
         }
-        
+
         .order-by {
           button {
             color: mat-color($primary, on-background-dark);
             font-size: mat-font-size($custom-typography, display-3);
-            
+
             &:hover {
               color: mat-color($primary, primary);
             }
-            
           }
         }
-        
+
         .items-count {
           color: mat-color($primary, on-background-dark);
         }

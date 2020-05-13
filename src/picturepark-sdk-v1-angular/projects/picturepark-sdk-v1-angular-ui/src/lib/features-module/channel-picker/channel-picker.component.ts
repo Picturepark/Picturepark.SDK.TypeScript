@@ -9,10 +9,9 @@ import { BaseComponent } from '../../shared-module/components/base.component';
 @Component({
   selector: 'pp-channel-picker',
   templateUrl: './channel-picker.component.html',
-  styleUrls: ['./channel-picker.component.scss']
+  styleUrls: ['./channel-picker.component.scss'],
 })
 export class ChannelPickerComponent extends BaseComponent implements OnInit {
-
   @Input() public channel: Channel | null = null;
   @Output() public channelChange = new EventEmitter<Channel>();
   @Output() public channelsChange = new EventEmitter<Channel[]>();
@@ -28,7 +27,7 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const channelSubscription = this.channelService.getAll().subscribe(
+    this.sub = this.channelService.getAll().subscribe(
       (channels) => {
         this.channels = channels;
 
@@ -44,8 +43,8 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
       },
       () => {
         this.channels = [];
-      });
-    this.subscription.add(channelSubscription);
+      }
+    );
   }
 
   public changeChannel(channel: Channel): void {
