@@ -84,9 +84,9 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
           return [];
         }
         const results = aggregationResult.map((i) => {
-          const expanded = this.facade.expandAggregationResult(i).aggregationResultItems!;
+          const expanded = this.facade.expandAggregationResult(i).aggregationResultItems?.filter((j) => !j.active);
           const name = this.facade.searchRequestState.aggregators.find((j) => j.name === i.name);
-          return { name: name?.names?.translate(this.locale) ?? i.name, results: expanded };
+          return { name: name?.names?.translate(this.locale) ?? i.name, results: expanded ?? [] };
         });
         return results.filter((i) => i.results.length > 0);
       }),
