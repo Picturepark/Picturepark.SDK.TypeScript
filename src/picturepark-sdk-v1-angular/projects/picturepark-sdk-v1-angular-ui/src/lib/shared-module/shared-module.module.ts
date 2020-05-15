@@ -22,9 +22,11 @@ import { HighlightPipe } from './pipes/highlight.pipe';
 import { PanelComponent } from './components/panel/panel.component';
 
 // HammerJS
-import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { ContentItemThumbnailComponent } from './components/content-item-thumbnail/content-item-thumbnail.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+
+import 'hammerjs';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -56,7 +58,7 @@ export class HammerConfig extends HammerGestureConfig {
     LazyLoadDirective,
     HighlightPipe,
   ],
-  imports: [CommonModule, MaterialsModule, ReactiveFormsModule],
+  imports: [CommonModule, MaterialsModule, ReactiveFormsModule, HammerModule],
   exports: [
     CommonModule,
     FormsModule,
