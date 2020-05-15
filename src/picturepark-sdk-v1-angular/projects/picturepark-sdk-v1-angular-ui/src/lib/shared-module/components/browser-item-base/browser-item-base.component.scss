@@ -35,6 +35,10 @@
       border-top-width: 5px;
       border-bottom-style: solid;
       border-bottom-width: 5px;
+
+      &--mobile {
+        width: 35%;
+      }
     }
 
     #{ $self }__title {

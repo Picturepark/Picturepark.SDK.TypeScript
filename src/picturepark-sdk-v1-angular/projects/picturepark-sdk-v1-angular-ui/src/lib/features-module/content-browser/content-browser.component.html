@@ -37,9 +37,14 @@
     [class.browser__items--list]="activeView.type === 'list'"
     [class.browser__items--large]="activeView.type === 'thumbnailLarge'"
     [class.browser__items--medium]="activeView.type === 'thumbnailMedium'"
+    [class.browser__items--mobile]="deviceBreakpoint && isTouchDevice"
     cdkScrollable
   >
-    <div class="browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
+    <div
+      class="browser__item-container"
+      [class.browser__item-container--mobile]="deviceBreakpoint && isTouchDevice"
+      *ngFor="let itemModel of items; let i = index; trackBy: trackByItem"
+    >
       <ng-container *ngIf="deviceBreakpoint && isTouchDevice; else desktop">
         <pp-content-browser-item
           class="browser__item"

@@ -3,7 +3,7 @@
   [class.browser-item--selected]="isSelected$ | async"
   [class.browser-item--list-view]="isListView"
 >
-  <div class="browser-item__image-slot">
+  <div class="browser-item__image-slot" [class.browser-item__image-slot--mobile]="deviceBreakpoint && isTouchDevice">
     <pp-content-item-thumbnail [item]="itemModel" [thumbnailSize]="thumbnailSize" [isListView]="isListView">
     </pp-content-item-thumbnail>
 
