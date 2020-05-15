@@ -13,8 +13,6 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 // INTERFACES
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 
-import 'hammerjs';
-
 @Component({
   selector: 'pp-content-browser',
   templateUrl: './content-browser.component.html',

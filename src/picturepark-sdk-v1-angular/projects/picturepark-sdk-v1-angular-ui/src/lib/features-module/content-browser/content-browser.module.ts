@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HammerModule } from '@angular/platform-browser';
 
 // MODULES
 import { SharedModule } from '../../shared-module/shared-module.module';
@@ -13,7 +12,7 @@ import { ContentImagePreviewComponent } from './components/content-image-preview
 
 @NgModule({
   declarations: [ContentBrowserComponent, ContentBrowserItemComponent, ContentImagePreviewComponent],
-  imports: [CommonModule, SharedModule, BrowserToolbarModule, HammerModule],
+  imports: [CommonModule, SharedModule, BrowserToolbarModule],
   exports: [ContentBrowserComponent, ContentBrowserItemComponent, ContentImagePreviewComponent],
 })
 export class ContentBrowserModule {}
