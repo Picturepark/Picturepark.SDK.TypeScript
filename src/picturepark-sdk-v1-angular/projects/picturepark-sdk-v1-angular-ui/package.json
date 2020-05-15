@@ -9,6 +9,7 @@
     "@angular/material": "^9.0.0"
   },
   "dependencies": {
+    "hammerjs": "^2.0.8",
     "lazy-get-decorator": "^2.2.0",
     "moment": "2.24.0",
     "ts-md5": "^1.2.4"
