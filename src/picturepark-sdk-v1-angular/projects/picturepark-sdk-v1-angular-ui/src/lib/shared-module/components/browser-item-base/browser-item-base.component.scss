@@ -45,6 +45,10 @@
       flex-grow: 1;
       margin: 10px;
       width: 85%;
+
+      &--mobile {
+        width: 55%;
+      }
     }
 
     #{ $self }__actions {
@@ -55,6 +59,7 @@
       position: absolute;
       right: 30px;
       top: 5px;
+
       ul {
         list-style: none;
         margin: 0px;
@@ -85,6 +90,17 @@
               }
             }
           }
+        }
+      }
+
+      &--mobile {
+        width: 10%;
+        position: unset;
+        right: unset;
+        top: unset;
+
+        ul > li {
+          margin: 0 auto;
         }
       }
     }
