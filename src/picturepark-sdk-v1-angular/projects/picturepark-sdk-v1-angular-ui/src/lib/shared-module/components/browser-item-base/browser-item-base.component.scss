@@ -99,6 +99,11 @@
         right: unset;
         top: unset;
 
+        ul {
+          display: flex;
+          flex-direction: column-reverse;
+        }
+
         ul > li {
           margin: 0 auto;
         }
