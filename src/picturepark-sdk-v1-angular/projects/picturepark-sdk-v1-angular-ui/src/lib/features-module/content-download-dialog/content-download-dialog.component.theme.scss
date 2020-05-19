@@ -1,0 +1,18 @@
+@import '~@angular/material/theming';
+
+@mixin pp-content-download-dialog-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  pp-content-download-dialog {
+    mat-dialog-content {
+      .content-wrapper {
+        .loader-wrapper {
+          background-color: mat-color($primary, opacity-light);
+        }
+      }
+    }
+    fieldset {
+      border-color: mat-color($primary, on-background-dark);
+    }
+  }
+}

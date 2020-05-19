@@ -1,34 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 
 // LIBRARIES
-import { Channel, FilterBase, AggregatorBase, TermsAggregator, InfoService, NestedAggregator } from '@picturepark/sdk-v1-angular';
+import { TermsAggregator, InfoFacade, NestedAggregator, ShareSearchFacade } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-shares-manager',
   templateUrl: './shares-manager.component.html',
-  styleUrls: ['./shares-manager.component.scss']
+  styleUrls: ['./shares-manager.component.scss'],
 })
 export class SharesManagerComponent implements OnInit {
+  initialized = false;
 
-  public searchText = '';
-  public selectedChannel: Channel | null = null;
-  public selectedFilter: FilterBase | null = null;
-  public aggregators: AggregatorBase[] = [];
-
-  constructor(
-    private infoService: InfoService
-  ) { }
-
+  constructor(public facade: ShareSearchFacade, private infoFacade: InfoFacade) {}
   async ngOnInit() {
-
-    const customerInfo = await this.infoService.getInfo().toPromise();
-
-    this.aggregators = [
+    const customerInfo = await this.infoFacade.getInfo().toPromise();
+    this.facade.searchRequestState.aggregators = [
       new NestedAggregator({
         name: 'email',
         names: {
           'x-default': 'Recipients',
-          [customerInfo.languageConfiguration.defaultLanguage!]: 'Recipients'
+          [customerInfo.languageConfiguration.defaultLanguage!]: 'Recipients',
         },
         path: 'data.mailRecipients',
         aggregators: [
@@ -37,13 +28,13 @@ export class SharesManagerComponent implements OnInit {
             name: 'email',
             names: {
               'x-default': 'Recipients',
-              [customerInfo.languageConfiguration.defaultLanguage!]: 'Recipients'
+              [customerInfo.languageConfiguration.defaultLanguage!]: 'Recipients',
             },
-            size: 10
-          })
-        ]
-      })
+            size: 10,
+          }),
+        ],
+      }),
     ];
+    this.initialized = true;
   }
-
 }

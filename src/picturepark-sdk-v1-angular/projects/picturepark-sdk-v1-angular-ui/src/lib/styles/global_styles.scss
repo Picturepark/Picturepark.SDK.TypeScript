@@ -1,8 +1,16 @@
 .app-root-container {
-  position: relative; height: 100vh;
-  mat-progress-bar { position: absolute; top: 0px; }
+  position: relative;
+  height: 100vh;
+  mat-progress-bar {
+    position: absolute;
+    top: 0px;
+  }
   .app-root-content {
-    position: relative; top: 50%; margin: 0 auto; height: 200px; text-align: center;
+    position: relative;
+    top: 50%;
+    margin: 0 auto;
+    height: 200px;
+    text-align: center;
     svg {
       height: 200px;
       width: 200px;
@@ -21,8 +29,8 @@
   }
 }
 
-.mat-tab-header { 
-  height: 56px; 
+.mat-tab-header {
+  height: 56px;
 }
 
 .filters mat-tab-group mat-tab-header .mat-tab-header-pagination {
@@ -32,34 +40,46 @@
 .filters mat-tab-group mat-tab-header .mat-tab-label {
   padding: 0px;
   min-width: 100px;
-  mat-ink-bar { width: 28%; }
+  mat-ink-bar {
+    width: 28%;
+  }
 }
 
 // APP ROOT CONTAINER
 .authorization-container .authorization-content mat-spinner {
-  width: 45px !important; height: 45px !important; margin: 0 auto; position: relative; bottom: 35%;
-  svg { width: 45px !important; height: 45px !important; }
+  width: 45px !important;
+  height: 45px !important;
+  margin: 0 auto;
+  position: relative;
+  bottom: 35%;
+  svg {
+    width: 45px !important;
+    height: 45px !important;
+  }
 }
 
 // PANEL ITEMS LOADER
-.item-panel-preview-container .loader mat-spinner { width: 30px !important; height: 30px !important; margin: 0 auto; position: relative; top: 35%; }
-.item-panel-preview-container .loader mat-spinner svg { width: 30px !important; height: 30px !important; }
-
-.browser-item__image-container mat-spinner {
-  width: 40px !important; height: 40px !important;
-  svg { width: 40px !important; height: 40px !important; }
+.item-panel-preview-container .loader mat-spinner {
+  width: 30px !important;
+  height: 30px !important;
+  margin: 0 auto;
+  position: relative;
+  top: 35%;
+}
+.item-panel-preview-container .loader mat-spinner svg {
+  width: 30px !important;
+  height: 30px !important;
 }
 
 .mat-tab-body-wrapper {
   height: 100% !important;
 }
 
+// Start Handle Angular Material Pannels Styles
 .mat-menu-panel {
   min-width: 200px !important;
   max-width: 280px !important;
-}
 
-.mat-menu-panel {
   .mat-menu-content {
     padding-top: 0px !important;
     padding-bottom: 0px !important;
@@ -70,19 +90,32 @@
   }
 }
 
-.mat-dialog-container { overflow: hidden !important; }
+// End Handle Angular Material Pannels Styles
+
+.mat-dialog-container {
+  overflow: hidden !important;
+}
 
 // AGGREGATION ITEM
-pp-aggregation-item .mat-expansion-panel { border-radius: 0px; }
+pp-aggregation-item .mat-expansion-panel {
+  border-radius: 0px;
+}
 
 // CONTENT DETAILS DIALOG
 pp-content-details-dialog {
-  .mat-tab-body .mat-tab-body-content { overflow-x: hidden; overflow-y: auto; }
+  .mat-tab-body .mat-tab-body-content {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
   .mat-tab-group.mat-tab-fill-height .mat-tab-body-wrapper {
     flex: 1 1 100%;
   }
-  .dialog-content .mat-tab-labels .mat-tab-label { height: 54px; }
+  .dialog-content .mat-tab-labels .mat-tab-label {
+    height: 54px;
+  }
 }
 
 // SHARE CONTENT DIALOG
-pp-share-content-dialog .mat-tab-header { height: 56px; }
+pp-share-content-dialog .mat-tab-header {
+  height: 56px;
+}

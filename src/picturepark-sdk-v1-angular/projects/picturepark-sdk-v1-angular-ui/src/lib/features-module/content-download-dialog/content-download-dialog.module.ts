@@ -1,24 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContentDownloadDialogComponent } from './content-download-dialog.component';
+import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared-module/shared-module.module';
-import { DialogModule } from '../dialog/dialog.module';
-
+import { NotificationModule } from '../notification/notification.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ContentDownloadDialogComponent } from './content-download-dialog.component';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
 
 @NgModule({
-  declarations: [
-    ContentDownloadDialogComponent
-  ],
-  imports: [
-    CommonModule,
-    DialogModule,
-    SharedModule
-  ],
-  exports: [
-    ContentDownloadDialogComponent,
-  ],
-  entryComponents: [
-    ContentDownloadDialogComponent
-  ]
+  declarations: [ContentDownloadDialogComponent, SnackbarComponent],
+  imports: [CommonModule, NotificationModule, SharedModule, MatSnackBarModule],
+  exports: [ContentDownloadDialogComponent],
+  entryComponents: [ContentDownloadDialogComponent, SnackbarComponent],
 })
 export class ContentDownloadDialogModule {}

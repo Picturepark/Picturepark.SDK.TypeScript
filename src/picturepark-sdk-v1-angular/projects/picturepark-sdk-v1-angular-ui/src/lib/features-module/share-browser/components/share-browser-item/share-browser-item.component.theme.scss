@@ -2,43 +2,28 @@
 
 // SHARE BROWSER ITEM VARS
 $pp-share-browser-item: (
-  contrast: ()
+  contrast: (),
 );
 
 @mixin pp-share-browser-item-theme($theme) {
-
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
 
-  .browser-item {
+  pp-share-browser-item {
+    .browser-item {
+      &__items-num-container {
+        color: mat-color($primary, on-opacity-light);
+      }
 
-    &__image-virtual-item-container {
-      color: mat-color($primary, dark-font) ;
-    }
+      &__title {
+        font-size: mat-font-size($custom-typography, display-1);
+        color: mat-color($primary, on-background-dark);
 
-    &__actions {
-      ul {
-        li {
-          button {
-            mat-icon {     
-              font-size: mat-font-size($custom-typography, subheading-1);
-              color: mat-color($primary, white-font);
-            }
-          }
+        i {
+          font-size: mat-font-size($custom-typography, display-1);
         }
       }
     }
-
-    &__items-num-container {
-      color: mat-color($primary, white-font) ;
-    }
-
-    &__title {
-      font-size: mat-font-size($custom-typography, display-1);
-      color: mat-color($primary, light-font);
-      i { font-size: mat-font-size($custom-typography, display-1);}
-    }
-    
   }
 }

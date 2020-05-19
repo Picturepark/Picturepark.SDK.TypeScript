@@ -1,47 +1,68 @@
-<mat-expansion-panel class="aggregation mat-elevation-z0" [expanded]="isExpanded && expandedAggregationResult?.aggregationResultItems?.length > 0" [disabled]="!active">
+<mat-expansion-panel class="aggregation mat-elevation-z0" [expanded]="canExpand" [disabled]="!active">
   <mat-expansion-panel-header [collapsedHeight]="'56px'" [expandedHeight]="'56px'">
     <mat-panel-title class="aggregation__title">
-      <span>{{ expandedAggregator?.names | pptranslate }}</span>
-      <button mat-icon-button *ngIf="aggregationsFiltersCount > 0" [matTooltip]="'ContentAggregationList.ClearFilters' | pptranslate">
-        <mat-icon aria-label="Clear filters for this category" (click)="aggregationFiltersChange.emit([]); $event.stopPropagation();">clear</mat-icon>
+      <span *ngIf="expandedAggregator.names">{{ expandedAggregator.names | pptranslate }}</span>
+      <button
+        mat-icon-button
+        *ngIf="aggregationsFiltersCount > 0"
+        [matTooltip]="'ContentAggregationList.ClearFilters' | pptranslate"
+      >
+        <mat-icon aria-label="Clear filters for this category" (click)="clear(); $event.stopPropagation()"
+          >clear</mat-icon
+        >
       </button>
     </mat-panel-title>
   </mat-expansion-panel-header>
   <ng-template matExpansionPanelContent>
     <mat-form-field class="search">
       <i class="material-icons search-icon">search</i>
-      <input 
+      <input
         matInput
         type="text"
         [placeholder]="'ContentAggregationList.Search' | pptranslate"
         aria-label="Search"
-        [formControl]="aggregationQuery" 
-        [matAutocomplete]="searchAutocomplete">
-        
-      <button mat-button *ngIf="aggregationQuery.value" matSuffix mat-icon-button aria-label="Clear" (click)="aggregationQuery.setValue('')" class="clear-search">
+        [formControl]="aggregationQuery"
+        [matAutocomplete]="searchAutocomplete"
+      />
+
+      <button
+        mat-button
+        *ngIf="aggregationQuery.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="aggregationQuery.setValue('')"
+        class="clear-search"
+      >
         <mat-icon>close</mat-icon>
       </button>
-      
-      <mat-autocomplete 
+
+      <mat-autocomplete
         #searchAutocomplete="matAutocomplete"
         (optionSelected)="autoCompleteOptionSelected($event.option.value)"
-        [displayWith]="queryDisplay">
+        [displayWith]="queryDisplay"
+      >
         <mat-option *ngFor="let option of autoCompleteOptions | async; trackBy: trackByName" [value]="option">
-          <span [innerHTML]="option.name | highlight: searchString"></span>
+          <span [innerHTML]="option.name | highlight: aggregationQuery.value"></span>
         </mat-option>
       </mat-autocomplete>
       <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
     </mat-form-field>
 
     <mat-selection-list (selectionChange)="selectionChanged($event.option.value)">
-      <mat-list-option 
+      <mat-list-option
         *ngFor="let item of expandedAggregationResult?.aggregationResultItems"
         checkboxPosition="before"
         [selected]="item.active"
-        [value]="item">
-        <div class="aggregation__option-title" matTooltip="{{ item.getDisplayName(locale) }}" [matTooltipDisabled]="false">
-          <div class="aggregation__option-name">{{ item.getDisplayName(locale) }} </div>
-          <div class="aggregation__option-number">{{ item.count }} </div>
+        [value]="item"
+      >
+        <div
+          class="aggregation__option-title"
+          matTooltip="{{ item.getDisplayName(locale) }}"
+          [matTooltipDisabled]="false"
+        >
+          <div class="aggregation__option-name">{{ item.getDisplayName(locale) }}</div>
+          <div class="aggregation__option-number">{{ item.count }}</div>
         </div>
       </mat-list-option>
     </mat-selection-list>
@@ -55,5 +76,3 @@
     </div>
   </ng-template>
 </mat-expansion-panel>
-  
-  

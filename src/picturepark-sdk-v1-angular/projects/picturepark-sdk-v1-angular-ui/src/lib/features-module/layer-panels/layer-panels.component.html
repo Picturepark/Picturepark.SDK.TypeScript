@@ -1,10 +1,14 @@
-<mat-card class="custom-shadow" *ngFor="let layer of layers">
-  <mat-card-title>
-    {{layer.names | pptranslate}}
-  </mat-card-title>
-  <mat-card-content>
-    <div *ngFor="let field of layer.fields;" class="fields">
-      <pp-layer-fields [field]="field" (relationClick)="relationClickHandler($event)"></pp-layer-fields>
-    </div>
-  </mat-card-content>
-</mat-card>
+<div class="custom-shadow" *ngFor="let layer of layers; let i = index">
+  <mat-expansion-panel [expanded]="i === 0">
+    <mat-expansion-panel-header>
+      <mat-panel-description>
+        {{ layer.names | pptranslate }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <div *ngFor="let field of layer.fields" class="fields">
+        <pp-layer-fields [field]="field" (relationClick)="relationClickHandler($event)"></pp-layer-fields>
+      </div>
+    </ng-template>
+  </mat-expansion-panel>
+</div>

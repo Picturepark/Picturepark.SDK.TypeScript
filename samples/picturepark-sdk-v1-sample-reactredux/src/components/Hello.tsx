@@ -1,6 +1,5 @@
 import * as React from 'react';
 import './Hello.css';
-import { ContentDetail } from '@picturepark/sdk-v1-fetch';
 import { StoreState } from '../types/index';
 import { showContentPicker } from '@picturepark/sdk-v1-pickers';
 

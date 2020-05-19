@@ -1,4 +1,9 @@
 .basket {
+  .mat-toolbar {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+  }
+
   height: 100%;
   &__header {
     position: sticky;
@@ -9,8 +14,12 @@
       width: 100%;
       font-size: 14px;
       line-height: 42px;
-      span { float: left; }
-      button { float: right;}
+      span {
+        float: left;
+      }
+      button {
+        float: right;
+      }
     }
   }
   &__items {
@@ -21,7 +30,7 @@
   }
   &__item-container {
     position: relative;
-    content: "";
+    content: '';
     display: inline-block;
     height: 0;
     padding-bottom: 100%;

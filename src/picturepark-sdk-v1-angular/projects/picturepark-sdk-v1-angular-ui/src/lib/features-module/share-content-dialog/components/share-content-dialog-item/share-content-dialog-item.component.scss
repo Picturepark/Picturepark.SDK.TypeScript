@@ -2,9 +2,7 @@
 .share-content-item {
   $self: &;
   cursor: pointer;
-  position: relative;
   width: 100%;
-  text-align: center;
   transition: 200ms;
   //@include mat-elevation-transition;
   //@include mat-elevation(2);
@@ -13,11 +11,6 @@
     #{ $self }__remove-button {
       display: initial;
     }
-  }
-  &__image {
-    max-width: 100%;
-    max-height: 100%;
-    margin: 0px 5px 0px 5px;
   }
   &__remove-button {
     display: none;

@@ -1,26 +1,16 @@
 @import '~@angular/material/theming';
 
 @mixin pp-share-content-dialog-item-theme($theme) {
-
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
 
-  .share-content-item {
-
+  pp-share-content-dialog-item {
+    .share-content-item {
       &__image {
-        box-shadow: 
-          0 3px 1px -2px rgba(mat-color($primary, shadow-color),.2), 
-          0 2px 2px 0 rgba(mat-color($primary, shadow-color),.14), 
-          0 1px 5px 0 rgba(mat-color($primary, shadow-color),.12) ;
+        box-shadow: 0 3px 1px -2px mat-color($primary, opacity-light), 0 2px 2px 0 mat-color($primary, opacity-light),
+          0 1px 5px 0 mat-color($primary, opacity-light);
       }
     }
-};
-
-
-
-
-
-
-
-
+  }
+}

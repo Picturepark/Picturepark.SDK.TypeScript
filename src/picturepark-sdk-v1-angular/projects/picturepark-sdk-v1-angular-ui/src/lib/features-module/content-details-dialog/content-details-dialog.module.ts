@@ -7,23 +7,12 @@ import { LayerPanelsModule } from '../layer-panels/layer-panels.module';
 import { SharedModule } from '../../shared-module/shared-module.module';
 
 // COMPONENTS
-import { ContentDetailsDialogComponent} from './content-details-dialog.component';
+import { ContentDetailsDialogComponent } from './content-details-dialog.component';
 
 @NgModule({
-  declarations: [
-    ContentDetailsDialogComponent
-  ],
-  imports: [
-    CommonModule,
-    ContentBrowserModule,
-    LayerPanelsModule,
-    SharedModule
-  ],
-  exports: [
-    ContentDetailsDialogComponent
-  ],
-  entryComponents: [
-    ContentDetailsDialogComponent
-  ]
+  declarations: [ContentDetailsDialogComponent],
+  imports: [CommonModule, ContentBrowserModule, LayerPanelsModule, SharedModule],
+  exports: [ContentDetailsDialogComponent],
+  entryComponents: [ContentDetailsDialogComponent],
 })
-export class ContentDetailsDialogModule { }
+export class ContentDetailsDialogModule {}

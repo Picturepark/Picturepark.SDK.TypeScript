@@ -1,27 +1,31 @@
 import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatTabChangeEvent } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import {
   ContentDetail,
   ContentResolveBehavior,
   ContentService,
   SchemaDetail,
-  SchemaService
+  SchemaService,
 } from '@picturepark/sdk-v1-angular';
 
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
-import { LiquidRenderingService } from '../../shared-module/services/liquid-rendering/liquid-rendering.service';
-import { DialogBaseComponent } from '../dialog/components/dialog-base/dialog-base.component';
+import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
 import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
-import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
+
+// SERVICES
+import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 
 @Component({
   selector: 'pp-content-details-dialog',
   templateUrl: './content-details-dialog.component.html',
-  styleUrls: ['../dialog/components/dialog-base/dialog-base.component.scss', './content-details-dialog.component.scss'],
-  providers: [ TranslatePipe ]
+  styleUrls: [
+    '../../shared-module/components/dialog-base/dialog-base.component.scss',
+    './content-details-dialog.component.scss',
+  ],
+  providers: [TranslatePipe],
 })
 export class ContentDetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
-
   content: ContentDetail;
 
   contentId: string;
@@ -32,7 +36,6 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     private contentService: ContentService,
     @Inject(MAT_DIALOG_DATA) public data: ContentDetailDialogOptions,
     protected dialogRef: MatDialogRef<ContentDetailsDialogComponent>,
-    private liquidRenderingService: LiquidRenderingService,
     protected injector: Injector,
     private schemaService: SchemaService,
     private contentDownloadDialogService: ContentDownloadDialogService
@@ -49,9 +52,11 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   }
 
   loadSchemas(): void {
-    this.schemaService.getMany(this.content.layerSchemaIds!.concat(this.content.contentSchemaId)).subscribe(schemas => {
-      this.schemas = schemas;
-    });
+    this.schemaService
+      .getMany(this.content.layerSchemaIds!.concat(this.content.contentSchemaId))
+      .subscribe((schemas) => {
+        this.schemas = schemas;
+      });
   }
 
   tabChange(event: MatTabChangeEvent): void {
@@ -64,7 +69,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   public downloadItem() {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
-      contents: [this.content as any]
+      contents: [this.content],
     });
   }
 
@@ -73,7 +78,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   }
 
   public async previous(): Promise<void> {
-      this.setContent(this.data.previous() as any);
+    this.setContent(this.data.previous() as any);
   }
 
   setContent(detail: ContentDetail | string) {
@@ -90,22 +95,22 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
   loadContent(id: string) {
     this.contentId = id;
-    const contentGetSubscription = this.contentService.get(this.contentId, [
-      ContentResolveBehavior.Content,
-      ContentResolveBehavior.Metadata,
-      ContentResolveBehavior.InnerDisplayValueName,
-      ContentResolveBehavior.InnerDisplayValueList,
-      ContentResolveBehavior.InnerDisplayValueThumbnail,
-      ContentResolveBehavior.OuterDisplayValueName,
-      ContentResolveBehavior.OuterDisplayValueDetail,
-      ContentResolveBehavior.Outputs
-    ]).subscribe(async content => {
-      await this.liquidRenderingService.renderNestedDisplayValues(content);
-      if (content) {
-        this.content = content;
-      }
-    });
-
-    this.subscription.add(contentGetSubscription);
+    this.sub = this.contentService
+      .get(this.contentId, [
+        ContentResolveBehavior.Content,
+        ContentResolveBehavior.Metadata,
+        ContentResolveBehavior.InnerDisplayValueName,
+        ContentResolveBehavior.InnerDisplayValueList,
+        ContentResolveBehavior.InnerDisplayValueThumbnail,
+        ContentResolveBehavior.OuterDisplayValueName,
+        ContentResolveBehavior.OuterDisplayValueDetail,
+        ContentResolveBehavior.OuterDisplayValueThumbnail,
+        ContentResolveBehavior.Outputs,
+      ])
+      .subscribe(async (content) => {
+        if (content) {
+          this.content = content;
+        }
+      });
   }
 }

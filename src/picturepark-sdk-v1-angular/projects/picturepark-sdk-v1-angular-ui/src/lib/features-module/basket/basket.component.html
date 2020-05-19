@@ -1,21 +1,31 @@
 <div class="basket">
   <ng-container *ngIf="basketItems.length > 0; else emptyBasket">
     <mat-toolbar class="basket__header">
-      <button mat-icon-button [matTooltip]="'Basket.Download' | pptranslate" (click)="downloadItems()" *ngIf="configActions.download">
+      <button
+        mat-icon-button
+        [matTooltip]="'Basket.Download' | pptranslate"
+        (click)="downloadItems()"
+        *ngIf="configActions.download"
+      >
         <mat-icon aria-label="Download items">get_app</mat-icon>
       </button>
-      <button mat-icon-button [matTooltip]="'Basket.Share' | pptranslate" (click)="openShareContentDialog()" *ngIf="configActions.share">
+      <button
+        mat-icon-button
+        [matTooltip]="'Basket.Share' | pptranslate"
+        (click)="openShareContentDialog()"
+        *ngIf="configActions.share"
+      >
         <mat-icon aria-label="Share items">share</mat-icon>
       </button>
       <div class="clear-basket">
-        <button mat-icon-button (click)="clearBasket();" [matTooltip]="'Basket.ClearBasket' | pptranslate">
+        <button mat-icon-button (click)="clearBasket()" [matTooltip]="'Basket.ClearBasket' | pptranslate">
           <mat-icon aria-label="Clear basket">clear</mat-icon>
         </button>
       </div>
     </mat-toolbar>
     <div class="basket__items">
       <div class="basket__item-container" *ngFor="let basketItem of basketItems; trackBy: trackByBasket">
-        <pp-basket-item class="basket__item" [itemId]="basketItem" (dblclick)="previewItem(basketItem)"></pp-basket-item>
+        <pp-basket-item class="basket__item" [item]="basketItem" (dblclick)="previewItem(basketItem)"> </pp-basket-item>
       </div>
     </div>
   </ng-container>

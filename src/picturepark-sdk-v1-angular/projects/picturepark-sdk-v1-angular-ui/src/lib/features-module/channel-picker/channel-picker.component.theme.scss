@@ -1,9 +1,5 @@
 @import '~@angular/material/theming';
 
 @mixin pp-channel-picker-theme($theme) {
-    $primary: map-get($theme, primary);
-
-    .channel-picker-container {
-        color: mat-color($primary, dark-font);
-    }
+  $primary: map-get($theme, primary);
 }

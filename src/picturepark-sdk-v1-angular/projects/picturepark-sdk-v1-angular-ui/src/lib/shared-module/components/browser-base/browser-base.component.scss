@@ -34,15 +34,20 @@
     #{ $self }__item-container {
       height: 120px;
     }
+
     &--list {
-      grid-template-columns: 1fr;
-      grid-auto-rows: 100px;
-      grid-gap: 10px;
+      display: flex;
+      flex-direction: column;
       #{ $self }__item-container {
         width: 70%;
         margin: 0 auto;
-        border-bottom: 1px solid #d8d8d8;
-        
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+
+        &--mobile {
+          width: unset;
+          margin: unset;
+        }
       }
     }
     &--large {
@@ -62,10 +67,13 @@
       }
     } // image sizes: 120px, 200px, 320px
 
+    &--mobile {
+      padding: 5px;
+    }
+
     &::-webkit-scrollbar {
       width: 10px;
     }
-
   }
   &__item-container {
     position: relative;

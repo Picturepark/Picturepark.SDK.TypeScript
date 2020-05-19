@@ -9,7 +9,7 @@
     export class PictureparkClientBase {
         private authClient;
         constructor(authClient: AuthClient);
-        getBaseUrl(defaultUrl: string): string;
+        getBaseUrl(defaultUrl: string, baseUrl: string): string;
         transformOptions(options: RequestInit): Promise<RequestInit>;
     }
     export class BusinessProcessClient extends PictureparkClientBase {
@@ -2939,7 +2939,7 @@
         status: number;
         /** New version of the item. */
         version: number;
-        /** If the operation did not succeeded, this contains error information. */
+        /** If the operation did not succeed, this contains error information. */
         error?: ErrorResponse | undefined;
         /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
         requestId?: string | undefined;
@@ -3080,6 +3080,8 @@
         names?: TranslatedStringDictionary | undefined;
         /** Language specific rule description. */
         description?: TranslatedStringDictionary | undefined;
+        /** Enable trace logs for this rule. */
+        enableTracing: boolean;
     }
     /** Represents a trigger point for a business rule */
     export interface BusinessRuleTriggerPoint {
@@ -3101,6 +3103,8 @@
     }
     /** Conditions on which a business rule is executed */
     export interface BusinessRuleCondition {
+        /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+        traceRefId?: string | undefined;
     }
     /** Links multiple conditions with a boolean operator */
     export interface BooleanCondition extends BusinessRuleCondition {
@@ -3236,9 +3240,13 @@
         transformations?: BusinessRuleTransformation[] | undefined;
         /** Variable name where the final result should be stored in. */
         storeIn?: string | undefined;
+        /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+        traceRefId?: string | undefined;
     }
     /** Business rule transformation */
     export interface BusinessRuleTransformation {
+        /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+        traceRefId?: string | undefined;
     }
     /** Takes an item from a dictionary by its key. */
     export interface TakeDictionaryValueTransformation extends BusinessRuleTransformation {
@@ -3277,6 +3285,8 @@
     }
     /** Action to be performed by a business rule */
     export interface BusinessRuleAction {
+        /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
+        traceRefId?: string | undefined;
     }
     /** Assigns a layer, adding the default values to the data dictionary */
     export interface AssignLayerAction extends BusinessRuleAction {
@@ -3554,7 +3564,8 @@
         Schema,
         User,
         ContentPermissionSet,
-        Owner
+        Owner,
+        UserRole
     }
     /** A multi-bucket value aggregator used for aggregations on indexed enum values. */
     export interface TermsEnumAggregator extends TermsAggregator {
@@ -4931,7 +4942,7 @@
     export interface SessionRenewalEvent extends ApplicationEvent {
         authorizationState: AuthorizationState;
     }
-    /** User authorization state. */
+    /** User authorization state */
     export enum AuthorizationState {
         Reviewed,
         ToBeReviewed,

@@ -1,29 +1,34 @@
-<pp-panel [title]="title">
-    <div pp-panel-buttons>
-      <button mat-icon-button aria-label="List" *ngIf="view === 'list'" (click)="view = 'grid'">
-        <mat-icon>list</mat-icon>
-      </button>
-      <button mat-icon-button aria-label="Thumbnails" *ngIf="view === 'grid'" (click)="view = 'list'">
-          <mat-icon>grid_on</mat-icon>
-        </button>
+<pp-panel [title]="'ShareItemsPanel.Items' | pptranslate">
+  <div pp-panel-buttons>
+    <button mat-icon-button aria-label="List" *ngIf="view === 'list'" (click)="view = 'grid'">
+      <mat-icon>list</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Thumbnails" *ngIf="view === 'grid'" (click)="view = 'list'">
+      <mat-icon>grid_on</mat-icon>
+    </button>
+  </div>
+  <div pp-panel-content [ngClass]="[view]">
+    <div class="item" *ngFor="let item of items">
+      <div class="thumbnail">
+        <pp-content-item-thumbnail
+          [item]="item"
+          [shareItem]="shareDetail"
+          [thumbnailSize]="thumbnailSize.Large"
+          (click)="openInNewWindow(item)"
+        ></pp-content-item-thumbnail>
       </div>
-    <div pp-panel-content [ngClass]="[view]">
-      <div class="item" *ngFor="let item of items">
-        <div class="thumbnail">
-          <pp-item-panel-preview [item]="item" [share]="shareDetail" (click)="openInNewWindow(item)"></pp-item-panel-preview>
-        </div>
-        <div class="item-info" (click)="openInNewWindow(item)">
-          <ul>
-            <li class="title" [innerHTML]="item.displayValues['name']"></li>
-            <li [innerHTML]="item.displayValues['list']"></li>
-          </ul>
-        </div>
-        <div class="item-funcs">
-          <ul>
-              <li><i class="material-icons" (click)="openInNewWindow(item)">open_in_new</i></li>
-              <li><i class="material-icons" (click)="downloadItem(item)">get_app</i></li>
-            </ul>
-        </div>
+      <div class="item-info" (click)="openInNewWindow(item)">
+        <ul>
+          <li class="title" [innerHTML]="item.displayValues['name']"></li>
+          <li [innerHTML]="item.displayValues['list']"></li>
+        </ul>
       </div>
+      <div class="item-funcs">
+        <ul>
+          <li><i class="material-icons" (click)="openInNewWindow(item)">open_in_new</i></li>
+          <li><i class="material-icons" (click)="downloadItem(item)">get_app</i></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </pp-panel>

@@ -3,12 +3,32 @@
   min-width: 500px;
 
   mat-dialog-content {
-    padding: 24px;
+    padding: 0;
+    .content-wrapper {
+      padding: 24px;
+      position: relative;
+
+      .loader-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        height: 100%;
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 }
 
 fieldset {
-  border: 1px solid lightgray;
+  border-style: solid;
+  border-width: 1px;
   margin-bottom: 10px;
 }
 

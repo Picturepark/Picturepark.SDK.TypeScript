@@ -9,11 +9,11 @@
     "typescript": "^2.8.0"
   },
   "dependencies": {
-    "@picturepark/sdk-v1-fetch": "^0.1.28",
-    "@picturepark/sdk-v1-pickers": "^0.1.28",
-    "@types/lodash": "^4.14.116",
+    "@picturepark/sdk-v1-fetch": "1.6.0-pre.3",
+    "@picturepark/sdk-v1-pickers": "^1.5.3",
     "@types/enzyme": "^3.1.8",
     "@types/jest": "^23.3.1",
+    "@types/lodash": "^4.14.116",
     "@types/node": "^9.4.0",
     "@types/react": "16.4.10",
     "@types/react-dom": "^16.0.7",

@@ -1,11 +1,22 @@
 <div class="channel-picker-container">
-  <button mat-stroked-button [matTooltip]="'ChannelPicker.SelectChannel' | pptranslate" [matMenuTriggerFor]="channelPicker"> {{ channel?.names | pptranslate }} </button>
+  <button
+    *ngIf="channel"
+    mat-stroked-button
+    [matTooltip]="'ChannelPicker.SelectChannel' | pptranslate"
+    [matMenuTriggerFor]="channelPicker"
+  >
+    {{ channel.names | pptranslate }}
+  </button>
   <mat-menu #channelPicker="matMenu">
     <ng-template matMenuContent>
-      <button *ngFor="let channel of channels, let i = index; trackBy:trackByChannel" [attr.value]="i" (click)="changeChannel(channel)" mat-menu-item>
+      <button
+        *ngFor="let channel of channels; let i = index; trackBy: trackByChannel"
+        [attr.value]="i"
+        (click)="changeChannel(channel)"
+        mat-menu-item
+      >
         {{ channel.names | pptranslate }}
       </button>
     </ng-template>
   </mat-menu>
 </div>
-

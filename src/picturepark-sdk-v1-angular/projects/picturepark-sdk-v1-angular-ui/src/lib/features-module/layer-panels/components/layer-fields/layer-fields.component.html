@@ -1,14 +1,13 @@
 <div class="raw">
-
-  <div class="label" *ngIf="!noname" #name [matTooltip]="field.name">{{field.name}}</div>
+  <div class="label" *ngIf="!noname" #name [matTooltip]="field.name">{{ field.name }}</div>
 
   <div class="value" *ngIf="field.value">
-    {{field.value}}
+    {{ field.value }}
   </div>
 
   <div class="value" *ngIf="field.tagboxFields?.length">
-    <span *ngFor="let tagboxField of field.tagboxFields; let last = last;index as i">
-      <a href="javascript:" (click)="showItem(tagboxField, $event)"> {{tagboxField.value}}</a>
+    <span *ngFor="let tagboxField of field.tagboxFields; let last = last; index as i">
+      <a class="link" href="javascript:" (click)="showItem(tagboxField, $event)"> {{ tagboxField.value }}</a>
       <span *ngIf="!last">, </span>
     </span>
   </div>
@@ -19,7 +18,7 @@
         <mat-expansion-panel (opened)="ref.isOpened = true" (closed)="ref.isOpened = false">
           <mat-expansion-panel-header>
             <mat-panel-description>
-              {{ref.isOpened ? ref.name : ref.title}}
+              {{ ref.isOpened ? ref.name : ref.title }}
             </mat-panel-description>
           </mat-expansion-panel-header>
           <ng-template matExpansionPanelContent>
@@ -41,11 +40,6 @@
         <div class="relationFields">
           <div class="field relation-title" [innerHTML]="info.name"></div>
           <div class="field relation-description" [innerHTML]="info.list"></div>
-          <!--
-          <ng-container *ngFor="let layerField of relationField.fields">
-            <pp-layer-fields [field]="layerField"></pp-layer-fields>
-          </ng-container>
-          -->
         </div>
       </div>
     </ng-container>

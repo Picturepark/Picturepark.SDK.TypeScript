@@ -1,28 +1,11 @@
 @import '~@angular/material/theming';
 
-
 @mixin pp-content-browser-theme($theme) {
+  $primary: map-get($theme, primary);
 
-    $primary: map-get($theme, primary);
-
-    .browser {
-        &__header {
-            button {
-                &:hover {
-                    mat-icon {
-                        color: mat-color($primary, icon-selected-color);
-                    }
-                }
-                mat-icon { 
-                    font-size: mat-font-size($custom-typography, display-3); 
-                    color: mat-color($primary, light-font);
-                }
-            }
-        }   
-    }
-
+  pp-content-browser {
     .browser__header .browser__empty-result {
-        color: mat-color($primary, dark-font);
+      color: mat-color($primary, on-background-dark);
     }
-
+  }
 }

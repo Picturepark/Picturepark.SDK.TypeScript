@@ -1,65 +1,69 @@
 @import '../theme.scss';
 
 body {
-    background-color: mat-color($picturepark-app-primary, light-background);
+  background-color: mat-color($picturepark-app-primary, background-dark);
 }
 
 .share-viewer-item-container {
+  position: relative;
+  background-color: rgb(238, 238, 238);
+  height: 100vh;
+  display: flex;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .share-viewer-item-loader {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 3px;
+    width: 100%;
+    z-index: 10;
+  }
+  .share-viewer-item-menu-container {
+    width: 20%;
+    float: left;
+  }
+  .share-viewer-item-content-container {
+    width: 60%;
+
+    float: left;
+    margin: 0 auto;
+
+    @media (max-width: 1060px) {
+      width: 90%;
+    }
+    @media (max-width: 535px) {
+      width: 95%;
+    }
+  }
+  .background-image {
     position: relative;
-    background-color: rgb(238,238,238);
-    height: 100vh;
+    top: 50%;
+    margin: 0 auto;
+    height: 200px;
+    svg {
+      height: 200px;
+      width: 200px;
+      transform: translate(0%, -50%);
+      path {
+        fill: #dcdcdc;
+      }
+    }
+  }
+
+  .consent {
+    padding-top: 12px;
+    padding-bottom: 12px;
     display: flex;
-    overflow-y: auto;
-    overflow-x: hidden;
-    
-    .share-viewer-item-loader {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        height: 3px;
-        width: 100%;
-        z-index: 10;
-    }   
-    .share-viewer-item-menu-container {
-        width: 20%; float: left;
-    }
-    .share-viewer-item-content-container {
-        width: 60%;
+    flex-direction: row;
 
-        float: left;
-        margin: 0 auto;
-
-        @media (max-width: 1060px) {
-            width: 90%;
-        }
-        @media (max-width: 535px) {
-            width: 95%;
-        }
-    }
-    .background-image {
-        position: relative; top: 50%; margin: 0 auto; height: 200px;
-        svg {
-            height: 200px;
-            width: 200px;
-            transform: translate(0%, -50%);
-            path {
-                fill: #dcdcdc;
-            }
-        }
+    .text {
+      flex: 1;
     }
 
-    .consent {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        display: flex;
-        flex-direction: row;
-
-        .text {
-            flex: 1;
-        }
-
-        button {
-            color: white;
-        }
+    button {
+      color: white;
     }
+  }
 }

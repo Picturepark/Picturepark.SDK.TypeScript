@@ -1,35 +1,79 @@
-.chip-list-container { 
-    position: relative;
-    .chip-list-content {
-        width: 100%;
-        &.error-active { border: 1px solid #f74931; border-radius: 4px; }
+.chip-list-container {
+  position: relative;
+
+  .chip-list-content {
+    width: 100%;
+
+    &.error-active {
+      border-style: solid;
+      border-width: 1px;
+      border-radius: 4px;
     }
+  }
 }
 
-mat-chip-list { position: relative; z-index: 10; }
-input { 
-    font-weight: 200; font-size: 13px; color: #2f2f2f; line-height: 30px; border-radius: 0px;
-    padding: 0px; border: 0px; transition: .5s; background-color: white; margin: 0px; position: relative; z-index: 10;
-    &:focus {
-        border: 0px !important;
-    }
+mat-chip-list {
+  position: relative;
+  z-index: 10;
+}
+
+input {
+  font-weight: 200;
+  font-size: 13px;
+  line-height: 30px;
+  border-radius: 0px;
+  padding: 0px;
+  border: 0px;
+  transition: 0.5s;
+  margin: 0px;
+  position: relative;
+  z-index: 10;
+
+  &:focus {
+    border: 0px;
+  }
+}
+
+input#recipient {
+  &:focus {
+    border: 0px;
+  }
 }
 
 .mat-chip-list-wrapper {
-    .mat-standard-chip, 
-    input.mat-input-element {
-        margin: 0px;
-    }
+  .mat-standard-chip,
+  input.mat-input-element {
+    margin: 0px;
+  }
 }
 
 .mat-chip {
-    &.mat-standard-chip {
-        background-color: #3fb3b1; color: white; min-height: 24px; margin: 3px 7px 3px 0px;
-        .mat-chip-remove { color: #246f6e; opacity: 0.7; font-size: 13px; position: relative; top: 3px; }
+  &.mat-standard-chip {
+    min-height: 24px;
+    margin: 3px 7px 3px 0px;
+
+    .mat-chip-remove {
+      opacity: 0.7;
+      font-size: 13px;
+      position: relative;
+      top: 3px;
     }
+  }
 }
 
-.chip-input-error { 
-    top: 16px; color: #f74931; transition: .5s; z-index: 1; font-size: 10px;
-    &.active { top: 46px; }
+.chip-input-error {
+  top: 16px;
+  transition: 0.5s;
+  z-index: 1;
+  font-size: 10px;
+
+  &.active {
+    top: 46px;
+  }
+}
+
+.is-loading {
+  mat-spinner {
+    margin: auto;
+  }
 }

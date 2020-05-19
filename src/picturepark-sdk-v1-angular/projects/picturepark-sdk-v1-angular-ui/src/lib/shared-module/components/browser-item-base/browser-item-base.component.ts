@@ -8,28 +8,25 @@ import { ThumbnailSize, IEntityBase } from '@picturepark/sdk-v1-angular';
 import { BaseBrowserComponent } from '../browser-base/browser-base.component';
 import { BaseComponent } from '../base.component';
 
-// INTERFACES
-import { ContentModel } from '../../models/content-model';
-
 export abstract class BaseBrowserItemComponent<TEntity extends IEntityBase> extends BaseComponent {
-    // INPUTS
-    @Input() public itemModel: ContentModel<TEntity>;
-    @Input() thumbnailSize: ThumbnailSize | null;
-    @Input() isListView: boolean;
-    @Input() browser: BaseBrowserComponent<TEntity>;
+  // INPUTS
+  @Input() public itemModel: TEntity;
+  @Input() thumbnailSize: ThumbnailSize = ThumbnailSize.Medium;
+  @Input() isListView: boolean;
+  @Input() browser: BaseBrowserComponent<TEntity>;
 
-    // OUTPUTS
-    @Output() public previewItemChange = new EventEmitter<ContentModel<TEntity>>();
+  // OUTPUTS
+  @Output() public previewItemChange = new EventEmitter<TEntity>();
 
-    protected isVisible = false;
-    protected loadItem = new Subject<void>();
+  protected isVisible = false;
+  protected loadItem = new Subject<void>();
 
-    public markAsVisible() {
-        this.isVisible = true;
-        this.loadItem.next();
-    }
+  public markAsVisible() {
+    this.isVisible = true;
+    this.loadItem.next();
+  }
 
-    public previewItem() {
-        this.previewItemChange.emit(this.itemModel);
-    }
+  public previewItem() {
+    this.previewItemChange.emit(this.itemModel);
+  }
 }

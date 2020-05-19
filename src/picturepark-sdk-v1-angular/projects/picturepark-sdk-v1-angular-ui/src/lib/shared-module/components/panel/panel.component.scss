@@ -1,0 +1,76 @@
+pp-panel,
+.panel-container {
+  border-radius: 8px;
+  box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.12);
+  margin: 20px 0px;
+
+  .panel-header {
+    position: relative;
+    padding: 0px 30px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    overflow: hidden;
+
+    h3 {
+      font-size: 18px;
+      line-height: 32px;
+      font-weight: 300;
+      border-bottom: 0px;
+      margin: 0px;
+      padding: 16px 0;
+    }
+
+    .panel-buttons {
+      position: absolute;
+      right: 30px;
+      top: 14px;
+    }
+  }
+
+  [pp-panel-buttons] {
+    button {
+      float: right;
+      font-size: 12px;
+      width: 100px;
+      border-radius: 0px;
+      line-height: 30px;
+      margin: 0px 0px 0px 15px;
+      border: 2px solid #fff;
+
+      &:hover {
+        border: 2px solid gray;
+        box-shadow: 0 0 3px #3fb3b1;
+      }
+
+      &.square {
+        border-width: 2px;
+        border-style: solid;
+      }
+
+      & mat-icon {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .panel-content {
+    padding: 0px 30px;
+    overflow: hidden;
+  }
+
+  [pp-panel-content] {
+    p {
+      font-weight: 400;
+      font-size: 13px;
+    }
+
+    a {
+      font-weight: 200;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

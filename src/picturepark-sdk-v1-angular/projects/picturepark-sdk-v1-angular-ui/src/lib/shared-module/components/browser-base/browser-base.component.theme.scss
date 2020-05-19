@@ -1,24 +1,45 @@
 @import '~@angular/material/theming';
 
 @mixin pp-browser-base-theme($theme) {
+  $primary: map-get($theme, primary);
 
-    $primary: map-get($theme, primary);
-
+  pp-content-browser,
+  pp-list-browser,
+  pp-schema-browser,
+  pp-share-browser {
     .browser {
-        background: mat-color($primary, light-background);
+      $self: &;
 
-        &__header {
-            & mat-toolbar {
-             border-bottom: 1px solid mat-color($primary, light-border);
-            }
-        }
-        &__items {            
-            &::-webkit-scrollbar-thumb {
-                background-color: mat-contrast($primary, light-background);
-                outline: 1px solid  mat-contrast($primary, light-background);
-            }
+      background: mat-color($primary, background-dark);
 
+      &__header {
+        & mat-toolbar {
+          border-bottom: 1px solid mat-color($primary, divider);
         }
+
+        button {
+          mat-icon {
+            font-size: mat-font-size($custom-typography, display-3);
+            color: mat-color($primary, on-background-dark);
+          }
+          &:hover {
+            mat-icon {
+              color: mat-color($primary, opacity-light);
+            }
+          }
+        }
+      }
+
+      &__items {
+        &::-webkit-scrollbar-thumb {
+          background-color: mat-color($primary, surface-mid);
+        }
+      }
+      .browser__items--list {
+        .browser__item-container {
+          border-color: mat-color($primary, divider);
+        }
+      }
     }
-
+  }
 }

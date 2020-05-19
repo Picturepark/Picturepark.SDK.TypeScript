@@ -1,38 +1,74 @@
-<div class="browser-item" [class.browser-item--selected]="itemModel.isSelected" [class.browser-item--list-view]="isListView">
+<div
+  class="browser-item"
+  [class.browser-item--selected]="isSelected$ | async"
+  [class.browser-item--list-view]="isListView"
+>
   <div class="browser-item__image-slot">
     <div class="browser-item__image-container" (lazyload)="markAsVisible()" *ngIf="thumbnailUrls.length === 1">
-      <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrls[0]" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" (error)="updateUrl($event)"/>
+      <img
+        *ngIf="!isLoading"
+        class="browser-item__image"
+        [src]="thumbnailUrls[0]"
+        [alt]="'ContentBrowser.NoImageForItem' | pptranslate"
+        (error)="updateUrl($event)"
+      />
     </div>
     <div class="browser-item__image-container" (lazyload)="markAsVisible()" *ngIf="thumbnailUrls.length === 3">
-      <img *ngIf="!isLoading" class="browser-item__image extra-thumbnail" [src]="thumbnailUrls[0]" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" (error)="updateUrl($event)"/>
+      <img
+        *ngIf="!isLoading"
+        class="browser-item__image extra-thumbnail"
+        [src]="thumbnailUrls[0]"
+        [alt]="'ContentBrowser.NoImageForItem' | pptranslate"
+        (error)="updateUrl($event)"
+      />
       <div class="browser-item__extra-thumbnails">
         <div class="thumbnail">
-          <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrls[1]" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" (error)="updateUrl($event)"/>
+          <img
+            *ngIf="!isLoading"
+            class="browser-item__image"
+            [src]="thumbnailUrls[1]"
+            [alt]="'ContentBrowser.NoImageForItem' | pptranslate"
+            (error)="updateUrl($event)"
+          />
         </div>
         <div class="thumbnail">
-          <img *ngIf="!isLoading" class="browser-item__image" [src]="thumbnailUrls[2]" [alt]="'ContentBrowser.NoImageForItem' | pptranslate" (error)="updateUrl($event)"/>
+          <img
+            *ngIf="!isLoading"
+            class="browser-item__image"
+            [src]="thumbnailUrls[2]"
+            [alt]="'ContentBrowser.NoImageForItem' | pptranslate"
+            (error)="updateUrl($event)"
+          />
         </div>
       </div>
     </div>
     <div class="browser-item__actions">
       <ul>
         <li>
-          <button mat-icon-button (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.PreviewItem' | pptranslate">
+          <button
+            mat-icon-button
+            (click)="previewItem(); $event.stopPropagation()"
+            [matTooltip]="'ContentBrowser.PreviewItem' | pptranslate"
+          >
             <mat-icon aria-label="Details">open_in_new</mat-icon>
           </button>
         </li>
         <li>
-          <button mat-icon-button (click)="previewItem(); $event.stopPropagation()" [matTooltip]="'ContentBrowser.More' | pptranslate">
+          <button
+            mat-icon-button
+            (click)="previewItem(); $event.stopPropagation()"
+            [matTooltip]="'ContentBrowser.More' | pptranslate"
+          >
             <mat-icon aria-label="More">more_vert</mat-icon>
           </button>
         </li>
-      </ul>  
+      </ul>
     </div>
-    <div class="browser-item__items-num-container">{{ itemModel.item.contentIds.length }}</div>
+    <div class="browser-item__items-num-container">{{ itemModel.contentIds.length }}</div>
   </div>
   <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="browser-item__title mat-subheading-2">
-    <i class="material-icons" *ngIf="itemModel.item.shareType === 'Embed'">code</i>
-    <i class="material-icons" *ngIf="itemModel.item.shareType === 'Basic'">share</i>
-    {{ itemModel.item.name }}
+    <i class="material-icons" *ngIf="itemModel.shareType === 'Embed'">code</i>
+    <i class="material-icons" *ngIf="itemModel.shareType === 'Basic'">share</i>
+    {{ itemModel.name }}
   </div>
 </div>

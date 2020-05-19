@@ -2,14 +2,15 @@
 
 // BASKET ITEM COMPONENT
 $pp-basket-item: (
-    contrast: ()
+  contrast: (),
 );
 
 @mixin pp-basket-item-theme($theme) {
+  $primary: map-get($theme, primary);
 
-    $primary: map-get($theme, primary);
-
+  pp-basket-item {
     .basket-item {
-        background: mat-color($primary, white-background);
+      background: mat-color($primary, surface-light);
     }
+  }
 }

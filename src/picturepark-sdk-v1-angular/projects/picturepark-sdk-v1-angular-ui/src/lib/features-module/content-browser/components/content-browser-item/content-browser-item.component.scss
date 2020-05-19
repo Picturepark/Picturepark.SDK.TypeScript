@@ -26,9 +26,7 @@
       position: absolute;
       top: 0px;
       left: 0px;
-      color: white;
       line-height: 20px;
-      font-size: 16px;
     }
     .mat-mini-fab .mat-button-wrapper {
       position: relative;
@@ -41,35 +39,8 @@
   &__image-slot {
     flex-grow: 1;
     position: relative;
-  }
-
-  &__image-virtual-item-container {
-    display: block;
-    padding: 8px;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow: hidden;
-  }
-
-  &__image-container {
     display: flex;
-    align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    align-items: center;
   }
-
-  &__image {
-    max-height: 100%;
-    max-width: 100%;
-  }
-
 }

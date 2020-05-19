@@ -1,55 +1,109 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Content, ContentService, fetchContents } from '@picturepark/sdk-v1-angular';
+import { BasketChange, BasketOperation } from './interfaces/basket-change';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BasketService {
-  private basketSubject: BehaviorSubject<string[]>;
-
+  private basketItemsIdsSubject: BehaviorSubject<string[]>;
+  private basketItemsSubject: BehaviorSubject<Content[]>;
+  private basketChanges: BehaviorSubject<BasketChange>;
 
   private localStorageKey = 'basketItems';
-  private basketItems: Set<string>;
+  private basketItemsIds: Set<string>;
+  private basketItems: Content[] = [];
 
-  constructor() {
+  constructor(private contentService: ContentService) {
     const itemsString = localStorage.getItem(this.localStorageKey);
-    const itemsArray = itemsString ? JSON.parse(itemsString) as string[] : [];
+    const itemsIdsArray = itemsString ? (JSON.parse(itemsString) as string[]) : [];
 
-    this.basketItems = new Set(itemsArray);
+    this.basketItemsIds = new Set(itemsIdsArray);
 
-    this.basketSubject = new BehaviorSubject(itemsArray);
+    this.basketItemsIdsSubject = new BehaviorSubject([]);
+    this.basketItemsSubject = new BehaviorSubject([]);
+    this.basketChanges = new BehaviorSubject({ operation: BasketOperation.added, itemsIds: itemsIdsArray });
+
+    this.basketChanges.subscribe((change) => {
+      if (change.operation === BasketOperation.added) {
+        // Handle basketItemsIds
+        change.itemsIds.forEach((itemId) => this.basketItemsIds.add(itemId));
+
+        // Handle basketItems
+        const sub = fetchContents(this.contentService, change.itemsIds).subscribe((response) => {
+          this.basketItems = this.basketItems.concat(response.results);
+          this.basketItemsSubject.next(this.basketItems);
+          sub.unsubscribe();
+        });
+      } else if (change.operation === BasketOperation.removed) {
+        // Handle basketItemsIds
+        change.itemsIds.forEach((itemId) => this.basketItemsIds.delete(itemId));
+
+        // Handle basketItems
+        this.basketItems = this.basketItems.filter((item) => !change.itemsIds.includes(item.id));
+        this.basketItemsSubject.next(this.basketItems);
+      } else if (change.operation === BasketOperation.cleared) {
+        // Handle basketItemsIds
+        this.basketItemsIds.clear();
+
+        // Handle basketItems
+        this.basketItems = [];
+        this.basketItemsSubject.next(this.basketItems);
+      }
+
+      this.basketUpdated();
+    });
   }
 
   public get basketChange(): Observable<string[]> {
-    return this.basketSubject.asObservable();
+    return this.basketItemsIdsSubject.asObservable();
+  }
+
+  public get basketItemsChanges(): Observable<Content[]> {
+    return this.basketItemsSubject.asObservable();
+  }
+
+  public getBasketItems(): string[] {
+    return Array.from(this.basketItemsIds);
   }
 
   public addItem(itemId: string) {
-    this.basketItems.add(itemId);
-    this.updateStorage();
+    this.basketChanges.next({ operation: BasketOperation.added, itemsIds: [itemId] });
   }
 
-  public addItems(items: string[]) {
-    items.forEach(item => this.basketItems.add(item));
-    this.updateStorage();
+  public addItems(itemsIds: string[]) {
+    this.basketChanges.next({ operation: BasketOperation.added, itemsIds: itemsIds });
   }
 
   public removeItem(itemId: string) {
-    this.basketItems.delete(itemId);
-    this.updateStorage();
+    this.basketChanges.next({ operation: BasketOperation.removed, itemsIds: [itemId] });
   }
 
   public clearBasket() {
-    this.basketItems.clear();
-    this.updateStorage();
+    this.basketChanges.next({ operation: BasketOperation.cleared, itemsIds: [] });
   }
 
-  private updateStorage() {
-    const itemsArray = Array.from(this.basketItems);
-    const value = JSON.stringify(itemsArray);
+  public contains(itemId: string) {
+    return this.basketItemsIds.has(itemId);
+  }
 
+  public toggle(itemId: string) {
+    if (this.contains(itemId)) {
+      this.removeItem(itemId);
+    } else {
+      this.addItem(itemId);
+    }
+  }
+
+  private basketUpdated() {
+    const itemsIdsArray = Array.from(this.basketItemsIds);
+
+    // Update storage
+    const value = JSON.stringify(itemsIdsArray);
     localStorage.setItem(this.localStorageKey, value);
 
-    this.basketSubject.next(itemsArray);
+    // Update basket items ids
+    this.basketItemsIdsSubject.next(itemsIdsArray);
   }
 }

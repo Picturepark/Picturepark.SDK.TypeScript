@@ -1,45 +1,45 @@
 @import '~@angular/material/theming';
 
 // BROWSER TOOLBAR CONTAINER
-$pp-item-tool-bar: (contrast: ());
+$pp-item-tool-bar: (
+  contrast: (),
+);
 
 @mixin pp-item-tool-bar-theme($theme) {
+  $primary: map-get($theme, primary);
 
-    $primary: map-get($theme, primary);
-
+  pp-item-tool-bar {
     .tool-bar-container {
-        background: mat-color($primary, dark-background);
+      background: mat-color($primary, surface-dark);
 
-        .to-top {
-            background-color: mat-color($primary, dialog-background);
-            color: mat-color($primary, light-border);
-        }
+      .to-top {
+        background-color: mat-color($primary, surface-light);
+        color: mat-color($primary, on-surface-light);
+      }
 
-        ul {
-            li {
-                .to-top {
-                    background: mat-color($primary, white-background);
-                }
-
-                button {
-                    &:hover {
-                        i {
-                            color: mat-color($primary, light-font);
-                        }
-                    }
-
-                    i {
-                        color: mat-color($primary, light-border);
-                        font-size: mat-font-size($custom-typography, headline);
-                    }
-
-                    span {
-                        font-size: mat-font-size($custom-typography, button);
-                        background-color: mat-color($primary, dark-background);
-                        color: mat-color($primary, white-font);
-                    }
-                }
+      ul {
+        li {
+          button {
+            color: mat-color($primary, on-surface-dark);
+            &:hover {
+              i {
+                color: mat-color($primary, on-surface-dark);
+              }
             }
+
+            i {
+              color: mat-color($primary, on-surface-dark);
+              font-size: mat-font-size($custom-typography, headline);
+            }
+
+            span {
+              font-size: mat-font-size($custom-typography, button);
+              background-color: mat-color($primary, opacity-light);
+              color: mat-color($primary, on-opacity-light);
+            }
+          }
         }
+      }
     }
+  }
 }

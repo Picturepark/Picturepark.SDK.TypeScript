@@ -1,87 +1,100 @@
 pp-item-panel-preview {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .list {
-    padding: 20px 0;
+  padding: 20px 0;
 
-    > .item {
-        padding-top: 0px;
-        border-bottom: 1px solid rgba(0,0,0,.12);
-        overflow: hidden;
-        display: flex;
+  > .item {
+    padding: 5vh 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    display: flex;
 
-        
-        & ul { 
-            list-style: none;
-            padding-left: 8px;
-    
-            li {
-                font-size: 13px;
-                line-height: 21px;
-            }
-            .title {
-                font-size: 14px;
-            }
-        }
+    & ul {
+      list-style: none;
+      padding-left: 8px;
 
-        &:hover {
-            .item-funcs {
-                & ul {
-                    display: inherit;
-                }
-            }
-        }
+      li {
+        font-size: 13px;
+        line-height: 21px;
+      }
 
-        .thumbnail {
-            padding: 4px;
-            float: left;
-            width: 200px;
-            height: 200px;
-        }
-        
-        .item-info {
-            float: left;
-            flex: 1;
-            cursor: pointer;
-        }
-        .item-funcs {
-            width: 100px;
-            & ul {
-                display: none;
-                position: relative; top: 15px; float: right;
-                & li {
-                    float: left;
-                    margin: 0px;
-                    width: 40px;
-                    & i { font-size: 21px; cursor: pointer; }
-                }
-            }
-        }
+      .title {
+        font-size: 14px;
+      }
     }
+
+    &:hover {
+      .item-funcs {
+        & ul {
+          display: inherit;
+        }
+      }
+    }
+
+    .thumbnail {
+      position: relative;
+      padding: 4px;
+      float: left;
+      width: 200px;
+      height: 200px;
+    }
+
+    .item-info {
+      padding-left: 1vw;
+      float: left;
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .item-funcs {
+      width: 100px;
+
+      & ul {
+        display: none;
+        position: relative;
+        top: 15px;
+        float: right;
+
+        & li {
+          float: left;
+          margin: 0px;
+          width: 40px;
+
+          & i {
+            font-size: 21px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
 }
 
 .grid {
-    padding: 20px 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
-    grid-gap: 20px;
+  padding: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
+  grid-gap: 20px;
 
-    > .item {
-        height: 200px;
-        padding: 4px;
-        border-radius: 4px;
+  > .item {
+    height: 200px;
+    padding: 4px;
+    border-radius: 4px;
 
-        .thumbnail {
-            height: 100%;
-        }
-
-        .item-info {
-            display: none;
-        }
-        .item-funcs {
-            display: none;
-        }
+    .thumbnail {
+      position: relative;
+      height: 100%;
     }
+
+    .item-info {
+      display: none;
+    }
+
+    .item-funcs {
+      display: none;
+    }
+  }
 }

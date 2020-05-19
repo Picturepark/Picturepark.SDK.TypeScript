@@ -1,44 +1,55 @@
 @import '~@angular/material/theming';
 
-$pp-search-box: (contrast: (),
+$pp-search-box: (
+  contrast: (),
 );
 
 @mixin pp-search-box-theme($theme) {
-
   $primary: map-get($theme, primary);
 
-  #search-container {
+  pp-search-box,
+  pp-search-suggest-box {
+    #search-container {
+      border-color: mat-color($primary, surface-mid);
 
-    border-color: mat-color($primary, form-dark-background);
+      .form {
+        background-color: mat-color($primary, surface-mid);
+        color: mat-color($primary, on-surface-mid);
 
-    .form {
-      background-color: mat-color($primary, form-dark-background);
-      color: #ffffff;
+        input {
+          color: mat-color($primary, on-surface-mid);
 
-      input {
-        color: #ffffff;
-
-        &::placeholder {
-          color: #ffffff;
+          &::placeholder {
+            color: mat-color($primary, on-surface-mid);
+          }
         }
+      }
+
+      #search-options-container {
+        color: mat-color($primary, surface-mid);
       }
     }
 
-    #search-options-container {
-      color: mat-color($primary, form-dark-background);
-    }
-  }
+    #search-container:focus-within {
+      border-color: mat-color($primary, opacity-light);
 
-  #search-container:focus-within {
-    border-color: mat-color($primary, form-light-background);
+      .form {
+        background-color: mat-color($primary, opacity-light);
 
-    .form {
-      background-color: mat-color($primary, form-light-background);
+        color: mat-color($primary, on-surface-dark);
 
-    }
+        input {
+          color: mat-color($primary, on-surface-dark);
 
-    #search-options-container {
-      color: mat-color($primary, form-light-background);
+          &::placeholder {
+            color: mat-color($primary, on-surface-dark);
+          }
+        }
+      }
+
+      #search-options-container {
+        color: mat-color($primary, opacity-light);
+      }
     }
   }
 }

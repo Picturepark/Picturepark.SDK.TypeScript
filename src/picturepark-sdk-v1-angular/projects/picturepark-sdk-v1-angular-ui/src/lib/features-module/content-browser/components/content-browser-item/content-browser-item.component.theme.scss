@@ -2,55 +2,20 @@
 
 // CONTENT BROWSER ITEM
 $pp-content-browser-item: (
-    contrast: ()
+  contrast: (),
 );
 
 @mixin pp-content-browser-item-theme($theme) {
-
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
 
-  .browser-item {
-    &__basket-icon {
-      &:hover {
-        background-color: mat-color($primary, icon-selected-color);
-
-        mat-icon {
-          color: mat-color($primary, base);
-        }
+  pp-content-browser-item {
+    .browser-item {
+      &__basket-icon {
+        color: mat-color($primary, on-opacity-light);
+        font-size: 16px;
       }
-      .clear {
-        color: mat-color($primary, white-font);
-      }
-      .remove {
-        color: mat-color($warn);
-      }
-      &--selected {
-        background-color: black;
-
-        .clear {
-          color: mat-color($warn);
-        }
-        .remove {
-          color: mat-color($primary, base) ;
-        }
-
-        &:hover {
-          .clear {
-            color: red;
-          }
-        } 
-      }
-    }
-  
-    &__image-slot {
-      background-color: mat-color($primary, image-slot-background-color);
-    }
-  
-    &__image-virtual-item-container {
-      color: mat-color($primary, light-font);
     }
   }
-
 }

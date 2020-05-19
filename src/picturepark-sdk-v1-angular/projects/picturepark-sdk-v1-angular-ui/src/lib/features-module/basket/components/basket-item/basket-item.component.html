@@ -1,6 +1,12 @@
 <div class="basket-item">
-  <img class="basket-item__image" [src]="imageUrl" />
-  <button color="accent" class="basket-item__remove-button" [matTooltip]="'Basket.RemoveItem' | pptranslate" (click)="remove(); $event.preventDefault();" mat-mini-fab>
+  <pp-content-item-thumbnail [item]="item"></pp-content-item-thumbnail>
+  <button
+    color="accent"
+    class="basket-item__remove-button"
+    [matTooltip]="'Basket.RemoveItem' | pptranslate"
+    (click)="remove(); $event.preventDefault()"
+    mat-mini-fab
+  >
     <mat-icon aria-label="Remove basket item">clear</mat-icon>
   </button>
 </div>

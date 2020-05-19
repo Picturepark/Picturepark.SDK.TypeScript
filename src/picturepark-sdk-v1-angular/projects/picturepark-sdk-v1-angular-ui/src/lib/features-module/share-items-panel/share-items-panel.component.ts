@@ -1,19 +1,14 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 // LIBRARIES
-import { ShareContentDetail, ShareDetail } from '@picturepark/sdk-v1-angular';
-import { PanelBaseComponent } from '../panel/components/panel-base/panel-base.component';
-import { ContentDownloadDialogService } from '../content-download-dialog/content-download-dialog.service';
-
-// COMPONENTS
+import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk-v1-angular';
+import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 
 @Component({
   selector: 'pp-share-items-panel',
   templateUrl: './share-items-panel.component.html',
-  styleUrls: ['./share-items-panel.component.scss']
+  styleUrls: ['./share-items-panel.component.scss'],
 })
-export class ShareItemsPanelComponent extends PanelBaseComponent implements OnInit, OnChanges {
-
+export class ShareItemsPanelComponent implements OnInit, OnChanges {
   @Input() view: 'grid' | 'list' = 'grid';
   @Input() items: ShareContentDetail[];
   @Input() shareDetail: ShareDetail;
@@ -23,9 +18,9 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
   // VARS
   loader = false;
 
-  constructor(private contentDownloadDialogService: ContentDownloadDialogService) {
-    super();
-  }
+  public thumbnailSize = ThumbnailSize;
+
+  constructor(private contentDownloadDialogService: ContentDownloadDialogService) {}
 
   // OPEN IN NEW WINDOW
   openInNewWindow(item: ShareContentDetail): void {
@@ -33,14 +28,12 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
   }
 
   // DELETE ITEM
-  deleteItem(item: ShareContentDetail): void {
-
-  }
+  deleteItem(item: ShareContentDetail): void {}
 
   public downloadItem(item: ShareContentDetail) {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
-      contents: [item]
+      contents: [item],
     });
   }
 
@@ -49,12 +42,10 @@ export class ShareItemsPanelComponent extends PanelBaseComponent implements OnIn
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
     this.items = changes.items && changes.items.currentValue;
 
     if (this.items) {
       this.loader = false;
     }
   }
-
 }

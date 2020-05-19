@@ -1,31 +1,16 @@
 @import '~@angular/material/theming';
 
 // SHARE CONTENT DIALOG
-$pp-share-content-dialog: (input-focus-border-color: #444,
-  contrast: ());
+$pp-share-content-dialog: (
+  input-focus-border-color: #444,
+  contrast: (),
+);
 
 @mixin pp-share-content-dialog-theme($theme) {
-
   $primary: map-get($theme, primary);
   $warn: map-get($theme, warn);
 
-  .share-content-dialog-container {
-    ul {
-      color: mat-color($primary, light-font);
-      font-size: mat-font-size($custom-typography, display-1);
-
-      li {
-        input {
-          font-size: mat-font-size($custom-typography, display-1);
-          color: mat-color($primary, dark-font);
-
-          &:focus {
-            border-color: mat-color($pp-share-content-dialog, input-focus-border-color);
-          }
-        }
-      }
-    }
-
+  pp-share-content-dialog {
     #share-name.error-active {
       border-color: mat-color($warn);
     }
@@ -37,23 +22,33 @@ $pp-share-content-dialog: (input-focus-border-color: #444,
 
     .share-content-confirmation-container {
       .share-content-confirmation {
-        border-bottom-color: mat-contrast($primary, dialog-background);
+        border-bottom-color: mat-color($primary, divider);
 
         .user-info-container {
           ul {
             li {
               mat-icon {
                 font-size: mat-font-size($custom-typography, subheading-2);
-                color: mat-color($primary, light-font);
+                color: mat-color($primary, on-background-dark);
               }
 
               a {
-                color: mat-color($primary, light-font);
+                color: mat-color($primary, on-background-dark);
               }
             }
           }
         }
       }
     }
+  }
+
+  .selected-items-content {
+    .selected-item-wrapper {
+      background-color: mat-color($primary, surface-light);
+    }
+  }
+
+  .mat-tab-header {
+    background-color: mat-color($primary, surface-mid);
   }
 }

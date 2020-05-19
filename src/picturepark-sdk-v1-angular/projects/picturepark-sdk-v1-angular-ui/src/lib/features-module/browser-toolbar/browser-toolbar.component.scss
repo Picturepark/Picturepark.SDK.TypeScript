@@ -1,85 +1,93 @@
 .browser-toolbar-container {
-    height: 56px;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
+  height: 56px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 
-    .browser-toolbar-content {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        line-height: 56px;
-        height: 100%;
-        padding: 0px 30px;
-        overflow: hidden;
+  .browser-toolbar-content {
+    $self: &;
 
-        button:focus {
-            outline: -webkit-focus-ring-color auto 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    line-height: 56px;
+    height: 100%;
+    padding: 0px 30px;
+    overflow: hidden;
+
+    &--mobile {
+      padding: 0px 10px;
+    }
+
+    button:focus {
+      outline: -webkit-focus-ring-color auto 0px;
+    }
+
+    .select {
+      margin: 0px 15px 0px 0px;
+
+      button {
+        border: 0px;
+        cursor: pointer;
+        font-size: 13px;
+        padding: 0px;
+
+        &:hover {
+          text-decoration: underline;
+
+          i {
+            border-radius: 50%;
+          }
         }
 
-        .select {
-            margin: 0px 15px 0px 0px;
+        .button-icon {
+          $self: &;
 
-            button {
-                border: 0px;
-                cursor: pointer;
-                font-size: 13px;
-                padding: 0px;
+          padding: 2px;
+          position: relative;
+          top: 6px;
+          left: 6px;
 
-                &:hover {
-                    background-color: unset;
-                    text-decoration: underline;
+          &--mobile {
+            left: 0px;
+          }
+        }
+      }
+    }
 
-                    i {
-                        border-radius: 50%;
-                    }
-                }
+    .order-by {
+      button {
+        border: 0px;
+        cursor: pointer;
+        padding: 0px;
 
-                i {
-                    padding: 2px;
-                    position: relative;
-                    top: 6px;
-                    left: 6px;
-                }
-            }
+        &:hover {
+          text-decoration: underline;
         }
 
-        .order-by {
-
-            button {
-                border: 0px;
-                cursor: pointer;
-                padding: 0px;
-
-                &:hover {
-                    background-color: unset;
-                    text-decoration: underline;
-                }
-
-                mat-icon {
-                    padding: 2px;
-                }
-            }
+        mat-icon {
+          padding: 2px;
         }
-
+      }
     }
+  }
 
-    .spacer {
-        flex-grow: 1;
-    }
+  .spacer {
+    flex-grow: 1;
+  }
 
-    .items-count {
-        padding-top: 4px;
-        font-size: 12px;
-    }
+  .items-count {
+    padding-top: 4px;
+    font-size: 12px;
+  }
 
-    .menu-title {
-        padding-left: 12px;
-        padding-top: 12px;
-        padding-bottom: 12px;
-        font-weight: 500;
-    }
+  .menu-title {
+    padding-left: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-weight: 500;
+  }
 }
 
 .active {
-    font-weight: 600;
+  font-weight: 600;
 }

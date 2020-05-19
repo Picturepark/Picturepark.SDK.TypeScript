@@ -12,38 +12,16 @@
     "experimentalDecorators": true,
     "target": "es2015",
     "strictNullChecks": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
     "paths": {
-      "@picturepark/sdk-v1-angular": [
-        "dist/picturepark-sdk-v1-angular",
-        "projects/picturepark-sdk-v1-angular/src/public_api.ts"
-      ],
-      "@picturepark/sdk-v1-angular/*": [
-        "dist/picturepark-sdk-v1-angular/*",
-        "projects/picturepark-sdk-v1-angular/src/public_api.ts"
-      ],
-      "@picturepark/sdk-v1-angular-oidc": [
-        "dist/picturepark-sdk-v1-angular-oidc",
-        "projects/picturepark-sdk-v1-angular-oidc/src/public_api.ts"
-      ],
-      "@picturepark/sdk-v1-angular-oidc/*": [
-        "dist/picturepark-sdk-v1-angular-oidc/*",
-        "projects/picturepark-sdk-v1-angular-oidc/src/public_api.ts"
-      ],
-      "@picturepark/sdk-v1-angular-ui": [
-        "dist/picturepark-sdk-v1-angular-ui",
-        "projects/picturepark-sdk-v1-angular-ui/src/public_api.ts"
-      ],
-      "@picturepark/sdk-v1-angular-ui/*": [
-        "dist/picturepark-sdk-v1-angular-ui/*",
-        "projects/picturepark-sdk-v1-angular-ui/src/public_api.ts"
-      ]
+      "@picturepark/sdk-v1-angular": ["projects/picturepark-sdk-v1-angular/src/public_api.ts"],
+      "@picturepark/sdk-v1-angular-oidc": ["projects/picturepark-sdk-v1-angular-oidc/src/public_api.ts"],
+      "@picturepark/sdk-v1-angular-ui": ["projects/picturepark-sdk-v1-angular-ui/src/public_api.ts"]
     }
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInjectionParameters": true
   }
 }

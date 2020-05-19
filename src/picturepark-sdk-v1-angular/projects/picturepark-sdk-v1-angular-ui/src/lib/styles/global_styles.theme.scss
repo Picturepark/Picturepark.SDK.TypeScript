@@ -1,39 +1,39 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 
 @mixin pp-global-theme($theme) {
   $primary: map-get($theme, primary);
 
   // PROGRESS BAR
   .mat-progress-bar-buffer {
-    background-color: mat-color($primary, progress-bar-background);
+    background-color: mat-color($primary, background-dark);
   }
   .mat-progress-bar-fill::after {
-    background-color: mat-color($primary, progress-bar);
+    background-color: mat-color($primary, primary);
   }
 
   // FILTERS AGGREGATES
   .mat-ink-bar {
-    background-color: mat-color($primary, base);
+    background-color: mat-color($primary, primary);
   }
 
   .mat-badge-content {
-    background: mat-color($primary, base);
-    color: mat-color($primary, white-background);
+    background: mat-color($primary, primary);
+    color: mat-color($primary, on-primary);
   }
   // END FILTERS AGGREGATES
 
   // SPINNER
   .mat-progress-spinner circle,
   .mat-spinner circle {
-    stroke: mat-color($primary, spinner) !important;
+    stroke: mat-color($primary, primary) !important;
   }
 
   .app-root-container {
-    background-color: mat-color($primary, light-background);
+    background-color: mat-color($primary, background-dark);
     .app-root-content {
       svg {
         path {
-          fill: mat-color($primary, white-background);
+          fill: mat-color($primary, surface-light);
         }
       }
     }
@@ -42,30 +42,27 @@
   .form {
     background: rgba(0, 0, 0, 0.24);
   }
-  .form:focus-within {
-    background: rgba(0, 0, 0, 0.14) ;
-  }
 
   .mat-expansion-panel-body,
   .mat-expansion-panel,
   .mat-expansion-panel-header.mat-expanded,
   .mat-expansion-panel-header.mat-expanded:hover {
-    background: mat-color($primary, light-background);
+    background: mat-color($primary, background-dark);
   }
 
   .mat-tab-header {
-    background: mat-color($primary, light-background);
-    border-bottom: 1px solid mat-color($primary, light-border);
+    background: mat-color($primary, background-dark);
+    border-bottom: 1px solid mat-color($primary, divider);
   }
 
   .filters mat-tab-header .mat-tab-label-content {
-    color: mat-color($primary, dark-font);
+    color: mat-color($primary, on-background-dark);
   }
 
   .aggregation-filter {
     pp-aggregation-item:last-child {
       mat-expansion-panel {
-        border-bottom: 1px solid mat-color($primary, light-border);
+        border-bottom: 1px solid mat-color($primary, divider);
       }
     }
   }
@@ -77,20 +74,32 @@
 
   // PANEL ITEMS BUTTON HOVER
   .panel-container .panel-header .panel-buttons button .mat-button-focus-overlay {
-    background: mat-color($primary, white-background);
+    background: mat-color($primary, background-dark);
   }
 
   // SHARE ITEM MANAGE LOADER
   .share-preview-container mat-spinner circle {
-    stroke: mat-color($primary, spinner);
+    stroke: mat-color($primary, primary);
   }
 
   .mat-tab-body-wrapper {
-    background-color: mat-color($primary, light-background);
+    background-color: mat-color($primary, background-dark);
   }
 
-  // SHARE CONTENT DIALOG
-  pp-share-content-dialog .mat-tab-header {
-    background: mat-color($primary, dialog-background);
+  // Start Handle Angular Material Pannels Theming
+
+  .mat-menu-content {
+    background-color: mat-color($primary, surface-light);
+
+    .mat-menu-item,
+    .mat-menu-item .mat-icon,
+    .menu-title {
+      color: mat-color($primary, on-surface-light);
+    }
+
+    .mat-menu-item[disabled] {
+      opacity: 0.3;
+    }
   }
+  // End Handle Angular Material Pannels Theming
 }

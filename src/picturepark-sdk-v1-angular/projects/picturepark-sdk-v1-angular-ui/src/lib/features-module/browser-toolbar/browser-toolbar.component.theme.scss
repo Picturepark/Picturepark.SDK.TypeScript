@@ -1,74 +1,55 @@
 @import '~@angular/material/theming';
 
 // BROWSER TOOLBAR VARS
-$pp-browser-toolbar: (contrast: ());
+$pp-browser-toolbar: (
+  contrast: (),
+);
 
 @mixin pp-browser-toolbar-theme($theme) {
-
   $primary: map-get($theme, primary);
 
-  // BROWSER TOOLBAR MODULE
-  .browser-toolbar-container {
-    background-color: mat-color($primary, light-background);
-    border-color: mat-color($primary, light-border);
+  pp-browser-toolbar {
+    // BROWSER TOOLBAR MODULE
+    .browser-toolbar-container {
+      background-color: mat-color($primary, background-dark);
+      border-color: mat-color($primary, divider);
 
-    .browser-toolbar-content {
-      .select {
-        button {
-          background-color: mat-color($primary, light-background);
-          color: mat-color($primary, base);
-          font-size: mat-font-size($custom-typography, display-1);
+      .browser-toolbar-content {
+        .select {
+          button {
+            background-color: mat-color($primary, background-dark);
+            color: mat-color($primary, primary);
+            font-size: mat-font-size($custom-typography, display-1);
 
-          &:hover {
             i {
-              background-color: mat-color($primary, base);
-              color: mat-color($primary, white-font);
+              font-size: mat-font-size($custom-typography, display-4);
+              color: mat-color($primary, on-background-dark);
             }
-          }
 
-          i {
-            font-size: mat-font-size($custom-typography, display-4);
-            color: mat-color($primary, light-font);
+            &:hover {
+              i {
+                background-color: mat-color($primary, primary);
+                color: mat-color($primary, on-primary);
+              }
+            }
           }
         }
-      }
 
-      .order-by {
-        button {
-          background-color: mat-color($primary, light-background);
-          color: mat-color($primary, base);
-          font-size: mat-font-size($custom-typography, display-1);
-
-          &:hover {
-            mat-icon {
-              color: mat-color($primary, base);
-            }
-          }
-
-          mat-icon {
+        .order-by {
+          button {
+            color: mat-color($primary, on-background-dark);
             font-size: mat-font-size($custom-typography, display-3);
-            color: mat-color($primary, light-font);
+
+            &:hover {
+              color: mat-color($primary, primary);
+            }
           }
         }
+
+        .items-count {
+          color: mat-color($primary, on-background-dark);
+        }
       }
-
-      .items-count {
-        color: mat-color($primary, dark-font);
-      }
-    }
-
-  }
-
-  .mat-menu-content {
-
-    .mat-menu-item, 
-    .mat-menu-item .mat-icon,
-    .menu-title {
-      color: mat-color($primary, light-font);
-    }
-
-    .mat-menu-item[disabled] {
-      opacity: 0.3;
     }
   }
 }

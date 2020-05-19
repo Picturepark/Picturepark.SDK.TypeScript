@@ -2,33 +2,34 @@
 
 // BASKET VARS
 $pp-basket: (
-    contrast: ()
+  contrast: (),
 );
 
 @mixin pp-basket-theme($theme) {
+  $primary: map-get($theme, primary);
 
-    $primary: map-get($theme, primary);
-
+  pp-basket {
     .basket {
-        background-color: mat-color($primary, light-background);
-        .mat-toolbar {
-            background: mat-color($primary, light-background);
-            border-bottom: 1px solid mat-color($primary, light-border);;
-            button {
-                &:hover {
-                    mat-icon {
-                      color: mat-color($primary, base);
-                    }
-                  }
-                  mat-icon {
-                    font-size: mat-font-size($custom-typography, display-3);
-                    color: mat-color($primary, light-font);
-                  }
-              }
+      background-color: mat-color($primary, background-dark);
+      .mat-toolbar {
+        background: mat-color($primary, background-dark);
+        border-bottom-color: mat-color($primary, divider);
+        button {
+          &:hover {
+            mat-icon {
+              color: mat-color($primary, primary);
+            }
+          }
+          mat-icon {
+            font-size: mat-font-size($custom-typography, display-3);
+            color: mat-color($primary, on-background-dark);
+          }
         }
+      }
 
-        .basket__empty {
-          color: mat-color($primary, dark-font);
-        }
+      .basket__empty {
+        color: mat-color($primary, on-background-dark);
+      }
     }
+  }
 }

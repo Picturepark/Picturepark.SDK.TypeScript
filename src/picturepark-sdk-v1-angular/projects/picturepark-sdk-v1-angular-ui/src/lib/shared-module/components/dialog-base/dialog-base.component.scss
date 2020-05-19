@@ -1,0 +1,62 @@
+.dialog-container {
+  h3 {
+    display: flex;
+    margin: 0 -24px 0 -24px;
+    padding: 0px 24px 24px 24px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+
+    span {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    mat-icon {
+      cursor: pointer;
+      float: right;
+    }
+  }
+  ::ng-deep .notification-container {
+    left: -24px !important;
+    width: calc(100% + 48px) !important;
+  }
+
+  mat-dialog-content {
+    height: 100%;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+
+    .mat-tab-group {
+      height: 100%;
+    }
+  }
+
+  .loader-container {
+    position: absolute;
+    display: none;
+    width: calc(100% + 48px);
+    top: 46px;
+    left: -24px;
+    height: 515px;
+    z-index: 20;
+    &.active {
+      display: table;
+    }
+    .loader {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      mat-spinner {
+        margin: 0 auto;
+      }
+    }
+  }
+
+  mat-dialog-actions {
+    justify-content: flex-end;
+    position: relative;
+    z-index: 25;
+  }
+}

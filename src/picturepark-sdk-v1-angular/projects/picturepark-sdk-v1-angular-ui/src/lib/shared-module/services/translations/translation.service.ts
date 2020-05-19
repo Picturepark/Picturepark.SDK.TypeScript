@@ -1,9 +1,9 @@
 import { Injectable, Inject, LOCALE_ID } from '@angular/core';
-import { InfoService, CustomerInfo } from '@picturepark/sdk-v1-angular';
+import { InfoFacade, CustomerInfo } from '@picturepark/sdk-v1-angular';
 import { translate } from '../../../utilities/translations';
 
 export interface IOutputFormatTranslations {
-    [outputFormatId: string]: string;
+  [outputFormatId: string]: string;
 }
 
 @Injectable({
@@ -12,18 +12,16 @@ export interface IOutputFormatTranslations {
 export class TranslationService {
   private customerInfo: CustomerInfo;
 
-  constructor(@Inject(LOCALE_ID) private locale: string, private infoService: InfoService) {
-  }
-
+  constructor(@Inject(LOCALE_ID) private locale: string, private infoFacade: InfoFacade) {}
 
   public async getOutputFormatTranslations(): Promise<IOutputFormatTranslations> {
     if (!this.customerInfo) {
-        this.customerInfo = await this.infoService.getInfo().toPromise();
+      this.customerInfo = await this.infoFacade.getInfo().toPromise();
     }
 
-    const outputTranslations: {[outputFormatId: string]: string} = {};
-    this.customerInfo.outputFormats.forEach(i => {
-        outputTranslations[i.id] = i.names.translate(this.locale);
+    const outputTranslations: { [outputFormatId: string]: string } = {};
+    this.customerInfo.outputFormats.forEach((i) => {
+      outputTranslations[i.id] = i.names.translate(this.locale);
     });
 
     return outputTranslations;
