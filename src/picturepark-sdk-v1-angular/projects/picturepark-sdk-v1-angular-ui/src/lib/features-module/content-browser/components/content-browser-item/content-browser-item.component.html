@@ -3,7 +3,7 @@
   [class.browser-item--selected]="isSelected$ | async"
   [class.browser-item--list-view]="isListView"
 >
-  <div class="browser-item__image-slot">
+  <div class="browser-item__image-slot" [class.browser-item__image-slot--mobile]="deviceBreakpoint">
     <pp-content-item-thumbnail [item]="itemModel" [thumbnailSize]="thumbnailSize" [isListView]="isListView">
     </pp-content-item-thumbnail>
 
@@ -32,11 +32,19 @@
       </ul>
     </div>
   </div>
-  <div *ngIf="thumbnailSize !== thumbnailSizes.Small || isListView" class="browser-item__title">
+  <div
+    *ngIf="thumbnailSize !== thumbnailSizes.Small || isListView"
+    class="browser-item__title"
+    [class.browser-item__title--mobile]="deviceBreakpoint"
+  >
     <div class="browser-item__title__title-content">{{ itemModel.displayValues!['name'] || 'n/a' }}</div>
     <div class="mat-subheading-1" *ngIf="isListView" [innerHtml]="listItemHtml || 'n/a'"></div>
   </div>
-  <div class="browser-item__list-view-actions" *ngIf="isListView">
+  <div
+    *ngIf="isListView"
+    class="browser-item__list-view-actions"
+    [class.browser-item__list-view-actions--mobile]="deviceBreakpoint"
+  >
     <ul>
       <li>
         <button

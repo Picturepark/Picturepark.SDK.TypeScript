@@ -43,6 +43,11 @@
         margin: 0 auto;
         border-bottom-style: solid;
         border-bottom-width: 1px;
+
+        &--mobile {
+          width: unset;
+          margin: unset;
+        }
       }
     }
     &--large {
@@ -61,6 +66,10 @@
         height: 200px;
       }
     } // image sizes: 120px, 200px, 320px
+
+    &--mobile {
+      padding: 5px;
+    }
 
     &::-webkit-scrollbar {
       width: 10px;
