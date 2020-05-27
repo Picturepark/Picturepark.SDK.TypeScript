@@ -47,14 +47,6 @@ NPM package: `@picturepark/sdk-v1-pickers`
 
 Contains widgets to embed Picturepark content into other websites.
 
-## Samples
-
-- [picturepark-sdk-v1-sample-angular8](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-angular8)
-    - picturepark-sdk-v1-angular
-- [picturepark-sdk-v1-sample-reactredux](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-reactredux)
-    - picturepark-sdk-v1-fetch
-    - picturepark-sdk-v1-pickers
-
 ## Compatibility matrix
 
 | SDK version | Picturepark CP version |
