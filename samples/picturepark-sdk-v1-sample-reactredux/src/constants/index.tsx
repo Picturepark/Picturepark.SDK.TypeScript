@@ -1,8 +1,0 @@
-export const REQUEST_SHARE = 'REQUEST_SHARE';
-export type REQUEST_SHARE = typeof REQUEST_SHARE;
-
-export const REQUEST_CONTENT = 'REQUEST_CONTENT';
-export type REQUEST_CONTENT = typeof REQUEST_CONTENT;
-
-export const RECEIVE_DATA = 'RECEIVE_DATA';
-export type RECEIVE_DATA = typeof RECEIVE_DATA;

@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@types/node": "^13.9.1",
-    "http-server": "^0.12.1",
+    "http-server": "^0.12.3",
     "marked": "^0.7.0",
     "nswag": "^13.2.3",
     "typedoc": "^0.15.8",
