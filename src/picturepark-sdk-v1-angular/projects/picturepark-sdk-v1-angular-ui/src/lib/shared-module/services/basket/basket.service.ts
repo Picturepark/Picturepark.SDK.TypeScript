@@ -12,14 +12,12 @@ export class BasketService {
   private basketChanges: BehaviorSubject<BasketChange>;
 
   private localStorageKey = 'basketItems';
-  private basketItemsIds: Set<string>;
+  private basketItemsIds: Set<string> = new Set();
   private basketItems: Content[] = [];
 
   constructor(private contentService: ContentService) {
     const itemsString = localStorage.getItem(this.localStorageKey);
     const itemsIdsArray = itemsString ? (JSON.parse(itemsString) as string[]) : [];
-
-    this.basketItemsIds = new Set();
 
     this.basketItemsIdsSubject = new BehaviorSubject([]);
     this.basketItemsSubject = new BehaviorSubject([]);
