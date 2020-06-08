@@ -12,14 +12,12 @@ export class BasketService {
   private basketChanges: BehaviorSubject<BasketChange>;
 
   private localStorageKey = 'basketItems';
-  private basketItemsIds: Set<string>;
+  private basketItemsIds: Set<string> = new Set();
   private basketItems: Content[] = [];
 
   constructor(private contentService: ContentService) {
     const itemsString = localStorage.getItem(this.localStorageKey);
     const itemsIdsArray = itemsString ? (JSON.parse(itemsString) as string[]) : [];
-
-    this.basketItemsIds = new Set(itemsIdsArray);
 
     this.basketItemsIdsSubject = new BehaviorSubject([]);
     this.basketItemsSubject = new BehaviorSubject([]);
@@ -27,11 +25,14 @@ export class BasketService {
 
     this.basketChanges.subscribe((change) => {
       if (change.operation === BasketOperation.added) {
+        // Clear duplicates
+        const itemsToAdd = change.itemsIds.filter((itemId) => !Array.from(this.basketItemsIds).includes(itemId));
+
         // Handle basketItemsIds
-        change.itemsIds.forEach((itemId) => this.basketItemsIds.add(itemId));
+        itemsToAdd.forEach((itemId) => this.basketItemsIds.add(itemId));
 
         // Handle basketItems
-        const sub = fetchContents(this.contentService, change.itemsIds).subscribe((response) => {
+        const sub = fetchContents(this.contentService, itemsToAdd).subscribe((response) => {
           this.basketItems = this.basketItems.concat(response.results);
           this.basketItemsSubject.next(this.basketItems);
           sub.unsubscribe();
@@ -78,6 +79,10 @@ export class BasketService {
 
   public removeItem(itemId: string) {
     this.basketChanges.next({ operation: BasketOperation.removed, itemsIds: [itemId] });
+  }
+
+  public removeItems(itemsIds: string[]) {
+    this.basketChanges.next({ operation: BasketOperation.removed, itemsIds: itemsIds });
   }
 
   public clearBasket() {

@@ -12,6 +12,7 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 
 // INTERFACES
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
+import { ItemBasketSelection } from './components/content-browser-item/interfaces/content-browser-item.interface';
 
 @Component({
   selector: 'pp-content-browser',
@@ -25,8 +26,6 @@ import { ContentDownloadDialogService } from '../content-download-dialog/service
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
   @Input()
   public channel: Channel | null = null;
-
-  basket$ = this.basketService.basketChange;
 
   constructor(
     private basketService: BasketService,
@@ -134,6 +133,23 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       mode: 'multi',
       contents: this.selectedItems,
     });
+  }
+
+  handleBasketChanges(basketSelection: ItemBasketSelection) {
+    const selectedItemsIds = this.selectedItems.map((i) => i.id);
+    if (selectedItemsIds.includes(basketSelection.itemId)) {
+      if (basketSelection.addItem) {
+        this.basketService.addItems(selectedItemsIds);
+      } else {
+        this.basketService.removeItems(selectedItemsIds);
+      }
+    } else {
+      if (basketSelection.addItem) {
+        this.basketService.addItem(basketSelection.itemId);
+      } else {
+        this.basketService.removeItem(basketSelection.itemId);
+      }
+    }
   }
 
   // CHECK IF ELEMENT CONTAINS CLASS NAME
