@@ -314,7 +314,7 @@ export let TRANSLATIONS = {
     },
     SimpleOrSearch: {
       en: 'Simple (any)',
-      de: 'Einfach (irgendein)',
+      de: 'Einfach (Beliebige)',
     },
     SimpleAndSearch: {
       en: 'Simple (all)',
@@ -322,7 +322,7 @@ export let TRANSLATIONS = {
     },
     AdvancedSearch: {
       en: 'Advanced',
-      de: 'Fortgeschritten',
+      de: 'Erweitert',
     },
   },
   SearchSuggestBox: {
@@ -331,16 +331,16 @@ export let TRANSLATIONS = {
       de: 'Suchen',
     },
     SimpleOrSearch: {
-      en: 'Simple (OR)',
-      de: 'Einfach (OR)',
+      en: 'Simple (any)',
+      de: 'Einfach (Beliebige)',
     },
     SimpleAndSearch: {
-      en: 'Simple (AND)',
-      de: 'Einfach (AND)',
+      en: 'Simple (all)',
+      de: 'Einfach (Alle)',
     },
     AdvancedSearch: {
       en: 'Advanced',
-      de: 'Fortgeschritten',
+      de: 'Erweitert',
     },
     SearchSettings: {
       en: 'Search settings',
