@@ -350,7 +350,7 @@ export let TRANSLATIONS = {
     },
     AdvancedSearchTooltip: {
       en:
-        'Advanced syntax can be used like operands AND, OR, NOT, ~for fuzziness or brackets for grouping of criteria. More examples in the Advanced Search Cheat Sheet in the manual. ',
+        'Advanced syntax can be used like operands AND, OR, NOT, ~ for fuzziness or brackets for grouping of criteria. More examples in the Advanced Search Cheat Sheet in the manual.',
       de:
         'Erweiterte Syntax kann verwendet werden, wie die Operanden AND, OR, NOT, ~ für Fuzziness oder Klammern für die Gruppierung von Kriterien. Mehr Beispiele im Advanced Search Cheat Sheet im Manual',
     },
@@ -360,7 +360,7 @@ export let TRANSLATIONS = {
     },
     SearchSettings: {
       en: 'Search settings',
-      de: 'Such-Einstellungen',
+      de: 'Sucheinstellungen',
     },
     TypeToSearch: {
       en: 'Type to search',
