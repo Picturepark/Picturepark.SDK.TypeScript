@@ -28,11 +28,19 @@ export class LayerPanelsComponent implements OnInit {
   public relationClick = new EventEmitter<RelationFieldInfo>();
 
   public layers: Layer[] = [];
+  public expandedSchemas: Set<string> = new Set<string>();
+
   private allSchemas: SchemaDetail[];
+
+  localStorageKey = 'SchemaExpansionState';
 
   constructor(private schemaService: SchemaService, private layerFieldService: LayerFieldService) {}
 
   ngOnInit() {
+    const expandedSchemasString = localStorage.getItem(this.localStorageKey);
+    if (expandedSchemasString) {
+      this.expandedSchemas = new Set(JSON.parse(expandedSchemasString));
+    }
     this.schemaService
       .getManyReferenced([this.content.contentSchemaId])
       .pipe(take(1))
@@ -71,8 +79,10 @@ export class LayerPanelsComponent implements OnInit {
           }
 
           const layer: Layer = {
+            id: schema.id,
             names: schema.names,
             fields: [],
+            expanded: this.expandedSchemas.has(schema.id),
           };
 
           schema.fields.forEach((schemaField) => {
@@ -92,6 +102,15 @@ export class LayerPanelsComponent implements OnInit {
 
   public relationClickHandler(relationInfo: RelationFieldInfo) {
     this.relationClick.emit(relationInfo);
+  }
+
+  public layerExpansionHandlder(layerId: string, opened: boolean) {
+    if (opened) {
+      this.expandedSchemas.add(layerId);
+    } else {
+      this.expandedSchemas.delete(layerId);
+    }
+    localStorage.setItem(this.localStorageKey, JSON.stringify(Array.from(this.expandedSchemas)));
   }
 
   toLowerCamel(value: string): string {
