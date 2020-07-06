@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ContentDetail, SchemaDetail, SchemaService } from '@picturepark/sdk-v1-angular';
+import { ContentDetail, SchemaDetail, SchemaService, SchemaType } from '@picturepark/sdk-v1-angular';
 import { take } from 'rxjs/operators';
 
 import { Layer } from './models/layer';
@@ -63,6 +63,7 @@ export class LayerPanelsComponent implements OnInit {
           schemas.push(this.content.contentSchemaId);
         }
 
+        const bottomLayers: Layer[] = [];
         schemas.forEach((layerSchemaId) => {
           const schema: SchemaDetail | undefined = this.schemas.find((i) => i.id === layerSchemaId);
           if (!schema) {
@@ -95,8 +96,13 @@ export class LayerPanelsComponent implements OnInit {
             }
           });
 
-          this.layers.push(layer);
+          if (schema.system && schema.types.includes(SchemaType.Layer)) {
+            bottomLayers.push(layer);
+          } else {
+            this.layers.push(layer);
+          }
         });
+        bottomLayers.forEach((bottomLayer) => this.layers.push(bottomLayer));
       });
   }
 
