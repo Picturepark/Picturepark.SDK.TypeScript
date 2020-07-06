@@ -39,25 +39,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   async init(): Promise<void> {}
 
   initSort(): void {
-    this.sortingTypes = [
-      {
-        field: 'relevance',
-        name: this.translationService.translate('SortMenu.Relevance'),
-      },
-      {
-        field: 'fileMetadata.fileName',
-        name: this.translationService.translate('SortMenu.FileName'),
-      },
-      {
-        field: 'audit.creationDate',
-        name: this.translationService.translate('SortMenu.CreationDate'),
-      },
-      {
-        field: 'audit.modificationDate',
-        name: this.translationService.translate('SortMenu.ModificationDate'),
-      },
-    ];
-    this.activeSortingType = this.sortingTypes[0];
+    this.setSortFields();
 
     this.views = [
       {
@@ -88,6 +70,17 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.activeView = this.views[2];
   }
 
+  private setSortFields() {
+    if (this.channel?.sortFields) {
+      this.sortingTypes = this.channel.sortFields.map((s) => ({
+        name: this.translationService.translate(s.names),
+        field: s.path,
+      }));
+
+      this.activeSortingType = this.sortingTypes[0];
+    }
+  }
+
   onScroll(): void {
     this.loadData();
   }
@@ -101,6 +94,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       } else {
         this.facade.patchRequestState({});
       }
+
+      this.setSortFields();
     }
   }
 
