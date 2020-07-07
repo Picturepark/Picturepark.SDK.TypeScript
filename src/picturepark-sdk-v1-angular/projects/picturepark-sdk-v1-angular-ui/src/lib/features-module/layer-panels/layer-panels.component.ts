@@ -25,7 +25,7 @@ export class LayerPanelsComponent implements OnInit {
   public excludedLayerSchemaIds: string[] | undefined = [];
 
   @Input()
-  showReferenced? = true;
+  showReferenced?: boolean;
 
   @Output()
   public relationClick = new EventEmitter<RelationFieldInfo>();
@@ -36,19 +36,18 @@ export class LayerPanelsComponent implements OnInit {
   constructor(private schemaService: SchemaService, private layerFieldService: LayerFieldService) {}
 
   ngOnInit() {
-    if (!this.showReferenced) {
+    if (this.showReferenced ?? true) {
+      this.schemaService
+        .getManyReferenced([this.content.contentSchemaId])
+        .pipe(take(1))
+        .subscribe((schemaDetails) => {
+          this.allSchemas = [...this.schemas, ...schemaDetails];
+          this.setLayers();
+        });
+    } else {
       this.allSchemas = [...this.schemas];
       this.setLayers();
-      return;
     }
-
-    this.schemaService
-      .getManyReferenced([this.content.contentSchemaId])
-      .pipe(take(1))
-      .subscribe((schemaDetails) => {
-        this.allSchemas = [...this.schemas, ...schemaDetails];
-        this.setLayers();
-      });
   }
 
   public relationClickHandler(relationInfo: RelationFieldInfo) {
@@ -77,7 +76,7 @@ export class LayerPanelsComponent implements OnInit {
     }
 
     schemas.forEach((layerSchemaId) => {
-      const schema: SchemaDetail | undefined = this.schemas.find((i) => i.id === layerSchemaId);
+      const schema: SchemaDetail | undefined = this.allSchemas.find((i) => i.id === layerSchemaId);
       if (!schema) {
         return;
       }
