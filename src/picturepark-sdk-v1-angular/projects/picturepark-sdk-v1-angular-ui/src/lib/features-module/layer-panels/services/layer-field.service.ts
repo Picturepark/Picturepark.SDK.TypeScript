@@ -33,7 +33,7 @@ import { LayerField } from '../models/layer-field';
 import { RelationFieldInfo } from '../models/relation-field-info';
 import { forkJoin } from 'rxjs';
 import { TranslatePipe } from '../../../shared-module/pipes/translate.pipe';
-import { TRANSLATIONS } from '@picturepark/sdk-v1-angular-ui';
+import { TRANSLATIONS } from '../../../utilities/translations';
 
 const moment = moment_;
 
