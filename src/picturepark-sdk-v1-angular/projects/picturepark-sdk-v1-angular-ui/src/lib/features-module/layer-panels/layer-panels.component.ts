@@ -97,7 +97,12 @@ export class LayerPanelsComponent implements OnInit {
 
       schema.fields.forEach((schemaField) => {
         if (schemaMetadata[schemaField.id]) {
-          const layerField = this.layerFieldService.generate(schemaField, schemaMetadata, this.allSchemas);
+          const layerField = this.layerFieldService.generate(
+            schemaField,
+            schemaMetadata,
+            this.allSchemas,
+            this.showReferenced ?? true
+          );
 
           if (layerField) {
             layer.fields.push(layerField);
