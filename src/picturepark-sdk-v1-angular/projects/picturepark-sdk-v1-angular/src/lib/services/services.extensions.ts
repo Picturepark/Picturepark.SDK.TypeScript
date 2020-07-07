@@ -319,6 +319,11 @@ class ShareService extends generated.ShareService {
     if (lang !== undefined) {
       url_ += 'lang=' + encodeURIComponent('' + lang) + '&';
     }
+    if (resolveBehaviors !== undefined && resolveBehaviors !== null) {
+      resolveBehaviors.forEach((item) => {
+        url_ += 'resolveBehaviors=' + encodeURIComponent('' + item) + '&';
+      });
+    }
     url_ = url_.replace(/[?&]$/, '');
 
     const options_: any = {
