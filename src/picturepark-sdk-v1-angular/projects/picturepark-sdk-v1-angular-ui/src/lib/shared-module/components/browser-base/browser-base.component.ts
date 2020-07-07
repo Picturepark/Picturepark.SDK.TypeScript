@@ -91,7 +91,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
       this.sortingTypes = [
         {
           field: 'relevance',
-          name: this.translationService.translate('SortInfo.Relevance'),
+          name: this.translationService.translate('SortMenu.Relevance'),
         },
       ];
       this.activeSortingType = this.sortingTypes[0];

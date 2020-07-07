@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
 
 // LIBRARIES
-import { ThumbnailSize, Channel, Content, ContentSearchFacade } from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, Channel, Content, ContentSearchFacade, SortDirection } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
@@ -13,6 +13,7 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 // INTERFACES
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 import { ItemBasketSelection } from './components/content-browser-item/interfaces/content-browser-item.interface';
+import { ISortItem } from '../../shared-module/components/browser-base/interfaces/sort-item';
 
 @Component({
   selector: 'pp-content-browser',
@@ -71,13 +72,22 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   private setSortFields() {
-    if (this.channel?.sortFields) {
+    if (this.channel?.sortFields && this.channel?.sortFields?.length > 0) {
       this.sortingTypes = this.channel.sortFields.map((s) => ({
         name: this.translationService.translate(s.names),
         field: s.path,
       }));
 
-      this.activeSortingType = this.sortingTypes[0];
+      let sortField: ISortItem | undefined;
+      let sortDirection: SortDirection | undefined;
+
+      if (this.channel?.sort?.length > 0) {
+        sortField = this.sortingTypes.find((f) => f.field === this.channel?.sort[0].field);
+        sortDirection = this.channel.sort[0].direction;
+      }
+
+      this.activeSortingType = sortField ?? this.sortingTypes[0];
+      this.isAscending = sortDirection ? sortDirection === SortDirection.Asc : false;
     }
   }
 
