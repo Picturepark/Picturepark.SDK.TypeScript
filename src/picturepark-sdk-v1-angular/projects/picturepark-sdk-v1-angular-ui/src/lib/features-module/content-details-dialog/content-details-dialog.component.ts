@@ -42,6 +42,11 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   ) {
     super(data, dialogRef, injector);
 
+    const shareDetail = this.data.shareDetail;
+    if (shareDetail?.schemas) {
+      this.schemas = shareDetail.schemas;
+    }
+
     const shareContent = this.data.shareContent;
     if (shareContent) {
       this.content = shareContent as any;
