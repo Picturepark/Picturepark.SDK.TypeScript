@@ -41,8 +41,6 @@ const moment = moment_;
   providedIn: 'root',
 })
 export class LayerFieldService {
-  private readonly relationsMessage = TRANSLATIONS.LayerFieldService.NoRelations;
-
   constructor(
     private sanitizer: DomSanitizer,
     private contentService: ContentService,
@@ -119,7 +117,9 @@ export class LayerFieldService {
 
       case FieldSingleRelation:
         if (!showRelations) {
-          layerField.value = this.translatePipe.transform(TranslatedStringDictionary.fromJS(this.relationsMessage));
+          layerField.value = this.translatePipe.transform(
+            TranslatedStringDictionary.fromJS(TRANSLATIONS.LayerFieldService.NoRelations)
+          );
           break;
         }
 
@@ -140,7 +140,9 @@ export class LayerFieldService {
 
       case FieldMultiRelation:
         if (!showRelations) {
-          layerField.value = this.translatePipe.transform(TranslatedStringDictionary.fromJS(this.relationsMessage));
+          layerField.value = this.translatePipe.transform(
+            TranslatedStringDictionary.fromJS(TRANSLATIONS.LayerFieldService.NoRelations)
+          );
           break;
         }
 
