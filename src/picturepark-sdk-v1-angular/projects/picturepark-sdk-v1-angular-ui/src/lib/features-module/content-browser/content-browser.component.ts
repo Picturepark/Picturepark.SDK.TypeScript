@@ -72,7 +72,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   private setSortFields() {
-    if (this.channel?.sortFields && this.channel?.sortFields?.length > 0) {
+    if (this.channel?.sortFields?.length) {
       this.sortingTypes = this.channel.sortFields.map((s) => ({
         name: this.translationService.translate(s.names),
         field: s.path,
@@ -81,7 +81,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       let sortField: ISortItem | undefined;
       let sortDirection: SortDirection | undefined;
 
-      if (this.channel?.sort?.length > 0) {
+      if (this.channel?.sort?.length) {
         sortField = this.sortingTypes.find((f) => f.field === this.channel?.sort[0].field);
         sortDirection = this.channel.sort[0].direction;
       }

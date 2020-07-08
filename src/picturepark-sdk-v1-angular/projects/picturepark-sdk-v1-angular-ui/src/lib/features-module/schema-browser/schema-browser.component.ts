@@ -31,7 +31,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
   initSort(): void {
     this.sortingTypes = [
       {
-        field: 'relevance',
+        field: '_score',
         name: this.translationService.translate('SortMenu.Relevance'),
       },
       {
