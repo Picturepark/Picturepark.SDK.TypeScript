@@ -242,15 +242,12 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     }
 
     this.activeSortingType = newValue;
-    const sort =
-      this.activeSortingType.field === '_score'
-        ? []
-        : [
-            new SortInfo({
-              field: this.activeSortingType.field,
-              direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc,
-            }),
-          ];
+    const sort = [
+      new SortInfo({
+        field: this.activeSortingType.field,
+        direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc,
+      }),
+    ];
 
     if (reload) {
       this.facade.patchRequestState({ sort });
