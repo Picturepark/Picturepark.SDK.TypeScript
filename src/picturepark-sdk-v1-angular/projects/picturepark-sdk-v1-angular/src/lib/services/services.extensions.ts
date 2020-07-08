@@ -18,6 +18,7 @@ import { // ignore
   ShareDetail, // ignore
   ShareSearchRequest, // ignore
   ShareSearchResult, // ignore
+  ShareResolveBehavior, // ignore
 } from './api-services'; // ignore
 
 import { Injector } from '@angular/core';
@@ -266,8 +267,8 @@ class ShareService extends generated.ShareService {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  public get(id: string): Observable<ShareDetail> {
-    return this.getCore(id).pipe(
+  public get(id: string | null, resolveBehaviors: ShareResolveBehavior[] | null | undefined): Observable<ShareDetail> {
+    return this.getCore(id, resolveBehaviors).pipe(
       mergeMap(async (shareDetail) => {
         await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
         return shareDetail;
@@ -275,16 +276,21 @@ class ShareService extends generated.ShareService {
     );
   }
 
-  public getShareByToken(token: string, lang: string | null | undefined, cdnUrl?: string): Observable<ShareDetail> {
+  public getShareByToken(
+    token: string,
+    lang: string | null | undefined,
+    resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    cdnUrl?: string
+  ): Observable<ShareDetail> {
     if (cdnUrl) {
-      return this.getShareByTokenFromUrl(token, lang, cdnUrl + '/json/{token}?').pipe(
+      return this.getShareByTokenFromUrl(token, lang, resolveBehaviors, cdnUrl + '/json/{token}?').pipe(
         mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
       );
     } else {
-      return this.getShareJsonCore(token, lang).pipe(
+      return this.getShareJsonCore(token, lang, resolveBehaviors).pipe(
         mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
@@ -299,7 +305,12 @@ class ShareService extends generated.ShareService {
    * @param lang (optional) Language code
    * @return ShareDetail
    */
-  protected getShareByTokenFromUrl(token: string, lang: string | null | undefined, url: string): Observable<any> {
+  protected getShareByTokenFromUrl(
+    token: string,
+    lang: string | null | undefined,
+    resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    url: string
+  ): Observable<any> {
     let url_ = url;
     if (token === undefined || token === null) {
       throw new Error("The parameter 'token' must be defined.");
@@ -307,6 +318,11 @@ class ShareService extends generated.ShareService {
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
     if (lang !== undefined) {
       url_ += 'lang=' + encodeURIComponent('' + lang) + '&';
+    }
+    if (resolveBehaviors !== undefined && resolveBehaviors !== null) {
+      resolveBehaviors.forEach((item) => {
+        url_ += 'resolveBehaviors=' + encodeURIComponent('' + item) + '&';
+      });
     }
     url_ = url_.replace(/[?&]$/, '');
 

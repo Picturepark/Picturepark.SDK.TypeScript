@@ -10157,6 +10157,208 @@ export class OutputFormatService extends PictureparkServiceBase {
     }
 
     /**
+     * Enables or disables XMP writeback for an output format
+     * @param id ID of the output format.
+     * @param request The request containing the state to be set for the output format.
+     * @return Business process
+     */
+    setXmpWritebackState(id: string | null, request: OutputFormatSetXmpWritebackStateRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/OutputFormats/{id}/xmpWriteback";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processSetXmpWritebackState(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSetXmpWritebackState(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSetXmpWritebackState(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Enables or disables XMP writeback for multiple output formats
+     * @param request The request containing the state to be set for the output format.
+     * @return Business process
+     */
+    setXmpWritebackState2(request: OutputFormatSetXmpWritebackStateManyRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/OutputFormats/many/xmpWriteback";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processSetXmpWritebackState2(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSetXmpWritebackState2(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSetXmpWritebackState2(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
      * Render output format preview
      * @param request Information about the OutputFormat as well as which Content to use for the preview.
      * @return Rendered file
@@ -14638,8 +14840,8 @@ export class ShareService extends PictureparkServiceBase {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  public get(id: string): Observable<ShareDetail> {
-    return this.getCore(id).pipe(
+  public get(id: string | null, resolveBehaviors: ShareResolveBehavior[] | null | undefined): Observable<ShareDetail> {
+    return this.getCore(id, resolveBehaviors).pipe(
       mergeMap(async (shareDetail) => {
         await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
         return shareDetail;
@@ -14647,16 +14849,21 @@ export class ShareService extends PictureparkServiceBase {
     );
   }
 
-  public getShareByToken(token: string, lang: string | null | undefined, cdnUrl?: string): Observable<ShareDetail> {
+  public getShareByToken(
+    token: string,
+    lang: string | null | undefined,
+    resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    cdnUrl?: string
+  ): Observable<ShareDetail> {
     if (cdnUrl) {
-      return this.getShareByTokenFromUrl(token, lang, cdnUrl + '/json/{token}?').pipe(
+      return this.getShareByTokenFromUrl(token, lang, resolveBehaviors, cdnUrl + '/json/{token}?').pipe(
         mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
       );
     } else {
-      return this.getShareJsonCore(token, lang).pipe(
+      return this.getShareJsonCore(token, lang, resolveBehaviors).pipe(
         mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
@@ -14671,7 +14878,12 @@ export class ShareService extends PictureparkServiceBase {
    * @param lang (optional) Language code
    * @return ShareDetail
    */
-  protected getShareByTokenFromUrl(token: string, lang: string | null | undefined, url: string): Observable<any> {
+  protected getShareByTokenFromUrl(
+    token: string,
+    lang: string | null | undefined,
+    resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    url: string
+  ): Observable<any> {
     let url_ = url;
     if (token === undefined || token === null) {
       throw new Error("The parameter 'token' must be defined.");
@@ -14679,6 +14891,11 @@ export class ShareService extends PictureparkServiceBase {
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
     if (lang !== undefined) {
       url_ += 'lang=' + encodeURIComponent('' + lang) + '&';
+    }
+    if (resolveBehaviors !== undefined && resolveBehaviors !== null) {
+      resolveBehaviors.forEach((item) => {
+        url_ += 'resolveBehaviors=' + encodeURIComponent('' + item) + '&';
+      });
     }
     url_ = url_.replace(/[?&]$/, '');
 
@@ -14729,15 +14946,18 @@ export class ShareService extends PictureparkServiceBase {
      * Get share json
      * @param token Share token
      * @param lang (optional) Language code
+     * @param resolveBehaviors (optional) List of enums that control which parts of the share are resolved and returned.
      * @return ShareDetail
      */
-    protected getShareJsonCore(token: string | null, lang: string | null | undefined): Observable<ShareDetail> {
+    protected getShareJsonCore(token: string | null, lang: string | null | undefined, resolveBehaviors: ShareResolveBehavior[] | null | undefined): Observable<ShareDetail> {
         let url_ = this.baseUrl + "/v1/Shares/json/{token}?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
         url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
         if (lang !== undefined)
             url_ += "lang=" + encodeURIComponent("" + lang) + "&"; 
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -15061,13 +15281,16 @@ export class ShareService extends PictureparkServiceBase {
     /**
      * Get
      * @param id Share Id (not token, use [GetShareJson](#operation/Share_GetShareJson) to get share by token)
+     * @param resolveBehaviors (optional) List of enums that control which parts of the share are resolved and returned.
      * @return Share detail
      */
-    protected getCore(id: string | null): Observable<ShareDetail> {
-        let url_ = this.baseUrl + "/v1/Shares/{id}";
+    protected getCore(id: string | null, resolveBehaviors: ShareResolveBehavior[] | null | undefined): Observable<ShareDetail> {
+        let url_ = this.baseUrl + "/v1/Shares/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -16853,16 +17076,16 @@ export class TransferService extends PictureparkServiceBase {
 
     /**
      * Upload file
-     * @param formFile Information about chunk.
      * @param chunkNumber Information about chunk.
      * @param currentChunkSize Information about chunk.
      * @param totalSize Information about chunk.
      * @param totalChunks Information about chunk.
      * @param transferId ID of transfer.
      * @param requestId Identifier of file.
+     * @param body (optional) Body
      * @return OK
      */
-    uploadFile(formFile: FileParameter | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string | null, requestId: string | null): Observable<void> {
+    uploadFile(chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string | null, requestId: string | null, body: Blob | undefined): Observable<void> {
         let url_ = this.baseUrl + "/v1/Transfers/{transferId}/files/{requestId}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -16888,15 +17111,14 @@ export class TransferService extends PictureparkServiceBase {
             url_ += "TotalChunks=" + encodeURIComponent("" + totalChunks) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = new FormData();
-        if (formFile !== null && formFile !== undefined)
-            content_.append("formFile", formFile.data, formFile.fileName ? formFile.fileName : "formFile");
+        const content_ = body;
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",			
             headers: new HttpHeaders({
+                "Content-Type": "application/octet-stream", 
             })
         };
 
@@ -19860,6 +20082,1010 @@ export class UserService extends PictureparkServiceBase {
     }
 }
 
+@Injectable({
+    providedIn: 'root'
+})
+export class XmpMappingService extends PictureparkServiceBase {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl("");
+    }
+
+    /**
+     * Gets fields available for XMP mapping.
+     * @return XmpMappingTargets containing both XMP fields and metadata fields that are available for mapping.
+     */
+    getAvailableTargets(): Observable<XmpMappingTargets> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/targets";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetAvailableTargets(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAvailableTargets(<any>response_);
+                } catch (e) {
+                    return <Observable<XmpMappingTargets>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<XmpMappingTargets>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAvailableTargets(response: HttpResponseBase): Observable<XmpMappingTargets> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = XmpMappingTargets.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<XmpMappingTargets>(<any>null);
+    }
+
+    /**
+     * Searches for XMP mappings
+     * @param request Search request for getting configured XMP mappings.
+     * @return Holds results of search for XMP mappings
+     */
+    search(request: XmpMappingEntrySearchRequest): Observable<XmpMappingEntrySearchResult> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/search";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processSearch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearch(<any>response_);
+                } catch (e) {
+                    return <Observable<XmpMappingEntrySearchResult>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<XmpMappingEntrySearchResult>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearch(response: HttpResponseBase): Observable<XmpMappingEntrySearchResult> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = XmpMappingEntrySearchResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<XmpMappingEntrySearchResult>(<any>null);
+    }
+
+    /**
+     * Get xmp mapping
+     * @param id Xmp mapping ID.
+     * @return XMP mapping entry
+     */
+    get(id: string | null): Observable<XmpMappingEntry> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<XmpMappingEntry>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<XmpMappingEntry>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<XmpMappingEntry> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = XmpMappingEntry.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<XmpMappingEntry>(<any>null);
+    }
+
+    /**
+     * Update xmp mapping
+     * @param id Xmp mapping ID.
+     * @param request Request containing information needed to update the xmp mapping.
+     * @return Business process
+     */
+    update(id: string | null, request: XmpMappingEntry): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Delete xmp mapping
+     * @param id Xmp mapping ID.
+     * @return Business process
+     */
+    delete(id: string | null): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("delete", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Create xmp mapping
+     * @param request Request containing information needed to create new xmp mapping.
+     * @return Business process
+     */
+    create(request: XmpMappingEntryCreateRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Get multiple xmp mappings
+     * @param ids (optional) Xmp mapping IDs to get information about.
+     * @return Array of XMP mapping entry
+     */
+    getMany(ids: string[] | null | undefined): Observable<XmpMappingEntry[]> {
+        let url_ = this.baseUrl + "/v1/XmpMappings?";
+        if (ids !== undefined)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMany(<any>response_);
+                } catch (e) {
+                    return <Observable<XmpMappingEntry[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<XmpMappingEntry[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMany(response: HttpResponseBase): Observable<XmpMappingEntry[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(XmpMappingEntry.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = RequestSizeLimitExceededException.fromJS(resultData400);
+            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<XmpMappingEntry[]>(<any>null);
+    }
+
+    /**
+     * Create multiple xmp mappings
+     * @param request Request containing information needed to create new xmp mapping.
+     * @return Business process
+     */
+    createMany(request: XmpMappingEntryCreateManyRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreateMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Update multiple xmp mappings
+     * @param request Request containing information needed to update the xmp mapping.
+     * @return Business process
+     */
+    updateMany(request: XmpMappingEntryUpdateManyRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdateMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Delete multiple xmp mappings
+     * @param request The request with xmp mapping IDs to delete.
+     * @return Business process
+     */
+    deleteMany(request: XmpMappingEntryDeleteManyRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/many/delete";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",			
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDeleteMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteMany(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+}
+
 /** Business process */
 export class BusinessProcess implements IBusinessProcess {
     /** ID of the business process. */
@@ -20566,6 +21792,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DownloadLinkExpiredException") {
+            let result = new DownloadLinkExpiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "RenderingNotAwaitedException") {
+            let result = new RenderingNotAwaitedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "LeaseNotAcquiredException") {
             let result = new LeaseNotAcquiredException();
             result.init(data);
@@ -21144,6 +22380,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldSortableInUseException") {
+            let result = new SchemaFieldSortableInUseException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaNoContentException") {
             let result = new SchemaNoContentException();
             result.init(data);
@@ -21619,8 +22860,43 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputFormatXmpWritebackNotSupportedException") {
+            let result = new OutputFormatXmpWritebackNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "CollectionSizeLimitExceededException") {
             let result = new CollectionSizeLimitExceededException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldNotSupported") {
+            let result = new XmpMappingFieldNotSupported();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldNotFoundException") {
+            let result = new XmpMappingFieldNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingSchemaNotAvailableForFileContentSchemaException") {
+            let result = new XmpMappingSchemaNotAvailableForFileContentSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException") {
+            let result = new XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldInUseException") {
+            let result = new XmpMappingFieldInUseException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingConfigurationInvalidException") {
+            let result = new XmpMappingConfigurationInvalidException();
             result.init(data);
             return result;
         }
@@ -21946,6 +23222,16 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DownloadLinkExpiredException") {
+            let result = new DownloadLinkExpiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "RenderingNotAwaitedException") {
+            let result = new RenderingNotAwaitedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "LeaseNotAcquiredException") {
             let result = new LeaseNotAcquiredException();
             result.init(data);
@@ -22524,6 +23810,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldSortableInUseException") {
+            let result = new SchemaFieldSortableInUseException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaNoContentException") {
             let result = new SchemaNoContentException();
             result.init(data);
@@ -22999,8 +24290,43 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputFormatXmpWritebackNotSupportedException") {
+            let result = new OutputFormatXmpWritebackNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "CollectionSizeLimitExceededException") {
             let result = new CollectionSizeLimitExceededException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldNotSupported") {
+            let result = new XmpMappingFieldNotSupported();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldNotFoundException") {
+            let result = new XmpMappingFieldNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingSchemaNotAvailableForFileContentSchemaException") {
+            let result = new XmpMappingSchemaNotAvailableForFileContentSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException") {
+            let result = new XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldInUseException") {
+            let result = new XmpMappingFieldInUseException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingConfigurationInvalidException") {
+            let result = new XmpMappingConfigurationInvalidException();
             result.init(data);
             return result;
         }
@@ -23581,6 +24907,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldSortableInUseException") {
+            let result = new SchemaFieldSortableInUseException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaNoContentException") {
             let result = new SchemaNoContentException();
             result.init(data);
@@ -23971,8 +25302,43 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputFormatXmpWritebackNotSupportedException") {
+            let result = new OutputFormatXmpWritebackNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "CollectionSizeLimitExceededException") {
             let result = new CollectionSizeLimitExceededException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldNotSupported") {
+            let result = new XmpMappingFieldNotSupported();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldNotFoundException") {
+            let result = new XmpMappingFieldNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingSchemaNotAvailableForFileContentSchemaException") {
+            let result = new XmpMappingSchemaNotAvailableForFileContentSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException") {
+            let result = new XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldInUseException") {
+            let result = new XmpMappingFieldInUseException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingConfigurationInvalidException") {
+            let result = new XmpMappingConfigurationInvalidException();
             result.init(data);
             return result;
         }
@@ -26015,6 +27381,62 @@ export class OutputBackupNotRequestedException extends PictureparkValidationExce
 export interface IOutputBackupNotRequestedException extends IPictureparkValidationException {
 }
 
+export class DownloadLinkExpiredException extends PictureparkBusinessException implements IDownloadLinkExpiredException {
+
+    constructor(data?: IDownloadLinkExpiredException) {
+        super(data);
+        this._discriminator = "DownloadLinkExpiredException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): DownloadLinkExpiredException {
+        data = typeof data === 'object' ? data : {};
+        let result = new DownloadLinkExpiredException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IDownloadLinkExpiredException extends IPictureparkBusinessException {
+}
+
+export class RenderingNotAwaitedException extends PictureparkBusinessException implements IRenderingNotAwaitedException {
+
+    constructor(data?: IRenderingNotAwaitedException) {
+        super(data);
+        this._discriminator = "RenderingNotAwaitedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): RenderingNotAwaitedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new RenderingNotAwaitedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IRenderingNotAwaitedException extends IPictureparkBusinessException {
+}
+
 export class LeaseNotAcquiredException extends PictureparkBusinessException implements ILeaseNotAcquiredException {
     resourceId?: string | undefined;
 
@@ -27905,6 +29327,7 @@ export enum UserRight {
     ManageOutputFormats = "ManageOutputFormats",
     ManageBusinessProcesses = "ManageBusinessProcesses",
     ManageIdentityProviders = "ManageIdentityProviders",
+    ManageXmpMappings = "ManageXmpMappings",
 }
 
 export class PermissionSetNotFoundException extends PictureparkNotFoundException implements IPermissionSetNotFoundException {
@@ -31073,6 +32496,56 @@ export interface ISchemaFieldInvalidBoostException extends IPictureparkValidatio
     schemaId?: string | undefined;
     boost?: number;
     allowedBoostValues?: number[] | undefined;
+}
+
+export class SchemaFieldSortableInUseException extends PictureparkValidationException implements ISchemaFieldSortableInUseException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+    channelIds?: string[] | undefined;
+
+    constructor(data?: ISchemaFieldSortableInUseException) {
+        super(data);
+        this._discriminator = "SchemaFieldSortableInUseException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fieldId = _data["fieldId"];
+            this.schemaId = _data["schemaId"];
+            if (Array.isArray(_data["channelIds"])) {
+                this.channelIds = [] as any;
+                for (let item of _data["channelIds"])
+                    this.channelIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldSortableInUseException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldSortableInUseException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldId"] = this.fieldId;
+        data["schemaId"] = this.schemaId;
+        if (Array.isArray(this.channelIds)) {
+            data["channelIds"] = [];
+            for (let item of this.channelIds)
+                data["channelIds"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldSortableInUseException extends IPictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+    channelIds?: string[] | undefined;
 }
 
 export class SchemaNoContentException extends PictureparkValidationException implements ISchemaNoContentException {
@@ -34815,6 +36288,40 @@ export interface INotSupportedFileExtensionForFormatException extends INotSuppor
     outputFormatId?: string | undefined;
 }
 
+export class OutputFormatXmpWritebackNotSupportedException extends PictureparkValidationException implements IOutputFormatXmpWritebackNotSupportedException {
+    outputFormatId?: string | undefined;
+
+    constructor(data?: IOutputFormatXmpWritebackNotSupportedException) {
+        super(data);
+        this._discriminator = "OutputFormatXmpWritebackNotSupportedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.outputFormatId = _data["outputFormatId"];
+        }
+    }
+
+    static fromJS(data: any): OutputFormatXmpWritebackNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatXmpWritebackNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["outputFormatId"] = this.outputFormatId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputFormatXmpWritebackNotSupportedException extends IPictureparkValidationException {
+    outputFormatId?: string | undefined;
+}
+
 export class CollectionSizeLimitExceededException extends PictureparkValidationException implements ICollectionSizeLimitExceededException {
     collectionId?: string | undefined;
     limit?: number;
@@ -34851,6 +36358,218 @@ export class CollectionSizeLimitExceededException extends PictureparkValidationE
 export interface ICollectionSizeLimitExceededException extends IPictureparkValidationException {
     collectionId?: string | undefined;
     limit?: number;
+}
+
+export class XmpMappingFieldNotSupported extends PictureparkValidationException implements IXmpMappingFieldNotSupported {
+    fieldPath?: string | undefined;
+
+    constructor(data?: IXmpMappingFieldNotSupported) {
+        super(data);
+        this._discriminator = "XmpMappingFieldNotSupported";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fieldPath = _data["fieldPath"];
+        }
+    }
+
+    static fromJS(data: any): XmpMappingFieldNotSupported {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingFieldNotSupported();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldPath"] = this.fieldPath;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IXmpMappingFieldNotSupported extends IPictureparkValidationException {
+    fieldPath?: string | undefined;
+}
+
+export class XmpMappingFieldNotFoundException extends PictureparkValidationException implements IXmpMappingFieldNotFoundException {
+    fieldPath?: string | undefined;
+
+    constructor(data?: IXmpMappingFieldNotFoundException) {
+        super(data);
+        this._discriminator = "XmpMappingFieldNotFoundException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fieldPath = _data["fieldPath"];
+        }
+    }
+
+    static fromJS(data: any): XmpMappingFieldNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingFieldNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldPath"] = this.fieldPath;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IXmpMappingFieldNotFoundException extends IPictureparkValidationException {
+    fieldPath?: string | undefined;
+}
+
+export class XmpMappingSchemaNotAvailableForFileContentSchemaException extends PictureparkValidationException implements IXmpMappingSchemaNotAvailableForFileContentSchemaException {
+    schemaId?: string | undefined;
+
+    constructor(data?: IXmpMappingSchemaNotAvailableForFileContentSchemaException) {
+        super(data);
+        this._discriminator = "XmpMappingSchemaNotAvailableForFileContentSchemaException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): XmpMappingSchemaNotAvailableForFileContentSchemaException {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingSchemaNotAvailableForFileContentSchemaException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IXmpMappingSchemaNotAvailableForFileContentSchemaException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export class XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException extends PictureparkValidationException implements IXmpMappingFieldToLayerWithRequiredFieldsNotAllowedException {
+    layerId?: string | undefined;
+
+    constructor(data?: IXmpMappingFieldToLayerWithRequiredFieldsNotAllowedException) {
+        super(data);
+        this._discriminator = "XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.layerId = _data["layerId"];
+        }
+    }
+
+    static fromJS(data: any): XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["layerId"] = this.layerId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IXmpMappingFieldToLayerWithRequiredFieldsNotAllowedException extends IPictureparkValidationException {
+    layerId?: string | undefined;
+}
+
+export class XmpMappingFieldInUseException extends PictureparkValidationException implements IXmpMappingFieldInUseException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+
+    constructor(data?: IXmpMappingFieldInUseException) {
+        super(data);
+        this._discriminator = "XmpMappingFieldInUseException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+        }
+    }
+
+    static fromJS(data: any): XmpMappingFieldInUseException {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingFieldInUseException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IXmpMappingFieldInUseException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export class XmpMappingConfigurationInvalidException extends PictureparkValidationException implements IXmpMappingConfigurationInvalidException {
+    fieldPath?: string | undefined;
+    expectedConfiguration?: string | undefined;
+
+    constructor(data?: IXmpMappingConfigurationInvalidException) {
+        super(data);
+        this._discriminator = "XmpMappingConfigurationInvalidException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fieldPath = _data["fieldPath"];
+            this.expectedConfiguration = _data["expectedConfiguration"];
+        }
+    }
+
+    static fromJS(data: any): XmpMappingConfigurationInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingConfigurationInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldPath"] = this.fieldPath;
+        data["expectedConfiguration"] = this.expectedConfiguration;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IXmpMappingConfigurationInvalidException extends IPictureparkValidationException {
+    fieldPath?: string | undefined;
+    expectedConfiguration?: string | undefined;
 }
 
 export class ProblemDetails implements IProblemDetails {
@@ -39951,7 +41670,7 @@ export interface IBusinessRuleScript extends IBusinessRule {
 export abstract class NamedCacheConfigurationBase implements INamedCacheConfigurationBase {
     /** Name of named cache. */
     name?: string | undefined;
-    /** Indicates if the lookup should be cache sensitive. */
+    /** Indicates if the lookup should be case sensitive. */
     caseSensitive!: boolean;
 
     protected _discriminator: string;
@@ -40006,7 +41725,7 @@ export abstract class NamedCacheConfigurationBase implements INamedCacheConfigur
 export interface INamedCacheConfigurationBase {
     /** Name of named cache. */
     name?: string | undefined;
-    /** Indicates if the lookup should be cache sensitive. */
+    /** Indicates if the lookup should be case sensitive. */
     caseSensitive: boolean;
 }
 
@@ -42108,6 +43827,8 @@ export class Channel implements IChannel {
     names!: TranslatedStringDictionary;
     /** Default sort order specified for the channel to sort the results of a content search. */
     sort!: SortInfo[];
+    /** Fields to be used for sorting in content browser when displaying the channel. The information is only set and consumed by the client, not by the server. */
+    sortFields!: SortField[];
     /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
     aggregations!: AggregatorBase[];
     /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
@@ -42135,12 +43856,20 @@ export class Channel implements IChannel {
                     this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
                 }
             }
+            if (data.sortFields) {
+                this.sortFields = [];
+                for (let i = 0; i < data.sortFields.length; i++) {
+                    let item = data.sortFields[i];
+                    this.sortFields[i] = item && !(<any>item).toJSON ? new SortField(item) : <SortField>item;
+                }
+            }
             this.missingResultsDisplayPatterns = data.missingResultsDisplayPatterns && !(<any>data.missingResultsDisplayPatterns).toJSON ? new TranslatedStringDictionary(data.missingResultsDisplayPatterns) : <TranslatedStringDictionary>this.missingResultsDisplayPatterns; 
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
         }
         if (!data) {
             this.names = new TranslatedStringDictionary();
             this.sort = [];
+            this.sortFields = [];
             this.aggregations = [];
             this.extendedSimpleSearchFields = [];
             this.grantedUserRoleIds = [];
@@ -42160,6 +43889,11 @@ export class Channel implements IChannel {
                 this.sort = [] as any;
                 for (let item of _data["sort"])
                     this.sort!.push(SortInfo.fromJS(item));
+            }
+            if (Array.isArray(_data["sortFields"])) {
+                this.sortFields = [] as any;
+                for (let item of _data["sortFields"])
+                    this.sortFields!.push(SortField.fromJS(item));
             }
             if (Array.isArray(_data["aggregations"])) {
                 this.aggregations = [] as any;
@@ -42201,6 +43935,11 @@ export class Channel implements IChannel {
             for (let item of this.sort)
                 data["sort"].push(item.toJSON());
         }
+        if (Array.isArray(this.sortFields)) {
+            data["sortFields"] = [];
+            for (let item of this.sortFields)
+                data["sortFields"].push(item.toJSON());
+        }
         if (Array.isArray(this.aggregations)) {
             data["aggregations"] = [];
             for (let item of this.aggregations)
@@ -42236,6 +43975,8 @@ export interface IChannel {
     names: ITranslatedStringDictionary;
     /** Default sort order specified for the channel to sort the results of a content search. */
     sort: ISortInfo[];
+    /** Fields to be used for sorting in content browser when displaying the channel. The information is only set and consumed by the client, not by the server. */
+    sortFields: ISortField[];
     /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
     aggregations: AggregatorBase[];
     /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
@@ -42250,10 +43991,64 @@ export interface IChannel {
     viewForAll: boolean;
 }
 
+export class SortField implements ISortField {
+    /** The path of the field ({schemaId}.{fieldId}) */
+    path!: string;
+    /** The translated name of the field to be shown in the UI. */
+    names!: TranslatedStringDictionary;
+
+    constructor(data?: ISortField) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+        }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.path = _data["path"];
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : new TranslatedStringDictionary();
+        }
+    }
+
+    static fromJS(data: any): SortField {
+        data = typeof data === 'object' ? data : {};
+        let result = new SortField();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["path"] = this.path;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface ISortField {
+    /** The path of the field ({schemaId}.{fieldId}) */
+    path: string;
+    /** The translated name of the field to be shown in the UI. */
+    names: ITranslatedStringDictionary;
+}
+
 export class ChannelCreateRequest implements IChannelCreateRequest {
+    /** ID of the channel. */
     id?: string | undefined;
+    /** Default sort order specified for the channel to sort the results of a content search. */
     sort?: SortInfo[] | undefined;
+    /** Order in which the channels should be displayed. */
     sortOrder!: number;
+    /** Fields to be used for sorting in content browser when displaying the channel. The information is only set and consumed by the client, not by the server. */
+    sortFields!: SortField[];
+    /** Language specific channel names. */
     names!: TranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
@@ -42283,10 +44078,18 @@ export class ChannelCreateRequest implements IChannelCreateRequest {
                     this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
                 }
             }
+            if (data.sortFields) {
+                this.sortFields = [];
+                for (let i = 0; i < data.sortFields.length; i++) {
+                    let item = data.sortFields[i];
+                    this.sortFields[i] = item && !(<any>item).toJSON ? new SortField(item) : <SortField>item;
+                }
+            }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
             this.missingResultsDisplayPatterns = data.missingResultsDisplayPatterns && !(<any>data.missingResultsDisplayPatterns).toJSON ? new TranslatedStringDictionary(data.missingResultsDisplayPatterns) : <TranslatedStringDictionary>this.missingResultsDisplayPatterns; 
         }
         if (!data) {
+            this.sortFields = [];
             this.names = new TranslatedStringDictionary();
         }
     }
@@ -42300,6 +44103,11 @@ export class ChannelCreateRequest implements IChannelCreateRequest {
                     this.sort!.push(SortInfo.fromJS(item));
             }
             this.sortOrder = _data["sortOrder"];
+            if (Array.isArray(_data["sortFields"])) {
+                this.sortFields = [] as any;
+                for (let item of _data["sortFields"])
+                    this.sortFields!.push(SortField.fromJS(item));
+            }
             this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : new TranslatedStringDictionary();
             this.searchIndexId = _data["searchIndexId"];
             if (Array.isArray(_data["grantedUserRoleIds"])) {
@@ -42339,6 +44147,11 @@ export class ChannelCreateRequest implements IChannelCreateRequest {
                 data["sort"].push(item.toJSON());
         }
         data["sortOrder"] = this.sortOrder;
+        if (Array.isArray(this.sortFields)) {
+            data["sortFields"] = [];
+            for (let item of this.sortFields)
+                data["sortFields"].push(item.toJSON());
+        }
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["searchIndexId"] = this.searchIndexId;
         if (Array.isArray(this.grantedUserRoleIds)) {
@@ -42364,9 +44177,15 @@ export class ChannelCreateRequest implements IChannelCreateRequest {
 }
 
 export interface IChannelCreateRequest {
+    /** ID of the channel. */
     id?: string | undefined;
+    /** Default sort order specified for the channel to sort the results of a content search. */
     sort?: ISortInfo[] | undefined;
+    /** Order in which the channels should be displayed. */
     sortOrder: number;
+    /** Fields to be used for sorting in content browser when displaying the channel. The information is only set and consumed by the client, not by the server. */
+    sortFields: ISortField[];
+    /** Language specific channel names. */
     names: ITranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
@@ -42385,8 +44204,12 @@ export interface IChannelCreateRequest {
 }
 
 export class ChannelUpdateRequest implements IChannelUpdateRequest {
+    /** Default sort order specified for the channel to sort the results of a content search. */
     sort?: SortInfo[] | undefined;
+    /** Order in which the channels should be displayed. */
     sortOrder!: number;
+    /** Fields to be used for sorting in content browser when displaying the channel. The information is only set and consumed by the client, not by the server. */
+    sortFields!: SortField[];
     names!: TranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
@@ -42416,10 +44239,18 @@ export class ChannelUpdateRequest implements IChannelUpdateRequest {
                     this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
                 }
             }
+            if (data.sortFields) {
+                this.sortFields = [];
+                for (let i = 0; i < data.sortFields.length; i++) {
+                    let item = data.sortFields[i];
+                    this.sortFields[i] = item && !(<any>item).toJSON ? new SortField(item) : <SortField>item;
+                }
+            }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
             this.missingResultsDisplayPatterns = data.missingResultsDisplayPatterns && !(<any>data.missingResultsDisplayPatterns).toJSON ? new TranslatedStringDictionary(data.missingResultsDisplayPatterns) : <TranslatedStringDictionary>this.missingResultsDisplayPatterns; 
         }
         if (!data) {
+            this.sortFields = [];
             this.names = new TranslatedStringDictionary();
         }
     }
@@ -42432,6 +44263,11 @@ export class ChannelUpdateRequest implements IChannelUpdateRequest {
                     this.sort!.push(SortInfo.fromJS(item));
             }
             this.sortOrder = _data["sortOrder"];
+            if (Array.isArray(_data["sortFields"])) {
+                this.sortFields = [] as any;
+                for (let item of _data["sortFields"])
+                    this.sortFields!.push(SortField.fromJS(item));
+            }
             this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : new TranslatedStringDictionary();
             this.searchIndexId = _data["searchIndexId"];
             if (Array.isArray(_data["grantedUserRoleIds"])) {
@@ -42470,6 +44306,11 @@ export class ChannelUpdateRequest implements IChannelUpdateRequest {
                 data["sort"].push(item.toJSON());
         }
         data["sortOrder"] = this.sortOrder;
+        if (Array.isArray(this.sortFields)) {
+            data["sortFields"] = [];
+            for (let item of this.sortFields)
+                data["sortFields"].push(item.toJSON());
+        }
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["searchIndexId"] = this.searchIndexId;
         if (Array.isArray(this.grantedUserRoleIds)) {
@@ -42495,8 +44336,12 @@ export class ChannelUpdateRequest implements IChannelUpdateRequest {
 }
 
 export interface IChannelUpdateRequest {
+    /** Default sort order specified for the channel to sort the results of a content search. */
     sort?: ISortInfo[] | undefined;
+    /** Order in which the channels should be displayed. */
     sortOrder: number;
+    /** Fields to be used for sorting in content browser when displaying the channel. The information is only set and consumed by the client, not by the server. */
+    sortFields: ISortField[];
     names: ITranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
@@ -44922,6 +46767,7 @@ export enum ThumbnailSize {
     Small = "Small",
     Medium = "Medium",
     Large = "Large",
+    Preview = "Preview",
 }
 
 /** Request to create a content */
@@ -48620,7 +50466,7 @@ export interface IDocumentHistorySearchRequest {
 
 export class IdentityProviderEditable implements IIdentityProviderEditable {
     /** Mapping of identity provider claims to user attributes */
-    claimMapping?: { [key: string]: string; } | undefined;
+    claimMapping?: IdpClaimToUserAttributeMapping[] | undefined;
     /** Name of the identity provider claim that holds group membership information */
     groupClaimType?: string | undefined;
     /** IdP (AD) group to user role ID mapping */
@@ -48634,6 +50480,13 @@ export class IdentityProviderEditable implements IIdentityProviderEditable {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            if (data.claimMapping) {
+                this.claimMapping = [];
+                for (let i = 0; i < data.claimMapping.length; i++) {
+                    let item = data.claimMapping[i];
+                    this.claimMapping[i] = item && !(<any>item).toJSON ? new IdpClaimToUserAttributeMapping(item) : <IdpClaimToUserAttributeMapping>item;
+                }
+            }
             if (data.groupMapping) {
                 this.groupMapping = [];
                 for (let i = 0; i < data.groupMapping.length; i++) {
@@ -48646,12 +50499,10 @@ export class IdentityProviderEditable implements IIdentityProviderEditable {
 
     init(_data?: any) {
         if (_data) {
-            if (_data["claimMapping"]) {
-                this.claimMapping = {} as any;
-                for (let key in _data["claimMapping"]) {
-                    if (_data["claimMapping"].hasOwnProperty(key))
-                        this.claimMapping![key] = _data["claimMapping"][key];
-                }
+            if (Array.isArray(_data["claimMapping"])) {
+                this.claimMapping = [] as any;
+                for (let item of _data["claimMapping"])
+                    this.claimMapping!.push(IdpClaimToUserAttributeMapping.fromJS(item));
             }
             this.groupClaimType = _data["groupClaimType"];
             if (Array.isArray(_data["groupMapping"])) {
@@ -48672,12 +50523,10 @@ export class IdentityProviderEditable implements IIdentityProviderEditable {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.claimMapping) {
-            data["claimMapping"] = {};
-            for (let key in this.claimMapping) {
-                if (this.claimMapping.hasOwnProperty(key))
-                    data["claimMapping"][key] = this.claimMapping[key];
-            }
+        if (Array.isArray(this.claimMapping)) {
+            data["claimMapping"] = [];
+            for (let item of this.claimMapping)
+                data["claimMapping"].push(item.toJSON());
         }
         data["groupClaimType"] = this.groupClaimType;
         if (Array.isArray(this.groupMapping)) {
@@ -48692,7 +50541,7 @@ export class IdentityProviderEditable implements IIdentityProviderEditable {
 
 export interface IIdentityProviderEditable {
     /** Mapping of identity provider claims to user attributes */
-    claimMapping?: { [key: string]: string; } | undefined;
+    claimMapping?: IIdpClaimToUserAttributeMapping[] | undefined;
     /** Name of the identity provider claim that holds group membership information */
     groupClaimType?: string | undefined;
     /** IdP (AD) group to user role ID mapping */
@@ -48748,6 +50597,50 @@ export interface IIdentityProvider extends IIdentityProviderEditable {
     name?: string | undefined;
     /** Display name of the identity provider as defined in IdentityServer */
     displayName?: string | undefined;
+}
+
+export class IdpClaimToUserAttributeMapping implements IIdpClaimToUserAttributeMapping {
+    /** Claim type name coming from external identity provider */
+    claimType?: string | undefined;
+    /** Path to a user attribute to synchronize */
+    userAttributePath?: string | undefined;
+
+    constructor(data?: IIdpClaimToUserAttributeMapping) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.claimType = _data["claimType"];
+            this.userAttributePath = _data["userAttributePath"];
+        }
+    }
+
+    static fromJS(data: any): IdpClaimToUserAttributeMapping {
+        data = typeof data === 'object' ? data : {};
+        let result = new IdpClaimToUserAttributeMapping();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["claimType"] = this.claimType;
+        data["userAttributePath"] = this.userAttributePath;
+        return data; 
+    }
+}
+
+export interface IIdpClaimToUserAttributeMapping {
+    /** Claim type name coming from external identity provider */
+    claimType?: string | undefined;
+    /** Path to a user attribute to synchronize */
+    userAttributePath?: string | undefined;
 }
 
 export class IdpGroupToUserRoleMapping implements IIdpGroupToUserRoleMapping {
@@ -51565,6 +53458,129 @@ The customer's default language is required. */
     patterns?: ITranslatedStringDictionary | undefined;
 }
 
+export class OutputFormatSetXmpWritebackStateRequest implements IOutputFormatSetXmpWritebackStateRequest {
+    /** Indicates if XMP writeback shall be enabled for the format. */
+    enabled!: boolean;
+
+    constructor(data?: IOutputFormatSetXmpWritebackStateRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.enabled = _data["enabled"];
+        }
+    }
+
+    static fromJS(data: any): OutputFormatSetXmpWritebackStateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatSetXmpWritebackStateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["enabled"] = this.enabled;
+        return data; 
+    }
+}
+
+export interface IOutputFormatSetXmpWritebackStateRequest {
+    /** Indicates if XMP writeback shall be enabled for the format. */
+    enabled: boolean;
+}
+
+/** Used to change the state of XMP writeback for multiple output formats at once. */
+export class OutputFormatSetXmpWritebackStateManyRequest implements IOutputFormatSetXmpWritebackStateManyRequest {
+    /** XMP writeback state changes to be processed. */
+    items?: OutputFormatSetXmpWritebackStateRequestItem[] | undefined;
+
+    constructor(data?: IOutputFormatSetXmpWritebackStateManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(OutputFormatSetXmpWritebackStateRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): OutputFormatSetXmpWritebackStateManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatSetXmpWritebackStateManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Used to change the state of XMP writeback for multiple output formats at once. */
+export interface IOutputFormatSetXmpWritebackStateManyRequest {
+    /** XMP writeback state changes to be processed. */
+    items?: OutputFormatSetXmpWritebackStateRequestItem[] | undefined;
+}
+
+/** Represents a change to the XMP writeback state to one output format. */
+export class OutputFormatSetXmpWritebackStateRequestItem extends OutputFormatSetXmpWritebackStateRequest implements IOutputFormatSetXmpWritebackStateRequestItem {
+    /** ID of the output format to set XMP writeback state for. */
+    id!: string;
+
+    constructor(data?: IOutputFormatSetXmpWritebackStateRequestItem) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): OutputFormatSetXmpWritebackStateRequestItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatSetXmpWritebackStateRequestItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Represents a change to the XMP writeback state to one output format. */
+export interface IOutputFormatSetXmpWritebackStateRequestItem extends IOutputFormatSetXmpWritebackStateRequest {
+    /** ID of the output format to set XMP writeback state for. */
+    id: string;
+}
+
 /** Specifies for which content a given format should be rendered */
 export class OutputFormatRenderPreviewRequest implements IOutputFormatRenderPreviewRequest {
     /** The content for which the format should be rendered */
@@ -51852,14 +53868,6 @@ export abstract class ImageFormatBase extends FormatBase implements IImageFormat
     verticalResolution?: number | undefined;
     /** Copy clipping paths from input. */
     keepClippingPath?: boolean;
-    /** Copy Exif metadata from input. */
-    cloneExif?: boolean;
-    /** Copy Iptc metadata from input. */
-    cloneIptc?: boolean;
-    /** Copy AdobeResources from input. */
-    cloneAdobeResources?: boolean;
-    /** Copy Xmp metadata from input. */
-    cloneXmp?: boolean;
     /** Allows resizing of the image. */
     resizeAction?: ResizeAction | undefined;
     /** A collection of actions to be applied during rendering. */
@@ -51881,10 +53889,6 @@ export abstract class ImageFormatBase extends FormatBase implements IImageFormat
             this.horizontalResolution = _data["horizontalResolution"];
             this.verticalResolution = _data["verticalResolution"];
             this.keepClippingPath = _data["keepClippingPath"];
-            this.cloneExif = _data["cloneExif"];
-            this.cloneIptc = _data["cloneIptc"];
-            this.cloneAdobeResources = _data["cloneAdobeResources"];
-            this.cloneXmp = _data["cloneXmp"];
             this.resizeAction = _data["resizeAction"] ? ResizeAction.fromJS(_data["resizeAction"]) : <any>undefined;
             if (Array.isArray(_data["actions"])) {
                 this.actions = [] as any;
@@ -51921,10 +53925,6 @@ export abstract class ImageFormatBase extends FormatBase implements IImageFormat
         data["horizontalResolution"] = this.horizontalResolution;
         data["verticalResolution"] = this.verticalResolution;
         data["keepClippingPath"] = this.keepClippingPath;
-        data["cloneExif"] = this.cloneExif;
-        data["cloneIptc"] = this.cloneIptc;
-        data["cloneAdobeResources"] = this.cloneAdobeResources;
-        data["cloneXmp"] = this.cloneXmp;
         data["resizeAction"] = this.resizeAction ? this.resizeAction.toJSON() : <any>undefined;
         if (Array.isArray(this.actions)) {
             data["actions"] = [];
@@ -51948,14 +53948,6 @@ export interface IImageFormatBase extends IFormatBase {
     verticalResolution?: number | undefined;
     /** Copy clipping paths from input. */
     keepClippingPath?: boolean;
-    /** Copy Exif metadata from input. */
-    cloneExif?: boolean;
-    /** Copy Iptc metadata from input. */
-    cloneIptc?: boolean;
-    /** Copy AdobeResources from input. */
-    cloneAdobeResources?: boolean;
-    /** Copy Xmp metadata from input. */
-    cloneXmp?: boolean;
     /** Allows resizing of the image. */
     resizeAction?: IResizeAction | undefined;
     /** A collection of actions to be applied during rendering. */
@@ -52393,8 +54385,6 @@ export interface IOriginalFormat extends IFormatBase {
 export class JpegFormat extends ImageFormatBase implements IJpegFormat {
     /** Compression quality. Must be in range [0,100] and defaults to 80. */
     quality?: number;
-    /** Whether to use progressive encoding or not. */
-    isProgressive?: boolean;
     /** Whether to use chroma subsampling or not. */
     chromaSubsamplingEnabled?: boolean;
     extension?: string | undefined;
@@ -52408,7 +54398,6 @@ export class JpegFormat extends ImageFormatBase implements IJpegFormat {
         super.init(_data);
         if (_data) {
             this.quality = _data["quality"];
-            this.isProgressive = _data["isProgressive"];
             this.chromaSubsamplingEnabled = _data["chromaSubsamplingEnabled"];
             this.extension = _data["extension"];
         }
@@ -52424,7 +54413,6 @@ export class JpegFormat extends ImageFormatBase implements IJpegFormat {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["quality"] = this.quality;
-        data["isProgressive"] = this.isProgressive;
         data["chromaSubsamplingEnabled"] = this.chromaSubsamplingEnabled;
         data["extension"] = this.extension;
         super.toJSON(data);
@@ -52436,8 +54424,6 @@ export class JpegFormat extends ImageFormatBase implements IJpegFormat {
 export interface IJpegFormat extends IImageFormatBase {
     /** Compression quality. Must be in range [0,100] and defaults to 80. */
     quality?: number;
-    /** Whether to use progressive encoding or not. */
-    isProgressive?: boolean;
     /** Whether to use chroma subsampling or not. */
     chromaSubsamplingEnabled?: boolean;
     extension?: string | undefined;
@@ -52445,8 +54431,6 @@ export interface IJpegFormat extends IImageFormatBase {
 
 /** Renders a PNG image. */
 export class PngFormat extends ImageFormatBase implements IPngFormat {
-    /** Whether the image is interlaced or not. */
-    interlaced?: boolean;
     extension?: string | undefined;
 
     constructor(data?: IPngFormat) {
@@ -52457,7 +54441,6 @@ export class PngFormat extends ImageFormatBase implements IPngFormat {
     init(_data?: any) {
         super.init(_data);
         if (_data) {
-            this.interlaced = _data["interlaced"];
             this.extension = _data["extension"];
         }
     }
@@ -52471,7 +54454,6 @@ export class PngFormat extends ImageFormatBase implements IPngFormat {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["interlaced"] = this.interlaced;
         data["extension"] = this.extension;
         super.toJSON(data);
         return data; 
@@ -52480,8 +54462,6 @@ export class PngFormat extends ImageFormatBase implements IPngFormat {
 
 /** Renders a PNG image. */
 export interface IPngFormat extends IImageFormatBase {
-    /** Whether the image is interlaced or not. */
-    interlaced?: boolean;
     extension?: string | undefined;
 }
 
@@ -53230,6 +55210,8 @@ If set, the customer's default language is required. */
     downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
     /** Indicates if outputs derived from original output format should be accessible also for users not having AccessOriginal permission on the content. */
     viewForAll?: boolean;
+    /** Indicates if metadata should be written into XMP header of outputs where applicable and configured. */
+    enableXmpWriteback?: boolean;
 
     constructor(data?: IOutputFormatEditable) {
         super(data);
@@ -53249,6 +55231,7 @@ If set, the customer's default language is required. */
             this.retentionTime = _data["retentionTime"];
             this.downloadFileNamePatterns = _data["downloadFileNamePatterns"] ? TranslatedStringDictionary.fromJS(_data["downloadFileNamePatterns"]) : <any>undefined;
             this.viewForAll = _data["viewForAll"];
+            this.enableXmpWriteback = _data["enableXmpWriteback"];
         }
     }
 
@@ -53265,6 +55248,7 @@ If set, the customer's default language is required. */
         data["retentionTime"] = this.retentionTime;
         data["downloadFileNamePatterns"] = this.downloadFileNamePatterns ? this.downloadFileNamePatterns.toJSON() : <any>undefined;
         data["viewForAll"] = this.viewForAll;
+        data["enableXmpWriteback"] = this.enableXmpWriteback;
         super.toJSON(data);
         return data; 
     }
@@ -53281,6 +55265,8 @@ If set, the customer's default language is required. */
     downloadFileNamePatterns?: ITranslatedStringDictionary | undefined;
     /** Indicates if outputs derived from original output format should be accessible also for users not having AccessOriginal permission on the content. */
     viewForAll?: boolean;
+    /** Indicates if metadata should be written into XMP header of outputs where applicable and configured. */
+    enableXmpWriteback?: boolean;
 }
 
 /** Represents an output format. */
@@ -55395,6 +57381,8 @@ export class FieldDateTime extends FieldBase implements IFieldDateTime {
     format?: string | undefined;
     /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
     boost?: number;
+    /** If set to true, the date time value is automatically set when a content or list item is created. */
+    initializeOnItemCreation?: boolean;
 
     constructor(data?: IFieldDateTime) {
         super(data);
@@ -55406,6 +57394,7 @@ export class FieldDateTime extends FieldBase implements IFieldDateTime {
         if (_data) {
             this.format = _data["format"];
             this.boost = _data["boost"];
+            this.initializeOnItemCreation = _data["initializeOnItemCreation"];
         }
     }
 
@@ -55425,6 +57414,7 @@ export class FieldDateTime extends FieldBase implements IFieldDateTime {
         data = typeof data === 'object' ? data : {};
         data["format"] = this.format;
         data["boost"] = this.boost;
+        data["initializeOnItemCreation"] = this.initializeOnItemCreation;
         super.toJSON(data);
         return data; 
     }
@@ -55436,6 +57426,8 @@ export interface IFieldDateTime extends IFieldBase {
     format?: string | undefined;
     /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
     boost?: number;
+    /** If set to true, the date time value is automatically set when a content or list item is created. */
+    initializeOnItemCreation?: boolean;
 }
 
 /** The field used to store multiple date time values */
@@ -58843,6 +60835,8 @@ export class ShareDetail implements IShareDetail {
     outputAccess!: OutputAccess;
     /** Type of share. */
     shareType!: ShareType;
+    /** Schema detail of the content and the layers. */
+    schemas?: SchemaDetail[] | undefined;
 
     constructor(data?: IShareDetail) {
         if (data) {
@@ -58857,6 +60851,13 @@ export class ShareDetail implements IShareDetail {
                 for (let i = 0; i < data.contentSelections.length; i++) {
                     let item = data.contentSelections[i];
                     this.contentSelections[i] = item && !(<any>item).toJSON ? new ShareContentDetail(item) : <ShareContentDetail>item;
+                }
+            }
+            if (data.schemas) {
+                this.schemas = [];
+                for (let i = 0; i < data.schemas.length; i++) {
+                    let item = data.schemas[i];
+                    this.schemas[i] = item && !(<any>item).toJSON ? new SchemaDetail(item) : <SchemaDetail>item;
                 }
             }
         }
@@ -58889,6 +60890,11 @@ export class ShareDetail implements IShareDetail {
             this.expired = _data["expired"];
             this.outputAccess = _data["outputAccess"];
             this.shareType = _data["shareType"];
+            if (Array.isArray(_data["schemas"])) {
+                this.schemas = [] as any;
+                for (let item of _data["schemas"])
+                    this.schemas!.push(SchemaDetail.fromJS(item));
+            }
         }
     }
 
@@ -58921,6 +60927,11 @@ export class ShareDetail implements IShareDetail {
         data["expired"] = this.expired;
         data["outputAccess"] = this.outputAccess;
         data["shareType"] = this.shareType;
+        if (Array.isArray(this.schemas)) {
+            data["schemas"] = [];
+            for (let item of this.schemas)
+                data["schemas"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -58951,6 +60962,8 @@ export interface IShareDetail {
     outputAccess: OutputAccess;
     /** Type of share. */
     shareType: ShareType;
+    /** Schema detail of the content and the layers. */
+    schemas?: ISchemaDetail[] | undefined;
 }
 
 /** Reduced set of user information used for shares */
@@ -59620,6 +61633,10 @@ export enum OutputAccess {
     Full = "Full",
     Preview = "Preview",
     None = "None",
+}
+
+export enum ShareResolveBehavior {
+    Schemas = "Schemas",
 }
 
 /** Base of update request for share */
@@ -61528,6 +63545,7 @@ export class FileTransferDetail extends FileTransfer implements IFileTransferDet
         super(data);
         if (data) {
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
+            this.fileMetadata = data.fileMetadata && !(<any>data.fileMetadata).toJSON ? new FileMetadata(data.fileMetadata) : <FileMetadata>this.fileMetadata; 
             if (data.outputItems) {
                 this.outputItems = [];
                 for (let i = 0; i < data.outputItems.length; i++) {
@@ -61580,7 +63598,7 @@ export interface IFileTransferDetail extends IFileTransfer {
     /** Audit information. */
     audit: IUserAudit;
     /** Metadata extracted for file. */
-    fileMetadata?: FileMetadata | undefined;
+    fileMetadata?: IFileMetadata | undefined;
     /** Outputs rendered during data extraction phase. */
     outputItems?: IFileTransferOutput[] | undefined;
 }
@@ -61597,8 +63615,6 @@ export class FileMetadata implements IFileMetadata {
     exifMetadata?: any | undefined;
     language?: string | undefined;
 
-    protected _discriminator: string;
-
     constructor(data?: IFileMetadata) {
         if (data) {
             for (var property in data) {
@@ -61608,7 +63624,6 @@ export class FileMetadata implements IFileMetadata {
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
             this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions; 
         }
-        this._discriminator = "FileMetadata";
     }
 
     init(_data?: any) {
@@ -61628,31 +63643,6 @@ export class FileMetadata implements IFileMetadata {
 
     static fromJS(data: any): FileMetadata {
         data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "AudioMetadata") {
-            let result = new AudioMetadata();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "DocumentMetadata") {
-            let result = new DocumentMetadata();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ImageMetadata") {
-            let result = new ImageMetadata();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "VideoMetadata") {
-            let result = new VideoMetadata();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "VectorMetadata") {
-            let result = new VectorMetadata();
-            result.init(data);
-            return result;
-        }
         let result = new FileMetadata();
         result.init(data);
         return result;
@@ -61660,7 +63650,6 @@ export class FileMetadata implements IFileMetadata {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["kind"] = this._discriminator; 
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
         data["fileExtension"] = this.fileExtension;
@@ -61686,663 +63675,6 @@ export interface IFileMetadata {
     xmpMetadata?: any | undefined;
     exifMetadata?: any | undefined;
     language?: string | undefined;
-}
-
-export class AudioMetadata extends FileMetadata implements IAudioMetadata {
-    audioStreams?: AudioStream[] | undefined;
-
-    constructor(data?: IAudioMetadata) {
-        super(data);
-        if (data) {
-            if (data.audioStreams) {
-                this.audioStreams = [];
-                for (let i = 0; i < data.audioStreams.length; i++) {
-                    let item = data.audioStreams[i];
-                    this.audioStreams[i] = item && !(<any>item).toJSON ? new AudioStream(item) : <AudioStream>item;
-                }
-            }
-        }
-        this._discriminator = "AudioMetadata";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            if (Array.isArray(_data["audioStreams"])) {
-                this.audioStreams = [] as any;
-                for (let item of _data["audioStreams"])
-                    this.audioStreams!.push(AudioStream.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): AudioMetadata {
-        data = typeof data === 'object' ? data : {};
-        let result = new AudioMetadata();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.audioStreams)) {
-            data["audioStreams"] = [];
-            for (let item of this.audioStreams)
-                data["audioStreams"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IAudioMetadata extends IFileMetadata {
-    audioStreams?: IAudioStream[] | undefined;
-}
-
-export class AudioStream implements IAudioStream {
-    bitRate?: string | undefined;
-    bitRateMode?: string | undefined;
-    channels?: string | undefined;
-    channelPositions?: string | undefined;
-    codec?: string | undefined;
-    durationInSeconds?: number | undefined;
-    format?: string | undefined;
-    language?: string | undefined;
-    resolution?: number | undefined;
-    samplingRate?: number | undefined;
-    streamSize?: number | undefined;
-
-    constructor(data?: IAudioStream) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.bitRate = _data["bitRate"];
-            this.bitRateMode = _data["bitRateMode"];
-            this.channels = _data["channels"];
-            this.channelPositions = _data["channelPositions"];
-            this.codec = _data["codec"];
-            this.durationInSeconds = _data["durationInSeconds"];
-            this.format = _data["format"];
-            this.language = _data["language"];
-            this.resolution = _data["resolution"];
-            this.samplingRate = _data["samplingRate"];
-            this.streamSize = _data["streamSize"];
-        }
-    }
-
-    static fromJS(data: any): AudioStream {
-        data = typeof data === 'object' ? data : {};
-        let result = new AudioStream();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["bitRate"] = this.bitRate;
-        data["bitRateMode"] = this.bitRateMode;
-        data["channels"] = this.channels;
-        data["channelPositions"] = this.channelPositions;
-        data["codec"] = this.codec;
-        data["durationInSeconds"] = this.durationInSeconds;
-        data["format"] = this.format;
-        data["language"] = this.language;
-        data["resolution"] = this.resolution;
-        data["samplingRate"] = this.samplingRate;
-        data["streamSize"] = this.streamSize;
-        return data; 
-    }
-}
-
-export interface IAudioStream {
-    bitRate?: string | undefined;
-    bitRateMode?: string | undefined;
-    channels?: string | undefined;
-    channelPositions?: string | undefined;
-    codec?: string | undefined;
-    durationInSeconds?: number | undefined;
-    format?: string | undefined;
-    language?: string | undefined;
-    resolution?: number | undefined;
-    samplingRate?: number | undefined;
-    streamSize?: number | undefined;
-}
-
-export class DocumentMetadata extends FileMetadata implements IDocumentMetadata {
-    applicationName?: string | undefined;
-    applicationVersion?: string | undefined;
-    author?: string | undefined;
-    creator?: string | undefined;
-    publisher?: string | undefined;
-    company?: string | undefined;
-    documentTitle?: string | undefined;
-    characterCount?: number;
-    characterCountWithSpaces?: number;
-    lineCount?: number;
-    pageCount?: number;
-    slideCount?: number;
-    paragraphCount?: number;
-    revisionNumber?: number;
-    titles?: string[] | undefined;
-    imageTitles?: string[] | undefined;
-    epsInfo?: EpsMetadata | undefined;
-
-    constructor(data?: IDocumentMetadata) {
-        super(data);
-        if (data) {
-            this.epsInfo = data.epsInfo && !(<any>data.epsInfo).toJSON ? new EpsMetadata(data.epsInfo) : <EpsMetadata>this.epsInfo; 
-        }
-        this._discriminator = "DocumentMetadata";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.applicationName = _data["applicationName"];
-            this.applicationVersion = _data["applicationVersion"];
-            this.author = _data["author"];
-            this.creator = _data["creator"];
-            this.publisher = _data["publisher"];
-            this.company = _data["company"];
-            this.documentTitle = _data["documentTitle"];
-            this.characterCount = _data["characterCount"];
-            this.characterCountWithSpaces = _data["characterCountWithSpaces"];
-            this.lineCount = _data["lineCount"];
-            this.pageCount = _data["pageCount"];
-            this.slideCount = _data["slideCount"];
-            this.paragraphCount = _data["paragraphCount"];
-            this.revisionNumber = _data["revisionNumber"];
-            if (Array.isArray(_data["titles"])) {
-                this.titles = [] as any;
-                for (let item of _data["titles"])
-                    this.titles!.push(item);
-            }
-            if (Array.isArray(_data["imageTitles"])) {
-                this.imageTitles = [] as any;
-                for (let item of _data["imageTitles"])
-                    this.imageTitles!.push(item);
-            }
-            this.epsInfo = _data["epsInfo"] ? EpsMetadata.fromJS(_data["epsInfo"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): DocumentMetadata {
-        data = typeof data === 'object' ? data : {};
-        let result = new DocumentMetadata();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["applicationName"] = this.applicationName;
-        data["applicationVersion"] = this.applicationVersion;
-        data["author"] = this.author;
-        data["creator"] = this.creator;
-        data["publisher"] = this.publisher;
-        data["company"] = this.company;
-        data["documentTitle"] = this.documentTitle;
-        data["characterCount"] = this.characterCount;
-        data["characterCountWithSpaces"] = this.characterCountWithSpaces;
-        data["lineCount"] = this.lineCount;
-        data["pageCount"] = this.pageCount;
-        data["slideCount"] = this.slideCount;
-        data["paragraphCount"] = this.paragraphCount;
-        data["revisionNumber"] = this.revisionNumber;
-        if (Array.isArray(this.titles)) {
-            data["titles"] = [];
-            for (let item of this.titles)
-                data["titles"].push(item);
-        }
-        if (Array.isArray(this.imageTitles)) {
-            data["imageTitles"] = [];
-            for (let item of this.imageTitles)
-                data["imageTitles"].push(item);
-        }
-        data["epsInfo"] = this.epsInfo ? this.epsInfo.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IDocumentMetadata extends IFileMetadata {
-    applicationName?: string | undefined;
-    applicationVersion?: string | undefined;
-    author?: string | undefined;
-    creator?: string | undefined;
-    publisher?: string | undefined;
-    company?: string | undefined;
-    documentTitle?: string | undefined;
-    characterCount?: number;
-    characterCountWithSpaces?: number;
-    lineCount?: number;
-    pageCount?: number;
-    slideCount?: number;
-    paragraphCount?: number;
-    revisionNumber?: number;
-    titles?: string[] | undefined;
-    imageTitles?: string[] | undefined;
-    epsInfo?: IEpsMetadata | undefined;
-}
-
-export class EpsMetadata implements IEpsMetadata {
-    isRasterized!: boolean;
-    widthInPoints!: number;
-    heightInPoints!: number;
-
-    constructor(data?: IEpsMetadata) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.isRasterized = _data["isRasterized"];
-            this.widthInPoints = _data["widthInPoints"];
-            this.heightInPoints = _data["heightInPoints"];
-        }
-    }
-
-    static fromJS(data: any): EpsMetadata {
-        data = typeof data === 'object' ? data : {};
-        let result = new EpsMetadata();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["isRasterized"] = this.isRasterized;
-        data["widthInPoints"] = this.widthInPoints;
-        data["heightInPoints"] = this.heightInPoints;
-        return data; 
-    }
-}
-
-export interface IEpsMetadata {
-    isRasterized: boolean;
-    widthInPoints: number;
-    heightInPoints: number;
-}
-
-export class ImageMetadata extends FileMetadata implements IImageMetadata {
-    width?: number;
-    height?: number;
-    widthInInch?: number;
-    heightInInch?: number;
-    widthInCm?: number;
-    heightInCm?: number;
-    colorSpace?: string | undefined;
-    colorProfile?: string | undefined;
-    bitsPerPixel?: number;
-    bitsPerChannel?: number;
-    channels?: string | undefined;
-    pixelFormat?: string | undefined;
-    hasAlpha?: boolean;
-    isIndexed?: boolean;
-    isExtended?: boolean;
-    horizontalResolution?: number;
-    verticalResolution?: number;
-    totalFrames?: number;
-    totalUnspecifiedTiffExtraChannels?: number;
-    hasExifData?: boolean;
-    hasIptcData?: boolean;
-    hasAdobeResourceData?: boolean;
-    hasXmpData?: boolean;
-    uncompressedSizeInBytes?: number;
-
-    constructor(data?: IImageMetadata) {
-        super(data);
-        this._discriminator = "ImageMetadata";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.width = _data["width"];
-            this.height = _data["height"];
-            this.widthInInch = _data["widthInInch"];
-            this.heightInInch = _data["heightInInch"];
-            this.widthInCm = _data["widthInCm"];
-            this.heightInCm = _data["heightInCm"];
-            this.colorSpace = _data["colorSpace"];
-            this.colorProfile = _data["colorProfile"];
-            this.bitsPerPixel = _data["bitsPerPixel"];
-            this.bitsPerChannel = _data["bitsPerChannel"];
-            this.channels = _data["channels"];
-            this.pixelFormat = _data["pixelFormat"];
-            this.hasAlpha = _data["hasAlpha"];
-            this.isIndexed = _data["isIndexed"];
-            this.isExtended = _data["isExtended"];
-            this.horizontalResolution = _data["horizontalResolution"];
-            this.verticalResolution = _data["verticalResolution"];
-            this.totalFrames = _data["totalFrames"];
-            this.totalUnspecifiedTiffExtraChannels = _data["totalUnspecifiedTiffExtraChannels"];
-            this.hasExifData = _data["hasExifData"];
-            this.hasIptcData = _data["hasIptcData"];
-            this.hasAdobeResourceData = _data["hasAdobeResourceData"];
-            this.hasXmpData = _data["hasXmpData"];
-            this.uncompressedSizeInBytes = _data["uncompressedSizeInBytes"];
-        }
-    }
-
-    static fromJS(data: any): ImageMetadata {
-        data = typeof data === 'object' ? data : {};
-        let result = new ImageMetadata();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["width"] = this.width;
-        data["height"] = this.height;
-        data["widthInInch"] = this.widthInInch;
-        data["heightInInch"] = this.heightInInch;
-        data["widthInCm"] = this.widthInCm;
-        data["heightInCm"] = this.heightInCm;
-        data["colorSpace"] = this.colorSpace;
-        data["colorProfile"] = this.colorProfile;
-        data["bitsPerPixel"] = this.bitsPerPixel;
-        data["bitsPerChannel"] = this.bitsPerChannel;
-        data["channels"] = this.channels;
-        data["pixelFormat"] = this.pixelFormat;
-        data["hasAlpha"] = this.hasAlpha;
-        data["isIndexed"] = this.isIndexed;
-        data["isExtended"] = this.isExtended;
-        data["horizontalResolution"] = this.horizontalResolution;
-        data["verticalResolution"] = this.verticalResolution;
-        data["totalFrames"] = this.totalFrames;
-        data["totalUnspecifiedTiffExtraChannels"] = this.totalUnspecifiedTiffExtraChannels;
-        data["hasExifData"] = this.hasExifData;
-        data["hasIptcData"] = this.hasIptcData;
-        data["hasAdobeResourceData"] = this.hasAdobeResourceData;
-        data["hasXmpData"] = this.hasXmpData;
-        data["uncompressedSizeInBytes"] = this.uncompressedSizeInBytes;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IImageMetadata extends IFileMetadata {
-    width?: number;
-    height?: number;
-    widthInInch?: number;
-    heightInInch?: number;
-    widthInCm?: number;
-    heightInCm?: number;
-    colorSpace?: string | undefined;
-    colorProfile?: string | undefined;
-    bitsPerPixel?: number;
-    bitsPerChannel?: number;
-    channels?: string | undefined;
-    pixelFormat?: string | undefined;
-    hasAlpha?: boolean;
-    isIndexed?: boolean;
-    isExtended?: boolean;
-    horizontalResolution?: number;
-    verticalResolution?: number;
-    totalFrames?: number;
-    totalUnspecifiedTiffExtraChannels?: number;
-    hasExifData?: boolean;
-    hasIptcData?: boolean;
-    hasAdobeResourceData?: boolean;
-    hasXmpData?: boolean;
-    uncompressedSizeInBytes?: number;
-}
-
-export class VideoMetadata extends FileMetadata implements IVideoMetadata {
-    width?: number;
-    height?: number;
-    durationInSeconds?: number;
-    format?: string | undefined;
-    codec?: string | undefined;
-    overallBitrate?: number | undefined;
-    videoStreams?: VideoStream[] | undefined;
-    audioStreams?: AudioStream[] | undefined;
-
-    constructor(data?: IVideoMetadata) {
-        super(data);
-        if (data) {
-            if (data.videoStreams) {
-                this.videoStreams = [];
-                for (let i = 0; i < data.videoStreams.length; i++) {
-                    let item = data.videoStreams[i];
-                    this.videoStreams[i] = item && !(<any>item).toJSON ? new VideoStream(item) : <VideoStream>item;
-                }
-            }
-            if (data.audioStreams) {
-                this.audioStreams = [];
-                for (let i = 0; i < data.audioStreams.length; i++) {
-                    let item = data.audioStreams[i];
-                    this.audioStreams[i] = item && !(<any>item).toJSON ? new AudioStream(item) : <AudioStream>item;
-                }
-            }
-        }
-        this._discriminator = "VideoMetadata";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.width = _data["width"];
-            this.height = _data["height"];
-            this.durationInSeconds = _data["durationInSeconds"];
-            this.format = _data["format"];
-            this.codec = _data["codec"];
-            this.overallBitrate = _data["overallBitrate"];
-            if (Array.isArray(_data["videoStreams"])) {
-                this.videoStreams = [] as any;
-                for (let item of _data["videoStreams"])
-                    this.videoStreams!.push(VideoStream.fromJS(item));
-            }
-            if (Array.isArray(_data["audioStreams"])) {
-                this.audioStreams = [] as any;
-                for (let item of _data["audioStreams"])
-                    this.audioStreams!.push(AudioStream.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): VideoMetadata {
-        data = typeof data === 'object' ? data : {};
-        let result = new VideoMetadata();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["width"] = this.width;
-        data["height"] = this.height;
-        data["durationInSeconds"] = this.durationInSeconds;
-        data["format"] = this.format;
-        data["codec"] = this.codec;
-        data["overallBitrate"] = this.overallBitrate;
-        if (Array.isArray(this.videoStreams)) {
-            data["videoStreams"] = [];
-            for (let item of this.videoStreams)
-                data["videoStreams"].push(item.toJSON());
-        }
-        if (Array.isArray(this.audioStreams)) {
-            data["audioStreams"] = [];
-            for (let item of this.audioStreams)
-                data["audioStreams"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IVideoMetadata extends IFileMetadata {
-    width?: number;
-    height?: number;
-    durationInSeconds?: number;
-    format?: string | undefined;
-    codec?: string | undefined;
-    overallBitrate?: number | undefined;
-    videoStreams?: IVideoStream[] | undefined;
-    audioStreams?: IAudioStream[] | undefined;
-}
-
-export class VideoStream implements IVideoStream {
-    bitRate?: string | undefined;
-    codec?: string | undefined;
-    displayAspectRatio?: string | undefined;
-    durationInSeconds!: number;
-    format?: string | undefined;
-    frameCount?: number | undefined;
-    frameRate?: number | undefined;
-    height?: number | undefined;
-    language?: string | undefined;
-    pixelAspectRatio?: number | undefined;
-    resolution?: number | undefined;
-    streamSize?: number | undefined;
-    width?: number | undefined;
-    rotation?: number | undefined;
-
-    constructor(data?: IVideoStream) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.bitRate = _data["bitRate"];
-            this.codec = _data["codec"];
-            this.displayAspectRatio = _data["displayAspectRatio"];
-            this.durationInSeconds = _data["durationInSeconds"];
-            this.format = _data["format"];
-            this.frameCount = _data["frameCount"];
-            this.frameRate = _data["frameRate"];
-            this.height = _data["height"];
-            this.language = _data["language"];
-            this.pixelAspectRatio = _data["pixelAspectRatio"];
-            this.resolution = _data["resolution"];
-            this.streamSize = _data["streamSize"];
-            this.width = _data["width"];
-            this.rotation = _data["rotation"];
-        }
-    }
-
-    static fromJS(data: any): VideoStream {
-        data = typeof data === 'object' ? data : {};
-        let result = new VideoStream();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["bitRate"] = this.bitRate;
-        data["codec"] = this.codec;
-        data["displayAspectRatio"] = this.displayAspectRatio;
-        data["durationInSeconds"] = this.durationInSeconds;
-        data["format"] = this.format;
-        data["frameCount"] = this.frameCount;
-        data["frameRate"] = this.frameRate;
-        data["height"] = this.height;
-        data["language"] = this.language;
-        data["pixelAspectRatio"] = this.pixelAspectRatio;
-        data["resolution"] = this.resolution;
-        data["streamSize"] = this.streamSize;
-        data["width"] = this.width;
-        data["rotation"] = this.rotation;
-        return data; 
-    }
-}
-
-export interface IVideoStream {
-    bitRate?: string | undefined;
-    codec?: string | undefined;
-    displayAspectRatio?: string | undefined;
-    durationInSeconds: number;
-    format?: string | undefined;
-    frameCount?: number | undefined;
-    frameRate?: number | undefined;
-    height?: number | undefined;
-    language?: string | undefined;
-    pixelAspectRatio?: number | undefined;
-    resolution?: number | undefined;
-    streamSize?: number | undefined;
-    width?: number | undefined;
-    rotation?: number | undefined;
-}
-
-export class VectorMetadata extends FileMetadata implements IVectorMetadata {
-    author?: string | undefined;
-    creator?: string | undefined;
-    publisher?: string | undefined;
-    company?: string | undefined;
-    title?: string | undefined;
-    pageCount?: number;
-    epsInfo?: EpsMetadata | undefined;
-
-    constructor(data?: IVectorMetadata) {
-        super(data);
-        if (data) {
-            this.epsInfo = data.epsInfo && !(<any>data.epsInfo).toJSON ? new EpsMetadata(data.epsInfo) : <EpsMetadata>this.epsInfo; 
-        }
-        this._discriminator = "VectorMetadata";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.author = _data["author"];
-            this.creator = _data["creator"];
-            this.publisher = _data["publisher"];
-            this.company = _data["company"];
-            this.title = _data["title"];
-            this.pageCount = _data["pageCount"];
-            this.epsInfo = _data["epsInfo"] ? EpsMetadata.fromJS(_data["epsInfo"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): VectorMetadata {
-        data = typeof data === 'object' ? data : {};
-        let result = new VectorMetadata();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["author"] = this.author;
-        data["creator"] = this.creator;
-        data["publisher"] = this.publisher;
-        data["company"] = this.company;
-        data["title"] = this.title;
-        data["pageCount"] = this.pageCount;
-        data["epsInfo"] = this.epsInfo ? this.epsInfo.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IVectorMetadata extends IFileMetadata {
-    author?: string | undefined;
-    creator?: string | undefined;
-    publisher?: string | undefined;
-    company?: string | undefined;
-    title?: string | undefined;
-    pageCount?: number;
-    epsInfo?: IEpsMetadata | undefined;
 }
 
 export class FileTransferOutput implements IFileTransferOutput {
@@ -64707,6 +66039,968 @@ export interface IUserUpdateIdentityProviderManyRequest extends IUserManyRequest
     identityProviderId: string;
 }
 
+/** Represents a list of source/target fields for XMP mappings */
+export class XmpMappingTargets implements IXmpMappingTargets {
+    /** Fields in XMP/Exif. */
+    xmpFields!: XmpField[];
+    /** Fields in metadata. */
+    metadataFields!: MetadataField[];
+
+    constructor(data?: IXmpMappingTargets) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.xmpFields) {
+                this.xmpFields = [];
+                for (let i = 0; i < data.xmpFields.length; i++) {
+                    let item = data.xmpFields[i];
+                    this.xmpFields[i] = item && !(<any>item).toJSON ? new XmpField(item) : <XmpField>item;
+                }
+            }
+            if (data.metadataFields) {
+                this.metadataFields = [];
+                for (let i = 0; i < data.metadataFields.length; i++) {
+                    let item = data.metadataFields[i];
+                    this.metadataFields[i] = item && !(<any>item).toJSON ? new MetadataField(item) : <MetadataField>item;
+                }
+            }
+        }
+        if (!data) {
+            this.xmpFields = [];
+            this.metadataFields = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["xmpFields"])) {
+                this.xmpFields = [] as any;
+                for (let item of _data["xmpFields"])
+                    this.xmpFields!.push(XmpField.fromJS(item));
+            }
+            if (Array.isArray(_data["metadataFields"])) {
+                this.metadataFields = [] as any;
+                for (let item of _data["metadataFields"])
+                    this.metadataFields!.push(MetadataField.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): XmpMappingTargets {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingTargets();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.xmpFields)) {
+            data["xmpFields"] = [];
+            for (let item of this.xmpFields)
+                data["xmpFields"].push(item.toJSON());
+        }
+        if (Array.isArray(this.metadataFields)) {
+            data["metadataFields"] = [];
+            for (let item of this.metadataFields)
+                data["metadataFields"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Represents a list of source/target fields for XMP mappings */
+export interface IXmpMappingTargets {
+    /** Fields in XMP/Exif. */
+    xmpFields: IXmpField[];
+    /** Fields in metadata. */
+    metadataFields: IMetadataField[];
+}
+
+/** Represents a field in XMP that can be mapped from or to */
+export class XmpField implements IXmpField {
+    /** Path of the field in XMP. */
+    path?: string | undefined;
+    /** Indicates if the field can be written to. */
+    isWritable!: boolean;
+    /** Data type of the field. */
+    dataType!: XmpFieldDataType;
+
+    constructor(data?: IXmpField) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.path = _data["path"];
+            this.isWritable = _data["isWritable"];
+            this.dataType = _data["dataType"];
+        }
+    }
+
+    static fromJS(data: any): XmpField {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpField();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["path"] = this.path;
+        data["isWritable"] = this.isWritable;
+        data["dataType"] = this.dataType;
+        return data; 
+    }
+}
+
+/** Represents a field in XMP that can be mapped from or to */
+export interface IXmpField {
+    /** Path of the field in XMP. */
+    path?: string | undefined;
+    /** Indicates if the field can be written to. */
+    isWritable: boolean;
+    /** Data type of the field. */
+    dataType: XmpFieldDataType;
+}
+
+/** Data types of XMP fields */
+export enum XmpFieldDataType {
+    Simple = "Simple",
+    LangAlt = "LangAlt",
+    List = "List",
+}
+
+/** Represents a field in metadata that XMP can be mapped to or from */
+export class MetadataField implements IMetadataField {
+    /** Path to the field in metadata. */
+    path!: string;
+    /** Indicates if the field can act as target for a mapping.
+If field is read-only, it can only act as source of a mapping. */
+    isWritable!: boolean;
+    /** Data type of the field. */
+    dataType!: MetadataFieldDataType;
+    /** A list of field IDs that can be used as a key field when a tagbox is mapped. */
+    availableKeyFields?: string[] | undefined;
+
+    constructor(data?: IMetadataField) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.path = _data["path"];
+            this.isWritable = _data["isWritable"];
+            this.dataType = _data["dataType"];
+            if (Array.isArray(_data["availableKeyFields"])) {
+                this.availableKeyFields = [] as any;
+                for (let item of _data["availableKeyFields"])
+                    this.availableKeyFields!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): MetadataField {
+        data = typeof data === 'object' ? data : {};
+        let result = new MetadataField();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["path"] = this.path;
+        data["isWritable"] = this.isWritable;
+        data["dataType"] = this.dataType;
+        if (Array.isArray(this.availableKeyFields)) {
+            data["availableKeyFields"] = [];
+            for (let item of this.availableKeyFields)
+                data["availableKeyFields"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Represents a field in metadata that XMP can be mapped to or from */
+export interface IMetadataField {
+    /** Path to the field in metadata. */
+    path: string;
+    /** Indicates if the field can act as target for a mapping.
+If field is read-only, it can only act as source of a mapping. */
+    isWritable: boolean;
+    /** Data type of the field. */
+    dataType: MetadataFieldDataType;
+    /** A list of field IDs that can be used as a key field when a tagbox is mapped. */
+    availableKeyFields?: string[] | undefined;
+}
+
+/** Data types of metadata fields */
+export enum MetadataFieldDataType {
+    Simple = "Simple",
+    TranslatedString = "TranslatedString",
+    Tagbox = "Tagbox",
+}
+
+/** Base class for search results */
+export class BaseResultOfXmpMappingEntry implements IBaseResultOfXmpMappingEntry {
+    /** The total number of matching documents. */
+    totalResults!: number;
+    /** The matched documents. */
+    results!: XmpMappingEntry[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds!: number;
+    pageToken?: string | undefined;
+
+    constructor(data?: IBaseResultOfXmpMappingEntry) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.results = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalResults = _data["totalResults"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(XmpMappingEntry.fromJS(item));
+            }
+            this.elapsedMilliseconds = _data["elapsedMilliseconds"];
+            this.pageToken = _data["pageToken"];
+        }
+    }
+
+    static fromJS(data: any): BaseResultOfXmpMappingEntry {
+        data = typeof data === 'object' ? data : {};
+        let result = new BaseResultOfXmpMappingEntry();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
+        return data; 
+    }
+}
+
+/** Base class for search results */
+export interface IBaseResultOfXmpMappingEntry {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: XmpMappingEntry[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    pageToken?: string | undefined;
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export class SearchBehaviorBaseResultOfXmpMappingEntry extends BaseResultOfXmpMappingEntry implements ISearchBehaviorBaseResultOfXmpMappingEntry {
+    /** The search string used to query the data */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    isSearchStringRewritten?: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
+
+    constructor(data?: ISearchBehaviorBaseResultOfXmpMappingEntry) {
+        super(data);
+        if (data) {
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.searchString = _data["searchString"];
+            this.isSearchStringRewritten = _data["isSearchStringRewritten"];
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SearchBehaviorBaseResultOfXmpMappingEntry {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorBaseResultOfXmpMappingEntry();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export interface ISearchBehaviorBaseResultOfXmpMappingEntry extends IBaseResultOfXmpMappingEntry {
+    /** The search string used to query the data */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    isSearchStringRewritten?: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export class SearchBehaviorWithAggregationBaseResultOfXmpMappingEntry extends SearchBehaviorBaseResultOfXmpMappingEntry implements ISearchBehaviorWithAggregationBaseResultOfXmpMappingEntry {
+    /** Results of the aggregation, if any aggregators was passed in the request. */
+    aggregationResults?: AggregationResult[] | undefined;
+
+    constructor(data?: ISearchBehaviorWithAggregationBaseResultOfXmpMappingEntry) {
+        super(data);
+        if (data) {
+            if (data.aggregationResults) {
+                this.aggregationResults = [];
+                for (let i = 0; i < data.aggregationResults.length; i++) {
+                    let item = data.aggregationResults[i];
+                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["aggregationResults"])) {
+                this.aggregationResults = [] as any;
+                for (let item of _data["aggregationResults"])
+                    this.aggregationResults!.push(AggregationResult.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SearchBehaviorWithAggregationBaseResultOfXmpMappingEntry {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorWithAggregationBaseResultOfXmpMappingEntry();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.aggregationResults)) {
+            data["aggregationResults"] = [];
+            for (let item of this.aggregationResults)
+                data["aggregationResults"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export interface ISearchBehaviorWithAggregationBaseResultOfXmpMappingEntry extends ISearchBehaviorBaseResultOfXmpMappingEntry {
+    /** Results of the aggregation, if any aggregators was passed in the request. */
+    aggregationResults?: IAggregationResult[] | undefined;
+}
+
+/** Holds results of search for XMP mappings */
+export class XmpMappingEntrySearchResult extends SearchBehaviorWithAggregationBaseResultOfXmpMappingEntry implements IXmpMappingEntrySearchResult {
+
+    constructor(data?: IXmpMappingEntrySearchResult) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): XmpMappingEntrySearchResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingEntrySearchResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Holds results of search for XMP mappings */
+export interface IXmpMappingEntrySearchResult extends ISearchBehaviorWithAggregationBaseResultOfXmpMappingEntry {
+}
+
+/** Editable properties of a XMP mapping entry */
+export class XmpMappingEntryEditable implements IXmpMappingEntryEditable {
+    /** Direction of the mapping. */
+    direction!: MappingDirection;
+    /** Priority of the mapping. */
+    priority!: number;
+    /** Stop processing further mappings for the same field if a value was found. */
+    stopProcessing!: boolean;
+    /** Path to source property in XMP. */
+    xmpPath!: string;
+    /** Path to target property in metadata. */
+    metadataPath!: string;
+    /** Optional additional configuration for the mapping. */
+    configuration?: XmpMappingEntryConfigurationBase | undefined;
+
+    constructor(data?: IXmpMappingEntryEditable) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.direction = _data["direction"];
+            this.priority = _data["priority"];
+            this.stopProcessing = _data["stopProcessing"];
+            this.xmpPath = _data["xmpPath"];
+            this.metadataPath = _data["metadataPath"];
+            this.configuration = _data["configuration"] ? XmpMappingEntryConfigurationBase.fromJS(_data["configuration"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): XmpMappingEntryEditable {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingEntryEditable();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["direction"] = this.direction;
+        data["priority"] = this.priority;
+        data["stopProcessing"] = this.stopProcessing;
+        data["xmpPath"] = this.xmpPath;
+        data["metadataPath"] = this.metadataPath;
+        data["configuration"] = this.configuration ? this.configuration.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+/** Editable properties of a XMP mapping entry */
+export interface IXmpMappingEntryEditable {
+    /** Direction of the mapping. */
+    direction: MappingDirection;
+    /** Priority of the mapping. */
+    priority: number;
+    /** Stop processing further mappings for the same field if a value was found. */
+    stopProcessing: boolean;
+    /** Path to source property in XMP. */
+    xmpPath: string;
+    /** Path to target property in metadata. */
+    metadataPath: string;
+    /** Optional additional configuration for the mapping. */
+    configuration?: XmpMappingEntryConfigurationBase | undefined;
+}
+
+/** XMP mapping entry */
+export class XmpMappingEntry extends XmpMappingEntryEditable implements IXmpMappingEntry {
+    id!: string;
+
+    constructor(data?: IXmpMappingEntry) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): XmpMappingEntry {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingEntry();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** XMP mapping entry */
+export interface IXmpMappingEntry extends IXmpMappingEntryEditable {
+    id: string;
+}
+
+/** Direction of mapping of XMP data */
+export enum MappingDirection {
+    XmpToMetadata = "XmpToMetadata",
+    MetadataToXmp = "MetadataToXmp",
+    Both = "Both",
+}
+
+export abstract class XmpMappingEntryConfigurationBase implements IXmpMappingEntryConfigurationBase {
+
+    protected _discriminator: string;
+
+    constructor(data?: IXmpMappingEntryConfigurationBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "XmpMappingEntryConfigurationBase";
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): XmpMappingEntryConfigurationBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "XmpMappingEntryConfigurationTagbox") {
+            let result = new XmpMappingEntryConfigurationTagbox();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'XmpMappingEntryConfigurationBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+export interface IXmpMappingEntryConfigurationBase {
+}
+
+/** Additional configuration for a mapping tagbox fields */
+export class XmpMappingEntryConfigurationTagbox extends XmpMappingEntryConfigurationBase implements IXmpMappingEntryConfigurationTagbox {
+    /** IDs of key fields. */
+    keyFieldIds!: string[];
+    /** Indicates if lookup shall be performed case sensitive. */
+    caseSensitive!: boolean;
+    /** Indicates if child schemas should also be included. */
+    includeAllSchemaChildren!: boolean;
+
+    constructor(data?: IXmpMappingEntryConfigurationTagbox) {
+        super(data);
+        if (!data) {
+            this.keyFieldIds = [];
+        }
+        this._discriminator = "XmpMappingEntryConfigurationTagbox";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["keyFieldIds"])) {
+                this.keyFieldIds = [] as any;
+                for (let item of _data["keyFieldIds"])
+                    this.keyFieldIds!.push(item);
+            }
+            this.caseSensitive = _data["caseSensitive"];
+            this.includeAllSchemaChildren = _data["includeAllSchemaChildren"];
+        }
+    }
+
+    static fromJS(data: any): XmpMappingEntryConfigurationTagbox {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingEntryConfigurationTagbox();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.keyFieldIds)) {
+            data["keyFieldIds"] = [];
+            for (let item of this.keyFieldIds)
+                data["keyFieldIds"].push(item);
+        }
+        data["caseSensitive"] = this.caseSensitive;
+        data["includeAllSchemaChildren"] = this.includeAllSchemaChildren;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Additional configuration for a mapping tagbox fields */
+export interface IXmpMappingEntryConfigurationTagbox extends IXmpMappingEntryConfigurationBase {
+    /** IDs of key fields. */
+    keyFieldIds: string[];
+    /** Indicates if lookup shall be performed case sensitive. */
+    caseSensitive: boolean;
+    /** Indicates if child schemas should also be included. */
+    includeAllSchemaChildren: boolean;
+}
+
+/** Search request for getting configured XMP mappings */
+export class XmpMappingEntrySearchRequest implements IXmpMappingEntrySearchRequest {
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
+    debugMode!: boolean;
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Limits the document count of the result set. */
+    limit!: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+
+    constructor(data?: IXmpMappingEntrySearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.debugMode = _data["debugMode"];
+            if (Array.isArray(_data["aggregationFilters"])) {
+                this.aggregationFilters = [] as any;
+                for (let item of _data["aggregationFilters"])
+                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
+            }
+            if (Array.isArray(_data["aggregators"])) {
+                this.aggregators = [] as any;
+                for (let item of _data["aggregators"])
+                    this.aggregators!.push(AggregatorBase.fromJS(item));
+            }
+            this.filter = _data["filter"] ? FilterBase.fromJS(_data["filter"]) : <any>undefined;
+            this.limit = _data["limit"];
+            this.pageToken = _data["pageToken"];
+            this.searchString = _data["searchString"];
+            if (Array.isArray(_data["searchBehaviors"])) {
+                this.searchBehaviors = [] as any;
+                for (let item of _data["searchBehaviors"])
+                    this.searchBehaviors!.push(item);
+            }
+            if (Array.isArray(_data["sort"])) {
+                this.sort = [] as any;
+                for (let item of _data["sort"])
+                    this.sort!.push(SortInfo.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): XmpMappingEntrySearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingEntrySearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["debugMode"] = this.debugMode;
+        if (Array.isArray(this.aggregationFilters)) {
+            data["aggregationFilters"] = [];
+            for (let item of this.aggregationFilters)
+                data["aggregationFilters"].push(item.toJSON());
+        }
+        if (Array.isArray(this.aggregators)) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
+        data["searchString"] = this.searchString;
+        if (Array.isArray(this.searchBehaviors)) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        if (Array.isArray(this.sort)) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Search request for getting configured XMP mappings */
+export interface IXmpMappingEntrySearchRequest {
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
+    debugMode: boolean;
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Limits the document count of the result set. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: ISortInfo[] | undefined;
+}
+
+/** Request to create XMP mapping */
+export class XmpMappingEntryCreateRequest extends XmpMappingEntryEditable implements IXmpMappingEntryCreateRequest {
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
+    requestId?: string | undefined;
+
+    constructor(data?: IXmpMappingEntryCreateRequest) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.requestId = _data["requestId"];
+        }
+    }
+
+    static fromJS(data: any): XmpMappingEntryCreateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingEntryCreateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["requestId"] = this.requestId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Request to create XMP mapping */
+export interface IXmpMappingEntryCreateRequest extends IXmpMappingEntryEditable {
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
+    requestId?: string | undefined;
+}
+
+/** Request to create many XMP mappings */
+export class XmpMappingEntryCreateManyRequest implements IXmpMappingEntryCreateManyRequest {
+    /** Mappings to create. */
+    items?: XmpMappingEntryCreateRequest[] | undefined;
+
+    constructor(data?: IXmpMappingEntryCreateManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(XmpMappingEntryCreateRequest.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): XmpMappingEntryCreateManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingEntryCreateManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Request to create many XMP mappings */
+export interface IXmpMappingEntryCreateManyRequest {
+    /** Mappings to create. */
+    items?: XmpMappingEntryCreateRequest[] | undefined;
+}
+
+/** Request to update many XMP mappings */
+export class XmpMappingEntryUpdateManyRequest implements IXmpMappingEntryUpdateManyRequest {
+    /** Items to update. */
+    items?: XmpMappingEntry[] | undefined;
+
+    constructor(data?: IXmpMappingEntryUpdateManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(XmpMappingEntry.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): XmpMappingEntryUpdateManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingEntryUpdateManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Request to update many XMP mappings */
+export interface IXmpMappingEntryUpdateManyRequest {
+    /** Items to update. */
+    items?: XmpMappingEntry[] | undefined;
+}
+
+/** Request to delete many XMP mappings */
+export class XmpMappingEntryDeleteManyRequest implements IXmpMappingEntryDeleteManyRequest {
+    /** IDs to delete. */
+    ids?: string[] | undefined;
+
+    constructor(data?: IXmpMappingEntryDeleteManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["ids"])) {
+                this.ids = [] as any;
+                for (let item of _data["ids"])
+                    this.ids!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): XmpMappingEntryDeleteManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingEntryDeleteManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.ids)) {
+            data["ids"] = [];
+            for (let item of this.ids)
+                data["ids"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Request to delete many XMP mappings */
+export interface IXmpMappingEntryDeleteManyRequest {
+    /** IDs to delete. */
+    ids?: string[] | undefined;
+}
+
 export class DataDictionary implements IDataDictionary {
 
     [key: string]: any; 
@@ -65015,6 +67309,11 @@ export class ApplicationEvent implements IApplicationEvent {
         }
         if (data["kind"] === "BusinessProcessCancellationRequestedEvent") {
             let result = new BusinessProcessCancellationRequestedEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpWritebackCompletedEvent") {
+            let result = new XmpWritebackCompletedEvent();
             result.init(data);
             return result;
         }
@@ -65742,6 +68041,40 @@ export interface IBusinessProcessCancellationRequestedEvent extends IApplication
     businessProcessId?: string | undefined;
 }
 
+export class XmpWritebackCompletedEvent extends ApplicationEvent implements IXmpWritebackCompletedEvent {
+    outputDocId?: string | undefined;
+
+    constructor(data?: IXmpWritebackCompletedEvent) {
+        super(data);
+        this._discriminator = "XmpWritebackCompletedEvent";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.outputDocId = _data["outputDocId"];
+        }
+    }
+
+    static fromJS(data: any): XmpWritebackCompletedEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpWritebackCompletedEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["outputDocId"] = this.outputDocId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IXmpWritebackCompletedEvent extends IApplicationEvent {
+    outputDocId?: string | undefined;
+}
+
 export class ConsoleMessage extends Message implements IConsoleMessage {
     command?: string | undefined;
     arguments?: TupleOfStringAndString[] | undefined;
@@ -65901,6 +68234,658 @@ export interface INodeInfoMessage extends IMessage {
     productVersion?: string | undefined;
     release?: string | undefined;
     logLevel?: string | undefined;
+}
+
+export class AudioMetadata extends FileMetadata implements IAudioMetadata {
+    audioStreams?: AudioStream[] | undefined;
+
+    constructor(data?: IAudioMetadata) {
+        super(data);
+        if (data) {
+            if (data.audioStreams) {
+                this.audioStreams = [];
+                for (let i = 0; i < data.audioStreams.length; i++) {
+                    let item = data.audioStreams[i];
+                    this.audioStreams[i] = item && !(<any>item).toJSON ? new AudioStream(item) : <AudioStream>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["audioStreams"])) {
+                this.audioStreams = [] as any;
+                for (let item of _data["audioStreams"])
+                    this.audioStreams!.push(AudioStream.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): AudioMetadata {
+        data = typeof data === 'object' ? data : {};
+        let result = new AudioMetadata();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.audioStreams)) {
+            data["audioStreams"] = [];
+            for (let item of this.audioStreams)
+                data["audioStreams"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IAudioMetadata extends IFileMetadata {
+    audioStreams?: IAudioStream[] | undefined;
+}
+
+export class AudioStream implements IAudioStream {
+    bitRate?: string | undefined;
+    bitRateMode?: string | undefined;
+    channels?: string | undefined;
+    channelPositions?: string | undefined;
+    codec?: string | undefined;
+    durationInSeconds?: number | undefined;
+    format?: string | undefined;
+    language?: string | undefined;
+    resolution?: number | undefined;
+    samplingRate?: number | undefined;
+    streamSize?: number | undefined;
+
+    constructor(data?: IAudioStream) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.bitRate = _data["bitRate"];
+            this.bitRateMode = _data["bitRateMode"];
+            this.channels = _data["channels"];
+            this.channelPositions = _data["channelPositions"];
+            this.codec = _data["codec"];
+            this.durationInSeconds = _data["durationInSeconds"];
+            this.format = _data["format"];
+            this.language = _data["language"];
+            this.resolution = _data["resolution"];
+            this.samplingRate = _data["samplingRate"];
+            this.streamSize = _data["streamSize"];
+        }
+    }
+
+    static fromJS(data: any): AudioStream {
+        data = typeof data === 'object' ? data : {};
+        let result = new AudioStream();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["bitRate"] = this.bitRate;
+        data["bitRateMode"] = this.bitRateMode;
+        data["channels"] = this.channels;
+        data["channelPositions"] = this.channelPositions;
+        data["codec"] = this.codec;
+        data["durationInSeconds"] = this.durationInSeconds;
+        data["format"] = this.format;
+        data["language"] = this.language;
+        data["resolution"] = this.resolution;
+        data["samplingRate"] = this.samplingRate;
+        data["streamSize"] = this.streamSize;
+        return data; 
+    }
+}
+
+export interface IAudioStream {
+    bitRate?: string | undefined;
+    bitRateMode?: string | undefined;
+    channels?: string | undefined;
+    channelPositions?: string | undefined;
+    codec?: string | undefined;
+    durationInSeconds?: number | undefined;
+    format?: string | undefined;
+    language?: string | undefined;
+    resolution?: number | undefined;
+    samplingRate?: number | undefined;
+    streamSize?: number | undefined;
+}
+
+export class DocumentMetadata extends FileMetadata implements IDocumentMetadata {
+    applicationName?: string | undefined;
+    applicationVersion?: string | undefined;
+    author?: string | undefined;
+    creator?: string | undefined;
+    publisher?: string | undefined;
+    company?: string | undefined;
+    documentTitle?: string | undefined;
+    characterCount?: number;
+    characterCountWithSpaces?: number;
+    lineCount?: number;
+    pageCount?: number;
+    slideCount?: number;
+    paragraphCount?: number;
+    revisionNumber?: number;
+    titles?: string[] | undefined;
+    imageTitles?: string[] | undefined;
+    epsInfo?: EpsMetadata | undefined;
+
+    constructor(data?: IDocumentMetadata) {
+        super(data);
+        if (data) {
+            this.epsInfo = data.epsInfo && !(<any>data.epsInfo).toJSON ? new EpsMetadata(data.epsInfo) : <EpsMetadata>this.epsInfo; 
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.applicationName = _data["applicationName"];
+            this.applicationVersion = _data["applicationVersion"];
+            this.author = _data["author"];
+            this.creator = _data["creator"];
+            this.publisher = _data["publisher"];
+            this.company = _data["company"];
+            this.documentTitle = _data["documentTitle"];
+            this.characterCount = _data["characterCount"];
+            this.characterCountWithSpaces = _data["characterCountWithSpaces"];
+            this.lineCount = _data["lineCount"];
+            this.pageCount = _data["pageCount"];
+            this.slideCount = _data["slideCount"];
+            this.paragraphCount = _data["paragraphCount"];
+            this.revisionNumber = _data["revisionNumber"];
+            if (Array.isArray(_data["titles"])) {
+                this.titles = [] as any;
+                for (let item of _data["titles"])
+                    this.titles!.push(item);
+            }
+            if (Array.isArray(_data["imageTitles"])) {
+                this.imageTitles = [] as any;
+                for (let item of _data["imageTitles"])
+                    this.imageTitles!.push(item);
+            }
+            this.epsInfo = _data["epsInfo"] ? EpsMetadata.fromJS(_data["epsInfo"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): DocumentMetadata {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentMetadata();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["applicationName"] = this.applicationName;
+        data["applicationVersion"] = this.applicationVersion;
+        data["author"] = this.author;
+        data["creator"] = this.creator;
+        data["publisher"] = this.publisher;
+        data["company"] = this.company;
+        data["documentTitle"] = this.documentTitle;
+        data["characterCount"] = this.characterCount;
+        data["characterCountWithSpaces"] = this.characterCountWithSpaces;
+        data["lineCount"] = this.lineCount;
+        data["pageCount"] = this.pageCount;
+        data["slideCount"] = this.slideCount;
+        data["paragraphCount"] = this.paragraphCount;
+        data["revisionNumber"] = this.revisionNumber;
+        if (Array.isArray(this.titles)) {
+            data["titles"] = [];
+            for (let item of this.titles)
+                data["titles"].push(item);
+        }
+        if (Array.isArray(this.imageTitles)) {
+            data["imageTitles"] = [];
+            for (let item of this.imageTitles)
+                data["imageTitles"].push(item);
+        }
+        data["epsInfo"] = this.epsInfo ? this.epsInfo.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IDocumentMetadata extends IFileMetadata {
+    applicationName?: string | undefined;
+    applicationVersion?: string | undefined;
+    author?: string | undefined;
+    creator?: string | undefined;
+    publisher?: string | undefined;
+    company?: string | undefined;
+    documentTitle?: string | undefined;
+    characterCount?: number;
+    characterCountWithSpaces?: number;
+    lineCount?: number;
+    pageCount?: number;
+    slideCount?: number;
+    paragraphCount?: number;
+    revisionNumber?: number;
+    titles?: string[] | undefined;
+    imageTitles?: string[] | undefined;
+    epsInfo?: IEpsMetadata | undefined;
+}
+
+export class EpsMetadata implements IEpsMetadata {
+    isRasterized!: boolean;
+    widthInPoints!: number;
+    heightInPoints!: number;
+
+    constructor(data?: IEpsMetadata) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.isRasterized = _data["isRasterized"];
+            this.widthInPoints = _data["widthInPoints"];
+            this.heightInPoints = _data["heightInPoints"];
+        }
+    }
+
+    static fromJS(data: any): EpsMetadata {
+        data = typeof data === 'object' ? data : {};
+        let result = new EpsMetadata();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["isRasterized"] = this.isRasterized;
+        data["widthInPoints"] = this.widthInPoints;
+        data["heightInPoints"] = this.heightInPoints;
+        return data; 
+    }
+}
+
+export interface IEpsMetadata {
+    isRasterized: boolean;
+    widthInPoints: number;
+    heightInPoints: number;
+}
+
+export class ImageMetadata extends FileMetadata implements IImageMetadata {
+    width?: number;
+    height?: number;
+    widthInInch?: number;
+    heightInInch?: number;
+    widthInCm?: number;
+    heightInCm?: number;
+    colorSpace?: string | undefined;
+    colorProfile?: string | undefined;
+    bitsPerPixel?: number;
+    bitsPerChannel?: number;
+    channels?: string | undefined;
+    pixelFormat?: string | undefined;
+    hasAlpha?: boolean;
+    isIndexed?: boolean;
+    isExtended?: boolean;
+    horizontalResolution?: number;
+    verticalResolution?: number;
+    totalFrames?: number;
+    totalUnspecifiedTiffExtraChannels?: number;
+    hasExifData?: boolean;
+    hasIptcData?: boolean;
+    hasAdobeResourceData?: boolean;
+    hasXmpData?: boolean;
+    uncompressedSizeInBytes?: number;
+
+    constructor(data?: IImageMetadata) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.width = _data["width"];
+            this.height = _data["height"];
+            this.widthInInch = _data["widthInInch"];
+            this.heightInInch = _data["heightInInch"];
+            this.widthInCm = _data["widthInCm"];
+            this.heightInCm = _data["heightInCm"];
+            this.colorSpace = _data["colorSpace"];
+            this.colorProfile = _data["colorProfile"];
+            this.bitsPerPixel = _data["bitsPerPixel"];
+            this.bitsPerChannel = _data["bitsPerChannel"];
+            this.channels = _data["channels"];
+            this.pixelFormat = _data["pixelFormat"];
+            this.hasAlpha = _data["hasAlpha"];
+            this.isIndexed = _data["isIndexed"];
+            this.isExtended = _data["isExtended"];
+            this.horizontalResolution = _data["horizontalResolution"];
+            this.verticalResolution = _data["verticalResolution"];
+            this.totalFrames = _data["totalFrames"];
+            this.totalUnspecifiedTiffExtraChannels = _data["totalUnspecifiedTiffExtraChannels"];
+            this.hasExifData = _data["hasExifData"];
+            this.hasIptcData = _data["hasIptcData"];
+            this.hasAdobeResourceData = _data["hasAdobeResourceData"];
+            this.hasXmpData = _data["hasXmpData"];
+            this.uncompressedSizeInBytes = _data["uncompressedSizeInBytes"];
+        }
+    }
+
+    static fromJS(data: any): ImageMetadata {
+        data = typeof data === 'object' ? data : {};
+        let result = new ImageMetadata();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["width"] = this.width;
+        data["height"] = this.height;
+        data["widthInInch"] = this.widthInInch;
+        data["heightInInch"] = this.heightInInch;
+        data["widthInCm"] = this.widthInCm;
+        data["heightInCm"] = this.heightInCm;
+        data["colorSpace"] = this.colorSpace;
+        data["colorProfile"] = this.colorProfile;
+        data["bitsPerPixel"] = this.bitsPerPixel;
+        data["bitsPerChannel"] = this.bitsPerChannel;
+        data["channels"] = this.channels;
+        data["pixelFormat"] = this.pixelFormat;
+        data["hasAlpha"] = this.hasAlpha;
+        data["isIndexed"] = this.isIndexed;
+        data["isExtended"] = this.isExtended;
+        data["horizontalResolution"] = this.horizontalResolution;
+        data["verticalResolution"] = this.verticalResolution;
+        data["totalFrames"] = this.totalFrames;
+        data["totalUnspecifiedTiffExtraChannels"] = this.totalUnspecifiedTiffExtraChannels;
+        data["hasExifData"] = this.hasExifData;
+        data["hasIptcData"] = this.hasIptcData;
+        data["hasAdobeResourceData"] = this.hasAdobeResourceData;
+        data["hasXmpData"] = this.hasXmpData;
+        data["uncompressedSizeInBytes"] = this.uncompressedSizeInBytes;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IImageMetadata extends IFileMetadata {
+    width?: number;
+    height?: number;
+    widthInInch?: number;
+    heightInInch?: number;
+    widthInCm?: number;
+    heightInCm?: number;
+    colorSpace?: string | undefined;
+    colorProfile?: string | undefined;
+    bitsPerPixel?: number;
+    bitsPerChannel?: number;
+    channels?: string | undefined;
+    pixelFormat?: string | undefined;
+    hasAlpha?: boolean;
+    isIndexed?: boolean;
+    isExtended?: boolean;
+    horizontalResolution?: number;
+    verticalResolution?: number;
+    totalFrames?: number;
+    totalUnspecifiedTiffExtraChannels?: number;
+    hasExifData?: boolean;
+    hasIptcData?: boolean;
+    hasAdobeResourceData?: boolean;
+    hasXmpData?: boolean;
+    uncompressedSizeInBytes?: number;
+}
+
+export class VideoMetadata extends FileMetadata implements IVideoMetadata {
+    width?: number;
+    height?: number;
+    durationInSeconds?: number;
+    format?: string | undefined;
+    codec?: string | undefined;
+    overallBitrate?: number | undefined;
+    videoStreams?: VideoStream[] | undefined;
+    audioStreams?: AudioStream[] | undefined;
+
+    constructor(data?: IVideoMetadata) {
+        super(data);
+        if (data) {
+            if (data.videoStreams) {
+                this.videoStreams = [];
+                for (let i = 0; i < data.videoStreams.length; i++) {
+                    let item = data.videoStreams[i];
+                    this.videoStreams[i] = item && !(<any>item).toJSON ? new VideoStream(item) : <VideoStream>item;
+                }
+            }
+            if (data.audioStreams) {
+                this.audioStreams = [];
+                for (let i = 0; i < data.audioStreams.length; i++) {
+                    let item = data.audioStreams[i];
+                    this.audioStreams[i] = item && !(<any>item).toJSON ? new AudioStream(item) : <AudioStream>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.width = _data["width"];
+            this.height = _data["height"];
+            this.durationInSeconds = _data["durationInSeconds"];
+            this.format = _data["format"];
+            this.codec = _data["codec"];
+            this.overallBitrate = _data["overallBitrate"];
+            if (Array.isArray(_data["videoStreams"])) {
+                this.videoStreams = [] as any;
+                for (let item of _data["videoStreams"])
+                    this.videoStreams!.push(VideoStream.fromJS(item));
+            }
+            if (Array.isArray(_data["audioStreams"])) {
+                this.audioStreams = [] as any;
+                for (let item of _data["audioStreams"])
+                    this.audioStreams!.push(AudioStream.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): VideoMetadata {
+        data = typeof data === 'object' ? data : {};
+        let result = new VideoMetadata();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["width"] = this.width;
+        data["height"] = this.height;
+        data["durationInSeconds"] = this.durationInSeconds;
+        data["format"] = this.format;
+        data["codec"] = this.codec;
+        data["overallBitrate"] = this.overallBitrate;
+        if (Array.isArray(this.videoStreams)) {
+            data["videoStreams"] = [];
+            for (let item of this.videoStreams)
+                data["videoStreams"].push(item.toJSON());
+        }
+        if (Array.isArray(this.audioStreams)) {
+            data["audioStreams"] = [];
+            for (let item of this.audioStreams)
+                data["audioStreams"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IVideoMetadata extends IFileMetadata {
+    width?: number;
+    height?: number;
+    durationInSeconds?: number;
+    format?: string | undefined;
+    codec?: string | undefined;
+    overallBitrate?: number | undefined;
+    videoStreams?: IVideoStream[] | undefined;
+    audioStreams?: IAudioStream[] | undefined;
+}
+
+export class VideoStream implements IVideoStream {
+    bitRate?: string | undefined;
+    codec?: string | undefined;
+    displayAspectRatio?: string | undefined;
+    durationInSeconds!: number;
+    format?: string | undefined;
+    frameCount?: number | undefined;
+    frameRate?: number | undefined;
+    height?: number | undefined;
+    language?: string | undefined;
+    pixelAspectRatio?: number | undefined;
+    resolution?: number | undefined;
+    streamSize?: number | undefined;
+    width?: number | undefined;
+    rotation?: number | undefined;
+
+    constructor(data?: IVideoStream) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.bitRate = _data["bitRate"];
+            this.codec = _data["codec"];
+            this.displayAspectRatio = _data["displayAspectRatio"];
+            this.durationInSeconds = _data["durationInSeconds"];
+            this.format = _data["format"];
+            this.frameCount = _data["frameCount"];
+            this.frameRate = _data["frameRate"];
+            this.height = _data["height"];
+            this.language = _data["language"];
+            this.pixelAspectRatio = _data["pixelAspectRatio"];
+            this.resolution = _data["resolution"];
+            this.streamSize = _data["streamSize"];
+            this.width = _data["width"];
+            this.rotation = _data["rotation"];
+        }
+    }
+
+    static fromJS(data: any): VideoStream {
+        data = typeof data === 'object' ? data : {};
+        let result = new VideoStream();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["bitRate"] = this.bitRate;
+        data["codec"] = this.codec;
+        data["displayAspectRatio"] = this.displayAspectRatio;
+        data["durationInSeconds"] = this.durationInSeconds;
+        data["format"] = this.format;
+        data["frameCount"] = this.frameCount;
+        data["frameRate"] = this.frameRate;
+        data["height"] = this.height;
+        data["language"] = this.language;
+        data["pixelAspectRatio"] = this.pixelAspectRatio;
+        data["resolution"] = this.resolution;
+        data["streamSize"] = this.streamSize;
+        data["width"] = this.width;
+        data["rotation"] = this.rotation;
+        return data; 
+    }
+}
+
+export interface IVideoStream {
+    bitRate?: string | undefined;
+    codec?: string | undefined;
+    displayAspectRatio?: string | undefined;
+    durationInSeconds: number;
+    format?: string | undefined;
+    frameCount?: number | undefined;
+    frameRate?: number | undefined;
+    height?: number | undefined;
+    language?: string | undefined;
+    pixelAspectRatio?: number | undefined;
+    resolution?: number | undefined;
+    streamSize?: number | undefined;
+    width?: number | undefined;
+    rotation?: number | undefined;
+}
+
+export class VectorMetadata extends FileMetadata implements IVectorMetadata {
+    author?: string | undefined;
+    creator?: string | undefined;
+    publisher?: string | undefined;
+    company?: string | undefined;
+    title?: string | undefined;
+    pageCount?: number;
+    epsInfo?: EpsMetadata | undefined;
+
+    constructor(data?: IVectorMetadata) {
+        super(data);
+        if (data) {
+            this.epsInfo = data.epsInfo && !(<any>data.epsInfo).toJSON ? new EpsMetadata(data.epsInfo) : <EpsMetadata>this.epsInfo; 
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.author = _data["author"];
+            this.creator = _data["creator"];
+            this.publisher = _data["publisher"];
+            this.company = _data["company"];
+            this.title = _data["title"];
+            this.pageCount = _data["pageCount"];
+            this.epsInfo = _data["epsInfo"] ? EpsMetadata.fromJS(_data["epsInfo"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): VectorMetadata {
+        data = typeof data === 'object' ? data : {};
+        let result = new VectorMetadata();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["author"] = this.author;
+        data["creator"] = this.creator;
+        data["publisher"] = this.publisher;
+        data["company"] = this.company;
+        data["title"] = this.title;
+        data["pageCount"] = this.pageCount;
+        data["epsInfo"] = this.epsInfo ? this.epsInfo.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IVectorMetadata extends IFileMetadata {
+    author?: string | undefined;
+    creator?: string | undefined;
+    publisher?: string | undefined;
+    company?: string | undefined;
+    title?: string | undefined;
+    pageCount?: number;
+    epsInfo?: IEpsMetadata | undefined;
 }
 
 export interface FileParameter {
