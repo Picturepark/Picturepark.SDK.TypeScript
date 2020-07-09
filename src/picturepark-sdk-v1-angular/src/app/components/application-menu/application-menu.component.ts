@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { StorageKey, LocalStorageService } from '@picturepark/sdk-v1-angular';
 
 @Component({
   selector: 'app-application-menu',
@@ -7,7 +8,6 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/co
 })
 export class ApplicationMenuComponent implements OnInit {
   @ViewChild('labelNameElement', { static: true }) labelNameElement: ElementRef;
-  private localStorageThemeKey = 'isLightTheme';
 
   labelName: string | undefined;
   isLightTheme: boolean;
@@ -44,7 +44,7 @@ export class ApplicationMenuComponent implements OnInit {
   menuState = false;
   animateLogoState = false;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, private localStorageService: LocalStorageService) {}
 
   // ANIMATE LOGO
   animateLogo(): void {
@@ -81,7 +81,7 @@ export class ApplicationMenuComponent implements OnInit {
 
   onThemeChange() {
     this.isLightTheme = !this.isLightTheme;
-    localStorage.setItem(this.localStorageThemeKey, `${this.isLightTheme}`);
+    this.localStorageService.set(StorageKey.IsLightTheme, `${this.isLightTheme}`);
     this.applyTheme();
   }
 
@@ -94,7 +94,7 @@ export class ApplicationMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isLightTheme = localStorage.getItem(this.localStorageThemeKey) === 'true';
+    this.isLightTheme = this.localStorageService.get(StorageKey.IsLightTheme) === 'true';
     this.applyTheme();
   }
 }

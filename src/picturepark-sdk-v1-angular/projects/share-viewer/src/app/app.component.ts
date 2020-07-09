@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ShareDetail, IMailRecipient } from '@picturepark/sdk-v1-angular';
+import { ShareDetail, IMailRecipient, StorageKey, LocalStorageService } from '@picturepark/sdk-v1-angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../environments/environment';
 
@@ -13,16 +13,21 @@ export class AppComponent implements OnInit {
   public shareDetail: ShareDetail;
   public mailRecipients: IMailRecipient[];
   public showSearchBox = !environment.production;
-  public showConsent = !window.localStorage.getItem('Picturepark.ShareCookieConsent');
+  public showConsent = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
     // Needed because changes to the local storage [edge] are not updated on soft refresh in a tab [PP9-9217]
+    this.showConsent = !this.localStorageService.get(StorageKey.ShareCookieConsent);
     window.addEventListener('storage', (e) => {
       if (e.key && e.newValue) {
-        window.localStorage.setItem(e.key, e.newValue);
-        this.showConsent = !window.localStorage.getItem('Picturepark.ShareCookieConsent');
+        this.localStorageService.set(e.key as StorageKey, e.newValue);
+        this.showConsent = !this.localStorageService.get(StorageKey.ShareCookieConsent);
       }
     });
   }
@@ -34,7 +39,7 @@ export class AppComponent implements OnInit {
   }
 
   confirmConsent(): void {
-    window.localStorage.setItem('Picturepark.ShareCookieConsent', 'true');
+    this.localStorageService.set(StorageKey.ShareCookieConsent, 'true');
     this.showConsent = false;
   }
 }
