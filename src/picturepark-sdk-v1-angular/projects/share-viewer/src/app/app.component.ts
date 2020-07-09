@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   public shareDetail: ShareDetail;
   public mailRecipients: IMailRecipient[];
   public showSearchBox = !environment.production;
-  public showConsent = false;
+  public showConsent = true;
 
   constructor(
     private route: ActivatedRoute,
