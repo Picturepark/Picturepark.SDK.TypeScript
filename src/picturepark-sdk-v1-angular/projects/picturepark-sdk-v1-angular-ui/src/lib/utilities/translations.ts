@@ -313,16 +313,16 @@ export let TRANSLATIONS = {
       de: 'Suchen',
     },
     SimpleOrSearch: {
-      en: 'Simple (any)',
-      de: 'Einfach (irgendein)',
+      en: 'Simple (OR)',
+      de: 'OR',
     },
     SimpleAndSearch: {
-      en: 'Simple (all)',
-      de: 'Einfach (alle)',
+      en: 'Simple (AND)',
+      de: 'AND',
     },
     AdvancedSearch: {
       en: 'Advanced',
-      de: 'Fortgeschritten',
+      de: 'Erweitert',
     },
   },
   SearchSuggestBox: {
@@ -330,21 +330,37 @@ export let TRANSLATIONS = {
       en: 'Search',
       de: 'Suchen',
     },
+    SimpleOrSearchTooltip: {
+      en:
+        'OR search. Results will contain matches for any term. Separate terms via a blank space, semicolon, or comma.',
+      de: 'OR Suche. Die Ergebnisse enthalten Übereinstimmungen für jeden beliebigen Begriff.',
+    },
     SimpleOrSearch: {
       en: 'Simple (OR)',
-      de: 'Einfach (OR)',
+      de: 'OR',
+    },
+    SimpleAndSearchTooltip: {
+      en:
+        'AND search. Results will contain matches for all terms. Separate terms via a blank space, semicolon, or comma.',
+      de: 'AND Suche. Trennen Sie Begriffe durch ein Leerzeichen, Semikolon oder Komma.',
     },
     SimpleAndSearch: {
       en: 'Simple (AND)',
-      de: 'Einfach (AND)',
+      de: 'AND',
+    },
+    AdvancedSearchTooltip: {
+      en:
+        'Advanced syntax can be used like operands AND, OR, NOT, ~ for fuzziness or brackets for grouping of criteria. More examples in the Advanced Search Cheat Sheet in the manual.',
+      de:
+        'Erweiterte Syntax kann verwendet werden, wie die Operanden AND, OR, NOT, ~ für Fuzziness oder Klammern für die Gruppierung von Kriterien. Mehr Beispiele im Advanced Search Cheat Sheet im Manual',
     },
     AdvancedSearch: {
       en: 'Advanced',
-      de: 'Fortgeschritten',
+      de: 'Erweitert',
     },
     SearchSettings: {
       en: 'Search settings',
-      de: 'Such-Einstellungen',
+      de: 'Sucheinstellungen',
     },
     TypeToSearch: {
       en: 'Type to search',
