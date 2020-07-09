@@ -8117,6 +8117,170 @@ export class OutputFormatClient extends PictureparkClientBase {
     }
 
     /**
+     * Enables or disables XMP writeback for an output format
+     * @param id ID of the output format.
+     * @param request The request containing the state to be set for the output format.
+     * @return Business process
+     */
+    setXmpWritebackState(id: string | null, request: OutputFormatSetXmpWritebackStateRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/OutputFormats/{id}/xmpWriteback";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processSetXmpWritebackState(_response);
+        });
+    }
+
+    protected processSetXmpWritebackState(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Enables or disables XMP writeback for multiple output formats
+     * @param request The request containing the state to be set for the output format.
+     * @return Business process
+     */
+    setXmpWritebackState2(request: OutputFormatSetXmpWritebackStateManyRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/OutputFormats/many/xmpWriteback";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processSetXmpWritebackState2(_response);
+        });
+    }
+
+    protected processSetXmpWritebackState2(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
      * Render output format preview
      * @param request Information about the OutputFormat as well as which Content to use for the preview.
      * @return Rendered file
@@ -11711,15 +11875,18 @@ export class ShareClient extends PictureparkClientBase {
      * Get share json
      * @param token Share token
      * @param lang (optional) Language code
+     * @param resolveBehaviors (optional) List of enums that control which parts of the share are resolved and returned.
      * @return ShareDetail
      */
-    getShareJson(token: string | null, lang?: string | null | undefined): Promise<ShareDetail> {
+    getShareJson(token: string | null, lang?: string | null | undefined, resolveBehaviors?: ShareResolveBehavior[] | null | undefined): Promise<ShareDetail> {
         let url_ = this.baseUrl + "/v1/Shares/json/{token}?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
         url_ = url_.replace("{token}", encodeURIComponent("" + token)); 
         if (lang !== undefined)
             url_ += "lang=" + encodeURIComponent("" + lang) + "&"; 
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -11988,13 +12155,16 @@ export class ShareClient extends PictureparkClientBase {
     /**
      * Get
      * @param id Share Id (not token, use [GetShareJson](#operation/Share_GetShareJson) to get share by token)
+     * @param resolveBehaviors (optional) List of enums that control which parts of the share are resolved and returned.
      * @return Share detail
      */
-    get(id: string | null): Promise<ShareDetail> {
-        let url_ = this.baseUrl + "/v1/Shares/{id}";
+    get(id: string | null, resolveBehaviors?: ShareResolveBehavior[] | null | undefined): Promise<ShareDetail> {
+        let url_ = this.baseUrl + "/v1/Shares/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        if (resolveBehaviors !== undefined)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -13437,16 +13607,16 @@ export class TransferClient extends PictureparkClientBase {
 
     /**
      * Upload file
-     * @param formFile Information about chunk.
      * @param chunkNumber Information about chunk.
      * @param currentChunkSize Information about chunk.
      * @param totalSize Information about chunk.
      * @param totalChunks Information about chunk.
      * @param transferId ID of transfer.
      * @param requestId Identifier of file.
+     * @param body (optional) Body
      * @return OK
      */
-    uploadFile(formFile: FileParameter | null, chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string | null, requestId: string | null): Promise<void> {
+    uploadFile(chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string | null, requestId: string | null, body?: Blob | undefined): Promise<void> {
         let url_ = this.baseUrl + "/v1/Transfers/{transferId}/files/{requestId}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -13472,14 +13642,13 @@ export class TransferClient extends PictureparkClientBase {
             url_ += "TotalChunks=" + encodeURIComponent("" + totalChunks) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = new FormData();
-        if (formFile !== null && formFile !== undefined)
-            content_.append("formFile", formFile.data, formFile.fileName ? formFile.fileName : "formFile");
+        const content_ = body;
 
         let options_ = <RequestInit>{
             body: content_,
             method: "POST",
             headers: {
+                "Content-Type": "application/octet-stream",
             }
         };
 
@@ -15869,6 +16038,813 @@ export class UserClient extends PictureparkClientBase {
     }
 }
 
+export class XmpMappingClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    /**
+     * Gets fields available for XMP mapping.
+     * @return XmpMappingTargets containing both XMP fields and metadata fields that are available for mapping.
+     */
+    getAvailableTargets(): Promise<XmpMappingTargets> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/targets";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetAvailableTargets(_response);
+        });
+    }
+
+    protected processGetAvailableTargets(response: Response): Promise<XmpMappingTargets> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <XmpMappingTargets>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<XmpMappingTargets>(<any>null);
+    }
+
+    /**
+     * Searches for XMP mappings
+     * @param request Search request for getting configured XMP mappings.
+     * @return Holds results of search for XMP mappings
+     */
+    search(request: XmpMappingEntrySearchRequest): Promise<XmpMappingEntrySearchResult> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/search";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processSearch(_response);
+        });
+    }
+
+    protected processSearch(response: Response): Promise<XmpMappingEntrySearchResult> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <XmpMappingEntrySearchResult>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<XmpMappingEntrySearchResult>(<any>null);
+    }
+
+    /**
+     * Get xmp mapping
+     * @param id Xmp mapping ID.
+     * @return XMP mapping entry
+     */
+    get(id: string | null): Promise<XmpMappingEntry> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<XmpMappingEntry> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <XmpMappingEntry>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<XmpMappingEntry>(<any>null);
+    }
+
+    /**
+     * Update xmp mapping
+     * @param id Xmp mapping ID.
+     * @param request Request containing information needed to update the xmp mapping.
+     * @return Business process
+     */
+    update(id: string | null, request: XmpMappingEntry): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdate(_response);
+        });
+    }
+
+    protected processUpdate(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Delete xmp mapping
+     * @param id Xmp mapping ID.
+     * @return Business process
+     */
+    delete(id: string | null): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processDelete(_response);
+        });
+    }
+
+    protected processDelete(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Create xmp mapping
+     * @param request Request containing information needed to create new xmp mapping.
+     * @return Business process
+     */
+    create(request: XmpMappingEntryCreateRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCreate(_response);
+        });
+    }
+
+    protected processCreate(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Get multiple xmp mappings
+     * @param ids (optional) Xmp mapping IDs to get information about.
+     * @return Array of XMP mapping entry
+     */
+    getMany(ids?: string[] | null | undefined): Promise<XmpMappingEntry[]> {
+        let url_ = this.baseUrl + "/v1/XmpMappings?";
+        if (ids !== undefined)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetMany(_response);
+        });
+    }
+
+    protected processGetMany(response: Response): Promise<XmpMappingEntry[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <XmpMappingEntry[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <RequestSizeLimitExceededException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<XmpMappingEntry[]>(<any>null);
+    }
+
+    /**
+     * Create multiple xmp mappings
+     * @param request Request containing information needed to create new xmp mapping.
+     * @return Business process
+     */
+    createMany(request: XmpMappingEntryCreateManyRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCreateMany(_response);
+        });
+    }
+
+    protected processCreateMany(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Update multiple xmp mappings
+     * @param request Request containing information needed to update the xmp mapping.
+     * @return Business process
+     */
+    updateMany(request: XmpMappingEntryUpdateManyRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdateMany(_response);
+        });
+    }
+
+    protected processUpdateMany(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Delete multiple xmp mappings
+     * @param request The request with xmp mapping IDs to delete.
+     * @return Business process
+     */
+    deleteMany(request: XmpMappingEntryDeleteManyRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/many/delete";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processDeleteMany(_response);
+        });
+    }
+
+    protected processDeleteMany(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+}
+
 /** Business process */
 export interface BusinessProcess {
     /** ID of the business process. */
@@ -16199,6 +17175,12 @@ export interface OutputFormatResizingNotSupportedException extends PictureparkVa
 export interface OutputBackupNotRequestedException extends PictureparkValidationException {
 }
 
+export interface DownloadLinkExpiredException extends PictureparkBusinessException {
+}
+
+export interface RenderingNotAwaitedException extends PictureparkBusinessException {
+}
+
 export interface LeaseNotAcquiredException extends PictureparkBusinessException {
     resourceId?: string | undefined;
 }
@@ -16451,6 +17433,7 @@ export enum UserRight {
     ManageOutputFormats = <any>"ManageOutputFormats",
     ManageBusinessProcesses = <any>"ManageBusinessProcesses",
     ManageIdentityProviders = <any>"ManageIdentityProviders",
+    ManageXmpMappings = <any>"ManageXmpMappings",
 }
 
 export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
@@ -16873,6 +17856,12 @@ export interface SchemaFieldInvalidBoostException extends PictureparkValidationE
     schemaId?: string | undefined;
     boost?: number;
     allowedBoostValues?: number[] | undefined;
+}
+
+export interface SchemaFieldSortableInUseException extends PictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+    channelIds?: string[] | undefined;
 }
 
 export interface SchemaNoContentException extends PictureparkValidationException {
@@ -17377,9 +18366,39 @@ export interface NotSupportedFileExtensionForFormatException extends NotSupporte
     outputFormatId?: string | undefined;
 }
 
+export interface OutputFormatXmpWritebackNotSupportedException extends PictureparkValidationException {
+    outputFormatId?: string | undefined;
+}
+
 export interface CollectionSizeLimitExceededException extends PictureparkValidationException {
     collectionId?: string | undefined;
     limit?: number;
+}
+
+export interface XmpMappingFieldNotSupported extends PictureparkValidationException {
+    fieldPath?: string | undefined;
+}
+
+export interface XmpMappingFieldNotFoundException extends PictureparkValidationException {
+    fieldPath?: string | undefined;
+}
+
+export interface XmpMappingSchemaNotAvailableForFileContentSchemaException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export interface XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException extends PictureparkValidationException {
+    layerId?: string | undefined;
+}
+
+export interface XmpMappingFieldInUseException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export interface XmpMappingConfigurationInvalidException extends PictureparkValidationException {
+    fieldPath?: string | undefined;
+    expectedConfiguration?: string | undefined;
 }
 
 export interface ProblemDetails {
@@ -18209,7 +19228,7 @@ export interface BusinessRuleScript extends BusinessRule {
 export interface NamedCacheConfigurationBase {
     /** Name of named cache. */
     name?: string | undefined;
-    /** Indicates if the lookup should be cache sensitive. */
+    /** Indicates if the lookup should be case sensitive. */
     caseSensitive: boolean;
 }
 
@@ -18568,6 +19587,8 @@ export interface Channel {
     names: TranslatedStringDictionary;
     /** Default sort order specified for the channel to sort the results of a content search. */
     sort: SortInfo[];
+    /** Fields to be used for sorting in content browser when displaying the channel. The information is only set and consumed by the client, not by the server. */
+    sortFields: SortField[];
     /** An optional list of aggregators. These aggregations are added by default on each aggregation requests. */
     aggregations: AggregatorBase[];
     /** An Optional list of fields. These fields extend the list of simple search fields outside the bounds of any schema field configuration. */
@@ -18582,10 +19603,23 @@ export interface Channel {
     viewForAll: boolean;
 }
 
+export interface SortField {
+    /** The path of the field ({schemaId}.{fieldId}) */
+    path: string;
+    /** The translated name of the field to be shown in the UI. */
+    names: TranslatedStringDictionary;
+}
+
 export interface ChannelCreateRequest {
+    /** ID of the channel. */
     id?: string | undefined;
+    /** Default sort order specified for the channel to sort the results of a content search. */
     sort?: SortInfo[] | undefined;
+    /** Order in which the channels should be displayed. */
     sortOrder: number;
+    /** Fields to be used for sorting in content browser when displaying the channel. The information is only set and consumed by the client, not by the server. */
+    sortFields: SortField[];
+    /** Language specific channel names. */
     names: TranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
@@ -18604,8 +19638,12 @@ export interface ChannelCreateRequest {
 }
 
 export interface ChannelUpdateRequest {
+    /** Default sort order specified for the channel to sort the results of a content search. */
     sort?: SortInfo[] | undefined;
+    /** Order in which the channels should be displayed. */
     sortOrder: number;
+    /** Fields to be used for sorting in content browser when displaying the channel. The information is only set and consumed by the client, not by the server. */
+    sortFields: SortField[];
     names: TranslatedStringDictionary;
     /** Language specific names. */
     searchIndexId?: string | undefined;
@@ -19044,6 +20082,7 @@ export enum ThumbnailSize {
     Small = <any>"Small",
     Medium = <any>"Medium",
     Large = <any>"Large",
+    Preview = <any>"Preview",
 }
 
 /** Request to create a content */
@@ -19695,7 +20734,7 @@ export interface DocumentHistorySearchRequest {
 
 export interface IdentityProviderEditable {
     /** Mapping of identity provider claims to user attributes */
-    claimMapping?: { [key: string]: string; } | undefined;
+    claimMapping?: IdpClaimToUserAttributeMapping[] | undefined;
     /** Name of the identity provider claim that holds group membership information */
     groupClaimType?: string | undefined;
     /** IdP (AD) group to user role ID mapping */
@@ -19712,6 +20751,13 @@ export interface IdentityProvider extends IdentityProviderEditable {
     name?: string | undefined;
     /** Display name of the identity provider as defined in IdentityServer */
     displayName?: string | undefined;
+}
+
+export interface IdpClaimToUserAttributeMapping {
+    /** Claim type name coming from external identity provider */
+    claimType?: string | undefined;
+    /** Path to a user attribute to synchronize */
+    userAttributePath?: string | undefined;
 }
 
 export interface IdpGroupToUserRoleMapping {
@@ -20191,6 +21237,23 @@ The customer's default language is required. */
     patterns?: TranslatedStringDictionary | undefined;
 }
 
+export interface OutputFormatSetXmpWritebackStateRequest {
+    /** Indicates if XMP writeback shall be enabled for the format. */
+    enabled: boolean;
+}
+
+/** Used to change the state of XMP writeback for multiple output formats at once. */
+export interface OutputFormatSetXmpWritebackStateManyRequest {
+    /** XMP writeback state changes to be processed. */
+    items?: OutputFormatSetXmpWritebackStateRequestItem[] | undefined;
+}
+
+/** Represents a change to the XMP writeback state to one output format. */
+export interface OutputFormatSetXmpWritebackStateRequestItem extends OutputFormatSetXmpWritebackStateRequest {
+    /** ID of the output format to set XMP writeback state for. */
+    id: string;
+}
+
 /** Specifies for which content a given format should be rendered */
 export interface OutputFormatRenderPreviewRequest {
     /** The content for which the format should be rendered */
@@ -20236,14 +21299,6 @@ export interface ImageFormatBase extends FormatBase {
     verticalResolution?: number | undefined;
     /** Copy clipping paths from input. */
     keepClippingPath?: boolean;
-    /** Copy Exif metadata from input. */
-    cloneExif?: boolean;
-    /** Copy Iptc metadata from input. */
-    cloneIptc?: boolean;
-    /** Copy AdobeResources from input. */
-    cloneAdobeResources?: boolean;
-    /** Copy Xmp metadata from input. */
-    cloneXmp?: boolean;
     /** Allows resizing of the image. */
     resizeAction?: ResizeAction | undefined;
     /** A collection of actions to be applied during rendering. */
@@ -20379,8 +21434,6 @@ export interface OriginalFormat extends FormatBase {
 export interface JpegFormat extends ImageFormatBase {
     /** Compression quality. Must be in range [0,100] and defaults to 80. */
     quality?: number;
-    /** Whether to use progressive encoding or not. */
-    isProgressive?: boolean;
     /** Whether to use chroma subsampling or not. */
     chromaSubsamplingEnabled?: boolean;
     extension?: string | undefined;
@@ -20388,8 +21441,6 @@ export interface JpegFormat extends ImageFormatBase {
 
 /** Renders a PNG image. */
 export interface PngFormat extends ImageFormatBase {
-    /** Whether the image is interlaced or not. */
-    interlaced?: boolean;
     extension?: string | undefined;
 }
 
@@ -20552,6 +21603,8 @@ If set, the customer's default language is required. */
     downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
     /** Indicates if outputs derived from original output format should be accessible also for users not having AccessOriginal permission on the content. */
     viewForAll?: boolean;
+    /** Indicates if metadata should be written into XMP header of outputs where applicable and configured. */
+    enableXmpWriteback?: boolean;
 }
 
 /** Represents an output format. */
@@ -20905,6 +21958,8 @@ export interface FieldDateTime extends FieldBase {
     format?: string | undefined;
     /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
     boost?: number;
+    /** If set to true, the date time value is automatically set when a content or list item is created. */
+    initializeOnItemCreation?: boolean;
 }
 
 /** The field used to store multiple date time values */
@@ -21565,6 +22620,8 @@ export interface ShareDetail {
     outputAccess: OutputAccess;
     /** Type of share. */
     shareType: ShareType;
+    /** Schema detail of the content and the layers. */
+    schemas?: SchemaDetail[] | undefined;
 }
 
 /** Reduced set of user information used for shares */
@@ -21680,6 +22737,10 @@ export enum OutputAccess {
     Full = <any>"Full",
     Preview = <any>"Preview",
     None = <any>"None",
+}
+
+export enum ShareResolveBehavior {
+    Schemas = <any>"Schemas",
 }
 
 /** Base of update request for share */
@@ -22007,115 +23068,6 @@ export interface FileMetadata {
     xmpMetadata?: any | undefined;
     exifMetadata?: any | undefined;
     language?: string | undefined;
-}
-
-export interface AudioMetadata extends FileMetadata {
-    audioStreams?: AudioStream[] | undefined;
-}
-
-export interface AudioStream {
-    bitRate?: string | undefined;
-    bitRateMode?: string | undefined;
-    channels?: string | undefined;
-    channelPositions?: string | undefined;
-    codec?: string | undefined;
-    durationInSeconds?: number | undefined;
-    format?: string | undefined;
-    language?: string | undefined;
-    resolution?: number | undefined;
-    samplingRate?: number | undefined;
-    streamSize?: number | undefined;
-}
-
-export interface DocumentMetadata extends FileMetadata {
-    applicationName?: string | undefined;
-    applicationVersion?: string | undefined;
-    author?: string | undefined;
-    creator?: string | undefined;
-    publisher?: string | undefined;
-    company?: string | undefined;
-    documentTitle?: string | undefined;
-    characterCount?: number;
-    characterCountWithSpaces?: number;
-    lineCount?: number;
-    pageCount?: number;
-    slideCount?: number;
-    paragraphCount?: number;
-    revisionNumber?: number;
-    titles?: string[] | undefined;
-    imageTitles?: string[] | undefined;
-    epsInfo?: EpsMetadata | undefined;
-}
-
-export interface EpsMetadata {
-    isRasterized: boolean;
-    widthInPoints: number;
-    heightInPoints: number;
-}
-
-export interface ImageMetadata extends FileMetadata {
-    width?: number;
-    height?: number;
-    widthInInch?: number;
-    heightInInch?: number;
-    widthInCm?: number;
-    heightInCm?: number;
-    colorSpace?: string | undefined;
-    colorProfile?: string | undefined;
-    bitsPerPixel?: number;
-    bitsPerChannel?: number;
-    channels?: string | undefined;
-    pixelFormat?: string | undefined;
-    hasAlpha?: boolean;
-    isIndexed?: boolean;
-    isExtended?: boolean;
-    horizontalResolution?: number;
-    verticalResolution?: number;
-    totalFrames?: number;
-    totalUnspecifiedTiffExtraChannels?: number;
-    hasExifData?: boolean;
-    hasIptcData?: boolean;
-    hasAdobeResourceData?: boolean;
-    hasXmpData?: boolean;
-    uncompressedSizeInBytes?: number;
-}
-
-export interface VideoMetadata extends FileMetadata {
-    width?: number;
-    height?: number;
-    durationInSeconds?: number;
-    format?: string | undefined;
-    codec?: string | undefined;
-    overallBitrate?: number | undefined;
-    videoStreams?: VideoStream[] | undefined;
-    audioStreams?: AudioStream[] | undefined;
-}
-
-export interface VideoStream {
-    bitRate?: string | undefined;
-    codec?: string | undefined;
-    displayAspectRatio?: string | undefined;
-    durationInSeconds: number;
-    format?: string | undefined;
-    frameCount?: number | undefined;
-    frameRate?: number | undefined;
-    height?: number | undefined;
-    language?: string | undefined;
-    pixelAspectRatio?: number | undefined;
-    resolution?: number | undefined;
-    streamSize?: number | undefined;
-    width?: number | undefined;
-    rotation?: number | undefined;
-}
-
-export interface VectorMetadata extends FileMetadata {
-    author?: string | undefined;
-    creator?: string | undefined;
-    publisher?: string | undefined;
-    company?: string | undefined;
-    title?: string | undefined;
-    pageCount?: number;
-    epsInfo?: EpsMetadata | undefined;
 }
 
 export interface FileTransferOutput {
@@ -22531,6 +23483,176 @@ export interface UserUpdateIdentityProviderManyRequest extends UserManyRequestBa
     identityProviderId: string;
 }
 
+/** Represents a list of source/target fields for XMP mappings */
+export interface XmpMappingTargets {
+    /** Fields in XMP/Exif. */
+    xmpFields: XmpField[];
+    /** Fields in metadata. */
+    metadataFields: MetadataField[];
+}
+
+/** Represents a field in XMP that can be mapped from or to */
+export interface XmpField {
+    /** Path of the field in XMP. */
+    path?: string | undefined;
+    /** Indicates if the field can be written to. */
+    isWritable: boolean;
+    /** Data type of the field. */
+    dataType: XmpFieldDataType;
+}
+
+/** Data types of XMP fields */
+export enum XmpFieldDataType {
+    Simple = <any>"Simple",
+    LangAlt = <any>"LangAlt",
+    List = <any>"List",
+}
+
+/** Represents a field in metadata that XMP can be mapped to or from */
+export interface MetadataField {
+    /** Path to the field in metadata. */
+    path: string;
+    /** Indicates if the field can act as target for a mapping.
+If field is read-only, it can only act as source of a mapping. */
+    isWritable: boolean;
+    /** Data type of the field. */
+    dataType: MetadataFieldDataType;
+    /** A list of field IDs that can be used as a key field when a tagbox is mapped. */
+    availableKeyFields?: string[] | undefined;
+}
+
+/** Data types of metadata fields */
+export enum MetadataFieldDataType {
+    Simple = <any>"Simple",
+    TranslatedString = <any>"TranslatedString",
+    Tagbox = <any>"Tagbox",
+}
+
+/** Base class for search results */
+export interface BaseResultOfXmpMappingEntry {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: XmpMappingEntry[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    pageToken?: string | undefined;
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export interface SearchBehaviorBaseResultOfXmpMappingEntry extends BaseResultOfXmpMappingEntry {
+    /** The search string used to query the data */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    isSearchStringRewritten?: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export interface SearchBehaviorWithAggregationBaseResultOfXmpMappingEntry extends SearchBehaviorBaseResultOfXmpMappingEntry {
+    /** Results of the aggregation, if any aggregators was passed in the request. */
+    aggregationResults?: AggregationResult[] | undefined;
+}
+
+/** Holds results of search for XMP mappings */
+export interface XmpMappingEntrySearchResult extends SearchBehaviorWithAggregationBaseResultOfXmpMappingEntry {
+}
+
+/** Editable properties of a XMP mapping entry */
+export interface XmpMappingEntryEditable {
+    /** Direction of the mapping. */
+    direction: MappingDirection;
+    /** Priority of the mapping. */
+    priority: number;
+    /** Stop processing further mappings for the same field if a value was found. */
+    stopProcessing: boolean;
+    /** Path to source property in XMP. */
+    xmpPath: string;
+    /** Path to target property in metadata. */
+    metadataPath: string;
+    /** Optional additional configuration for the mapping. */
+    configuration?: XmpMappingEntryConfigurationBase | undefined;
+}
+
+/** XMP mapping entry */
+export interface XmpMappingEntry extends XmpMappingEntryEditable {
+    id: string;
+}
+
+/** Direction of mapping of XMP data */
+export enum MappingDirection {
+    XmpToMetadata = <any>"XmpToMetadata",
+    MetadataToXmp = <any>"MetadataToXmp",
+    Both = <any>"Both",
+}
+
+export interface XmpMappingEntryConfigurationBase {
+}
+
+/** Additional configuration for a mapping tagbox fields */
+export interface XmpMappingEntryConfigurationTagbox extends XmpMappingEntryConfigurationBase {
+    /** IDs of key fields. */
+    keyFieldIds: string[];
+    /** Indicates if lookup shall be performed case sensitive. */
+    caseSensitive: boolean;
+    /** Indicates if child schemas should also be included. */
+    includeAllSchemaChildren: boolean;
+}
+
+/** Search request for getting configured XMP mappings */
+export interface XmpMappingEntrySearchRequest {
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance. */
+    debugMode: boolean;
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Limits the document count of the result set. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+}
+
+/** Request to create XMP mapping */
+export interface XmpMappingEntryCreateRequest extends XmpMappingEntryEditable {
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
+    requestId?: string | undefined;
+}
+
+/** Request to create many XMP mappings */
+export interface XmpMappingEntryCreateManyRequest {
+    /** Mappings to create. */
+    items?: XmpMappingEntryCreateRequest[] | undefined;
+}
+
+/** Request to update many XMP mappings */
+export interface XmpMappingEntryUpdateManyRequest {
+    /** Items to update. */
+    items?: XmpMappingEntry[] | undefined;
+}
+
+/** Request to delete many XMP mappings */
+export interface XmpMappingEntryDeleteManyRequest {
+    /** IDs to delete. */
+    ids?: string[] | undefined;
+}
+
 export interface DataDictionary {
 
     [key: string]: any; 
@@ -22666,6 +23788,10 @@ export interface BusinessProcessCancellationRequestedEvent extends ApplicationEv
     businessProcessId?: string | undefined;
 }
 
+export interface XmpWritebackCompletedEvent extends ApplicationEvent {
+    outputDocId?: string | undefined;
+}
+
 export interface ConsoleMessage extends Message {
     command?: string | undefined;
     arguments?: TupleOfStringAndString[] | undefined;
@@ -22686,6 +23812,115 @@ export interface NodeInfoMessage extends Message {
     productVersion?: string | undefined;
     release?: string | undefined;
     logLevel?: string | undefined;
+}
+
+export interface AudioMetadata extends FileMetadata {
+    audioStreams?: AudioStream[] | undefined;
+}
+
+export interface AudioStream {
+    bitRate?: string | undefined;
+    bitRateMode?: string | undefined;
+    channels?: string | undefined;
+    channelPositions?: string | undefined;
+    codec?: string | undefined;
+    durationInSeconds?: number | undefined;
+    format?: string | undefined;
+    language?: string | undefined;
+    resolution?: number | undefined;
+    samplingRate?: number | undefined;
+    streamSize?: number | undefined;
+}
+
+export interface DocumentMetadata extends FileMetadata {
+    applicationName?: string | undefined;
+    applicationVersion?: string | undefined;
+    author?: string | undefined;
+    creator?: string | undefined;
+    publisher?: string | undefined;
+    company?: string | undefined;
+    documentTitle?: string | undefined;
+    characterCount?: number;
+    characterCountWithSpaces?: number;
+    lineCount?: number;
+    pageCount?: number;
+    slideCount?: number;
+    paragraphCount?: number;
+    revisionNumber?: number;
+    titles?: string[] | undefined;
+    imageTitles?: string[] | undefined;
+    epsInfo?: EpsMetadata | undefined;
+}
+
+export interface EpsMetadata {
+    isRasterized: boolean;
+    widthInPoints: number;
+    heightInPoints: number;
+}
+
+export interface ImageMetadata extends FileMetadata {
+    width?: number;
+    height?: number;
+    widthInInch?: number;
+    heightInInch?: number;
+    widthInCm?: number;
+    heightInCm?: number;
+    colorSpace?: string | undefined;
+    colorProfile?: string | undefined;
+    bitsPerPixel?: number;
+    bitsPerChannel?: number;
+    channels?: string | undefined;
+    pixelFormat?: string | undefined;
+    hasAlpha?: boolean;
+    isIndexed?: boolean;
+    isExtended?: boolean;
+    horizontalResolution?: number;
+    verticalResolution?: number;
+    totalFrames?: number;
+    totalUnspecifiedTiffExtraChannels?: number;
+    hasExifData?: boolean;
+    hasIptcData?: boolean;
+    hasAdobeResourceData?: boolean;
+    hasXmpData?: boolean;
+    uncompressedSizeInBytes?: number;
+}
+
+export interface VideoMetadata extends FileMetadata {
+    width?: number;
+    height?: number;
+    durationInSeconds?: number;
+    format?: string | undefined;
+    codec?: string | undefined;
+    overallBitrate?: number | undefined;
+    videoStreams?: VideoStream[] | undefined;
+    audioStreams?: AudioStream[] | undefined;
+}
+
+export interface VideoStream {
+    bitRate?: string | undefined;
+    codec?: string | undefined;
+    displayAspectRatio?: string | undefined;
+    durationInSeconds: number;
+    format?: string | undefined;
+    frameCount?: number | undefined;
+    frameRate?: number | undefined;
+    height?: number | undefined;
+    language?: string | undefined;
+    pixelAspectRatio?: number | undefined;
+    resolution?: number | undefined;
+    streamSize?: number | undefined;
+    width?: number | undefined;
+    rotation?: number | undefined;
+}
+
+export interface VectorMetadata extends FileMetadata {
+    author?: string | undefined;
+    creator?: string | undefined;
+    publisher?: string | undefined;
+    company?: string | undefined;
+    title?: string | undefined;
+    pageCount?: number;
+    epsInfo?: EpsMetadata | undefined;
 }
 
 export interface FileParameter {

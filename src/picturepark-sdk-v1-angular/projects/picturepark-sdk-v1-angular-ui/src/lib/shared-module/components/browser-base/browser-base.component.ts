@@ -90,8 +90,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     if (!this.sortingTypes) {
       this.sortingTypes = [
         {
-          field: 'relevance',
-          name: this.translationService.translate('SortInfo.Relevance'),
+          field: '_score',
+          name: this.translationService.translate('SortMenu.Relevance'),
         },
       ];
       this.activeSortingType = this.sortingTypes[0];
@@ -235,22 +235,19 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   }
 
   setSort(newValue: ISortItem, isAscending: boolean, reload: boolean = true): void {
-    if (newValue.field === 'relevance') {
+    if (newValue.field === '_score') {
       this.isAscending = null;
     } else {
       this.isAscending = isAscending;
     }
 
     this.activeSortingType = newValue;
-    const sort =
-      this.activeSortingType.field === 'relevance'
-        ? []
-        : [
-            new SortInfo({
-              field: this.activeSortingType.field,
-              direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc,
-            }),
-          ];
+    const sort = [
+      new SortInfo({
+        field: this.activeSortingType.field,
+        direction: this.isAscending ? SortDirection.Asc : SortDirection.Desc,
+      }),
+    ];
 
     if (reload) {
       this.facade.patchRequestState({ sort });

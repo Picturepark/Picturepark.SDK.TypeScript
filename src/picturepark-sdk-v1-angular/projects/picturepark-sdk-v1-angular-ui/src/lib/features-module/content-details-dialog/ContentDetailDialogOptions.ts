@@ -5,6 +5,7 @@ export interface ContentDetailDialogOptions {
   shareContent: ShareContentDetail;
   shareDetail: ShareDetail;
   showMetadata: boolean;
+  showReferenced?: boolean;
   hasNext(): boolean;
   next(): ShareContentDetail | string;
   hasPrevious(): boolean;
