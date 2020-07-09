@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Content, ContentService, fetchContents } from '@picturepark/sdk-v1-angular';
+import { Content, ContentService, fetchContents, LocalStorageService, StorageKey } from '@picturepark/sdk-v1-angular';
 import { BasketChange, BasketOperation } from './interfaces/basket-change';
 
 @Injectable({
@@ -11,12 +11,11 @@ export class BasketService {
   private basketItemsSubject: BehaviorSubject<Content[]>;
   private basketChanges: BehaviorSubject<BasketChange>;
 
-  private localStorageKey = 'basketItems';
   private basketItemsIds: Set<string> = new Set();
   private basketItems: Content[] = [];
 
-  constructor(private contentService: ContentService) {
-    const itemsString = localStorage.getItem(this.localStorageKey);
+  constructor(private contentService: ContentService, private localStorageService: LocalStorageService) {
+    const itemsString = this.localStorageService.get(StorageKey.BasketItems);
     const itemsIdsArray = itemsString ? (JSON.parse(itemsString) as string[]) : [];
 
     this.basketItemsIdsSubject = new BehaviorSubject([]);
@@ -106,7 +105,7 @@ export class BasketService {
 
     // Update storage
     const value = JSON.stringify(itemsIdsArray);
-    localStorage.setItem(this.localStorageKey, value);
+    this.localStorageService.set(StorageKey.BasketItems, value);
 
     // Update basket items ids
     this.basketItemsIdsSubject.next(itemsIdsArray);
