@@ -581,6 +581,12 @@ export let TRANSLATIONS = {
       de: 'Items',
     },
   },
+  LayerFieldService: {
+    NoRelations: {
+      en: 'Relations cannot be displayed',
+      de: 'Relationen können nicht angezeigt werden',
+    },
+  },
 };
 
 const fallbackLanguage = 'en';
