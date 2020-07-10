@@ -19558,6 +19558,28 @@
           }
         ]
       },
+      "DownloadLinkExpiredException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkBusinessException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "RenderingNotAwaitedException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkBusinessException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
       "LeaseNotAcquiredException": {
         "allOf": [
           {
@@ -31494,11 +31516,11 @@
         "additionalProperties": false,
         "properties": {
           "claimMapping": {
-            "type": "object",
+            "type": "array",
             "description": "Mapping of identity provider claims to user attributes",
             "nullable": true,
-            "additionalProperties": {
-              "type": "string"
+            "items": {
+              "$ref": "#/components/schemas/IdpClaimToUserAttributeMapping"
             }
           },
           "groupClaimType": {
@@ -31517,6 +31539,22 @@
           "fallbackUserRoleId": {
             "type": "string",
             "description": "Optional user role ID that will be assigned to a user is none of the group mappings produce a match",
+            "nullable": true
+          }
+        }
+      },
+      "IdpClaimToUserAttributeMapping": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "claimType": {
+            "type": "string",
+            "description": "Claim type name coming from external identity provider",
+            "nullable": true
+          },
+          "userAttributePath": {
+            "type": "string",
+            "description": "Path to a user attribute to synchronize",
             "nullable": true
           }
         }
