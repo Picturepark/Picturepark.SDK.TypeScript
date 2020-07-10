@@ -16199,6 +16199,12 @@ export interface OutputFormatResizingNotSupportedException extends PictureparkVa
 export interface OutputBackupNotRequestedException extends PictureparkValidationException {
 }
 
+export interface DownloadLinkExpiredException extends PictureparkBusinessException {
+}
+
+export interface RenderingNotAwaitedException extends PictureparkBusinessException {
+}
+
 export interface LeaseNotAcquiredException extends PictureparkBusinessException {
     resourceId?: string | undefined;
 }
@@ -19695,7 +19701,7 @@ export interface DocumentHistorySearchRequest {
 
 export interface IdentityProviderEditable {
     /** Mapping of identity provider claims to user attributes */
-    claimMapping?: { [key: string]: string; } | undefined;
+    claimMapping?: IdpClaimToUserAttributeMapping[] | undefined;
     /** Name of the identity provider claim that holds group membership information */
     groupClaimType?: string | undefined;
     /** IdP (AD) group to user role ID mapping */
@@ -19712,6 +19718,13 @@ export interface IdentityProvider extends IdentityProviderEditable {
     name?: string | undefined;
     /** Display name of the identity provider as defined in IdentityServer */
     displayName?: string | undefined;
+}
+
+export interface IdpClaimToUserAttributeMapping {
+    /** Claim type name coming from external identity provider */
+    claimType?: string | undefined;
+    /** Path to a user attribute to synchronize */
+    userAttributePath?: string | undefined;
 }
 
 export interface IdpGroupToUserRoleMapping {

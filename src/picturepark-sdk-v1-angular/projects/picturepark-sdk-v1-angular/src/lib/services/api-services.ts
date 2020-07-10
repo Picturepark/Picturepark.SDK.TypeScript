@@ -20566,6 +20566,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DownloadLinkExpiredException") {
+            let result = new DownloadLinkExpiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "RenderingNotAwaitedException") {
+            let result = new RenderingNotAwaitedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "LeaseNotAcquiredException") {
             let result = new LeaseNotAcquiredException();
             result.init(data);
@@ -21943,6 +21953,16 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "OutputBackupNotRequestedException") {
             let result = new OutputBackupNotRequestedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "DownloadLinkExpiredException") {
+            let result = new DownloadLinkExpiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "RenderingNotAwaitedException") {
+            let result = new RenderingNotAwaitedException();
             result.init(data);
             return result;
         }
@@ -26013,6 +26033,62 @@ export class OutputBackupNotRequestedException extends PictureparkValidationExce
 }
 
 export interface IOutputBackupNotRequestedException extends IPictureparkValidationException {
+}
+
+export class DownloadLinkExpiredException extends PictureparkBusinessException implements IDownloadLinkExpiredException {
+
+    constructor(data?: IDownloadLinkExpiredException) {
+        super(data);
+        this._discriminator = "DownloadLinkExpiredException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): DownloadLinkExpiredException {
+        data = typeof data === 'object' ? data : {};
+        let result = new DownloadLinkExpiredException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IDownloadLinkExpiredException extends IPictureparkBusinessException {
+}
+
+export class RenderingNotAwaitedException extends PictureparkBusinessException implements IRenderingNotAwaitedException {
+
+    constructor(data?: IRenderingNotAwaitedException) {
+        super(data);
+        this._discriminator = "RenderingNotAwaitedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): RenderingNotAwaitedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new RenderingNotAwaitedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IRenderingNotAwaitedException extends IPictureparkBusinessException {
 }
 
 export class LeaseNotAcquiredException extends PictureparkBusinessException implements ILeaseNotAcquiredException {
@@ -48620,7 +48696,7 @@ export interface IDocumentHistorySearchRequest {
 
 export class IdentityProviderEditable implements IIdentityProviderEditable {
     /** Mapping of identity provider claims to user attributes */
-    claimMapping?: { [key: string]: string; } | undefined;
+    claimMapping?: IdpClaimToUserAttributeMapping[] | undefined;
     /** Name of the identity provider claim that holds group membership information */
     groupClaimType?: string | undefined;
     /** IdP (AD) group to user role ID mapping */
@@ -48634,6 +48710,13 @@ export class IdentityProviderEditable implements IIdentityProviderEditable {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            if (data.claimMapping) {
+                this.claimMapping = [];
+                for (let i = 0; i < data.claimMapping.length; i++) {
+                    let item = data.claimMapping[i];
+                    this.claimMapping[i] = item && !(<any>item).toJSON ? new IdpClaimToUserAttributeMapping(item) : <IdpClaimToUserAttributeMapping>item;
+                }
+            }
             if (data.groupMapping) {
                 this.groupMapping = [];
                 for (let i = 0; i < data.groupMapping.length; i++) {
@@ -48646,12 +48729,10 @@ export class IdentityProviderEditable implements IIdentityProviderEditable {
 
     init(_data?: any) {
         if (_data) {
-            if (_data["claimMapping"]) {
-                this.claimMapping = {} as any;
-                for (let key in _data["claimMapping"]) {
-                    if (_data["claimMapping"].hasOwnProperty(key))
-                        this.claimMapping![key] = _data["claimMapping"][key];
-                }
+            if (Array.isArray(_data["claimMapping"])) {
+                this.claimMapping = [] as any;
+                for (let item of _data["claimMapping"])
+                    this.claimMapping!.push(IdpClaimToUserAttributeMapping.fromJS(item));
             }
             this.groupClaimType = _data["groupClaimType"];
             if (Array.isArray(_data["groupMapping"])) {
@@ -48672,12 +48753,10 @@ export class IdentityProviderEditable implements IIdentityProviderEditable {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.claimMapping) {
-            data["claimMapping"] = {};
-            for (let key in this.claimMapping) {
-                if (this.claimMapping.hasOwnProperty(key))
-                    data["claimMapping"][key] = this.claimMapping[key];
-            }
+        if (Array.isArray(this.claimMapping)) {
+            data["claimMapping"] = [];
+            for (let item of this.claimMapping)
+                data["claimMapping"].push(item.toJSON());
         }
         data["groupClaimType"] = this.groupClaimType;
         if (Array.isArray(this.groupMapping)) {
@@ -48692,7 +48771,7 @@ export class IdentityProviderEditable implements IIdentityProviderEditable {
 
 export interface IIdentityProviderEditable {
     /** Mapping of identity provider claims to user attributes */
-    claimMapping?: { [key: string]: string; } | undefined;
+    claimMapping?: IIdpClaimToUserAttributeMapping[] | undefined;
     /** Name of the identity provider claim that holds group membership information */
     groupClaimType?: string | undefined;
     /** IdP (AD) group to user role ID mapping */
@@ -48748,6 +48827,50 @@ export interface IIdentityProvider extends IIdentityProviderEditable {
     name?: string | undefined;
     /** Display name of the identity provider as defined in IdentityServer */
     displayName?: string | undefined;
+}
+
+export class IdpClaimToUserAttributeMapping implements IIdpClaimToUserAttributeMapping {
+    /** Claim type name coming from external identity provider */
+    claimType?: string | undefined;
+    /** Path to a user attribute to synchronize */
+    userAttributePath?: string | undefined;
+
+    constructor(data?: IIdpClaimToUserAttributeMapping) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.claimType = _data["claimType"];
+            this.userAttributePath = _data["userAttributePath"];
+        }
+    }
+
+    static fromJS(data: any): IdpClaimToUserAttributeMapping {
+        data = typeof data === 'object' ? data : {};
+        let result = new IdpClaimToUserAttributeMapping();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["claimType"] = this.claimType;
+        data["userAttributePath"] = this.userAttributePath;
+        return data; 
+    }
+}
+
+export interface IIdpClaimToUserAttributeMapping {
+    /** Claim type name coming from external identity provider */
+    claimType?: string | undefined;
+    /** Path to a user attribute to synchronize */
+    userAttributePath?: string | undefined;
 }
 
 export class IdpGroupToUserRoleMapping implements IIdpGroupToUserRoleMapping {
