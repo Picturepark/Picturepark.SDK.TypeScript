@@ -33,7 +33,7 @@
         <td mat-cell *matCellDef="let row">
           <mat-checkbox
             (click)="$event.stopPropagation()"
-            (change)="$event ? toggle(row) : null"
+            (change)="$event ? toggle($event, row) : null"
             [checked]="isRowSelected(row)"
             [aria-label]="checkboxLabel(row)"
           >
@@ -51,7 +51,7 @@
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
-        (click)="rowClick(row)"
+        (click)="rowClick($event, row)"
         [ngClass]="{ selected: isRowSelected(row) }"
       ></tr>
     </table>

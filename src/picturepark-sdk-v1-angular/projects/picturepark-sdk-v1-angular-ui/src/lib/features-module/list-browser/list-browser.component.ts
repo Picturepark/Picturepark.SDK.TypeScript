@@ -157,10 +157,9 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     return this.selectionService.getById(row._refId) ? true : false;
   }
 
-  public toggle(row: any) {
+  public toggle(event, row: any) {
     const index = this.items.findIndex((item) => item.id === row._refId);
-    const itemModel = this.items[index];
-    this.selectionService.toggle(itemModel);
+    this.itemClicked(event, index, true);
   }
 
   /** The label for the checkbox on the passed row */
@@ -171,9 +170,9 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     return `${this.isRowSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  public rowClick(row: any): void {
+  public rowClick(event, row: any): void {
     if (this.enableSelection) {
-      this.toggle(row);
+      this.toggle(event, row);
     }
   }
 }
