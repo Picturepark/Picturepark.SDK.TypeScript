@@ -14,7 +14,7 @@ const routes: Routes = [
     loadChildren: () => import('./content-picker/content-picker.module').then((m) => m.ContentPickerModule),
   },
   {
-    path: 'list-item-picker',
+    path: 'list-item-browser',
     loadChildren: () => import('./list-item-picker/list-item-picker.module').then((m) => m.ListItemPickerModule),
   },
   {

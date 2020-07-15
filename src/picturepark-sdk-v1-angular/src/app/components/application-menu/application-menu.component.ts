@@ -31,7 +31,7 @@ export class ApplicationMenuComponent implements OnInit {
     {
       name: 'Lists',
       icon: 'reorder',
-      link: 'list-item-picker',
+      link: 'list-item-browser',
     },
     {
       name: 'Help',
