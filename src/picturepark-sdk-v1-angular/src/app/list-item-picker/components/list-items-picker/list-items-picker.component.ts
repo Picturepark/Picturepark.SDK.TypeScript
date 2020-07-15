@@ -68,7 +68,7 @@ export class ListItemsPickerComponent extends BaseComponent implements OnInit {
   }
 
   public setParent(schema: Schema) {
-    this.updateRoute(['/list-item-picker'], { ...this.queryParams, parentSchemaId: schema.id });
+    this.updateRoute(['/list-item-browser'], { ...this.queryParams, parentSchemaId: schema.id });
   }
 
   private updateRoute(commands: any[], queryParams?: Params): void {
