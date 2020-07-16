@@ -167,12 +167,13 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   public toggle(event: MatCheckboxChange | MouseEvent, row: any, presist = false) {
-    if (event instanceof MatCheckboxChange) {
-      event = new MouseEvent('click', { shiftKey: this.isShiftPressed });
+    if (this.enableSelection) {
+      if (event instanceof MatCheckboxChange) {
+        event = new MouseEvent('click', { shiftKey: this.isShiftPressed });
+      }
+      const index = this.items.findIndex((item) => item.id === row._refId);
+      this.itemClicked(event, index, presist);
     }
-    debugger;
-    const index = this.items.findIndex((item) => item.id === row._refId);
-    this.itemClicked(event, index, presist);
   }
 
   /** The label for the checkbox on the passed row */
@@ -181,11 +182,5 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.isRowSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-  }
-
-  public rowClick(event, row: any): void {
-    if (this.enableSelection) {
-      this.toggle(event, row);
-    }
   }
 }
