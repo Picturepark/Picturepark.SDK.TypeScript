@@ -51,7 +51,7 @@
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
-        (click)="rowClick($event, row)"
+        (click)="toggle($event, row)"
         [ngClass]="{ selected: isRowSelected(row) }"
       ></tr>
     </table>
