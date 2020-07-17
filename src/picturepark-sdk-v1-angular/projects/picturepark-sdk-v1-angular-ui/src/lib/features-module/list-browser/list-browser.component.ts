@@ -46,7 +46,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   public activeSortColumn: string;
   public activeSortDirection: MatSortDirection;
   public customerInfo: CustomerInfo;
-  private isShiftPressed = false;
+  public isShiftPressed = false;
 
   constructor(
     private metaDataPreviewService: MetaDataPreviewService,
