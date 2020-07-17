@@ -22,6 +22,7 @@ import { TranslationService } from '../../services/translations/translation.serv
 import { IBrowserView } from './interfaces/browser-view';
 import { debounceTime } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { RangeSelection } from './interfaces/range-selection';
 
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
   // Services
@@ -67,6 +68,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
   private _selectedItems: TEntity[] = [];
   private lastSelectedIndex = 0;
+  private lastRangeSelection: RangeSelection | null;
 
   totalResults$ = this.facade.totalResults$;
   items$ = this.facade.items$;
@@ -187,26 +189,49 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   /**
    * Click event to trigger selection (ctrl + shift click)
    */
-  public itemClicked(event: MouseEvent, index: number): void {
+  public itemClicked(event: MouseEvent, index: number, presist = false): void {
     const itemModel = this.items[index];
     if (event.ctrlKey) {
+      this.lastRangeSelection = null;
       this.lastSelectedIndex = index;
       this.selectionService.toggle(itemModel);
       return;
-    } else if (event.shiftKey) {
+    }
+
+    if (!presist) {
+      this.selectionService.clear();
+    }
+
+    if (event.shiftKey) {
       const firstIndex = this.lastSelectedIndex < index ? this.lastSelectedIndex : index;
       const lastIndex = this.lastSelectedIndex < index ? index : this.lastSelectedIndex;
 
+      if (this.lastRangeSelection && presist) {
+        let itemsToRemove: TEntity[] = [];
+
+        if (firstIndex === this.lastRangeSelection.lastIndex) {
+          itemsToRemove = this.items.slice(this.lastRangeSelection.firstIndex, firstIndex + 1).map((i) => i);
+        } else if (firstIndex < this.lastRangeSelection.firstIndex) {
+          itemsToRemove = this.items.slice(lastIndex, this.lastRangeSelection.lastIndex + 1).map((i) => i);
+        } else if (lastIndex < this.lastRangeSelection.lastIndex) {
+          itemsToRemove = this.items.slice(lastIndex, this.lastRangeSelection.lastIndex + 1).map((i) => i);
+        }
+
+        if (itemsToRemove.length) {
+          this.selectionService.removeItems(itemsToRemove);
+        }
+      }
+
       const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map((i) => i);
 
-      this.selectionService.clear();
       this.selectionService.addItems(itemsToAdd);
+      this.lastRangeSelection = { firstIndex, lastIndex };
       return;
     }
 
+    this.lastRangeSelection = null;
     this.lastSelectedIndex = index;
-    this.selectionService.clear();
-    this.selectionService.addItem(itemModel);
+    this.selectionService.toggle(itemModel);
   }
 
   public itemPressed(event: Event, index: number): void {
