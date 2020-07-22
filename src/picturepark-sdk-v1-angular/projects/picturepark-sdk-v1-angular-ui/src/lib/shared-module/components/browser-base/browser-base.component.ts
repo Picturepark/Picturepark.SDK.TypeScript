@@ -190,8 +190,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
    * Click event to trigger selection (ctrl + shift click)
    */
   public itemClicked(event: MouseEvent, index: number, presist = false): void {
+    const isSafari = navigator.userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('Chrome') === -1;
     const itemModel = this.items[index];
-    if (event.ctrlKey) {
+    if (event.ctrlKey || (isSafari && event.metaKey)) {
       this.lastRangeSelection = null;
       this.lastSelectedIndex = index;
       this.selectionService.toggle(itemModel);
