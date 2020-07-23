@@ -23,7 +23,7 @@ export class DownloadFacade {
 
     return this.contentService.createDownloadLink(request).pipe(
       mergeMap((businessProcess) => {
-        return this.businessProcessService.waitForCompletion(businessProcess.id, undefined, false).pipe(
+        return this.businessProcessService.waitForCompletion(businessProcess.id, '02:00:00', false).pipe(
           mergeMap(() => {
             if (!businessProcess.referenceId) {
               return throwError('Business process did not return a referenceId');
