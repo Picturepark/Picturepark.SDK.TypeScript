@@ -191,7 +191,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
    */
   public itemClicked(event: MouseEvent, index: number, presist = false): void {
     const itemModel = this.items[index];
-    if (event.ctrlKey) {
+    if (event.ctrlKey || event.metaKey) {
       this.lastRangeSelection = null;
       this.lastSelectedIndex = index;
       this.selectionService.toggle(itemModel);

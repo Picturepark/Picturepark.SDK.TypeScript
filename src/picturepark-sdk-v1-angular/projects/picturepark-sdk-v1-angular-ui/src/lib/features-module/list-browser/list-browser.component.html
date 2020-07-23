@@ -14,7 +14,7 @@
   <div class="table-container" *ngIf="(totalResults$ | async) !== 0" cdkScrollable>
     <table
       mat-table
-      [ngClass]="{ 'list-table': isShiftPressed }"
+      class="list-table"
       matSort
       (matSortChange)="sortData($event)"
       [matSortActive]="activeSortColumn"
