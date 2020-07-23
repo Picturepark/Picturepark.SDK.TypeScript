@@ -31,8 +31,21 @@
 
     img {
       cursor: pointer;
-      width: 100%;
+      display: block;
+      margin: 0 auto;
       max-height: 100%;
+      max-width: 100%;
+    }
+
+    img.icon {
+      max-height: 150px;
+      max-width: 150px;
+    }
+  }
+
+  .content-image-preview-content-mobile {
+    img {
+      width: 100% !important;
     }
   }
 
