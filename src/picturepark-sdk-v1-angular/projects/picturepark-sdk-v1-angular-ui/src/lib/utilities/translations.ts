@@ -406,27 +406,35 @@ export let TRANSLATIONS = {
     },
     FileSize: {
       en: 'Download size: ~',
+      de: 'Downloadgröße: ~',
     },
     FileSizeDynamicOutputs: {
       en: 'Download size (without dynamic formats): ~',
+      de: 'Downloadgröße (ohne dynamische Formate): ~',
     },
     Title: {
       en: 'Download',
+      de: 'Download',
     },
     Advanced: {
       en: 'Show more formats',
+      de: 'Mehr Formate anzeigen',
     },
     Simple: {
       en: 'Show less formats',
+      de: 'Weniger Formate anzeigen',
     },
     Download: {
       en: 'Download',
+      de: 'Download',
     },
     Cancel: {
       en: 'Cancel',
+      de: 'Abbrechen',
     },
     NoAccess: {
       en: 'No access to any format',
+      de: 'Kein Zugang zu einem Format',
     },
     ConfirmDownloadTitle: {
       en: 'Download ready',
