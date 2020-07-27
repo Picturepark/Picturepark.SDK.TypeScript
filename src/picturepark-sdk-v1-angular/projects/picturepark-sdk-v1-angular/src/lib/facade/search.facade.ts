@@ -96,7 +96,7 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
 
   abstract searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined;
 
-  constructor(private partialState: Partial<TState>) {
+  constructor(private initialPartialState: Partial<TState>) {
     this.resetRequestState();
   }
 
@@ -195,7 +195,7 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
       aggregationFilters: [],
       aggregators: [],
       sort: [],
-      ...this.partialState,
+      ...this.initialPartialState,
     } as any;
   }
 }
