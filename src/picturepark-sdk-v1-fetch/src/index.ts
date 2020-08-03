@@ -1927,7 +1927,7 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
     /**
      * Transfer ownership of content permission set
      * @param id Content permission set ID.
-     * @param request Request
+     * @param request Request to transfer the ownership of a permission set.
      */
     transferOwnership(id: string | null, request: PermissionSetOwnershipTransferRequest): Promise<void> {
         let url_ = this.baseUrl + "/v1/ContentPermissionSets/{id}/ownership";
@@ -2085,7 +2085,7 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
 
     /**
      * Create multiple content permission sets
-     * @param request Request
+     * @param request Request to create multiple content permission sets.
      * @return Response to a bulk operation
      */
     createMany(request: ContentPermissionSetCreateManyRequest): Promise<BulkResponse> {
@@ -2245,7 +2245,7 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
 
     /**
      * Delete multiple content permission sets
-     * @param request Request
+     * @param request Request to delete multiple permission sets.
      * @return Response to a bulk operation
      */
     deleteMany(request: PermissionSetDeleteManyRequest): Promise<BulkResponse> {
@@ -2325,7 +2325,7 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
 
     /**
      * Transfer ownership of multiple content permission sets
-     * @param request Request
+     * @param request Request to transfer the ownership of multiple permission sets.
      */
     transferOwnershipMany(request: PermissionSetOwnershipTransferManyRequest): Promise<void> {
         let url_ = this.baseUrl + "/v1/ContentPermissionSets/many/ownership";
@@ -2402,7 +2402,7 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
     /**
      * Get permissions for multiple content permission sets
      * @param ids (optional) Ids
-     * @return Array of
+     * @return Array of Rights that the current user has on a permission set
      */
     getPermissionsMany(ids?: string[] | null | undefined): Promise<PermissionSetUserPermissionRights[]> {
         let url_ = this.baseUrl + "/v1/ContentPermissionSets/many/permissions?";
@@ -9909,7 +9909,7 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
     /**
      * Transfer ownership of schema permission set
      * @param id Schema permission set ID.
-     * @param request Request
+     * @param request Request to transfer the ownership of a permission set.
      */
     transferOwnership(id: string | null, request: PermissionSetOwnershipTransferRequest): Promise<void> {
         let url_ = this.baseUrl + "/v1/SchemaPermissionSets/{id}/ownership";
@@ -10067,7 +10067,7 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
 
     /**
      * Create multiple schema permission sets
-     * @param request Request
+     * @param request Request to update multiple schema permission sets.
      * @return Response to a bulk operation
      */
     createMany(request: SchemaPermissionSetCreateManyRequest): Promise<BulkResponse> {
@@ -10227,7 +10227,7 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
 
     /**
      * Delete multiple schema permission sets
-     * @param request Request
+     * @param request Request to delete multiple permission sets.
      * @return Response to a bulk operation
      */
     deleteMany(request: PermissionSetDeleteManyRequest): Promise<BulkResponse> {
@@ -10307,7 +10307,7 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
 
     /**
      * Transfer ownership of multiple schema permission sets
-     * @param request Request
+     * @param request Request to transfer the ownership of multiple permission sets.
      */
     transferOwnershipMany(request: PermissionSetOwnershipTransferManyRequest): Promise<void> {
         let url_ = this.baseUrl + "/v1/SchemaPermissionSets/many/ownership";
@@ -10384,7 +10384,7 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
     /**
      * Get permissions for multiple schema permission sets
      * @param ids (optional) Ids
-     * @return Array of
+     * @return Array of Rights that the current user has on a permission set
      */
     getPermissionsMany(ids?: string[] | null | undefined): Promise<PermissionSetUserPermissionRights[]> {
         let url_ = this.baseUrl + "/v1/SchemaPermissionSets/many/permissions?";
@@ -17037,8 +17037,9 @@ export interface UnableToMapMultipleClaimTypesIntoSameAttributeException extends
     attributePath?: string | undefined;
 }
 
-export interface UnableToChangeUserRolesForFederatedUser extends PictureparkValidationException {
+export interface UnableToChangeMappedUserRolesForFederatedUserException extends PictureparkValidationException {
     affectedUserId?: string | undefined;
+    userRoleIds?: string[] | undefined;
 }
 
 export interface UnableToDeleteDefaultUserRoleException extends UnableToDeleteUserRoleException {
@@ -17046,6 +17047,11 @@ export interface UnableToDeleteDefaultUserRoleException extends UnableToDeleteUs
 
 export interface UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException extends UnableToDeleteUserRoleException {
     identityProviderIds?: string[] | undefined;
+}
+
+export interface UserPropertyChangeNotSupportedException extends PictureparkValidationException {
+    propertyPath?: string | undefined;
+    affectedUserId?: string | undefined;
 }
 
 export interface RenderingException extends PictureparkBusinessException {
@@ -17278,7 +17284,7 @@ export interface CustomerAliasNotFoundException extends PictureparkException {
     customerAlias?: string | undefined;
 }
 
-export interface CustomerAliasInUseException extends PictureparkBusinessException {
+export interface CustomerAliasInUseException extends PictureparkValidationException {
     existingCustomerId?: string | undefined;
     alias?: string | undefined;
 }
@@ -17310,6 +17316,18 @@ export interface CustomerBoostValuesInvalidException extends PictureparkValidati
 export interface SnapshotRetentionTimeTooShortException extends PictureparkValidationException {
     snapshotRetentionTime?: string;
     minimumRetentionTime?: string;
+}
+
+export interface ReshardIndexNotAllowedException extends PictureparkValidationException {
+}
+
+export interface ReshardNumberOfShardsInvalidException extends PictureparkValidationException {
+}
+
+export interface ReshardNumberOfRoutingShardsInvalidException extends ReshardNumberOfShardsInvalidException {
+}
+
+export interface ReshardNumberOfShardsInvalidForExistingRoutingShardsException extends ReshardNumberOfShardsInvalidException {
 }
 
 export interface ConfigurationIndexNotFoundException extends PictureparkException {
@@ -17985,6 +18003,34 @@ export interface DisplayPatternTypeNotSupportedException extends PictureparkVali
     displayPatternId?: string | undefined;
 }
 
+export interface SchemaFieldActivityInUseException extends PictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+}
+
+export interface SchemaFieldReferencedSchemaChangeNotAllowedException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    oldReferencedSchemaId?: string | undefined;
+    newReferencedSchemaId?: string | undefined;
+}
+
+export interface SchemaFieldReferencedSchemaSystemSchemaException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    referencedSchemaId?: string | undefined;
+}
+
+export interface SchemaFieldRelationRelationTypeIdModificationNotAllowedException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export interface SchemaFieldRelationTargetDocTypeModificationNotAllowedException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
     numberOfReferences?: number;
     numberOfShares?: number;
@@ -18136,6 +18182,7 @@ export enum EnvironmentProcessType {
     CustomerUpdate = <any>"CustomerUpdate",
     EnvironmentUpdate = <any>"EnvironmentUpdate",
     CustomerBoostValuesUpdate = <any>"CustomerBoostValuesUpdate",
+    CustomerReshard = <any>"CustomerReshard",
 }
 
 export interface EnvironmentProcessNotFoundException extends PictureparkNotFoundException {
@@ -18401,6 +18448,10 @@ export interface XmpMappingConfigurationInvalidException extends PictureparkVali
     expectedConfiguration?: string | undefined;
 }
 
+export interface ActivityMappingInvalidException extends PictureparkValidationException {
+    activityMapping?: string | undefined;
+}
+
 export interface ProblemDetails {
     type?: string | undefined;
     title?: string | undefined;
@@ -18609,14 +18660,15 @@ export interface BaseResultOfBusinessProcess {
     results: BusinessProcess[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusinessProcess {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -19279,14 +19331,15 @@ export interface BaseResultOfBusinessRuleTraceLog {
     results: BusinessRuleTraceLog[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfBusinessRuleTraceLog extends BaseResultOfBusinessRuleTraceLog {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -19667,11 +19720,11 @@ export interface PermissionSetDetailOfContentRight {
     id: string;
     /** Language specific permission set names. */
     names: TranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
-    /** When true this permission set will derogate all other configured permission sets on content documents or list items. */
+    /** When true this permission set will derogate all other configured permission sets on the Content Item or List Item. */
     exclusive: boolean;
     /** The owner token ID. Defines the permission set owner. */
     ownerTokenId: string;
@@ -19737,13 +19790,21 @@ export interface User {
 }
 
 export interface PermissionSetCreateRequestOfContentRight {
+    /** Language specific permission set names. */
     names: TranslatedStringDictionary;
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
+    /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
+    /** When true this permission set will derogate all other configured permission sets on Content Items or List Items. */
     exclusive: boolean;
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
     requestId?: string | undefined;
 }
 
+/** Request to create a content permission set */
 export interface ContentPermissionSetCreateRequest extends PermissionSetCreateRequestOfContentRight {
 }
 
@@ -19765,7 +19826,7 @@ export interface UserRoleRightsOfPermissionSetRight {
 export interface PermissionSetUpdateRequestOfContentRight {
     /** Language specific permission set names. */
     names: TranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
@@ -19775,6 +19836,7 @@ export interface PermissionSetUpdateRequestOfContentRight {
 export interface ContentPermissionSetUpdateRequest extends PermissionSetUpdateRequestOfContentRight {
 }
 
+/** Request to transfer the ownership of a permission set */
 export interface PermissionSetOwnershipTransferRequest {
     /** The ID of the user to whom the permission set ownership should be transferred to. */
     transferUserId: string;
@@ -19802,7 +19864,9 @@ export interface BulkResponseRow {
     requestId?: string | undefined;
 }
 
+/** Request to create multiple content permission sets */
 export interface ContentPermissionSetCreateManyRequest {
+    /** Content permission set update requests. */
     items?: ContentPermissionSetCreateRequest[] | undefined;
 }
 
@@ -19822,11 +19886,15 @@ export interface PermissionSetUpdateRequestItemOfContentRight extends Permission
 export interface ContentPermissionSetUpdateRequestItem extends PermissionSetUpdateRequestItemOfContentRight {
 }
 
+/** Request to delete multiple permission sets */
 export interface PermissionSetDeleteManyRequest {
+    /** Permission set IDs. */
     permissionSetIds?: string[] | undefined;
 }
 
+/** Request to transfer the ownership of multiple permission sets */
 export interface PermissionSetOwnershipTransferManyRequest {
+    /** Permission set ownership transfer requests. */
     items?: PermissionSetOwnershipTransferItem[] | undefined;
 }
 
@@ -19835,8 +19903,11 @@ export interface PermissionSetOwnershipTransferItem extends PermissionSetOwnersh
     permissionSetId?: string | undefined;
 }
 
+/** Rights that the current user has on a permission set */
 export interface PermissionSetUserPermissionRights {
+    /** Permission set ID. */
     permissionSetId?: string | undefined;
+    /** List of rights on the permission set specified by PermissionSetId */
     permissionSetRights?: PermissionSetRight[] | undefined;
 }
 
@@ -19848,14 +19919,15 @@ export interface BaseResultOfPermissionSet {
     results: PermissionSet[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermissionSet {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -19940,6 +20012,8 @@ They are available only for file base contents, and they depends on the output f
     lifeCycle: LifeCycle;
     /** List of content rights the user has on this content */
     contentRights?: ContentRight[] | undefined;
+    /** Activity information: dynamically mapped from configured metadata fields or from audit information if no mapping is configured. */
+    activity?: Activity | undefined;
 }
 
 /** Output */
@@ -20060,6 +20134,11 @@ export enum LifeCycle {
     Deleted = <any>"Deleted",
 }
 
+export interface Activity {
+    creationDate?: Date | undefined;
+    modificationDate?: Date | undefined;
+}
+
 export enum ContentResolveBehavior {
     Content = <any>"Content",
     LinkedListItems = <any>"LinkedListItems",
@@ -20129,8 +20208,6 @@ Replace: the content is updated so that only the layers specified in the LayerSc
 existing assigned layers not specified in the property are removed and missing layers are assigned.
 Defaults to Merge. */
     layerSchemasUpdateOptions: UpdateOption;
-    /** Obsolete attribute, please use LayerFieldsUpdateOption and ContentFieldsUpdateOption for finer control over metadata and/or content update. */
-    schemaFieldsUpdateOptions?: UpdateOption | undefined;
     /** Options to modify the behavior for updating the values of schemas.
 Merge: the values specified in the Metadata dictionary are merged to the existing values of the corresponding schema on the content.
 Replace: the values specified in the Metadata dictionary entirely replace any existing value of the corresponding schema on the content.
@@ -20184,6 +20261,7 @@ export interface BaseResultOfMetadataReference {
     results: MetadataReference[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
@@ -20216,6 +20294,7 @@ export interface BaseResultOfContentShareReference {
     results: ContentShareReference[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
@@ -20521,14 +20600,15 @@ export interface BaseResultOfContent {
     results: Content[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfContent extends BaseResultOfContent {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -20707,6 +20787,7 @@ export interface BaseResultOfDocumentHistory {
     results: DocumentHistory[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
@@ -20913,6 +20994,8 @@ They are referenced list items that reference at least a list item that do not e
     brokenIndirectReferenceIds?: string[] | undefined;
     /** Audit information. */
     audit?: UserAuditDetail | undefined;
+    /** Activity information: dynamically mapped from configured metadata fields or from audit information if no mapping is configured. */
+    activity?: Activity | undefined;
 }
 
 export enum ListItemResolveBehavior {
@@ -21069,14 +21152,15 @@ export interface BaseResultOfListItem {
     results: ListItem[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -21172,6 +21256,7 @@ export interface BaseResultOfLiveStream {
     results: LiveStream[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
@@ -21659,6 +21744,7 @@ export interface BaseResultOfOutput {
     results: Output[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
@@ -21772,11 +21858,11 @@ export interface PermissionSetDetailOfMetadataRight {
     id: string;
     /** Language specific permission set names. */
     names: TranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
-    /** When true this permission set will derogate all other configured permission sets on content documents or list items. */
+    /** When true this permission set will derogate all other configured permission sets on the Content Item or List Item. */
     exclusive: boolean;
     /** The owner token ID. Defines the permission set owner. */
     ownerTokenId: string;
@@ -21800,13 +21886,21 @@ export interface PermissionUserRoleRightsOfMetadataRight {
 }
 
 export interface PermissionSetCreateRequestOfMetadataRight {
+    /** Language specific permission set names. */
     names: TranslatedStringDictionary;
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
+    /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
+    /** When true this permission set will derogate all other configured permission sets on Content Items or List Items. */
     exclusive: boolean;
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
     requestId?: string | undefined;
 }
 
+/** Request to create a schema permission set */
 export interface SchemaPermissionSetCreateRequest extends PermissionSetCreateRequestOfMetadataRight {
 }
 
@@ -21821,7 +21915,7 @@ export interface UserRoleRightsOfMetadataRight {
 export interface PermissionSetUpdateRequestOfMetadataRight {
     /** Language specific permission set names. */
     names: TranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
@@ -21831,7 +21925,9 @@ export interface PermissionSetUpdateRequestOfMetadataRight {
 export interface SchemaPermissionSetUpdateRequest extends PermissionSetUpdateRequestOfMetadataRight {
 }
 
+/** Request to update multiple schema permission sets */
 export interface SchemaPermissionSetCreateManyRequest {
+    /** Schema permission sets create requests. */
     items?: SchemaPermissionSetCreateRequest[] | undefined;
 }
 
@@ -22442,14 +22538,15 @@ export interface BaseResultOfSchema {
     results: Schema[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -22843,14 +22940,15 @@ export interface BaseResultOfShare {
     results: Share[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfShare extends BaseResultOfShare {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -22995,14 +23093,15 @@ export interface BaseResultOfTransfer {
     results: Transfer[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -23107,14 +23206,15 @@ export interface BaseResultOfFileTransfer {
     results: FileTransfer[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTransfer {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -23168,14 +23268,15 @@ export interface BaseResultOfUserRole {
     results: UserRole[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -23252,10 +23353,10 @@ export interface UserRoleDeleteManyRequest {
     ids: string[];
 }
 
-/** Represents the updateable fields of the user. */
-export interface UserUpdateRequest extends User {
+/** Detail information about a user. */
+export interface UserDetail extends User {
     /** User roles the user should be assigned to. Overwrites the original user roles. */
-    userRoles?: UserRole[] | undefined;
+    userRoles?: UserRoleAssignment[] | undefined;
     /** Comment saved for the user. */
     comment?: string | undefined;
     /** Preferred language, e.g. for correspondence. */
@@ -23264,10 +23365,6 @@ export interface UserUpdateRequest extends User {
     address?: UserAddress | undefined;
     /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
     identityProviderId?: string | undefined;
-}
-
-/** Detail information about a user. */
-export interface UserDetail extends UserUpdateRequest {
     /** Owner tokens referencing the user. */
     ownerTokens?: OwnerToken[] | undefined;
     /** Authorization state the user is currently in. */
@@ -23286,11 +23383,32 @@ export interface UserDetail extends UserUpdateRequest {
     audit?: UserAuditDetail | undefined;
 }
 
+export interface UserRoleAssignment {
+    /** User role assigned. */
+    userRole?: UserRole | undefined;
+    /** Marks user roles that were assigned automatically to a federated user based on group mapping of a federated identity provider. */
+    isFederated: boolean;
+}
+
 export interface OwnerToken {
     /** The ownertoken id. */
     id?: string | undefined;
     /** The id of the user to whom this ownertoken currently belongs to. */
     userId?: string | undefined;
+}
+
+/** Represents the updateable fields of the user. */
+export interface UserUpdateRequest extends User {
+    /** User roles the user should be assigned to. Overwrites the original user roles. */
+    userRoles?: UserRole[] | undefined;
+    /** Comment saved for the user. */
+    comment?: string | undefined;
+    /** Preferred language, e.g. for correspondence. */
+    languageCode?: string | undefined;
+    /** User's address. */
+    address?: UserAddress | undefined;
+    /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
+    identityProviderId?: string | undefined;
 }
 
 export interface UserLockRequest {
@@ -23382,14 +23500,15 @@ export interface BaseResultOfUserWithRoles {
     results: UserWithRoles[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWithRoles {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -23536,14 +23655,15 @@ export interface BaseResultOfXmpMappingEntry {
     results: XmpMappingEntry[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface SearchBehaviorBaseResultOfXmpMappingEntry extends BaseResultOfXmpMappingEntry {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;

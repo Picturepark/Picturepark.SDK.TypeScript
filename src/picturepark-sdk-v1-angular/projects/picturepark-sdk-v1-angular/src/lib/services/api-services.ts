@@ -2362,7 +2362,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
     /**
      * Transfer ownership of content permission set
      * @param id Content permission set ID.
-     * @param request Request
+     * @param request Request to transfer the ownership of a permission set.
      */
     transferOwnership(id: string | null, request: PermissionSetOwnershipTransferRequest): Observable<void> {
         let url_ = this.baseUrl + "/v1/ContentPermissionSets/{id}/ownership";
@@ -2561,7 +2561,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
 
     /**
      * Create multiple content permission sets
-     * @param request Request
+     * @param request Request to create multiple content permission sets.
      * @return Response to a bulk operation
      */
     createMany(request: ContentPermissionSetCreateManyRequest): Observable<BulkResponse> {
@@ -2759,7 +2759,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
 
     /**
      * Delete multiple content permission sets
-     * @param request Request
+     * @param request Request to delete multiple permission sets.
      * @return Response to a bulk operation
      */
     deleteMany(request: PermissionSetDeleteManyRequest): Observable<BulkResponse> {
@@ -2858,7 +2858,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
 
     /**
      * Transfer ownership of multiple content permission sets
-     * @param request Request
+     * @param request Request to transfer the ownership of multiple permission sets.
      */
     transferOwnershipMany(request: PermissionSetOwnershipTransferManyRequest): Observable<void> {
         let url_ = this.baseUrl + "/v1/ContentPermissionSets/many/ownership";
@@ -2953,7 +2953,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
     /**
      * Get permissions for multiple content permission sets
      * @param ids (optional) Ids
-     * @return Array of
+     * @return Array of Rights that the current user has on a permission set
      */
     getPermissionsMany(ids: string[] | null | undefined): Observable<PermissionSetUserPermissionRights[]> {
         let url_ = this.baseUrl + "/v1/ContentPermissionSets/many/permissions?";
@@ -12381,7 +12381,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
     /**
      * Transfer ownership of schema permission set
      * @param id Schema permission set ID.
-     * @param request Request
+     * @param request Request to transfer the ownership of a permission set.
      */
     transferOwnership(id: string | null, request: PermissionSetOwnershipTransferRequest): Observable<void> {
         let url_ = this.baseUrl + "/v1/SchemaPermissionSets/{id}/ownership";
@@ -12580,7 +12580,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
 
     /**
      * Create multiple schema permission sets
-     * @param request Request
+     * @param request Request to update multiple schema permission sets.
      * @return Response to a bulk operation
      */
     createMany(request: SchemaPermissionSetCreateManyRequest): Observable<BulkResponse> {
@@ -12778,7 +12778,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
 
     /**
      * Delete multiple schema permission sets
-     * @param request Request
+     * @param request Request to delete multiple permission sets.
      * @return Response to a bulk operation
      */
     deleteMany(request: PermissionSetDeleteManyRequest): Observable<BulkResponse> {
@@ -12877,7 +12877,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
 
     /**
      * Transfer ownership of multiple schema permission sets
-     * @param request Request
+     * @param request Request to transfer the ownership of multiple permission sets.
      */
     transferOwnershipMany(request: PermissionSetOwnershipTransferManyRequest): Observable<void> {
         let url_ = this.baseUrl + "/v1/SchemaPermissionSets/many/ownership";
@@ -12972,7 +12972,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
     /**
      * Get permissions for multiple schema permission sets
      * @param ids (optional) Ids
-     * @return Array of
+     * @return Array of Rights that the current user has on a permission set
      */
     getPermissionsMany(ids: string[] | null | undefined): Observable<PermissionSetUserPermissionRights[]> {
         let url_ = this.baseUrl + "/v1/SchemaPermissionSets/many/permissions?";
@@ -21677,8 +21677,8 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "UnableToChangeUserRolesForFederatedUser") {
-            let result = new UnableToChangeUserRolesForFederatedUser();
+        if (data["kind"] === "UnableToChangeMappedUserRolesForFederatedUserException") {
+            let result = new UnableToChangeMappedUserRolesForFederatedUserException();
             result.init(data);
             return result;
         }
@@ -21689,6 +21689,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException") {
             let result = new UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserPropertyChangeNotSupportedException") {
+            let result = new UserPropertyChangeNotSupportedException();
             result.init(data);
             return result;
         }
@@ -21907,6 +21912,26 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SnapshotRetentionTimeTooShortException") {
             let result = new SnapshotRetentionTimeTooShortException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardIndexNotAllowedException") {
+            let result = new ReshardIndexNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardNumberOfShardsInvalidException") {
+            let result = new ReshardNumberOfShardsInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardNumberOfRoutingShardsInvalidException") {
+            let result = new ReshardNumberOfRoutingShardsInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardNumberOfShardsInvalidForExistingRoutingShardsException") {
+            let result = new ReshardNumberOfShardsInvalidForExistingRoutingShardsException();
             result.init(data);
             return result;
         }
@@ -22475,6 +22500,31 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldActivityInUseException") {
+            let result = new SchemaFieldActivityInUseException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldReferencedSchemaChangeNotAllowedException") {
+            let result = new SchemaFieldReferencedSchemaChangeNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldReferencedSchemaSystemSchemaException") {
+            let result = new SchemaFieldReferencedSchemaSystemSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldRelationRelationTypeIdModificationNotAllowedException") {
+            let result = new SchemaFieldRelationRelationTypeIdModificationNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldRelationTargetDocTypeModificationNotAllowedException") {
+            let result = new SchemaFieldRelationTargetDocTypeModificationNotAllowedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DeleteContentsWithReferencesException") {
             let result = new DeleteContentsWithReferencesException();
             result.init(data);
@@ -22897,6 +22947,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "XmpMappingConfigurationInvalidException") {
             let result = new XmpMappingConfigurationInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ActivityMappingInvalidException") {
+            let result = new ActivityMappingInvalidException();
             result.init(data);
             return result;
         }
@@ -23107,8 +23162,8 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "UnableToChangeUserRolesForFederatedUser") {
-            let result = new UnableToChangeUserRolesForFederatedUser();
+        if (data["kind"] === "UnableToChangeMappedUserRolesForFederatedUserException") {
+            let result = new UnableToChangeMappedUserRolesForFederatedUserException();
             result.init(data);
             return result;
         }
@@ -23119,6 +23174,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException") {
             let result = new UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserPropertyChangeNotSupportedException") {
+            let result = new UserPropertyChangeNotSupportedException();
             result.init(data);
             return result;
         }
@@ -23337,6 +23397,26 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SnapshotRetentionTimeTooShortException") {
             let result = new SnapshotRetentionTimeTooShortException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardIndexNotAllowedException") {
+            let result = new ReshardIndexNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardNumberOfShardsInvalidException") {
+            let result = new ReshardNumberOfShardsInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardNumberOfRoutingShardsInvalidException") {
+            let result = new ReshardNumberOfRoutingShardsInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardNumberOfShardsInvalidForExistingRoutingShardsException") {
+            let result = new ReshardNumberOfShardsInvalidForExistingRoutingShardsException();
             result.init(data);
             return result;
         }
@@ -23905,6 +23985,31 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldActivityInUseException") {
+            let result = new SchemaFieldActivityInUseException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldReferencedSchemaChangeNotAllowedException") {
+            let result = new SchemaFieldReferencedSchemaChangeNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldReferencedSchemaSystemSchemaException") {
+            let result = new SchemaFieldReferencedSchemaSystemSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldRelationRelationTypeIdModificationNotAllowedException") {
+            let result = new SchemaFieldRelationRelationTypeIdModificationNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldRelationTargetDocTypeModificationNotAllowedException") {
+            let result = new SchemaFieldRelationTargetDocTypeModificationNotAllowedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DeleteContentsWithReferencesException") {
             let result = new DeleteContentsWithReferencesException();
             result.init(data);
@@ -24330,6 +24435,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ActivityMappingInvalidException") {
+            let result = new ActivityMappingInvalidException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkBusinessException();
         result.init(data);
         return result;
@@ -24449,8 +24559,8 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "UnableToChangeUserRolesForFederatedUser") {
-            let result = new UnableToChangeUserRolesForFederatedUser();
+        if (data["kind"] === "UnableToChangeMappedUserRolesForFederatedUserException") {
+            let result = new UnableToChangeMappedUserRolesForFederatedUserException();
             result.init(data);
             return result;
         }
@@ -24461,6 +24571,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException") {
             let result = new UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserPropertyChangeNotSupportedException") {
+            let result = new UserPropertyChangeNotSupportedException();
             result.init(data);
             return result;
         }
@@ -24567,6 +24682,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "CustomerAliasInUseException") {
+            let result = new CustomerAliasInUseException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "CustomerBoostValuesInvalidException") {
             let result = new CustomerBoostValuesInvalidException();
             result.init(data);
@@ -24574,6 +24694,26 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SnapshotRetentionTimeTooShortException") {
             let result = new SnapshotRetentionTimeTooShortException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardIndexNotAllowedException") {
+            let result = new ReshardIndexNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardNumberOfShardsInvalidException") {
+            let result = new ReshardNumberOfShardsInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardNumberOfRoutingShardsInvalidException") {
+            let result = new ReshardNumberOfRoutingShardsInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardNumberOfShardsInvalidForExistingRoutingShardsException") {
+            let result = new ReshardNumberOfShardsInvalidForExistingRoutingShardsException();
             result.init(data);
             return result;
         }
@@ -24997,6 +25137,31 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldActivityInUseException") {
+            let result = new SchemaFieldActivityInUseException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldReferencedSchemaChangeNotAllowedException") {
+            let result = new SchemaFieldReferencedSchemaChangeNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldReferencedSchemaSystemSchemaException") {
+            let result = new SchemaFieldReferencedSchemaSystemSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldRelationRelationTypeIdModificationNotAllowedException") {
+            let result = new SchemaFieldRelationRelationTypeIdModificationNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldRelationTargetDocTypeModificationNotAllowedException") {
+            let result = new SchemaFieldRelationTargetDocTypeModificationNotAllowedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DeleteContentsWithReferencesException") {
             let result = new DeleteContentsWithReferencesException();
             result.init(data);
@@ -25339,6 +25504,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "XmpMappingConfigurationInvalidException") {
             let result = new XmpMappingConfigurationInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ActivityMappingInvalidException") {
+            let result = new ActivityMappingInvalidException();
             result.init(data);
             return result;
         }
@@ -26279,24 +26449,30 @@ export interface IUnableToMapMultipleClaimTypesIntoSameAttributeException extend
     attributePath?: string | undefined;
 }
 
-export class UnableToChangeUserRolesForFederatedUser extends PictureparkValidationException implements IUnableToChangeUserRolesForFederatedUser {
+export class UnableToChangeMappedUserRolesForFederatedUserException extends PictureparkValidationException implements IUnableToChangeMappedUserRolesForFederatedUserException {
     affectedUserId?: string | undefined;
+    userRoleIds?: string[] | undefined;
 
-    constructor(data?: IUnableToChangeUserRolesForFederatedUser) {
+    constructor(data?: IUnableToChangeMappedUserRolesForFederatedUserException) {
         super(data);
-        this._discriminator = "UnableToChangeUserRolesForFederatedUser";
+        this._discriminator = "UnableToChangeMappedUserRolesForFederatedUserException";
     }
 
     init(_data?: any) {
         super.init(_data);
         if (_data) {
             this.affectedUserId = _data["affectedUserId"];
+            if (Array.isArray(_data["userRoleIds"])) {
+                this.userRoleIds = [] as any;
+                for (let item of _data["userRoleIds"])
+                    this.userRoleIds!.push(item);
+            }
         }
     }
 
-    static fromJS(data: any): UnableToChangeUserRolesForFederatedUser {
+    static fromJS(data: any): UnableToChangeMappedUserRolesForFederatedUserException {
         data = typeof data === 'object' ? data : {};
-        let result = new UnableToChangeUserRolesForFederatedUser();
+        let result = new UnableToChangeMappedUserRolesForFederatedUserException();
         result.init(data);
         return result;
     }
@@ -26304,13 +26480,19 @@ export class UnableToChangeUserRolesForFederatedUser extends PictureparkValidati
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["affectedUserId"] = this.affectedUserId;
+        if (Array.isArray(this.userRoleIds)) {
+            data["userRoleIds"] = [];
+            for (let item of this.userRoleIds)
+                data["userRoleIds"].push(item);
+        }
         super.toJSON(data);
         return data; 
     }
 }
 
-export interface IUnableToChangeUserRolesForFederatedUser extends IPictureparkValidationException {
+export interface IUnableToChangeMappedUserRolesForFederatedUserException extends IPictureparkValidationException {
     affectedUserId?: string | undefined;
+    userRoleIds?: string[] | undefined;
 }
 
 export class UnableToDeleteDefaultUserRoleException extends UnableToDeleteUserRoleException implements IUnableToDeleteDefaultUserRoleException {
@@ -26381,6 +26563,44 @@ export class UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingExcep
 
 export interface IUnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingException extends IUnableToDeleteUserRoleException {
     identityProviderIds?: string[] | undefined;
+}
+
+export class UserPropertyChangeNotSupportedException extends PictureparkValidationException implements IUserPropertyChangeNotSupportedException {
+    propertyPath?: string | undefined;
+    affectedUserId?: string | undefined;
+
+    constructor(data?: IUserPropertyChangeNotSupportedException) {
+        super(data);
+        this._discriminator = "UserPropertyChangeNotSupportedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.propertyPath = _data["propertyPath"];
+            this.affectedUserId = _data["affectedUserId"];
+        }
+    }
+
+    static fromJS(data: any): UserPropertyChangeNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserPropertyChangeNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["propertyPath"] = this.propertyPath;
+        data["affectedUserId"] = this.affectedUserId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUserPropertyChangeNotSupportedException extends IPictureparkValidationException {
+    propertyPath?: string | undefined;
+    affectedUserId?: string | undefined;
 }
 
 export class RenderingException extends PictureparkBusinessException implements IRenderingException {
@@ -28239,7 +28459,7 @@ export interface ICustomerAliasNotFoundException extends IPictureparkException {
     customerAlias?: string | undefined;
 }
 
-export class CustomerAliasInUseException extends PictureparkBusinessException implements ICustomerAliasInUseException {
+export class CustomerAliasInUseException extends PictureparkValidationException implements ICustomerAliasInUseException {
     existingCustomerId?: string | undefined;
     alias?: string | undefined;
 
@@ -28272,7 +28492,7 @@ export class CustomerAliasInUseException extends PictureparkBusinessException im
     }
 }
 
-export interface ICustomerAliasInUseException extends IPictureparkBusinessException {
+export interface ICustomerAliasInUseException extends IPictureparkValidationException {
     existingCustomerId?: string | undefined;
     alias?: string | undefined;
 }
@@ -28515,6 +28735,128 @@ export class SnapshotRetentionTimeTooShortException extends PictureparkValidatio
 export interface ISnapshotRetentionTimeTooShortException extends IPictureparkValidationException {
     snapshotRetentionTime?: string;
     minimumRetentionTime?: string;
+}
+
+export class ReshardIndexNotAllowedException extends PictureparkValidationException implements IReshardIndexNotAllowedException {
+
+    constructor(data?: IReshardIndexNotAllowedException) {
+        super(data);
+        this._discriminator = "ReshardIndexNotAllowedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): ReshardIndexNotAllowedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReshardIndexNotAllowedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IReshardIndexNotAllowedException extends IPictureparkValidationException {
+}
+
+export class ReshardNumberOfShardsInvalidException extends PictureparkValidationException implements IReshardNumberOfShardsInvalidException {
+
+    constructor(data?: IReshardNumberOfShardsInvalidException) {
+        super(data);
+        this._discriminator = "ReshardNumberOfShardsInvalidException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): ReshardNumberOfShardsInvalidException {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "ReshardNumberOfRoutingShardsInvalidException") {
+            let result = new ReshardNumberOfRoutingShardsInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReshardNumberOfShardsInvalidForExistingRoutingShardsException") {
+            let result = new ReshardNumberOfShardsInvalidForExistingRoutingShardsException();
+            result.init(data);
+            return result;
+        }
+        let result = new ReshardNumberOfShardsInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IReshardNumberOfShardsInvalidException extends IPictureparkValidationException {
+}
+
+export class ReshardNumberOfRoutingShardsInvalidException extends ReshardNumberOfShardsInvalidException implements IReshardNumberOfRoutingShardsInvalidException {
+
+    constructor(data?: IReshardNumberOfRoutingShardsInvalidException) {
+        super(data);
+        this._discriminator = "ReshardNumberOfRoutingShardsInvalidException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): ReshardNumberOfRoutingShardsInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReshardNumberOfRoutingShardsInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IReshardNumberOfRoutingShardsInvalidException extends IReshardNumberOfShardsInvalidException {
+}
+
+export class ReshardNumberOfShardsInvalidForExistingRoutingShardsException extends ReshardNumberOfShardsInvalidException implements IReshardNumberOfShardsInvalidForExistingRoutingShardsException {
+
+    constructor(data?: IReshardNumberOfShardsInvalidForExistingRoutingShardsException) {
+        super(data);
+        this._discriminator = "ReshardNumberOfShardsInvalidForExistingRoutingShardsException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): ReshardNumberOfShardsInvalidForExistingRoutingShardsException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReshardNumberOfShardsInvalidForExistingRoutingShardsException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IReshardNumberOfShardsInvalidForExistingRoutingShardsException extends IReshardNumberOfShardsInvalidException {
 }
 
 export class ConfigurationIndexNotFoundException extends PictureparkException implements IConfigurationIndexNotFoundException {
@@ -33360,6 +33702,208 @@ export interface IDisplayPatternTypeNotSupportedException extends IPictureparkVa
     displayPatternId?: string | undefined;
 }
 
+export class SchemaFieldActivityInUseException extends PictureparkValidationException implements ISchemaFieldActivityInUseException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+
+    constructor(data?: ISchemaFieldActivityInUseException) {
+        super(data);
+        this._discriminator = "SchemaFieldActivityInUseException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fieldId = _data["fieldId"];
+            this.schemaId = _data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldActivityInUseException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldActivityInUseException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldId"] = this.fieldId;
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldActivityInUseException extends IPictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+}
+
+export class SchemaFieldReferencedSchemaChangeNotAllowedException extends PictureparkValidationException implements ISchemaFieldReferencedSchemaChangeNotAllowedException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    oldReferencedSchemaId?: string | undefined;
+    newReferencedSchemaId?: string | undefined;
+
+    constructor(data?: ISchemaFieldReferencedSchemaChangeNotAllowedException) {
+        super(data);
+        this._discriminator = "SchemaFieldReferencedSchemaChangeNotAllowedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+            this.oldReferencedSchemaId = _data["oldReferencedSchemaId"];
+            this.newReferencedSchemaId = _data["newReferencedSchemaId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldReferencedSchemaChangeNotAllowedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldReferencedSchemaChangeNotAllowedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        data["oldReferencedSchemaId"] = this.oldReferencedSchemaId;
+        data["newReferencedSchemaId"] = this.newReferencedSchemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldReferencedSchemaChangeNotAllowedException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    oldReferencedSchemaId?: string | undefined;
+    newReferencedSchemaId?: string | undefined;
+}
+
+export class SchemaFieldReferencedSchemaSystemSchemaException extends PictureparkValidationException implements ISchemaFieldReferencedSchemaSystemSchemaException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    referencedSchemaId?: string | undefined;
+
+    constructor(data?: ISchemaFieldReferencedSchemaSystemSchemaException) {
+        super(data);
+        this._discriminator = "SchemaFieldReferencedSchemaSystemSchemaException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+            this.referencedSchemaId = _data["referencedSchemaId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldReferencedSchemaSystemSchemaException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldReferencedSchemaSystemSchemaException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        data["referencedSchemaId"] = this.referencedSchemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldReferencedSchemaSystemSchemaException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    referencedSchemaId?: string | undefined;
+}
+
+export class SchemaFieldRelationRelationTypeIdModificationNotAllowedException extends PictureparkValidationException implements ISchemaFieldRelationRelationTypeIdModificationNotAllowedException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+
+    constructor(data?: ISchemaFieldRelationRelationTypeIdModificationNotAllowedException) {
+        super(data);
+        this._discriminator = "SchemaFieldRelationRelationTypeIdModificationNotAllowedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldRelationRelationTypeIdModificationNotAllowedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldRelationRelationTypeIdModificationNotAllowedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldRelationRelationTypeIdModificationNotAllowedException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export class SchemaFieldRelationTargetDocTypeModificationNotAllowedException extends PictureparkValidationException implements ISchemaFieldRelationTargetDocTypeModificationNotAllowedException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+
+    constructor(data?: ISchemaFieldRelationTargetDocTypeModificationNotAllowedException) {
+        super(data);
+        this._discriminator = "SchemaFieldRelationTargetDocTypeModificationNotAllowedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldRelationTargetDocTypeModificationNotAllowedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldRelationTargetDocTypeModificationNotAllowedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldRelationTargetDocTypeModificationNotAllowedException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
 export class DeleteContentsWithReferencesException extends PictureparkValidationException implements IDeleteContentsWithReferencesException {
     numberOfReferences?: number;
     numberOfShares?: number;
@@ -34369,6 +34913,7 @@ export enum EnvironmentProcessType {
     CustomerUpdate = "CustomerUpdate",
     EnvironmentUpdate = "EnvironmentUpdate",
     CustomerBoostValuesUpdate = "CustomerBoostValuesUpdate",
+    CustomerReshard = "CustomerReshard",
 }
 
 export class EnvironmentProcessNotFoundException extends PictureparkNotFoundException implements IEnvironmentProcessNotFoundException {
@@ -36572,6 +37117,40 @@ export interface IXmpMappingConfigurationInvalidException extends IPictureparkVa
     expectedConfiguration?: string | undefined;
 }
 
+export class ActivityMappingInvalidException extends PictureparkValidationException implements IActivityMappingInvalidException {
+    activityMapping?: string | undefined;
+
+    constructor(data?: IActivityMappingInvalidException) {
+        super(data);
+        this._discriminator = "ActivityMappingInvalidException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.activityMapping = _data["activityMapping"];
+        }
+    }
+
+    static fromJS(data: any): ActivityMappingInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityMappingInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityMapping"] = this.activityMapping;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IActivityMappingInvalidException extends IPictureparkValidationException {
+    activityMapping?: string | undefined;
+}
+
 export class ProblemDetails implements IProblemDetails {
     type?: string | undefined;
     title?: string | undefined;
@@ -37795,6 +38374,7 @@ export class BaseResultOfBusinessProcess implements IBaseResultOfBusinessProcess
     results!: BusinessProcess[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfBusinessProcess) {
@@ -37851,14 +38431,15 @@ export interface IBaseResultOfBusinessProcess {
     results: BusinessProcess[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusinessProcess implements ISearchBehaviorBaseResultOfBusinessProcess {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -37912,9 +38493,9 @@ export class SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfBusin
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfBusinessProcess extends IBaseResultOfBusinessProcess {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
@@ -41961,6 +42542,7 @@ export class BaseResultOfBusinessRuleTraceLog implements IBaseResultOfBusinessRu
     results!: BusinessRuleTraceLog[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfBusinessRuleTraceLog) {
@@ -42024,14 +42606,15 @@ export interface IBaseResultOfBusinessRuleTraceLog {
     results: IBusinessRuleTraceLog[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfBusinessRuleTraceLog extends BaseResultOfBusinessRuleTraceLog implements ISearchBehaviorBaseResultOfBusinessRuleTraceLog {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -42085,9 +42668,9 @@ export class SearchBehaviorBaseResultOfBusinessRuleTraceLog extends BaseResultOf
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfBusinessRuleTraceLog extends IBaseResultOfBusinessRuleTraceLog {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
@@ -44365,11 +44948,11 @@ export abstract class PermissionSetDetailOfContentRight implements IPermissionSe
     id!: string;
     /** Language specific permission set names. */
     names!: TranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: PermissionUserRoleRightsOfContentRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
-    /** When true this permission set will derogate all other configured permission sets on content documents or list items. */
+    /** When true this permission set will derogate all other configured permission sets on the Content Item or List Item. */
     exclusive!: boolean;
     /** The owner token ID. Defines the permission set owner. */
     ownerTokenId!: string;
@@ -44456,11 +45039,11 @@ export interface IPermissionSetDetailOfContentRight {
     id: string;
     /** Language specific permission set names. */
     names: ITranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: IPermissionUserRoleRightsOfContentRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
-    /** When true this permission set will derogate all other configured permission sets on content documents or list items. */
+    /** When true this permission set will derogate all other configured permission sets on the Content Item or List Item. */
     exclusive: boolean;
     /** The owner token ID. Defines the permission set owner. */
     ownerTokenId: string;
@@ -44752,10 +45335,17 @@ export interface IUser {
 }
 
 export abstract class PermissionSetCreateRequestOfContentRight implements IPermissionSetCreateRequestOfContentRight {
+    /** Language specific permission set names. */
     names!: TranslatedStringDictionary;
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
+    /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
+    /** When true this permission set will derogate all other configured permission sets on Content Items or List Items. */
     exclusive!: boolean;
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
     requestId?: string | undefined;
 
     constructor(data?: IPermissionSetCreateRequestOfContentRight) {
@@ -44828,13 +45418,21 @@ export abstract class PermissionSetCreateRequestOfContentRight implements IPermi
 }
 
 export interface IPermissionSetCreateRequestOfContentRight {
+    /** Language specific permission set names. */
     names: ITranslatedStringDictionary;
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: IUserRoleRightsOfContentRight[] | undefined;
+    /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
+    /** When true this permission set will derogate all other configured permission sets on Content Items or List Items. */
     exclusive: boolean;
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
     requestId?: string | undefined;
 }
 
+/** Request to create a content permission set */
 export class ContentPermissionSetCreateRequest extends PermissionSetCreateRequestOfContentRight implements IContentPermissionSetCreateRequest {
 
     constructor(data?: IContentPermissionSetCreateRequest) {
@@ -44859,6 +45457,7 @@ export class ContentPermissionSetCreateRequest extends PermissionSetCreateReques
     }
 }
 
+/** Request to create a content permission set */
 export interface IContentPermissionSetCreateRequest extends IPermissionSetCreateRequestOfContentRight {
 }
 
@@ -44970,7 +45569,7 @@ export interface IUserRoleRightsOfPermissionSetRight {
 export abstract class PermissionSetUpdateRequestOfContentRight implements IPermissionSetUpdateRequestOfContentRight {
     /** Language specific permission set names. */
     names!: TranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: UserRoleRightsOfContentRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
@@ -45044,7 +45643,7 @@ export abstract class PermissionSetUpdateRequestOfContentRight implements IPermi
 export interface IPermissionSetUpdateRequestOfContentRight {
     /** Language specific permission set names. */
     names: ITranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: IUserRoleRightsOfContentRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
@@ -45079,6 +45678,7 @@ export class ContentPermissionSetUpdateRequest extends PermissionSetUpdateReques
 export interface IContentPermissionSetUpdateRequest extends IPermissionSetUpdateRequestOfContentRight {
 }
 
+/** Request to transfer the ownership of a permission set */
 export class PermissionSetOwnershipTransferRequest implements IPermissionSetOwnershipTransferRequest {
     /** The ID of the user to whom the permission set ownership should be transferred to. */
     transferUserId!: string;
@@ -45112,6 +45712,7 @@ export class PermissionSetOwnershipTransferRequest implements IPermissionSetOwne
     }
 }
 
+/** Request to transfer the ownership of a permission set */
 export interface IPermissionSetOwnershipTransferRequest {
     /** The ID of the user to whom the permission set ownership should be transferred to. */
     transferUserId: string;
@@ -45242,7 +45843,9 @@ export interface IBulkResponseRow {
     requestId?: string | undefined;
 }
 
+/** Request to create multiple content permission sets */
 export class ContentPermissionSetCreateManyRequest implements IContentPermissionSetCreateManyRequest {
+    /** Content permission set update requests. */
     items?: ContentPermissionSetCreateRequest[] | undefined;
 
     constructor(data?: IContentPermissionSetCreateManyRequest) {
@@ -45282,7 +45885,9 @@ export class ContentPermissionSetCreateManyRequest implements IContentPermission
     }
 }
 
+/** Request to create multiple content permission sets */
 export interface IContentPermissionSetCreateManyRequest {
+    /** Content permission set update requests. */
     items?: ContentPermissionSetCreateRequest[] | undefined;
 }
 
@@ -45398,7 +46003,9 @@ export class ContentPermissionSetUpdateRequestItem extends PermissionSetUpdateRe
 export interface IContentPermissionSetUpdateRequestItem extends IPermissionSetUpdateRequestItemOfContentRight {
 }
 
+/** Request to delete multiple permission sets */
 export class PermissionSetDeleteManyRequest implements IPermissionSetDeleteManyRequest {
+    /** Permission set IDs. */
     permissionSetIds?: string[] | undefined;
 
     constructor(data?: IPermissionSetDeleteManyRequest) {
@@ -45438,11 +46045,15 @@ export class PermissionSetDeleteManyRequest implements IPermissionSetDeleteManyR
     }
 }
 
+/** Request to delete multiple permission sets */
 export interface IPermissionSetDeleteManyRequest {
+    /** Permission set IDs. */
     permissionSetIds?: string[] | undefined;
 }
 
+/** Request to transfer the ownership of multiple permission sets */
 export class PermissionSetOwnershipTransferManyRequest implements IPermissionSetOwnershipTransferManyRequest {
+    /** Permission set ownership transfer requests. */
     items?: PermissionSetOwnershipTransferItem[] | undefined;
 
     constructor(data?: IPermissionSetOwnershipTransferManyRequest) {
@@ -45482,7 +46093,9 @@ export class PermissionSetOwnershipTransferManyRequest implements IPermissionSet
     }
 }
 
+/** Request to transfer the ownership of multiple permission sets */
 export interface IPermissionSetOwnershipTransferManyRequest {
+    /** Permission set ownership transfer requests. */
     items?: PermissionSetOwnershipTransferItem[] | undefined;
 }
 
@@ -45521,8 +46134,11 @@ export interface IPermissionSetOwnershipTransferItem extends IPermissionSetOwner
     permissionSetId?: string | undefined;
 }
 
+/** Rights that the current user has on a permission set */
 export class PermissionSetUserPermissionRights implements IPermissionSetUserPermissionRights {
+    /** Permission set ID. */
     permissionSetId?: string | undefined;
+    /** List of rights on the permission set specified by PermissionSetId */
     permissionSetRights?: PermissionSetRight[] | undefined;
 
     constructor(data?: IPermissionSetUserPermissionRights) {
@@ -45564,8 +46180,11 @@ export class PermissionSetUserPermissionRights implements IPermissionSetUserPerm
     }
 }
 
+/** Rights that the current user has on a permission set */
 export interface IPermissionSetUserPermissionRights {
+    /** Permission set ID. */
     permissionSetId?: string | undefined;
+    /** List of rights on the permission set specified by PermissionSetId */
     permissionSetRights?: PermissionSetRight[] | undefined;
 }
 
@@ -45577,6 +46196,7 @@ export class BaseResultOfPermissionSet implements IBaseResultOfPermissionSet {
     results!: PermissionSet[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfPermissionSet) {
@@ -45640,14 +46260,15 @@ export interface IBaseResultOfPermissionSet {
     results: IPermissionSet[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermissionSet implements ISearchBehaviorBaseResultOfPermissionSet {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -45701,9 +46322,9 @@ export class SearchBehaviorBaseResultOfPermissionSet extends BaseResultOfPermiss
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfPermissionSet extends IBaseResultOfPermissionSet {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
@@ -45957,6 +46578,8 @@ They are available only for file base contents, and they depends on the output f
     lifeCycle!: LifeCycle;
     /** List of content rights the user has on this content */
     contentRights?: ContentRight[] | undefined;
+    /** Activity information: dynamically mapped from configured metadata fields or from audit information if no mapping is configured. */
+    activity?: Activity | undefined;
 
     isVirtual() {
     return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
@@ -45971,6 +46594,7 @@ They are available only for file base contents, and they depends on the output f
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit; 
             this.owner = data.owner && !(<any>data.owner).toJSON ? new User(data.owner) : <User>this.owner; 
             this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
+            this.activity = data.activity && !(<any>data.activity).toJSON ? new Activity(data.activity) : <Activity>this.activity; 
         }
     }
 
@@ -46027,6 +46651,7 @@ They are available only for file base contents, and they depends on the output f
                 for (let item of _data["contentRights"])
                     this.contentRights!.push(item);
             }
+            this.activity = _data["activity"] ? Activity.fromJS(_data["activity"]) : <any>undefined;
         }
     }
 
@@ -46090,6 +46715,7 @@ They are available only for file base contents, and they depends on the output f
             for (let item of this.contentRights)
                 data["contentRights"].push(item);
         }
+        data["activity"] = this.activity ? this.activity.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -46136,6 +46762,8 @@ They are available only for file base contents, and they depends on the output f
     lifeCycle: LifeCycle;
     /** List of content rights the user has on this content */
     contentRights?: ContentRight[] | undefined;
+    /** Activity information: dynamically mapped from configured metadata fields or from audit information if no mapping is configured. */
+    activity?: IActivity | undefined;
 }
 
 /** Output */
@@ -46745,6 +47373,46 @@ export enum LifeCycle {
     Deleted = "Deleted",
 }
 
+export class Activity implements IActivity {
+    creationDate?: Date | undefined;
+    modificationDate?: Date | undefined;
+
+    constructor(data?: IActivity) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.creationDate = _data["creationDate"] ? new Date(_data["creationDate"].toString()) : <any>undefined;
+            this.modificationDate = _data["modificationDate"] ? new Date(_data["modificationDate"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): Activity {
+        data = typeof data === 'object' ? data : {};
+        let result = new Activity();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["creationDate"] = this.creationDate ? this.creationDate.toISOString() : <any>undefined;
+        data["modificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IActivity {
+    creationDate?: Date | undefined;
+    modificationDate?: Date | undefined;
+}
+
 export enum ContentResolveBehavior {
     Content = "Content",
     LinkedListItems = "LinkedListItems",
@@ -46902,8 +47570,6 @@ Replace: the content is updated so that only the layers specified in the LayerSc
 existing assigned layers not specified in the property are removed and missing layers are assigned.
 Defaults to Merge. */
     layerSchemasUpdateOptions!: UpdateOption;
-    /** Obsolete attribute, please use LayerFieldsUpdateOption and ContentFieldsUpdateOption for finer control over metadata and/or content update. */
-    schemaFieldsUpdateOptions?: UpdateOption | undefined;
     /** Options to modify the behavior for updating the values of schemas.
 Merge: the values specified in the Metadata dictionary are merged to the existing values of the corresponding schema on the content.
 Replace: the values specified in the Metadata dictionary entirely replace any existing value of the corresponding schema on the content.
@@ -46940,7 +47606,6 @@ Defaults to Merge. */
                 }
             }
             this.layerSchemasUpdateOptions = _data["layerSchemasUpdateOptions"];
-            this.schemaFieldsUpdateOptions = _data["schemaFieldsUpdateOptions"];
             this.layerFieldsUpdateOptions = _data["layerFieldsUpdateOptions"];
             this.contentFieldsUpdateOptions = _data["contentFieldsUpdateOptions"];
         }
@@ -46969,7 +47634,6 @@ Defaults to Merge. */
             }
         }
         data["layerSchemasUpdateOptions"] = this.layerSchemasUpdateOptions;
-        data["schemaFieldsUpdateOptions"] = this.schemaFieldsUpdateOptions;
         data["layerFieldsUpdateOptions"] = this.layerFieldsUpdateOptions;
         data["contentFieldsUpdateOptions"] = this.contentFieldsUpdateOptions;
         return data; 
@@ -46998,8 +47662,6 @@ Replace: the content is updated so that only the layers specified in the LayerSc
 existing assigned layers not specified in the property are removed and missing layers are assigned.
 Defaults to Merge. */
     layerSchemasUpdateOptions: UpdateOption;
-    /** Obsolete attribute, please use LayerFieldsUpdateOption and ContentFieldsUpdateOption for finer control over metadata and/or content update. */
-    schemaFieldsUpdateOptions?: UpdateOption | undefined;
     /** Options to modify the behavior for updating the values of schemas.
 Merge: the values specified in the Metadata dictionary are merged to the existing values of the corresponding schema on the content.
 Replace: the values specified in the Metadata dictionary entirely replace any existing value of the corresponding schema on the content.
@@ -47204,6 +47866,7 @@ export class BaseResultOfMetadataReference implements IBaseResultOfMetadataRefer
     results!: MetadataReference[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfMetadataReference) {
@@ -47267,6 +47930,7 @@ export interface IBaseResultOfMetadataReference {
     results: IMetadataReference[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
@@ -47379,6 +48043,7 @@ export class BaseResultOfContentShareReference implements IBaseResultOfContentSh
     results!: ContentShareReference[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfContentShareReference) {
@@ -47442,6 +48107,7 @@ export interface IBaseResultOfContentShareReference {
     results: IContentShareReference[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
@@ -49188,6 +49854,7 @@ export class BaseResultOfContent implements IBaseResultOfContent {
     results!: Content[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfContent) {
@@ -49251,14 +49918,15 @@ export interface IBaseResultOfContent {
     results: IContent[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent implements ISearchBehaviorBaseResultOfContent {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -49312,9 +49980,9 @@ export class SearchBehaviorBaseResultOfContent extends BaseResultOfContent imple
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfContent extends IBaseResultOfContent {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
@@ -50276,6 +50944,7 @@ export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory
     results!: DocumentHistory[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfDocumentHistory) {
@@ -50339,6 +51008,7 @@ export interface IBaseResultOfDocumentHistory {
     results: IDocumentHistory[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
@@ -51451,6 +52121,8 @@ They are referenced list items that reference at least a list item that do not e
     brokenIndirectReferenceIds?: string[] | undefined;
     /** Audit information. */
     audit?: UserAuditDetail | undefined;
+    /** Activity information: dynamically mapped from configured metadata fields or from audit information if no mapping is configured. */
+    activity?: Activity | undefined;
 
     constructor(data?: IListItemDetail) {
         if (data) {
@@ -51460,6 +52132,7 @@ They are referenced list items that reference at least a list item that do not e
             }
             this.displayValues = data.displayValues && !(<any>data.displayValues).toJSON ? new DisplayValueDictionary(data.displayValues) : <DisplayValueDictionary>this.displayValues; 
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit; 
+            this.activity = data.activity && !(<any>data.activity).toJSON ? new Activity(data.activity) : <Activity>this.activity; 
         }
     }
 
@@ -51485,6 +52158,7 @@ They are referenced list items that reference at least a list item that do not e
                     this.brokenIndirectReferenceIds!.push(item);
             }
             this.audit = _data["audit"] ? UserAuditDetail.fromJS(_data["audit"]) : <any>undefined;
+            this.activity = _data["activity"] ? Activity.fromJS(_data["activity"]) : <any>undefined;
         }
     }
 
@@ -51517,6 +52191,7 @@ They are referenced list items that reference at least a list item that do not e
                 data["brokenIndirectReferenceIds"].push(item);
         }
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        data["activity"] = this.activity ? this.activity.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -51541,6 +52216,8 @@ They are referenced list items that reference at least a list item that do not e
     brokenIndirectReferenceIds?: string[] | undefined;
     /** Audit information. */
     audit?: IUserAuditDetail | undefined;
+    /** Activity information: dynamically mapped from configured metadata fields or from audit information if no mapping is configured. */
+    activity?: IActivity | undefined;
 }
 
 export enum ListItemResolveBehavior {
@@ -52381,6 +53058,7 @@ export class BaseResultOfListItem implements IBaseResultOfListItem {
     results!: ListItem[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfListItem) {
@@ -52444,14 +53122,15 @@ export interface IBaseResultOfListItem {
     results: IListItem[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem implements ISearchBehaviorBaseResultOfListItem {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -52505,9 +53184,9 @@ export class SearchBehaviorBaseResultOfListItem extends BaseResultOfListItem imp
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfListItem extends IBaseResultOfListItem {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
@@ -52996,6 +53675,7 @@ export class BaseResultOfLiveStream implements IBaseResultOfLiveStream {
     results!: LiveStream[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfLiveStream) {
@@ -53059,6 +53739,7 @@ export interface IBaseResultOfLiveStream {
     results: ILiveStream[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
@@ -55559,6 +56240,7 @@ export class BaseResultOfOutput implements IBaseResultOfOutput {
     results!: Output[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfOutput) {
@@ -55615,6 +56297,7 @@ export interface IBaseResultOfOutput {
     results: Output[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
@@ -56146,11 +56829,11 @@ export abstract class PermissionSetDetailOfMetadataRight implements IPermissionS
     id!: string;
     /** Language specific permission set names. */
     names!: TranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: PermissionUserRoleRightsOfMetadataRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: PermissionUserRoleRightsOfPermissionSetRight[] | undefined;
-    /** When true this permission set will derogate all other configured permission sets on content documents or list items. */
+    /** When true this permission set will derogate all other configured permission sets on the Content Item or List Item. */
     exclusive!: boolean;
     /** The owner token ID. Defines the permission set owner. */
     ownerTokenId!: string;
@@ -56237,11 +56920,11 @@ export interface IPermissionSetDetailOfMetadataRight {
     id: string;
     /** Language specific permission set names. */
     names: ITranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: IPermissionUserRoleRightsOfMetadataRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: IPermissionUserRoleRightsOfPermissionSetRight[] | undefined;
-    /** When true this permission set will derogate all other configured permission sets on content documents or list items. */
+    /** When true this permission set will derogate all other configured permission sets on the Content Item or List Item. */
     exclusive: boolean;
     /** The owner token ID. Defines the permission set owner. */
     ownerTokenId: string;
@@ -56342,10 +57025,17 @@ export interface IPermissionUserRoleRightsOfMetadataRight {
 }
 
 export abstract class PermissionSetCreateRequestOfMetadataRight implements IPermissionSetCreateRequestOfMetadataRight {
+    /** Language specific permission set names. */
     names!: TranslatedStringDictionary;
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
+    /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
+    /** When true this permission set will derogate all other configured permission sets on Content Items or List Items. */
     exclusive!: boolean;
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
     requestId?: string | undefined;
 
     constructor(data?: IPermissionSetCreateRequestOfMetadataRight) {
@@ -56418,13 +57108,21 @@ export abstract class PermissionSetCreateRequestOfMetadataRight implements IPerm
 }
 
 export interface IPermissionSetCreateRequestOfMetadataRight {
+    /** Language specific permission set names. */
     names: ITranslatedStringDictionary;
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: IUserRoleRightsOfMetadataRight[] | undefined;
+    /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
+    /** When true this permission set will derogate all other configured permission sets on Content Items or List Items. */
     exclusive: boolean;
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
     requestId?: string | undefined;
 }
 
+/** Request to create a schema permission set */
 export class SchemaPermissionSetCreateRequest extends PermissionSetCreateRequestOfMetadataRight implements ISchemaPermissionSetCreateRequest {
 
     constructor(data?: ISchemaPermissionSetCreateRequest) {
@@ -56449,6 +57147,7 @@ export class SchemaPermissionSetCreateRequest extends PermissionSetCreateRequest
     }
 }
 
+/** Request to create a schema permission set */
 export interface ISchemaPermissionSetCreateRequest extends IPermissionSetCreateRequestOfMetadataRight {
 }
 
@@ -56508,7 +57207,7 @@ export interface IUserRoleRightsOfMetadataRight {
 export abstract class PermissionSetUpdateRequestOfMetadataRight implements IPermissionSetUpdateRequestOfMetadataRight {
     /** Language specific permission set names. */
     names!: TranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: UserRoleRightsOfMetadataRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: UserRoleRightsOfPermissionSetRight[] | undefined;
@@ -56582,7 +57281,7 @@ export abstract class PermissionSetUpdateRequestOfMetadataRight implements IPerm
 export interface IPermissionSetUpdateRequestOfMetadataRight {
     /** Language specific permission set names. */
     names: ITranslatedStringDictionary;
-    /** A list of content or metadata rights authorizing operations on content documents or list items. */
+    /** A list of content or metadata rights authorizing operations on Content Items or List Items. */
     userRolesRights?: IUserRoleRightsOfMetadataRight[] | undefined;
     /** A list of permission set rights authorizing operations on this permission set. */
     userRolesPermissionSetRights?: IUserRoleRightsOfPermissionSetRight[] | undefined;
@@ -56617,7 +57316,9 @@ export class SchemaPermissionSetUpdateRequest extends PermissionSetUpdateRequest
 export interface ISchemaPermissionSetUpdateRequest extends IPermissionSetUpdateRequestOfMetadataRight {
 }
 
+/** Request to update multiple schema permission sets */
 export class SchemaPermissionSetCreateManyRequest implements ISchemaPermissionSetCreateManyRequest {
+    /** Schema permission sets create requests. */
     items?: SchemaPermissionSetCreateRequest[] | undefined;
 
     constructor(data?: ISchemaPermissionSetCreateManyRequest) {
@@ -56657,7 +57358,9 @@ export class SchemaPermissionSetCreateManyRequest implements ISchemaPermissionSe
     }
 }
 
+/** Request to update multiple schema permission sets */
 export interface ISchemaPermissionSetCreateManyRequest {
+    /** Schema permission sets create requests. */
     items?: SchemaPermissionSetCreateRequest[] | undefined;
 }
 
@@ -60080,6 +60783,7 @@ export class BaseResultOfSchema implements IBaseResultOfSchema {
     results!: Schema[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfSchema) {
@@ -60143,14 +60847,15 @@ export interface IBaseResultOfSchema {
     results: ISchema[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema implements ISearchBehaviorBaseResultOfSchema {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -60204,9 +60909,9 @@ export class SearchBehaviorBaseResultOfSchema extends BaseResultOfSchema impleme
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfSchema extends IBaseResultOfSchema {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
@@ -62293,6 +62998,7 @@ export class BaseResultOfShare implements IBaseResultOfShare {
     results!: Share[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfShare) {
@@ -62356,14 +63062,15 @@ export interface IBaseResultOfShare {
     results: IShare[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implements ISearchBehaviorBaseResultOfShare {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -62417,9 +63124,9 @@ export class SearchBehaviorBaseResultOfShare extends BaseResultOfShare implement
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfShare extends IBaseResultOfShare {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
@@ -63215,6 +63922,7 @@ export class BaseResultOfTransfer implements IBaseResultOfTransfer {
     results!: Transfer[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfTransfer) {
@@ -63278,14 +63986,15 @@ export interface IBaseResultOfTransfer {
     results: ITransfer[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer implements ISearchBehaviorBaseResultOfTransfer {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -63339,9 +64048,9 @@ export class SearchBehaviorBaseResultOfTransfer extends BaseResultOfTransfer imp
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfTransfer extends IBaseResultOfTransfer {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
@@ -63752,6 +64461,7 @@ export class BaseResultOfFileTransfer implements IBaseResultOfFileTransfer {
     results!: FileTransfer[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfFileTransfer) {
@@ -63815,14 +64525,15 @@ export interface IBaseResultOfFileTransfer {
     results: IFileTransfer[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTransfer implements ISearchBehaviorBaseResultOfFileTransfer {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -63876,9 +64587,9 @@ export class SearchBehaviorBaseResultOfFileTransfer extends BaseResultOfFileTran
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfFileTransfer extends IBaseResultOfFileTransfer {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
@@ -64154,6 +64865,7 @@ export class BaseResultOfUserRole implements IBaseResultOfUserRole {
     results!: UserRole[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfUserRole) {
@@ -64210,14 +64922,15 @@ export interface IBaseResultOfUserRole {
     results: UserRole[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole implements ISearchBehaviorBaseResultOfUserRole {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -64271,9 +64984,9 @@ export class SearchBehaviorBaseResultOfUserRole extends BaseResultOfUserRole imp
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfUserRole extends IBaseResultOfUserRole {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
@@ -64755,6 +65468,238 @@ export interface IUserRoleDeleteManyRequest {
     ids: string[];
 }
 
+/** Detail information about a user. */
+export class UserDetail extends User implements IUserDetail {
+    /** User roles the user should be assigned to. Overwrites the original user roles. */
+    userRoles?: UserRoleAssignment[] | undefined;
+    /** Comment saved for the user. */
+    comment?: string | undefined;
+    /** Preferred language, e.g. for correspondence. */
+    languageCode?: string | undefined;
+    /** User's address. */
+    address?: UserAddress | undefined;
+    /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
+    identityProviderId?: string | undefined;
+    /** Owner tokens referencing the user. */
+    ownerTokens?: OwnerToken[] | undefined;
+    /** Authorization state the user is currently in. */
+    authorizationState?: AuthorizationState;
+    /** Locked users are unable to log in and use the system. */
+    isLocked?: boolean;
+    /** Life cycle state the user is currently in. */
+    lifeCycle?: LifeCycle;
+    /** The support user is a user created for Picturepark support personnel. */
+    isSupportUser?: boolean;
+    /** Read-only users can't be removed from the system, e.g. service user. */
+    isReadOnly?: boolean;
+    /** Federated user is a user who is (currently) governed by an external identity provider. */
+    isFederated?: boolean;
+    /** Audit information. */
+    audit?: UserAuditDetail | undefined;
+
+    constructor(data?: IUserDetail) {
+        super(data);
+        if (data) {
+            if (data.userRoles) {
+                this.userRoles = [];
+                for (let i = 0; i < data.userRoles.length; i++) {
+                    let item = data.userRoles[i];
+                    this.userRoles[i] = item && !(<any>item).toJSON ? new UserRoleAssignment(item) : <UserRoleAssignment>item;
+                }
+            }
+            this.address = data.address && !(<any>data.address).toJSON ? new UserAddress(data.address) : <UserAddress>this.address; 
+            if (data.ownerTokens) {
+                this.ownerTokens = [];
+                for (let i = 0; i < data.ownerTokens.length; i++) {
+                    let item = data.ownerTokens[i];
+                    this.ownerTokens[i] = item && !(<any>item).toJSON ? new OwnerToken(item) : <OwnerToken>item;
+                }
+            }
+            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit; 
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["userRoles"])) {
+                this.userRoles = [] as any;
+                for (let item of _data["userRoles"])
+                    this.userRoles!.push(UserRoleAssignment.fromJS(item));
+            }
+            this.comment = _data["comment"];
+            this.languageCode = _data["languageCode"];
+            this.address = _data["address"] ? UserAddress.fromJS(_data["address"]) : <any>undefined;
+            this.identityProviderId = _data["identityProviderId"];
+            if (Array.isArray(_data["ownerTokens"])) {
+                this.ownerTokens = [] as any;
+                for (let item of _data["ownerTokens"])
+                    this.ownerTokens!.push(OwnerToken.fromJS(item));
+            }
+            this.authorizationState = _data["authorizationState"];
+            this.isLocked = _data["isLocked"];
+            this.lifeCycle = _data["lifeCycle"];
+            this.isSupportUser = _data["isSupportUser"];
+            this.isReadOnly = _data["isReadOnly"];
+            this.isFederated = _data["isFederated"];
+            this.audit = _data["audit"] ? UserAuditDetail.fromJS(_data["audit"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UserDetail {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserDetail();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.userRoles)) {
+            data["userRoles"] = [];
+            for (let item of this.userRoles)
+                data["userRoles"].push(item.toJSON());
+        }
+        data["comment"] = this.comment;
+        data["languageCode"] = this.languageCode;
+        data["address"] = this.address ? this.address.toJSON() : <any>undefined;
+        data["identityProviderId"] = this.identityProviderId;
+        if (Array.isArray(this.ownerTokens)) {
+            data["ownerTokens"] = [];
+            for (let item of this.ownerTokens)
+                data["ownerTokens"].push(item.toJSON());
+        }
+        data["authorizationState"] = this.authorizationState;
+        data["isLocked"] = this.isLocked;
+        data["lifeCycle"] = this.lifeCycle;
+        data["isSupportUser"] = this.isSupportUser;
+        data["isReadOnly"] = this.isReadOnly;
+        data["isFederated"] = this.isFederated;
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Detail information about a user. */
+export interface IUserDetail extends IUser {
+    /** User roles the user should be assigned to. Overwrites the original user roles. */
+    userRoles?: IUserRoleAssignment[] | undefined;
+    /** Comment saved for the user. */
+    comment?: string | undefined;
+    /** Preferred language, e.g. for correspondence. */
+    languageCode?: string | undefined;
+    /** User's address. */
+    address?: IUserAddress | undefined;
+    /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
+    identityProviderId?: string | undefined;
+    /** Owner tokens referencing the user. */
+    ownerTokens?: IOwnerToken[] | undefined;
+    /** Authorization state the user is currently in. */
+    authorizationState?: AuthorizationState;
+    /** Locked users are unable to log in and use the system. */
+    isLocked?: boolean;
+    /** Life cycle state the user is currently in. */
+    lifeCycle?: LifeCycle;
+    /** The support user is a user created for Picturepark support personnel. */
+    isSupportUser?: boolean;
+    /** Read-only users can't be removed from the system, e.g. service user. */
+    isReadOnly?: boolean;
+    /** Federated user is a user who is (currently) governed by an external identity provider. */
+    isFederated?: boolean;
+    /** Audit information. */
+    audit?: IUserAuditDetail | undefined;
+}
+
+export class UserRoleAssignment implements IUserRoleAssignment {
+    /** User role assigned. */
+    userRole?: UserRole | undefined;
+    /** Marks user roles that were assigned automatically to a federated user based on group mapping of a federated identity provider. */
+    isFederated!: boolean;
+
+    constructor(data?: IUserRoleAssignment) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.userRole = data.userRole && !(<any>data.userRole).toJSON ? new UserRole(data.userRole) : <UserRole>this.userRole; 
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.userRole = _data["userRole"] ? UserRole.fromJS(_data["userRole"]) : <any>undefined;
+            this.isFederated = _data["isFederated"];
+        }
+    }
+
+    static fromJS(data: any): UserRoleAssignment {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRoleAssignment();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userRole"] = this.userRole ? this.userRole.toJSON() : <any>undefined;
+        data["isFederated"] = this.isFederated;
+        return data; 
+    }
+}
+
+export interface IUserRoleAssignment {
+    /** User role assigned. */
+    userRole?: IUserRole | undefined;
+    /** Marks user roles that were assigned automatically to a federated user based on group mapping of a federated identity provider. */
+    isFederated: boolean;
+}
+
+export class OwnerToken implements IOwnerToken {
+    /** The ownertoken id. */
+    id?: string | undefined;
+    /** The id of the user to whom this ownertoken currently belongs to. */
+    userId?: string | undefined;
+
+    constructor(data?: IOwnerToken) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.userId = _data["userId"];
+        }
+    }
+
+    static fromJS(data: any): OwnerToken {
+        data = typeof data === 'object' ? data : {};
+        let result = new OwnerToken();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["userId"] = this.userId;
+        return data; 
+    }
+}
+
+export interface IOwnerToken {
+    /** The ownertoken id. */
+    id?: string | undefined;
+    /** The id of the user to whom this ownertoken currently belongs to. */
+    userId?: string | undefined;
+}
+
 /** Represents the updateable fields of the user. */
 export class UserUpdateRequest extends User implements IUserUpdateRequest {
     /** User roles the user should be assigned to. Overwrites the original user roles. */
@@ -64825,147 +65770,6 @@ export interface IUserUpdateRequest extends IUser {
     address?: IUserAddress | undefined;
     /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
     identityProviderId?: string | undefined;
-}
-
-/** Detail information about a user. */
-export class UserDetail extends UserUpdateRequest implements IUserDetail {
-    /** Owner tokens referencing the user. */
-    ownerTokens?: OwnerToken[] | undefined;
-    /** Authorization state the user is currently in. */
-    authorizationState?: AuthorizationState;
-    /** Locked users are unable to log in and use the system. */
-    isLocked?: boolean;
-    /** Life cycle state the user is currently in. */
-    lifeCycle?: LifeCycle;
-    /** The support user is a user created for Picturepark support personnel. */
-    isSupportUser?: boolean;
-    /** Read-only users can't be removed from the system, e.g. service user. */
-    isReadOnly?: boolean;
-    /** Federated user is a user who is (currently) governed by an external identity provider. */
-    isFederated?: boolean;
-    /** Audit information. */
-    audit?: UserAuditDetail | undefined;
-
-    constructor(data?: IUserDetail) {
-        super(data);
-        if (data) {
-            if (data.ownerTokens) {
-                this.ownerTokens = [];
-                for (let i = 0; i < data.ownerTokens.length; i++) {
-                    let item = data.ownerTokens[i];
-                    this.ownerTokens[i] = item && !(<any>item).toJSON ? new OwnerToken(item) : <OwnerToken>item;
-                }
-            }
-            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit; 
-        }
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            if (Array.isArray(_data["ownerTokens"])) {
-                this.ownerTokens = [] as any;
-                for (let item of _data["ownerTokens"])
-                    this.ownerTokens!.push(OwnerToken.fromJS(item));
-            }
-            this.authorizationState = _data["authorizationState"];
-            this.isLocked = _data["isLocked"];
-            this.lifeCycle = _data["lifeCycle"];
-            this.isSupportUser = _data["isSupportUser"];
-            this.isReadOnly = _data["isReadOnly"];
-            this.isFederated = _data["isFederated"];
-            this.audit = _data["audit"] ? UserAuditDetail.fromJS(_data["audit"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): UserDetail {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserDetail();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.ownerTokens)) {
-            data["ownerTokens"] = [];
-            for (let item of this.ownerTokens)
-                data["ownerTokens"].push(item.toJSON());
-        }
-        data["authorizationState"] = this.authorizationState;
-        data["isLocked"] = this.isLocked;
-        data["lifeCycle"] = this.lifeCycle;
-        data["isSupportUser"] = this.isSupportUser;
-        data["isReadOnly"] = this.isReadOnly;
-        data["isFederated"] = this.isFederated;
-        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** Detail information about a user. */
-export interface IUserDetail extends IUserUpdateRequest {
-    /** Owner tokens referencing the user. */
-    ownerTokens?: IOwnerToken[] | undefined;
-    /** Authorization state the user is currently in. */
-    authorizationState?: AuthorizationState;
-    /** Locked users are unable to log in and use the system. */
-    isLocked?: boolean;
-    /** Life cycle state the user is currently in. */
-    lifeCycle?: LifeCycle;
-    /** The support user is a user created for Picturepark support personnel. */
-    isSupportUser?: boolean;
-    /** Read-only users can't be removed from the system, e.g. service user. */
-    isReadOnly?: boolean;
-    /** Federated user is a user who is (currently) governed by an external identity provider. */
-    isFederated?: boolean;
-    /** Audit information. */
-    audit?: IUserAuditDetail | undefined;
-}
-
-export class OwnerToken implements IOwnerToken {
-    /** The ownertoken id. */
-    id?: string | undefined;
-    /** The id of the user to whom this ownertoken currently belongs to. */
-    userId?: string | undefined;
-
-    constructor(data?: IOwnerToken) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.userId = _data["userId"];
-        }
-    }
-
-    static fromJS(data: any): OwnerToken {
-        data = typeof data === 'object' ? data : {};
-        let result = new OwnerToken();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["userId"] = this.userId;
-        return data; 
-    }
-}
-
-export interface IOwnerToken {
-    /** The ownertoken id. */
-    id?: string | undefined;
-    /** The id of the user to whom this ownertoken currently belongs to. */
-    userId?: string | undefined;
 }
 
 export class UserLockRequest implements IUserLockRequest {
@@ -65429,6 +66233,7 @@ export class BaseResultOfUserWithRoles implements IBaseResultOfUserWithRoles {
     results!: UserWithRoles[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfUserWithRoles) {
@@ -65492,14 +66297,15 @@ export interface IBaseResultOfUserWithRoles {
     results: IUserWithRoles[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWithRoles implements ISearchBehaviorBaseResultOfUserWithRoles {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -65553,9 +66359,9 @@ export class SearchBehaviorBaseResultOfUserWithRoles extends BaseResultOfUserWit
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfUserWithRoles extends IBaseResultOfUserWithRoles {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
@@ -66261,6 +67067,7 @@ export class BaseResultOfXmpMappingEntry implements IBaseResultOfXmpMappingEntry
     results!: XmpMappingEntry[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
     constructor(data?: IBaseResultOfXmpMappingEntry) {
@@ -66317,14 +67124,15 @@ export interface IBaseResultOfXmpMappingEntry {
     results: XmpMappingEntry[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 }
 
 /** Base class for search result queries that support SearchBehaviors */
 export class SearchBehaviorBaseResultOfXmpMappingEntry extends BaseResultOfXmpMappingEntry implements ISearchBehaviorBaseResultOfXmpMappingEntry {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: QueryDebugInformation[] | undefined;
@@ -66378,9 +67186,9 @@ export class SearchBehaviorBaseResultOfXmpMappingEntry extends BaseResultOfXmpMa
 
 /** Base class for search result queries that support SearchBehaviors */
 export interface ISearchBehaviorBaseResultOfXmpMappingEntry extends IBaseResultOfXmpMappingEntry {
-    /** The search string used to query the data */
+    /** The search string used to query the data. */
     searchString?: string | undefined;
-    /** Flag to notify if the SearchString was modified compared to the original requested one */
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
     isSearchStringRewritten?: boolean;
     /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
