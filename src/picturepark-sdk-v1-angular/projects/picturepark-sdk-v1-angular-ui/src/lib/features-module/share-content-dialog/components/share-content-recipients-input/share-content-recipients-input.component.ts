@@ -83,6 +83,11 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
     // Add our email
     if (!this.recipientSearch.errors) {
       const value = this.recipientSearch.value;
+
+      if (!value.length || this.recipients.controls.findIndex((control) => control.value === value) !== -1) {
+        return;
+      }
+
       this.recipients.push(new FormControl(value.trim(), [Validators.email]));
 
       this.recipients.markAsTouched();
