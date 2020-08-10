@@ -1,5 +1,10 @@
 <div class="content-image-preview-container">
-  <div class="content-image-preview-content" *ngIf="!isLoading" (click)="showFullscreen()">
+  <div
+    class="content-image-preview-content"
+    *ngIf="!isLoading"
+    (click)="showFullscreen()"
+    [class.content-image-preview-content-mobile]="deviceBreakpoint"
+  >
     <img
       [src]="thumbnailUrlSafe"
       (error)="updateUrl($event)"
