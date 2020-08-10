@@ -63,8 +63,11 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   }
 
   tabChange(event: MatTabChangeEvent): void {
-    // Load schemas if we change to metadata tab
-    if (event.index === 1 && !this.schemas) {
+    // Load schemas if we change to metadata tab and selected content schema does not exist
+    if (
+      event.index === 1 &&
+      (!this.schemas || !this.schemas.find((schema) => schema.id === this.content.contentSchemaId))
+    ) {
       this.loadSchemas();
     }
   }
