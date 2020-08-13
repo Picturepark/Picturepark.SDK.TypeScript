@@ -54,6 +54,12 @@
       }
     }
 
+    .aggregation.disabled {
+      &:hover {
+        background-color: initial;
+      }
+    }
+
     mat-form-field.search {
       background-color: mat-color($primary, surface-light);
 

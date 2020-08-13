@@ -50,6 +50,8 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
 
   public canExpand = false;
 
+  public active = true;
+
   public isLoading = false;
 
   public constructor(@Inject(LOCALE_ID) public locale: string, protected injector: Injector) {
@@ -82,12 +84,8 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
       this.aggregationQuery.setValue('');
     }
 
-    if (changes['expandedAggregationResult'] || changes['isExpanded']) {
-      if (this.expandedAggregationResult && this.expandedAggregationResult.aggregationResultItems) {
-        this.canExpand = this.isExpanded && this.expandedAggregationResult.aggregationResultItems.length > 0;
-      } else {
-        this.canExpand = false;
-      }
+    if (changes['isExpanded']) {
+      this.canExpand = this.isExpanded && this.active;
     }
   }
 
@@ -162,14 +160,6 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     );
   }
 
-  public get active(): boolean {
-    return (
-      !!this.expandedAggregationResult &&
-      !!this.expandedAggregationResult.aggregationResultItems &&
-      this.expandedAggregationResult.aggregationResultItems.filter((x) => (x && x.count > 0) || x.active).length >= 1
-    );
-  }
-
   public trackByName(_index, aggregationResultItem: AggregationResultItem): string {
     return aggregationResultItem.name;
   }
@@ -183,6 +173,19 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
 
   private updateAggregationResult(aggregationResult: AggregationResult | null): void {
     this.expandedAggregationResult = aggregationResult ? this.facade.expandAggregationResult(aggregationResult) : null;
+    this.checkExpandedAggregationResult();
+  }
+
+  private checkExpandedAggregationResult() {
+    const aggregationResultItems = this.expandedAggregationResult?.aggregationResultItems;
+    if (aggregationResultItems) {
+      if (aggregationResultItems.filter((item) => item.count > 0 || item.active).length >= 1) {
+        this.active = true;
+      } else {
+        this.active = false;
+        this.canExpand = false;
+      }
+    }
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {
