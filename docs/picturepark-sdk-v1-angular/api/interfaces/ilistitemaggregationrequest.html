@@ -123,14 +123,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ilistitemsearchandaggregationbaserequest.html">IListItemSearchAndAggregationBaseRequest</a>.<a href="ilistitemsearchandaggregationbaserequest.html#aggregationfilters">aggregationFilters</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L46196">lib/services/api-services.ts:46196</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L53499">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:53499</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Special filters used to filter down the aggregations&#39; values on specific conditions. The behavior is different when
-								filtering an aggregation that matches the same AggregationName or another aggregation.
-							In the first case, the filter is put in &quot;or&quot; with (eventual) other existing filters. In the second case it is put in &quot;and&quot;.</p>
+							<p>Special filters used to filter down independently the aggregations&#39; values and the search results on specific conditions.
+								For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+								by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+								For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+								aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+							Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it.</p>
 						</div>
 					</div>
 				</section>
@@ -140,7 +143,7 @@
 					<div class="tsd-signature tsd-kind-icon">aggregators<span class="tsd-signature-symbol">:</span> <a href="../classes/aggregatorbase.html" class="tsd-signature-type">AggregatorBase</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L46357">lib/services/api-services.ts:46357</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L53660">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:53660</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -156,7 +159,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ilistitemsearchandaggregationbaserequest.html">IListItemSearchAndAggregationBaseRequest</a>.<a href="ilistitemsearchandaggregationbaserequest.html#brokendependenciesfilter">brokenDependenciesFilter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L46200">lib/services/api-services.ts:46200</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L53503">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:53503</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -172,7 +175,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ilistitemsearchandaggregationbaserequest.html">IListItemSearchAndAggregationBaseRequest</a>.<a href="ilistitemsearchandaggregationbaserequest.html#filter">filter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L46192">lib/services/api-services.ts:46192</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L53492">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:53492</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -188,7 +191,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ilistitemsearchandaggregationbaserequest.html">IListItemSearchAndAggregationBaseRequest</a>.<a href="ilistitemsearchandaggregationbaserequest.html#includeallschemachildren">includeAllSchemaChildren</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L46198">lib/services/api-services.ts:46198</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L53501">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:53501</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -204,7 +207,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ilistitemsearchandaggregationbaserequest.html">IListItemSearchAndAggregationBaseRequest</a>.<a href="ilistitemsearchandaggregationbaserequest.html#lifecyclefilter">lifeCycleFilter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L46207">lib/services/api-services.ts:46207</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L53510">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:53510</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -220,7 +223,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ilistitemsearchandaggregationbaserequest.html">IListItemSearchAndAggregationBaseRequest</a>.<a href="ilistitemsearchandaggregationbaserequest.html#schemaids">schemaIds</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L46202">lib/services/api-services.ts:46202</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L53505">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:53505</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -236,7 +239,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ilistitemsearchandaggregationbaserequest.html">IListItemSearchAndAggregationBaseRequest</a>.<a href="ilistitemsearchandaggregationbaserequest.html#searchbehaviors">searchBehaviors</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L46190">lib/services/api-services.ts:46190</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L53490">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:53490</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -252,7 +255,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ilistitemsearchandaggregationbaserequest.html">IListItemSearchAndAggregationBaseRequest</a>.<a href="ilistitemsearchandaggregationbaserequest.html#searchlanguages">searchLanguages</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L46205">lib/services/api-services.ts:46205</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L53508">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:53508</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -269,7 +272,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ilistitemsearchandaggregationbaserequest.html">IListItemSearchAndAggregationBaseRequest</a>.<a href="ilistitemsearchandaggregationbaserequest.html#searchstring">searchString</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L46188">lib/services/api-services.ts:46188</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L53488">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:53488</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
