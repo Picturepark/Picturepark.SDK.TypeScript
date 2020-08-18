@@ -134,6 +134,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
           this.setPreviewUrl(shareOutput.viewUrl);
           return;
         } else if (this.shareContent.iconUrl) {
+          this.isIcon = true;
           this.setPreviewUrl(this.shareContent.iconUrl);
           return;
         }

@@ -11,6 +11,7 @@ import {
   FieldDictionaryArray,
   FieldGeoPoint,
   FieldLong,
+  FieldDecimal,
   FieldLongArray,
   FieldMultiFieldset,
   FieldMultiRelation,
@@ -204,6 +205,10 @@ export class LayerFieldService {
         break;
 
       case FieldLong:
+        layerField.value = fieldValue;
+        break;
+
+      case FieldDecimal:
         layerField.value = fieldValue;
         break;
 
