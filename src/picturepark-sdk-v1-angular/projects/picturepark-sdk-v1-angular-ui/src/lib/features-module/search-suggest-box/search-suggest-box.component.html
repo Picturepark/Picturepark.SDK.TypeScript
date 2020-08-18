@@ -56,13 +56,28 @@
             [ngModelOptions]="{ standalone: true }"
             (change)="searchModeChange($event)"
           >
-            <mat-radio-button class="radio-button" value="and">
+            <mat-radio-button
+              class="radio-button"
+              value="and"
+              [matTooltipPosition]="'left'"
+              matTooltip="{{ 'SearchSuggestBox.SimpleAndSearchTooltip' | pptranslate }}"
+            >
               {{ 'SearchSuggestBox.SimpleAndSearch' | pptranslate }}
             </mat-radio-button>
-            <mat-radio-button class="radio-button" value="or">
+            <mat-radio-button
+              class="radio-button"
+              value="or"
+              [matTooltipPosition]="'left'"
+              matTooltip="{{ 'SearchSuggestBox.SimpleOrSearchTooltip' | pptranslate }}"
+            >
               {{ 'SearchSuggestBox.SimpleOrSearch' | pptranslate }}
             </mat-radio-button>
-            <mat-radio-button class="radio-button" value="advanced">
+            <mat-radio-button
+              class="radio-button"
+              value="advanced"
+              [matTooltipPosition]="'left'"
+              matTooltip="{{ 'SearchSuggestBox.AdvancedSearchTooltip' | pptranslate }}"
+            >
               {{ 'SearchSuggestBox.AdvancedSearch' | pptranslate }}
             </mat-radio-button>
           </mat-radio-group>

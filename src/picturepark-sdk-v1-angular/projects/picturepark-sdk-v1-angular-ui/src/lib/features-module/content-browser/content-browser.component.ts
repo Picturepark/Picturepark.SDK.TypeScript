@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
 
 // LIBRARIES
-import { ThumbnailSize, Channel, Content, ContentSearchFacade } from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, Channel, Content, ContentSearchFacade, SortDirection } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
@@ -12,6 +12,8 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 
 // INTERFACES
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
+import { ItemBasketSelection } from './components/content-browser-item/interfaces/content-browser-item.interface';
+import { ISortItem } from '../../shared-module/components/browser-base/interfaces/sort-item';
 
 @Component({
   selector: 'pp-content-browser',
@@ -26,8 +28,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   @Input()
   public channel: Channel | null = null;
 
-  basket$ = this.basketService.basketChange;
-
   constructor(
     private basketService: BasketService,
     public facade: ContentSearchFacade,
@@ -40,25 +40,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   async init(): Promise<void> {}
 
   initSort(): void {
-    this.sortingTypes = [
-      {
-        field: 'relevance',
-        name: this.translationService.translate('SortMenu.Relevance'),
-      },
-      {
-        field: 'fileMetadata.fileName',
-        name: this.translationService.translate('SortMenu.FileName'),
-      },
-      {
-        field: 'audit.creationDate',
-        name: this.translationService.translate('SortMenu.CreationDate'),
-      },
-      {
-        field: 'audit.modificationDate',
-        name: this.translationService.translate('SortMenu.ModificationDate'),
-      },
-    ];
-    this.activeSortingType = this.sortingTypes[0];
+    this.setSortFields();
 
     this.views = [
       {
@@ -89,6 +71,26 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.activeView = this.views[2];
   }
 
+  private setSortFields() {
+    if (this.channel?.sortFields?.length) {
+      this.sortingTypes = this.channel.sortFields.map((s) => ({
+        name: this.translationService.translate(s.names),
+        field: s.path,
+      }));
+
+      let sortField: ISortItem | undefined;
+      let sortDirection: SortDirection | undefined;
+
+      if (this.channel?.sort?.length) {
+        sortField = this.sortingTypes.find((f) => f.field === this.channel?.sort[0].field);
+        sortDirection = this.channel.sort[0].direction;
+      }
+
+      this.activeSortingType = sortField ?? this.sortingTypes[0];
+      this.isAscending = sortDirection ? sortDirection === SortDirection.Asc : false;
+    }
+  }
+
   onScroll(): void {
     this.loadData();
   }
@@ -102,6 +104,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       } else {
         this.facade.patchRequestState({});
       }
+
+      this.setSortFields();
     }
   }
 
@@ -134,6 +138,23 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       mode: 'multi',
       contents: this.selectedItems,
     });
+  }
+
+  handleBasketChanges(basketSelection: ItemBasketSelection) {
+    const selectedItemsIds = this.selectedItems.map((i) => i.id);
+    if (selectedItemsIds.includes(basketSelection.itemId)) {
+      if (basketSelection.addItem) {
+        this.basketService.addItems(selectedItemsIds);
+      } else {
+        this.basketService.removeItems(selectedItemsIds);
+      }
+    } else {
+      if (basketSelection.addItem) {
+        this.basketService.addItem(basketSelection.itemId);
+      } else {
+        this.basketService.removeItem(basketSelection.itemId);
+      }
+    }
   }
 
   // CHECK IF ELEMENT CONTAINS CLASS NAME

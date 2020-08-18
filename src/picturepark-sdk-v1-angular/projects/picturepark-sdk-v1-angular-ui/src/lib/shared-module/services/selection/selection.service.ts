@@ -35,6 +35,19 @@ export class SelectionService<TEntity extends IEntityBase> {
     this.updateSubject();
   }
 
+  public removeItems(values: TEntity[] | string[]) {
+    values.forEach((value) => {
+      if (typeof value === 'string') {
+        const item = this.getById(value);
+        this.items.delete(item!);
+      } else {
+        this.items.delete(value);
+      }
+    });
+
+    this.updateSubject();
+  }
+
   public toggle(item: TEntity) {
     if (this.items.has(item)) {
       this.removeItem(item);

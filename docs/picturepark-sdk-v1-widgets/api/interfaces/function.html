@@ -78,14 +78,6 @@
 				<ul class="tsd-hierarchy">
 					<li>
 						<span class="target">Function</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="callablefunction.html" class="tsd-signature-type">CallableFunction</a>
-							</li>
-							<li>
-								<a href="newablefunction.html" class="tsd-signature-type">NewableFunction</a>
-							</li>
-						</ul>
 					</li>
 				</ul>
 			</section>
@@ -99,12 +91,14 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="function.html#arguments" class="tsd-kind-icon">arguments</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="function.html#caller" class="tsd-kind-icon">caller</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="function.html#length" class="tsd-kind-icon">length</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="function.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="function.html#prototype" class="tsd-kind-icon">prototype</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external tsd-is-not-exported">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="function.html#_symbol_hasinstance_" class="tsd-kind-icon">[<wbr>Symbol.has<wbr>Instance]</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="function.html#apply" class="tsd-kind-icon">apply</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="function.html#bind" class="tsd-kind-icon">bind</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported"><a href="function.html#call" class="tsd-kind-icon">call</a></li>
@@ -122,17 +116,17 @@
 					<div class="tsd-signature tsd-kind-icon">arguments<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:302</li>
+							<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:302</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="caller" class="tsd-anchor"></a>
 					<h3>caller</h3>
-					<div class="tsd-signature tsd-kind-icon">caller<span class="tsd-signature-symbol">:</span> <a href="function.html" class="tsd-signature-type">Function</a></div>
+					<div class="tsd-signature tsd-kind-icon">caller<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:303</li>
+							<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:303</li>
 						</ul>
 					</aside>
 				</section>
@@ -142,9 +136,24 @@
 					<div class="tsd-signature tsd-kind-icon">length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:299</li>
+							<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:299</li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typescript/lib/lib.es2015.core.d.ts:97</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Returns the name of the function. Function names are read-only and can not be changed.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 					<a name="prototype" class="tsd-anchor"></a>
@@ -152,7 +161,7 @@
 					<div class="tsd-signature tsd-kind-icon">prototype<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:298</li>
+							<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:298</li>
 						</ul>
 					</aside>
 				</section>
@@ -160,16 +169,47 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external tsd-is-not-exported">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-					<a name="apply" class="tsd-anchor"></a>
-					<h3>apply</h3>
+					<a name="_symbol_hasinstance_" class="tsd-anchor"></a>
+					<h3>[<wbr>Symbol.has<wbr>Instance]</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">apply<span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><a href="function.html" class="tsd-signature-type">Function</a>, thisArg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, argArray<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">[<wbr>Symbol.has<wbr>Instance]<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:278</li>
+									<li>Defined in node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:157</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Determines whether the given value inherits from this function if this function was used
+									as a constructor function.</p>
+								</div>
+								<p>A constructor function can control which objects are recognized as its instances by
+								&#39;instanceof&#39; by overriding this method.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+					<a name="apply" class="tsd-anchor"></a>
+					<h3>apply</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">apply<span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, thisArg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, argArray<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:278</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -180,7 +220,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>this: <a href="function.html" class="tsd-signature-type">Function</a></h5>
+									<h5>this: <span class="tsd-signature-type">Function</span></h5>
 								</li>
 								<li>
 									<h5>thisArg: <span class="tsd-signature-type">any</span></h5>
@@ -203,13 +243,13 @@
 					<a name="bind" class="tsd-anchor"></a>
 					<h3>bind</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">bind<span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><a href="function.html" class="tsd-signature-type">Function</a>, thisArg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, <span class="tsd-signature-symbol">...</span>argArray<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">bind<span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, thisArg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, <span class="tsd-signature-symbol">...</span>argArray<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:293</li>
+									<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:293</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -221,7 +261,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>this: <a href="function.html" class="tsd-signature-type">Function</a></h5>
+									<h5>this: <span class="tsd-signature-type">Function</span></h5>
 								</li>
 								<li>
 									<h5>thisArg: <span class="tsd-signature-type">any</span></h5>
@@ -244,13 +284,13 @@
 					<a name="call" class="tsd-anchor"></a>
 					<h3>call</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">call<span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><a href="function.html" class="tsd-signature-type">Function</a>, thisArg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, <span class="tsd-signature-symbol">...</span>argArray<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">call<span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, thisArg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, <span class="tsd-signature-symbol">...</span>argArray<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:285</li>
+									<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:285</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -261,7 +301,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>this: <a href="function.html" class="tsd-signature-type">Function</a></h5>
+									<h5>this: <span class="tsd-signature-type">Function</span></h5>
 								</li>
 								<li>
 									<h5>thisArg: <span class="tsd-signature-type">any</span></h5>
@@ -290,7 +330,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:296</li>
+									<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:296</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -329,7 +369,13 @@
 								<a href="function.html#length" class="tsd-kind-icon">length</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+								<a href="function.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 								<a href="function.html#prototype" class="tsd-kind-icon">prototype</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
+								<a href="function.html#_symbol_hasinstance_" class="tsd-kind-icon">[<wbr>Symbol.has<wbr>Instance]</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
 								<a href="function.html#apply" class="tsd-kind-icon">apply</a>

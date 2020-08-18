@@ -24,4 +24,8 @@
   &::-webkit-scrollbar {
     width: 10px;
   }
+
+  .list-table {
+    user-select: none;
+  }
 }

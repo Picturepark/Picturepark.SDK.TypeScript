@@ -37,7 +37,7 @@ export class EmbedService {
 
         if (result) {
           await this.businessProcessService.waitForCompletion(result.id, '02:00:00', true).toPromise();
-          const share = await this.shareService.get(result.referenceId!).toPromise();
+          const share = await this.shareService.get(result.referenceId!, null).toPromise();
           const postMessage = JSON.stringify(share);
 
           if (window.opener) {

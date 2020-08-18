@@ -92,7 +92,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
   // GET SHARE INFO
   loadShare(shareId: string): void {
-    this.shareService.get(shareId).subscribe((data) => {
+    this.shareService.get(shareId, null).subscribe((data) => {
       this.share = data;
 
       this.items = data.contentSelections;

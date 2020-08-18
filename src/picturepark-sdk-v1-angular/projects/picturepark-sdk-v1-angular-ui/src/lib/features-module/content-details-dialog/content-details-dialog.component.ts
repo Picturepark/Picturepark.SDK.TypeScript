@@ -42,6 +42,11 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   ) {
     super(data, dialogRef, injector);
 
+    const shareDetail = this.data.shareDetail;
+    if (shareDetail?.schemas) {
+      this.schemas = shareDetail.schemas;
+    }
+
     const shareContent = this.data.shareContent;
     if (shareContent) {
       this.content = shareContent as any;
@@ -52,16 +57,17 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   }
 
   loadSchemas(): void {
-    this.schemaService
-      .getMany(this.content.layerSchemaIds!.concat(this.content.contentSchemaId))
-      .subscribe((schemas) => {
-        this.schemas = schemas;
-      });
+    this.schemaService.getMany([this.content.contentSchemaId]).subscribe((schemas) => {
+      this.schemas = schemas;
+    });
   }
 
   tabChange(event: MatTabChangeEvent): void {
-    // Load schemas if we change to metadata tab
-    if (event.index === 1 && !this.schemas) {
+    // Load schemas if we change to metadata tab and selected content schema does not exist
+    if (
+      event.index === 1 &&
+      (!this.schemas || !this.schemas.find((schema) => schema.id === this.content.contentSchemaId))
+    ) {
       this.loadSchemas();
     }
   }

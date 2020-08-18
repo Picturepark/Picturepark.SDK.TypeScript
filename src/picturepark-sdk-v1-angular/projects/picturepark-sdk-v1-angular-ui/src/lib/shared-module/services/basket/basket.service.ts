@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Content, ContentService, fetchContents } from '@picturepark/sdk-v1-angular';
+import { Content, ContentService, fetchContents, LocalStorageService, StorageKey } from '@picturepark/sdk-v1-angular';
 import { BasketChange, BasketOperation } from './interfaces/basket-change';
 
 @Injectable({
@@ -11,15 +11,12 @@ export class BasketService {
   private basketItemsSubject: BehaviorSubject<Content[]>;
   private basketChanges: BehaviorSubject<BasketChange>;
 
-  private localStorageKey = 'basketItems';
-  private basketItemsIds: Set<string>;
+  private basketItemsIds: Set<string> = new Set();
   private basketItems: Content[] = [];
 
-  constructor(private contentService: ContentService) {
-    const itemsString = localStorage.getItem(this.localStorageKey);
+  constructor(private contentService: ContentService, private localStorageService: LocalStorageService) {
+    const itemsString = this.localStorageService.get(StorageKey.BasketItems);
     const itemsIdsArray = itemsString ? (JSON.parse(itemsString) as string[]) : [];
-
-    this.basketItemsIds = new Set(itemsIdsArray);
 
     this.basketItemsIdsSubject = new BehaviorSubject([]);
     this.basketItemsSubject = new BehaviorSubject([]);
@@ -27,11 +24,14 @@ export class BasketService {
 
     this.basketChanges.subscribe((change) => {
       if (change.operation === BasketOperation.added) {
+        // Clear duplicates
+        const itemsToAdd = change.itemsIds.filter((itemId) => !Array.from(this.basketItemsIds).includes(itemId));
+
         // Handle basketItemsIds
-        change.itemsIds.forEach((itemId) => this.basketItemsIds.add(itemId));
+        itemsToAdd.forEach((itemId) => this.basketItemsIds.add(itemId));
 
         // Handle basketItems
-        const sub = fetchContents(this.contentService, change.itemsIds).subscribe((response) => {
+        const sub = fetchContents(this.contentService, itemsToAdd).subscribe((response) => {
           this.basketItems = this.basketItems.concat(response.results);
           this.basketItemsSubject.next(this.basketItems);
           sub.unsubscribe();
@@ -80,6 +80,10 @@ export class BasketService {
     this.basketChanges.next({ operation: BasketOperation.removed, itemsIds: [itemId] });
   }
 
+  public removeItems(itemsIds: string[]) {
+    this.basketChanges.next({ operation: BasketOperation.removed, itemsIds: itemsIds });
+  }
+
   public clearBasket() {
     this.basketChanges.next({ operation: BasketOperation.cleared, itemsIds: [] });
   }
@@ -101,7 +105,7 @@ export class BasketService {
 
     // Update storage
     const value = JSON.stringify(itemsIdsArray);
-    localStorage.setItem(this.localStorageKey, value);
+    this.localStorageService.set(StorageKey.BasketItems, value);
 
     // Update basket items ids
     this.basketItemsIdsSubject.next(itemsIdsArray);

@@ -20,6 +20,7 @@ import { MetaDataPreviewService } from '../../shared-module/services/metadata-pr
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import { lowerFirst } from '../../utilities/helper';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'pp-list-browser',
@@ -45,6 +46,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   public activeSortColumn: string;
   public activeSortDirection: MatSortDirection;
   public customerInfo: CustomerInfo;
+  public isShiftPressed = false;
 
   constructor(
     private metaDataPreviewService: MetaDataPreviewService,
@@ -98,6 +100,13 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       aggregators: this.schema.aggregations ?? [],
       sort: this.sortInfo,
     });
+
+    const shiftHandler = (event: KeyboardEvent) => {
+      this.isShiftPressed = event.shiftKey;
+    };
+
+    document.onkeydown = shiftHandler;
+    document.onkeyup = shiftHandler;
   }
 
   initSort(): void {}
@@ -153,14 +162,18 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.isAllSelected() ? this.selectionService.clear() : this.selectionService.addItems(this.items.map((q) => q));
   }
 
-  public isRowSelected(row: any): boolean {
+  public isRowSelected(row: any, test?): boolean {
     return this.selectionService.getById(row._refId) ? true : false;
   }
 
-  public toggle(row: any) {
-    const index = this.items.findIndex((item) => item.id === row._refId);
-    const itemModel = this.items[index];
-    this.selectionService.toggle(itemModel);
+  public toggle(event: MatCheckboxChange | MouseEvent, row: any, presist = false) {
+    if (this.enableSelection) {
+      if (event instanceof MatCheckboxChange) {
+        event = new MouseEvent('click', { shiftKey: this.isShiftPressed });
+      }
+      const index = this.items.findIndex((item) => item.id === row._refId);
+      this.itemClicked(event, index, presist);
+    }
   }
 
   /** The label for the checkbox on the passed row */
@@ -169,11 +182,5 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.isRowSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-  }
-
-  public rowClick(row: any): void {
-    if (this.enableSelection) {
-      this.toggle(row);
-    }
   }
 }
