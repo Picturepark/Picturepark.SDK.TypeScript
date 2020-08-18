@@ -2620,8 +2620,8 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <ContentNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Content not found", status, _responseText, _headers, result404);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
@@ -2988,8 +2988,8 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessLifeCycleNotHitException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("The specified wait timeout exceeded", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -3071,8 +3071,8 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <RequestSizeLimitExceededException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -3081,8 +3081,8 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <ContentNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("One or more contents not found", status, _responseText, _headers, result404);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
@@ -3173,8 +3173,8 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessLifeCycleNotHitException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("The specified wait timeout exceeded", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -3270,8 +3270,8 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessLifeCycleNotHitException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("The specified wait timeout exceeded", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -4028,8 +4028,8 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <ContentNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("One or more contents not found", status, _responseText, _headers, result404);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
@@ -10599,8 +10599,8 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <SchemaNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Requested schema could not be found", status, _responseText, _headers, result404);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
@@ -10677,8 +10677,8 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <SchemaValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("The validation exception of schema update", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -10687,8 +10687,8 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <SchemaNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Schema with this ID could not be found", status, _responseText, _headers, result404);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
@@ -10760,8 +10760,8 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <SchemaInUseException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Schema is used in other entities and cannot be deleted", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -10770,8 +10770,8 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <SchemaNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Schema with this ID could not be found", status, _responseText, _headers, result404);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
@@ -11001,8 +11001,8 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <RequestSizeLimitExceededException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -11170,8 +11170,8 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <SchemaValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("The validation exception of schema creation", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -11248,8 +11248,8 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <RequestSizeLimitExceededException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -11328,8 +11328,8 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <SchemaValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("One or more schemas failed to validate", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -11408,8 +11408,8 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkArgumentNullException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Argument must not be null", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -11818,8 +11818,8 @@ export class SchemaTransferClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkArgumentNullException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Argument must not be null", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -12203,8 +12203,8 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <ShareNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Share could not be found", status, _responseText, _headers, result404);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
@@ -12277,8 +12277,8 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <BusinessProcessLifeCycleNotHitException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -12367,8 +12367,8 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
-            result404 = _responseText === "" ? null : <ContentNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Content could not be found", status, _responseText, _headers, result404);
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
@@ -12389,12 +12389,6 @@ export class ShareClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
-            });
-        } else if (status === 403) {
-            return response.text().then((_responseText) => {
-            let result403: any = null;
-            result403 = _responseText === "" ? null : <PermissionValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("No permission to share", status, _responseText, _headers, result403);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -12775,8 +12769,8 @@ export class TransferClient extends PictureparkClientBase {
         } else if (status === 400) {
             return response.text().then((_responseText) => {
             let result400: any = null;
-            result400 = _responseText === "" ? null : <MaximumTransferSizeException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
