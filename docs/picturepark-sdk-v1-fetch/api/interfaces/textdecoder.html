@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A decoder for a specific method, that is a specific character encoding, like utf-8, iso-8859-2, koi8, cp1261, gbk, etc. A decoder takes a stream of bytes as input and emits a stream of code points. For a more scalable, non-native library, see StringView – a C-like representation of strings based on typed arrays.</p>
+						<p>A decoder for a specific method, that is a specific character encoding, like utf-8, iso-8859-2, koi8, cp1261, gbk, etc. A decoder takes a stream of bytes as input and emits a stream of code points. For a more scalable, non-native library, see StringView – a C-like representation of strings based on typed arrays.</p>
 					</div>
 				</div>
 			</section>
@@ -116,9 +116,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="textdecodercommon.html">TextDecoderCommon</a>.<a href="textdecodercommon.html#encoding">encoding</a></p>
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:15307</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:15671</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Returns encoding&#39;s name, lowercased.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 					<a name="fatal" class="tsd-anchor"></a>
@@ -127,9 +132,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="textdecodercommon.html">TextDecoderCommon</a>.<a href="textdecodercommon.html#fatal">fatal</a></p>
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:15308</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:15675</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Returns true if error mode is &quot;fatal&quot;, and false otherwise.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 					<a name="ignorebom" class="tsd-anchor"></a>
@@ -138,9 +148,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="textdecodercommon.html">TextDecoderCommon</a>.<a href="textdecodercommon.html#ignorebom">ignoreBOM</a></p>
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:15309</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:15679</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Returns true if ignore BOM flag is set, and false otherwise.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external tsd-is-not-exported">
@@ -155,23 +170,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:15298</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:15659</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns the result of running encoding&#39;s decoder.
-										The method can be invoked zero or more times with options&#39;s stream set to
-										true, and then once without options&#39;s stream (or set to false), to process
-										a fragmented stream. If the invocation without options&#39;s stream (or set to
-										false) has no input, it&#39;s clearest to omit both arguments.
-										var string = &quot;&quot;, decoder = new TextDecoder(encoding), buffer;
-										while(buffer = next_chunk()) {
-										string += decoder.decode(buffer, {stream:true});
-										}
-										string += decoder.decode(); // end-of-stream
-									If the error mode is &quot;fatal&quot; and encoding&#39;s decoder returns error, throws a TypeError.</p>
+									<p>Returns the result of running encoding&#39;s decoder. The method can be invoked zero or more times with options&#39;s stream set to true, and then once without options&#39;s stream (or set to false), to process a fragmented stream. If the invocation without options&#39;s stream (or set to false) has no input, it&#39;s clearest to omit both arguments.</p>
 								</div>
+								<pre><code>var <span class="hljs-built_in">string</span> = <span class="hljs-string">""</span>, decoder = <span class="hljs-keyword">new</span> TextDecoder(encoding), <span class="hljs-built_in">buffer</span>;
+<span class="hljs-keyword">while</span>(<span class="hljs-built_in">buffer</span> = next_chunk()) {
+  <span class="hljs-built_in">string</span> += decoder.decode(<span class="hljs-built_in">buffer</span>, {stream:<span class="hljs-literal">true</span>});
+}
+<span class="hljs-built_in">string</span> += decoder.decode(); <span class="hljs-comment">// end-of-stream</span></code></pre><p>If the error mode is &quot;fatal&quot; and encoding&#39;s decoder returns error, throws a TypeError.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">

@@ -70,10 +70,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="textdecodercommon.html" class="tsd-signature-type">TextDecoderCommon</a>
+						<a href="generictransformstream.html" class="tsd-signature-type">GenericTransformStream</a>
 					</li>
 					<li>
-						<a href="generictransformstream.html" class="tsd-signature-type">GenericTransformStream</a>
+						<a href="textdecodercommon.html" class="tsd-signature-type">TextDecoderCommon</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">TextDecoderStream</span>
@@ -108,9 +108,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="textdecodercommon.html">TextDecoderCommon</a>.<a href="textdecodercommon.html#encoding">encoding</a></p>
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:15307</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:15671</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Returns encoding&#39;s name, lowercased.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 					<a name="fatal" class="tsd-anchor"></a>
@@ -119,9 +124,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="textdecodercommon.html">TextDecoderCommon</a>.<a href="textdecodercommon.html#fatal">fatal</a></p>
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:15308</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:15675</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Returns true if error mode is &quot;fatal&quot;, and false otherwise.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 					<a name="ignorebom" class="tsd-anchor"></a>
@@ -130,9 +140,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="textdecodercommon.html">TextDecoderCommon</a>.<a href="textdecodercommon.html#ignorebom">ignoreBOM</a></p>
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:15309</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:15679</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Returns true if ignore BOM flag is set, and false otherwise.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 					<a name="readable" class="tsd-anchor"></a>
@@ -141,9 +156,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="generictransformstream.html">GenericTransformStream</a>.<a href="generictransformstream.html#readable">readable</a></p>
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5448</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:5755</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Returns a readable stream whose chunks are strings resulting from running encoding&#39;s decoder on the chunks written to writable.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external tsd-is-not-exported">
 					<a name="writable" class="tsd-anchor"></a>
@@ -152,17 +172,18 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="generictransformstream.html">GenericTransformStream</a>.<a href="generictransformstream.html#writable">writable</a></p>
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5456</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:5770</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Returns a writable stream which accepts string chunks and runs them through UTF-8&#39;s encoder before making them available to readable.
-								Typically this will be used via the pipeThrough() method on a ReadableStream source.
-								textReadable
-								.pipeThrough(new TextEncoderStream())
-							.pipeTo(byteWritable);</p>
+							<p>Returns a writable stream which accepts BufferSource chunks and runs them through encoding&#39;s decoder before making them available to readable.</p>
 						</div>
+						<p>Typically this will be used via the pipeThrough() method on a ReadableStream source.</p>
+						<pre><code>var decoder = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TextDecoderStream(<span class="hljs-params">encoding</span>)</span>;
+byteReadable
+  .pipe<span class="hljs-constructor">Through(<span class="hljs-params">decoder</span>)</span>
+  .pipe<span class="hljs-constructor">To(<span class="hljs-params">textWritable</span>)</span>;</code></pre><p>If the error mode is &quot;fatal&quot; and encoding&#39;s decoder returns error, both readable and writable will be errored with a TypeError.</p>
 					</div>
 				</section>
 			</section>

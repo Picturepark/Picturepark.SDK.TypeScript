@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>An interface of the Channel Messaging API represents one of the two ports of a MessageChannel, allowing messages to be sent from one port and listening out for them arriving at the other.</p>
+						<p>This Channel Messaging API interface represents one of the two ports of a MessageChannel, allowing messages to be sent from one port and listening out for them arriving at the other.</p>
 					</div>
 				</div>
 			</section>
@@ -120,7 +120,7 @@
 					<div class="tsd-signature tsd-kind-icon">Event<wbr>Target<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5233</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:5533</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -135,7 +135,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5234</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:5534</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-returns-title">Returns <a href="eventtarget.html" class="tsd-signature-type">EventTarget</a></h4>
@@ -153,7 +153,7 @@
 					<div class="tsd-signature tsd-kind-icon">onmessage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10344</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10659</li>
 						</ul>
 					</aside>
 				</section>
@@ -163,7 +163,7 @@
 					<div class="tsd-signature tsd-kind-icon">onmessageerror<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10345</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10660</li>
 						</ul>
 					</aside>
 				</section>
@@ -182,7 +182,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#addeventlistener">addEventListener</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10356</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10676</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -230,7 +230,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#addeventlistener">addEventListener</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10357</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10677</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -259,7 +259,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10349</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10664</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -282,13 +282,12 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5226</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:5526</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Dispatches a synthetic event event to target and returns true
-									if either event&#39;s cancelable attribute value is false or its preventDefault() method was not invoked, and false otherwise.</p>
+									<p>Dispatches a synthetic event event to target and returns true if either event&#39;s cancelable attribute value is false or its preventDefault() method was not invoked, and false otherwise.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -312,9 +311,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10350</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10670</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Posts a message through the channel. Objects listed in transfer are transferred, not just cloned, meaning that they are no longer usable on the sending side.</p>
+								</div>
+								<p>Throws a &quot;DataCloneError&quot; DOMException if transfer contains duplicate objects or port, or if message could not be cloned.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -329,7 +334,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10351</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10671</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -357,7 +362,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#removeeventlistener">removeEventListener</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10358</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10678</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -405,7 +410,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#removeeventlistener">removeEventListener</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10359</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10679</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -434,7 +439,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10355</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10675</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

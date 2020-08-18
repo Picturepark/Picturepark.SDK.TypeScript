@@ -92,8 +92,14 @@
 						<section class="tsd-index-section tsd-is-external tsd-is-not-exported">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#exportvalue" class="tsd-kind-icon">Export<wbr>Value</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#exports" class="tsd-kind-icon">Exports</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#importexportkind" class="tsd-kind-icon">Import<wbr>Export<wbr>Kind</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#importvalue" class="tsd-kind-icon">Import<wbr>Value</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#imports" class="tsd-kind-icon">Imports</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#moduleimports" class="tsd-kind-icon">Module<wbr>Imports</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#tablekind" class="tsd-kind-icon">Table<wbr>Kind</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#valuetype" class="tsd-kind-icon">Value<wbr>Type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external tsd-is-not-exported">
@@ -113,7 +119,9 @@
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#compile" class="tsd-kind-icon">compile</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#compilestreaming" class="tsd-kind-icon">compile<wbr>Streaming</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#instantiate" class="tsd-kind-icon">instantiate</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#instantiatestreaming" class="tsd-kind-icon">instantiate<wbr>Streaming</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported"><a href="webassembly.html#validate" class="tsd-kind-icon">validate</a></li>
 							</ul>
 						</section>
@@ -123,12 +131,62 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external tsd-is-not-exported">
 				<h2>Type aliases</h2>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="exportvalue" class="tsd-anchor"></a>
+					<h3>Export<wbr>Value</h3>
+					<div class="tsd-signature tsd-kind-icon">Export<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/webassembly.global.html" class="tsd-signature-type">Global</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/webassembly.memory.html" class="tsd-signature-type">Memory</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/webassembly.table.html" class="tsd-signature-type">Table</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19193</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="exports" class="tsd-anchor"></a>
+					<h3>Exports</h3>
+					<div class="tsd-signature tsd-kind-icon">Exports<span class="tsd-signature-symbol">:</span> <a href="../globals.html#record" class="tsd-signature-type">Record</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="webassembly.html#exportvalue" class="tsd-signature-type">ExportValue</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19194</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 					<a name="importexportkind" class="tsd-anchor"></a>
 					<h3>Import<wbr>Export<wbr>Kind</h3>
 					<div class="tsd-signature tsd-kind-icon">Import<wbr>Export<wbr>Kind<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"function"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"table"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"memory"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"global"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17786</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19190</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="importvalue" class="tsd-anchor"></a>
+					<h3>Import<wbr>Value</h3>
+					<div class="tsd-signature tsd-kind-icon">Import<wbr>Value<span class="tsd-signature-symbol">:</span> <a href="webassembly.html#exportvalue" class="tsd-signature-type">ExportValue</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19195</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="imports" class="tsd-anchor"></a>
+					<h3>Imports</h3>
+					<div class="tsd-signature tsd-kind-icon">Imports<span class="tsd-signature-symbol">:</span> <a href="../globals.html#record" class="tsd-signature-type">Record</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="webassembly.html#moduleimports" class="tsd-signature-type">ModuleImports</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19197</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="moduleimports" class="tsd-anchor"></a>
+					<h3>Module<wbr>Imports</h3>
+					<div class="tsd-signature tsd-kind-icon">Module<wbr>Imports<span class="tsd-signature-symbol">:</span> <a href="../globals.html#record" class="tsd-signature-type">Record</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="webassembly.html#importvalue" class="tsd-signature-type">ImportValue</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19196</li>
 						</ul>
 					</aside>
 				</section>
@@ -138,7 +196,17 @@
 					<div class="tsd-signature tsd-kind-icon">Table<wbr>Kind<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"anyfunc"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17787</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19191</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="valuetype" class="tsd-anchor"></a>
+					<h3>Value<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Value<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"i32"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"i64"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"f32"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"f64"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19192</li>
 						</ul>
 					</aside>
 				</section>
@@ -151,7 +219,7 @@
 					<div class="tsd-signature tsd-kind-icon">Compile<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17681</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19085</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -166,7 +234,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17682</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19086</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/webassembly.compileerror.html" class="tsd-signature-type">CompileError</a></h4>
@@ -184,7 +252,7 @@
 					<div class="tsd-signature tsd-kind-icon">Global<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17691</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19095</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -193,13 +261,13 @@
 							<li class="tsd-parameter">
 								<h5>constructor<span class="tsd-signature-symbol">: </span>function</h5>
 								<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-type-literal tsd-is-external tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon">new __type<span class="tsd-signature-symbol">(</span>descriptor<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.globaldescriptor.html" class="tsd-signature-type">GlobalDescriptor</a>, value<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.global.html" class="tsd-signature-type">Global</a></li>
+									<li class="tsd-signature tsd-kind-icon">new __type<span class="tsd-signature-symbol">(</span>descriptor<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.globaldescriptor.html" class="tsd-signature-type">GlobalDescriptor</a>, v<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.global.html" class="tsd-signature-type">Global</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17692</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19096</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -208,7 +276,7 @@
 												<h5>descriptor: <a href="../interfaces/webassembly.globaldescriptor.html" class="tsd-signature-type">GlobalDescriptor</a></h5>
 											</li>
 											<li>
-												<h5><span class="tsd-flag ts-flagOptional">Optional</span> value: <span class="tsd-signature-type">any</span></h5>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> v: <span class="tsd-signature-type">any</span></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/webassembly.global.html" class="tsd-signature-type">Global</a></h4>
@@ -226,7 +294,7 @@
 					<div class="tsd-signature tsd-kind-icon">Instance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17700</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19104</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -235,13 +303,13 @@
 							<li class="tsd-parameter">
 								<h5>constructor<span class="tsd-signature-symbol">: </span>function</h5>
 								<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-type-literal tsd-is-external tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon">new __type<span class="tsd-signature-symbol">(</span>module<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a>, importObject<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.instance.html" class="tsd-signature-type">Instance</a></li>
+									<li class="tsd-signature tsd-kind-icon">new __type<span class="tsd-signature-symbol">(</span>module<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a>, importObject<span class="tsd-signature-symbol">?: </span><a href="webassembly.html#imports" class="tsd-signature-type">Imports</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.instance.html" class="tsd-signature-type">Instance</a></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17701</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19105</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -250,7 +318,7 @@
 												<h5>module: <a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a></h5>
 											</li>
 											<li>
-												<h5><span class="tsd-flag ts-flagOptional">Optional</span> importObject: <span class="tsd-signature-type">any</span></h5>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> importObject: <a href="webassembly.html#imports" class="tsd-signature-type">Imports</a></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/webassembly.instance.html" class="tsd-signature-type">Instance</a></h4>
@@ -268,7 +336,7 @@
 					<div class="tsd-signature tsd-kind-icon">Link<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17708</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19112</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -283,7 +351,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17709</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19113</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/webassembly.linkerror.html" class="tsd-signature-type">LinkError</a></h4>
@@ -301,7 +369,7 @@
 					<div class="tsd-signature tsd-kind-icon">Memory<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17718</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19122</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -316,7 +384,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17719</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19123</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -340,7 +408,7 @@
 					<div class="tsd-signature tsd-kind-icon">Module<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17726</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19130</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -355,7 +423,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17727</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19131</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -373,43 +441,43 @@
 							<li class="tsd-parameter">
 								<h5>custom<wbr>Sections<span class="tsd-signature-symbol">: </span>function</h5>
 								<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-external tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon">custom<wbr>Sections<span class="tsd-signature-symbol">(</span>module<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a>, sectionName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/arraybuffer.html" class="tsd-signature-type">ArrayBuffer</a><span class="tsd-signature-symbol">[]</span></li>
+									<li class="tsd-signature tsd-kind-icon">custom<wbr>Sections<span class="tsd-signature-symbol">(</span>moduleObject<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a>, sectionName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol">[]</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17729</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19133</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>module: <a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a></h5>
+												<h5>moduleObject: <a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a></h5>
 											</li>
 											<li>
 												<h5>sectionName: <span class="tsd-signature-type">string</span></h5>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <a href="../interfaces/arraybuffer.html" class="tsd-signature-type">ArrayBuffer</a><span class="tsd-signature-symbol">[]</span></h4>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ArrayBuffer</span><span class="tsd-signature-symbol">[]</span></h4>
 									</li>
 							</ul>        </li>
 							<li class="tsd-parameter">
 								<h5>exports<span class="tsd-signature-symbol">: </span>function</h5>
 								<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-external tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon">exports<span class="tsd-signature-symbol">(</span>module<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.moduleexportdescriptor.html" class="tsd-signature-type">ModuleExportDescriptor</a><span class="tsd-signature-symbol">[]</span></li>
+									<li class="tsd-signature tsd-kind-icon">exports<span class="tsd-signature-symbol">(</span>moduleObject<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.moduleexportdescriptor.html" class="tsd-signature-type">ModuleExportDescriptor</a><span class="tsd-signature-symbol">[]</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17730</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19134</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>module: <a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a></h5>
+												<h5>moduleObject: <a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/webassembly.moduleexportdescriptor.html" class="tsd-signature-type">ModuleExportDescriptor</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -418,19 +486,19 @@
 							<li class="tsd-parameter">
 								<h5>imports<span class="tsd-signature-symbol">: </span>function</h5>
 								<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-external tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon">imports<span class="tsd-signature-symbol">(</span>module<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.moduleimportdescriptor.html" class="tsd-signature-type">ModuleImportDescriptor</a><span class="tsd-signature-symbol">[]</span></li>
+									<li class="tsd-signature tsd-kind-icon">imports<span class="tsd-signature-symbol">(</span>moduleObject<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.moduleimportdescriptor.html" class="tsd-signature-type">ModuleImportDescriptor</a><span class="tsd-signature-symbol">[]</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17731</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19135</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
-												<h5>module: <a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a></h5>
+												<h5>moduleObject: <a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/webassembly.moduleimportdescriptor.html" class="tsd-signature-type">ModuleImportDescriptor</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -445,7 +513,7 @@
 					<div class="tsd-signature tsd-kind-icon">Runtime<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17737</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19141</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -460,7 +528,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17738</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19142</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-returns-title">Returns <a href="../interfaces/webassembly.runtimeerror.html" class="tsd-signature-type">RuntimeError</a></h4>
@@ -478,7 +546,7 @@
 					<div class="tsd-signature tsd-kind-icon">Table<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17749</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19153</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -493,7 +561,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17750</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19154</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-parameters-title">Parameters</h4>
@@ -518,13 +586,13 @@
 					<a name="compile" class="tsd-anchor"></a>
 					<h3>compile</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">compile<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><a href="../globals.html#buffersource" class="tsd-signature-type">BufferSource</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">compile<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><a href="../globals.html#buffersource" class="tsd-signature-type">BufferSource</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17788</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19198</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -533,7 +601,30 @@
 									<h5>bytes: <a href="../globals.html#buffersource" class="tsd-signature-type">BufferSource</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="compilestreaming" class="tsd-anchor"></a>
+					<h3>compile<wbr>Streaming</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">compile<wbr>Streaming<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><a href="../interfaces/response.html" class="tsd-signature-type">Response</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/response.html" class="tsd-signature-type">Response</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19199</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>source: <a href="../interfaces/response.html" class="tsd-signature-type">Response</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/response.html" class="tsd-signature-type">Response</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -541,14 +632,14 @@
 					<a name="instantiate" class="tsd-anchor"></a>
 					<h3>instantiate</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">instantiate<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><a href="../globals.html#buffersource" class="tsd-signature-type">BufferSource</a>, importObject<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.webassemblyinstantiatedsource.html" class="tsd-signature-type">WebAssemblyInstantiatedSource</a><span class="tsd-signature-symbol">&gt;</span></li>
-						<li class="tsd-signature tsd-kind-icon">instantiate<span class="tsd-signature-symbol">(</span>moduleObject<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a>, importObject<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.instance.html" class="tsd-signature-type">Instance</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">instantiate<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><a href="../globals.html#buffersource" class="tsd-signature-type">BufferSource</a>, importObject<span class="tsd-signature-symbol">?: </span><a href="webassembly.html#imports" class="tsd-signature-type">Imports</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.webassemblyinstantiatedsource.html" class="tsd-signature-type">WebAssemblyInstantiatedSource</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">instantiate<span class="tsd-signature-symbol">(</span>moduleObject<span class="tsd-signature-symbol">: </span><a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a>, importObject<span class="tsd-signature-symbol">?: </span><a href="webassembly.html#imports" class="tsd-signature-type">Imports</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.instance.html" class="tsd-signature-type">Instance</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17789</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19200</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -557,15 +648,15 @@
 									<h5>bytes: <a href="../globals.html#buffersource" class="tsd-signature-type">BufferSource</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> importObject: <span class="tsd-signature-type">any</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> importObject: <a href="webassembly.html#imports" class="tsd-signature-type">Imports</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.webassemblyinstantiatedsource.html" class="tsd-signature-type">WebAssemblyInstantiatedSource</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.webassemblyinstantiatedsource.html" class="tsd-signature-type">WebAssemblyInstantiatedSource</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17790</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19201</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -574,10 +665,36 @@
 									<h5>moduleObject: <a href="../interfaces/webassembly.module.html" class="tsd-signature-type">Module</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> importObject: <span class="tsd-signature-type">any</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> importObject: <a href="webassembly.html#imports" class="tsd-signature-type">Imports</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/promise.html" class="tsd-signature-type">Promise</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.instance.html" class="tsd-signature-type">Instance</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.instance.html" class="tsd-signature-type">Instance</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+					<a name="instantiatestreaming" class="tsd-anchor"></a>
+					<h3>instantiate<wbr>Streaming</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">instantiate<wbr>Streaming<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><a href="../interfaces/response.html" class="tsd-signature-type">Response</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/promiselike.html" class="tsd-signature-type">PromiseLike</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/response.html" class="tsd-signature-type">Response</a><span class="tsd-signature-symbol">&gt;</span>, importObject<span class="tsd-signature-symbol">?: </span><a href="webassembly.html#imports" class="tsd-signature-type">Imports</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.webassemblyinstantiatedsource.html" class="tsd-signature-type">WebAssemblyInstantiatedSource</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19202</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>response: <a href="../interfaces/response.html" class="tsd-signature-type">Response</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/promiselike.html" class="tsd-signature-type">PromiseLike</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/response.html" class="tsd-signature-type">Response</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> importObject: <a href="webassembly.html#imports" class="tsd-signature-type">Imports</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/webassembly.webassemblyinstantiatedsource.html" class="tsd-signature-type">WebAssemblyInstantiatedSource</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -591,7 +708,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:17791</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:19203</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -611,21 +728,6 @@
 				<ul>
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
-					</li>
-					<li class="label tsd-is-external">
-						<span>Internals</span>
-					</li>
-					<li class=" tsd-kind-module tsd-is-not-exported">
-						<a href="_pictureparkwidgets_.html">"picturepark<wbr>Widgets"</a>
-					</li>
-					<li class="label tsd-is-external">
-						<span>Externals</span>
-					</li>
-					<li class=" tsd-kind-module tsd-is-external tsd-is-not-exported">
-						<a href="intl.html">Intl</a>
-					</li>
-					<li class=" tsd-kind-module tsd-is-external">
-						<a href="m.html">M</a>
 					</li>
 					<li class="current tsd-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="webassembly.html">Web<wbr>Assembly</a>
@@ -677,10 +779,28 @@
 						<a href="../interfaces/webassembly.webassemblyinstantiatedsource.html" class="tsd-kind-icon">Web<wbr>Assembly<wbr>Instantiated<wbr>Source</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="webassembly.html#exportvalue" class="tsd-kind-icon">Export<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="webassembly.html#exports" class="tsd-kind-icon">Exports</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="webassembly.html#importexportkind" class="tsd-kind-icon">Import<wbr>Export<wbr>Kind</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="webassembly.html#importvalue" class="tsd-kind-icon">Import<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="webassembly.html#imports" class="tsd-kind-icon">Imports</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="webassembly.html#moduleimports" class="tsd-kind-icon">Module<wbr>Imports</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="webassembly.html#tablekind" class="tsd-kind-icon">Table<wbr>Kind</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="webassembly.html#valuetype" class="tsd-kind-icon">Value<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="webassembly.html#compileerror-1" class="tsd-kind-icon">Compile<wbr>Error</a>
@@ -710,7 +830,13 @@
 						<a href="webassembly.html#compile" class="tsd-kind-icon">compile</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="webassembly.html#compilestreaming" class="tsd-kind-icon">compile<wbr>Streaming</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="webassembly.html#instantiate" class="tsd-kind-icon">instantiate</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
+						<a href="webassembly.html#instantiatestreaming" class="tsd-kind-icon">instantiate<wbr>Streaming</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-external tsd-is-not-exported">
 						<a href="webassembly.html#validate" class="tsd-kind-icon">validate</a>
