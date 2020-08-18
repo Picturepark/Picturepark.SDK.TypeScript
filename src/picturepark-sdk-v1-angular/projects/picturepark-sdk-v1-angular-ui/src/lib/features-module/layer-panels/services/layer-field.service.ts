@@ -11,6 +11,7 @@ import {
   FieldDictionaryArray,
   FieldGeoPoint,
   FieldLong,
+  FieldDecimal,
   FieldLongArray,
   FieldMultiFieldset,
   FieldMultiRelation,
@@ -27,12 +28,13 @@ import {
   TranslatedStringDictionary,
 } from '@picturepark/sdk-v1-angular';
 import * as moment_ from 'moment';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { LayerField } from '../models/layer-field';
 import { RelationFieldInfo } from '../models/relation-field-info';
 import { forkJoin } from 'rxjs';
 import { TranslatePipe } from '../../../shared-module/pipes/translate.pipe';
+import { TRANSLATIONS } from '../../../utilities/translations';
 
 const moment = moment_;
 
@@ -46,7 +48,12 @@ export class LayerFieldService {
     private translatePipe: TranslatePipe
   ) {}
 
-  public generate(field: FieldBase, schemaMetadata: any, allSchemas: SchemaDetail[]): LayerField | null {
+  public generate(
+    field: FieldBase,
+    schemaMetadata: any,
+    allSchemas: SchemaDetail[],
+    showRelations = true
+  ): LayerField | null {
     const fieldValue = schemaMetadata[field.id];
     let layerField: LayerField | null = new LayerField(field, fieldValue);
 
@@ -110,6 +117,13 @@ export class LayerFieldService {
         break;
 
       case FieldSingleRelation:
+        if (!showRelations) {
+          layerField.value = this.translatePipe.transform(
+            TranslatedStringDictionary.fromJS(TRANSLATIONS.LayerFieldService.NoRelations)
+          );
+          break;
+        }
+
         const targetSingleFieldId = fieldValue['_targetId'];
         const targetSingleFielDocType = fieldValue['_targetDocType'];
 
@@ -126,6 +140,13 @@ export class LayerFieldService {
         break;
 
       case FieldMultiRelation:
+        if (!showRelations) {
+          layerField.value = this.translatePipe.transform(
+            TranslatedStringDictionary.fromJS(TRANSLATIONS.LayerFieldService.NoRelations)
+          );
+          break;
+        }
+
         const referencedToMultiRelation: SchemaDetail | undefined = allSchemas.find(
           (i) => i.id === (field as FieldMultiRelation).schemaId
         );
@@ -184,6 +205,10 @@ export class LayerFieldService {
         break;
 
       case FieldLong:
+        layerField.value = fieldValue;
+        break;
+
+      case FieldDecimal:
         layerField.value = fieldValue;
         break;
 

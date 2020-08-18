@@ -61,6 +61,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
 
   displayFullscreen = new Subject<FullScreenDisplayItems>();
 
+  isIcon = false;
   isLoading = true;
   playing = false;
 
@@ -133,6 +134,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
           this.setPreviewUrl(shareOutput.viewUrl);
           return;
         } else if (this.shareContent.iconUrl) {
+          this.isIcon = true;
           this.setPreviewUrl(this.shareContent.iconUrl);
           return;
         }
@@ -153,6 +155,9 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         : this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
 
       this.sub = request.subscribe((response) => {
+        if (response.headers && response.headers['content-type'] === 'image/svg+xml') {
+          this.isIcon = true;
+        }
         this.setPreviewUrl(URL.createObjectURL(response.data));
       });
     }

@@ -1,4 +1,13 @@
-import { Component, OnChanges, SecurityContext, Injector, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  SecurityContext,
+  Injector,
+  ChangeDetectionStrategy,
+  OnInit,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 // LIBRARIES
@@ -12,6 +21,7 @@ import { BasketService } from '../../../../shared-module/services/basket/basket.
 import { ContentDownloadDialogService } from '../../../content-download-dialog/services/content-download-dialog.service';
 import { map, debounceTime, share } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { ItemBasketSelection } from './interfaces/content-browser-item.interface';
 
 @Component({
   selector: 'pp-content-browser-item',
@@ -23,6 +33,7 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
+  @Output() changeInBasket = new EventEmitter<ItemBasketSelection>();
   public listItemHtml: SafeHtml | null = null;
 
   public thumbnailSizes = ThumbnailSize;
@@ -64,11 +75,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     });
   }
 
-  public toggleInBasket() {
-    if (!this.itemModel.id) {
-      return;
-    }
-
-    this.basketService.toggle(this.itemModel.id);
+  public handleChangeInBasket(addItem: boolean) {
+    this.changeInBasket.emit({ addItem, itemId: this.itemModel.id });
   }
 }

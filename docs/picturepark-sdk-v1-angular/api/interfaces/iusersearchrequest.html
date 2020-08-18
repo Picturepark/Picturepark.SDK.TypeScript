@@ -102,6 +102,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="iusersearchrequest.html#aggregationfilters" class="tsd-kind-icon">aggregation<wbr>Filters</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iusersearchrequest.html#aggregators" class="tsd-kind-icon">aggregators</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iusersearchrequest.html#debugmode" class="tsd-kind-icon">debug<wbr>Mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="iusersearchrequest.html#editableonly" class="tsd-kind-icon">editable<wbr>Only</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="iusersearchrequest.html#filter" class="tsd-kind-icon">filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="iusersearchrequest.html#includeserviceuser" class="tsd-kind-icon">include<wbr>Service<wbr>User</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="iusersearchrequest.html#lifecyclefilter" class="tsd-kind-icon">life<wbr>Cycle<wbr>Filter</a></li>
@@ -125,14 +126,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="iusersearchandaggregationbaserequest.html">IUserSearchAndAggregationBaseRequest</a>.<a href="iusersearchandaggregationbaserequest.html#aggregationfilters">aggregationFilters</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60396">lib/services/api-services.ts:60396</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66662">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66662</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Special filters used to filter down the aggregations&#39; values on specific conditions. The behavior is different when
-								filtering an aggregation that matches the same AggregationName or another aggregation.
-							In the first case, the filter is put in &quot;or&quot; with (eventual) other existing filters. In the second case it is put in &quot;and&quot;.</p>
+							<p>Special filters used to filter down independently the aggregations&#39; values and the search results on specific conditions.
+								For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+								by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+								For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+								aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+							Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it.</p>
 						</div>
 					</div>
 				</section>
@@ -142,7 +146,7 @@
 					<div class="tsd-signature tsd-kind-icon">aggregators<span class="tsd-signature-symbol">:</span> <a href="../classes/aggregatorbase.html" class="tsd-signature-type">AggregatorBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60483">lib/services/api-services.ts:60483</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66753">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66753</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -153,16 +157,33 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="debugmode" class="tsd-anchor"></a>
-					<h3>debug<wbr>Mode</h3>
-					<div class="tsd-signature tsd-kind-icon">debug<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> debug<wbr>Mode</h3>
+					<div class="tsd-signature tsd-kind-icon">debug<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60481">lib/services/api-services.ts:60481</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66751">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66751</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Enable debug mode to get as result of the Searched additional debug information. Warning! Severely affects performance.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a name="editableonly" class="tsd-anchor"></a>
+					<h3>editable<wbr>Only</h3>
+					<div class="tsd-signature tsd-kind-icon">editable<wbr>Only<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="iusersearchandaggregationbaserequest.html">IUserSearchAndAggregationBaseRequest</a>.<a href="iusersearchandaggregationbaserequest.html#editableonly">editableOnly</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66667">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66667</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Restricts the results to users that are editable for calling user.
+							If set to true, IncludeServiceUser is ignored.</p>
 						</div>
 					</div>
 				</section>
@@ -173,7 +194,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="iusersearchandaggregationbaserequest.html">IUserSearchAndAggregationBaseRequest</a>.<a href="iusersearchandaggregationbaserequest.html#filter">filter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60388">lib/services/api-services.ts:60388</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66651">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66651</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -189,9 +210,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="iusersearchandaggregationbaserequest.html">IUserSearchAndAggregationBaseRequest</a>.<a href="iusersearchandaggregationbaserequest.html#includeserviceuser">includeServiceUser</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60397">lib/services/api-services.ts:60397</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66664">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66664</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Includes the service user in result.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="lifecyclefilter" class="tsd-anchor"></a>
@@ -200,7 +226,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="iusersearchandaggregationbaserequest.html">IUserSearchAndAggregationBaseRequest</a>.<a href="iusersearchandaggregationbaserequest.html#lifecyclefilter">lifeCycleFilter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60390">lib/services/api-services.ts:60390</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66653">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66653</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -211,11 +237,11 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="limit" class="tsd-anchor"></a>
-					<h3>limit</h3>
-					<div class="tsd-signature tsd-kind-icon">limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> limit</h3>
+					<div class="tsd-signature tsd-kind-icon">limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60477">lib/services/api-services.ts:60477</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66747">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66747</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -230,7 +256,7 @@
 					<div class="tsd-signature tsd-kind-icon">page<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60479">lib/services/api-services.ts:60479</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66749">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66749</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -246,7 +272,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="iusersearchandaggregationbaserequest.html">IUserSearchAndAggregationBaseRequest</a>.<a href="iusersearchandaggregationbaserequest.html#searchbehaviors">searchBehaviors</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60386">lib/services/api-services.ts:60386</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66649">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66649</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -262,7 +288,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="iusersearchandaggregationbaserequest.html">IUserSearchAndAggregationBaseRequest</a>.<a href="iusersearchandaggregationbaserequest.html#searchstring">searchString</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60384">lib/services/api-services.ts:60384</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66647">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66647</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -277,7 +303,7 @@
 					<div class="tsd-signature tsd-kind-icon">sort<span class="tsd-signature-symbol">:</span> <a href="isortinfo.html" class="tsd-signature-type">ISortInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60475">lib/services/api-services.ts:60475</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66745">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66745</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -293,7 +319,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="iusersearchandaggregationbaserequest.html">IUserSearchAndAggregationBaseRequest</a>.<a href="iusersearchandaggregationbaserequest.html#userrightsfilter">userRightsFilter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/6a4e69194/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L60392">lib/services/api-services.ts:60392</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/a69889661/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66655">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66655</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -327,6 +353,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="iusersearchrequest.html#debugmode" class="tsd-kind-icon">debug<wbr>Mode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+								<a href="iusersearchrequest.html#editableonly" class="tsd-kind-icon">editable<wbr>Only</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="iusersearchrequest.html#filter" class="tsd-kind-icon">filter</a>

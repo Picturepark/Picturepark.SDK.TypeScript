@@ -9,6 +9,7 @@ import {
   ShareContentDetail,
   ShareService,
   PICTUREPARK_CONFIGURATION,
+  ShareResolveBehavior,
 } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
@@ -48,14 +49,14 @@ export class ShareDetailComponent implements OnInit {
 
     this.isLoading = true;
     const shareInfo = forkJoin([
-      this.shareService.getShareByToken(searchString, null, this.config.cdnUrl),
+      this.shareService.getShareByToken(searchString, null, [ShareResolveBehavior.Schemas], this.config.cdnUrl),
       this.infoFacade.getInfo(this.config.cdnUrl),
     ]);
 
     shareInfo.subscribe({
       next: ([shareJson, info]) => {
         if (info.logosUrl) {
-          this.logoUrl = info.logosUrl + 'name';
+          this.logoUrl = info.logosUrl + 'full';
         }
         if (shareJson) {
           this.shareDetail = shareJson;
@@ -77,7 +78,8 @@ export class ShareDetailComponent implements OnInit {
         id: item.id,
         shareContent: item,
         shareDetail: this.shareDetail,
-        showMetadata: false,
+        showMetadata: true,
+        showReferenced: false,
         hasPrevious: () => {
           return index !== 0;
         },
