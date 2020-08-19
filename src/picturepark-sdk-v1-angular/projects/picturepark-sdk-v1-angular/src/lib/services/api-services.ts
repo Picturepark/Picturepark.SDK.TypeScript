@@ -3336,8 +3336,8 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ContentNotFoundException.fromJS(resultData404);
-            return throwException("Content not found", status, _responseText, _headers, result404);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -3776,8 +3776,8 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = BusinessProcessLifeCycleNotHitException.fromJS(resultData400);
-            return throwException("The specified wait timeout exceeded", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -3882,8 +3882,8 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = RequestSizeLimitExceededException.fromJS(resultData400);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -3893,8 +3893,8 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ContentNotFoundException.fromJS(resultData404);
-            return throwException("One or more contents not found", status, _responseText, _headers, result404);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -4003,8 +4003,8 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = BusinessProcessLifeCycleNotHitException.fromJS(resultData400);
-            return throwException("The specified wait timeout exceeded", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -4119,8 +4119,8 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = BusinessProcessLifeCycleNotHitException.fromJS(resultData400);
-            return throwException("The specified wait timeout exceeded", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -5051,8 +5051,8 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ContentNotFoundException.fromJS(resultData404);
-            return throwException("One or more contents not found", status, _responseText, _headers, result404);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13249,8 +13249,8 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = SchemaNotFoundException.fromJS(resultData404);
-            return throwException("Requested schema could not be found", status, _responseText, _headers, result404);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13345,8 +13345,8 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = SchemaValidationException.fromJS(resultData400);
-            return throwException("The validation exception of schema update", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13356,8 +13356,8 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = SchemaNotFoundException.fromJS(resultData404);
-            return throwException("Schema with this ID could not be found", status, _responseText, _headers, result404);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13447,8 +13447,8 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = SchemaInUseException.fromJS(resultData400);
-            return throwException("Schema is used in other entities and cannot be deleted", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13458,8 +13458,8 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = SchemaNotFoundException.fromJS(resultData404);
-            return throwException("Schema with this ID could not be found", status, _responseText, _headers, result404);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13749,8 +13749,8 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = RequestSizeLimitExceededException.fromJS(resultData400);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13955,8 +13955,8 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = SchemaValidationException.fromJS(resultData400);
-            return throwException("The validation exception of schema creation", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -14056,8 +14056,8 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = RequestSizeLimitExceededException.fromJS(resultData400);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -14155,8 +14155,8 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = SchemaValidationException.fromJS(resultData400);
-            return throwException("One or more schemas failed to validate", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -14254,8 +14254,8 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkArgumentNullException.fromJS(resultData400);
-            return throwException("Argument must not be null", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -14770,8 +14770,8 @@ export class SchemaTransferService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkArgumentNullException.fromJS(resultData400);
-            return throwException("Argument must not be null", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -15346,8 +15346,8 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ShareNotFoundException.fromJS(resultData404);
-            return throwException("Share could not be found", status, _responseText, _headers, result404);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -15438,8 +15438,8 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = BusinessProcessLifeCycleNotHitException.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -15548,8 +15548,8 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
             let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ContentNotFoundException.fromJS(resultData404);
-            return throwException("Content could not be found", status, _responseText, _headers, result404);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -15572,13 +15572,6 @@ export class ShareService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 403) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result403: any = null;
-            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result403 = PermissionValidationException.fromJS(resultData403);
-            return throwException("No permission to share", status, _responseText, _headers, result403);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -16054,8 +16047,8 @@ export class TransferService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result400: any = null;
             let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = MaximumTransferSizeException.fromJS(resultData400);
-            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -21532,53 +21525,13 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "ContentNotFoundException") {
-            let result = new ContentNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
-            let result = new BusinessProcessLifeCycleNotHitException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PictureparkTimeoutException") {
-            let result = new PictureparkTimeoutException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "RequestSizeLimitExceededException") {
             let result = new RequestSizeLimitExceededException();
             result.init(data);
             return result;
         }
-        if (data["kind"] === "SchemaNotFoundException") {
-            let result = new SchemaNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaValidationException") {
-            let result = new SchemaValidationException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaInUseException") {
-            let result = new SchemaInUseException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PictureparkArgumentNullException") {
-            let result = new PictureparkArgumentNullException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ShareNotFoundException") {
-            let result = new ShareNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PermissionValidationException") {
-            let result = new PermissionValidationException();
+        if (data["kind"] === "PictureparkTimeoutException") {
+            let result = new PictureparkTimeoutException();
             result.init(data);
             return result;
         }
@@ -21732,6 +21685,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ShareNotFoundException") {
+            let result = new ShareNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ShareByTokenNotFoundException") {
             let result = new ShareByTokenNotFoundException();
             result.init(data);
@@ -21829,6 +21787,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "InvalidStateException") {
             let result = new InvalidStateException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PictureparkArgumentNullException") {
+            let result = new PictureparkArgumentNullException();
             result.init(data);
             return result;
         }
@@ -22042,6 +22005,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "DuplicateRightException") {
             let result = new DuplicateRightException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PermissionValidationException") {
+            let result = new PermissionValidationException();
             result.init(data);
             return result;
         }
@@ -22370,6 +22338,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaValidationException") {
+            let result = new SchemaValidationException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaSortFieldException") {
             let result = new SchemaSortFieldException();
             result.init(data);
@@ -22437,6 +22410,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SchemaIdException") {
             let result = new SchemaIdException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaInUseException") {
+            let result = new SchemaInUseException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaNotFoundException") {
+            let result = new SchemaNotFoundException();
             result.init(data);
             return result;
         }
@@ -22532,6 +22515,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "ContentMetadataUpdateManyException") {
             let result = new ContentMetadataUpdateManyException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentNotFoundException") {
+            let result = new ContentNotFoundException();
             result.init(data);
             return result;
         }
@@ -22672,6 +22660,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "BusinessProcessStateNotHitException") {
             let result = new BusinessProcessStateNotHitException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
+            let result = new BusinessProcessLifeCycleNotHitException();
             result.init(data);
             return result;
         }
@@ -23017,53 +23010,13 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "ContentNotFoundException") {
-            let result = new ContentNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
-            let result = new BusinessProcessLifeCycleNotHitException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PictureparkTimeoutException") {
-            let result = new PictureparkTimeoutException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "RequestSizeLimitExceededException") {
             let result = new RequestSizeLimitExceededException();
             result.init(data);
             return result;
         }
-        if (data["kind"] === "SchemaNotFoundException") {
-            let result = new SchemaNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaValidationException") {
-            let result = new SchemaValidationException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaInUseException") {
-            let result = new SchemaInUseException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PictureparkArgumentNullException") {
-            let result = new PictureparkArgumentNullException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ShareNotFoundException") {
-            let result = new ShareNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PermissionValidationException") {
-            let result = new PermissionValidationException();
+        if (data["kind"] === "PictureparkTimeoutException") {
+            let result = new PictureparkTimeoutException();
             result.init(data);
             return result;
         }
@@ -23217,6 +23170,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ShareNotFoundException") {
+            let result = new ShareNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ShareByTokenNotFoundException") {
             let result = new ShareByTokenNotFoundException();
             result.init(data);
@@ -23314,6 +23272,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "InvalidStateException") {
             let result = new InvalidStateException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PictureparkArgumentNullException") {
+            let result = new PictureparkArgumentNullException();
             result.init(data);
             return result;
         }
@@ -23527,6 +23490,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "DuplicateRightException") {
             let result = new DuplicateRightException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PermissionValidationException") {
+            let result = new PermissionValidationException();
             result.init(data);
             return result;
         }
@@ -23855,6 +23823,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaValidationException") {
+            let result = new SchemaValidationException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaSortFieldException") {
             let result = new SchemaSortFieldException();
             result.init(data);
@@ -23922,6 +23895,16 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SchemaIdException") {
             let result = new SchemaIdException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaInUseException") {
+            let result = new SchemaInUseException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaNotFoundException") {
+            let result = new SchemaNotFoundException();
             result.init(data);
             return result;
         }
@@ -24017,6 +24000,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "ContentMetadataUpdateManyException") {
             let result = new ContentMetadataUpdateManyException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentNotFoundException") {
+            let result = new ContentNotFoundException();
             result.init(data);
             return result;
         }
@@ -24157,6 +24145,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "BusinessProcessStateNotHitException") {
             let result = new BusinessProcessStateNotHitException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
+            let result = new BusinessProcessLifeCycleNotHitException();
             result.init(data);
             return result;
         }
@@ -24474,38 +24467,13 @@ export class PictureparkValidationException extends PictureparkBusinessException
 
     static fromJS(data: any): PictureparkValidationException {
         data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
-            let result = new BusinessProcessLifeCycleNotHitException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PictureparkTimeoutException") {
-            let result = new PictureparkTimeoutException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "RequestSizeLimitExceededException") {
             let result = new RequestSizeLimitExceededException();
             result.init(data);
             return result;
         }
-        if (data["kind"] === "SchemaValidationException") {
-            let result = new SchemaValidationException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaInUseException") {
-            let result = new SchemaInUseException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PictureparkArgumentNullException") {
-            let result = new PictureparkArgumentNullException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PermissionValidationException") {
-            let result = new PermissionValidationException();
+        if (data["kind"] === "PictureparkTimeoutException") {
+            let result = new PictureparkTimeoutException();
             result.init(data);
             return result;
         }
@@ -24639,6 +24607,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PictureparkArgumentNullException") {
+            let result = new PictureparkArgumentNullException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "InvalidStateTransitionException") {
             let result = new InvalidStateTransitionException();
             result.init(data);
@@ -24759,6 +24732,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "DuplicateRightException") {
             let result = new DuplicateRightException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PermissionValidationException") {
+            let result = new PermissionValidationException();
             result.init(data);
             return result;
         }
@@ -25012,6 +24990,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaValidationException") {
+            let result = new SchemaValidationException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaSortFieldException") {
             let result = new SchemaSortFieldException();
             result.init(data);
@@ -25079,6 +25062,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaIdException") {
             let result = new SchemaIdException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaInUseException") {
+            let result = new SchemaInUseException();
             result.init(data);
             return result;
         }
@@ -25249,6 +25237,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "BusinessProcessStateNotHitException") {
             let result = new BusinessProcessStateNotHitException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
+            let result = new BusinessProcessLifeCycleNotHitException();
             result.init(data);
             return result;
         }
@@ -25587,11 +25580,6 @@ export class PictureparkTimeoutException extends PictureparkValidationException 
 
     static fromJS(data: any): PictureparkTimeoutException {
         data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
-            let result = new BusinessProcessLifeCycleNotHitException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "SnapshotTimeoutException") {
             let result = new SnapshotTimeoutException();
             result.init(data);
@@ -25614,6 +25602,11 @@ export class PictureparkTimeoutException extends PictureparkValidationException 
         }
         if (data["kind"] === "BusinessProcessStateNotHitException") {
             let result = new BusinessProcessStateNotHitException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
+            let result = new BusinessProcessLifeCycleNotHitException();
             result.init(data);
             return result;
         }
@@ -26012,21 +26005,6 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
 
     static fromJS(data: any): PictureparkNotFoundException {
         data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "ContentNotFoundException") {
-            let result = new ContentNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaNotFoundException") {
-            let result = new SchemaNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ShareNotFoundException") {
-            let result = new ShareNotFoundException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "UserRolesNotFoundException") {
             let result = new UserRolesNotFoundException();
             result.init(data);
@@ -26039,6 +26017,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "ChannelsNotFoundException") {
             let result = new ChannelsNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareNotFoundException") {
+            let result = new ShareNotFoundException();
             result.init(data);
             return result;
         }
@@ -26084,6 +26067,16 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "SchemaInfoNotFoundException") {
             let result = new SchemaInfoNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaNotFoundException") {
+            let result = new SchemaNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentNotFoundException") {
+            let result = new ContentNotFoundException();
             result.init(data);
             return result;
         }

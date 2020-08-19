@@ -113,7 +113,7 @@
 					<div class="tsd-signature tsd-kind-icon">Event<wbr>Target<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5233</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:5533</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -128,7 +128,7 @@
 									<li class="tsd-description">
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5234</li>
+												<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:5534</li>
 											</ul>
 										</aside>
 										<h4 class="tsd-returns-title">Returns <a href="eventtarget.html" class="tsd-signature-type">EventTarget</a></h4>
@@ -146,7 +146,7 @@
 					<div class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">:</span> <a href="msmediakeyerror.html" class="tsd-signature-type">MSMediaKeyError</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9854</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10170</li>
 						</ul>
 					</aside>
 				</section>
@@ -156,7 +156,7 @@
 					<div class="tsd-signature tsd-kind-icon">key<wbr>System<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9855</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10171</li>
 						</ul>
 					</aside>
 				</section>
@@ -166,7 +166,7 @@
 					<div class="tsd-signature tsd-kind-icon">session<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9856</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10172</li>
 						</ul>
 					</aside>
 				</section>
@@ -184,20 +184,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#addeventlistener">addEventListener</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5221</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:5522</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Appends an event listener for events whose type attribute value is type. The callback argument sets the callback that will be invoked when the event is dispatched.
-										The options argument sets listener-specific options. For compatibility this can be a
-										boolean, in which case the method behaves exactly as if the value was specified as options&#39;s capture.
-										When set to true, options&#39;s capture prevents callback from being invoked when the event&#39;s eventPhase attribute value is BUBBLING_PHASE. When false (or not present), callback will not be invoked when event&#39;s eventPhase attribute value is CAPTURING_PHASE. Either way, callback will be invoked if event&#39;s eventPhase attribute value is AT_TARGET.
-										When set to true, options&#39;s passive indicates that the callback will not cancel the event by invoking preventDefault(). This is used to enable performance optimizations described in §2.8 Observing event listeners.
-										When set to true, options&#39;s once indicates that the callback will only be invoked once after which the event listener will
-										be removed.
-									The event listener is appended to target&#39;s event listener list and is not appended if it has the same type, callback, and capture.</p>
+									<p>Appends an event listener for events whose type attribute value is type. The callback argument sets the callback that will be invoked when the event is dispatched.</p>
 								</div>
+								<p>The options argument sets listener-specific options. For compatibility this can be a boolean, in which case the method behaves exactly as if the value was specified as options&#39;s capture.</p>
+								<p>When set to true, options&#39;s capture prevents callback from being invoked when the event&#39;s eventPhase attribute value is BUBBLING_PHASE. When false (or not present), callback will not be invoked when event&#39;s eventPhase attribute value is CAPTURING_PHASE. Either way, callback will be invoked if event&#39;s eventPhase attribute value is AT_TARGET.</p>
+								<p>When set to true, options&#39;s passive indicates that the callback will not cancel the event by invoking preventDefault(). This is used to enable performance optimizations described in §2.8 Observing event listeners.</p>
+								<p>When set to true, options&#39;s once indicates that the callback will only be invoked once after which the event listener will be removed.</p>
+								<p>The event listener is appended to target&#39;s event listener list and is not appended if it has the same type, callback, and capture.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -225,7 +223,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9857</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10173</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -243,13 +241,12 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5226</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:5526</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Dispatches a synthetic event event to target and returns true
-									if either event&#39;s cancelable attribute value is false or its preventDefault() method was not invoked, and false otherwise.</p>
+									<p>Dispatches a synthetic event event to target and returns true if either event&#39;s cancelable attribute value is false or its preventDefault() method was not invoked, and false otherwise.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -273,7 +270,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="eventtarget.html">EventTarget</a>.<a href="eventtarget.html#removeeventlistener">removeEventListener</a></p>
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5230</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:5530</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -301,19 +298,19 @@
 					<a name="update" class="tsd-anchor"></a>
 					<h3>update</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><a href="uint8array.html" class="tsd-signature-type">Uint8Array</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9858</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:10174</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>key: <a href="uint8array.html" class="tsd-signature-type">Uint8Array</a></h5>
+									<h5>key: <span class="tsd-signature-type">Uint8Array</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
