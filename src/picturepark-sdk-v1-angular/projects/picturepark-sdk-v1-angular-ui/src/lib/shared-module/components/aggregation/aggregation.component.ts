@@ -31,7 +31,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
 
   // Used for expanding aggregation list (by default only first element is expanded).
   @Input()
-  public isExpanded: boolean;
+  public shouldExpand: boolean;
 
   @Input()
   facade: SearchFacade<IEntityBase, SearchInputState>;
@@ -48,7 +48,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
 
   public autoCompleteOptions: Observable<AggregationResultItem[]>;
 
-  public canExpand = false;
+  public expanded = false;
 
   public active = true;
 
@@ -69,7 +69,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
         (item) => item.aggregationName === this.aggregator.name
       ).length;
 
-      this.canExpand = this.isExpanded || this.canExpand || this.aggregationsFiltersCount > 0;
+      this.expanded = this.shouldExpand || this.expanded || this.aggregationsFiltersCount > 0;
     });
   }
 
@@ -84,8 +84,8 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
       this.aggregationQuery.setValue('');
     }
 
-    if (changes['isExpanded']) {
-      this.canExpand = this.isExpanded && this.active;
+    if (changes['shouldExpand']) {
+      this.expanded = this.shouldExpand && this.active;
     }
   }
 
@@ -183,7 +183,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
         this.active = true;
       } else {
         this.active = false;
-        this.canExpand = false;
+        this.expanded = false;
       }
     }
   }
@@ -194,6 +194,10 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     }
 
     return aggregator as TermsAggregator;
+  }
+
+  setShouldExpand() {
+    this.shouldExpand = this.expanded;
   }
 
   public hideLoader(): void {

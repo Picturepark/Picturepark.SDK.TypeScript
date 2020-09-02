@@ -1,6 +1,7 @@
 <mat-expansion-panel
   class="aggregation mat-elevation-z0"
-  [(expanded)]="canExpand"
+  [(expanded)]="expanded"
+  (click)="setShouldExpand()"
   [ngClass]="{ disabled: !active }"
   [disabled]="!active"
 >
