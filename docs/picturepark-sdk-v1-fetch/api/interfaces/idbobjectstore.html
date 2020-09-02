@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>This example shows a variety of different uses of object stores, from updating the data structure with IDBObjectStore.createIndex inside an onupgradeneeded function, to adding a new item to our object store with IDBObjectStore.add. For a full working example, see our To-do Notifications app (view example live.)</p>
+						<p>This example shows a variety of different uses of object stores, from updating the data structure with IDBObjectStore.createIndex inside an onupgradeneeded function, to adding a new item to our object store with IDBObjectStore.add. For a full working example, see our To-do Notifications app (view example live.)</p>
 					</div>
 				</div>
 			</section>
@@ -125,7 +125,7 @@
 					<div class="tsd-signature tsd-kind-icon">auto<wbr>Increment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9174</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9484</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -140,7 +140,7 @@
 					<div class="tsd-signature tsd-kind-icon">index<wbr>Names<span class="tsd-signature-symbol">:</span> <a href="domstringlist.html" class="tsd-signature-type">DOMStringList</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9178</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9488</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -155,7 +155,7 @@
 					<div class="tsd-signature tsd-kind-icon">key<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9182</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9492</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -170,14 +170,12 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9188</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9496</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Updates the name of the store to newName.
-								Throws &quot;InvalidStateError&quot; DOMException if not called within an upgrade
-							transaction.</p>
+							<p>Returns the name of the store.</p>
 						</div>
 					</div>
 				</section>
@@ -187,7 +185,7 @@
 					<div class="tsd-signature tsd-kind-icon">transaction<span class="tsd-signature-symbol">:</span> <a href="idbtransaction.html" class="tsd-signature-type">IDBTransaction</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9192</li>
+							<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9500</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -209,9 +207,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9193</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9510</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Adds or updates a record in store with the given value and key.</p>
+								</div>
+								<p>If the store uses in-line keys and key is specified a &quot;DataError&quot; DOMException will be thrown.</p>
+								<p>If put() is used, any existing record with the key will be replaced. If add() is used, and if a record with the key already exists the request will fail, with request&#39;s error set to a &quot;ConstraintError&quot; DOMException.</p>
+								<p>If successful, request&#39;s result will be the record&#39;s key.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -235,15 +241,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9199</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9516</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Deletes all records in store.
-										If successful, request&#39;s result will
-									be undefined.</p>
+									<p>Deletes all records in store.</p>
 								</div>
+								<p>If successful, request&#39;s result will be undefined.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="idbrequest.html" class="tsd-signature-type">IDBRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -259,15 +264,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9205</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9522</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Retrieves the number of records matching the
-										given key or key range in query.
-									If successful, request&#39;s result will be the count.</p>
+									<p>Retrieves the number of records matching the given key or key range in query.</p>
 								</div>
+								<p>If successful, request&#39;s result will be the count.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -289,18 +293,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9214</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9528</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates a new index in store with the given name, keyPath and options and returns a new IDBIndex. If the keyPath and options define constraints that cannot be
-										satisfied with the data already in store the upgrade
-										transaction will abort with
-										a &quot;ConstraintError&quot; DOMException.
-										Throws an &quot;InvalidStateError&quot; DOMException if not called within an upgrade
-									transaction.</p>
+									<p>Creates a new index in store with the given name, keyPath and options and returns a new IDBIndex. If the keyPath and options define constraints that cannot be satisfied with the data already in store the upgrade transaction will abort with a &quot;ConstraintError&quot; DOMException.</p>
 								</div>
+								<p>Throws an &quot;InvalidStateError&quot; DOMException if not called within an upgrade transaction.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -328,15 +328,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9220</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9534</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Deletes records in store with the given key or in the given key range in query.
-										If successful, request&#39;s result will
-									be undefined.</p>
+									<p>Deletes records in store with the given key or in the given key range in query.</p>
 								</div>
+								<p>If successful, request&#39;s result will be undefined.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -358,15 +357,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9226</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9540</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Deletes the index in store with the given name.
-										Throws an &quot;InvalidStateError&quot; DOMException if not called within an upgrade
-									transaction.</p>
+									<p>Deletes the index in store with the given name.</p>
 								</div>
+								<p>Throws an &quot;InvalidStateError&quot; DOMException if not called within an upgrade transaction.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -388,15 +386,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9232</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9546</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Retrieves the value of the first record matching the
-										given key or key range in query.
-									If successful, request&#39;s result will be the value, or undefined if there was no matching record.</p>
+									<p>Retrieves the value of the first record matching the given key or key range in query.</p>
 								</div>
+								<p>If successful, request&#39;s result will be the value, or undefined if there was no matching record.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -412,27 +409,25 @@
 					<a name="getall" class="tsd-anchor"></a>
 					<h3>get<wbr>All</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>All<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a>, count<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="idbrequest.html" class="tsd-signature-type">IDBRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>All<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, count<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="idbrequest.html" class="tsd-signature-type">IDBRequest</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9239</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9552</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Retrieves the values of the records matching the
-										given key or key range in query (up to count if given).
-										If successful, request&#39;s result will
-									be an Array of the values.</p>
+									<p>Retrieves the values of the records matching the given key or key range in query (up to count if given).</p>
 								</div>
+								<p>If successful, request&#39;s result will be an Array of the values.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> query: <a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> query: <a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> count: <span class="tsd-signature-type">number</span></h5>
@@ -446,27 +441,25 @@
 					<a name="getallkeys" class="tsd-anchor"></a>
 					<h3>get<wbr>All<wbr>Keys</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>All<wbr>Keys<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a>, count<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="idbrequest.html" class="tsd-signature-type">IDBRequest</a><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>All<wbr>Keys<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, count<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="idbrequest.html" class="tsd-signature-type">IDBRequest</a><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9246</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9558</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Retrieves the keys of records matching the
-										given key or key range in query (up to count if given).
-										If successful, request&#39;s result will
-									be an Array of the keys.</p>
+									<p>Retrieves the keys of records matching the given key or key range in query (up to count if given).</p>
 								</div>
+								<p>If successful, request&#39;s result will be an Array of the keys.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> query: <a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> query: <a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> count: <span class="tsd-signature-type">number</span></h5>
@@ -486,15 +479,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9252</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9564</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Retrieves the key of the first record matching the
-										given key or key range in query.
-									If successful, request&#39;s result will be the key, or undefined if there was no matching record.</p>
+									<p>Retrieves the key of the first record matching the given key or key range in query.</p>
 								</div>
+								<p>If successful, request&#39;s result will be the key, or undefined if there was no matching record.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -516,7 +508,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9253</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9565</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -533,26 +525,25 @@
 					<a name="opencursor" class="tsd-anchor"></a>
 					<h3>open<wbr>Cursor</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">open<wbr>Cursor<span class="tsd-signature-symbol">(</span>range<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a>, direction<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbcursordirection" class="tsd-signature-type">IDBCursorDirection</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="idbrequest.html" class="tsd-signature-type">IDBRequest</a><span class="tsd-signature-symbol">&lt;</span><a href="idbcursorwithvalue.html" class="tsd-signature-type">IDBCursorWithValue</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">open<wbr>Cursor<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, direction<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbcursordirection" class="tsd-signature-type">IDBCursorDirection</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="idbrequest.html" class="tsd-signature-type">IDBRequest</a><span class="tsd-signature-symbol">&lt;</span><a href="idbcursorwithvalue.html" class="tsd-signature-type">IDBCursorWithValue</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9259</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9571</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Opens a cursor over the records matching query,
-										ordered by direction. If query is null, all records in store are matched.
-									If successful, request&#39;s result will be an IDBCursorWithValue pointing at the first matching record, or null if there were no matching records.</p>
+									<p>Opens a cursor over the records matching query, ordered by direction. If query is null, all records in store are matched.</p>
 								</div>
+								<p>If successful, request&#39;s result will be an IDBCursorWithValue pointing at the first matching record, or null if there were no matching records.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> range: <a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> query: <a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> direction: <a href="../globals.html#idbcursordirection" class="tsd-signature-type">IDBCursorDirection</a></h5>
@@ -566,26 +557,25 @@
 					<a name="openkeycursor" class="tsd-anchor"></a>
 					<h3>open<wbr>Key<wbr>Cursor</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">open<wbr>Key<wbr>Cursor<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a>, direction<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbcursordirection" class="tsd-signature-type">IDBCursorDirection</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="idbrequest.html" class="tsd-signature-type">IDBRequest</a><span class="tsd-signature-symbol">&lt;</span><a href="idbcursor.html" class="tsd-signature-type">IDBCursor</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">open<wbr>Key<wbr>Cursor<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, direction<span class="tsd-signature-symbol">?: </span><a href="../globals.html#idbcursordirection" class="tsd-signature-type">IDBCursorDirection</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="idbrequest.html" class="tsd-signature-type">IDBRequest</a><span class="tsd-signature-symbol">&lt;</span><a href="idbcursor.html" class="tsd-signature-type">IDBCursor</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9265</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9577</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Opens a cursor with key only flag set over the records matching query, ordered by direction. If query is null, all records in store are matched.
-										If successful, request&#39;s result will be an IDBCursor pointing at the first matching record, or
-									null if there were no matching records.</p>
+									<p>Opens a cursor with key only flag set over the records matching query, ordered by direction. If query is null, all records in store are matched.</p>
 								</div>
+								<p>If successful, request&#39;s result will be an IDBCursor pointing at the first matching record, or null if there were no matching records.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> query: <a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> query: <a href="../globals.html#idbvalidkey" class="tsd-signature-type">IDBValidKey</a><span class="tsd-signature-symbol"> | </span><a href="idbkeyrange.html" class="tsd-signature-type">IDBKeyRange</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> direction: <a href="../globals.html#idbcursordirection" class="tsd-signature-type">IDBCursorDirection</a></h5>
@@ -605,9 +595,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:9266</li>
+									<li>Defined in node_modules/typescript/lib/lib.dom.d.ts:9587</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Adds or updates a record in store with the given value and key.</p>
+								</div>
+								<p>If the store uses in-line keys and key is specified a &quot;DataError&quot; DOMException will be thrown.</p>
+								<p>If put() is used, any existing record with the key will be replaced. If add() is used, and if a record with the key already exists the request will fail, with request&#39;s error set to a &quot;ConstraintError&quot; DOMException.</p>
+								<p>If successful, request&#39;s result will be the record&#39;s key.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
