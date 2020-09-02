@@ -74,6 +74,10 @@ export let TRANSLATIONS = {
       en: 'No filters configured',
       de: 'Keine Filter konfiguriert',
     },
+    NoValue: {
+      en: 'no value',
+      de: 'kein wert',
+    },
   },
   ContentBrowser: {
     NoImageForItem: {
