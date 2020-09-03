@@ -196,8 +196,15 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     return aggregator as TermsAggregator;
   }
 
-  setShouldExpand() {
+  handleUserClick() {
     this.shouldExpand = this.expanded;
+  }
+
+  handleUserEnter(event: KeyboardEvent) {
+    if (event.code === 'Enter') {
+      this.shouldExpand = this.expanded;
+      debugger;
+    }
   }
 
   public hideLoader(): void {
