@@ -93,8 +93,8 @@ class AggregationResultItem extends generated.AggregationResultItem {
     if (finalDisplayName === '') {
       const noValueDictionary = new TranslatedStringDictionary({
         'x-default': 'No value',
-        en: 'No Value',
-        de: 'kein wert',
+        en: 'No value',
+        de: 'Kein wert',
       });
       return noValueDictionary.translate(locale);
     } else {
