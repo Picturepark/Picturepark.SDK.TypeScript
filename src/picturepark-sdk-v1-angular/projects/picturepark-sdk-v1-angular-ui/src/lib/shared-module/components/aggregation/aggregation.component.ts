@@ -203,7 +203,6 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   handleUserEnter(event: KeyboardEvent) {
     if (event.code === 'Enter') {
       this.shouldExpand = this.expanded;
-      debugger;
     }
   }
 
