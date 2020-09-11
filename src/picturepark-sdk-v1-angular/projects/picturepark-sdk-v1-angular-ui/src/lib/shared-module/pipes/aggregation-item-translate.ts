@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, LOCALE_ID, Inject, Injectable } from '@angular/core';
+import { Pipe, PipeTransform, Injectable } from '@angular/core';
 
 // LIBRARIES
 import { AggregationResultItem } from '@picturepark/sdk-v1-angular';
@@ -6,11 +6,11 @@ import { AggregationResultItem } from '@picturepark/sdk-v1-angular';
 @Injectable({ providedIn: 'root' })
 @Pipe({ name: 'ppAggregationItemTranslate' })
 export class AggregationItemTranslatePipe implements PipeTransform {
-  constructor(@Inject(LOCALE_ID) private locale: string) {}
+  constructor() {}
 
-  transform(item: AggregationResultItem): string {
+  transform(item: AggregationResultItem, locale: string): string {
     if (item) {
-      return item.getDisplayName(this.locale);
+      return item.getDisplayName(locale);
     }
     return '';
   }
