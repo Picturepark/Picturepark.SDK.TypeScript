@@ -1,4 +1,11 @@
-<mat-expansion-panel class="aggregation mat-elevation-z0" [expanded]="canExpand" [disabled]="!active">
+<mat-expansion-panel
+  class="aggregation mat-elevation-z0"
+  [(expanded)]="expanded"
+  (click)="handleUserClick()"
+  (keyup)="handleUserEnter($event)"
+  [ngClass]="{ disabled: !active }"
+  [disabled]="!active"
+>
   <mat-expansion-panel-header [collapsedHeight]="'56px'" [expandedHeight]="'56px'">
     <mat-panel-title class="aggregation__title">
       <span *ngIf="expandedAggregator.names">{{ expandedAggregator.names | pptranslate }}</span>
