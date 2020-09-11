@@ -56,10 +56,12 @@
         [selected]="item.active"
         [value]="item"
       >
-        <div class="aggregation__option-title" matTooltip="{{ item.name }}" [matTooltipDisabled]="false">
-          <div class="aggregation__option-name">{{ item.name }}</div>
-          <div class="aggregation__option-number">{{ item.count }}</div>
-        </div>
+        <ng-container *ngIf="item.getDisplayName(locale) as displayName">
+          <div class="aggregation__option-title" matTooltip="{{ displayName }}" [matTooltipDisabled]="false">
+            <div class="aggregation__option-name">{{ displayName }}</div>
+            <div class="aggregation__option-number">{{ item.count }}</div>
+          </div>
+        </ng-container>
       </mat-list-option>
     </mat-selection-list>
     <div class="expand-filters">

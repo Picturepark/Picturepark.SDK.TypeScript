@@ -82,10 +82,6 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
       this.aggregationQuery.setValue('');
     }
 
-    if (changes['expandedAggregationResult']) {
-      this.translateAggregationResultItems();
-    }
-
     if (changes['expandedAggregationResult'] || changes['isExpanded']) {
       if (this.expandedAggregationResult && this.expandedAggregationResult.aggregationResultItems) {
         this.canExpand = this.isExpanded && this.expandedAggregationResult.aggregationResultItems.length > 0;
@@ -187,13 +183,6 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
 
   private updateAggregationResult(aggregationResult: AggregationResult | null): void {
     this.expandedAggregationResult = aggregationResult ? this.facade.expandAggregationResult(aggregationResult) : null;
-    this.translateAggregationResultItems();
-  }
-
-  translateAggregationResultItems() {
-    this.expandedAggregationResult?.aggregationResultItems?.forEach(
-      (item) => (item.name = item.getDisplayName(this.locale))
-    );
   }
 
   private expandAggregator(aggregator: AggregatorBase): TermsAggregator {
