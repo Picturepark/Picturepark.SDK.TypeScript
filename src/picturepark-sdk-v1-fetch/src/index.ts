@@ -18356,6 +18356,19 @@ export interface BusinessRuleNGramTransformationMaxWordLengthInvalidException ex
     maxWordLength?: number;
 }
 
+export interface BusinessRuleNotificationInvalidIdException extends PictureparkValidationException {
+    id?: string | undefined;
+}
+
+export interface BusinessRuleNotificationNoRecipientsException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleNotificationRecipientUserIdMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleNotificationRecipientUserRoleIdMissingException extends PictureparkValidationException {
+}
+
 export interface NamedCacheConfigurationException extends PictureparkValidationException {
     innerExceptions?: PictureparkValidationException[] | undefined;
 }
@@ -18414,6 +18427,14 @@ export interface OutputFormatXmpWritebackNotSupportedException extends Picturepa
 export interface CollectionSizeLimitExceededException extends PictureparkValidationException {
     collectionId?: string | undefined;
     limit?: number;
+}
+
+export interface CollectionModificationNotAllowedException extends PictureparkValidationException {
+    collectionId?: string | undefined;
+}
+
+export interface CollectionNotFoundException extends PictureparkNotFoundException {
+    collectionId?: string | undefined;
 }
 
 export interface XmpMappingFieldNotSupported extends PictureparkValidationException {
@@ -18865,12 +18886,14 @@ export enum SearchBehavior {
 
 /** Represents the business rule configuration. */
 export interface BusinessRuleConfiguration {
-    /** Disables the rule completely. */
+    /** Disables the rule engine completely. */
     disableRuleEngine: boolean;
-    /** Rules */
+    /** Rules. */
     rules?: BusinessRule[] | undefined;
     /** Named caches. */
     caches?: NamedCacheConfigurationBase[] | undefined;
+    /** Notifications. */
+    notifications?: BusinessRuleNotification[] | undefined;
 }
 
 /** A business rule */
@@ -19215,6 +19238,7 @@ export interface UnassignContentPermissionSetsAction extends BusinessRuleAction 
     permissionSetIds?: any | undefined;
 }
 
+/** Produces a message that is enqueued to the integration bus for a service provider to consume */
 export interface ProduceMessageAction extends BusinessRuleAction {
 }
 
@@ -19264,6 +19288,35 @@ export interface SimulatedTaggingOptions extends TaggingOptionsBase {
     numberOfKeywords?: string | undefined;
 }
 
+/** Produces a notification that is enqueued to users, user groups or owners recipients */
+export interface ProduceNotificationAction extends BusinessRuleAction {
+    /** ID of the notification to produce. */
+    notificationId?: string | undefined;
+    /** Recipients of the notification. */
+    recipients: NotificationRecipientBase[];
+}
+
+export interface NotificationRecipientBase {
+}
+
+export interface UserNotificationRecipient extends NotificationRecipientBase {
+    /** User ID. */
+    userId: string;
+}
+
+export interface UserRoleNotificationRecipient extends NotificationRecipientBase {
+    /** User role ID. */
+    userRoleId: string;
+}
+
+export interface UserRightNotificationRecipient extends NotificationRecipientBase {
+    /** User right. */
+    userRight: UserRight;
+}
+
+export interface OwnerNotificationRecipient extends NotificationRecipientBase {
+}
+
 /** A business rule expressed as a script */
 export interface BusinessRuleScript extends BusinessRule {
     /** Script */
@@ -19307,6 +19360,18 @@ export interface InverseListItemNamedCacheConfiguration extends NamedCacheConfig
     includeAllSchemaChildren?: boolean;
 }
 
+/** Configuration for a notification sent by ProduceNotificationAction. */
+export interface BusinessRuleNotification {
+    /** ID of the notification. */
+    id?: string | undefined;
+    /** Title of the notification. */
+    title?: TranslatedStringDictionary | undefined;
+    /** Message of the notification. */
+    message?: TranslatedStringDictionary | undefined;
+    /** Indicates if a collection of the items affected should be created. */
+    createCollection: boolean;
+}
+
 /** Update request for changing business rule configuration */
 export interface BusinessRuleConfigurationUpdateRequest {
     /** Disables the rule engine completely. */
@@ -19315,6 +19380,8 @@ export interface BusinessRuleConfigurationUpdateRequest {
     rules?: BusinessRule[] | undefined;
     /** Named caches. */
     caches?: NamedCacheConfigurationBase[] | undefined;
+    /** Notifications. */
+    notifications?: BusinessRuleNotification[] | undefined;
 }
 
 /** Base class for search results */
@@ -22200,7 +22267,7 @@ export interface FieldString extends FieldBase {
     template?: string | undefined;
     /** Contains a regex validation pattern. */
     pattern?: string | undefined;
-    /** The minimum string's lenght. */
+    /** The minimum string's length. */
     minimumLength?: number | undefined;
     /** The maximum string's length. */
     maximumLength?: number | undefined;
@@ -22216,6 +22283,8 @@ The analyzers are applied only if the SimpleSearch property is set to true. */
     grantedValues?: string[] | undefined;
     /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
     boost?: number;
+    /** Stores information on how values of this field should be rendered */
+    renderingType?: StringRenderingType;
 }
 
 /** The analyzer base class */
@@ -22262,6 +22331,12 @@ export interface SimpleAnalyzer extends AnalyzerBase {
     fieldSuffix?: string | undefined;
 }
 
+/** Describes how a string value should be rendered */
+export enum StringRenderingType {
+    Default = <any>"Default",
+    Markdown = <any>"Markdown",
+}
+
 /** The field used to store multiple string values */
 export interface FieldStringArray extends FieldString {
     /** The maximum number of items that can be stored. */
@@ -22274,7 +22349,7 @@ export interface FieldStringArray extends FieldString {
 export interface FieldTranslatedString extends FieldBase {
     /** Contains a regex validation pattern. */
     pattern?: string | undefined;
-    /** The minimum string's lenght. */
+    /** The minimum string's length. */
     minimumLength?: number | undefined;
     /** The maximum string's length. */
     maximumLength?: number | undefined;
@@ -22295,6 +22370,8 @@ If Required is false, the field can be left empty, but as soon as a value is ent
     template?: string | undefined;
     /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
     boost?: number;
+    /** Stores information on how values of this field should be rendered */
+    renderingType?: StringRenderingType;
 }
 
 /** The field used to store a single relation */
