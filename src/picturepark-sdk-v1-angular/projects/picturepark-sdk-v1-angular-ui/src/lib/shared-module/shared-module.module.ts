@@ -27,6 +27,7 @@ import { ContentItemThumbnailComponent } from './components/content-item-thumbna
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 import 'hammerjs';
+import { AggregationItemTranslatePipe } from './pipes/aggregation-item-translate';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -57,6 +58,7 @@ export class HammerConfig extends HammerGestureConfig {
     TranslatePipe,
     LazyLoadDirective,
     HighlightPipe,
+    AggregationItemTranslatePipe,
   ],
   imports: [CommonModule, MaterialsModule, ReactiveFormsModule, HammerModule],
   exports: [
@@ -76,6 +78,7 @@ export class HammerConfig extends HammerGestureConfig {
     TranslatePipe,
     LazyLoadDirective,
     HighlightPipe,
+    AggregationItemTranslatePipe,
   ],
 })
 export class SharedModule {
