@@ -7,11 +7,18 @@ import { LayerFieldsComponent } from './components/layer-fields/layer-fields.com
 import { LayerPanelsComponent } from './layer-panels.component';
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { MarkdownDirective } from './directives/markdown-directive';
+import { ReadMoreComponent } from './components/read-more/read-more.component';
 
 @NgModule({
-  declarations: [LayerPanelsComponent, FieldDetailInfoDialogComponent, LayerFieldsComponent, MarkdownDirective],
+  declarations: [
+    LayerPanelsComponent,
+    FieldDetailInfoDialogComponent,
+    LayerFieldsComponent,
+    MarkdownDirective,
+    ReadMoreComponent,
+  ],
   imports: [CommonModule, SharedModule],
-  exports: [LayerPanelsComponent, FieldDetailInfoDialogComponent, MarkdownDirective],
+  exports: [LayerPanelsComponent, FieldDetailInfoDialogComponent, MarkdownDirective, ReadMoreComponent],
   entryComponents: [FieldDetailInfoDialogComponent],
   providers: [TranslatePipe],
 })

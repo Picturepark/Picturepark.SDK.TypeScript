@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+
+@mixin pp-read-more-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  pp-read-more {
+    a {
+      color: mat-color($primary, primary);
+    }
+  }
+}

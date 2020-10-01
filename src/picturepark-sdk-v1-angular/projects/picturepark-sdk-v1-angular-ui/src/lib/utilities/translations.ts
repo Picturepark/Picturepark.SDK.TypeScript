@@ -611,6 +611,10 @@ export let TRANSLATIONS = {
       de: 'Relationen können nicht angezeigt werden',
     },
   },
+  ReadMore: {
+    More: { en: 'Show more', de: 'Mehr anzeigen' },
+    Less: { en: 'Show less', de: 'Weniger anzeigen' },
+  },
 };
 
 const fallbackLanguage = 'en';

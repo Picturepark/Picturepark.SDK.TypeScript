@@ -28,6 +28,7 @@
 @import '../features-module/content-download-dialog/content-download-dialog.component.theme.scss';
 @import '../features-module/share-mail-recipients-panel/share-mail-recipients-panel.component.theme.scss';
 @import '../features-module/share-settings-panel/share-settings-panel.component.theme.scss';
+@import '../features-module/layer-panels/components/read-more/read-more.component.theme.scss';
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
 @mixin picturepark-theme($theme) {
@@ -58,4 +59,5 @@
   @include pp-panel-theme($theme);
   @include pp-global-theme($theme);
   @include pp-schema-browser-item-theme($theme);
+  @include pp-read-more-theme($theme);
 }
