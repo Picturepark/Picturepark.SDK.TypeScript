@@ -21,9 +21,6 @@ export class ReadMoreComponent implements AfterViewInit {
 
   update() {
     const currentHeight = this.elementRef.nativeElement.getElementsByTagName('div')[0].offsetHeight;
-    console.log(this.elementRef.nativeElement.getElementsByTagName('div')[0]);
-    console.log(currentHeight);
-    console.log(this.maxHeight);
     if (currentHeight > this.maxHeight) {
       this.isCollapsed$.next(true);
       this.isCollapsable$.next(true);
