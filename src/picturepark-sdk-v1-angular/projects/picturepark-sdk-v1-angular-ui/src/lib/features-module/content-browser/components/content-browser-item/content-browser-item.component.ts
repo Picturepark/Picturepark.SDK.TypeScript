@@ -19,7 +19,7 @@ import { BaseBrowserItemComponent } from '../../../../shared-module/components/b
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../../../content-download-dialog/services/content-download-dialog.service';
-import { map, debounceTime, share } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ItemBasketSelection } from './interfaces/content-browser-item.interface';
 
@@ -56,7 +56,6 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     );
 
     this.isSelected$ = this.browser.selectedItemsChange.pipe(
-      debounceTime(10),
       map((items) => items.some((selectedItem) => selectedItem.id === this.itemModel.id)),
       share()
     );

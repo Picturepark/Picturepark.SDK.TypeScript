@@ -14,5 +14,8 @@
     "moment": "2.24.0",
     "ts-md5": "^1.2.4"
   },
-  "sideEffects": true
+  "sideEffects": true,
+  "devDependencies": {
+    "@types/markdown-it": "^10.0.2"
+  }
 }

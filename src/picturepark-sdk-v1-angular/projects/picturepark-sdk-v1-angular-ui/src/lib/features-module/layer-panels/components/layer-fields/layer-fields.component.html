@@ -1,9 +1,10 @@
 <div class="raw">
   <div class="label" *ngIf="!noname" #name [matTooltip]="field.name">{{ field.name }}</div>
 
-  <div class="value" *ngIf="field.value">
-    {{ field.value }}
-  </div>
+  <div class="value" *ngIf="field.value && !field.markdown">{{ field.value }}</div>
+  <pp-read-more class="value" *ngIf="field.value && field.markdown"
+    ><div ppMarkdown [markdownText]="field.value"></div
+  ></pp-read-more>
 
   <div class="value" *ngIf="field.tagboxFields?.length">
     <span *ngFor="let tagboxField of field.tagboxFields; let last = last; index as i">
