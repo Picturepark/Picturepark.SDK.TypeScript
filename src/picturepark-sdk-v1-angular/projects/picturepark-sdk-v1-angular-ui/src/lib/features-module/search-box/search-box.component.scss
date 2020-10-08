@@ -23,6 +23,10 @@
 
       flex-grow: 1;
     }
+
+    input::-ms-clear {
+      display: none;
+    }
   }
 }
 
