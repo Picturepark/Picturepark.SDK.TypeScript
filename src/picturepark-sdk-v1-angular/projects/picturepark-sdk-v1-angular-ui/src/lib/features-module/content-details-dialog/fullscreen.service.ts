@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SafeUrl } from '@angular/platform-browser';
 import { ShareOutputBase } from '@picturepark/sdk-v1-angular';
 
 function log(message: string) {
@@ -149,7 +150,7 @@ export class FullscreenService {
         } else {
           // Fallback to preview image
           return {
-            src: i.previewUrl + '?width=800&height=800',
+            src: `${i.previewUrl}${!i.isBinary ? '?width=800&height=800' : ''}`,
             w: 800,
             h: 800,
             origin: i.originalUrl,

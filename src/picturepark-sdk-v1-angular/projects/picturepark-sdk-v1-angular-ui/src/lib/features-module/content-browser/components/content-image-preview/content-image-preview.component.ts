@@ -175,7 +175,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
 
   async showFullscreen() {
     let isPdf = this.content.contentType === ContentType.InterchangeDocument;
-    const isImage = !this.isVideo && !isPdf;
+    const isImage = !this.isVideo && !isPdf && !this.isIcon;
     let item: IShareItem;
     let items: IShareItem[] = [];
 
@@ -209,7 +209,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         isImage: isImage,
         isMovie: this.isVideo,
         isAudio: this.isAudio,
-        isBinary: false,
+        isBinary: this.isIcon,
         videoUrl: this.isVideo ? downloadLink.downloadUrl : '',
         audioUrl: this.isAudio ? downloadLink.downloadUrl : '',
         pdfUrl: isPdf ? downloadLink.downloadUrl : '',
