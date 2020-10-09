@@ -75,6 +75,12 @@ export let TRANSLATIONS = {
       de: 'Keine Filter konfiguriert',
     },
   },
+  AggregationItemTranslatePipe: {
+    noValue: {
+      en: 'No value',
+      de: 'kein wert',
+    },
+  },
   ContentBrowser: {
     NoImageForItem: {
       en: 'There is no image.',
