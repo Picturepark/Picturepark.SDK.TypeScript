@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { SafeUrl } from '@angular/platform-browser';
 import { ShareOutputBase } from '@picturepark/sdk-v1-angular';
 
 function log(message: string) {
