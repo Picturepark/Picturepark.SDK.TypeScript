@@ -191,6 +191,8 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         ? outputs.filter((o) => o.outputFormatId === 'AudioSmall')[0]
         : this.isVideo
         ? outputs.filter((o) => o.outputFormatId === 'VideoSmall')[0]
+        : this.isIcon
+        ? outputs.filter((o) => o.outputFormatId === 'Original')[0]
         : outputs.filter((o) => o.outputFormatId === 'Preview')[0];
 
       const downloadLink = await this.downloadFacade
