@@ -209,7 +209,8 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         isImage: isImage,
         isMovie: this.isVideo,
         isAudio: this.isAudio,
-        isBinary: this.isIcon,
+        isBinary: false,
+        isIcon: this.isIcon,
         videoUrl: this.isVideo ? downloadLink.downloadUrl : '',
         audioUrl: this.isAudio ? downloadLink.downloadUrl : '',
         pdfUrl: isPdf ? downloadLink.downloadUrl : '',
@@ -252,6 +253,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
             isImage: s.contentSchemaId === 'ImageMetadata',
             isPdf: pdfOutput !== undefined,
             isBinary: s.contentType !== ContentType.Virtual,
+            isIcon: this.isIcon,
 
             previewUrl: previewOutput
               ? previewOutput.viewUrl
