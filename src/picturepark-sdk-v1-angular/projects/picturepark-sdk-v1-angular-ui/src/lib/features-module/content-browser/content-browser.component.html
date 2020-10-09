@@ -54,7 +54,7 @@
           [isListView]="activeView.type === 'list'"
           (previewItemChange)="previewItem($event)"
           (press)="itemPressed($event, i)"
-          (tap)="selectedItems.length ? itemPressed($event, i) : previewItem(itemModel)"
+          (click)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)"
           (changeInBasket)="handleBasketChanges($event)"
         >
         </pp-content-browser-item>

@@ -192,6 +192,13 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
    */
   public itemClicked(event: MouseEvent, index: number, presist = false): void {
     const itemModel = this.items[index];
+
+    if (this.isTouchDevice) {
+      this.lastSelectedIndex = index;
+      this.selectionService.toggle(itemModel);
+      return;
+    }
+
     if (event.ctrlKey || event.metaKey) {
       this.lastRangeSelection = null;
       this.lastSelectedIndex = index;
@@ -236,12 +243,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   }
 
   public itemPressed(event: Event, index: number): void {
+
     const itemModel = this.items[index];
-    if (event.type === 'tap') {
-      this.lastSelectedIndex = index;
-      this.selectionService.toggle(itemModel);
-      return;
-    }
 
     this.lastSelectedIndex = index;
     this.selectionService.clear();
