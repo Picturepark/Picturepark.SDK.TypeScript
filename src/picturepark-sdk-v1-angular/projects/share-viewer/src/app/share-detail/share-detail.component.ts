@@ -26,6 +26,7 @@ export class ShareDetailComponent implements OnInit {
   public logoUrl: string;
   public isLoading = false;
   public items: ShareContentDetail[] = [];
+  public shareToken: string;
 
   constructor(
     private shareService: ShareService,
@@ -38,6 +39,7 @@ export class ShareDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
       const shareToken = paramMap.get('token')!;
+      this.shareToken = shareToken;
       this.update(shareToken);
     });
   }

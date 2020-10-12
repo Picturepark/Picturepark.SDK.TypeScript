@@ -51,9 +51,9 @@
 
   <pp-share-items-panel
     *ngIf="!shareDetail.expired"
-    [items]="shareDetail.contentSelections"
     [shareDetail]="shareDetail"
     (showDetail)="showDetail($event)"
+    [shareToken]="shareToken"
   >
   </pp-share-items-panel>
 
