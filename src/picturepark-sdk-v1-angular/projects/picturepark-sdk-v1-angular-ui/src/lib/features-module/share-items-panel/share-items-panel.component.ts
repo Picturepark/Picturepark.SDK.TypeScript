@@ -63,6 +63,7 @@ export class ShareItemsPanelComponent extends BaseComponent implements OnInit, O
   ngOnInit() {
     this.loader = true;
     this.items = this.shareDetail.contentSelections;
+    this.pageToken = this.shareDetail.pageToken;
 
     // Scroll loader
     const elem = document.getElementsByClassName('share-viewer-item-container')[0];
