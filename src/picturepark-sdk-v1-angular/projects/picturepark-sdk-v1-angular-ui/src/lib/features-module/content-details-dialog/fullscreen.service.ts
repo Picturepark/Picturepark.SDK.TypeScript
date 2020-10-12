@@ -138,6 +138,13 @@ export class FullscreenService {
             html: '<div id="vjsplayer_' + i.id + '"></div>',
             origin: i.originalUrl,
           };
+        } else if (i.isIcon) {
+          return {
+            src: i.previewUrl,
+            w: 800,
+            h: 800,
+            origin: i.originalUrl,
+          };
         } else if (!i.isBinary) {
           return {
             html:
@@ -356,6 +363,7 @@ export interface IShareItem {
   isMovie: boolean;
   isAudio: boolean;
   isBinary: boolean;
+  isIcon: boolean;
 
   displayValues: any;
   previewUrl: string;
