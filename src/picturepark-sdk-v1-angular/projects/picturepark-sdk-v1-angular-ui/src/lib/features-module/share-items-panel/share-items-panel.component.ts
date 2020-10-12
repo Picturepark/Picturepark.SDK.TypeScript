@@ -1,4 +1,3 @@
-import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import {
   Component,
   EventEmitter,
@@ -10,6 +9,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { fromEvent } from 'rxjs';
 // LIBRARIES
 import { ShareContentDetail, ShareDetail, ShareService, ThumbnailSize } from '@picturepark/sdk-v1-angular';
 import { debounceTime } from 'rxjs/operators';
@@ -39,7 +39,6 @@ export class ShareItemsPanelComponent extends BaseComponent implements OnInit, O
   constructor(
     injector: Injector,
     private contentDownloadDialogService: ContentDownloadDialogService,
-    private scrollDispatcher: ScrollDispatcher,
     private shareService: ShareService,
     private ngZone: NgZone
   ) {
@@ -66,19 +65,15 @@ export class ShareItemsPanelComponent extends BaseComponent implements OnInit, O
     this.items = this.shareDetail.contentSelections;
 
     // Scroll loader
-    this.sub = this.scrollDispatcher
-      .scrolled()
+    const elem = document.getElementsByClassName('share-viewer-item-container')[0];
+    this.sub = fromEvent(elem, 'scroll')
       .pipe(debounceTime(50))
       .subscribe((scrollable) => {
         if (!scrollable) {
           return;
         }
 
-        const nativeElement = scrollable.getElementRef().nativeElement;
-        console.log(nativeElement);
-
-        const scrollCriteria = nativeElement.scrollTop > nativeElement.scrollHeight - 2 * nativeElement.clientHeight;
-
+        const scrollCriteria = elem.scrollTop > elem.scrollHeight - 2 * elem.clientHeight;
         if (scrollCriteria && !this.itemsLoading && this.items.length !== this.shareDetail.contentCount) {
           this.ngZone.run(() => this.onScroll());
         }

@@ -7,11 +7,10 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 // COMPONENTS
 import { ShareItemsPanelComponent } from '../share-items-panel/share-items-panel.component';
 import { ContentDownloadDialogModule } from '../content-download-dialog/content-download-dialog.module';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [ShareItemsPanelComponent],
-  imports: [CommonModule, SharedModule, ContentDownloadDialogModule, ScrollingModule],
+  imports: [CommonModule, SharedModule, ContentDownloadDialogModule],
   exports: [ShareItemsPanelComponent],
 })
 export class ShareItemsPanelModule {}
