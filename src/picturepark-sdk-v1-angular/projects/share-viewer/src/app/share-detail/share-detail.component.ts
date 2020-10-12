@@ -49,7 +49,7 @@ export class ShareDetailComponent implements OnInit {
 
     this.isLoading = true;
     const shareInfo = forkJoin([
-      this.shareService.getShareByToken(searchString, null, [ShareResolveBehavior.Schemas], this.config.cdnUrl),
+      this.shareService.getShareByToken(searchString, null, [ShareResolveBehavior.Schemas], 30, this.config.cdnUrl),
       this.infoFacade.getInfo(this.config.cdnUrl),
     ]);
 

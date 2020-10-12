@@ -15531,8 +15531,12 @@ export class ShareService extends PictureparkServiceBase {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  public get(id: string | null, resolveBehaviors: ShareResolveBehavior[] | null | undefined): Observable<ShareDetail> {
-    return this.getCore(id, resolveBehaviors).pipe(
+  public get(
+    id: string | null,
+    resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    contentResolveLimit: number | null | undefined
+  ): Observable<ShareDetail> {
+    return this.getCore(id, resolveBehaviors, contentResolveLimit).pipe(
       mergeMap(async (shareDetail) => {
         await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
         return shareDetail;
@@ -15544,17 +15548,24 @@ export class ShareService extends PictureparkServiceBase {
     token: string,
     lang: string | null | undefined,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    contentResolveLimit: number | null | undefined,
     cdnUrl?: string
   ): Observable<ShareDetail> {
     if (cdnUrl) {
-      return this.getShareByTokenFromUrl(token, lang, resolveBehaviors, cdnUrl + '/json/{token}?').pipe(
+      return this.getShareByTokenFromUrl(
+        token,
+        lang,
+        resolveBehaviors,
+        contentResolveLimit,
+        cdnUrl + '/json/{token}?'
+      ).pipe(
         mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
       );
     } else {
-      return this.getShareJsonCore(token, lang, resolveBehaviors).pipe(
+      return this.getShareJsonCore(token, lang, resolveBehaviors, contentResolveLimit).pipe(
         mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
@@ -15573,6 +15584,7 @@ export class ShareService extends PictureparkServiceBase {
     token: string,
     lang: string | null | undefined,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    contentResolveLimit: number | null | undefined,
     url: string
   ): Observable<any> {
     let url_ = url;
@@ -15587,6 +15599,9 @@ export class ShareService extends PictureparkServiceBase {
       resolveBehaviors.forEach((item) => {
         url_ += 'resolveBehaviors=' + encodeURIComponent('' + item) + '&';
       });
+    }
+    if (contentResolveLimit !== undefined && contentResolveLimit !== null) {
+      url_ += 'contentResolveLimit=' + encodeURIComponent('' + contentResolveLimit) + '&';
     }
     url_ = url_.replace(/[?&]$/, '');
 
@@ -65389,6 +65404,8 @@ export class ShareDetail implements IShareDetail {
     audit!: UserAudit;
     /** Detailed information about contents in the share. */
     contentSelections!: ShareContentDetail[];
+    /** List of all contents in share including outputs. */
+    contents!: ShareContent[];
     /** List of shared layers. */
     layerSchemaIds?: string[] | undefined;
     /** Detail of share. */
@@ -65423,6 +65440,13 @@ export class ShareDetail implements IShareDetail {
                     this.contentSelections[i] = item && !(<any>item).toJSON ? new ShareContentDetail(item) : <ShareContentDetail>item;
                 }
             }
+            if (data.contents) {
+                this.contents = [];
+                for (let i = 0; i < data.contents.length; i++) {
+                    let item = data.contents[i];
+                    this.contents[i] = item && !(<any>item).toJSON ? new ShareContent(item) : <ShareContent>item;
+                }
+            }
             if (data.schemas) {
                 this.schemas = [];
                 for (let i = 0; i < data.schemas.length; i++) {
@@ -65435,6 +65459,7 @@ export class ShareDetail implements IShareDetail {
             this.creator = new ShareUser();
             this.audit = new UserAudit();
             this.contentSelections = [];
+            this.contents = [];
         }
     }
 
@@ -65449,6 +65474,11 @@ export class ShareDetail implements IShareDetail {
                 this.contentSelections = [] as any;
                 for (let item of _data["contentSelections"])
                     this.contentSelections!.push(ShareContentDetail.fromJS(item));
+            }
+            if (Array.isArray(_data["contents"])) {
+                this.contents = [] as any;
+                for (let item of _data["contents"])
+                    this.contents!.push(ShareContent.fromJS(item));
             }
             if (Array.isArray(_data["layerSchemaIds"])) {
                 this.layerSchemaIds = [] as any;
@@ -65489,6 +65519,11 @@ export class ShareDetail implements IShareDetail {
             for (let item of this.contentSelections)
                 data["contentSelections"].push(item.toJSON());
         }
+        if (Array.isArray(this.contents)) {
+            data["contents"] = [];
+            for (let item of this.contents)
+                data["contents"].push(item.toJSON());
+        }
         if (Array.isArray(this.layerSchemaIds)) {
             data["layerSchemaIds"] = [];
             for (let item of this.layerSchemaIds)
@@ -65524,6 +65559,8 @@ export interface IShareDetail {
     audit: IUserAudit;
     /** Detailed information about contents in the share. */
     contentSelections: IShareContentDetail[];
+    /** List of all contents in share including outputs. */
+    contents: IShareContent[];
     /** List of shared layers. */
     layerSchemaIds?: string[] | undefined;
     /** Detail of share. */
@@ -65867,6 +65904,58 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
 export interface IShareOutputEmbed extends IShareOutputBase {
     /** Share token for the shared output. */
     token?: string | undefined;
+}
+
+export class ShareContent implements IShareContent {
+    /** Content ID to share. */
+    contentId!: string;
+    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
+    outputFormatIds?: string[] | undefined;
+
+    constructor(data?: IShareContent) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.contentId = _data["contentId"];
+            if (Array.isArray(_data["outputFormatIds"])) {
+                this.outputFormatIds = [] as any;
+                for (let item of _data["outputFormatIds"])
+                    this.outputFormatIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ShareContent {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareContent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        if (Array.isArray(this.outputFormatIds)) {
+            data["outputFormatIds"] = [];
+            for (let item of this.outputFormatIds)
+                data["outputFormatIds"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IShareContent {
+    /** Content ID to share. */
+    contentId: string;
+    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
+    outputFormatIds?: string[] | undefined;
 }
 
 /** Base of share data */
@@ -66426,58 +66515,6 @@ export interface IShareBaseUpdateRequest {
     layerSchemaIds?: string[] | undefined;
     /** Access for content outputs in share. */
     outputAccess: OutputAccess;
-}
-
-export class ShareContent implements IShareContent {
-    /** Content ID to share. */
-    contentId!: string;
-    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
-    outputFormatIds?: string[] | undefined;
-
-    constructor(data?: IShareContent) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.contentId = _data["contentId"];
-            if (Array.isArray(_data["outputFormatIds"])) {
-                this.outputFormatIds = [] as any;
-                for (let item of _data["outputFormatIds"])
-                    this.outputFormatIds!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): ShareContent {
-        data = typeof data === 'object' ? data : {};
-        let result = new ShareContent();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        if (Array.isArray(this.outputFormatIds)) {
-            data["outputFormatIds"] = [];
-            for (let item of this.outputFormatIds)
-                data["outputFormatIds"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IShareContent {
-    /** Content ID to share. */
-    contentId: string;
-    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
-    outputFormatIds?: string[] | undefined;
 }
 
 /** Update request for basic share */

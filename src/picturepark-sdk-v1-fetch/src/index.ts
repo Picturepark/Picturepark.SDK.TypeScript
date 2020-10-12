@@ -24353,6 +24353,8 @@ export interface ShareDetail {
     audit: UserAudit;
     /** Detailed information about contents in the share. */
     contentSelections: ShareContentDetail[];
+    /** List of all contents in share including outputs. */
+    contents: ShareContent[];
     /** List of shared layers. */
     layerSchemaIds?: string[] | undefined;
     /** Detail of share. */
@@ -24430,6 +24432,13 @@ export interface ShareOutputBasic extends ShareOutputBase {
 export interface ShareOutputEmbed extends ShareOutputBase {
     /** Share token for the shared output. */
     token?: string | undefined;
+}
+
+export interface ShareContent {
+    /** Content ID to share. */
+    contentId: string;
+    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
+    outputFormatIds?: string[] | undefined;
 }
 
 /** Base of share data */
@@ -24524,13 +24533,6 @@ export interface ShareBaseUpdateRequest {
     /** Access for content outputs in share. */
     outputAccess: OutputAccess;
     kind: string;
-}
-
-export interface ShareContent {
-    /** Content ID to share. */
-    contentId: string;
-    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
-    outputFormatIds?: string[] | undefined;
 }
 
 /** Update request for basic share */
