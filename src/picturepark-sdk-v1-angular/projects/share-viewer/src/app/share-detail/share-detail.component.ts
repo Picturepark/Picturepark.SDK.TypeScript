@@ -10,10 +10,12 @@ import {
   ShareService,
   PICTUREPARK_CONFIGURATION,
   ShareResolveBehavior,
+  ShareFacade,
 } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailsDialogOptions } from '@picturepark/sdk-v1-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
 import { forkJoin, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-share-detail',
@@ -25,11 +27,11 @@ export class ShareDetailComponent implements OnInit {
   public mailRecipients: IMailRecipient[];
   public logoUrl: string;
   public isLoading = false;
-  public items: ShareContentDetail[] = [];
   public shareToken: string;
 
   constructor(
     private shareService: ShareService,
+    private shareFacade: ShareFacade,
     private infoFacade: InfoFacade,
     private dialog: MatDialog,
     private route: ActivatedRoute,
@@ -86,7 +88,7 @@ export class ShareDetailComponent implements OnInit {
           return index !== 0;
         },
         hasNext: () => {
-          return this.shareDetail.contentSelections.length > index + 1;
+          return this.shareDetail.contents.length > index + 1;
         },
         previous: () => {
           index--;
@@ -94,7 +96,15 @@ export class ShareDetailComponent implements OnInit {
         },
         next: () => {
           index++;
-          return of(this.shareDetail.contentSelections[index]);
+          const content = this.shareDetail.contentSelections[index];
+
+          if (content) {
+            return of(content);
+          }
+
+          return this.shareFacade
+            .loadNextPageOfContents(this.shareDetail, this.shareToken, 30)
+            .pipe(map(() => this.shareDetail.contentSelections[index]));
         },
       },
       autoFocus: false,

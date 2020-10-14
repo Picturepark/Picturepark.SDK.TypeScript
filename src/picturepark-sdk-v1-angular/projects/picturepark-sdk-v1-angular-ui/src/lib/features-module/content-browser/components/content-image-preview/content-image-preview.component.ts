@@ -127,11 +127,10 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
       if (this.content instanceof ShareContentDetail) {
         const shareOutput = this.content.outputs.find((i) => i.outputFormatId === this.outputId);
         if (shareOutput && shareOutput.viewUrl) {
-          this.setPreviewUrl(shareOutput.viewUrl);
+          this.setPreviewUrl(shareOutput.viewUrl, false);
           return;
         } else if (this.content.iconUrl) {
-          this.isIcon = true;
-          this.setPreviewUrl(this.content.iconUrl);
+          this.setPreviewUrl(this.content.iconUrl, true);
           return;
         }
       } else {
@@ -150,10 +149,8 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
           : this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
 
         this.sub = request.subscribe((response) => {
-          if (response.headers && response.headers['content-type'] === 'image/svg+xml') {
-            this.isIcon = true;
-          }
-          this.setPreviewUrl(URL.createObjectURL(response.data));
+          const isIcon = (response.headers && response.headers['content-type'] === 'image/svg+xml') || false;
+          this.setPreviewUrl(URL.createObjectURL(response.data), isIcon);
         });
       }
     }
@@ -163,9 +160,10 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
     this.thumbnailUrlSafe = BROKEN_IMAGE_URL;
   }
 
-  private setPreviewUrl(url: string): void {
+  private setPreviewUrl(url: string, isIcon: boolean): void {
     this.thumbnailUrl = url;
     this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
+    this.isIcon = isIcon;
     this.isLoading = false;
   }
 
