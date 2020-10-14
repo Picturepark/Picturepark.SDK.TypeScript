@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -14,8 +14,8 @@ import {
 } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailsDialogOptions } from '@picturepark/sdk-v1-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
-import { forkJoin, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { forkJoin, fromEvent, of } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-share-detail',
@@ -28,6 +28,8 @@ export class ShareDetailComponent implements OnInit {
   public logoUrl: string;
   public isLoading = false;
   public shareToken: string;
+  public itemsLoading = false;
+  public pageToken?: string;
 
   constructor(
     private shareService: ShareService,
@@ -35,6 +37,7 @@ export class ShareDetailComponent implements OnInit {
     private infoFacade: InfoFacade,
     private dialog: MatDialog,
     private route: ActivatedRoute,
+    private ngZone: NgZone,
     @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkCdnConfiguration
   ) {}
 
@@ -43,6 +46,32 @@ export class ShareDetailComponent implements OnInit {
       const shareToken = paramMap.get('token')!;
       this.shareToken = shareToken;
       this.update(shareToken);
+    });
+
+    // Scroll loader
+    const elem = document.getElementsByClassName('share-viewer-item-container')[0];
+    fromEvent(elem, 'scroll')
+      .pipe(debounceTime(50))
+      .subscribe((scrollable) => {
+        if (!scrollable) {
+          return;
+        }
+
+        const scrollCriteria = elem.scrollTop > elem.scrollHeight - 2 * elem.clientHeight;
+        if (
+          scrollCriteria &&
+          !this.itemsLoading &&
+          this.shareDetail.contentSelections.length !== this.shareDetail.contentCount
+        ) {
+          this.ngZone.run(() => this.onScroll());
+        }
+      });
+  }
+
+  onScroll() {
+    this.itemsLoading = true;
+    this.shareFacade.loadNextPageOfContents(this.shareDetail, this.shareToken, 30).subscribe((page) => {
+      this.itemsLoading = false;
     });
   }
 

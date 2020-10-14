@@ -19,6 +19,7 @@ import { ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 // SERVICES
 import { EmbedService } from './embed.service';
 import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './content-picker.component.html',
@@ -64,7 +65,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
           return index !== 0;
         },
         hasNext: () => {
-          return this.contentBrowserComponent.items.length > index + 1;
+          return this.contentBrowserComponent.facade.searchResultState.totalResults > index + 1;
         },
         previous: () => {
           index--;
@@ -72,7 +73,13 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
         },
         next: () => {
           index++;
-          return of(this.contentBrowserComponent.items[index].id);
+          const content = this.contentBrowserComponent.items[index];
+
+          if (content) {
+            return of(content.id);
+          }
+
+          return this.contentBrowserComponent.loadData()?.pipe(map(() => this.contentBrowserComponent.items[index].id));
         },
       },
       autoFocus: false,

@@ -112,7 +112,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   initSort(): void {}
 
   onScroll(): void {
-    this.loadData();
+    this.loadData()?.subscribe();
   }
 
   checkContains(elementClassName: string): boolean {

@@ -49,12 +49,7 @@
     *ngIf="mailRecipients && mailRecipients.length"
   ></pp-share-mail-recipients-panel>
 
-  <pp-share-items-panel
-    *ngIf="!shareDetail.expired"
-    [shareDetail]="shareDetail"
-    (showDetail)="showDetail($event)"
-    [shareToken]="shareToken"
-  >
+  <pp-share-items-panel *ngIf="!shareDetail.expired" [shareDetail]="shareDetail" (showDetail)="showDetail($event)">
   </pp-share-items-panel>
 
   <img *ngIf="logoUrl" [src]="logoUrl" width="160" />
