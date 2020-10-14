@@ -51,7 +51,7 @@ describe('ShareService', () => {
           .toPromise();
 
         await businessProcessService.waitForCompletion(result.id, '02:00:00', true).toPromise();
-        const share = await shareService.get(result.referenceId!, null).toPromise();
+        const share = await shareService.get(result.referenceId!, null, 20).toPromise();
 
         // assert
         expect(result.referenceId).not.toBeNull();

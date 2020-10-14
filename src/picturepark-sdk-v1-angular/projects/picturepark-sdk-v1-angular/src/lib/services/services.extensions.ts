@@ -278,8 +278,12 @@ class ShareService extends generated.ShareService {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  public get(id: string | null, resolveBehaviors: ShareResolveBehavior[] | null | undefined): Observable<ShareDetail> {
-    return this.getCore(id, resolveBehaviors).pipe(
+  public get(
+    id: string | null,
+    resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    contentResolveLimit: number | null | undefined
+  ): Observable<ShareDetail> {
+    return this.getCore(id, resolveBehaviors, contentResolveLimit).pipe(
       mergeMap(async (shareDetail) => {
         await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
         return shareDetail;
@@ -291,17 +295,24 @@ class ShareService extends generated.ShareService {
     token: string,
     lang: string | null | undefined,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    contentResolveLimit: number | null | undefined,
     cdnUrl?: string
   ): Observable<ShareDetail> {
     if (cdnUrl) {
-      return this.getShareByTokenFromUrl(token, lang, resolveBehaviors, cdnUrl + '/json/{token}?').pipe(
+      return this.getShareByTokenFromUrl(
+        token,
+        lang,
+        resolveBehaviors,
+        contentResolveLimit,
+        cdnUrl + '/json/{token}?'
+      ).pipe(
         mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
       );
     } else {
-      return this.getShareJsonCore(token, lang, resolveBehaviors).pipe(
+      return this.getShareJsonCore(token, lang, resolveBehaviors, contentResolveLimit).pipe(
         mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
@@ -320,6 +331,7 @@ class ShareService extends generated.ShareService {
     token: string,
     lang: string | null | undefined,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    contentResolveLimit: number | null | undefined,
     url: string
   ): Observable<any> {
     let url_ = url;
@@ -334,6 +346,9 @@ class ShareService extends generated.ShareService {
       resolveBehaviors.forEach((item) => {
         url_ += 'resolveBehaviors=' + encodeURIComponent('' + item) + '&';
       });
+    }
+    if (contentResolveLimit !== undefined && contentResolveLimit !== null) {
+      url_ += 'contentResolveLimit=' + encodeURIComponent('' + contentResolveLimit) + '&';
     }
     url_ = url_.replace(/[?&]$/, '');
 

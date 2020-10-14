@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-// LIBRARIES
+import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk-v1-angular';
+import { BaseComponent } from '../../shared-module/components/base.component';
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 
 @Component({
@@ -8,27 +8,21 @@ import { ContentDownloadDialogService } from '../content-download-dialog/service
   templateUrl: './share-items-panel.component.html',
   styleUrls: ['./share-items-panel.component.scss'],
 })
-export class ShareItemsPanelComponent implements OnInit, OnChanges {
+export class ShareItemsPanelComponent extends BaseComponent implements OnInit {
   @Input() view: 'grid' | 'list' = 'grid';
-  @Input() items: ShareContentDetail[];
   @Input() shareDetail: ShareDetail;
 
   @Output() showDetail: EventEmitter<ShareContentDetail> = new EventEmitter();
 
-  // VARS
-  loader = false;
+  thumbnailSize = ThumbnailSize;
 
-  public thumbnailSize = ThumbnailSize;
+  constructor(injector: Injector, private contentDownloadDialogService: ContentDownloadDialogService) {
+    super(injector);
+  }
 
-  constructor(private contentDownloadDialogService: ContentDownloadDialogService) {}
-
-  // OPEN IN NEW WINDOW
   openInNewWindow(item: ShareContentDetail): void {
     this.showDetail.emit(item);
   }
-
-  // DELETE ITEM
-  deleteItem(item: ShareContentDetail): void {}
 
   public downloadItem(item: ShareContentDetail) {
     this.contentDownloadDialogService.showDialog({
@@ -37,15 +31,5 @@ export class ShareItemsPanelComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnInit() {
-    this.loader = true;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.items = changes.items && changes.items.currentValue;
-
-    if (this.items) {
-      this.loader = false;
-    }
-  }
+  ngOnInit() {}
 }

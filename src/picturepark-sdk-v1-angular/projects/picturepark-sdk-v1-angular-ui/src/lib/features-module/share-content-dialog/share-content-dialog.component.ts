@@ -149,7 +149,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       await this.businessProcessService.waitForCompletion(response.id, '02:00:00', true).toPromise();
 
-      const share = await this.shareService.get(response.referenceId!, null).toPromise();
+      const share = await this.shareService.get(response.referenceId!, null, 0).toPromise();
 
       (share.data as ShareDataBasic).internalRecipients.forEach((recipient) =>
         this.recipients.push({

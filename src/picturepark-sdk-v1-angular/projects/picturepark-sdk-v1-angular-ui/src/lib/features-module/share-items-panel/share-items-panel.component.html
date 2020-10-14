@@ -8,7 +8,7 @@
     </button>
   </div>
   <div pp-panel-content [ngClass]="[view]">
-    <div class="item" *ngFor="let item of items">
+    <div class="item" *ngFor="let item of shareDetail.contentSelections">
       <div class="thumbnail">
         <pp-content-item-thumbnail
           [item]="item"

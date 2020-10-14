@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -10,10 +10,12 @@ import {
   ShareService,
   PICTUREPARK_CONFIGURATION,
   ShareResolveBehavior,
+  ShareFacade,
 } from '@picturepark/sdk-v1-angular';
-import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
+import { ContentDetailsDialogComponent, ContentDetailsDialogOptions } from '@picturepark/sdk-v1-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
-import { forkJoin } from 'rxjs';
+import { forkJoin, fromEvent, of } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-share-detail',
@@ -25,20 +27,51 @@ export class ShareDetailComponent implements OnInit {
   public mailRecipients: IMailRecipient[];
   public logoUrl: string;
   public isLoading = false;
-  public items: ShareContentDetail[] = [];
+  public shareToken: string;
+  public itemsLoading = false;
+  public pageToken?: string;
 
   constructor(
     private shareService: ShareService,
+    private shareFacade: ShareFacade,
     private infoFacade: InfoFacade,
     private dialog: MatDialog,
     private route: ActivatedRoute,
+    private ngZone: NgZone,
     @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkCdnConfiguration
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
       const shareToken = paramMap.get('token')!;
+      this.shareToken = shareToken;
       this.update(shareToken);
+    });
+
+    // Scroll loader
+    const elem = document.getElementsByClassName('share-viewer-item-container')[0];
+    fromEvent(elem, 'scroll')
+      .pipe(debounceTime(50))
+      .subscribe((scrollable) => {
+        if (!scrollable) {
+          return;
+        }
+
+        const scrollCriteria = elem.scrollTop > elem.scrollHeight - 2 * elem.clientHeight;
+        if (
+          scrollCriteria &&
+          !this.itemsLoading &&
+          this.shareDetail.contentSelections.length !== this.shareDetail.contentCount
+        ) {
+          this.ngZone.run(() => this.onScroll());
+        }
+      });
+  }
+
+  onScroll() {
+    this.itemsLoading = true;
+    this.shareFacade.loadNextPageOfContents(this.shareDetail, this.shareToken, 30).subscribe((page) => {
+      this.itemsLoading = false;
     });
   }
 
@@ -49,7 +82,7 @@ export class ShareDetailComponent implements OnInit {
 
     this.isLoading = true;
     const shareInfo = forkJoin([
-      this.shareService.getShareByToken(searchString, null, [ShareResolveBehavior.Schemas], this.config.cdnUrl),
+      this.shareService.getShareByToken(searchString, null, [ShareResolveBehavior.Schemas], 30, this.config.cdnUrl),
       this.infoFacade.getInfo(this.config.cdnUrl),
     ]);
 
@@ -74,7 +107,7 @@ export class ShareDetailComponent implements OnInit {
   showDetail(item: ShareContentDetail): void {
     let index = this.shareDetail.contentSelections.indexOf(item);
     this.dialog.open(ContentDetailsDialogComponent, {
-      data: <ContentDetailDialogOptions>{
+      data: <ContentDetailsDialogOptions>{
         id: item.id,
         shareContent: item,
         shareDetail: this.shareDetail,
@@ -84,15 +117,23 @@ export class ShareDetailComponent implements OnInit {
           return index !== 0;
         },
         hasNext: () => {
-          return this.shareDetail.contentSelections.length > index + 1;
+          return this.shareDetail.contents.length > index + 1;
         },
         previous: () => {
           index--;
-          return this.shareDetail.contentSelections[index];
+          return of(this.shareDetail.contentSelections[index]);
         },
         next: () => {
           index++;
-          return this.shareDetail.contentSelections[index];
+          const content = this.shareDetail.contentSelections[index];
+
+          if (content) {
+            return of(content);
+          }
+
+          return this.shareFacade
+            .loadNextPageOfContents(this.shareDetail, this.shareToken, 30)
+            .pipe(map(() => this.shareDetail.contentSelections[index]));
         },
       },
       autoFocus: false,

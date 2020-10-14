@@ -10,7 +10,7 @@ import {
   ContentBrowserComponent,
   SearchParameters,
   BaseComponent,
-  ContentDetailDialogOptions,
+  ContentDetailsDialogOptions,
 } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
@@ -18,6 +18,8 @@ import { ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 
 // SERVICES
 import { EmbedService } from './embed.service';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './content-picker.component.html',
@@ -56,22 +58,28 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     let index = this.contentBrowserComponent.items.findIndex((q) => q.id === item.id);
 
     this.dialog.open(ContentDetailsDialogComponent, {
-      data: <ContentDetailDialogOptions>{
+      data: <ContentDetailsDialogOptions>{
         id: item.id,
         showMetadata: true,
         hasPrevious: () => {
           return index !== 0;
         },
         hasNext: () => {
-          return this.contentBrowserComponent.items.length > index + 1;
+          return this.contentBrowserComponent.facade.searchResultState.totalResults > index + 1;
         },
         previous: () => {
           index--;
-          return this.contentBrowserComponent.items[index].id;
+          return of(this.contentBrowserComponent.items[index].id);
         },
         next: () => {
           index++;
-          return this.contentBrowserComponent.items[index].id;
+          const content = this.contentBrowserComponent.items[index];
+
+          if (content) {
+            return of(content.id);
+          }
+
+          return this.contentBrowserComponent.loadData()?.pipe(map(() => this.contentBrowserComponent.items[index].id));
         },
       },
       autoFocus: false,

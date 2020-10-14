@@ -9940,6 +9940,697 @@ export class MetadataService extends PictureparkServiceBase {
 @Injectable({
     providedIn: 'root'
 })
+export class NotificationService extends PictureparkServiceBase {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("");
+    }
+
+    /**
+     * Get notification
+     * @param id ID of notification
+     * @return Notification
+     */
+    get(id: string | null): Observable<Notification> {
+        let url_ = this.baseUrl + "/v1/Notifications/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<Notification>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Notification>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<Notification> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Notification.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Notification>(<any>null);
+    }
+
+    /**
+     * Mark notification as read
+     * @param id ID of notification
+     * @return Notification
+     */
+    markAsRead(id: string | null): Observable<Notification> {
+        let url_ = this.baseUrl + "/v1/Notifications/{id}/markAsRead";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processMarkAsRead(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMarkAsRead(<any>response_);
+                } catch (e) {
+                    return <Observable<Notification>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Notification>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMarkAsRead(response: HttpResponseBase): Observable<Notification> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Notification.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Notification>(<any>null);
+    }
+
+    /**
+     * Search notifications
+     * @param request Notification search request
+     * @return Notification search result
+     */
+    search(request: NotificationSearchRequest): Observable<NotificationCompactResult> {
+        let url_ = this.baseUrl + "/v1/Notifications/search";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processSearch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearch(<any>response_);
+                } catch (e) {
+                    return <Observable<NotificationCompactResult>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NotificationCompactResult>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearch(response: HttpResponseBase): Observable<NotificationCompactResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = NotificationCompactResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NotificationCompactResult>(<any>null);
+    }
+
+    /**
+     * Aggregate on notifications
+     * @param request Notification aggregation request
+     * @return Aggregation result
+     */
+    aggregate(request: NotificationAggregationRequest): Observable<ObjectAggregationResult> {
+        let url_ = this.baseUrl + "/v1/Notifications/aggregate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processAggregate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAggregate(<any>response_);
+                } catch (e) {
+                    return <Observable<ObjectAggregationResult>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ObjectAggregationResult>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAggregate(response: HttpResponseBase): Observable<ObjectAggregationResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ObjectAggregationResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ObjectAggregationResult>(<any>null);
+    }
+
+    /**
+     * Mark all notifications as read
+     */
+    markAllAsRead(): Observable<void> {
+        let url_ = this.baseUrl + "/v1/Notifications/markAllAsRead";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processMarkAllAsRead(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMarkAllAsRead(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMarkAllAsRead(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Get notification digest configuration
+     * @return Notification digest configuration
+     */
+    getDigestConfiguration(): Observable<NotificationDigestConfiguration> {
+        let url_ = this.baseUrl + "/v1/Notifications/digestConfiguration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetDigestConfiguration(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDigestConfiguration(<any>response_);
+                } catch (e) {
+                    return <Observable<NotificationDigestConfiguration>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NotificationDigestConfiguration>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetDigestConfiguration(response: HttpResponseBase): Observable<NotificationDigestConfiguration> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = NotificationDigestConfiguration.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NotificationDigestConfiguration>(<any>null);
+    }
+
+    /**
+     * Update notification digest configuration
+     * @param configuration Notification digest configuration
+     * @return Notification digest configuration
+     */
+    putDigestConfiguration(configuration: NotificationDigestConfiguration): Observable<NotificationDigestConfiguration> {
+        let url_ = this.baseUrl + "/v1/Notifications/digestConfiguration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(configuration);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processPutDigestConfiguration(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPutDigestConfiguration(<any>response_);
+                } catch (e) {
+                    return <Observable<NotificationDigestConfiguration>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<NotificationDigestConfiguration>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processPutDigestConfiguration(response: HttpResponseBase): Observable<NotificationDigestConfiguration> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = NotificationDigestConfiguration.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<NotificationDigestConfiguration>(<any>null);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class OutputFormatService extends PictureparkServiceBase {
     private http: HttpClient;
     private baseUrl: string;
@@ -14840,8 +15531,12 @@ export class ShareService extends PictureparkServiceBase {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  public get(id: string | null, resolveBehaviors: ShareResolveBehavior[] | null | undefined): Observable<ShareDetail> {
-    return this.getCore(id, resolveBehaviors).pipe(
+  public get(
+    id: string | null,
+    resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    contentResolveLimit: number | null | undefined
+  ): Observable<ShareDetail> {
+    return this.getCore(id, resolveBehaviors, contentResolveLimit).pipe(
       mergeMap(async (shareDetail) => {
         await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
         return shareDetail;
@@ -14853,17 +15548,24 @@ export class ShareService extends PictureparkServiceBase {
     token: string,
     lang: string | null | undefined,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    contentResolveLimit: number | null | undefined,
     cdnUrl?: string
   ): Observable<ShareDetail> {
     if (cdnUrl) {
-      return this.getShareByTokenFromUrl(token, lang, resolveBehaviors, cdnUrl + '/json/{token}?').pipe(
+      return this.getShareByTokenFromUrl(
+        token,
+        lang,
+        resolveBehaviors,
+        contentResolveLimit,
+        cdnUrl + '/json/{token}?'
+      ).pipe(
         mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
       );
     } else {
-      return this.getShareJsonCore(token, lang, resolveBehaviors).pipe(
+      return this.getShareJsonCore(token, lang, resolveBehaviors, contentResolveLimit).pipe(
         mergeMap(async (shareJson) => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
@@ -14882,6 +15584,7 @@ export class ShareService extends PictureparkServiceBase {
     token: string,
     lang: string | null | undefined,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    contentResolveLimit: number | null | undefined,
     url: string
   ): Observable<any> {
     let url_ = url;
@@ -14896,6 +15599,9 @@ export class ShareService extends PictureparkServiceBase {
       resolveBehaviors.forEach((item) => {
         url_ += 'resolveBehaviors=' + encodeURIComponent('' + item) + '&';
       });
+    }
+    if (contentResolveLimit !== undefined && contentResolveLimit !== null) {
+      url_ += 'contentResolveLimit=' + encodeURIComponent('' + contentResolveLimit) + '&';
     }
     url_ = url_.replace(/[?&]$/, '');
 
@@ -14947,9 +15653,10 @@ export class ShareService extends PictureparkServiceBase {
      * @param token Share token
      * @param lang (optional) Language code
      * @param resolveBehaviors (optional) List of enums that control which parts of the share are resolved and returned.
+     * @param contentResolveLimit (optional) Optional limit the number of contents to resolve. Use a lower value for higher performance. If nothing is specified, everything is resolved.
      * @return ShareDetail
      */
-    protected getShareJsonCore(token: string | null, lang: string | null | undefined, resolveBehaviors: ShareResolveBehavior[] | null | undefined): Observable<ShareDetail> {
+    protected getShareJsonCore(token: string | null, lang: string | null | undefined, resolveBehaviors: ShareResolveBehavior[] | null | undefined, contentResolveLimit: number | null | undefined): Observable<ShareDetail> {
         let url_ = this.baseUrl + "/v1/Shares/json/{token}?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
@@ -14958,6 +15665,8 @@ export class ShareService extends PictureparkServiceBase {
             url_ += "lang=" + encodeURIComponent("" + lang) + "&";
         if (resolveBehaviors !== undefined && resolveBehaviors !== null)
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
+        if (contentResolveLimit !== undefined && contentResolveLimit !== null)
+            url_ += "contentResolveLimit=" + encodeURIComponent("" + contentResolveLimit) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -15044,6 +15753,115 @@ export class ShareService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<ShareDetail>(<any>null);
+    }
+
+    /**
+     * Get share contents
+     * @param token Share token
+     * @param lang (optional) Language code
+     * @param limit (optional) Number of contents to return
+     * @param pageToken (optional) PageToken to page over contents
+     * @return ShareContentDetailResult
+     */
+    getShareContents(token: string | null, lang: string | null | undefined, limit: number | undefined, pageToken: string | null | undefined): Observable<ShareContentDetailResult> {
+        let url_ = this.baseUrl + "/v1/Shares/json/{token}/contents?";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        if (lang !== undefined && lang !== null)
+            url_ += "lang=" + encodeURIComponent("" + lang) + "&";
+        if (limit === null)
+            throw new Error("The parameter 'limit' cannot be null.");
+        else if (limit !== undefined)
+            url_ += "limit=" + encodeURIComponent("" + limit) + "&";
+        if (pageToken !== undefined && pageToken !== null)
+            url_ += "pageToken=" + encodeURIComponent("" + pageToken) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetShareContents(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetShareContents(<any>response_);
+                } catch (e) {
+                    return <Observable<ShareContentDetailResult>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ShareContentDetailResult>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetShareContents(response: HttpResponseBase): Observable<ShareContentDetailResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ShareContentDetailResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ShareContentDetailResult>(<any>null);
     }
 
     /**
@@ -15282,15 +16100,18 @@ export class ShareService extends PictureparkServiceBase {
      * Get
      * @param id Share Id (not token, use [GetShareJson](#operation/Share_GetShareJson) to get share by token)
      * @param resolveBehaviors (optional) List of enums that control which parts of the share are resolved and returned.
+     * @param contentResolveLimit (optional) Optional limit the number of contents to resolve. Use a lower value for higher performance. If nothing is specified, everything is resolved.
      * @return Share detail
      */
-    protected getCore(id: string | null, resolveBehaviors: ShareResolveBehavior[] | null | undefined): Observable<ShareDetail> {
+    protected getCore(id: string | null, resolveBehaviors: ShareResolveBehavior[] | null | undefined, contentResolveLimit: number | null | undefined): Observable<ShareDetail> {
         let url_ = this.baseUrl + "/v1/Shares/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         if (resolveBehaviors !== undefined && resolveBehaviors !== null)
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
+        if (contentResolveLimit !== undefined && contentResolveLimit !== null)
+            url_ += "contentResolveLimit=" + encodeURIComponent("" + contentResolveLimit) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -15480,6 +16301,112 @@ export class ShareService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Get contents in share
+     * @param id Share Id
+     * @param limit (optional) Number of contents to return
+     * @param pageToken (optional) PageToken to page over contents
+     * @return ShareContentDetailResult
+     */
+    getContentsInShare(id: string | null, limit: number | undefined, pageToken: string | null | undefined): Observable<ShareContentDetailResult> {
+        let url_ = this.baseUrl + "/v1/Shares/{id}/contents?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (limit === null)
+            throw new Error("The parameter 'limit' cannot be null.");
+        else if (limit !== undefined)
+            url_ += "limit=" + encodeURIComponent("" + limit) + "&";
+        if (pageToken !== undefined && pageToken !== null)
+            url_ += "pageToken=" + encodeURIComponent("" + pageToken) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetContentsInShare(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetContentsInShare(<any>response_);
+                } catch (e) {
+                    return <Observable<ShareContentDetailResult>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ShareContentDetailResult>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetContentsInShare(response: HttpResponseBase): Observable<ShareContentDetailResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ShareContentDetailResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ShareContentDetailResult>(<any>null);
     }
 
     /**
@@ -15975,6 +16902,512 @@ export class ShareService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<ShareSearchResult>(<any>null);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class TemplateService extends PictureparkServiceBase {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("");
+    }
+
+    /**
+     * Get template
+     * @param id ID of template.
+     * @return Template
+     */
+    get(id: string | null): Observable<Template> {
+        let url_ = this.baseUrl + "/v1/Templates/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<Template>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Template>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<Template> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Template.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Template>(<any>null);
+    }
+
+    /**
+     * Update template
+     * @param id ID of template.
+     * @param request Template
+     * @return Template
+     */
+    update(id: string | null, request: TemplateUpdateRequest): Observable<Template> {
+        let url_ = this.baseUrl + "/v1/Templates/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<Template>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Template>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<Template> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Template.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Template>(<any>null);
+    }
+
+    /**
+     * Delete template
+     * @param id ID of template
+     */
+    delete(id: string | null): Observable<void> {
+        let url_ = this.baseUrl + "/v1/Templates/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("delete", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Create template
+     * @param request TemplateCreateRequest
+     * @return Template
+     */
+    create(request: TemplateCreateRequest): Observable<Template> {
+        let url_ = this.baseUrl + "/v1/Templates";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<Template>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Template>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<Template> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Template.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Template>(<any>null);
+    }
+
+    /**
+     * Get all templates
+     * @return All templates
+     */
+    getAll(): Observable<Template[]> {
+        let url_ = this.baseUrl + "/v1/Templates";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<Template[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Template[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<Template[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(Template.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Template[]>(<any>null);
     }
 }
 
@@ -22508,6 +23941,36 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldImportMismatchException") {
+            let result = new SchemaFieldImportMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldImportRelatedSchemaMismatchException") {
+            let result = new SchemaFieldImportRelatedSchemaMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldImportTypeMismatchException") {
+            let result = new SchemaFieldImportTypeMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldNotSupportedException") {
+            let result = new SchemaFieldNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldDisplayPatternTypeNotSupportedException") {
+            let result = new SchemaFieldDisplayPatternTypeNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldMarkdownNotMultilineException") {
+            let result = new SchemaFieldMarkdownNotMultilineException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DeleteContentsWithReferencesException") {
             let result = new DeleteContentsWithReferencesException();
             result.init(data);
@@ -22575,31 +24038,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "BusinessProcessContinuationException") {
             let result = new BusinessProcessContinuationException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaFieldImportMismatchException") {
-            let result = new SchemaFieldImportMismatchException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaFieldImportRelatedSchemaMismatchException") {
-            let result = new SchemaFieldImportRelatedSchemaMismatchException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaFieldImportTypeMismatchException") {
-            let result = new SchemaFieldImportTypeMismatchException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaFieldNotSupportedException") {
-            let result = new SchemaFieldNotSupportedException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaFieldDisplayPatternTypeNotSupportedException") {
-            let result = new SchemaFieldDisplayPatternTypeNotSupportedException();
             result.init(data);
             return result;
         }
@@ -22940,6 +24378,41 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "CollectionNotFoundException") {
             let result = new CollectionNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NonDefaultTemplateNameNotAllowedException") {
+            let result = new NonDefaultTemplateNameNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SystemTemplateModificationNotAllowedException") {
+            let result = new SystemTemplateModificationNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateDuplicationException") {
+            let result = new TemplateDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateLanguageCodeNotSupportedException") {
+            let result = new TemplateLanguageCodeNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateMediaTypesMissingException") {
+            let result = new TemplateMediaTypesMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateMediaTypesNotSupportedException") {
+            let result = new TemplateMediaTypesNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateNotFoundException") {
+            let result = new TemplateNotFoundException();
             result.init(data);
             return result;
         }
@@ -24023,6 +25496,36 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SchemaFieldImportMismatchException") {
+            let result = new SchemaFieldImportMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldImportRelatedSchemaMismatchException") {
+            let result = new SchemaFieldImportRelatedSchemaMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldImportTypeMismatchException") {
+            let result = new SchemaFieldImportTypeMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldNotSupportedException") {
+            let result = new SchemaFieldNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldDisplayPatternTypeNotSupportedException") {
+            let result = new SchemaFieldDisplayPatternTypeNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldMarkdownNotMultilineException") {
+            let result = new SchemaFieldMarkdownNotMultilineException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DeleteContentsWithReferencesException") {
             let result = new DeleteContentsWithReferencesException();
             result.init(data);
@@ -24090,31 +25593,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "BusinessProcessContinuationException") {
             let result = new BusinessProcessContinuationException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaFieldImportMismatchException") {
-            let result = new SchemaFieldImportMismatchException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaFieldImportRelatedSchemaMismatchException") {
-            let result = new SchemaFieldImportRelatedSchemaMismatchException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaFieldImportTypeMismatchException") {
-            let result = new SchemaFieldImportTypeMismatchException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaFieldNotSupportedException") {
-            let result = new SchemaFieldNotSupportedException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaFieldDisplayPatternTypeNotSupportedException") {
-            let result = new SchemaFieldDisplayPatternTypeNotSupportedException();
             result.init(data);
             return result;
         }
@@ -24455,6 +25933,41 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "CollectionNotFoundException") {
             let result = new CollectionNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NonDefaultTemplateNameNotAllowedException") {
+            let result = new NonDefaultTemplateNameNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SystemTemplateModificationNotAllowedException") {
+            let result = new SystemTemplateModificationNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateDuplicationException") {
+            let result = new TemplateDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateLanguageCodeNotSupportedException") {
+            let result = new TemplateLanguageCodeNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateMediaTypesMissingException") {
+            let result = new TemplateMediaTypesMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateMediaTypesNotSupportedException") {
+            let result = new TemplateMediaTypesNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateNotFoundException") {
+            let result = new TemplateNotFoundException();
             result.init(data);
             return result;
         }
@@ -25210,31 +26723,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "DeleteContentsWithReferencesException") {
-            let result = new DeleteContentsWithReferencesException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ContentLayerInvalidException") {
-            let result = new ContentLayerInvalidException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ContentFileReplaceTypeMismatchException") {
-            let result = new ContentFileReplaceTypeMismatchException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ContentLayerSameRootException") {
-            let result = new ContentLayerSameRootException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "BusinessProcessCancellationNotSupportedException") {
-            let result = new BusinessProcessCancellationNotSupportedException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "SchemaFieldImportMismatchException") {
             let result = new SchemaFieldImportMismatchException();
             result.init(data);
@@ -25257,6 +26745,36 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaFieldDisplayPatternTypeNotSupportedException") {
             let result = new SchemaFieldDisplayPatternTypeNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldMarkdownNotMultilineException") {
+            let result = new SchemaFieldMarkdownNotMultilineException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "DeleteContentsWithReferencesException") {
+            let result = new DeleteContentsWithReferencesException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentLayerInvalidException") {
+            let result = new ContentLayerInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentFileReplaceTypeMismatchException") {
+            let result = new ContentFileReplaceTypeMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentLayerSameRootException") {
+            let result = new ContentLayerSameRootException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessCancellationNotSupportedException") {
+            let result = new BusinessProcessCancellationNotSupportedException();
             result.init(data);
             return result;
         }
@@ -25552,6 +27070,36 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "CollectionModificationNotAllowedException") {
             let result = new CollectionModificationNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NonDefaultTemplateNameNotAllowedException") {
+            let result = new NonDefaultTemplateNameNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SystemTemplateModificationNotAllowedException") {
+            let result = new SystemTemplateModificationNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateDuplicationException") {
+            let result = new TemplateDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateLanguageCodeNotSupportedException") {
+            let result = new TemplateLanguageCodeNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateMediaTypesMissingException") {
+            let result = new TemplateMediaTypesMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateMediaTypesNotSupportedException") {
+            let result = new TemplateMediaTypesNotSupportedException();
             result.init(data);
             return result;
         }
@@ -26192,6 +27740,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "CollectionNotFoundException") {
             let result = new CollectionNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TemplateNotFoundException") {
+            let result = new TemplateNotFoundException();
             result.init(data);
             return result;
         }
@@ -33987,6 +35540,270 @@ export interface ISchemaFieldRelationTargetDocTypeModificationNotAllowedExceptio
     fieldId?: string | undefined;
 }
 
+export class SchemaFieldImportMismatchException extends PictureparkValidationException implements ISchemaFieldImportMismatchException {
+    schemaId?: string | undefined;
+    importingFieldIds?: string | undefined;
+    existingFieldIds?: string | undefined;
+
+    constructor(data?: ISchemaFieldImportMismatchException) {
+        super(data);
+        this._discriminator = "SchemaFieldImportMismatchException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.importingFieldIds = _data["importingFieldIds"];
+            this.existingFieldIds = _data["existingFieldIds"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldImportMismatchException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldImportMismatchException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["importingFieldIds"] = this.importingFieldIds;
+        data["existingFieldIds"] = this.existingFieldIds;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldImportMismatchException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    importingFieldIds?: string | undefined;
+    existingFieldIds?: string | undefined;
+}
+
+export class SchemaFieldImportRelatedSchemaMismatchException extends PictureparkValidationException implements ISchemaFieldImportRelatedSchemaMismatchException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    importingRelatedSchemaId?: string | undefined;
+    existingRelatedSchemaId?: string | undefined;
+
+    constructor(data?: ISchemaFieldImportRelatedSchemaMismatchException) {
+        super(data);
+        this._discriminator = "SchemaFieldImportRelatedSchemaMismatchException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+            this.importingRelatedSchemaId = _data["importingRelatedSchemaId"];
+            this.existingRelatedSchemaId = _data["existingRelatedSchemaId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldImportRelatedSchemaMismatchException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldImportRelatedSchemaMismatchException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        data["importingRelatedSchemaId"] = this.importingRelatedSchemaId;
+        data["existingRelatedSchemaId"] = this.existingRelatedSchemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldImportRelatedSchemaMismatchException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    importingRelatedSchemaId?: string | undefined;
+    existingRelatedSchemaId?: string | undefined;
+}
+
+export class SchemaFieldImportTypeMismatchException extends PictureparkValidationException implements ISchemaFieldImportTypeMismatchException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    importingFieldType?: string | undefined;
+    existingFieldType?: string | undefined;
+
+    constructor(data?: ISchemaFieldImportTypeMismatchException) {
+        super(data);
+        this._discriminator = "SchemaFieldImportTypeMismatchException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+            this.importingFieldType = _data["importingFieldType"];
+            this.existingFieldType = _data["existingFieldType"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldImportTypeMismatchException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldImportTypeMismatchException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        data["importingFieldType"] = this.importingFieldType;
+        data["existingFieldType"] = this.existingFieldType;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldImportTypeMismatchException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    importingFieldType?: string | undefined;
+    existingFieldType?: string | undefined;
+}
+
+export class SchemaFieldNotSupportedException extends PictureparkValidationException implements ISchemaFieldNotSupportedException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+    fieldType?: string | undefined;
+
+    constructor(data?: ISchemaFieldNotSupportedException) {
+        super(data);
+        this._discriminator = "SchemaFieldNotSupportedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fieldId = _data["fieldId"];
+            this.schemaId = _data["schemaId"];
+            this.fieldType = _data["fieldType"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldId"] = this.fieldId;
+        data["schemaId"] = this.schemaId;
+        data["fieldType"] = this.fieldType;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldNotSupportedException extends IPictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+    fieldType?: string | undefined;
+}
+
+export class SchemaFieldDisplayPatternTypeNotSupportedException extends PictureparkValidationException implements ISchemaFieldDisplayPatternTypeNotSupportedException {
+    fieldId?: string | undefined;
+    displayPatternType?: DisplayPatternType;
+    supportedDisplayPatternTypes?: DisplayPatternType[] | undefined;
+
+    constructor(data?: ISchemaFieldDisplayPatternTypeNotSupportedException) {
+        super(data);
+        this._discriminator = "SchemaFieldDisplayPatternTypeNotSupportedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fieldId = _data["fieldId"];
+            this.displayPatternType = _data["displayPatternType"];
+            if (Array.isArray(_data["supportedDisplayPatternTypes"])) {
+                this.supportedDisplayPatternTypes = [] as any;
+                for (let item of _data["supportedDisplayPatternTypes"])
+                    this.supportedDisplayPatternTypes!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldDisplayPatternTypeNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldDisplayPatternTypeNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldId"] = this.fieldId;
+        data["displayPatternType"] = this.displayPatternType;
+        if (Array.isArray(this.supportedDisplayPatternTypes)) {
+            data["supportedDisplayPatternTypes"] = [];
+            for (let item of this.supportedDisplayPatternTypes)
+                data["supportedDisplayPatternTypes"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldDisplayPatternTypeNotSupportedException extends IPictureparkValidationException {
+    fieldId?: string | undefined;
+    displayPatternType?: DisplayPatternType;
+    supportedDisplayPatternTypes?: DisplayPatternType[] | undefined;
+}
+
+export class SchemaFieldMarkdownNotMultilineException extends PictureparkValidationException implements ISchemaFieldMarkdownNotMultilineException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+
+    constructor(data?: ISchemaFieldMarkdownNotMultilineException) {
+        super(data);
+        this._discriminator = "SchemaFieldMarkdownNotMultilineException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fieldId = _data["fieldId"];
+            this.schemaId = _data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaFieldMarkdownNotMultilineException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldMarkdownNotMultilineException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldId"] = this.fieldId;
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaFieldMarkdownNotMultilineException extends IPictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+}
+
 export class DeleteContentsWithReferencesException extends PictureparkValidationException implements IDeleteContentsWithReferencesException {
     numberOfReferences?: number;
     numberOfShares?: number;
@@ -34611,232 +36428,6 @@ export interface IBusinessProcessContinuationException extends IPictureparkBusin
     continuationBusinessProcessId?: string | undefined;
     precedingBusinessProcessId?: string | undefined;
     precedingBusinessProcessException?: PictureparkException | undefined;
-}
-
-export class SchemaFieldImportMismatchException extends PictureparkValidationException implements ISchemaFieldImportMismatchException {
-    schemaId?: string | undefined;
-    importingFieldIds?: string | undefined;
-    existingFieldIds?: string | undefined;
-
-    constructor(data?: ISchemaFieldImportMismatchException) {
-        super(data);
-        this._discriminator = "SchemaFieldImportMismatchException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.schemaId = _data["schemaId"];
-            this.importingFieldIds = _data["importingFieldIds"];
-            this.existingFieldIds = _data["existingFieldIds"];
-        }
-    }
-
-    static fromJS(data: any): SchemaFieldImportMismatchException {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaFieldImportMismatchException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["importingFieldIds"] = this.importingFieldIds;
-        data["existingFieldIds"] = this.existingFieldIds;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISchemaFieldImportMismatchException extends IPictureparkValidationException {
-    schemaId?: string | undefined;
-    importingFieldIds?: string | undefined;
-    existingFieldIds?: string | undefined;
-}
-
-export class SchemaFieldImportRelatedSchemaMismatchException extends PictureparkValidationException implements ISchemaFieldImportRelatedSchemaMismatchException {
-    schemaId?: string | undefined;
-    fieldId?: string | undefined;
-    importingRelatedSchemaId?: string | undefined;
-    existingRelatedSchemaId?: string | undefined;
-
-    constructor(data?: ISchemaFieldImportRelatedSchemaMismatchException) {
-        super(data);
-        this._discriminator = "SchemaFieldImportRelatedSchemaMismatchException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.schemaId = _data["schemaId"];
-            this.fieldId = _data["fieldId"];
-            this.importingRelatedSchemaId = _data["importingRelatedSchemaId"];
-            this.existingRelatedSchemaId = _data["existingRelatedSchemaId"];
-        }
-    }
-
-    static fromJS(data: any): SchemaFieldImportRelatedSchemaMismatchException {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaFieldImportRelatedSchemaMismatchException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["importingRelatedSchemaId"] = this.importingRelatedSchemaId;
-        data["existingRelatedSchemaId"] = this.existingRelatedSchemaId;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISchemaFieldImportRelatedSchemaMismatchException extends IPictureparkValidationException {
-    schemaId?: string | undefined;
-    fieldId?: string | undefined;
-    importingRelatedSchemaId?: string | undefined;
-    existingRelatedSchemaId?: string | undefined;
-}
-
-export class SchemaFieldImportTypeMismatchException extends PictureparkValidationException implements ISchemaFieldImportTypeMismatchException {
-    schemaId?: string | undefined;
-    fieldId?: string | undefined;
-    importingFieldType?: string | undefined;
-    existingFieldType?: string | undefined;
-
-    constructor(data?: ISchemaFieldImportTypeMismatchException) {
-        super(data);
-        this._discriminator = "SchemaFieldImportTypeMismatchException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.schemaId = _data["schemaId"];
-            this.fieldId = _data["fieldId"];
-            this.importingFieldType = _data["importingFieldType"];
-            this.existingFieldType = _data["existingFieldType"];
-        }
-    }
-
-    static fromJS(data: any): SchemaFieldImportTypeMismatchException {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaFieldImportTypeMismatchException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["importingFieldType"] = this.importingFieldType;
-        data["existingFieldType"] = this.existingFieldType;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISchemaFieldImportTypeMismatchException extends IPictureparkValidationException {
-    schemaId?: string | undefined;
-    fieldId?: string | undefined;
-    importingFieldType?: string | undefined;
-    existingFieldType?: string | undefined;
-}
-
-export class SchemaFieldNotSupportedException extends PictureparkValidationException implements ISchemaFieldNotSupportedException {
-    fieldId?: string | undefined;
-    schemaId?: string | undefined;
-    fieldType?: string | undefined;
-
-    constructor(data?: ISchemaFieldNotSupportedException) {
-        super(data);
-        this._discriminator = "SchemaFieldNotSupportedException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.fieldId = _data["fieldId"];
-            this.schemaId = _data["schemaId"];
-            this.fieldType = _data["fieldType"];
-        }
-    }
-
-    static fromJS(data: any): SchemaFieldNotSupportedException {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaFieldNotSupportedException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldId"] = this.fieldId;
-        data["schemaId"] = this.schemaId;
-        data["fieldType"] = this.fieldType;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISchemaFieldNotSupportedException extends IPictureparkValidationException {
-    fieldId?: string | undefined;
-    schemaId?: string | undefined;
-    fieldType?: string | undefined;
-}
-
-export class SchemaFieldDisplayPatternTypeNotSupportedException extends PictureparkValidationException implements ISchemaFieldDisplayPatternTypeNotSupportedException {
-    fieldId?: string | undefined;
-    displayPatternType?: DisplayPatternType;
-    supportedDisplayPatternTypes?: DisplayPatternType[] | undefined;
-
-    constructor(data?: ISchemaFieldDisplayPatternTypeNotSupportedException) {
-        super(data);
-        this._discriminator = "SchemaFieldDisplayPatternTypeNotSupportedException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.fieldId = _data["fieldId"];
-            this.displayPatternType = _data["displayPatternType"];
-            if (Array.isArray(_data["supportedDisplayPatternTypes"])) {
-                this.supportedDisplayPatternTypes = [] as any;
-                for (let item of _data["supportedDisplayPatternTypes"])
-                    this.supportedDisplayPatternTypes!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): SchemaFieldDisplayPatternTypeNotSupportedException {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaFieldDisplayPatternTypeNotSupportedException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fieldId"] = this.fieldId;
-        data["displayPatternType"] = this.displayPatternType;
-        if (Array.isArray(this.supportedDisplayPatternTypes)) {
-            data["supportedDisplayPatternTypes"] = [];
-            for (let item of this.supportedDisplayPatternTypes)
-                data["supportedDisplayPatternTypes"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISchemaFieldDisplayPatternTypeNotSupportedException extends IPictureparkValidationException {
-    fieldId?: string | undefined;
-    displayPatternType?: DisplayPatternType;
-    supportedDisplayPatternTypes?: DisplayPatternType[] | undefined;
 }
 
 export class SnapshotTimeoutException extends PictureparkTimeoutException implements ISnapshotTimeoutException {
@@ -37172,6 +38763,266 @@ export class CollectionNotFoundException extends PictureparkNotFoundException im
 
 export interface ICollectionNotFoundException extends IPictureparkNotFoundException {
     collectionId?: string | undefined;
+}
+
+export class NonDefaultTemplateNameNotAllowedException extends PictureparkValidationException implements INonDefaultTemplateNameNotAllowedException {
+    name?: string | undefined;
+
+    constructor(data?: INonDefaultTemplateNameNotAllowedException) {
+        super(data);
+        this._discriminator = "NonDefaultTemplateNameNotAllowedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): NonDefaultTemplateNameNotAllowedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new NonDefaultTemplateNameNotAllowedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INonDefaultTemplateNameNotAllowedException extends IPictureparkValidationException {
+    name?: string | undefined;
+}
+
+export class SystemTemplateModificationNotAllowedException extends PictureparkValidationException implements ISystemTemplateModificationNotAllowedException {
+    templateId?: string | undefined;
+
+    constructor(data?: ISystemTemplateModificationNotAllowedException) {
+        super(data);
+        this._discriminator = "SystemTemplateModificationNotAllowedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.templateId = _data["templateId"];
+        }
+    }
+
+    static fromJS(data: any): SystemTemplateModificationNotAllowedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SystemTemplateModificationNotAllowedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["templateId"] = this.templateId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISystemTemplateModificationNotAllowedException extends IPictureparkValidationException {
+    templateId?: string | undefined;
+}
+
+export class TemplateDuplicationException extends PictureparkValidationException implements ITemplateDuplicationException {
+    duplicatedTemplateId?: string | undefined;
+
+    constructor(data?: ITemplateDuplicationException) {
+        super(data);
+        this._discriminator = "TemplateDuplicationException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.duplicatedTemplateId = _data["duplicatedTemplateId"];
+        }
+    }
+
+    static fromJS(data: any): TemplateDuplicationException {
+        data = typeof data === 'object' ? data : {};
+        let result = new TemplateDuplicationException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["duplicatedTemplateId"] = this.duplicatedTemplateId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ITemplateDuplicationException extends IPictureparkValidationException {
+    duplicatedTemplateId?: string | undefined;
+}
+
+export class TemplateLanguageCodeNotSupportedException extends PictureparkValidationException implements ITemplateLanguageCodeNotSupportedException {
+    languageCode?: string | undefined;
+    supportedLanguageCodes?: string[] | undefined;
+
+    constructor(data?: ITemplateLanguageCodeNotSupportedException) {
+        super(data);
+        this._discriminator = "TemplateLanguageCodeNotSupportedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.languageCode = _data["languageCode"];
+            if (Array.isArray(_data["supportedLanguageCodes"])) {
+                this.supportedLanguageCodes = [] as any;
+                for (let item of _data["supportedLanguageCodes"])
+                    this.supportedLanguageCodes!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): TemplateLanguageCodeNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new TemplateLanguageCodeNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["languageCode"] = this.languageCode;
+        if (Array.isArray(this.supportedLanguageCodes)) {
+            data["supportedLanguageCodes"] = [];
+            for (let item of this.supportedLanguageCodes)
+                data["supportedLanguageCodes"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ITemplateLanguageCodeNotSupportedException extends IPictureparkValidationException {
+    languageCode?: string | undefined;
+    supportedLanguageCodes?: string[] | undefined;
+}
+
+export class TemplateMediaTypesMissingException extends PictureparkValidationException implements ITemplateMediaTypesMissingException {
+    requiredMediaTypes?: string[] | undefined;
+
+    constructor(data?: ITemplateMediaTypesMissingException) {
+        super(data);
+        this._discriminator = "TemplateMediaTypesMissingException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["requiredMediaTypes"])) {
+                this.requiredMediaTypes = [] as any;
+                for (let item of _data["requiredMediaTypes"])
+                    this.requiredMediaTypes!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): TemplateMediaTypesMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new TemplateMediaTypesMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.requiredMediaTypes)) {
+            data["requiredMediaTypes"] = [];
+            for (let item of this.requiredMediaTypes)
+                data["requiredMediaTypes"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ITemplateMediaTypesMissingException extends IPictureparkValidationException {
+    requiredMediaTypes?: string[] | undefined;
+}
+
+export class TemplateMediaTypesNotSupportedException extends PictureparkValidationException implements ITemplateMediaTypesNotSupportedException {
+    unsupportedMediaTypes?: string[] | undefined;
+
+    constructor(data?: ITemplateMediaTypesNotSupportedException) {
+        super(data);
+        this._discriminator = "TemplateMediaTypesNotSupportedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["unsupportedMediaTypes"])) {
+                this.unsupportedMediaTypes = [] as any;
+                for (let item of _data["unsupportedMediaTypes"])
+                    this.unsupportedMediaTypes!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): TemplateMediaTypesNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new TemplateMediaTypesNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.unsupportedMediaTypes)) {
+            data["unsupportedMediaTypes"] = [];
+            for (let item of this.unsupportedMediaTypes)
+                data["unsupportedMediaTypes"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ITemplateMediaTypesNotSupportedException extends IPictureparkValidationException {
+    unsupportedMediaTypes?: string[] | undefined;
+}
+
+export class TemplateNotFoundException extends PictureparkNotFoundException implements ITemplateNotFoundException {
+
+    constructor(data?: ITemplateNotFoundException) {
+        super(data);
+        this._discriminator = "TemplateNotFoundException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): TemplateNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new TemplateNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ITemplateNotFoundException extends IPictureparkNotFoundException {
 }
 
 export class XmpMappingFieldNotSupported extends PictureparkValidationException implements IXmpMappingFieldNotSupported {
@@ -43016,6 +44867,8 @@ export class BusinessRuleNotification implements IBusinessRuleNotification {
     message?: TranslatedStringDictionary | undefined;
     /** Indicates if a collection of the items affected should be created. */
     createCollection!: boolean;
+    /** Name of the template to use when creating an e-mail digest out of this notification. */
+    templateName?: string | undefined;
 
     constructor(data?: IBusinessRuleNotification) {
         if (data) {
@@ -43034,6 +44887,7 @@ export class BusinessRuleNotification implements IBusinessRuleNotification {
             this.title = _data["title"] ? TranslatedStringDictionary.fromJS(_data["title"]) : <any>undefined;
             this.message = _data["message"] ? TranslatedStringDictionary.fromJS(_data["message"]) : <any>undefined;
             this.createCollection = _data["createCollection"];
+            this.templateName = _data["templateName"];
         }
     }
 
@@ -43050,6 +44904,7 @@ export class BusinessRuleNotification implements IBusinessRuleNotification {
         data["title"] = this.title ? this.title.toJSON() : <any>undefined;
         data["message"] = this.message ? this.message.toJSON() : <any>undefined;
         data["createCollection"] = this.createCollection;
+        data["templateName"] = this.templateName;
         return data; 
     }
 }
@@ -43064,6 +44919,8 @@ export interface IBusinessRuleNotification {
     message?: ITranslatedStringDictionary | undefined;
     /** Indicates if a collection of the items affected should be created. */
     createCollection: boolean;
+    /** Name of the template to use when creating an e-mail digest out of this notification. */
+    templateName?: string | undefined;
 }
 
 /** Update request for changing business rule configuration */
@@ -52115,7 +53972,7 @@ export class CustomerInfo implements ICustomerInfo {
     enableQueryDetails!: boolean;
     /** Configured languages of customer instance (system, metadata, default). */
     languageConfiguration!: LanguageConfiguration;
-    /** Languages including translations for the configured system and metadata languages. */
+    /** Languages including translations for the configured system and metadata and share languages. */
     languages!: Language[];
     /** Configured rendering outputs including translations for the customer instance. */
     outputFormats!: OutputFormatInfo[];
@@ -52128,6 +53985,8 @@ export class CustomerInfo implements ICustomerInfo {
     baseUrl!: string;
     /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
     logosUrl!: string;
+    /** Share languages based on defined ShareMail templates. */
+    shareLanguages!: string[];
 
     constructor(data?: ICustomerInfo) {
         if (data) {
@@ -52163,6 +54022,7 @@ export class CustomerInfo implements ICustomerInfo {
             this.languages = [];
             this.outputFormats = [];
             this.boostValues = [];
+            this.shareLanguages = [];
         }
     }
 
@@ -52198,6 +54058,11 @@ export class CustomerInfo implements ICustomerInfo {
             this.modificationDate = _data["modificationDate"] ? new Date(_data["modificationDate"].toString()) : <any>undefined;
             this.baseUrl = _data["baseUrl"];
             this.logosUrl = _data["logosUrl"];
+            if (Array.isArray(_data["shareLanguages"])) {
+                this.shareLanguages = [] as any;
+                for (let item of _data["shareLanguages"])
+                    this.shareLanguages!.push(item);
+            }
         }
     }
 
@@ -52240,6 +54105,11 @@ export class CustomerInfo implements ICustomerInfo {
         data["modificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
         data["baseUrl"] = this.baseUrl;
         data["logosUrl"] = this.logosUrl;
+        if (Array.isArray(this.shareLanguages)) {
+            data["shareLanguages"] = [];
+            for (let item of this.shareLanguages)
+                data["shareLanguages"].push(item);
+        }
         return data; 
     }
 }
@@ -52260,7 +54130,7 @@ export interface ICustomerInfo {
     enableQueryDetails: boolean;
     /** Configured languages of customer instance (system, metadata, default). */
     languageConfiguration: ILanguageConfiguration;
-    /** Languages including translations for the configured system and metadata languages. */
+    /** Languages including translations for the configured system and metadata and share languages. */
     languages: ILanguage[];
     /** Configured rendering outputs including translations for the customer instance. */
     outputFormats: IOutputFormatInfo[];
@@ -52273,6 +54143,8 @@ export interface ICustomerInfo {
     baseUrl: string;
     /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
     logosUrl: string;
+    /** Share languages based on defined ShareMail templates. */
+    shareLanguages: string[];
 }
 
 export class LanguageConfiguration implements ILanguageConfiguration {
@@ -54662,6 +56534,1360 @@ export interface IMetadataStatus {
     state: MetadataState;
     /** The field ids that that cannot be used and needs to be cleaned up after updating the outdated contents and list items. */
     fieldIdsToCleanup?: { [key: string]: string[]; } | undefined;
+}
+
+export class Notification implements INotification {
+    id?: string | undefined;
+    recipientUserId?: string | undefined;
+    referenceDocType?: string | undefined;
+    referenceId?: string | undefined;
+    audit?: UserAudit | undefined;
+    titleCode!: TitleCode;
+    messageCode!: MessageCode;
+    detail?: NotificationDetailBase | undefined;
+    state!: NotificationState;
+    eventType!: NotificationEventType;
+
+    constructor(data?: INotification) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAudit(data.audit) : <UserAudit>this.audit; 
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.recipientUserId = _data["recipientUserId"];
+            this.referenceDocType = _data["referenceDocType"];
+            this.referenceId = _data["referenceId"];
+            this.audit = _data["audit"] ? UserAudit.fromJS(_data["audit"]) : <any>undefined;
+            this.titleCode = _data["titleCode"];
+            this.messageCode = _data["messageCode"];
+            this.detail = _data["detail"] ? NotificationDetailBase.fromJS(_data["detail"]) : <any>undefined;
+            this.state = _data["state"];
+            this.eventType = _data["eventType"];
+        }
+    }
+
+    static fromJS(data: any): Notification {
+        data = typeof data === 'object' ? data : {};
+        let result = new Notification();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["recipientUserId"] = this.recipientUserId;
+        data["referenceDocType"] = this.referenceDocType;
+        data["referenceId"] = this.referenceId;
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        data["titleCode"] = this.titleCode;
+        data["messageCode"] = this.messageCode;
+        data["detail"] = this.detail ? this.detail.toJSON() : <any>undefined;
+        data["state"] = this.state;
+        data["eventType"] = this.eventType;
+        return data; 
+    }
+}
+
+export interface INotification {
+    id?: string | undefined;
+    recipientUserId?: string | undefined;
+    referenceDocType?: string | undefined;
+    referenceId?: string | undefined;
+    audit?: IUserAudit | undefined;
+    titleCode: TitleCode;
+    messageCode: MessageCode;
+    detail?: NotificationDetailBase | undefined;
+    state: NotificationState;
+    eventType: NotificationEventType;
+}
+
+export enum TitleCode {
+    TransferInProgressTitle = "TransferInProgressTitle",
+    TransferCompletedTitle = "TransferCompletedTitle",
+    ImportInProgressTitle = "ImportInProgressTitle",
+    ImportCompletedTitle = "ImportCompletedTitle",
+    ShareNewShareTitle = "ShareNewShareTitle",
+    TransferCancelledTitle = "TransferCancelledTitle",
+    ImportCancelledTitle = "ImportCancelledTitle",
+    ImportCompletedWithErrors = "ImportCompletedWithErrors",
+    SchemaImportInProgressTitle = "SchemaImportInProgressTitle",
+    SchemaImportCompletedTitle = "SchemaImportCompletedTitle",
+    SchemaImportFailedTitle = "SchemaImportFailedTitle",
+    UserRegisteredTitle = "UserRegisteredTitle",
+    NewUserRegisteredEmailSubject = "NewUserRegisteredEmailSubject",
+    UserLockedEmailSubject = "UserLockedEmailSubject",
+    UserUnlockedEmailSubject = "UserUnlockedEmailSubject",
+    UserReviewedEmailSubject = "UserReviewedEmailSubject",
+    UserInvitationEmailSubject = "UserInvitationEmailSubject",
+    UserTriggeredDeactivationRequest = "UserTriggeredDeactivationRequest",
+    UserTriggeredDeactivationRequestMailSubject = "UserTriggeredDeactivationRequestMailSubject",
+    IndexDraft = "IndexDraft",
+    IndexCreate = "IndexCreate",
+    IndexInactive = "IndexInactive",
+    IndexActive = "IndexActive",
+    IndexClosed = "IndexClosed",
+    IndexReindexInProgress = "IndexReindexInProgress",
+    IndexCancelled = "IndexCancelled",
+    ReindexProgressDraft = "ReindexProgressDraft",
+    ReindexProgressInProgress = "ReindexProgressInProgress",
+    ReindexProgressCompleted = "ReindexProgressCompleted",
+    ReindexProgressCancelled = "ReindexProgressCancelled",
+    ReindexProgressFailed = "ReindexProgressFailed",
+    ReindexProgressCompletedWithErrors = "ReindexProgressCompletedWithErrors",
+    ContentBatchEditInProgress = "ContentBatchEditInProgress",
+    ContentBatchEditCompleted = "ContentBatchEditCompleted",
+    ContentBatchEditProgressFailed = "ContentBatchEditProgressFailed",
+    ContentBatchEditProgressCompletedWithErrors = "ContentBatchEditProgressCompletedWithErrors",
+    ListItemBatchEditInProgress = "ListItemBatchEditInProgress",
+    ListItemBatchEditCompleted = "ListItemBatchEditCompleted",
+    ListItemBatchEditProgressFailed = "ListItemBatchEditProgressFailed",
+    ListItemBatchEditProgressCompletedWithErrors = "ListItemBatchEditProgressCompletedWithErrors",
+    ContentBackupRecoveryDraft = "ContentBackupRecoveryDraft",
+    ContentBackupRecoveryInProgress = "ContentBackupRecoveryInProgress",
+    ContentBackupRecoveryCompleted = "ContentBackupRecoveryCompleted",
+    ContentBackupRecoveryForcefullyCompleted = "ContentBackupRecoveryForcefullyCompleted",
+    ContentBackupRecoveryCancelled = "ContentBackupRecoveryCancelled",
+    ContentBackupRecoveryFailed = "ContentBackupRecoveryFailed",
+    ContentOwnershipBatchEditInProgress = "ContentOwnershipBatchEditInProgress",
+    ContentOwnershipBatchEditCompleted = "ContentOwnershipBatchEditCompleted",
+    ContentOwnershipBatchEditProgressFailed = "ContentOwnershipBatchEditProgressFailed",
+    ContentOwnershipBatchEditProgressCompletedWithErrors = "ContentOwnershipBatchEditProgressCompletedWithErrors",
+    ContentPermissionsBatchEditInProgress = "ContentPermissionsBatchEditInProgress",
+    ContentPermissionsBatchEditCompleted = "ContentPermissionsBatchEditCompleted",
+    ContentPermissionsBatchEditProgressFailed = "ContentPermissionsBatchEditProgressFailed",
+    ContentPermissionsBatchEditProgressCompletedWithErrors = "ContentPermissionsBatchEditProgressCompletedWithErrors",
+    ListItemDeactivateManyInProgress = "ListItemDeactivateManyInProgress",
+    ListItemDeactivateManyCompleted = "ListItemDeactivateManyCompleted",
+    ListItemDeactivateManyProgressFailed = "ListItemDeactivateManyProgressFailed",
+    ListItemDeactivateManyProgressCompletedWithErrors = "ListItemDeactivateManyProgressCompletedWithErrors",
+    ContentDeactivateManyInProgress = "ContentDeactivateManyInProgress",
+    ContentDeactivateManyCompleted = "ContentDeactivateManyCompleted",
+    ContentDeactivateManyProgressFailed = "ContentDeactivateManyProgressFailed",
+    ContentDeactivateManyProgressCompletedWithErrors = "ContentDeactivateManyProgressCompletedWithErrors",
+    ExternalBusinessProcessTitle = "ExternalBusinessProcessTitle",
+    MetadataRelatedItemsInProgress = "MetadataRelatedItemsInProgress",
+    MetadataRelatedItemsProgressFailed = "MetadataRelatedItemsProgressFailed",
+    MetadataRelatedItemsProgressCompletedWithErrors = "MetadataRelatedItemsProgressCompletedWithErrors",
+    MetadataRelatedItemsCompleted = "MetadataRelatedItemsCompleted",
+    AutoTaggingInProgress = "AutoTaggingInProgress",
+    AutoTaggingSucceeded = "AutoTaggingSucceeded",
+    AutoTaggingSucceededWithErrors = "AutoTaggingSucceededWithErrors",
+    AutoTaggingFailed = "AutoTaggingFailed",
+    AutoTaggingCancelled = "AutoTaggingCancelled",
+    ListItemUpdateManyInProgress = "ListItemUpdateManyInProgress",
+    ListItemUpdateManyCompleted = "ListItemUpdateManyCompleted",
+    ListItemUpdateManyCompletedWithErrors = "ListItemUpdateManyCompletedWithErrors",
+    ListItemUpdateManyFailed = "ListItemUpdateManyFailed",
+    ContentUpdateManyInProgress = "ContentUpdateManyInProgress",
+    ContentUpdateManyCompleted = "ContentUpdateManyCompleted",
+    ContentUpdateManyCompletedWithErrors = "ContentUpdateManyCompletedWithErrors",
+    ContentUpdateManyFailed = "ContentUpdateManyFailed",
+    MetadataRelatedItemsBySchemaInProgress = "MetadataRelatedItemsBySchemaInProgress",
+    MetadataRelatedItemsBySchemaFailed = "MetadataRelatedItemsBySchemaFailed",
+    MetadataRelatedItemsBySchemaCompletedWithErrors = "MetadataRelatedItemsBySchemaCompletedWithErrors",
+    MetadataRelatedItemsBySchemaCompleted = "MetadataRelatedItemsBySchemaCompleted",
+    MetadataOutdatedItemsUpdateInProgress = "MetadataOutdatedItemsUpdateInProgress",
+    MetadataOutdatedItemsUpdateCompleted = "MetadataOutdatedItemsUpdateCompleted",
+    MetadataOutdatedItemsUpdateCompletedWithErrors = "MetadataOutdatedItemsUpdateCompletedWithErrors",
+    MetadataOutdatedItemsUpdateFailed = "MetadataOutdatedItemsUpdateFailed",
+    BatchRenderingInProgress = "BatchRenderingInProgress",
+    BatchRenderingCompleted = "BatchRenderingCompleted",
+    BatchRenderingCompletedWithErrors = "BatchRenderingCompletedWithErrors",
+    BatchRenderingFailed = "BatchRenderingFailed",
+    BusinessRuleTitle = "BusinessRuleTitle",
+    UserEmailConflictSolved = "UserEmailConflictSolved",
+    UserEmailConflictSolvedSubject = "UserEmailConflictSolvedSubject",
+    SupportUserDeactivation = "SupportUserDeactivation",
+    ImportFailedTitle = "ImportFailedTitle",
+}
+
+export enum MessageCode {
+    TransferInProgressMessage = "TransferInProgressMessage",
+    TransferCompletedMessage = "TransferCompletedMessage",
+    ImportInProgressMessage = "ImportInProgressMessage",
+    ImportCompletedMessage = "ImportCompletedMessage",
+    ShareNewShareMessage = "ShareNewShareMessage",
+    TransferCancelledMessage = "TransferCancelledMessage",
+    ImportCancelledMessage = "ImportCancelledMessage",
+    ImportFailedMessage = "ImportFailedMessage",
+    TransferInProgressWithFailedMessage = "TransferInProgressWithFailedMessage",
+    TransferCompletedWithFailedMessage = "TransferCompletedWithFailedMessage",
+    TransferCancelledWithFailedMessage = "TransferCancelledWithFailedMessage",
+    ImportInProgressWithFailedMessage = "ImportInProgressWithFailedMessage",
+    ImportCompletedWithFailedMessage = "ImportCompletedWithFailedMessage",
+    ImportCancelledWithFailedMessage = "ImportCancelledWithFailedMessage",
+    SchemaImportInProgressMessage = "SchemaImportInProgressMessage",
+    SchemaImportCompletedMessage = "SchemaImportCompletedMessage",
+    SchemaImportFailedMessage = "SchemaImportFailedMessage",
+    UserRegisteredMessage = "UserRegisteredMessage",
+    UserLockedMessage = "UserLockedMessage",
+    UserReviewedMessage = "UserReviewedMessage",
+    IndexDraft = "IndexDraft",
+    IndexCreate = "IndexCreate",
+    IndexInactive = "IndexInactive",
+    IndexActive = "IndexActive",
+    IndexClosed = "IndexClosed",
+    IndexReindexInProgress = "IndexReindexInProgress",
+    IndexCancelled = "IndexCancelled",
+    ReindexProgressDraft = "ReindexProgressDraft",
+    ReindexProgressInProgress = "ReindexProgressInProgress",
+    ReindexProgressCompleted = "ReindexProgressCompleted",
+    ReindexProgressCancelled = "ReindexProgressCancelled",
+    ReindexProgressFailed = "ReindexProgressFailed",
+    ReindexProgressCompletedWithErrors = "ReindexProgressCompletedWithErrors",
+    ContentBatchEditInProgress = "ContentBatchEditInProgress",
+    ContentBatchEditCompleted = "ContentBatchEditCompleted",
+    ContentBatchEditProgressFailed = "ContentBatchEditProgressFailed",
+    ContentBatchEditProgressCompletedWithErrors = "ContentBatchEditProgressCompletedWithErrors",
+    ListItemBatchEditInProgress = "ListItemBatchEditInProgress",
+    ListItemBatchEditCompleted = "ListItemBatchEditCompleted",
+    ListItemBatchEditProgressFailed = "ListItemBatchEditProgressFailed",
+    ListItemBatchEditProgressCompletedWithErrors = "ListItemBatchEditProgressCompletedWithErrors",
+    ContentBackupRecoveryDraft = "ContentBackupRecoveryDraft",
+    ContentBackupRecoveryInProgress = "ContentBackupRecoveryInProgress",
+    ContentBackupRecoveryCompleted = "ContentBackupRecoveryCompleted",
+    ContentBackupRecoveryForcefullyCompleted = "ContentBackupRecoveryForcefullyCompleted",
+    ContentBackupRecoveryCancelled = "ContentBackupRecoveryCancelled",
+    ContentBackupRecoveryFailed = "ContentBackupRecoveryFailed",
+    ContentOwnershipBatchEditInProgress = "ContentOwnershipBatchEditInProgress",
+    ContentOwnershipBatchEditCompleted = "ContentOwnershipBatchEditCompleted",
+    ContentOwnershipBatchEditProgressFailed = "ContentOwnershipBatchEditProgressFailed",
+    ContentOwnershipBatchEditProgressCompletedWithErrors = "ContentOwnershipBatchEditProgressCompletedWithErrors",
+    ContentPermissionsBatchEditInProgress = "ContentPermissionsBatchEditInProgress",
+    ContentPermissionsBatchEditCompleted = "ContentPermissionsBatchEditCompleted",
+    ContentPermissionsBatchEditProgressFailed = "ContentPermissionsBatchEditProgressFailed",
+    ContentPermissionsBatchEditProgressCompletedWithErrors = "ContentPermissionsBatchEditProgressCompletedWithErrors",
+    UserTriggeredDeactivationRequestMessage = "UserTriggeredDeactivationRequestMessage",
+    UserEmailConflictSolved = "UserEmailConflictSolved",
+    ListItemDeactivateManyInProgress = "ListItemDeactivateManyInProgress",
+    ListItemDeactivateManyCompleted = "ListItemDeactivateManyCompleted",
+    ListItemDeactivateManyProgressFailed = "ListItemDeactivateManyProgressFailed",
+    ListItemDeactivateManyProgressCompletedWithErrors = "ListItemDeactivateManyProgressCompletedWithErrors",
+    ContentDeactivateManyInProgress = "ContentDeactivateManyInProgress",
+    ContentDeactivateManyCompleted = "ContentDeactivateManyCompleted",
+    ContentDeactivateManyProgressFailed = "ContentDeactivateManyProgressFailed",
+    ContentDeactivateManyProgressCompletedWithErrors = "ContentDeactivateManyProgressCompletedWithErrors",
+    ExternalBusinessProcessMessage = "ExternalBusinessProcessMessage",
+    MetadataRelatedItemsInProgress = "MetadataRelatedItemsInProgress",
+    MetadataRelatedItemsProgressFailed = "MetadataRelatedItemsProgressFailed",
+    MetadataRelatedItemsProgressCompletedWithErrors = "MetadataRelatedItemsProgressCompletedWithErrors",
+    MetadataRelatedItemsCompleted = "MetadataRelatedItemsCompleted",
+    AutoTaggingInProgress = "AutoTaggingInProgress",
+    AutoTaggingSucceeded = "AutoTaggingSucceeded",
+    AutoTaggingSucceededWithErrors = "AutoTaggingSucceededWithErrors",
+    AutoTaggingFailed = "AutoTaggingFailed",
+    AutoTaggingCancelled = "AutoTaggingCancelled",
+    ListItemUpdateManyInProgress = "ListItemUpdateManyInProgress",
+    ListItemUpdateManyCompleted = "ListItemUpdateManyCompleted",
+    ListItemUpdateManyCompletedWithErrors = "ListItemUpdateManyCompletedWithErrors",
+    ListItemUpdateManyFailed = "ListItemUpdateManyFailed",
+    ContentUpdateManyInProgress = "ContentUpdateManyInProgress",
+    ContentUpdateManyCompleted = "ContentUpdateManyCompleted",
+    ContentUpdateManyCompletedWithErrors = "ContentUpdateManyCompletedWithErrors",
+    ContentUpdateManyFailed = "ContentUpdateManyFailed",
+    MetadataRelatedItemsBySchemaInProgress = "MetadataRelatedItemsBySchemaInProgress",
+    MetadataRelatedItemsBySchemaFailed = "MetadataRelatedItemsBySchemaFailed",
+    MetadataRelatedItemsBySchemaCompletedWithErrors = "MetadataRelatedItemsBySchemaCompletedWithErrors",
+    MetadataRelatedItemsBySchemaCompleted = "MetadataRelatedItemsBySchemaCompleted",
+    MetadataOutdatedItemsUpdateInProgress = "MetadataOutdatedItemsUpdateInProgress",
+    MetadataOutdatedItemsUpdateCompleted = "MetadataOutdatedItemsUpdateCompleted",
+    MetadataOutdatedItemsUpdateCompletedWithErrors = "MetadataOutdatedItemsUpdateCompletedWithErrors",
+    MetadataOutdatedItemsUpdateFailed = "MetadataOutdatedItemsUpdateFailed",
+    BatchRenderingInProgress = "BatchRenderingInProgress",
+    BatchRenderingCompleted = "BatchRenderingCompleted",
+    BatchRenderingCompletedWithErrors = "BatchRenderingCompletedWithErrors",
+    BatchRenderingFailed = "BatchRenderingFailed",
+    BusinessRuleMessage = "BusinessRuleMessage",
+}
+
+export abstract class NotificationDetailBase implements INotificationDetailBase {
+
+    protected _discriminator: string;
+
+    constructor(data?: INotificationDetailBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "NotificationDetailBase";
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): NotificationDetailBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "NotificationDetailBusinessProcessBase") {
+            throw new Error("The abstract class 'NotificationDetailBusinessProcessBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailTransfer") {
+            let result = new NotificationDetailTransfer();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailShare") {
+            let result = new NotificationDetailShare();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailSchemaImport") {
+            let result = new NotificationDetailSchemaImport();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailIndexReindexProgress") {
+            let result = new NotificationDetailIndexReindexProgress();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailUserRegistered") {
+            let result = new NotificationDetailUserRegistered();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentBackupRecovery") {
+            let result = new NotificationDetailContentBackupRecovery();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailProgress") {
+            let result = new NotificationDetailProgress();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemDeactivation") {
+            let result = new NotificationDetailMetadataItemDeactivation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailExternalBusinessProcess") {
+            let result = new NotificationDetailExternalBusinessProcess();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailBusinessRule") {
+            let result = new NotificationDetailBusinessRule();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'NotificationDetailBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+export interface INotificationDetailBase {
+}
+
+export abstract class NotificationDetailBusinessProcessBase extends NotificationDetailBase implements INotificationDetailBusinessProcessBase {
+    businessProcessId?: string | undefined;
+    businessProcessLifeCycle?: BusinessProcessLifeCycle;
+
+    constructor(data?: INotificationDetailBusinessProcessBase) {
+        super(data);
+        this._discriminator = "NotificationDetailBusinessProcessBase";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.businessProcessId = _data["businessProcessId"];
+            this.businessProcessLifeCycle = _data["businessProcessLifeCycle"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailBusinessProcessBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "NotificationDetailTransfer") {
+            let result = new NotificationDetailTransfer();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailSchemaImport") {
+            let result = new NotificationDetailSchemaImport();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailIndexReindexProgress") {
+            let result = new NotificationDetailIndexReindexProgress();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentBackupRecovery") {
+            let result = new NotificationDetailContentBackupRecovery();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailProgress") {
+            let result = new NotificationDetailProgress();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemDeactivation") {
+            let result = new NotificationDetailMetadataItemDeactivation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailExternalBusinessProcess") {
+            let result = new NotificationDetailExternalBusinessProcess();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'NotificationDetailBusinessProcessBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["businessProcessId"] = this.businessProcessId;
+        data["businessProcessLifeCycle"] = this.businessProcessLifeCycle;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailBusinessProcessBase extends INotificationDetailBase {
+    businessProcessId?: string | undefined;
+    businessProcessLifeCycle?: BusinessProcessLifeCycle;
+}
+
+export class NotificationDetailTransfer extends NotificationDetailBusinessProcessBase implements INotificationDetailTransfer {
+    fileProgress?: number;
+    fileCount?: number;
+    failedCount?: number;
+    cancelledCount?: number;
+    name?: string | undefined;
+    transferId?: string | undefined;
+
+    constructor(data?: INotificationDetailTransfer) {
+        super(data);
+        this._discriminator = "NotificationDetailTransfer";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fileProgress = _data["fileProgress"];
+            this.fileCount = _data["fileCount"];
+            this.failedCount = _data["failedCount"];
+            this.cancelledCount = _data["cancelledCount"];
+            this.name = _data["name"];
+            this.transferId = _data["transferId"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailTransfer {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailTransfer();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fileProgress"] = this.fileProgress;
+        data["fileCount"] = this.fileCount;
+        data["failedCount"] = this.failedCount;
+        data["cancelledCount"] = this.cancelledCount;
+        data["name"] = this.name;
+        data["transferId"] = this.transferId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailTransfer extends INotificationDetailBusinessProcessBase {
+    fileProgress?: number;
+    fileCount?: number;
+    failedCount?: number;
+    cancelledCount?: number;
+    name?: string | undefined;
+    transferId?: string | undefined;
+}
+
+export class NotificationDetailShare extends NotificationDetailBase implements INotificationDetailShare {
+    token?: string | undefined;
+    shareId?: string | undefined;
+
+    constructor(data?: INotificationDetailShare) {
+        super(data);
+        this._discriminator = "NotificationDetailShare";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.token = _data["token"];
+            this.shareId = _data["shareId"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailShare {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailShare();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["token"] = this.token;
+        data["shareId"] = this.shareId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailShare extends INotificationDetailBase {
+    token?: string | undefined;
+    shareId?: string | undefined;
+}
+
+export class NotificationDetailSchemaImport extends NotificationDetailBusinessProcessBase implements INotificationDetailSchemaImport {
+    schemaCount?: number;
+    schemaProgress?: number;
+    listItemCount?: number;
+    listItemProgress?: number;
+    name?: string | undefined;
+    transferId?: string | undefined;
+    importedSchemaCount?: number;
+    skippedSchemaCount?: number;
+    importedListItemCount?: number;
+    skippedListItemCount?: number;
+    relatedItemCount?: number;
+    relatedItemProgress?: number;
+
+    constructor(data?: INotificationDetailSchemaImport) {
+        super(data);
+        this._discriminator = "NotificationDetailSchemaImport";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaCount = _data["schemaCount"];
+            this.schemaProgress = _data["schemaProgress"];
+            this.listItemCount = _data["listItemCount"];
+            this.listItemProgress = _data["listItemProgress"];
+            this.name = _data["name"];
+            this.transferId = _data["transferId"];
+            this.importedSchemaCount = _data["importedSchemaCount"];
+            this.skippedSchemaCount = _data["skippedSchemaCount"];
+            this.importedListItemCount = _data["importedListItemCount"];
+            this.skippedListItemCount = _data["skippedListItemCount"];
+            this.relatedItemCount = _data["relatedItemCount"];
+            this.relatedItemProgress = _data["relatedItemProgress"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailSchemaImport {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailSchemaImport();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaCount"] = this.schemaCount;
+        data["schemaProgress"] = this.schemaProgress;
+        data["listItemCount"] = this.listItemCount;
+        data["listItemProgress"] = this.listItemProgress;
+        data["name"] = this.name;
+        data["transferId"] = this.transferId;
+        data["importedSchemaCount"] = this.importedSchemaCount;
+        data["skippedSchemaCount"] = this.skippedSchemaCount;
+        data["importedListItemCount"] = this.importedListItemCount;
+        data["skippedListItemCount"] = this.skippedListItemCount;
+        data["relatedItemCount"] = this.relatedItemCount;
+        data["relatedItemProgress"] = this.relatedItemProgress;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailSchemaImport extends INotificationDetailBusinessProcessBase {
+    schemaCount?: number;
+    schemaProgress?: number;
+    listItemCount?: number;
+    listItemProgress?: number;
+    name?: string | undefined;
+    transferId?: string | undefined;
+    importedSchemaCount?: number;
+    skippedSchemaCount?: number;
+    importedListItemCount?: number;
+    skippedListItemCount?: number;
+    relatedItemCount?: number;
+    relatedItemProgress?: number;
+}
+
+export class NotificationDetailIndexReindexProgress extends NotificationDetailBusinessProcessBase implements INotificationDetailIndexReindexProgress {
+    indexId?: string | undefined;
+    expected?: number;
+    current?: number;
+
+    constructor(data?: INotificationDetailIndexReindexProgress) {
+        super(data);
+        this._discriminator = "NotificationDetailIndexReindexProgress";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.indexId = _data["indexId"];
+            this.expected = _data["expected"];
+            this.current = _data["current"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailIndexReindexProgress {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailIndexReindexProgress();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["indexId"] = this.indexId;
+        data["expected"] = this.expected;
+        data["current"] = this.current;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailIndexReindexProgress extends INotificationDetailBusinessProcessBase {
+    indexId?: string | undefined;
+    expected?: number;
+    current?: number;
+}
+
+export class NotificationDetailUserRegistered extends NotificationDetailBase implements INotificationDetailUserRegistered {
+    displayName?: string | undefined;
+    userId?: string | undefined;
+
+    constructor(data?: INotificationDetailUserRegistered) {
+        super(data);
+        this._discriminator = "NotificationDetailUserRegistered";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.displayName = _data["displayName"];
+            this.userId = _data["userId"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailUserRegistered {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailUserRegistered();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["displayName"] = this.displayName;
+        data["userId"] = this.userId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailUserRegistered extends INotificationDetailBase {
+    displayName?: string | undefined;
+    userId?: string | undefined;
+}
+
+export class NotificationDetailContentBackupRecovery extends NotificationDetailBusinessProcessBase implements INotificationDetailContentBackupRecovery {
+    contentTotalCount?: number;
+    contentProgressCount?: number;
+
+    constructor(data?: INotificationDetailContentBackupRecovery) {
+        super(data);
+        this._discriminator = "NotificationDetailContentBackupRecovery";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.contentTotalCount = _data["contentTotalCount"];
+            this.contentProgressCount = _data["contentProgressCount"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailContentBackupRecovery {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailContentBackupRecovery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentTotalCount"] = this.contentTotalCount;
+        data["contentProgressCount"] = this.contentProgressCount;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailContentBackupRecovery extends INotificationDetailBusinessProcessBase {
+    contentTotalCount?: number;
+    contentProgressCount?: number;
+}
+
+export class NotificationDetailProgress extends NotificationDetailBusinessProcessBase implements INotificationDetailProgress {
+    total?: number;
+    succeeded?: number;
+    failed?: number;
+    relatedItemCount?: number;
+    relatedItemProgress?: number;
+
+    constructor(data?: INotificationDetailProgress) {
+        super(data);
+        this._discriminator = "NotificationDetailProgress";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.total = _data["total"];
+            this.succeeded = _data["succeeded"];
+            this.failed = _data["failed"];
+            this.relatedItemCount = _data["relatedItemCount"];
+            this.relatedItemProgress = _data["relatedItemProgress"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailProgress {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "NotificationDetailMetadataItemDeactivation") {
+            let result = new NotificationDetailMetadataItemDeactivation();
+            result.init(data);
+            return result;
+        }
+        let result = new NotificationDetailProgress();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["total"] = this.total;
+        data["succeeded"] = this.succeeded;
+        data["failed"] = this.failed;
+        data["relatedItemCount"] = this.relatedItemCount;
+        data["relatedItemProgress"] = this.relatedItemProgress;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailProgress extends INotificationDetailBusinessProcessBase {
+    total?: number;
+    succeeded?: number;
+    failed?: number;
+    relatedItemCount?: number;
+    relatedItemProgress?: number;
+}
+
+export class NotificationDetailMetadataItemDeactivation extends NotificationDetailProgress implements INotificationDetailMetadataItemDeactivation {
+    referencingItemsCount?: number;
+    referencingItemsProgress?: number;
+
+    constructor(data?: INotificationDetailMetadataItemDeactivation) {
+        super(data);
+        this._discriminator = "NotificationDetailMetadataItemDeactivation";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.referencingItemsCount = _data["referencingItemsCount"];
+            this.referencingItemsProgress = _data["referencingItemsProgress"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailMetadataItemDeactivation {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailMetadataItemDeactivation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["referencingItemsCount"] = this.referencingItemsCount;
+        data["referencingItemsProgress"] = this.referencingItemsProgress;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailMetadataItemDeactivation extends INotificationDetailProgress {
+    referencingItemsCount?: number;
+    referencingItemsProgress?: number;
+}
+
+export class NotificationDetailExternalBusinessProcess extends NotificationDetailBusinessProcessBase implements INotificationDetailExternalBusinessProcess {
+    title?: TranslatedStringDictionary | undefined;
+    message?: TranslatedStringDictionary | undefined;
+    navigationLink?: string | undefined;
+
+    constructor(data?: INotificationDetailExternalBusinessProcess) {
+        super(data);
+        if (data) {
+            this.title = data.title && !(<any>data.title).toJSON ? new TranslatedStringDictionary(data.title) : <TranslatedStringDictionary>this.title; 
+            this.message = data.message && !(<any>data.message).toJSON ? new TranslatedStringDictionary(data.message) : <TranslatedStringDictionary>this.message; 
+        }
+        this._discriminator = "NotificationDetailExternalBusinessProcess";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.title = _data["title"] ? TranslatedStringDictionary.fromJS(_data["title"]) : <any>undefined;
+            this.message = _data["message"] ? TranslatedStringDictionary.fromJS(_data["message"]) : <any>undefined;
+            this.navigationLink = _data["navigationLink"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailExternalBusinessProcess {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailExternalBusinessProcess();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title ? this.title.toJSON() : <any>undefined;
+        data["message"] = this.message ? this.message.toJSON() : <any>undefined;
+        data["navigationLink"] = this.navigationLink;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailExternalBusinessProcess extends INotificationDetailBusinessProcessBase {
+    title?: ITranslatedStringDictionary | undefined;
+    message?: ITranslatedStringDictionary | undefined;
+    navigationLink?: string | undefined;
+}
+
+export class NotificationDetailBusinessRule extends NotificationDetailBase implements INotificationDetailBusinessRule {
+    title?: TranslatedStringDictionary | undefined;
+    message?: TranslatedStringDictionary | undefined;
+    collectionId?: string | undefined;
+    notificationId?: string | undefined;
+
+    constructor(data?: INotificationDetailBusinessRule) {
+        super(data);
+        if (data) {
+            this.title = data.title && !(<any>data.title).toJSON ? new TranslatedStringDictionary(data.title) : <TranslatedStringDictionary>this.title; 
+            this.message = data.message && !(<any>data.message).toJSON ? new TranslatedStringDictionary(data.message) : <TranslatedStringDictionary>this.message; 
+        }
+        this._discriminator = "NotificationDetailBusinessRule";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.title = _data["title"] ? TranslatedStringDictionary.fromJS(_data["title"]) : <any>undefined;
+            this.message = _data["message"] ? TranslatedStringDictionary.fromJS(_data["message"]) : <any>undefined;
+            this.collectionId = _data["collectionId"];
+            this.notificationId = _data["notificationId"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailBusinessRule {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailBusinessRule();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["title"] = this.title ? this.title.toJSON() : <any>undefined;
+        data["message"] = this.message ? this.message.toJSON() : <any>undefined;
+        data["collectionId"] = this.collectionId;
+        data["notificationId"] = this.notificationId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailBusinessRule extends INotificationDetailBase {
+    title?: ITranslatedStringDictionary | undefined;
+    message?: ITranslatedStringDictionary | undefined;
+    collectionId?: string | undefined;
+    notificationId?: string | undefined;
+}
+
+export enum NotificationState {
+    Draft = "Draft",
+    Unread = "Unread",
+    Read = "Read",
+    Deleted = "Deleted",
+    Null = "Null",
+}
+
+/** Base class for search results */
+export class BaseResultOfNotification implements IBaseResultOfNotification {
+    /** The total number of matching documents. */
+    totalResults!: number;
+    /** The matched documents. */
+    results!: Notification[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+
+    constructor(data?: IBaseResultOfNotification) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.results) {
+                this.results = [];
+                for (let i = 0; i < data.results.length; i++) {
+                    let item = data.results[i];
+                    this.results[i] = item && !(<any>item).toJSON ? new Notification(item) : <Notification>item;
+                }
+            }
+        }
+        if (!data) {
+            this.results = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalResults = _data["totalResults"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(Notification.fromJS(item));
+            }
+            this.elapsedMilliseconds = _data["elapsedMilliseconds"];
+            this.pageToken = _data["pageToken"];
+        }
+    }
+
+    static fromJS(data: any): BaseResultOfNotification {
+        data = typeof data === 'object' ? data : {};
+        let result = new BaseResultOfNotification();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
+        return data; 
+    }
+}
+
+/** Base class for search results */
+export interface IBaseResultOfNotification {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: INotification[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+
+export class NotificationCompactResult extends BaseResultOfNotification implements INotificationCompactResult {
+    dataFetchStamp?: Date;
+    aggregationResults?: AggregationResult[] | undefined;
+
+    constructor(data?: INotificationCompactResult) {
+        super(data);
+        if (data) {
+            if (data.aggregationResults) {
+                this.aggregationResults = [];
+                for (let i = 0; i < data.aggregationResults.length; i++) {
+                    let item = data.aggregationResults[i];
+                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.dataFetchStamp = _data["dataFetchStamp"] ? new Date(_data["dataFetchStamp"].toString()) : <any>undefined;
+            if (Array.isArray(_data["aggregationResults"])) {
+                this.aggregationResults = [] as any;
+                for (let item of _data["aggregationResults"])
+                    this.aggregationResults!.push(AggregationResult.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): NotificationCompactResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationCompactResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dataFetchStamp"] = this.dataFetchStamp ? this.dataFetchStamp.toISOString() : <any>undefined;
+        if (Array.isArray(this.aggregationResults)) {
+            data["aggregationResults"] = [];
+            for (let item of this.aggregationResults)
+                data["aggregationResults"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationCompactResult extends IBaseResultOfNotification {
+    dataFetchStamp?: Date;
+    aggregationResults?: IAggregationResult[] | undefined;
+}
+
+export abstract class NotificationSearchAndAggregationBaseRequest implements INotificationSearchAndAggregationBaseRequest {
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
+
+    constructor(data?: INotificationSearchAndAggregationBaseRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.filter = _data["filter"] ? FilterBase.fromJS(_data["filter"]) : <any>undefined;
+            if (Array.isArray(_data["aggregationFilters"])) {
+                this.aggregationFilters = [] as any;
+                for (let item of _data["aggregationFilters"])
+                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): NotificationSearchAndAggregationBaseRequest {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'NotificationSearchAndAggregationBaseRequest' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        if (Array.isArray(this.aggregationFilters)) {
+            data["aggregationFilters"] = [];
+            for (let item of this.aggregationFilters)
+                data["aggregationFilters"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface INotificationSearchAndAggregationBaseRequest {
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
+}
+
+export class NotificationSearchRequest extends NotificationSearchAndAggregationBaseRequest implements INotificationSearchRequest {
+    /** Limits the document count of the result set. */
+    limit?: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+
+    constructor(data?: INotificationSearchRequest) {
+        super(data);
+        if (data) {
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.limit = _data["limit"];
+            this.pageToken = _data["pageToken"];
+            if (Array.isArray(_data["sort"])) {
+                this.sort = [] as any;
+                for (let item of _data["sort"])
+                    this.sort!.push(SortInfo.fromJS(item));
+            }
+            if (Array.isArray(_data["aggregators"])) {
+                this.aggregators = [] as any;
+                for (let item of _data["aggregators"])
+                    this.aggregators!.push(AggregatorBase.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): NotificationSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
+        if (Array.isArray(this.sort)) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        if (Array.isArray(this.aggregators)) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationSearchRequest extends INotificationSearchAndAggregationBaseRequest {
+    /** Limits the document count of the result set. */
+    limit?: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: ISortInfo[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+}
+
+export class NotificationAggregationRequest extends NotificationSearchAndAggregationBaseRequest implements INotificationAggregationRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators!: AggregatorBase[];
+
+    constructor(data?: INotificationAggregationRequest) {
+        super(data);
+        if (!data) {
+            this.aggregators = [];
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["aggregators"])) {
+                this.aggregators = [] as any;
+                for (let item of _data["aggregators"])
+                    this.aggregators!.push(AggregatorBase.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): NotificationAggregationRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationAggregationRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.aggregators)) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationAggregationRequest extends INotificationSearchAndAggregationBaseRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators: AggregatorBase[];
+}
+
+/** Digest configuration */
+export class NotificationDigestConfiguration implements INotificationDigestConfiguration {
+    /** Digest interval. */
+    interval!: NotificationDigestInterval;
+    /** Item override to enable/disable digest for a specific notification item. */
+    items?: NotificationDigestConfigurationItem[] | undefined;
+    /** Disable all items by default.
+            
+When set to false, Items property acts as a blacklist (all items are digested by default).
+When set to true, Items property acts as a whitelist (no items are digested by default). */
+    digestDisabledByDefault!: boolean;
+
+    constructor(data?: INotificationDigestConfiguration) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.items) {
+                this.items = [];
+                for (let i = 0; i < data.items.length; i++) {
+                    let item = data.items[i];
+                    this.items[i] = item && !(<any>item).toJSON ? new NotificationDigestConfigurationItem(item) : <NotificationDigestConfigurationItem>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.interval = _data["interval"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(NotificationDigestConfigurationItem.fromJS(item));
+            }
+            this.digestDisabledByDefault = _data["digestDisabledByDefault"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDigestConfiguration {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDigestConfiguration();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["interval"] = this.interval;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["digestDisabledByDefault"] = this.digestDisabledByDefault;
+        return data; 
+    }
+}
+
+/** Digest configuration */
+export interface INotificationDigestConfiguration {
+    /** Digest interval. */
+    interval: NotificationDigestInterval;
+    /** Item override to enable/disable digest for a specific notification item. */
+    items?: INotificationDigestConfigurationItem[] | undefined;
+    /** Disable all items by default.
+            
+When set to false, Items property acts as a blacklist (all items are digested by default).
+When set to true, Items property acts as a whitelist (no items are digested by default). */
+    digestDisabledByDefault: boolean;
+}
+
+/** Interval for notification digest */
+export enum NotificationDigestInterval {
+    Daily = "Daily",
+    Hourly = "Hourly",
+    QuarterHourly = "QuarterHourly",
+    Off = "Off",
+}
+
+/** Configuration for a specific notification item */
+export class NotificationDigestConfigurationItem implements INotificationDigestConfigurationItem {
+    /** ID of notification */
+    notificationId?: string | undefined;
+    /** Enable digest for this item */
+    digestEnabled!: boolean;
+
+    constructor(data?: INotificationDigestConfigurationItem) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.notificationId = _data["notificationId"];
+            this.digestEnabled = _data["digestEnabled"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDigestConfigurationItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDigestConfigurationItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["notificationId"] = this.notificationId;
+        data["digestEnabled"] = this.digestEnabled;
+        return data; 
+    }
+}
+
+/** Configuration for a specific notification item */
+export interface INotificationDigestConfigurationItem {
+    /** ID of notification */
+    notificationId?: string | undefined;
+    /** Enable digest for this item */
+    digestEnabled: boolean;
 }
 
 /** Used to change the download file name pattern for multiple formats at once. */
@@ -62178,6 +65404,8 @@ export class ShareDetail implements IShareDetail {
     audit!: UserAudit;
     /** Detailed information about contents in the share. */
     contentSelections!: ShareContentDetail[];
+    /** List of all contents in share including outputs. */
+    contents!: ShareContent[];
     /** List of shared layers. */
     layerSchemaIds?: string[] | undefined;
     /** Detail of share. */
@@ -62192,6 +65420,10 @@ export class ShareDetail implements IShareDetail {
     shareType!: ShareType;
     /** Schema detail of the content and the layers. */
     schemas?: SchemaDetail[] | undefined;
+    /** Page token to retrieve next page of content selections. */
+    pageToken?: string | undefined;
+    /** Number of contents in share. */
+    contentCount!: number;
 
     constructor(data?: IShareDetail) {
         if (data) {
@@ -62208,6 +65440,13 @@ export class ShareDetail implements IShareDetail {
                     this.contentSelections[i] = item && !(<any>item).toJSON ? new ShareContentDetail(item) : <ShareContentDetail>item;
                 }
             }
+            if (data.contents) {
+                this.contents = [];
+                for (let i = 0; i < data.contents.length; i++) {
+                    let item = data.contents[i];
+                    this.contents[i] = item && !(<any>item).toJSON ? new ShareContent(item) : <ShareContent>item;
+                }
+            }
             if (data.schemas) {
                 this.schemas = [];
                 for (let i = 0; i < data.schemas.length; i++) {
@@ -62220,6 +65459,7 @@ export class ShareDetail implements IShareDetail {
             this.creator = new ShareUser();
             this.audit = new UserAudit();
             this.contentSelections = [];
+            this.contents = [];
         }
     }
 
@@ -62234,6 +65474,11 @@ export class ShareDetail implements IShareDetail {
                 this.contentSelections = [] as any;
                 for (let item of _data["contentSelections"])
                     this.contentSelections!.push(ShareContentDetail.fromJS(item));
+            }
+            if (Array.isArray(_data["contents"])) {
+                this.contents = [] as any;
+                for (let item of _data["contents"])
+                    this.contents!.push(ShareContent.fromJS(item));
             }
             if (Array.isArray(_data["layerSchemaIds"])) {
                 this.layerSchemaIds = [] as any;
@@ -62250,6 +65495,8 @@ export class ShareDetail implements IShareDetail {
                 for (let item of _data["schemas"])
                     this.schemas!.push(SchemaDetail.fromJS(item));
             }
+            this.pageToken = _data["pageToken"];
+            this.contentCount = _data["contentCount"];
         }
     }
 
@@ -62272,6 +65519,11 @@ export class ShareDetail implements IShareDetail {
             for (let item of this.contentSelections)
                 data["contentSelections"].push(item.toJSON());
         }
+        if (Array.isArray(this.contents)) {
+            data["contents"] = [];
+            for (let item of this.contents)
+                data["contents"].push(item.toJSON());
+        }
         if (Array.isArray(this.layerSchemaIds)) {
             data["layerSchemaIds"] = [];
             for (let item of this.layerSchemaIds)
@@ -62287,6 +65539,8 @@ export class ShareDetail implements IShareDetail {
             for (let item of this.schemas)
                 data["schemas"].push(item.toJSON());
         }
+        data["pageToken"] = this.pageToken;
+        data["contentCount"] = this.contentCount;
         return data; 
     }
 }
@@ -62305,6 +65559,8 @@ export interface IShareDetail {
     audit: IUserAudit;
     /** Detailed information about contents in the share. */
     contentSelections: IShareContentDetail[];
+    /** List of all contents in share including outputs. */
+    contents: IShareContent[];
     /** List of shared layers. */
     layerSchemaIds?: string[] | undefined;
     /** Detail of share. */
@@ -62319,6 +65575,10 @@ export interface IShareDetail {
     shareType: ShareType;
     /** Schema detail of the content and the layers. */
     schemas?: ISchemaDetail[] | undefined;
+    /** Page token to retrieve next page of content selections. */
+    pageToken?: string | undefined;
+    /** Number of contents in share. */
+    contentCount: number;
 }
 
 /** Reduced set of user information used for shares */
@@ -62644,6 +65904,58 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
 export interface IShareOutputEmbed extends IShareOutputBase {
     /** Share token for the shared output. */
     token?: string | undefined;
+}
+
+export class ShareContent implements IShareContent {
+    /** Content ID to share. */
+    contentId!: string;
+    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
+    outputFormatIds?: string[] | undefined;
+
+    constructor(data?: IShareContent) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.contentId = _data["contentId"];
+            if (Array.isArray(_data["outputFormatIds"])) {
+                this.outputFormatIds = [] as any;
+                for (let item of _data["outputFormatIds"])
+                    this.outputFormatIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ShareContent {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareContent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        if (Array.isArray(this.outputFormatIds)) {
+            data["outputFormatIds"] = [];
+            for (let item of this.outputFormatIds)
+                data["outputFormatIds"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IShareContent {
+    /** Content ID to share. */
+    contentId: string;
+    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
+    outputFormatIds?: string[] | undefined;
 }
 
 /** Base of share data */
@@ -62994,6 +66306,109 @@ export enum ShareResolveBehavior {
     Schemas = "Schemas",
 }
 
+/** Base class for search results */
+export class BaseResultOfShareContentDetail implements IBaseResultOfShareContentDetail {
+    /** The total number of matching documents. */
+    totalResults!: number;
+    /** The matched documents. */
+    results!: ShareContentDetail[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+
+    constructor(data?: IBaseResultOfShareContentDetail) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.results) {
+                this.results = [];
+                for (let i = 0; i < data.results.length; i++) {
+                    let item = data.results[i];
+                    this.results[i] = item && !(<any>item).toJSON ? new ShareContentDetail(item) : <ShareContentDetail>item;
+                }
+            }
+        }
+        if (!data) {
+            this.results = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalResults = _data["totalResults"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(ShareContentDetail.fromJS(item));
+            }
+            this.elapsedMilliseconds = _data["elapsedMilliseconds"];
+            this.pageToken = _data["pageToken"];
+        }
+    }
+
+    static fromJS(data: any): BaseResultOfShareContentDetail {
+        data = typeof data === 'object' ? data : {};
+        let result = new BaseResultOfShareContentDetail();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
+        return data; 
+    }
+}
+
+/** Base class for search results */
+export interface IBaseResultOfShareContentDetail {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: IShareContentDetail[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+
+export class ShareContentDetailResult extends BaseResultOfShareContentDetail implements IShareContentDetailResult {
+
+    constructor(data?: IShareContentDetailResult) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): ShareContentDetailResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareContentDetailResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IShareContentDetailResult extends IBaseResultOfShareContentDetail {
+}
+
 /** Base of update request for share */
 export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest {
     /** Name of share. */
@@ -63100,58 +66515,6 @@ export interface IShareBaseUpdateRequest {
     layerSchemaIds?: string[] | undefined;
     /** Access for content outputs in share. */
     outputAccess: OutputAccess;
-}
-
-export class ShareContent implements IShareContent {
-    /** Content ID to share. */
-    contentId!: string;
-    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
-    outputFormatIds?: string[] | undefined;
-
-    constructor(data?: IShareContent) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.contentId = _data["contentId"];
-            if (Array.isArray(_data["outputFormatIds"])) {
-                this.outputFormatIds = [] as any;
-                for (let item of _data["outputFormatIds"])
-                    this.outputFormatIds!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): ShareContent {
-        data = typeof data === 'object' ? data : {};
-        let result = new ShareContent();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["contentId"] = this.contentId;
-        if (Array.isArray(this.outputFormatIds)) {
-            data["outputFormatIds"] = [];
-            for (let item of this.outputFormatIds)
-                data["outputFormatIds"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IShareContent {
-    /** Content ID to share. */
-    contentId: string;
-    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
-    outputFormatIds?: string[] | undefined;
 }
 
 /** Update request for basic share */
@@ -64038,6 +67401,234 @@ export interface IShareSearchRequest extends IShareSearchAndAggregationBaseReque
     debugMode?: boolean;
     /** List of aggregators that defines how the items should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
+}
+
+/** Request to update a template */
+export class TemplateUpdateRequest implements ITemplateUpdateRequest {
+    /** Language specific names. */
+    names!: TranslatedStringDictionary;
+    /** Values per media type for the template. */
+    values!: TemplateValue[];
+
+    constructor(data?: ITemplateUpdateRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            if (data.values) {
+                this.values = [];
+                for (let i = 0; i < data.values.length; i++) {
+                    let item = data.values[i];
+                    this.values[i] = item && !(<any>item).toJSON ? new TemplateValue(item) : <TemplateValue>item;
+                }
+            }
+        }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+            this.values = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : new TranslatedStringDictionary();
+            if (Array.isArray(_data["values"])) {
+                this.values = [] as any;
+                for (let item of _data["values"])
+                    this.values!.push(TemplateValue.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): TemplateUpdateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new TemplateUpdateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        if (Array.isArray(this.values)) {
+            data["values"] = [];
+            for (let item of this.values)
+                data["values"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Request to update a template */
+export interface ITemplateUpdateRequest {
+    /** Language specific names. */
+    names: ITranslatedStringDictionary;
+    /** Values per media type for the template. */
+    values: ITemplateValue[];
+}
+
+/** Request to create a new template */
+export class TemplateCreateRequest extends TemplateUpdateRequest implements ITemplateCreateRequest {
+    /** Name of the template. */
+    name!: string;
+    /** Language code of the template. */
+    languageCode!: string;
+    /** Type of the template. */
+    templateType!: TemplateType;
+
+    constructor(data?: ITemplateCreateRequest) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.name = _data["name"];
+            this.languageCode = _data["languageCode"];
+            this.templateType = _data["templateType"];
+        }
+    }
+
+    static fromJS(data: any): TemplateCreateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new TemplateCreateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["languageCode"] = this.languageCode;
+        data["templateType"] = this.templateType;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Request to create a new template */
+export interface ITemplateCreateRequest extends ITemplateUpdateRequest {
+    /** Name of the template. */
+    name: string;
+    /** Language code of the template. */
+    languageCode: string;
+    /** Type of the template. */
+    templateType: TemplateType;
+}
+
+/** Template */
+export class Template extends TemplateCreateRequest implements ITemplate {
+    /** ID of template. */
+    id?: string | undefined;
+    /** Indicates if this is a read-only system template. */
+    system?: boolean;
+    /** Audit information. */
+    audit?: UserAuditDetail | undefined;
+
+    constructor(data?: ITemplate) {
+        super(data);
+        if (data) {
+            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit; 
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.id = _data["id"];
+            this.system = _data["system"];
+            this.audit = _data["audit"] ? UserAuditDetail.fromJS(_data["audit"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): Template {
+        data = typeof data === 'object' ? data : {};
+        let result = new Template();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["system"] = this.system;
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Template */
+export interface ITemplate extends ITemplateCreateRequest {
+    /** ID of template. */
+    id?: string | undefined;
+    /** Indicates if this is a read-only system template. */
+    system?: boolean;
+    /** Audit information. */
+    audit?: IUserAuditDetail | undefined;
+}
+
+export enum TemplateType {
+    ShareMail = "ShareMail",
+    SharePage = "SharePage",
+    NewUserRegisteredMail = "NewUserRegisteredMail",
+    UserLockedMail = "UserLockedMail",
+    UserUnlockedMail = "UserUnlockedMail",
+    UserReviewedMail = "UserReviewedMail",
+    UserInvitationMail = "UserInvitationMail",
+    ShareNotFoundPage = "ShareNotFoundPage",
+    UserTriggeredDeactivationRequestMail = "UserTriggeredDeactivationRequestMail",
+    UserEmailConflictSolvedMail = "UserEmailConflictSolvedMail",
+    NotificationDigestMail = "NotificationDigestMail",
+    NotificationDigestItem = "NotificationDigestItem",
+}
+
+/** Media type specific value for a template */
+export class TemplateValue implements ITemplateValue {
+    /** Media type. */
+    mediaType!: string;
+    /** Text. */
+    text!: string;
+
+    constructor(data?: ITemplateValue) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.mediaType = _data["mediaType"];
+            this.text = _data["text"];
+        }
+    }
+
+    static fromJS(data: any): TemplateValue {
+        data = typeof data === 'object' ? data : {};
+        let result = new TemplateValue();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["mediaType"] = this.mediaType;
+        data["text"] = this.text;
+        return data; 
+    }
+}
+
+/** Media type specific value for a template */
+export interface ITemplateValue {
+    /** Media type. */
+    mediaType: string;
+    /** Text. */
+    text: string;
 }
 
 /** Creates a transfer. */

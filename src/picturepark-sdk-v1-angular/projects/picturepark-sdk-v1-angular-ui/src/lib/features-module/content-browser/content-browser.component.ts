@@ -92,7 +92,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   onScroll(): void {
-    this.loadData();
+    this.loadData()?.subscribe();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

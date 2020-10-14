@@ -60,7 +60,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
   }
 
   onScroll(): void {
-    this.loadData();
+    this.loadData()?.subscribe();
   }
 
   checkContains(elementClassName: string): boolean {
