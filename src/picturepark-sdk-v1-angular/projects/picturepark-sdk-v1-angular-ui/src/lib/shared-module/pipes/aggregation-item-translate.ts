@@ -2,7 +2,7 @@ import { Pipe, PipeTransform, Injectable } from '@angular/core';
 
 // LIBRARIES
 import { AggregationResultItem } from '@picturepark/sdk-v1-angular';
-import { TranslationService } from '@picturepark/sdk-v1-angular-ui';
+import { TranslationService } from '../services/translations/translation.service';
 
 @Injectable({ providedIn: 'root' })
 @Pipe({ name: 'ppAggregationItemTranslate' })
