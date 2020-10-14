@@ -78,7 +78,7 @@ export let TRANSLATIONS = {
   AggregationItemTranslatePipe: {
     noValue: {
       en: 'No value',
-      de: 'kein wert',
+      de: 'Kein Wert',
     },
   },
   ContentBrowser: {
