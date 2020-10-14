@@ -18,7 +18,7 @@ export class MarkdownDirective implements OnInit {
     }
   }
 
-  overrideLinkOpenRule(rules) {
+  overrideLinkOpenRule(rules: any) {
     const defaultRender =
       rules.link_open ||
       function (tokens, idx, options, env, self) {
