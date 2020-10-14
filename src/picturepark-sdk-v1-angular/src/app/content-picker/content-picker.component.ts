@@ -10,7 +10,7 @@ import {
   ContentBrowserComponent,
   SearchParameters,
   BaseComponent,
-  ContentDetailDialogOptions,
+  ContentDetailsDialogOptions,
 } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
@@ -18,6 +18,7 @@ import { ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 
 // SERVICES
 import { EmbedService } from './embed.service';
+import { of } from 'rxjs';
 
 @Component({
   templateUrl: './content-picker.component.html',
@@ -56,7 +57,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     let index = this.contentBrowserComponent.items.findIndex((q) => q.id === item.id);
 
     this.dialog.open(ContentDetailsDialogComponent, {
-      data: <ContentDetailDialogOptions>{
+      data: <ContentDetailsDialogOptions>{
         id: item.id,
         showMetadata: true,
         hasPrevious: () => {
@@ -67,11 +68,11 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
         },
         previous: () => {
           index--;
-          return this.contentBrowserComponent.items[index].id;
+          return of(this.contentBrowserComponent.items[index].id);
         },
         next: () => {
           index++;
-          return this.contentBrowserComponent.items[index].id;
+          return of(this.contentBrowserComponent.items[index].id);
         },
       },
       autoFocus: false,

@@ -7,14 +7,16 @@ import {
   ContentService,
   SchemaDetail,
   SchemaService,
+  ShareContentDetail,
 } from '@picturepark/sdk-v1-angular';
 
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
-import { ContentDetailDialogOptions } from './ContentDetailDialogOptions';
+import { ContentDetailsDialogOptions } from './content-details-dialog-options';
 
 // SERVICES
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'pp-content-details-dialog',
@@ -26,7 +28,7 @@ import { ContentDownloadDialogService } from '../content-download-dialog/service
   providers: [TranslatePipe],
 })
 export class ContentDetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
-  content: ContentDetail;
+  content: ContentDetail | ShareContentDetail;
 
   contentId: string;
   schemas: SchemaDetail[];
@@ -34,7 +36,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
   constructor(
     private contentService: ContentService,
-    @Inject(MAT_DIALOG_DATA) public data: ContentDetailDialogOptions,
+    @Inject(MAT_DIALOG_DATA) public data: ContentDetailsDialogOptions,
     protected dialogRef: MatDialogRef<ContentDetailsDialogComponent>,
     protected injector: Injector,
     private schemaService: SchemaService,
@@ -79,22 +81,27 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     });
   }
 
-  public async next(): Promise<void> {
-    this.setContent(this.data.next() as any);
+  public next(): void {
+    this.setContent(this.data.next());
   }
 
-  public async previous(): Promise<void> {
-    this.setContent(this.data.previous() as any);
+  public previous(): void {
+    this.setContent(this.data.previous());
   }
 
-  setContent(detail: ContentDetail | string) {
+  setContentId(id: string) {
+    this.setContent(of(id));
+  }
+
+  setContent(detail: Observable<ShareContentDetail | ContentDetail | string>) {
     this.content = null as any;
     this.playing = false;
-    setTimeout(() => {
-      if (typeof detail === 'string') {
-        this.loadContent(detail);
+
+    this.sub = detail.subscribe((content) => {
+      if (typeof content === 'string') {
+        this.loadContent(content);
       } else {
-        this.content = detail;
+        this.content = content;
       }
     });
   }

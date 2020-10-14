@@ -6,6 +6,7 @@ import {
   SchemaType,
   LocalStorageService,
   StorageKey,
+  ShareContentDetail,
 } from '@picturepark/sdk-v1-angular';
 import { take } from 'rxjs/operators';
 
@@ -23,7 +24,7 @@ export class LayerPanelsComponent implements OnInit {
   public schemas: SchemaDetail[];
 
   @Input()
-  public content: ContentDetail;
+  public content: ContentDetail | ShareContentDetail;
 
   @Input()
   public showContentSchema = false;

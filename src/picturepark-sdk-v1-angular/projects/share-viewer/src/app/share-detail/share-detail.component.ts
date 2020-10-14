@@ -11,9 +11,9 @@ import {
   PICTUREPARK_CONFIGURATION,
   ShareResolveBehavior,
 } from '@picturepark/sdk-v1-angular';
-import { ContentDetailsDialogComponent, ContentDetailDialogOptions } from '@picturepark/sdk-v1-angular-ui';
+import { ContentDetailsDialogComponent, ContentDetailsDialogOptions } from '@picturepark/sdk-v1-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-share-detail',
@@ -76,7 +76,7 @@ export class ShareDetailComponent implements OnInit {
   showDetail(item: ShareContentDetail): void {
     let index = this.shareDetail.contentSelections.indexOf(item);
     this.dialog.open(ContentDetailsDialogComponent, {
-      data: <ContentDetailDialogOptions>{
+      data: <ContentDetailsDialogOptions>{
         id: item.id,
         shareContent: item,
         shareDetail: this.shareDetail,
@@ -90,11 +90,11 @@ export class ShareDetailComponent implements OnInit {
         },
         previous: () => {
           index--;
-          return this.shareDetail.contentSelections[index];
+          return of(this.shareDetail.contentSelections[index]);
         },
         next: () => {
           index++;
-          return this.shareDetail.contentSelections[index];
+          return of(this.shareDetail.contentSelections[index]);
         },
       },
       autoFocus: false,
