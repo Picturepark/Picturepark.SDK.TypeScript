@@ -58,7 +58,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
         if (this.item.isVirtual()) {
           this.handleVirtualItem();
         } else {
-          const content = this.shareItem.contentSelections.find((i) => i.id === this.item.id);
+          const content = this.item as ShareContentDetail;
           if (content) {
             const output = content.outputs.find((i) => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
             this.isLoading = true;

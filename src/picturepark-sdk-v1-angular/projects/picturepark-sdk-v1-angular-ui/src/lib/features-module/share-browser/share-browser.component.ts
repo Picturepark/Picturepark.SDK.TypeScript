@@ -26,7 +26,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
   }
 
   async init(): Promise<void> {
-    this.loadData();
+    this.loadData()?.subscribe();
   }
 
   initSort(): void {
@@ -72,7 +72,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
   }
 
   onScroll(): void {
-    this.loadData();
+    this.loadData()?.subscribe();
   }
 
   // CHECK IF ELEMENT CONTAINS CLASS NAME
