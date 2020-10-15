@@ -7938,6 +7938,562 @@ export class MetadataClient extends PictureparkClientBase {
     }
 }
 
+export class NotificationClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    /**
+     * Get notification
+     * @param id ID of notification
+     * @return Notification
+     */
+    get(id: string | null): Promise<Notification> {
+        let url_ = this.baseUrl + "/v1/Notifications/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<Notification> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <Notification>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Notification>(<any>null);
+    }
+
+    /**
+     * Mark notification as read
+     * @param id ID of notification
+     * @return Notification
+     */
+    markAsRead(id: string | null): Promise<Notification> {
+        let url_ = this.baseUrl + "/v1/Notifications/{id}/markAsRead";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processMarkAsRead(_response);
+        });
+    }
+
+    protected processMarkAsRead(response: Response): Promise<Notification> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <Notification>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Notification>(<any>null);
+    }
+
+    /**
+     * Search notifications
+     * @param request Notification search request
+     * @return Notification search result
+     */
+    search(request: NotificationSearchRequest): Promise<NotificationCompactResult> {
+        let url_ = this.baseUrl + "/v1/Notifications/search";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processSearch(_response);
+        });
+    }
+
+    protected processSearch(response: Response): Promise<NotificationCompactResult> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <NotificationCompactResult>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<NotificationCompactResult>(<any>null);
+    }
+
+    /**
+     * Aggregate on notifications
+     * @param request Notification aggregation request
+     * @return Aggregation result
+     */
+    aggregate(request: NotificationAggregationRequest): Promise<ObjectAggregationResult> {
+        let url_ = this.baseUrl + "/v1/Notifications/aggregate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processAggregate(_response);
+        });
+    }
+
+    protected processAggregate(response: Response): Promise<ObjectAggregationResult> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <ObjectAggregationResult>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ObjectAggregationResult>(<any>null);
+    }
+
+    /**
+     * Mark all notifications as read
+     */
+    markAllAsRead(): Promise<void> {
+        let url_ = this.baseUrl + "/v1/Notifications/markAllAsRead";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processMarkAllAsRead(_response);
+        });
+    }
+
+    protected processMarkAllAsRead(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
+    }
+
+    /**
+     * Get notification digest configuration
+     * @return Notification digest configuration
+     */
+    getDigestConfiguration(): Promise<NotificationDigestConfiguration> {
+        let url_ = this.baseUrl + "/v1/Notifications/digestConfiguration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetDigestConfiguration(_response);
+        });
+    }
+
+    protected processGetDigestConfiguration(response: Response): Promise<NotificationDigestConfiguration> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <NotificationDigestConfiguration>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<NotificationDigestConfiguration>(<any>null);
+    }
+
+    /**
+     * Update notification digest configuration
+     * @param configuration Notification digest configuration
+     * @return Notification digest configuration
+     */
+    putDigestConfiguration(configuration: NotificationDigestConfiguration): Promise<NotificationDigestConfiguration> {
+        let url_ = this.baseUrl + "/v1/Notifications/digestConfiguration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(configuration);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processPutDigestConfiguration(_response);
+        });
+    }
+
+    protected processPutDigestConfiguration(response: Response): Promise<NotificationDigestConfiguration> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <NotificationDigestConfiguration>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<NotificationDigestConfiguration>(<any>null);
+    }
+}
+
 export class OutputFormatClient extends PictureparkClientBase {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -11876,9 +12432,10 @@ export class ShareClient extends PictureparkClientBase {
      * @param token Share token
      * @param lang (optional) Language code
      * @param resolveBehaviors (optional) List of enums that control which parts of the share are resolved and returned.
+     * @param contentResolveLimit (optional) Optional limit the number of contents to resolve. Use a lower value for higher performance. If nothing is specified, everything is resolved.
      * @return ShareDetail
      */
-    getShareJson(token: string | null, lang?: string | null | undefined, resolveBehaviors?: ShareResolveBehavior[] | null | undefined): Promise<ShareDetail> {
+    getShareJson(token: string | null, lang?: string | null | undefined, resolveBehaviors?: ShareResolveBehavior[] | null | undefined, contentResolveLimit?: number | null | undefined): Promise<ShareDetail> {
         let url_ = this.baseUrl + "/v1/Shares/json/{token}?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
@@ -11887,6 +12444,8 @@ export class ShareClient extends PictureparkClientBase {
             url_ += "lang=" + encodeURIComponent("" + lang) + "&";
         if (resolveBehaviors !== undefined && resolveBehaviors !== null)
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
+        if (contentResolveLimit !== undefined && contentResolveLimit !== null)
+            url_ += "contentResolveLimit=" + encodeURIComponent("" + contentResolveLimit) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -11954,6 +12513,96 @@ export class ShareClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<ShareDetail>(<any>null);
+    }
+
+    /**
+     * Get share contents
+     * @param token Share token
+     * @param lang (optional) Language code
+     * @param limit (optional) Number of contents to return
+     * @param pageToken (optional) PageToken to page over contents
+     * @return ShareContentDetailResult
+     */
+    getShareContents(token: string | null, lang?: string | null | undefined, limit?: number | undefined, pageToken?: string | null | undefined): Promise<ShareContentDetailResult> {
+        let url_ = this.baseUrl + "/v1/Shares/json/{token}/contents?";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        if (lang !== undefined && lang !== null)
+            url_ += "lang=" + encodeURIComponent("" + lang) + "&";
+        if (limit === null)
+            throw new Error("The parameter 'limit' cannot be null.");
+        else if (limit !== undefined)
+            url_ += "limit=" + encodeURIComponent("" + limit) + "&";
+        if (pageToken !== undefined && pageToken !== null)
+            url_ += "pageToken=" + encodeURIComponent("" + pageToken) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetShareContents(_response);
+        });
+    }
+
+    protected processGetShareContents(response: Response): Promise<ShareContentDetailResult> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <ShareContentDetailResult>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ShareContentDetailResult>(<any>null);
     }
 
     /**
@@ -12156,15 +12805,18 @@ export class ShareClient extends PictureparkClientBase {
      * Get
      * @param id Share Id (not token, use [GetShareJson](#operation/Share_GetShareJson) to get share by token)
      * @param resolveBehaviors (optional) List of enums that control which parts of the share are resolved and returned.
+     * @param contentResolveLimit (optional) Optional limit the number of contents to resolve. Use a lower value for higher performance. If nothing is specified, everything is resolved.
      * @return Share detail
      */
-    get(id: string | null, resolveBehaviors?: ShareResolveBehavior[] | null | undefined): Promise<ShareDetail> {
+    get(id: string | null, resolveBehaviors?: ShareResolveBehavior[] | null | undefined, contentResolveLimit?: number | null | undefined): Promise<ShareDetail> {
         let url_ = this.baseUrl + "/v1/Shares/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         if (resolveBehaviors !== undefined && resolveBehaviors !== null)
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
+        if (contentResolveLimit !== undefined && contentResolveLimit !== null)
+            url_ += "contentResolveLimit=" + encodeURIComponent("" + contentResolveLimit) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -12316,6 +12968,93 @@ export class ShareClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Get contents in share
+     * @param id Share Id
+     * @param limit (optional) Number of contents to return
+     * @param pageToken (optional) PageToken to page over contents
+     * @return ShareContentDetailResult
+     */
+    getContentsInShare(id: string | null, limit?: number | undefined, pageToken?: string | null | undefined): Promise<ShareContentDetailResult> {
+        let url_ = this.baseUrl + "/v1/Shares/{id}/contents?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (limit === null)
+            throw new Error("The parameter 'limit' cannot be null.");
+        else if (limit !== undefined)
+            url_ += "limit=" + encodeURIComponent("" + limit) + "&";
+        if (pageToken !== undefined && pageToken !== null)
+            url_ += "pageToken=" + encodeURIComponent("" + pageToken) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetContentsInShare(_response);
+        });
+    }
+
+    protected processGetContentsInShare(response: Response): Promise<ShareContentDetailResult> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <ShareContentDetailResult>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ShareContentDetailResult>(<any>null);
     }
 
     /**
@@ -12716,6 +13455,411 @@ export class ShareClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<ShareSearchResult>(<any>null);
+    }
+}
+
+export class TemplateClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    /**
+     * Get template
+     * @param id ID of template.
+     * @return Template
+     */
+    get(id: string | null): Promise<Template> {
+        let url_ = this.baseUrl + "/v1/Templates/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGet(_response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<Template> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <Template>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Template>(<any>null);
+    }
+
+    /**
+     * Update template
+     * @param id ID of template.
+     * @param request Template
+     * @return Template
+     */
+    update(id: string | null, request: TemplateUpdateRequest): Promise<Template> {
+        let url_ = this.baseUrl + "/v1/Templates/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdate(_response);
+        });
+    }
+
+    protected processUpdate(response: Response): Promise<Template> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <Template>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Template>(<any>null);
+    }
+
+    /**
+     * Delete template
+     * @param id ID of template
+     */
+    delete(id: string | null): Promise<void> {
+        let url_ = this.baseUrl + "/v1/Templates/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "DELETE",
+            headers: {
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processDelete(_response);
+        });
+    }
+
+    protected processDelete(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
+    }
+
+    /**
+     * Create template
+     * @param request TemplateCreateRequest
+     * @return Template
+     */
+    create(request: TemplateCreateRequest): Promise<Template> {
+        let url_ = this.baseUrl + "/v1/Templates";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCreate(_response);
+        });
+    }
+
+    protected processCreate(response: Response): Promise<Template> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <Template>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Template>(<any>null);
+    }
+
+    /**
+     * Get all templates
+     * @return All templates
+     */
+    getAll(): Promise<Template[]> {
+        let url_ = this.baseUrl + "/v1/Templates";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetAll(_response);
+        });
+    }
+
+    protected processGetAll(response: Response): Promise<Template[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <Template[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Template[]>(<any>null);
     }
 }
 
@@ -18027,6 +19171,43 @@ export interface SchemaFieldRelationTargetDocTypeModificationNotAllowedException
     fieldId?: string | undefined;
 }
 
+export interface SchemaFieldImportMismatchException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    importingFieldIds?: string | undefined;
+    existingFieldIds?: string | undefined;
+}
+
+export interface SchemaFieldImportRelatedSchemaMismatchException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    importingRelatedSchemaId?: string | undefined;
+    existingRelatedSchemaId?: string | undefined;
+}
+
+export interface SchemaFieldImportTypeMismatchException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    importingFieldType?: string | undefined;
+    existingFieldType?: string | undefined;
+}
+
+export interface SchemaFieldNotSupportedException extends PictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+    fieldType?: string | undefined;
+}
+
+export interface SchemaFieldDisplayPatternTypeNotSupportedException extends PictureparkValidationException {
+    fieldId?: string | undefined;
+    displayPatternType?: DisplayPatternType;
+    supportedDisplayPatternTypes?: DisplayPatternType[] | undefined;
+}
+
+export interface SchemaFieldMarkdownNotMultilineException extends PictureparkValidationException {
+    fieldId?: string | undefined;
+    schemaId?: string | undefined;
+}
+
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
     numberOfReferences?: number;
     numberOfShares?: number;
@@ -18122,38 +19303,6 @@ export interface BusinessProcessContinuationException extends PictureparkBusines
     continuationBusinessProcessId?: string | undefined;
     precedingBusinessProcessId?: string | undefined;
     precedingBusinessProcessException?: PictureparkException | undefined;
-}
-
-export interface SchemaFieldImportMismatchException extends PictureparkValidationException {
-    schemaId?: string | undefined;
-    importingFieldIds?: string | undefined;
-    existingFieldIds?: string | undefined;
-}
-
-export interface SchemaFieldImportRelatedSchemaMismatchException extends PictureparkValidationException {
-    schemaId?: string | undefined;
-    fieldId?: string | undefined;
-    importingRelatedSchemaId?: string | undefined;
-    existingRelatedSchemaId?: string | undefined;
-}
-
-export interface SchemaFieldImportTypeMismatchException extends PictureparkValidationException {
-    schemaId?: string | undefined;
-    fieldId?: string | undefined;
-    importingFieldType?: string | undefined;
-    existingFieldType?: string | undefined;
-}
-
-export interface SchemaFieldNotSupportedException extends PictureparkValidationException {
-    fieldId?: string | undefined;
-    schemaId?: string | undefined;
-    fieldType?: string | undefined;
-}
-
-export interface SchemaFieldDisplayPatternTypeNotSupportedException extends PictureparkValidationException {
-    fieldId?: string | undefined;
-    displayPatternType?: DisplayPatternType;
-    supportedDisplayPatternTypes?: DisplayPatternType[] | undefined;
 }
 
 export interface SnapshotTimeoutException extends PictureparkTimeoutException {
@@ -18437,6 +19586,34 @@ export interface CollectionModificationNotAllowedException extends PictureparkVa
 
 export interface CollectionNotFoundException extends PictureparkNotFoundException {
     collectionId?: string | undefined;
+}
+
+export interface NonDefaultTemplateNameNotAllowedException extends PictureparkValidationException {
+    name?: string | undefined;
+}
+
+export interface SystemTemplateModificationNotAllowedException extends PictureparkValidationException {
+    templateId?: string | undefined;
+}
+
+export interface TemplateDuplicationException extends PictureparkValidationException {
+    duplicatedTemplateId?: string | undefined;
+}
+
+export interface TemplateLanguageCodeNotSupportedException extends PictureparkValidationException {
+    languageCode?: string | undefined;
+    supportedLanguageCodes?: string[] | undefined;
+}
+
+export interface TemplateMediaTypesMissingException extends PictureparkValidationException {
+    requiredMediaTypes?: string[] | undefined;
+}
+
+export interface TemplateMediaTypesNotSupportedException extends PictureparkValidationException {
+    unsupportedMediaTypes?: string[] | undefined;
+}
+
+export interface TemplateNotFoundException extends PictureparkNotFoundException {
 }
 
 export interface XmpMappingFieldNotSupported extends PictureparkValidationException {
@@ -19382,6 +20559,8 @@ export interface BusinessRuleNotification {
     message?: TranslatedStringDictionary | undefined;
     /** Indicates if a collection of the items affected should be created. */
     createCollection: boolean;
+    /** Name of the template to use when creating an e-mail digest out of this notification. */
+    templateName?: string | undefined;
 }
 
 /** Update request for changing business rule configuration */
@@ -20964,7 +22143,7 @@ export interface CustomerInfo {
     enableQueryDetails: boolean;
     /** Configured languages of customer instance (system, metadata, default). */
     languageConfiguration: LanguageConfiguration;
-    /** Languages including translations for the configured system and metadata languages. */
+    /** Languages including translations for the configured system and metadata and share languages. */
     languages: Language[];
     /** Configured rendering outputs including translations for the customer instance. */
     outputFormats: OutputFormatInfo[];
@@ -20977,6 +22156,8 @@ export interface CustomerInfo {
     baseUrl: string;
     /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
     logosUrl: string;
+    /** Share languages based on defined ShareMail templates. */
+    shareLanguages: string[];
 }
 
 export interface LanguageConfiguration {
@@ -21383,6 +22564,380 @@ export interface MetadataStatus {
     state: MetadataState;
     /** The field ids that that cannot be used and needs to be cleaned up after updating the outdated contents and list items. */
     fieldIdsToCleanup?: { [key: string]: string[]; } | undefined;
+}
+
+export interface Notification {
+    id?: string | undefined;
+    recipientUserId?: string | undefined;
+    referenceDocType?: string | undefined;
+    referenceId?: string | undefined;
+    audit?: UserAudit | undefined;
+    titleCode: TitleCode;
+    messageCode: MessageCode;
+    detail?: NotificationDetailBase | undefined;
+    state: NotificationState;
+    eventType: NotificationEventType;
+}
+
+export enum TitleCode {
+    TransferInProgressTitle = <any>"TransferInProgressTitle",
+    TransferCompletedTitle = <any>"TransferCompletedTitle",
+    ImportInProgressTitle = <any>"ImportInProgressTitle",
+    ImportCompletedTitle = <any>"ImportCompletedTitle",
+    ShareNewShareTitle = <any>"ShareNewShareTitle",
+    TransferCancelledTitle = <any>"TransferCancelledTitle",
+    ImportCancelledTitle = <any>"ImportCancelledTitle",
+    ImportCompletedWithErrors = <any>"ImportCompletedWithErrors",
+    SchemaImportInProgressTitle = <any>"SchemaImportInProgressTitle",
+    SchemaImportCompletedTitle = <any>"SchemaImportCompletedTitle",
+    SchemaImportFailedTitle = <any>"SchemaImportFailedTitle",
+    UserRegisteredTitle = <any>"UserRegisteredTitle",
+    NewUserRegisteredEmailSubject = <any>"NewUserRegisteredEmailSubject",
+    UserLockedEmailSubject = <any>"UserLockedEmailSubject",
+    UserUnlockedEmailSubject = <any>"UserUnlockedEmailSubject",
+    UserReviewedEmailSubject = <any>"UserReviewedEmailSubject",
+    UserInvitationEmailSubject = <any>"UserInvitationEmailSubject",
+    UserTriggeredDeactivationRequest = <any>"UserTriggeredDeactivationRequest",
+    UserTriggeredDeactivationRequestMailSubject = <any>"UserTriggeredDeactivationRequestMailSubject",
+    IndexDraft = <any>"IndexDraft",
+    IndexCreate = <any>"IndexCreate",
+    IndexInactive = <any>"IndexInactive",
+    IndexActive = <any>"IndexActive",
+    IndexClosed = <any>"IndexClosed",
+    IndexReindexInProgress = <any>"IndexReindexInProgress",
+    IndexCancelled = <any>"IndexCancelled",
+    ReindexProgressDraft = <any>"ReindexProgressDraft",
+    ReindexProgressInProgress = <any>"ReindexProgressInProgress",
+    ReindexProgressCompleted = <any>"ReindexProgressCompleted",
+    ReindexProgressCancelled = <any>"ReindexProgressCancelled",
+    ReindexProgressFailed = <any>"ReindexProgressFailed",
+    ReindexProgressCompletedWithErrors = <any>"ReindexProgressCompletedWithErrors",
+    ContentBatchEditInProgress = <any>"ContentBatchEditInProgress",
+    ContentBatchEditCompleted = <any>"ContentBatchEditCompleted",
+    ContentBatchEditProgressFailed = <any>"ContentBatchEditProgressFailed",
+    ContentBatchEditProgressCompletedWithErrors = <any>"ContentBatchEditProgressCompletedWithErrors",
+    ListItemBatchEditInProgress = <any>"ListItemBatchEditInProgress",
+    ListItemBatchEditCompleted = <any>"ListItemBatchEditCompleted",
+    ListItemBatchEditProgressFailed = <any>"ListItemBatchEditProgressFailed",
+    ListItemBatchEditProgressCompletedWithErrors = <any>"ListItemBatchEditProgressCompletedWithErrors",
+    ContentBackupRecoveryDraft = <any>"ContentBackupRecoveryDraft",
+    ContentBackupRecoveryInProgress = <any>"ContentBackupRecoveryInProgress",
+    ContentBackupRecoveryCompleted = <any>"ContentBackupRecoveryCompleted",
+    ContentBackupRecoveryForcefullyCompleted = <any>"ContentBackupRecoveryForcefullyCompleted",
+    ContentBackupRecoveryCancelled = <any>"ContentBackupRecoveryCancelled",
+    ContentBackupRecoveryFailed = <any>"ContentBackupRecoveryFailed",
+    ContentOwnershipBatchEditInProgress = <any>"ContentOwnershipBatchEditInProgress",
+    ContentOwnershipBatchEditCompleted = <any>"ContentOwnershipBatchEditCompleted",
+    ContentOwnershipBatchEditProgressFailed = <any>"ContentOwnershipBatchEditProgressFailed",
+    ContentOwnershipBatchEditProgressCompletedWithErrors = <any>"ContentOwnershipBatchEditProgressCompletedWithErrors",
+    ContentPermissionsBatchEditInProgress = <any>"ContentPermissionsBatchEditInProgress",
+    ContentPermissionsBatchEditCompleted = <any>"ContentPermissionsBatchEditCompleted",
+    ContentPermissionsBatchEditProgressFailed = <any>"ContentPermissionsBatchEditProgressFailed",
+    ContentPermissionsBatchEditProgressCompletedWithErrors = <any>"ContentPermissionsBatchEditProgressCompletedWithErrors",
+    ListItemDeactivateManyInProgress = <any>"ListItemDeactivateManyInProgress",
+    ListItemDeactivateManyCompleted = <any>"ListItemDeactivateManyCompleted",
+    ListItemDeactivateManyProgressFailed = <any>"ListItemDeactivateManyProgressFailed",
+    ListItemDeactivateManyProgressCompletedWithErrors = <any>"ListItemDeactivateManyProgressCompletedWithErrors",
+    ContentDeactivateManyInProgress = <any>"ContentDeactivateManyInProgress",
+    ContentDeactivateManyCompleted = <any>"ContentDeactivateManyCompleted",
+    ContentDeactivateManyProgressFailed = <any>"ContentDeactivateManyProgressFailed",
+    ContentDeactivateManyProgressCompletedWithErrors = <any>"ContentDeactivateManyProgressCompletedWithErrors",
+    ExternalBusinessProcessTitle = <any>"ExternalBusinessProcessTitle",
+    MetadataRelatedItemsInProgress = <any>"MetadataRelatedItemsInProgress",
+    MetadataRelatedItemsProgressFailed = <any>"MetadataRelatedItemsProgressFailed",
+    MetadataRelatedItemsProgressCompletedWithErrors = <any>"MetadataRelatedItemsProgressCompletedWithErrors",
+    MetadataRelatedItemsCompleted = <any>"MetadataRelatedItemsCompleted",
+    AutoTaggingInProgress = <any>"AutoTaggingInProgress",
+    AutoTaggingSucceeded = <any>"AutoTaggingSucceeded",
+    AutoTaggingSucceededWithErrors = <any>"AutoTaggingSucceededWithErrors",
+    AutoTaggingFailed = <any>"AutoTaggingFailed",
+    AutoTaggingCancelled = <any>"AutoTaggingCancelled",
+    ListItemUpdateManyInProgress = <any>"ListItemUpdateManyInProgress",
+    ListItemUpdateManyCompleted = <any>"ListItemUpdateManyCompleted",
+    ListItemUpdateManyCompletedWithErrors = <any>"ListItemUpdateManyCompletedWithErrors",
+    ListItemUpdateManyFailed = <any>"ListItemUpdateManyFailed",
+    ContentUpdateManyInProgress = <any>"ContentUpdateManyInProgress",
+    ContentUpdateManyCompleted = <any>"ContentUpdateManyCompleted",
+    ContentUpdateManyCompletedWithErrors = <any>"ContentUpdateManyCompletedWithErrors",
+    ContentUpdateManyFailed = <any>"ContentUpdateManyFailed",
+    MetadataRelatedItemsBySchemaInProgress = <any>"MetadataRelatedItemsBySchemaInProgress",
+    MetadataRelatedItemsBySchemaFailed = <any>"MetadataRelatedItemsBySchemaFailed",
+    MetadataRelatedItemsBySchemaCompletedWithErrors = <any>"MetadataRelatedItemsBySchemaCompletedWithErrors",
+    MetadataRelatedItemsBySchemaCompleted = <any>"MetadataRelatedItemsBySchemaCompleted",
+    MetadataOutdatedItemsUpdateInProgress = <any>"MetadataOutdatedItemsUpdateInProgress",
+    MetadataOutdatedItemsUpdateCompleted = <any>"MetadataOutdatedItemsUpdateCompleted",
+    MetadataOutdatedItemsUpdateCompletedWithErrors = <any>"MetadataOutdatedItemsUpdateCompletedWithErrors",
+    MetadataOutdatedItemsUpdateFailed = <any>"MetadataOutdatedItemsUpdateFailed",
+    BatchRenderingInProgress = <any>"BatchRenderingInProgress",
+    BatchRenderingCompleted = <any>"BatchRenderingCompleted",
+    BatchRenderingCompletedWithErrors = <any>"BatchRenderingCompletedWithErrors",
+    BatchRenderingFailed = <any>"BatchRenderingFailed",
+    BusinessRuleTitle = <any>"BusinessRuleTitle",
+    UserEmailConflictSolved = <any>"UserEmailConflictSolved",
+    UserEmailConflictSolvedSubject = <any>"UserEmailConflictSolvedSubject",
+    SupportUserDeactivation = <any>"SupportUserDeactivation",
+    ImportFailedTitle = <any>"ImportFailedTitle",
+}
+
+export enum MessageCode {
+    TransferInProgressMessage = <any>"TransferInProgressMessage",
+    TransferCompletedMessage = <any>"TransferCompletedMessage",
+    ImportInProgressMessage = <any>"ImportInProgressMessage",
+    ImportCompletedMessage = <any>"ImportCompletedMessage",
+    ShareNewShareMessage = <any>"ShareNewShareMessage",
+    TransferCancelledMessage = <any>"TransferCancelledMessage",
+    ImportCancelledMessage = <any>"ImportCancelledMessage",
+    ImportFailedMessage = <any>"ImportFailedMessage",
+    TransferInProgressWithFailedMessage = <any>"TransferInProgressWithFailedMessage",
+    TransferCompletedWithFailedMessage = <any>"TransferCompletedWithFailedMessage",
+    TransferCancelledWithFailedMessage = <any>"TransferCancelledWithFailedMessage",
+    ImportInProgressWithFailedMessage = <any>"ImportInProgressWithFailedMessage",
+    ImportCompletedWithFailedMessage = <any>"ImportCompletedWithFailedMessage",
+    ImportCancelledWithFailedMessage = <any>"ImportCancelledWithFailedMessage",
+    SchemaImportInProgressMessage = <any>"SchemaImportInProgressMessage",
+    SchemaImportCompletedMessage = <any>"SchemaImportCompletedMessage",
+    SchemaImportFailedMessage = <any>"SchemaImportFailedMessage",
+    UserRegisteredMessage = <any>"UserRegisteredMessage",
+    UserLockedMessage = <any>"UserLockedMessage",
+    UserReviewedMessage = <any>"UserReviewedMessage",
+    IndexDraft = <any>"IndexDraft",
+    IndexCreate = <any>"IndexCreate",
+    IndexInactive = <any>"IndexInactive",
+    IndexActive = <any>"IndexActive",
+    IndexClosed = <any>"IndexClosed",
+    IndexReindexInProgress = <any>"IndexReindexInProgress",
+    IndexCancelled = <any>"IndexCancelled",
+    ReindexProgressDraft = <any>"ReindexProgressDraft",
+    ReindexProgressInProgress = <any>"ReindexProgressInProgress",
+    ReindexProgressCompleted = <any>"ReindexProgressCompleted",
+    ReindexProgressCancelled = <any>"ReindexProgressCancelled",
+    ReindexProgressFailed = <any>"ReindexProgressFailed",
+    ReindexProgressCompletedWithErrors = <any>"ReindexProgressCompletedWithErrors",
+    ContentBatchEditInProgress = <any>"ContentBatchEditInProgress",
+    ContentBatchEditCompleted = <any>"ContentBatchEditCompleted",
+    ContentBatchEditProgressFailed = <any>"ContentBatchEditProgressFailed",
+    ContentBatchEditProgressCompletedWithErrors = <any>"ContentBatchEditProgressCompletedWithErrors",
+    ListItemBatchEditInProgress = <any>"ListItemBatchEditInProgress",
+    ListItemBatchEditCompleted = <any>"ListItemBatchEditCompleted",
+    ListItemBatchEditProgressFailed = <any>"ListItemBatchEditProgressFailed",
+    ListItemBatchEditProgressCompletedWithErrors = <any>"ListItemBatchEditProgressCompletedWithErrors",
+    ContentBackupRecoveryDraft = <any>"ContentBackupRecoveryDraft",
+    ContentBackupRecoveryInProgress = <any>"ContentBackupRecoveryInProgress",
+    ContentBackupRecoveryCompleted = <any>"ContentBackupRecoveryCompleted",
+    ContentBackupRecoveryForcefullyCompleted = <any>"ContentBackupRecoveryForcefullyCompleted",
+    ContentBackupRecoveryCancelled = <any>"ContentBackupRecoveryCancelled",
+    ContentBackupRecoveryFailed = <any>"ContentBackupRecoveryFailed",
+    ContentOwnershipBatchEditInProgress = <any>"ContentOwnershipBatchEditInProgress",
+    ContentOwnershipBatchEditCompleted = <any>"ContentOwnershipBatchEditCompleted",
+    ContentOwnershipBatchEditProgressFailed = <any>"ContentOwnershipBatchEditProgressFailed",
+    ContentOwnershipBatchEditProgressCompletedWithErrors = <any>"ContentOwnershipBatchEditProgressCompletedWithErrors",
+    ContentPermissionsBatchEditInProgress = <any>"ContentPermissionsBatchEditInProgress",
+    ContentPermissionsBatchEditCompleted = <any>"ContentPermissionsBatchEditCompleted",
+    ContentPermissionsBatchEditProgressFailed = <any>"ContentPermissionsBatchEditProgressFailed",
+    ContentPermissionsBatchEditProgressCompletedWithErrors = <any>"ContentPermissionsBatchEditProgressCompletedWithErrors",
+    UserTriggeredDeactivationRequestMessage = <any>"UserTriggeredDeactivationRequestMessage",
+    UserEmailConflictSolved = <any>"UserEmailConflictSolved",
+    ListItemDeactivateManyInProgress = <any>"ListItemDeactivateManyInProgress",
+    ListItemDeactivateManyCompleted = <any>"ListItemDeactivateManyCompleted",
+    ListItemDeactivateManyProgressFailed = <any>"ListItemDeactivateManyProgressFailed",
+    ListItemDeactivateManyProgressCompletedWithErrors = <any>"ListItemDeactivateManyProgressCompletedWithErrors",
+    ContentDeactivateManyInProgress = <any>"ContentDeactivateManyInProgress",
+    ContentDeactivateManyCompleted = <any>"ContentDeactivateManyCompleted",
+    ContentDeactivateManyProgressFailed = <any>"ContentDeactivateManyProgressFailed",
+    ContentDeactivateManyProgressCompletedWithErrors = <any>"ContentDeactivateManyProgressCompletedWithErrors",
+    ExternalBusinessProcessMessage = <any>"ExternalBusinessProcessMessage",
+    MetadataRelatedItemsInProgress = <any>"MetadataRelatedItemsInProgress",
+    MetadataRelatedItemsProgressFailed = <any>"MetadataRelatedItemsProgressFailed",
+    MetadataRelatedItemsProgressCompletedWithErrors = <any>"MetadataRelatedItemsProgressCompletedWithErrors",
+    MetadataRelatedItemsCompleted = <any>"MetadataRelatedItemsCompleted",
+    AutoTaggingInProgress = <any>"AutoTaggingInProgress",
+    AutoTaggingSucceeded = <any>"AutoTaggingSucceeded",
+    AutoTaggingSucceededWithErrors = <any>"AutoTaggingSucceededWithErrors",
+    AutoTaggingFailed = <any>"AutoTaggingFailed",
+    AutoTaggingCancelled = <any>"AutoTaggingCancelled",
+    ListItemUpdateManyInProgress = <any>"ListItemUpdateManyInProgress",
+    ListItemUpdateManyCompleted = <any>"ListItemUpdateManyCompleted",
+    ListItemUpdateManyCompletedWithErrors = <any>"ListItemUpdateManyCompletedWithErrors",
+    ListItemUpdateManyFailed = <any>"ListItemUpdateManyFailed",
+    ContentUpdateManyInProgress = <any>"ContentUpdateManyInProgress",
+    ContentUpdateManyCompleted = <any>"ContentUpdateManyCompleted",
+    ContentUpdateManyCompletedWithErrors = <any>"ContentUpdateManyCompletedWithErrors",
+    ContentUpdateManyFailed = <any>"ContentUpdateManyFailed",
+    MetadataRelatedItemsBySchemaInProgress = <any>"MetadataRelatedItemsBySchemaInProgress",
+    MetadataRelatedItemsBySchemaFailed = <any>"MetadataRelatedItemsBySchemaFailed",
+    MetadataRelatedItemsBySchemaCompletedWithErrors = <any>"MetadataRelatedItemsBySchemaCompletedWithErrors",
+    MetadataRelatedItemsBySchemaCompleted = <any>"MetadataRelatedItemsBySchemaCompleted",
+    MetadataOutdatedItemsUpdateInProgress = <any>"MetadataOutdatedItemsUpdateInProgress",
+    MetadataOutdatedItemsUpdateCompleted = <any>"MetadataOutdatedItemsUpdateCompleted",
+    MetadataOutdatedItemsUpdateCompletedWithErrors = <any>"MetadataOutdatedItemsUpdateCompletedWithErrors",
+    MetadataOutdatedItemsUpdateFailed = <any>"MetadataOutdatedItemsUpdateFailed",
+    BatchRenderingInProgress = <any>"BatchRenderingInProgress",
+    BatchRenderingCompleted = <any>"BatchRenderingCompleted",
+    BatchRenderingCompletedWithErrors = <any>"BatchRenderingCompletedWithErrors",
+    BatchRenderingFailed = <any>"BatchRenderingFailed",
+    BusinessRuleMessage = <any>"BusinessRuleMessage",
+}
+
+export interface NotificationDetailBase {
+    kind: string;
+}
+
+export interface NotificationDetailBusinessProcessBase extends NotificationDetailBase {
+    businessProcessId?: string | undefined;
+    businessProcessLifeCycle?: BusinessProcessLifeCycle;
+}
+
+export interface NotificationDetailTransfer extends NotificationDetailBusinessProcessBase {
+    fileProgress?: number;
+    fileCount?: number;
+    failedCount?: number;
+    cancelledCount?: number;
+    name?: string | undefined;
+    transferId?: string | undefined;
+}
+
+export interface NotificationDetailShare extends NotificationDetailBase {
+    token?: string | undefined;
+    shareId?: string | undefined;
+}
+
+export interface NotificationDetailSchemaImport extends NotificationDetailBusinessProcessBase {
+    schemaCount?: number;
+    schemaProgress?: number;
+    listItemCount?: number;
+    listItemProgress?: number;
+    name?: string | undefined;
+    transferId?: string | undefined;
+    importedSchemaCount?: number;
+    skippedSchemaCount?: number;
+    importedListItemCount?: number;
+    skippedListItemCount?: number;
+    relatedItemCount?: number;
+    relatedItemProgress?: number;
+}
+
+export interface NotificationDetailIndexReindexProgress extends NotificationDetailBusinessProcessBase {
+    indexId?: string | undefined;
+    expected?: number;
+    current?: number;
+}
+
+export interface NotificationDetailUserRegistered extends NotificationDetailBase {
+    displayName?: string | undefined;
+    userId?: string | undefined;
+}
+
+export interface NotificationDetailContentBackupRecovery extends NotificationDetailBusinessProcessBase {
+    contentTotalCount?: number;
+    contentProgressCount?: number;
+}
+
+export interface NotificationDetailProgress extends NotificationDetailBusinessProcessBase {
+    total?: number;
+    succeeded?: number;
+    failed?: number;
+    relatedItemCount?: number;
+    relatedItemProgress?: number;
+}
+
+export interface NotificationDetailMetadataItemDeactivation extends NotificationDetailProgress {
+    referencingItemsCount?: number;
+    referencingItemsProgress?: number;
+}
+
+export interface NotificationDetailExternalBusinessProcess extends NotificationDetailBusinessProcessBase {
+    title?: TranslatedStringDictionary | undefined;
+    message?: TranslatedStringDictionary | undefined;
+    navigationLink?: string | undefined;
+}
+
+export interface NotificationDetailBusinessRule extends NotificationDetailBase {
+    title?: TranslatedStringDictionary | undefined;
+    message?: TranslatedStringDictionary | undefined;
+    collectionId?: string | undefined;
+    notificationId?: string | undefined;
+}
+
+export enum NotificationState {
+    Draft = <any>"Draft",
+    Unread = <any>"Unread",
+    Read = <any>"Read",
+    Deleted = <any>"Deleted",
+    Null = <any>"Null",
+}
+
+/** Base class for search results */
+export interface BaseResultOfNotification {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: Notification[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+
+export interface NotificationCompactResult extends BaseResultOfNotification {
+    dataFetchStamp?: Date;
+    aggregationResults?: AggregationResult[] | undefined;
+}
+
+export interface NotificationSearchAndAggregationBaseRequest {
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
+}
+
+export interface NotificationSearchRequest extends NotificationSearchAndAggregationBaseRequest {
+    /** Limits the document count of the result set. */
+    limit?: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+}
+
+export interface NotificationAggregationRequest extends NotificationSearchAndAggregationBaseRequest {
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators: AggregatorBase[];
+}
+
+/** Digest configuration */
+export interface NotificationDigestConfiguration {
+    /** Digest interval. */
+    interval: NotificationDigestInterval;
+    /** Item override to enable/disable digest for a specific notification item. */
+    items?: NotificationDigestConfigurationItem[] | undefined;
+    /** Disable all items by default.
+            
+When set to false, Items property acts as a blacklist (all items are digested by default).
+When set to true, Items property acts as a whitelist (no items are digested by default). */
+    digestDisabledByDefault: boolean;
+}
+
+/** Interval for notification digest */
+export enum NotificationDigestInterval {
+    Daily = <any>"Daily",
+    Hourly = <any>"Hourly",
+    QuarterHourly = <any>"QuarterHourly",
+    Off = <any>"Off",
+}
+
+/** Configuration for a specific notification item */
+export interface NotificationDigestConfigurationItem {
+    /** ID of notification */
+    notificationId?: string | undefined;
+    /** Enable digest for this item */
+    digestEnabled: boolean;
 }
 
 /** Used to change the download file name pattern for multiple formats at once. */
@@ -22798,6 +24353,8 @@ export interface ShareDetail {
     audit: UserAudit;
     /** Detailed information about contents in the share. */
     contentSelections: ShareContentDetail[];
+    /** List of all contents in share including outputs. */
+    contents: ShareContent[];
     /** List of shared layers. */
     layerSchemaIds?: string[] | undefined;
     /** Detail of share. */
@@ -22812,6 +24369,10 @@ export interface ShareDetail {
     shareType: ShareType;
     /** Schema detail of the content and the layers. */
     schemas?: SchemaDetail[] | undefined;
+    /** Page token to retrieve next page of content selections. */
+    pageToken?: string | undefined;
+    /** Number of contents in share. */
+    contentCount: number;
 }
 
 /** Reduced set of user information used for shares */
@@ -22871,6 +24432,13 @@ export interface ShareOutputBasic extends ShareOutputBase {
 export interface ShareOutputEmbed extends ShareOutputBase {
     /** Share token for the shared output. */
     token?: string | undefined;
+}
+
+export interface ShareContent {
+    /** Content ID to share. */
+    contentId: string;
+    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
+    outputFormatIds?: string[] | undefined;
 }
 
 /** Base of share data */
@@ -22935,6 +24503,21 @@ export enum ShareResolveBehavior {
     Schemas = <any>"Schemas",
 }
 
+/** Base class for search results */
+export interface BaseResultOfShareContentDetail {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: ShareContentDetail[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+
+export interface ShareContentDetailResult extends BaseResultOfShareContentDetail {
+}
+
 /** Base of update request for share */
 export interface ShareBaseUpdateRequest {
     /** Name of share. */
@@ -22950,13 +24533,6 @@ export interface ShareBaseUpdateRequest {
     /** Access for content outputs in share. */
     outputAccess: OutputAccess;
     kind: string;
-}
-
-export interface ShareContent {
-    /** Content ID to share. */
-    contentId: string;
-    /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
-    outputFormatIds?: string[] | undefined;
 }
 
 /** Update request for basic share */
@@ -23091,6 +24667,57 @@ export interface ShareSearchRequest extends ShareSearchAndAggregationBaseRequest
     debugMode?: boolean;
     /** List of aggregators that defines how the items should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
+}
+
+/** Request to update a template */
+export interface TemplateUpdateRequest {
+    /** Language specific names. */
+    names: TranslatedStringDictionary;
+    /** Values per media type for the template. */
+    values: TemplateValue[];
+}
+
+/** Request to create a new template */
+export interface TemplateCreateRequest extends TemplateUpdateRequest {
+    /** Name of the template. */
+    name: string;
+    /** Language code of the template. */
+    languageCode: string;
+    /** Type of the template. */
+    templateType: TemplateType;
+}
+
+/** Template */
+export interface Template extends TemplateCreateRequest {
+    /** ID of template. */
+    id?: string | undefined;
+    /** Indicates if this is a read-only system template. */
+    system?: boolean;
+    /** Audit information. */
+    audit?: UserAuditDetail | undefined;
+}
+
+export enum TemplateType {
+    ShareMail = <any>"ShareMail",
+    SharePage = <any>"SharePage",
+    NewUserRegisteredMail = <any>"NewUserRegisteredMail",
+    UserLockedMail = <any>"UserLockedMail",
+    UserUnlockedMail = <any>"UserUnlockedMail",
+    UserReviewedMail = <any>"UserReviewedMail",
+    UserInvitationMail = <any>"UserInvitationMail",
+    ShareNotFoundPage = <any>"ShareNotFoundPage",
+    UserTriggeredDeactivationRequestMail = <any>"UserTriggeredDeactivationRequestMail",
+    UserEmailConflictSolvedMail = <any>"UserEmailConflictSolvedMail",
+    NotificationDigestMail = <any>"NotificationDigestMail",
+    NotificationDigestItem = <any>"NotificationDigestItem",
+}
+
+/** Media type specific value for a template */
+export interface TemplateValue {
+    /** Media type. */
+    mediaType: string;
+    /** Text. */
+    text: string;
 }
 
 /** Creates a transfer. */

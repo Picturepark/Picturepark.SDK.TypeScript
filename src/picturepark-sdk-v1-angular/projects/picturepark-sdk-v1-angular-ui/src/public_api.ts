@@ -94,7 +94,7 @@ export { TRANSLATIONS } from './lib/utilities/translations';
 
 // Interfaces
 export { SearchParameters } from './lib/shared-module/search-utils';
-export { ContentDetailDialogOptions } from './lib/features-module/content-details-dialog/ContentDetailDialogOptions';
+export { ContentDetailsDialogOptions } from './lib/features-module/content-details-dialog/content-details-dialog-options';
 
 // Pipes
 export { HighlightPipe } from './lib/shared-module/pipes/highlight.pipe';
