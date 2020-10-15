@@ -7,5 +7,9 @@
     a {
       color: mat-color($primary, primary);
     }
+
+    img {
+      max-width: 100%;
+    }
   }
 }
