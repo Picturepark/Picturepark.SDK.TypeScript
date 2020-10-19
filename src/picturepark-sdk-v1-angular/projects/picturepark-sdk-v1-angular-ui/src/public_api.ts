@@ -73,9 +73,11 @@ export { ShareSettingsPanelModule } from './lib/features-module/share-settings-p
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
 export { ListBrowserComponent } from './lib/features-module/list-browser/list-browser.component';
 export { ContentDetailsDialogComponent } from './lib/features-module/content-details-dialog/content-details-dialog.component';
+export { ReadMoreComponent } from './lib/features-module/layer-panels/components/read-more/read-more.component';
 
 // Directives
 export { LazyLoadDirective } from './lib/shared-module/directives/lazy-load.directive';
+export { MarkdownDirective } from './lib/features-module/layer-panels/directives/markdown-directive';
 
 // Services
 export { SelectionService } from './lib/shared-module/services/selection/selection.service';
@@ -101,3 +103,4 @@ export { HighlightPipe } from './lib/shared-module/pipes/highlight.pipe';
 export { TranslatePipe } from './lib/shared-module/pipes/translate.pipe';
 export { FileSizePipe } from './lib/shared-module/pipes/filesize.pipe';
 export { AvatarPipe, AvatarHashedPipe } from './lib/shared-module/pipes/avatar.pipe';
+export { AggregationItemTranslatePipe } from './lib/shared-module/pipes/aggregation-item-translate';
