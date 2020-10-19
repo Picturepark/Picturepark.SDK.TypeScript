@@ -17,7 +17,7 @@ export class LanguageService {
   public loadLanguages(locale?: string, cdnUrl?: string): Observable<boolean> {
     return this.infoFacade.getInfo(cdnUrl).pipe(
       map((info) => {
-        this.languages = this.filterLanguages(info.languages, info.languageConfiguration.systemLanguages);
+        this.languages = this.filterLanguages(info.languages /*, info.languageConfiguration.systemLanguages*/);
         this.defaultLanguage = info.languageConfiguration.defaultLanguage ?? info.languages[0].ietf;
         this.changeCurrentLanguage(locale || this.defaultLanguage);
         return locale === this.currentLanguage.ietf;

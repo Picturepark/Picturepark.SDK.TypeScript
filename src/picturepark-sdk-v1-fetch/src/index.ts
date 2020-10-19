@@ -1515,6 +1515,231 @@ export class ChannelClient extends PictureparkClientBase {
         }
         return Promise.resolve<void>(<any>null);
     }
+
+    /**
+     * Retrieve the fields that can be used in an aggregator on any channel.
+     * @return The list of fields
+     */
+    getAggregationFields(): Promise<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Channels/fields/aggregation";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetAggregationFields(_response);
+        });
+    }
+
+    protected processGetAggregationFields(response: Response): Promise<FieldInfo[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <FieldInfo[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FieldInfo[]>(<any>null);
+    }
+
+    /**
+     * Retrieve the fields that can be used as sort fields on any channel.
+     * @return The list of fields
+     */
+    getSortFields(): Promise<SortFieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Channels/fields/sort";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetSortFields(_response);
+        });
+    }
+
+    protected processGetSortFields(response: Response): Promise<SortFieldInfo[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <SortFieldInfo[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<SortFieldInfo[]>(<any>null);
+    }
+
+    /**
+     * Retrieve the fields that can be used as filter fields on any channel.
+     * @return The list of fields
+     */
+    getFilterFields(): Promise<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Channels/fields/filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetFilterFields(_response);
+        });
+    }
+
+    protected processGetFilterFields(response: Response): Promise<FieldInfo[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <FieldInfo[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FieldInfo[]>(<any>null);
+    }
 }
 
 export class ContentPermissionSetClient extends PictureparkClientBase {
@@ -12244,21 +12469,20 @@ export class SchemaClient extends PictureparkClientBase {
     }
 
     /**
-     * Search index fields
-     * @param request The search request.
-     * @return Indexed fields
+     * Retrieve the fields that can be used in an aggregator on a schema.
+     * @param id The ID of the schema.
+     * @return The list of fields
      */
-    getIndexFields(request: IndexFieldsSearchBySchemaIdsRequest): Promise<IndexField[]> {
-        let url_ = this.baseUrl + "/v1/Schemas/indexFields/searchBySchemaIds";
+    getAggregationFields(id: string | null): Promise<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Schemas/{id}/aggregationFields";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(request);
-
         let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
+            method: "GET",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         };
@@ -12266,17 +12490,17 @@ export class SchemaClient extends PictureparkClientBase {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processGetIndexFields(_response);
+            return this.processGetAggregationFields(_response);
         });
     }
 
-    protected processGetIndexFields(response: Response): Promise<IndexField[]> {
+    protected processGetAggregationFields(response: Response): Promise<FieldInfo[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <IndexField[]>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <FieldInfo[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 400) {
@@ -12320,7 +12544,242 @@ export class SchemaClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<IndexField[]>(<any>null);
+        return Promise.resolve<FieldInfo[]>(<any>null);
+    }
+
+    /**
+     * Retrieve the fields that can be used in an aggregator on multiple schemas.
+     * @param ids (optional) The IDs of the schemas.
+     * @return The list of fields
+     */
+    getAggregationFieldsMany(ids?: string[] | null | undefined): Promise<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Schemas/many/aggregationFields?";
+        if (ids !== undefined && ids !== null)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetAggregationFieldsMany(_response);
+        });
+    }
+
+    protected processGetAggregationFieldsMany(response: Response): Promise<FieldInfo[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <FieldInfo[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FieldInfo[]>(<any>null);
+    }
+
+    /**
+     * Retrieve the fields that can be used in a filter on a schema.
+     * @param id The ID of the schema.
+     * @return The list of fields
+     */
+    getFilterFields(id: string | null): Promise<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Schemas/{id}/filterFields";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetFilterFields(_response);
+        });
+    }
+
+    protected processGetFilterFields(response: Response): Promise<FieldInfo[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <FieldInfo[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FieldInfo[]>(<any>null);
+    }
+
+    /**
+     * Retrieve the fields that can be used in a filter on multiple schemas.
+     * @param ids (optional) The IDs of the schemas.
+     * @return The list of fields
+     */
+    getFilterFieldsMany(ids?: string[] | null | undefined): Promise<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Schemas/many/filterFields?";
+        if (ids !== undefined && ids !== null)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetFilterFieldsMany(_response);
+        });
+    }
+
+    protected processGetFilterFieldsMany(response: Response): Promise<FieldInfo[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <FieldInfo[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FieldInfo[]>(<any>null);
     }
 }
 
@@ -20967,6 +21426,28 @@ export interface ChannelUpdateRequest {
     viewForAll: boolean;
 }
 
+export interface FieldInfo {
+    /** The path of the field ({schemaId}.{fieldId}) */
+    path?: string | undefined;
+    /** The ID of the field. */
+    fieldId?: string | undefined;
+    /** The type of the field. */
+    type?: string | undefined;
+    /** Flag indicating if the search when aggregating the field is supported or not. */
+    allowSearch: boolean;
+    /** Identifies a static field not retrieved from the dynamic metadata fields. */
+    static: boolean;
+    /** Path of the nested object, if the current field is part of a nested object */
+    nestedPath?: string | undefined;
+}
+
+export interface SortFieldInfo {
+    /** The path of the field ({schemaId}.{fieldId}) */
+    path: string;
+    /** Identifies a static field not retrieved from the dynamic metadata fields. */
+    static: boolean;
+}
+
 /** Base class for detail of permission sets */
 export interface PermissionSetDetailOfContentRight {
     /** The permission set ID. */
@@ -22141,8 +22622,8 @@ export interface CustomerInfo {
     apiUrl: string;
     /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails: boolean;
-    /** Configured languages of customer instance (system, metadata, default). */
-    languageConfiguration: LanguageConfiguration;
+    /** Configured languages of customer instance (system, metadata, share, default). */
+    languageConfiguration: LanguageConfigurationInfo;
     /** Languages including translations for the configured system and metadata and share languages. */
     languages: Language[];
     /** Configured rendering outputs including translations for the customer instance. */
@@ -22156,17 +22637,20 @@ export interface CustomerInfo {
     baseUrl: string;
     /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
     logosUrl: string;
-    /** Share languages based on defined ShareMail templates. */
-    shareLanguages: string[];
 }
 
 export interface LanguageConfiguration {
     /** A list of languages serving as system languages. */
-    systemLanguages?: string[] | undefined;
+    systemLanguages: string[];
     /** A list of languages serving as metadata languages. */
-    metadataLanguages?: string[] | undefined;
+    metadataLanguages: string[];
     /** The default language. Not the be confused with the metadata fallback language x-default. */
-    defaultLanguage?: string | undefined;
+    defaultLanguage: string;
+}
+
+export interface LanguageConfigurationInfo extends LanguageConfiguration {
+    /** Share languages based on defined ShareMail templates. */
+    shareLanguages: string[];
 }
 
 export interface Language {
@@ -24250,44 +24734,6 @@ If not specified, all metadata languages in the system are used. */
     searchLanguages?: string[] | undefined;
     /** Limits the schemas to the ones the user has the specified MetadataRights. */
     rightsFilter?: MetadataRight[] | undefined;
-}
-
-/** Contains compiled field information. */
-export interface IndexField {
-    id?: string | undefined;
-    /** The field id. */
-    fieldId?: string | undefined;
-    /** The field's type name. */
-    type?: string | undefined;
-    /** Contains all index field name variants of the field. */
-    indexFields?: { [key: string]: string; } | undefined;
-    /** Contains all simple search field name variants of the field.
-The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
-    simpleSearchFields?: { [key: string]: string; } | undefined;
-    /** Contains the fields boost value. */
-    boost: number;
-    /** Not to be returned for search query, but only used for mapping purposes */
-    ignoreForSearch: boolean;
-    /** The path of the Nested document this property belongs to. If set to null, it means that there is no Nested document */
-    nestedPath?: string | undefined;
-    /** Path to the sorting information in the DataSortValuesField sort index. */
-    sortField?: string | undefined;
-}
-
-/** Request to search indexed fields of specific schemas */
-export interface IndexFieldsSearchBySchemaIdsRequest {
-    /** The IDs of the schemas for which the indexed fields should be returned. */
-    schemaIds?: string[] | undefined;
-    /** Controls how the search works which schemas should be considered in the search.
-AllDescendantsFieldsOnRootSchema: All indexed fields from descendant schemas of root ones will be returned. Schemas that are not root schemas will be ignored.
-SchemaAndParentFieldsOnly: Indexed fields of the requested schema and its parents will be returned. */
-    searchMode: IndexFieldsSearchMode;
-}
-
-/** How the index field search works */
-export enum IndexFieldsSearchMode {
-    AllDescendantsFieldsOnRootSchema = <any>"AllDescendantsFieldsOnRootSchema",
-    SchemaAndParentFieldsOnly = <any>"SchemaAndParentFieldsOnly",
 }
 
 /** Represents a transfer. */

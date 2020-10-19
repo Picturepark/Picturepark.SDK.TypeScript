@@ -1849,6 +1849,300 @@ export class ChannelService extends PictureparkServiceBase {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * Retrieve the fields that can be used in an aggregator on any channel.
+     * @return The list of fields
+     */
+    getAggregationFields(): Observable<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Channels/fields/aggregation";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetAggregationFields(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAggregationFields(<any>response_);
+                } catch (e) {
+                    return <Observable<FieldInfo[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FieldInfo[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAggregationFields(response: HttpResponseBase): Observable<FieldInfo[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(FieldInfo.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FieldInfo[]>(<any>null);
+    }
+
+    /**
+     * Retrieve the fields that can be used as sort fields on any channel.
+     * @return The list of fields
+     */
+    getSortFields(): Observable<SortFieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Channels/fields/sort";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetSortFields(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSortFields(<any>response_);
+                } catch (e) {
+                    return <Observable<SortFieldInfo[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SortFieldInfo[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSortFields(response: HttpResponseBase): Observable<SortFieldInfo[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(SortFieldInfo.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SortFieldInfo[]>(<any>null);
+    }
+
+    /**
+     * Retrieve the fields that can be used as filter fields on any channel.
+     * @return The list of fields
+     */
+    getFilterFields(): Observable<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Channels/fields/filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetFilterFields(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFilterFields(<any>response_);
+                } catch (e) {
+                    return <Observable<FieldInfo[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FieldInfo[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetFilterFields(response: HttpResponseBase): Observable<FieldInfo[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(FieldInfo.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FieldInfo[]>(<any>null);
+    }
 }
 
 @Injectable({
@@ -15289,43 +15583,42 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Search index fields
-     * @param request The search request.
-     * @return Indexed fields
+     * Retrieve the fields that can be used in an aggregator on a schema.
+     * @param id The ID of the schema.
+     * @return The list of fields
      */
-    getIndexFields(request: IndexFieldsSearchBySchemaIdsRequest): Observable<IndexField[]> {
-        let url_ = this.baseUrl + "/v1/Schemas/indexFields/searchBySchemaIds";
+    getAggregationFields(id: string | null): Observable<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Schemas/{id}/aggregationFields";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(request);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("post", url_, transformedOptions_);
+            return this.http.request("get", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetIndexFields(response_);
+            return this.processGetAggregationFields(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetIndexFields(<any>response_);
+                    return this.processGetAggregationFields(<any>response_);
                 } catch (e) {
-                    return <Observable<IndexField[]>><any>_observableThrow(e);
+                    return <Observable<FieldInfo[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<IndexField[]>><any>_observableThrow(response_);
+                return <Observable<FieldInfo[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetIndexFields(response: HttpResponseBase): Observable<IndexField[]> {
+    protected processGetAggregationFields(response: HttpResponseBase): Observable<FieldInfo[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -15339,7 +15632,7 @@ export class SchemaService extends PictureparkServiceBase {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(IndexField.fromJS(item));
+                    result200!.push(FieldInfo.fromJS(item));
             }
             return _observableOf(result200);
             }));
@@ -15388,7 +15681,311 @@ export class SchemaService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<IndexField[]>(<any>null);
+        return _observableOf<FieldInfo[]>(<any>null);
+    }
+
+    /**
+     * Retrieve the fields that can be used in an aggregator on multiple schemas.
+     * @param ids (optional) The IDs of the schemas.
+     * @return The list of fields
+     */
+    getAggregationFieldsMany(ids: string[] | null | undefined): Observable<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Schemas/many/aggregationFields?";
+        if (ids !== undefined && ids !== null)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetAggregationFieldsMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAggregationFieldsMany(<any>response_);
+                } catch (e) {
+                    return <Observable<FieldInfo[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FieldInfo[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAggregationFieldsMany(response: HttpResponseBase): Observable<FieldInfo[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(FieldInfo.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FieldInfo[]>(<any>null);
+    }
+
+    /**
+     * Retrieve the fields that can be used in a filter on a schema.
+     * @param id The ID of the schema.
+     * @return The list of fields
+     */
+    getFilterFields(id: string | null): Observable<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Schemas/{id}/filterFields";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetFilterFields(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFilterFields(<any>response_);
+                } catch (e) {
+                    return <Observable<FieldInfo[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FieldInfo[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetFilterFields(response: HttpResponseBase): Observable<FieldInfo[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(FieldInfo.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FieldInfo[]>(<any>null);
+    }
+
+    /**
+     * Retrieve the fields that can be used in a filter on multiple schemas.
+     * @param ids (optional) The IDs of the schemas.
+     * @return The list of fields
+     */
+    getFilterFieldsMany(ids: string[] | null | undefined): Observable<FieldInfo[]> {
+        let url_ = this.baseUrl + "/v1/Schemas/many/filterFields?";
+        if (ids !== undefined && ids !== null)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetFilterFieldsMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFilterFieldsMany(<any>response_);
+                } catch (e) {
+                    return <Observable<FieldInfo[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FieldInfo[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetFilterFieldsMany(response: HttpResponseBase): Observable<FieldInfo[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(FieldInfo.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FieldInfo[]>(<any>null);
     }
 }
 
@@ -47431,6 +48028,118 @@ export interface IChannelUpdateRequest {
     viewForAll: boolean;
 }
 
+export class FieldInfo implements IFieldInfo {
+    /** The path of the field ({schemaId}.{fieldId}) */
+    path?: string | undefined;
+    /** The ID of the field. */
+    fieldId?: string | undefined;
+    /** The type of the field. */
+    type?: string | undefined;
+    /** Flag indicating if the search when aggregating the field is supported or not. */
+    allowSearch!: boolean;
+    /** Identifies a static field not retrieved from the dynamic metadata fields. */
+    static!: boolean;
+    /** Path of the nested object, if the current field is part of a nested object */
+    nestedPath?: string | undefined;
+
+    constructor(data?: IFieldInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.path = _data["path"];
+            this.fieldId = _data["fieldId"];
+            this.type = _data["type"];
+            this.allowSearch = _data["allowSearch"];
+            this.static = _data["static"];
+            this.nestedPath = _data["nestedPath"];
+        }
+    }
+
+    static fromJS(data: any): FieldInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["path"] = this.path;
+        data["fieldId"] = this.fieldId;
+        data["type"] = this.type;
+        data["allowSearch"] = this.allowSearch;
+        data["static"] = this.static;
+        data["nestedPath"] = this.nestedPath;
+        return data; 
+    }
+}
+
+export interface IFieldInfo {
+    /** The path of the field ({schemaId}.{fieldId}) */
+    path?: string | undefined;
+    /** The ID of the field. */
+    fieldId?: string | undefined;
+    /** The type of the field. */
+    type?: string | undefined;
+    /** Flag indicating if the search when aggregating the field is supported or not. */
+    allowSearch: boolean;
+    /** Identifies a static field not retrieved from the dynamic metadata fields. */
+    static: boolean;
+    /** Path of the nested object, if the current field is part of a nested object */
+    nestedPath?: string | undefined;
+}
+
+export class SortFieldInfo implements ISortFieldInfo {
+    /** The path of the field ({schemaId}.{fieldId}) */
+    path!: string;
+    /** Identifies a static field not retrieved from the dynamic metadata fields. */
+    static!: boolean;
+
+    constructor(data?: ISortFieldInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.path = _data["path"];
+            this.static = _data["static"];
+        }
+    }
+
+    static fromJS(data: any): SortFieldInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new SortFieldInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["path"] = this.path;
+        data["static"] = this.static;
+        return data; 
+    }
+}
+
+export interface ISortFieldInfo {
+    /** The path of the field ({schemaId}.{fieldId}) */
+    path: string;
+    /** Identifies a static field not retrieved from the dynamic metadata fields. */
+    static: boolean;
+}
+
 /** Base class for detail of permission sets */
 export abstract class PermissionSetDetailOfContentRight implements IPermissionSetDetailOfContentRight {
     /** The permission set ID. */
@@ -53970,8 +54679,8 @@ export class CustomerInfo implements ICustomerInfo {
     apiUrl!: string;
     /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails!: boolean;
-    /** Configured languages of customer instance (system, metadata, default). */
-    languageConfiguration!: LanguageConfiguration;
+    /** Configured languages of customer instance (system, metadata, share, default). */
+    languageConfiguration!: LanguageConfigurationInfo;
     /** Languages including translations for the configured system and metadata and share languages. */
     languages!: Language[];
     /** Configured rendering outputs including translations for the customer instance. */
@@ -53985,8 +54694,6 @@ export class CustomerInfo implements ICustomerInfo {
     baseUrl!: string;
     /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
     logosUrl!: string;
-    /** Share languages based on defined ShareMail templates. */
-    shareLanguages!: string[];
 
     constructor(data?: ICustomerInfo) {
         if (data) {
@@ -53994,7 +54701,7 @@ export class CustomerInfo implements ICustomerInfo {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.languageConfiguration = data.languageConfiguration && !(<any>data.languageConfiguration).toJSON ? new LanguageConfiguration(data.languageConfiguration) : <LanguageConfiguration>this.languageConfiguration; 
+            this.languageConfiguration = data.languageConfiguration && !(<any>data.languageConfiguration).toJSON ? new LanguageConfigurationInfo(data.languageConfiguration) : <LanguageConfigurationInfo>this.languageConfiguration; 
             if (data.languages) {
                 this.languages = [];
                 for (let i = 0; i < data.languages.length; i++) {
@@ -54018,11 +54725,10 @@ export class CustomerInfo implements ICustomerInfo {
             }
         }
         if (!data) {
-            this.languageConfiguration = new LanguageConfiguration();
+            this.languageConfiguration = new LanguageConfigurationInfo();
             this.languages = [];
             this.outputFormats = [];
             this.boostValues = [];
-            this.shareLanguages = [];
         }
     }
 
@@ -54034,7 +54740,7 @@ export class CustomerInfo implements ICustomerInfo {
             this.identityServerUrl = _data["identityServerUrl"];
             this.apiUrl = _data["apiUrl"];
             this.enableQueryDetails = _data["enableQueryDetails"];
-            this.languageConfiguration = _data["languageConfiguration"] ? LanguageConfiguration.fromJS(_data["languageConfiguration"]) : new LanguageConfiguration();
+            this.languageConfiguration = _data["languageConfiguration"] ? LanguageConfigurationInfo.fromJS(_data["languageConfiguration"]) : new LanguageConfigurationInfo();
             if (Array.isArray(_data["languages"])) {
                 this.languages = [] as any;
                 for (let item of _data["languages"])
@@ -54058,11 +54764,6 @@ export class CustomerInfo implements ICustomerInfo {
             this.modificationDate = _data["modificationDate"] ? new Date(_data["modificationDate"].toString()) : <any>undefined;
             this.baseUrl = _data["baseUrl"];
             this.logosUrl = _data["logosUrl"];
-            if (Array.isArray(_data["shareLanguages"])) {
-                this.shareLanguages = [] as any;
-                for (let item of _data["shareLanguages"])
-                    this.shareLanguages!.push(item);
-            }
         }
     }
 
@@ -54105,11 +54806,6 @@ export class CustomerInfo implements ICustomerInfo {
         data["modificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
         data["baseUrl"] = this.baseUrl;
         data["logosUrl"] = this.logosUrl;
-        if (Array.isArray(this.shareLanguages)) {
-            data["shareLanguages"] = [];
-            for (let item of this.shareLanguages)
-                data["shareLanguages"].push(item);
-        }
         return data; 
     }
 }
@@ -54128,8 +54824,8 @@ export interface ICustomerInfo {
     apiUrl: string;
     /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails: boolean;
-    /** Configured languages of customer instance (system, metadata, default). */
-    languageConfiguration: ILanguageConfiguration;
+    /** Configured languages of customer instance (system, metadata, share, default). */
+    languageConfiguration: ILanguageConfigurationInfo;
     /** Languages including translations for the configured system and metadata and share languages. */
     languages: ILanguage[];
     /** Configured rendering outputs including translations for the customer instance. */
@@ -54143,17 +54839,15 @@ export interface ICustomerInfo {
     baseUrl: string;
     /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
     logosUrl: string;
-    /** Share languages based on defined ShareMail templates. */
-    shareLanguages: string[];
 }
 
 export class LanguageConfiguration implements ILanguageConfiguration {
     /** A list of languages serving as system languages. */
-    systemLanguages?: string[] | undefined;
+    systemLanguages!: string[];
     /** A list of languages serving as metadata languages. */
-    metadataLanguages?: string[] | undefined;
+    metadataLanguages!: string[];
     /** The default language. Not the be confused with the metadata fallback language x-default. */
-    defaultLanguage?: string | undefined;
+    defaultLanguage!: string;
 
     constructor(data?: ILanguageConfiguration) {
         if (data) {
@@ -54161,6 +54855,10 @@ export class LanguageConfiguration implements ILanguageConfiguration {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.systemLanguages = [];
+            this.metadataLanguages = [];
         }
     }
 
@@ -54206,11 +54904,57 @@ export class LanguageConfiguration implements ILanguageConfiguration {
 
 export interface ILanguageConfiguration {
     /** A list of languages serving as system languages. */
-    systemLanguages?: string[] | undefined;
+    systemLanguages: string[];
     /** A list of languages serving as metadata languages. */
-    metadataLanguages?: string[] | undefined;
+    metadataLanguages: string[];
     /** The default language. Not the be confused with the metadata fallback language x-default. */
-    defaultLanguage?: string | undefined;
+    defaultLanguage: string;
+}
+
+export class LanguageConfigurationInfo extends LanguageConfiguration implements ILanguageConfigurationInfo {
+    /** Share languages based on defined ShareMail templates. */
+    shareLanguages!: string[];
+
+    constructor(data?: ILanguageConfigurationInfo) {
+        super(data);
+        if (!data) {
+            this.shareLanguages = [];
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["shareLanguages"])) {
+                this.shareLanguages = [] as any;
+                for (let item of _data["shareLanguages"])
+                    this.shareLanguages!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): LanguageConfigurationInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new LanguageConfigurationInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.shareLanguages)) {
+            data["shareLanguages"] = [];
+            for (let item of this.shareLanguages)
+                data["shareLanguages"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ILanguageConfigurationInfo extends ILanguageConfiguration {
+    /** Share languages based on defined ShareMail templates. */
+    shareLanguages: string[];
 }
 
 export class Language implements ILanguage {
@@ -65063,182 +65807,6 @@ If not specified, all metadata languages in the system are used. */
     searchLanguages?: string[] | undefined;
     /** Limits the schemas to the ones the user has the specified MetadataRights. */
     rightsFilter?: MetadataRight[] | undefined;
-}
-
-/** Contains compiled field information. */
-export class IndexField implements IIndexField {
-    id?: string | undefined;
-    /** The field id. */
-    fieldId?: string | undefined;
-    /** The field's type name. */
-    type?: string | undefined;
-    /** Contains all index field name variants of the field. */
-    indexFields?: { [key in keyof typeof Analyzer]?: string; } | undefined;
-    /** Contains all simple search field name variants of the field.
-The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
-    simpleSearchFields?: { [key in keyof typeof Analyzer]?: string; } | undefined;
-    /** Contains the fields boost value. */
-    boost!: number;
-    /** Not to be returned for search query, but only used for mapping purposes */
-    ignoreForSearch!: boolean;
-    /** The path of the Nested document this property belongs to. If set to null, it means that there is no Nested document */
-    nestedPath?: string | undefined;
-    /** Path to the sorting information in the DataSortValuesField sort index. */
-    sortField?: string | undefined;
-
-    constructor(data?: IIndexField) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.fieldId = _data["fieldId"];
-            this.type = _data["type"];
-            if (_data["indexFields"]) {
-                this.indexFields = {} as any;
-                for (let key in _data["indexFields"]) {
-                    if (_data["indexFields"].hasOwnProperty(key))
-                        this.indexFields![key] = _data["indexFields"][key];
-                }
-            }
-            if (_data["simpleSearchFields"]) {
-                this.simpleSearchFields = {} as any;
-                for (let key in _data["simpleSearchFields"]) {
-                    if (_data["simpleSearchFields"].hasOwnProperty(key))
-                        this.simpleSearchFields![key] = _data["simpleSearchFields"][key];
-                }
-            }
-            this.boost = _data["boost"];
-            this.ignoreForSearch = _data["ignoreForSearch"];
-            this.nestedPath = _data["nestedPath"];
-            this.sortField = _data["sortField"];
-        }
-    }
-
-    static fromJS(data: any): IndexField {
-        data = typeof data === 'object' ? data : {};
-        let result = new IndexField();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["fieldId"] = this.fieldId;
-        data["type"] = this.type;
-        if (this.indexFields) {
-            data["indexFields"] = {};
-            for (let key in this.indexFields) {
-                if (this.indexFields.hasOwnProperty(key))
-                    data["indexFields"][key] = this.indexFields[key];
-            }
-        }
-        if (this.simpleSearchFields) {
-            data["simpleSearchFields"] = {};
-            for (let key in this.simpleSearchFields) {
-                if (this.simpleSearchFields.hasOwnProperty(key))
-                    data["simpleSearchFields"][key] = this.simpleSearchFields[key];
-            }
-        }
-        data["boost"] = this.boost;
-        data["ignoreForSearch"] = this.ignoreForSearch;
-        data["nestedPath"] = this.nestedPath;
-        data["sortField"] = this.sortField;
-        return data; 
-    }
-}
-
-/** Contains compiled field information. */
-export interface IIndexField {
-    id?: string | undefined;
-    /** The field id. */
-    fieldId?: string | undefined;
-    /** The field's type name. */
-    type?: string | undefined;
-    /** Contains all index field name variants of the field. */
-    indexFields?: { [key in keyof typeof Analyzer]?: string; } | undefined;
-    /** Contains all simple search field name variants of the field.
-The amount of simple search fields can be equal or less to the amount of IndexFields, but never more. */
-    simpleSearchFields?: { [key in keyof typeof Analyzer]?: string; } | undefined;
-    /** Contains the fields boost value. */
-    boost: number;
-    /** Not to be returned for search query, but only used for mapping purposes */
-    ignoreForSearch: boolean;
-    /** The path of the Nested document this property belongs to. If set to null, it means that there is no Nested document */
-    nestedPath?: string | undefined;
-    /** Path to the sorting information in the DataSortValuesField sort index. */
-    sortField?: string | undefined;
-}
-
-/** Request to search indexed fields of specific schemas */
-export class IndexFieldsSearchBySchemaIdsRequest implements IIndexFieldsSearchBySchemaIdsRequest {
-    /** The IDs of the schemas for which the indexed fields should be returned. */
-    schemaIds?: string[] | undefined;
-    /** Controls how the search works which schemas should be considered in the search.
-AllDescendantsFieldsOnRootSchema: All indexed fields from descendant schemas of root ones will be returned. Schemas that are not root schemas will be ignored.
-SchemaAndParentFieldsOnly: Indexed fields of the requested schema and its parents will be returned. */
-    searchMode!: IndexFieldsSearchMode;
-
-    constructor(data?: IIndexFieldsSearchBySchemaIdsRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["schemaIds"])) {
-                this.schemaIds = [] as any;
-                for (let item of _data["schemaIds"])
-                    this.schemaIds!.push(item);
-            }
-            this.searchMode = _data["searchMode"];
-        }
-    }
-
-    static fromJS(data: any): IndexFieldsSearchBySchemaIdsRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new IndexFieldsSearchBySchemaIdsRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.schemaIds)) {
-            data["schemaIds"] = [];
-            for (let item of this.schemaIds)
-                data["schemaIds"].push(item);
-        }
-        data["searchMode"] = this.searchMode;
-        return data; 
-    }
-}
-
-/** Request to search indexed fields of specific schemas */
-export interface IIndexFieldsSearchBySchemaIdsRequest {
-    /** The IDs of the schemas for which the indexed fields should be returned. */
-    schemaIds?: string[] | undefined;
-    /** Controls how the search works which schemas should be considered in the search.
-AllDescendantsFieldsOnRootSchema: All indexed fields from descendant schemas of root ones will be returned. Schemas that are not root schemas will be ignored.
-SchemaAndParentFieldsOnly: Indexed fields of the requested schema and its parents will be returned. */
-    searchMode: IndexFieldsSearchMode;
-}
-
-/** How the index field search works */
-export enum IndexFieldsSearchMode {
-    AllDescendantsFieldsOnRootSchema = "AllDescendantsFieldsOnRootSchema",
-    SchemaAndParentFieldsOnly = "SchemaAndParentFieldsOnly",
 }
 
 /** Represents a transfer. */
