@@ -4,8 +4,8 @@ export const shareTranslations = {
     de:
       'Dieses Share ist abgelaufen und ist nicht mehr länger verfügbar. Bitte kontaktieren Sie die Person, die Ihnen diesen Link geschickt hat.',
     fr: 'This share has expired and is no longer available. Please contact the person who sent you this link. (FR)',
-    es: 'This share has expired and is no longer available. Please contact the person who sent you this link. (FR)',
-    pt: 'This share has expired and is no longer available. Please contact the person who sent you this link. (FR)',
+    es: 'This share has expired and is no longer available. Please contact the person who sent you this link. (ES)',
+    pt: 'This share has expired and is no longer available. Please contact the person who sent you this link. (PT)',
   },
   Consent: {
     en: `By continuing to browse this website, you agree to the use of cookies to improve your user experience and to collect statistics about your visits.<br />
