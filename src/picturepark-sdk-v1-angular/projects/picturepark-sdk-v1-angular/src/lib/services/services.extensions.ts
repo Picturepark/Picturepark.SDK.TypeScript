@@ -88,18 +88,7 @@ class AggregationResultItem extends generated.AggregationResultItem {
       displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
     }
 
-    const finalDisplayName = displayName ?? this.name;
-
-    if (finalDisplayName === '') {
-      const noValueDictionary = new TranslatedStringDictionary({
-        'x-default': 'No value',
-        en: 'No value',
-        de: 'Kein wert',
-      });
-      return noValueDictionary.translate(locale);
-    } else {
-      return finalDisplayName;
-    }
+    return displayName ?? this.name;
   }
 }
 

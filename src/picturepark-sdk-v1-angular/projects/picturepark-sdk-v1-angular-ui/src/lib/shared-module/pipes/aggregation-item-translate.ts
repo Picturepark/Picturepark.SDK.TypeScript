@@ -2,16 +2,20 @@ import { Pipe, PipeTransform, Injectable } from '@angular/core';
 
 // LIBRARIES
 import { AggregationResultItem } from '@picturepark/sdk-v1-angular';
+import { TranslationService } from '../services/translations/translation.service';
 
 @Injectable({ providedIn: 'root' })
 @Pipe({ name: 'ppAggregationItemTranslate' })
 export class AggregationItemTranslatePipe implements PipeTransform {
-  constructor() {}
+  constructor(private translationService: TranslationService) {}
 
   transform(item: AggregationResultItem, locale: string): string {
-    if (item) {
-      return item.getDisplayName(locale);
+    let displayName = item.getDisplayName(locale);
+
+    if (displayName === '') {
+      displayName = this.translationService.translate('AggregationItemTranslatePipe.noValue');
     }
-    return '';
+
+    return displayName;
   }
 }
