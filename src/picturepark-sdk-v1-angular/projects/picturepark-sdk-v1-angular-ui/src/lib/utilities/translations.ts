@@ -135,6 +135,9 @@ export let TRANSLATIONS = {
     noValue: {
       en: 'No value',
       de: 'Kein Wert',
+      fr: 'No value (FR)',
+      es: 'No value (ES)',
+      pt: 'No value (PT)',
     },
   },
   ContentBrowser: {
