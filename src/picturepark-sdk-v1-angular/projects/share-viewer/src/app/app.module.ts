@@ -20,11 +20,9 @@ import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/uti
 import { PICTUREPARK_UI_SCRIPTPATH } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/configuration';
 import { PictureparkCdnConfiguration } from '../models/cdn-config';
 import { shareTranslations } from './translations/share-translations';
-import { extendUiTranslations } from './translations/extend-ui-translations';
 
 const translations = TRANSLATIONS;
 translations['ShareViewer'] = shareTranslations;
-extendUiTranslations();
 
 function getCdnUrl(): string | null {
   if (!environment.production) {

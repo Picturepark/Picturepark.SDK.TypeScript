@@ -560,6 +560,7 @@ export let TRANSLATIONS = {
     Recipients: {
       en: 'Recipients',
       de: 'Empfänger',
+      fr: 'Recipients (FR)',
     },
     RecipientsRequired: {
       en: 'Please, add a recipient for sharing the images',
