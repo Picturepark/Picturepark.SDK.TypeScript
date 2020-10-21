@@ -11,6 +11,7 @@ import {
   SharedModule,
   LayerPanelsModule,
   SearchSuggestBoxModule,
+  LanguageSwitchModule,
 } from '@picturepark/sdk-v1-angular-ui';
 
 // MODULES
@@ -32,6 +33,7 @@ import { ContentPickerComponent } from './content-picker.component';
     ContentBrowserModule,
     SearchBoxModule,
     SearchSuggestBoxModule,
+    LanguageSwitchModule,
   ],
 })
 export class ContentPickerModule {}
