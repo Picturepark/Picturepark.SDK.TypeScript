@@ -1104,6 +1104,20 @@ export let TRANSLATIONS = {
       es: 'Items (ES)',
       pt: 'Items (PT)',
     },
+    Details: {
+      en: 'Details',
+      de: 'Details',
+      fr: 'Details (FR)',
+      es: 'Details (ES)',
+      pt: 'Details (PT)',
+    },
+    Download: {
+      en: 'Download',
+      de: 'Herunterladen',
+      fr: 'Download (FR)',
+      es: 'Download (ES)',
+      pt: 'Download (PT)',
+    },
   },
   LayerFieldService: {
     NoRelations: {

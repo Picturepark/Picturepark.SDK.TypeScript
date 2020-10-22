@@ -12,13 +12,6 @@
           border-bottom-color: mat-color($primary, divider);
 
           .recipient-url {
-            .tooltip {
-              span {
-                background-color: #535353;
-                color: rgba(mat-color($primary, on-surface-dark), 0.87);
-              }
-            }
-
             a {
               color: mat-color($primary, on-surface-mid);
             }
