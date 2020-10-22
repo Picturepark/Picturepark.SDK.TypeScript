@@ -26,7 +26,6 @@
           <button
             mat-stroked-button
             aria-label="Download"
-            color="accent"
             *ngIf="shareDetail.data!.url"
             (click)="downloadAll()"
             [disabled]="!shareDetail.contentSelections.length"
