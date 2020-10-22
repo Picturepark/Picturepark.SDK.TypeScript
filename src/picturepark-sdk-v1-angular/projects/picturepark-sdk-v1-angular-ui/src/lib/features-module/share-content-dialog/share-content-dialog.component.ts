@@ -34,6 +34,7 @@ import {
   TermsFilter,
   Content,
   BusinessProcessService,
+  LanguageService,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -87,7 +88,8 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     private shareService: ShareService,
     private translatePipe: TranslatePipe,
     private renderer: Renderer2,
-    private businessProcessService: BusinessProcessService
+    private businessProcessService: BusinessProcessService,
+    private languageService: LanguageService
   ) {
     super(data, dialogRef, injector);
 
@@ -101,7 +103,6 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     });
   }
 
-  // REMOVE CONTENT FROM DIALOG
   public removeContent(event: Content): void {
     this.selectedContent.forEach((item, index) => {
       if (event.id === item.id) {
@@ -117,12 +118,10 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     }
   }
 
-  // PREVIEW ITEM
   public previewItem(itemId: string): void {
     this.previewItemChange.emit(itemId);
   }
 
-  /** Copy URL to clipboard */
   public copyToClipboard(recipienturl: string): void {
     const copyBox = document.createElement('textarea');
     copyBox.value = recipienturl;
@@ -141,7 +140,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
             recipientEmails: recipientsEmails,
             contents: contentItems,
             outputAccess: OutputAccess.Full,
-            languageCode: 'en',
+            languageCode: this.languageService.defaultLanguage,
             suppressNotifications: false,
           })
         )

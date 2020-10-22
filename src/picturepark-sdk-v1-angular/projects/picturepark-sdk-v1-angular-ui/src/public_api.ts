@@ -68,6 +68,7 @@ export { MaterialsModule } from './lib/materials-module/materials-module.module'
 export { ShareOwnerPanelModule } from './lib/features-module/share-owner-panel/share-owner-panel.module';
 export { ShareMailRecipientsPanelModule } from './lib/features-module/share-mail-recipients-panel/share-mail-recipients-panel.module';
 export { ShareSettingsPanelModule } from './lib/features-module/share-settings-panel/share-settings-panel.module';
+export { LanguageSwitchModule } from './lib/features-module/language-switch/language-switch.module';
 
 // Components
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';

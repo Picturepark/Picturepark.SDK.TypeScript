@@ -3,6 +3,12 @@
 </div>
 
 <ng-container *ngIf="shareDetail">
+  <div class="header">
+    <img *ngIf="logoUrl" [src]="logoUrl" width="160" />
+
+    <pp-language-switch *ngIf="languageService.languages.length > 1"></pp-language-switch>
+  </div>
+
   <pp-panel class="settings" [title]="shareDetail.name">
     <div pp-panel-content class="settings-wrap">
       <div class="left">
@@ -26,7 +32,6 @@
           <button
             mat-stroked-button
             aria-label="Download"
-            color="accent"
             *ngIf="shareDetail.data!.url"
             (click)="downloadAll()"
             [disabled]="!shareDetail.contentSelections.length"
@@ -51,6 +56,4 @@
 
   <pp-share-items-panel *ngIf="!shareDetail.expired" [shareDetail]="shareDetail" (showDetail)="showDetail($event)">
   </pp-share-items-panel>
-
-  <img *ngIf="logoUrl" [src]="logoUrl" width="160" />
 </ng-container>

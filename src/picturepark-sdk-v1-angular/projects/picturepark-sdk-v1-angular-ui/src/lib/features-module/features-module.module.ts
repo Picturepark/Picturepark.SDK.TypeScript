@@ -24,6 +24,7 @@ import { AggregationListModule } from '../shared-module/components/aggregation-l
 import { ShareMailRecipientsPanelModule } from '../features-module/share-mail-recipients-panel/share-mail-recipients-panel.module';
 import { ShareOwnerPanelModule } from '../features-module/share-owner-panel/share-owner-panel.module';
 import { ShareSettingsPanelModule } from '../features-module/share-settings-panel/share-settings-panel.module';
+import { LanguageSwitchModule } from './language-switch/language-switch.module';
 
 @NgModule({
   declarations: [],
@@ -50,6 +51,7 @@ import { ShareSettingsPanelModule } from '../features-module/share-settings-pane
     ShareMailRecipientsPanelModule,
     ShareOwnerPanelModule,
     ShareSettingsPanelModule,
+    LanguageSwitchModule,
   ],
   exports: [
     BasketModule,
@@ -73,6 +75,7 @@ import { ShareSettingsPanelModule } from '../features-module/share-settings-pane
     ShareMailRecipientsPanelModule,
     ShareOwnerPanelModule,
     ShareSettingsPanelModule,
+    LanguageSwitchModule,
   ],
 })
 export class FeaturesModule {}
