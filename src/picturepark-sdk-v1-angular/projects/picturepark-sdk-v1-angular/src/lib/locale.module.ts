@@ -5,7 +5,7 @@ import { StorageKey } from './utilities/storage-key.enum';
 
 export const LOCALE_LANGUAGE = new InjectionToken<string>('LOCALE_LANGUAGE');
 export const CDN_URL = new InjectionToken<string>('CDN_URL');
-export const ALLOWED_LANGUAGES = new InjectionToken<'system' | 'all'>('ALLOWED_LANGUAGES');
+export const ALLOWED_LANGUAGES = new InjectionToken<string>('ALLOWED_LANGUAGES');
 
 export function getLocaleFactory(localStorageService: LocalStorageService): string {
   return localStorageService.get(StorageKey.LanguageCode) || (navigator.language || navigator.languages[0]).slice(0, 2);
