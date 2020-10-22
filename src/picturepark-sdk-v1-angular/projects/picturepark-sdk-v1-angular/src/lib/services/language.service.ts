@@ -8,16 +8,27 @@ import { LocalStorageService } from './local-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
-  private defaultLanguage: string;
+  public defaultLanguage: string;
   public currentLanguage: Language;
   public languages: Language[];
 
   constructor(private infoFacade: InfoFacade, private localStorageService: LocalStorageService) {}
 
-  public loadLanguages(locale?: string, cdnUrl?: string): Observable<boolean> {
+  public loadLanguages(
+    allowedLanguages: 'system' | 'share' | 'all',
+    locale?: string,
+    cdnUrl?: string
+  ): Observable<boolean> {
     return this.infoFacade.getInfo(cdnUrl).pipe(
       map((info) => {
-        this.languages = this.filterLanguages(info.languages /*, info.languageConfiguration.systemLanguages*/);
+        this.languages = this.filterLanguages(
+          info.languages,
+          allowedLanguages === 'system'
+            ? info.languageConfiguration.systemLanguages
+            : allowedLanguages === 'share'
+            ? info.languageConfiguration.shareLanguages
+            : undefined
+        );
         this.defaultLanguage = info.languageConfiguration.defaultLanguage ?? info.languages[0].ietf;
         this.changeCurrentLanguage(locale || this.defaultLanguage);
         return locale === this.currentLanguage.ietf;

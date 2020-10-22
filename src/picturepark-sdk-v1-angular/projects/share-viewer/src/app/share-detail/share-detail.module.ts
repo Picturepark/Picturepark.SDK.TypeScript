@@ -10,6 +10,7 @@ import {
   ShareMailRecipientsPanelModule,
   ShareOwnerPanelModule,
   ShareSettingsPanelModule,
+  LanguageSwitchModule,
 } from '@picturepark/sdk-v1-angular-ui';
 import { ShareDetailComponent } from './share-detail.component';
 
@@ -26,6 +27,7 @@ import { ShareDetailComponent } from './share-detail.component';
     ShareMailRecipientsPanelModule,
     ShareOwnerPanelModule,
     ShareSettingsPanelModule,
+    LanguageSwitchModule,
   ],
   exports: [ShareDetailComponent],
 })

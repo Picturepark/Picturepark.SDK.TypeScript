@@ -55,23 +55,11 @@ export function PictureparkUIScriptPathFactory() {
   return appRootTag.getAttribute('picturepark-script-path');
 }
 
-// Get locale from the config provided
-export function localeFactory(localStorageService: LocalStorageService): string {
-  const appRootTag = document.getElementsByTagName('app-root')[0];
-  const language = appRootTag.getAttribute('language');
-
-  return (
-    language ||
-    localStorageService.get(StorageKey.LanguageCode) ||
-    (navigator.language || navigator.languages[0]).slice(0, 2)
-  );
-}
-
 export function getLanguageFactory(): string {
   const appRootTag = document.getElementsByTagName('app-root')[0];
+  const storedLanguage = localStorage.getItem(StorageKey.LanguageCode);
   const language = appRootTag.getAttribute('language');
-  console.log(language);
-  return language ?? 'fr';
+  return storedLanguage ?? language ?? '';
 }
 
 @NgModule({
@@ -80,14 +68,14 @@ export function getLanguageFactory(): string {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ShareDetailModule,
     HttpClientModule,
     HammerModule,
 
     // Picturepark
+    ShareDetailModule,
     SearchBoxModule,
     SharedModule.forRoot(),
-    LocaleModule.forRoot(getLanguageFactory(), getCdnUrl()),
+    LocaleModule.forRoot('share', getLanguageFactory(), getCdnUrl()),
   ],
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },
