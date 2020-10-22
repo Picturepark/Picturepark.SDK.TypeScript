@@ -3,10 +3,21 @@
 @import '../../picturepark-sdk-v1-angular-ui/src/lib/theming/_theming.scss';
 
 // CUSTOM THEME
-@import "theme.scss";
+@import 'theme.scss';
 
 @include angular-material-theme($picturepark-app-theme);
 @include picturepark-theme($picturepark-app-theme);
 
 // GLOBAL STYLES (keep at bottom)
 @import '../../picturepark-sdk-v1-angular-ui/src/lib/styles/global_styles.scss';
+
+// Custom tooltip styling
+mat-tooltip-component .mat-tooltip {
+  opacity: 0.9;
+  border-radius: 2px;
+  background-color: #535353;
+  color: rgba(255, 255, 255, 0.87);
+  font-size: 13px;
+  line-height: 22px;
+  padding: 0 8px;
+}
