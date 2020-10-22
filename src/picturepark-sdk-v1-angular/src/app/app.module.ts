@@ -67,7 +67,7 @@ export function oidcConfigFactory() {
     LayerPanelsModule,
     HammerModule,
     ApplicationMenuModule,
-    LocaleModule.forRoot(),
+    LocaleModule.forRoot('system'),
   ],
   bootstrap: [AppComponent],
 })

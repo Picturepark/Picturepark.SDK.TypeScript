@@ -11,6 +11,7 @@ import {
   PICTUREPARK_CONFIGURATION,
   ShareResolveBehavior,
   ShareFacade,
+  LanguageService,
 } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailsDialogOptions } from '@picturepark/sdk-v1-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
@@ -38,6 +39,7 @@ export class ShareDetailComponent implements OnInit {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private ngZone: NgZone,
+    public languageService: LanguageService,
     @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkCdnConfiguration
   ) {}
 

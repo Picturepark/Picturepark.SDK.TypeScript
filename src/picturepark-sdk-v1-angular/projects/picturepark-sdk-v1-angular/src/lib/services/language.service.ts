@@ -14,10 +14,13 @@ export class LanguageService {
 
   constructor(private infoFacade: InfoFacade, private localStorageService: LocalStorageService) {}
 
-  public loadLanguages(locale?: string, cdnUrl?: string): Observable<boolean> {
+  public loadLanguages(allowedLanguages: 'system' | 'all', locale?: string, cdnUrl?: string): Observable<boolean> {
     return this.infoFacade.getInfo(cdnUrl).pipe(
       map((info) => {
-        this.languages = this.filterLanguages(info.languages /*, info.languageConfiguration.systemLanguages*/);
+        this.languages = this.filterLanguages(
+          info.languages,
+          allowedLanguages === 'system' ? info.languageConfiguration.systemLanguages : undefined
+        );
         this.defaultLanguage = info.languageConfiguration.defaultLanguage ?? info.languages[0].ietf;
         this.changeCurrentLanguage(locale || this.defaultLanguage);
         return locale === this.currentLanguage.ietf;

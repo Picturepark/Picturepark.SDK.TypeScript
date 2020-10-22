@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
-import { AggregationResult, Channel, Content, ContentSearchFacade } from '@picturepark/sdk-v1-angular';
+import { AggregationResult, Channel, Content, ContentSearchFacade, LanguageService } from '@picturepark/sdk-v1-angular';
 import {
   SelectionService,
   BasketService,
@@ -49,7 +49,8 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     private embedService: EmbedService,
     private basketService: BasketService,
     public facade: ContentSearchFacade,
-    public selectionService: SelectionService<Content>
+    public selectionService: SelectionService<Content>,
+    public languageService: LanguageService
   ) {
     super(injector);
   }
