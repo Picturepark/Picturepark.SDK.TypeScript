@@ -8,7 +8,7 @@ import { LocalStorageService } from './local-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
-  private defaultLanguage: string;
+  public defaultLanguage: string;
   public currentLanguage: Language;
   public languages: Language[];
 
