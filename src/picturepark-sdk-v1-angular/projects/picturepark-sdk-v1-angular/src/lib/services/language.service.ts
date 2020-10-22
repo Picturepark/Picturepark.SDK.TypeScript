@@ -14,12 +14,20 @@ export class LanguageService {
 
   constructor(private infoFacade: InfoFacade, private localStorageService: LocalStorageService) {}
 
-  public loadLanguages(allowedLanguages: 'system' | 'all', locale?: string, cdnUrl?: string): Observable<boolean> {
+  public loadLanguages(
+    allowedLanguages: 'system' | 'share' | 'all',
+    locale?: string,
+    cdnUrl?: string
+  ): Observable<boolean> {
     return this.infoFacade.getInfo(cdnUrl).pipe(
       map((info) => {
         this.languages = this.filterLanguages(
           info.languages,
-          allowedLanguages === 'system' ? info.languageConfiguration.systemLanguages : undefined
+          allowedLanguages === 'system'
+            ? info.languageConfiguration.systemLanguages
+            : allowedLanguages === 'share'
+            ? info.languageConfiguration.shareLanguages
+            : undefined
         );
         this.defaultLanguage = info.languageConfiguration.defaultLanguage ?? info.languages[0].ietf;
         this.changeCurrentLanguage(locale || this.defaultLanguage);

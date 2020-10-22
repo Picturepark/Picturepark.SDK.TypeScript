@@ -68,14 +68,14 @@ export function getLanguageFactory(): string {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ShareDetailModule,
     HttpClientModule,
     HammerModule,
 
     // Picturepark
+    ShareDetailModule,
     SearchBoxModule,
     SharedModule.forRoot(),
-    LocaleModule.forRoot('all', getLanguageFactory(), getCdnUrl()),
+    LocaleModule.forRoot('share', getLanguageFactory(), getCdnUrl()),
   ],
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },

@@ -5,7 +5,7 @@ import { StorageKey } from './utilities/storage-key.enum';
 
 export const LOCALE_LANGUAGE = new InjectionToken<string>('LOCALE_LANGUAGE');
 export const CDN_URL = new InjectionToken<string>('CDN_URL');
-export const ALLOWED_LANGUAGE = new InjectionToken<'system' | 'all'>('ALLOWED_LANGUAGE');
+export const ALLOWED_LANGUAGES = new InjectionToken<'system' | 'all'>('ALLOWED_LANGUAGES');
 
 export function getLocaleFactory(localStorageService: LocalStorageService): string {
   return localStorageService.get(StorageKey.LanguageCode) || (navigator.language || navigator.languages[0]).slice(0, 2);
@@ -14,7 +14,7 @@ export function getLocaleFactory(localStorageService: LocalStorageService): stri
 export function loadLanguagesFactory(
   localStorageService: LocalStorageService,
   languageService: LanguageService,
-  allowedLanguages: 'system' | 'all',
+  allowedLanguages: 'system' | 'share' | 'all',
   language?: string,
   cdnUrl?: string
 ): () => Promise<boolean> {
@@ -26,18 +26,22 @@ export function loadLanguagesFactory(
 
 @NgModule({})
 export class LocaleModule {
-  static forRoot(allowedLanguages: 'system' | 'all', language?: string, cdnUrl?: string | null): ModuleWithProviders {
+  static forRoot(
+    allowedLanguages: 'system' | 'share' | 'all',
+    language?: string,
+    cdnUrl?: string | null
+  ): ModuleWithProviders {
     return {
       ngModule: LocaleModule,
       providers: [
         LanguageService,
         { provide: LOCALE_LANGUAGE, useValue: language ?? '' },
         { provide: CDN_URL, useValue: cdnUrl },
-        { provide: ALLOWED_LANGUAGE, useValue: allowedLanguages },
+        { provide: ALLOWED_LANGUAGES, useValue: allowedLanguages },
         {
           provide: APP_INITIALIZER,
           useFactory: loadLanguagesFactory,
-          deps: [LocalStorageService, LanguageService, ALLOWED_LANGUAGE, LOCALE_LANGUAGE, CDN_URL],
+          deps: [LocalStorageService, LanguageService, ALLOWED_LANGUAGES, LOCALE_LANGUAGE, CDN_URL],
           multi: true,
         },
         { provide: LOCALE_ID, useFactory: getLocaleFactory, deps: [LocalStorageService] },
