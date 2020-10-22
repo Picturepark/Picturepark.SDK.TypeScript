@@ -97,12 +97,15 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     this.content = null as any;
     this.playing = false;
 
-    this.sub = detail.subscribe((content) => {
-      if (typeof content === 'string') {
-        this.loadContent(content);
-      } else {
-        this.content = content;
-      }
+    // setTimeout required, otherwise the UI will not correctly refresh on prev/next
+    setTimeout(() => {
+      this.sub = detail.subscribe((content) => {
+        if (typeof content === 'string') {
+          this.loadContent(content);
+        } else {
+          this.content = content;
+        }
+      });
     });
   }
 
