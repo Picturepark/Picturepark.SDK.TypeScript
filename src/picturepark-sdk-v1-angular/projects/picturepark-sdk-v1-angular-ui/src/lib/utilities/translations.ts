@@ -1018,6 +1018,13 @@ export let TRANSLATIONS = {
       es: 'Overview (ES)',
       pt: 'Overview (PT)',
     },
+    Metadata: {
+      en: 'Metadata',
+      de: 'Metadaten',
+      fr: 'Metadata (FR)',
+      es: 'Metadata (ES)',
+      pt: 'Metadata (PT)',
+    },
   },
   ShareMailRecipientsPanel: {
     CopyToClipboard: {
