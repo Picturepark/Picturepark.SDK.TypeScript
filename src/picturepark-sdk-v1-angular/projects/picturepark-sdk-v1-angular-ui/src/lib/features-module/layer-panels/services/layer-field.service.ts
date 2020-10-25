@@ -167,7 +167,11 @@ export class LayerFieldService {
         break;
 
       case FieldBoolean:
-        layerField.value = fieldValue ? 'Yes' : 'No';
+        const val = (layerField.value = this.translatePipe.transform(
+          TranslatedStringDictionary.fromJS(
+            fieldValue ? TRANSLATIONS.LayerFieldService.Yes : TRANSLATIONS.LayerFieldService.No
+          )
+        ));
         break;
 
       case FieldString:

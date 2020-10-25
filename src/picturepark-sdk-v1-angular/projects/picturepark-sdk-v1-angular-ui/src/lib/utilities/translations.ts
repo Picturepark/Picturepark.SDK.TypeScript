@@ -348,27 +348,6 @@ export let TRANSLATIONS = {
     },
   },
   ContentPicker: {
-    LabelChannel: {
-      en: 'Channel',
-      de: 'Channel',
-      fr: 'Channel (FR)',
-      es: 'Channel (ES)',
-      pt: 'Channel (PT)',
-    },
-    LabelSearch: {
-      en: 'Search',
-      de: 'Suche',
-      fr: 'Search (FR)',
-      es: 'Search (ES)',
-      pt: 'Search (PT)',
-    },
-    LabelFilters: {
-      en: 'Filters',
-      de: 'Filter',
-      fr: 'Filters (FR)',
-      es: 'Filters (ES)',
-      pt: 'Filters (PT)',
-    },
     ButtonChoose: {
       en: 'Choose selection',
       de: 'Selektion auswählen',
@@ -1133,6 +1112,20 @@ export let TRANSLATIONS = {
       fr: 'Relations cannot be displayed (FR)',
       es: 'Relations cannot be displayed (ES)',
       pt: 'Relations cannot be displayed (PT)',
+    },
+    Yes: {
+      en: 'Yes',
+      de: 'Ja',
+      fr: 'Yes (FR)',
+      es: 'Yes (ES)',
+      pt: 'Yes (PT)',
+    },
+    No: {
+      en: 'No',
+      de: 'Nein',
+      fr: 'No (FR)',
+      es: 'No (ES)',
+      pt: 'No (PT)',
     },
   },
   ReadMore: {
