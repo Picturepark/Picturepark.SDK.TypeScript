@@ -61,7 +61,7 @@
             </div>
           </ng-template>
         </mat-tab>
-        <mat-tab label="Metadata" *ngIf="data.showMetadata">
+        <mat-tab label="{{ 'ContentDetailsDialog.Metadata' | pptranslate }}" *ngIf="data.showMetadata">
           <ng-template matTabContent>
             <div class="metadata-wrap" *ngIf="content">
               <pp-layer-panels
