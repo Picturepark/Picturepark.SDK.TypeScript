@@ -18873,11 +18873,6 @@ export enum LeaseResourceType {
     SchemaEditing = <any>"SchemaEditing",
 }
 
-export interface RetryException extends PictureparkBusinessException {
-    retries?: number;
-    innerExceptionDetail?: string | undefined;
-}
-
 export interface OwnerTokenNotFoundException extends PictureparkNotFoundException {
     ownerTokenUserIds?: string[] | undefined;
 }
@@ -19377,6 +19372,10 @@ export interface LayerAssignmentInvalidException extends PictureparkValidationEx
 export interface OutdatedMetadataUpdateInProgressException extends PictureparkValidationException {
 }
 
+export interface SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+}
+
 export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -19741,6 +19740,12 @@ export interface SchemaFieldDisplayPatternTypeNotSupportedException extends Pict
 export interface SchemaFieldMarkdownNotMultilineException extends PictureparkValidationException {
     fieldId?: string | undefined;
     schemaId?: string | undefined;
+}
+
+export interface IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    relatedFieldId?: string | undefined;
 }
 
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
@@ -21377,6 +21382,22 @@ export interface TermsAggregator extends AggregatorBase {
     searchString?: string | undefined;
     /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used. */
     searchFields?: string[] | undefined;
+    /** Sort settings for the aggregation results. If no sort is specified, aggregation is sorted on the item count. */
+    sort?: SortInfo | undefined;
+}
+
+/** Sorting information */
+export interface SortInfo {
+    /** The field's ID to sort on. */
+    field?: string | undefined;
+    /** The sort direction (ascending/descending). */
+    direction: SortDirection;
+}
+
+/** The sort direction */
+export enum SortDirection {
+    Asc = <any>"Asc",
+    Desc = <any>"Desc",
 }
 
 /** A multi-bucket value aggregator used for aggregations on relation item ids. */
@@ -21399,20 +21420,6 @@ export enum TermsRelationAggregatorDocumentType {
 export interface TermsEnumAggregator extends TermsAggregator {
     /** Type of the enum target of the relation. It is used to resolve the enum translation. */
     enumType: string;
-}
-
-/** Sorting information */
-export interface SortInfo {
-    /** The field's ID to sort on. */
-    field?: string | undefined;
-    /** The sort direction (ascending/descending). */
-    direction: SortDirection;
-}
-
-/** The sort direction */
-export enum SortDirection {
-    Asc = <any>"Asc",
-    Desc = <any>"Desc",
 }
 
 export interface Channel {
@@ -24333,6 +24340,8 @@ export interface FieldSingleFieldset extends FieldBase {
 export interface SchemaIndexingInfo {
     /** A collection of indexing information for the fields of a schema */
     fields?: FieldIndexingInfo[] | undefined;
+    /** Schema's display value Name is stored for filtering. Only available for tagbox fields. */
+    includeNameDisplayValueInFilters: boolean;
 }
 
 /** Indexing information for a field of a schema */
@@ -24472,7 +24481,7 @@ export interface SimpleAnalyzer extends AnalyzerBase {
 export interface NoDiacriticsAnalyzer extends AnalyzerBase {
     /** The analyzer type: NoDiacritics */
     type?: Analyzer;
-    /** The suffix for the analyzed field: AnalyzedFieldSuffixNoDiacritics. */
+    /** The suffix for the analyzed field: nodiacritics. */
     fieldSuffix?: string | undefined;
 }
 

@@ -23903,11 +23903,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "RetryException") {
-            let result = new RetryException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "OwnerTokenNotFoundException") {
             let result = new OwnerTokenNotFoundException();
             result.init(data);
@@ -24341,6 +24336,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException") {
+            let result = new SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldOverwriteTypeMismatchException") {
             let result = new SchemaFieldOverwriteTypeMismatchException();
             result.init(data);
@@ -24663,6 +24663,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SchemaFieldMarkdownNotMultilineException") {
             let result = new SchemaFieldMarkdownNotMultilineException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException") {
+            let result = new IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException();
             result.init(data);
             return result;
         }
@@ -25458,11 +25463,6 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "RetryException") {
-            let result = new RetryException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "OwnerTokenNotFoundException") {
             let result = new OwnerTokenNotFoundException();
             result.init(data);
@@ -25896,6 +25896,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException") {
+            let result = new SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldOverwriteTypeMismatchException") {
             let result = new SchemaFieldOverwriteTypeMismatchException();
             result.init(data);
@@ -26218,6 +26223,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SchemaFieldMarkdownNotMultilineException") {
             let result = new SchemaFieldMarkdownNotMultilineException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException") {
+            let result = new IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException();
             result.init(data);
             return result;
         }
@@ -27143,6 +27153,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException") {
+            let result = new SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldOverwriteTypeMismatchException") {
             let result = new SchemaFieldOverwriteTypeMismatchException();
             result.init(data);
@@ -27445,6 +27460,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaFieldMarkdownNotMultilineException") {
             let result = new SchemaFieldMarkdownNotMultilineException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException") {
+            let result = new IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException();
             result.init(data);
             return result;
         }
@@ -30058,44 +30078,6 @@ export interface IOperationInProgressException extends IPictureparkBusinessExcep
 
 export enum LeaseResourceType {
     SchemaEditing = "SchemaEditing",
-}
-
-export class RetryException extends PictureparkBusinessException implements IRetryException {
-    retries?: number;
-    innerExceptionDetail?: string | undefined;
-
-    constructor(data?: IRetryException) {
-        super(data);
-        this._discriminator = "RetryException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.retries = _data["retries"];
-            this.innerExceptionDetail = _data["innerExceptionDetail"];
-        }
-    }
-
-    static fromJS(data: any): RetryException {
-        data = typeof data === 'object' ? data : {};
-        let result = new RetryException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["retries"] = this.retries;
-        data["innerExceptionDetail"] = this.innerExceptionDetail;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IRetryException extends IPictureparkBusinessException {
-    retries?: number;
-    innerExceptionDetail?: string | undefined;
 }
 
 export class OwnerTokenNotFoundException extends PictureparkNotFoundException implements IOwnerTokenNotFoundException {
@@ -33831,6 +33813,40 @@ export class OutdatedMetadataUpdateInProgressException extends PictureparkValida
 export interface IOutdatedMetadataUpdateInProgressException extends IPictureparkValidationException {
 }
 
+export class SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException extends PictureparkValidationException implements ISortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException {
+    aggregationName?: string | undefined;
+
+    constructor(data?: ISortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException) {
+        super(data);
+        this._discriminator = "SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregationName = _data["aggregationName"];
+        }
+    }
+
+    static fromJS(data: any): SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException extends IPictureparkValidationException {
+    aggregationName?: string | undefined;
+}
+
 export class SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException implements ISchemaFieldOverwriteTypeMismatchException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -36498,6 +36514,48 @@ export class SchemaFieldMarkdownNotMultilineException extends PictureparkValidat
 export interface ISchemaFieldMarkdownNotMultilineException extends IPictureparkValidationException {
     fieldId?: string | undefined;
     schemaId?: string | undefined;
+}
+
+export class IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException extends PictureparkValidationException implements IIndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    relatedFieldId?: string | undefined;
+
+    constructor(data?: IIndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException) {
+        super(data);
+        this._discriminator = "IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+            this.relatedFieldId = _data["relatedFieldId"];
+        }
+    }
+
+    static fromJS(data: any): IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException {
+        data = typeof data === 'object' ? data : {};
+        let result = new IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        data["relatedFieldId"] = this.relatedFieldId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IIndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    relatedFieldId?: string | undefined;
 }
 
 export class DeleteContentsWithReferencesException extends PictureparkValidationException implements IDeleteContentsWithReferencesException {
@@ -47345,9 +47403,14 @@ export class TermsAggregator extends AggregatorBase implements ITermsAggregator 
     searchString?: string | undefined;
     /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used. */
     searchFields?: string[] | undefined;
+    /** Sort settings for the aggregation results. If no sort is specified, aggregation is sorted on the item count. */
+    sort?: SortInfo | undefined;
 
     constructor(data?: ITermsAggregator) {
         super(data);
+        if (data) {
+            this.sort = data.sort && !(<any>data.sort).toJSON ? new SortInfo(data.sort) : <SortInfo>this.sort; 
+        }
         this._discriminator = "TermsAggregator";
     }
 
@@ -47372,6 +47435,7 @@ export class TermsAggregator extends AggregatorBase implements ITermsAggregator 
                 for (let item of _data["searchFields"])
                     this.searchFields!.push(item);
             }
+            this.sort = _data["sort"] ? SortInfo.fromJS(_data["sort"]) : <any>undefined;
         }
     }
 
@@ -47412,6 +47476,7 @@ export class TermsAggregator extends AggregatorBase implements ITermsAggregator 
             for (let item of this.searchFields)
                 data["searchFields"].push(item);
         }
+        data["sort"] = this.sort ? this.sort.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -47431,6 +47496,60 @@ export interface ITermsAggregator extends IAggregatorBase {
     searchString?: string | undefined;
     /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used. */
     searchFields?: string[] | undefined;
+    /** Sort settings for the aggregation results. If no sort is specified, aggregation is sorted on the item count. */
+    sort?: ISortInfo | undefined;
+}
+
+/** Sorting information */
+export class SortInfo implements ISortInfo {
+    /** The field's ID to sort on. */
+    field?: string | undefined;
+    /** The sort direction (ascending/descending). */
+    direction!: SortDirection;
+
+    constructor(data?: ISortInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.field = _data["field"];
+            this.direction = _data["direction"];
+        }
+    }
+
+    static fromJS(data: any): SortInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new SortInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["direction"] = this.direction;
+        return data; 
+    }
+}
+
+/** Sorting information */
+export interface ISortInfo {
+    /** The field's ID to sort on. */
+    field?: string | undefined;
+    /** The sort direction (ascending/descending). */
+    direction: SortDirection;
+}
+
+/** The sort direction */
+export enum SortDirection {
+    Asc = "Asc",
+    Desc = "Desc",
 }
 
 /** A multi-bucket value aggregator used for aggregations on relation item ids. */
@@ -47517,58 +47636,6 @@ export class TermsEnumAggregator extends TermsAggregator implements ITermsEnumAg
 export interface ITermsEnumAggregator extends ITermsAggregator {
     /** Type of the enum target of the relation. It is used to resolve the enum translation. */
     enumType: string;
-}
-
-/** Sorting information */
-export class SortInfo implements ISortInfo {
-    /** The field's ID to sort on. */
-    field?: string | undefined;
-    /** The sort direction (ascending/descending). */
-    direction!: SortDirection;
-
-    constructor(data?: ISortInfo) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.field = _data["field"];
-            this.direction = _data["direction"];
-        }
-    }
-
-    static fromJS(data: any): SortInfo {
-        data = typeof data === 'object' ? data : {};
-        let result = new SortInfo();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["direction"] = this.direction;
-        return data; 
-    }
-}
-
-/** Sorting information */
-export interface ISortInfo {
-    /** The field's ID to sort on. */
-    field?: string | undefined;
-    /** The sort direction (ascending/descending). */
-    direction: SortDirection;
-}
-
-/** The sort direction */
-export enum SortDirection {
-    Asc = "Asc",
-    Desc = "Desc",
 }
 
 export class Channel implements IChannel {
@@ -63238,6 +63305,8 @@ export interface IFieldSingleFieldset extends IFieldBase {
 export class SchemaIndexingInfo implements ISchemaIndexingInfo {
     /** A collection of indexing information for the fields of a schema */
     fields?: FieldIndexingInfo[] | undefined;
+    /** Schema's display value Name is stored for filtering. Only available for tagbox fields. */
+    includeNameDisplayValueInFilters!: boolean;
 
     constructor(data?: ISchemaIndexingInfo) {
         if (data) {
@@ -63262,6 +63331,7 @@ export class SchemaIndexingInfo implements ISchemaIndexingInfo {
                 for (let item of _data["fields"])
                     this.fields!.push(FieldIndexingInfo.fromJS(item));
             }
+            this.includeNameDisplayValueInFilters = _data["includeNameDisplayValueInFilters"];
         }
     }
 
@@ -63279,6 +63349,7 @@ export class SchemaIndexingInfo implements ISchemaIndexingInfo {
             for (let item of this.fields)
                 data["fields"].push(item.toJSON());
         }
+        data["includeNameDisplayValueInFilters"] = this.includeNameDisplayValueInFilters;
         return data; 
     }
 }
@@ -63287,6 +63358,8 @@ export class SchemaIndexingInfo implements ISchemaIndexingInfo {
 export interface ISchemaIndexingInfo {
     /** A collection of indexing information for the fields of a schema */
     fields?: IFieldIndexingInfo[] | undefined;
+    /** Schema's display value Name is stored for filtering. Only available for tagbox fields. */
+    includeNameDisplayValueInFilters: boolean;
 }
 
 /** Indexing information for a field of a schema */
@@ -63978,7 +64051,7 @@ export interface ISimpleAnalyzer extends IAnalyzerBase {
 export class NoDiacriticsAnalyzer extends AnalyzerBase implements INoDiacriticsAnalyzer {
     /** The analyzer type: NoDiacritics */
     type?: Analyzer;
-    /** The suffix for the analyzed field: AnalyzedFieldSuffixNoDiacritics. */
+    /** The suffix for the analyzed field: nodiacritics. */
     fieldSuffix?: string | undefined;
 
     constructor(data?: INoDiacriticsAnalyzer) {
@@ -64014,7 +64087,7 @@ export class NoDiacriticsAnalyzer extends AnalyzerBase implements INoDiacriticsA
 export interface INoDiacriticsAnalyzer extends IAnalyzerBase {
     /** The analyzer type: NoDiacritics */
     type?: Analyzer;
-    /** The suffix for the analyzed field: AnalyzedFieldSuffixNoDiacritics. */
+    /** The suffix for the analyzed field: nodiacritics. */
     fieldSuffix?: string | undefined;
 }
 
