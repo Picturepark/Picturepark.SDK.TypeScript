@@ -51,12 +51,8 @@ Contains widgets to embed Picturepark content into other websites.
 
 | SDK version | Picturepark CP version |
 | ----------- | ---------------------- |
-| `1.0.x`     | `10.0.x`               |
-| `1.1.x`     | `10.1.x`               |
-| `1.2.x`     | `10.2.x`               |
-| `1.3.x`     | `10.3.x`               |
-| `1.4.x`     | `10.4.x`               |
-| `1.5.x`     | `10.5.x`               |
+| `1.7.x`     | `10.7.x`               |
+| `1.8.x`     | `10.8.x`               |
 	
 SDK Development
 
