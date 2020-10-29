@@ -72,7 +72,7 @@ export let TRANSLATIONS = {
       de: 'Suche',
       fr: 'Rechercher',
       es: 'Buscar',
-      pt: 'Busca',
+      pt: 'Pesquisa',
     },
     ShowMoreFilters: {
       en: 'Show more',
@@ -524,7 +524,7 @@ export let TRANSLATIONS = {
       de: 'Suche',
       fr: 'Recherche',
       es: 'Búsqueda',
-      pt: 'Busca',
+      pt: 'Pesquisa',
     },
     SimpleOrSearch: {
       en: 'OR',
@@ -554,7 +554,7 @@ export let TRANSLATIONS = {
       de: 'Suche',
       fr: 'Recherche',
       es: 'Búsqueda',
-      pt: 'Busca',
+      pt: 'Pesquisa',
     },
     SimpleOrSearchTooltip: {
       en: 'Results will contain matches for any term. Separate terms via a blank space, semicolon, or comma.',
@@ -616,7 +616,7 @@ export let TRANSLATIONS = {
       de: 'Sucheinstellungen',
       fr: 'Options de recherche',
       es: 'Opciones de búsqueda',
-      pt: 'Opções de busca',
+      pt: 'Opções de pesquisa',
     },
     TypeToSearch: {
       en: 'Type to search',
@@ -895,7 +895,7 @@ export let TRANSLATIONS = {
       de: 'Name des Shares',
       fr: 'Nom de partage',
       es: 'Nombre para compartir',
-      pt: 'Nome de parthila',
+      pt: 'Nome de partilha',
     },
     RemoveItem: {
       en: 'Remove item',
@@ -944,21 +944,21 @@ export let TRANSLATIONS = {
       de: 'Bitte fügen Sie einen Share Namen hinzu!',
       fr: 'Veuillez ajouter un nom de partage!',
       es: 'Por favor, agregue un nombre para compartir!',
-      pt: 'Por favor, adicione um nome de parthila!',
+      pt: 'Por favor, adicione um nome de partilha!',
     },
     ShareNameTooLongError: {
       en: 'Sorry, your share name is too long!',
       de: 'Entschuldigen Sie, aber Ihr Share Name ist zu lange!',
       fr: 'Désolé, le nom de votre partage est trop long!',
       es: 'Lo siento, tu nombre para compartir es demasiado largo!',
-      pt: 'Desculpe, seu nome de parthila é muito longo!',
+      pt: 'Desculpe, seu nome de partilha é muito longo!',
     },
     ShareNameTooShortError: {
       en: 'Sorry, your share name is too short!',
       de: 'Entschuldigen Sie, aber Ihr Share Name ist zu kurz!',
       fr: 'Désolé, le nom de votre partage est trop court!',
       es: 'Lo siento, tu nombre para compartir es demasiado corto!',
-      pt: 'Desculpe, seu nome de parthila é muito curto!',
+      pt: 'Desculpe, seu nome de partilha é muito curto!',
     },
     SuccessNotification: {
       en: 'Your content was shared successfully!',

@@ -1,10 +1,13 @@
 export const shareTranslations = {
   Expired: {
     en: 'This share has expired and is no longer available. Please contact the person who sent you this link.',
-    de: 'Dieses Share ist abgelaufen und nicht mehr länger verfügbar. Bitte kontaktieren Sie die Person, dwelche Ihnen diesen Link geschickt hat.',
-    fr: 'Cette collection partagée a expiré et n\'est plus disponible. Veuillez contacter la personne qui vous a envoyé ce lien s.v.p.',
-    es: 'Estos archivos compartidos han caducado y ya no están disponibles. Comuníquese con la persona que le envió este enlace.',
-    pt: 'Esta parthila expirou e já não está disponível. Por favor contacte a pessoa que lhe enviou esta ligação.',
+    de:
+      'Dieses Share ist abgelaufen und nicht mehr länger verfügbar. Bitte kontaktieren Sie die Person, dwelche Ihnen diesen Link geschickt hat.',
+    fr:
+      "Cette collection partagée a expiré et n'est plus disponible. Veuillez contacter la personne qui vous a envoyé ce lien s.v.p.",
+    es:
+      'Estos archivos compartidos han caducado y ya no están disponibles. Comuníquese con la persona que le envió este enlace.',
+    pt: 'Esta partilha expirou e já não está disponível. Por favor contacte a pessoa que lhe enviou esta ligação.',
   },
   Consent: {
     en: `By continuing to browse this website, you agree to the use of cookies to improve your user experience and to collect statistics about your visits.<br />
@@ -36,7 +39,7 @@ export const shareTranslations = {
   ExpirationDate: {
     en: 'Expiration date',
     de: 'Ablaufdatum',
-    fr: 'Date d\'expiration',
+    fr: "Date d'expiration",
     es: 'Fecha de expiración',
     pt: 'Data de expiração',
   },
