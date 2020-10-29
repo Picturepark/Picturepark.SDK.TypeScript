@@ -3,7 +3,7 @@ export let TRANSLATIONS = {
     NoImageForItem: {
       en: 'No image available',
       de: 'Kein Bild verfügbar',
-      fr: 'Pas d\'image disponible',
+      fr: "Pas d'image disponible",
       es: 'No hay imagen disponible',
       pt: 'Nenhuma imagem disponível',
     },
@@ -47,7 +47,7 @@ export let TRANSLATIONS = {
     SelectChannel: {
       en: 'Select channel',
       de: 'Channel selektieren',
-      fr: 'Sélectionnez l\'espace',
+      fr: "Sélectionnez l'espace",
       es: 'Seleccionar espacio',
       pt: 'Selecione o espaço',
     },
@@ -137,7 +137,7 @@ export let TRANSLATIONS = {
     NoImageForItem: {
       en: 'No image available',
       de: 'Kein Bild vorhanden',
-      fr: 'Pas d\'image',
+      fr: "Pas d'image",
       es: 'Sin imágen',
       pt: 'Sem imagem',
     },
@@ -439,13 +439,13 @@ export let TRANSLATIONS = {
     ItemsWereNotFound: {
       en: 'Items were not found',
       de: 'Items wurden nicht gefunden',
-      fr: 'Éléments n\'ont pas été trouvés',
+      fr: "Éléments n'ont pas été trouvés",
       es: 'Elementos no se encontraron',
       pt: 'Não foram encontrados items',
     },
     LastTriggered: {
-      en: 'Last triggered on {{Datum/Uhrzeit}} by {{{firstName}}} {{lastName}}}',
-      de: 'Zuletzt ausgelöst am {{Datum/Uhrzeit}} durch {{{firstName}}} {{lastName}}}',
+      en: 'Last triggered on {{datetime}} by {{firstName}} {{lastName}}',
+      de: 'Zuletzt ausgelöst am {{datetime}} durch {{firstName}} {{lastName}}',
       fr: 'Dernier déclenchement {{datetime}} par {{firstName}} {{lastName}}',
       es: 'Última desencadenó en {{datetime}} por {{firstName}} {{lastName}}',
       pt: 'Última desencadeada em {{datetime}} por {{firstName}} {{lastName}}',
@@ -462,7 +462,7 @@ export let TRANSLATIONS = {
     LabelUsername: {
       en: 'Username',
       de: 'Benutzername',
-      fr: 'Nom d\'utilisateur',
+      fr: "Nom d'utilisateur",
       es: 'Nombre de usuario',
       pt: 'Nome do usuário',
     },
@@ -483,14 +483,14 @@ export let TRANSLATIONS = {
     ButtonLogin: {
       en: 'Login',
       de: 'Anmelden',
-      fr: 'S\'inscrire',
+      fr: "S'inscrire",
       es: 'Iniciar sesión',
       pt: 'Conecte-se',
     },
     TextWrongUsernameOrPassword: {
       en: 'The entered username or password is wrong.',
       de: 'Der eingegebene Benutzername oder das Passwort ist falsch.',
-      fr: 'Le nom d\'utilisateur ou le mot de passe saisi est incorrect.',
+      fr: "Le nom d'utilisateur ou le mot de passe saisi est incorrect.",
       es: 'El nombre de usuario o la contraseña ingresados son incorrectos.',
       pt: 'O nome de usuário ou senha inseridos estão incorretos.',
     },
@@ -558,38 +558,51 @@ export let TRANSLATIONS = {
     },
     SimpleOrSearchTooltip: {
       en: 'Results will contain matches for any term. Separate terms via a blank space, semicolon, or comma.',
-      de: 'Die Ergebnisse enthalten Übereinstimmungen für jeden Begriff. Trennen Sie Begriffe durch ein Leerzeichen, ein Semikolon oder ein Komma.',
-      fr: 'Les résultats contiendront des correspondances pour n\'importe quel terme. Séparez les termes par un espace, un point-virgule ou une virgule.',
-      es: 'Los resultados contendrán coincidencias para cualquier término. Separe los términos mediante un espacio en blanco, un punto y coma o una coma.',
-      pt: 'Os resultados conterão correspondências para qualquer termo. Separe os termos com um espaço em branco, ponto e vírgula ou vírgula.',
+      de:
+        'Die Ergebnisse enthalten Übereinstimmungen für jeden Begriff. Trennen Sie Begriffe durch ein Leerzeichen, ein Semikolon oder ein Komma.',
+      fr:
+        "Les résultats contiendront des correspondances pour n'importe quel terme. Séparez les termes par un espace, un point-virgule ou une virgule.",
+      es:
+        'Los resultados contendrán coincidencias para cualquier término. Separe los términos mediante un espacio en blanco, un punto y coma o una coma.',
+      pt:
+        'Os resultados conterão correspondências para qualquer termo. Separe os termos com um espaço em branco, ponto e vírgula ou vírgula.',
     },
     SimpleOrSearch: {
-      en: 'REDUNDANT_???_OR',
-      de: 'REDUNDANT_???_ODER (OR)',
-      fr: 'REDUNDANT_???_OU (OR)',
-      es: 'REDUNDANT_???_O (OR)',
-      pt: 'REDUNDANT_??? _OU (OR)',
+      en: 'OR',
+      de: 'ODER (OR)',
+      fr: 'OU (OR)',
+      es: 'O (OR)',
+      pt: 'OU (OR)',
     },
     SimpleAndSearchTooltip: {
       en: 'Results will contain matches for all terms. Separate terms via a blank space, semicolon, or comma.',
-      de: 'Die Ergebnisse enthalten Übereinstimmungen für alle Begriffe. Trennen Sie Begriffe durch ein Leerzeichen, ein Semikolon oder ein Komma.',
-      fr: 'Les résultats contiendront des correspondances pour tous les termes. Séparez les termes par un espace, un point-virgule ou une virgule.',
-      es: 'Los resultados contendrán coincidencias para todos los términos. Separe los términos mediante un espacio en blanco, un punto y coma o una coma.',
-      pt: 'Os resultados conterão correspondências para todos os termos. Separe os termos com um espaço em branco, ponto e vírgula ou vírgula.',
+      de:
+        'Die Ergebnisse enthalten Übereinstimmungen für alle Begriffe. Trennen Sie Begriffe durch ein Leerzeichen, ein Semikolon oder ein Komma.',
+      fr:
+        'Les résultats contiendront des correspondances pour tous les termes. Séparez les termes par un espace, un point-virgule ou une virgule.',
+      es:
+        'Los resultados contendrán coincidencias para todos los términos. Separe los términos mediante un espacio en blanco, un punto y coma o una coma.',
+      pt:
+        'Os resultados conterão correspondências para todos os termos. Separe os termos com um espaço em branco, ponto e vírgula ou vírgula.',
     },
     SimpleAndSearch: {
-      en: 'REDUNDANT???_AND',
-      de: 'REDUNDANT???_UND (AND)',
-      fr: 'REDUNDANT???_ET (AND)',
-      es: 'REDUNDANT???_Y (AND)',
-      pt: 'REDUNDANT???_E (AND)',
+      en: 'AND',
+      de: 'UND (AND)',
+      fr: 'ET (AND)',
+      es: 'Y (AND)',
+      pt: 'E (AND)',
     },
     AdvancedSearchTooltip: {
-      en: 'Advanced syntax can be used like operands AND, OR, NOT, ~ for fuzziness or brackets for grouping of criteria. More examples in the Advanced Search Cheat Sheet in the manual.',
-      de: 'Erweiterte Syntax kann verwendet werden, wie die Operanden AND, OR, NOT, ~ für Fuzziness oder Klammern für die Gruppierung von Kriterien. Mehr Beispiele im Advanced Search Cheat Sheet im Manual',
-      fr: 'La syntaxe avancée peut être utilisée comme les opérandes AND, OR, NOT, ~ pour termes \'diffus\',   ou les crochets pour le regroupement de critères. Plus d\'exemples dans la feuille de triche de recherche avancée dans le manuel.',
-      es: 'La sintaxis avanzada se puede utilizar como operandos AND, OR, NOT, ~ para falta de claridad o corchetes para agrupar criterios. Más ejemplos en la hoja de referencia de búsqueda avanzada en el manual.',
-      pt: 'A sintaxe avançada pode ser usada como operandos AND, OR, NOT, ~ para imprecisão ou colchetes para agrupamento de critérios. Mais exemplos na Folha de Dicas de Pesquisa Avançada no manual.',
+      en:
+        'Advanced syntax can be used like operands AND, OR, NOT, ~ for fuzziness or brackets for grouping of criteria. More examples in the Advanced Search Cheat Sheet in the manual.',
+      de:
+        'Erweiterte Syntax kann verwendet werden, wie die Operanden AND, OR, NOT, ~ für Fuzziness oder Klammern für die Gruppierung von Kriterien. Mehr Beispiele im Advanced Search Cheat Sheet im Manual',
+      fr:
+        "La syntaxe avancée peut être utilisée comme les opérandes AND, OR, NOT, ~ pour termes 'diffus',   ou les crochets pour le regroupement de critères. Plus d'exemples dans la feuille de triche de recherche avancée dans le manuel.",
+      es:
+        'La sintaxis avanzada se puede utilizar como operandos AND, OR, NOT, ~ para falta de claridad o corchetes para agrupar criterios. Más ejemplos en la hoja de referencia de búsqueda avanzada en el manual.',
+      pt:
+        'A sintaxe avançada pode ser usada como operandos AND, OR, NOT, ~ para imprecisão ou colchetes para agrupamento de critérios. Mais exemplos na Folha de Dicas de Pesquisa Avançada no manual.',
     },
     AdvancedSearch: {
       en: 'Advanced',
@@ -750,7 +763,7 @@ export let TRANSLATIONS = {
     DownloadPending: {
       en: 'Preparing download. You will be notified once it is ready.',
       de: 'Der Download wird vorbereitet. Sie werden benachrichtigt, sobald er verfügbar ist.',
-      fr: 'Préparation du téléchargement. Vous serez averti une fois qu\'il sera prêt.',
+      fr: "Préparation du téléchargement. Vous serez averti une fois qu'il sera prêt.",
       es: 'Preparando la descarga. Se le notificará una vez que esté listo.',
       pt: 'Preparando o download. Você será notificado assim que estiver pronto.',
     },
@@ -822,7 +835,7 @@ export let TRANSLATIONS = {
     ItemsWereNotFound: {
       en: 'Items were not found!',
       de: 'List Items nicht gefunden!',
-      fr: 'Les éléments n\'ont pas été trouvés!',
+      fr: "Les éléments n'ont pas été trouvés!",
       es: 'No se encontraron elementos!',
       pt: 'Itens não encontrados!',
     },
@@ -887,7 +900,7 @@ export let TRANSLATIONS = {
     RemoveItem: {
       en: 'Remove item',
       de: 'Remove item (DE)',
-      fr: 'Supprimer l\'élément',
+      fr: "Supprimer l'élément",
       es: 'Remover el elemento',
       pt: 'Remover item',
     },
@@ -922,7 +935,7 @@ export let TRANSLATIONS = {
     ExpireDate: {
       en: 'Expiration Date',
       de: 'Ablaufdatum',
-      fr: 'Date d\'expiration',
+      fr: "Date d'expiration",
       es: 'Fecha de vencimiento',
       pt: 'Data de expiração',
     },
@@ -957,7 +970,7 @@ export let TRANSLATIONS = {
     ErrorNotification: {
       en: 'There was an error sharing your content, please try again!',
       de: 'Beim Teilen Ihres Inhalts ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut!',
-      fr: 'Une erreur s\'est produite lors du partage de votre contenu, veuillez réessayer!',
+      fr: "Une erreur s'est produite lors du partage de votre contenu, veuillez réessayer!",
       es: 'Hubo un error al compartir su contenido, intente nuevamente!',
       pt: 'Ocorreu um erro ao compartilhar seu conteúdo, tente novamente!',
     },
@@ -1010,7 +1023,7 @@ export let TRANSLATIONS = {
     RecipientsInvalid: {
       en: 'The Email field does not have a valid e  mail address!',
       de: 'Im E-Mail Feld ist keine gültige E-Mail-Adresse eingetragen!',
-      fr: 'Le champ e-mail n\'a pas d\'adresse e-mail valide!',
+      fr: "Le champ e-mail n'a pas d'adresse e-mail valide!",
       es: '¡El campo de correo electrónico no tiene una dirección de correo electrónico válida!',
       pt: 'O campo de e-mail não tem um endereço de e-mail válido!',
     },
@@ -1043,7 +1056,7 @@ export let TRANSLATIONS = {
     AccessOriginal: {
       en: 'Access original',
       de: 'Zugriff zum Original',
-      fr: 'Accès à l\'original',
+      fr: "Accès à l'original",
       es: 'Acceso al original',
       pt: 'Acesso ao original',
     },
