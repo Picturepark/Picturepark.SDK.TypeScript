@@ -41,7 +41,7 @@ export const shareTranslations = {
     de: 'Ablaufdatum',
     fr: "Date d'expiration",
     es: 'Fecha de expiración',
-    pt: 'Data de expiração',
+    pt: 'Data de validade',
   },
   Creator: {
     en: 'Sender',
@@ -55,6 +55,6 @@ export const shareTranslations = {
     de: 'Alles herunterladen',
     fr: 'Tout télécharger',
     es: 'Descargar todo',
-    pt: 'Baixar tudo',
+    pt: 'Descarregar tudo',
   },
 };
