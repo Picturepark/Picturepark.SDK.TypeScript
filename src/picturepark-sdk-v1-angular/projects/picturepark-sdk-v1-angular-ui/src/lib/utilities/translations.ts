@@ -40,7 +40,7 @@ export let TRANSLATIONS = {
       de: 'Teilen',
       fr: 'Partager',
       es: 'Compartir',
-      pt: 'Compartilhar',
+      pt: 'Partilhar',
     },
   },
   ChannelPicker: {
@@ -867,7 +867,7 @@ export let TRANSLATIONS = {
       de: 'Inhalte teilen',
       fr: 'Partager du contenu',
       es: 'Compartir contenido',
-      pt: 'Compartilhar conteúdo',
+      pt: 'Partilhar conteúdo',
     },
     General: {
       en: 'General',
@@ -909,7 +909,7 @@ export let TRANSLATIONS = {
       de: 'Teilen',
       fr: 'Partager',
       es: 'Compartir',
-      pt: 'Compartilhar',
+      pt: 'Partilhar',
     },
     CloseDialog: {
       en: 'Close',
@@ -972,7 +972,7 @@ export let TRANSLATIONS = {
       de: 'Beim Teilen Ihres Inhalts ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut!',
       fr: "Une erreur s'est produite lors du partage de votre contenu, veuillez réessayer!",
       es: 'Hubo un error al compartir su contenido, intente nuevamente!',
-      pt: 'Ocorreu um erro ao compartilhar seu conteúdo, tente novamente!',
+      pt: 'Ocorreu um erro ao partilhar o seu conteúdo, tente novamente!',
     },
   },
   ContentDetailsDialog: {
@@ -1018,7 +1018,7 @@ export let TRANSLATIONS = {
       de: 'Bitte fügen Sie einen Empfänger für die Freigabe der Bilder hinzu!',
       fr: 'Veuillez ajouter un destinataire pour partager les images!',
       es: 'Por favor, agregue un destinatario para compartir las imágenes!',
-      pt: 'Por favor, adicione um destinatário para compartilhar as imagens!',
+      pt: 'Por favor, adicione um destinatário para partilhar as imagens!',
     },
     RecipientsInvalid: {
       en: 'The Email field does not have a valid e  mail address!',
