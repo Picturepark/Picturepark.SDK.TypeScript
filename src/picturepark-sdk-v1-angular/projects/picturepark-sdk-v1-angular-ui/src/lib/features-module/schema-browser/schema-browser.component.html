@@ -1,6 +1,10 @@
 <div class="browser">
   <div class="browser__header">
-    <pp-browser-toolbar [browser]="self" entityName="schemas" [selectionEnabled]="false"></pp-browser-toolbar>
+    <pp-browser-toolbar
+      [browser]="self"
+      entityName="{{ 'SchemaBrowser.SchemasLowercase' | pptranslate }}"
+      [selectionEnabled]="false"
+    ></pp-browser-toolbar>
   </div>
   <div *ngIf="(totalResults$ | async) !== 0" class="browser__items" cdkScrollable>
     <div class="browser__item-container" *ngFor="let schema of items; trackBy: trackByItem">
