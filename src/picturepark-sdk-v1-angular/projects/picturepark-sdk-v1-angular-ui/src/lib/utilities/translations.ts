@@ -1,4 +1,11 @@
 export let TRANSLATIONS = {
+  ApplicationTitle: {
+    en: 'Picturepark Content Picker',
+    de: 'Picturepark Content Picker',
+    fr: 'Picturepark Content Picker (FR)',
+    es: 'Picturepark Content Picker (ES)',
+    pt: 'Picturepark Content Picker (PT)',
+  },
   Basket: {
     NoImageForItem: {
       en: 'There is no image.',
