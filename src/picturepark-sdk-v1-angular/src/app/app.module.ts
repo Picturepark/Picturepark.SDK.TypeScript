@@ -25,7 +25,7 @@ translations['ShareManager'] = {
     de: 'Share löschen',
     fr: 'Supprimer le partage',
     es: 'Eliminar comparte',
-    pt: 'Excluir partilha',
+    pt: 'Eliminar partilha',
   },
   ConfirmDelete: {
     en: 'Are you sure?',

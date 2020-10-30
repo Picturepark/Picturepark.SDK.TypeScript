@@ -771,7 +771,7 @@ export let TRANSLATIONS = {
       en: 'Cancel',
       de: 'Abbrechen',
       fr: 'Annuler',
-      es: 'Abortar',
+      es: 'Cancelar',
       pt: 'Cancelar',
     },
     NoAccess: {
@@ -957,7 +957,7 @@ export let TRANSLATIONS = {
       en: 'Cancel',
       de: 'Abbrechen',
       fr: 'Annuler',
-      es: 'Abortar',
+      es: 'Cancelar',
       pt: 'Cancelar',
     },
     Recipients: {
