@@ -44,25 +44,25 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
     this.views = [
       {
-        name: 'List',
+        name: this.translationService.translate('ContentBrowser.ViewTypeList'),
         icon: 'list',
         type: 'list',
         thumbnailSize: ThumbnailSize.Small,
       },
       {
-        name: 'Small',
+        name: this.translationService.translate('ContentBrowser.ThumbnailSmall'),
         icon: 'collections',
         type: 'thumbnailSmall',
         thumbnailSize: ThumbnailSize.Small,
       },
       {
-        name: 'Medium',
+        name: this.translationService.translate('ContentBrowser.ThumbnailMedium'),
         icon: 'collections',
         type: 'thumbnailMedium',
         thumbnailSize: ThumbnailSize.Medium,
       },
       {
-        name: 'Large',
+        name: this.translationService.translate('ContentBrowser.ThumbnailLarge'),
         icon: 'collections',
         type: 'thumbnailLarge',
         thumbnailSize: ThumbnailSize.Large,

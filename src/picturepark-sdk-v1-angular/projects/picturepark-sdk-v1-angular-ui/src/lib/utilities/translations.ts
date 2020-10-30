@@ -42,6 +42,13 @@ export let TRANSLATIONS = {
       es: 'Compartir',
       pt: 'Partilhar',
     },
+    BasketLabel: {
+      en: 'Basket',
+      de: 'Warenkorb',
+      fr: 'Panier',
+      es: 'Cesta',
+      pt: 'Cesto',
+    },
   },
   ChannelPicker: {
     SelectChannel: {
@@ -295,6 +302,34 @@ export let TRANSLATIONS = {
       es: 'Cambia tu término de búsqueda',
       pt: 'Altere o seu termo de pesquisa',
     },
+    ThumbnailSmall: {
+      en: 'Small',
+      de: 'Klein',
+      fr: 'Petit',
+      es: 'Pequeño',
+      pt: 'Pequeno',
+    },
+    ThumbnailMedium: {
+      en: 'Medium',
+      de: 'Mittel',
+      fr: 'Moyen',
+      es: 'Medio',
+      pt: 'Médio',
+    },
+    ThumbnailLarge: {
+      en: 'Large',
+      de: 'Groß',
+      fr: 'Grand',
+      es: 'Grande',
+      pt: 'Grande',
+    },
+    ContentsLowercase: {
+      en: 'content items',
+      de: 'Content-Items',
+      fr: 'éléments de contenu',
+      es: 'elementos de contenido',
+      pt: 'itens de conteúdo',
+    },
   },
   SortMenu: {
     Ascending: {
@@ -431,7 +466,7 @@ export let TRANSLATIONS = {
   ListBrowser: {
     ListItemsLowercase: {
       en: 'list items',
-      de: 'list items',
+      de: 'Listen-Items',
       fr: 'éléments de liste',
       es: 'elementos de lista',
       pt: 'itens de lista',
@@ -826,11 +861,11 @@ export let TRANSLATIONS = {
       pt: 'Data de modificação',
     },
     SchemasLowercase: {
-      en: 'schema',
-      de: 'Schema',
-      fr: 'schéma',
-      es: 'esquema',
-      pt: 'esquema',
+      en: 'schemas',
+      de: 'Schemen',
+      fr: 'schémas',
+      es: 'esquemas',
+      pt: 'esquemas',
     },
     ItemsWereNotFound: {
       en: 'Items were not found!',
@@ -1110,6 +1145,15 @@ export let TRANSLATIONS = {
   ReadMore: {
     More: { en: 'Show more', de: 'Mehr anzeigen', fr: 'Montrer plus', es: 'Mostrar más', pt: 'Mostrar mais' },
     Less: { en: 'Show less', de: 'Weniger anzeigen', fr: 'Montrer moins', es: 'Muestra menos', pt: 'Mostrar menos' },
+  },
+  ShareBrowser: {
+    SharesLowercase: {
+      en: 'shares',
+      de: 'Shares',
+      fr: 'partages',
+      es: 'comparte',
+      pt: 'partilhas',
+    },
   },
 };
 

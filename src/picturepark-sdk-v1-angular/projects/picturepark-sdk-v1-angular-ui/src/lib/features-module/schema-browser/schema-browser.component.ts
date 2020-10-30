@@ -51,7 +51,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
 
     this.views = [
       {
-        name: 'Small',
+        name: this.translationService.translate('ContentBrowser.ThumbnailSmall'),
         icon: 'collections',
         type: 'thumbnailSmall',
       },
