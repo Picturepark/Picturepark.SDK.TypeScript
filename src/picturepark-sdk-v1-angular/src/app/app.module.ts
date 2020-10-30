@@ -23,15 +23,15 @@ translations['ShareManager'] = {
   DeleteShare: {
     en: 'Delete share',
     de: 'Share löschen',
-    fr: 'Delete share (FR)',
-    es: 'Delete share (ES)',
-    pt: '',
+    fr: 'Supprimer le partage',
+    es: 'Eliminar comparte',
+    pt: 'Excluir partilha',
   },
   ConfirmDelete: {
     en: 'Are you sure?',
     de: 'Sind sie sicher?',
-    fr: 'Are you sure? (DE)',
-    es: 'Are you sure? (DE)',
+    fr: 'Êtes-vous sûr?',
+    es: '¿Estas seguro?',
     pt: 'Tem a certeza?',
   },
   Delete: {
@@ -50,9 +50,9 @@ translations['ShareManager'] = {
   },
   Download: {
     en: 'Download all contents',
-    de: 'Download all contents (DE)',
-    fr: 'Download all contents (FR)',
-    es: 'Download all contents (ES)',
+    de: 'Alle Inhalte herunterladen',
+    fr: 'Téléchargez tout le contenu',
+    es: 'Descargar todos los contenidos',
     pt: 'Descarregar todos os conteúdos',
   },
 };
