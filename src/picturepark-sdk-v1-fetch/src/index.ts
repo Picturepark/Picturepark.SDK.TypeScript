@@ -19742,7 +19742,7 @@ export interface SchemaFieldMarkdownNotMultilineException extends PictureparkVal
     schemaId?: string | undefined;
 }
 
-export interface IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException extends PictureparkValidationException {
+export interface IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException extends PictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
     relatedFieldId?: string | undefined;
