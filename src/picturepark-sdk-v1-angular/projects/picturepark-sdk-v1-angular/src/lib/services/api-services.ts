@@ -24666,8 +24666,8 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException") {
-            let result = new IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException();
+        if (data["kind"] === "IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException") {
+            let result = new IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException();
             result.init(data);
             return result;
         }
@@ -26226,8 +26226,8 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException") {
-            let result = new IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException();
+        if (data["kind"] === "IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException") {
+            let result = new IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException();
             result.init(data);
             return result;
         }
@@ -27463,8 +27463,8 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException") {
-            let result = new IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException();
+        if (data["kind"] === "IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException") {
+            let result = new IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException();
             result.init(data);
             return result;
         }
@@ -36516,14 +36516,14 @@ export interface ISchemaFieldMarkdownNotMultilineException extends IPictureparkV
     schemaId?: string | undefined;
 }
 
-export class IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException extends PictureparkValidationException implements IIndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException {
+export class IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException extends PictureparkValidationException implements IIndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
     relatedFieldId?: string | undefined;
 
-    constructor(data?: IIndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException) {
+    constructor(data?: IIndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException) {
         super(data);
-        this._discriminator = "IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException";
+        this._discriminator = "IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException";
     }
 
     init(_data?: any) {
@@ -36535,9 +36535,9 @@ export class IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException e
         }
     }
 
-    static fromJS(data: any): IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException {
+    static fromJS(data: any): IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException {
         data = typeof data === 'object' ? data : {};
-        let result = new IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException();
+        let result = new IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException();
         result.init(data);
         return result;
     }
@@ -36552,7 +36552,7 @@ export class IndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException e
     }
 }
 
-export interface IIndexingDisplayValueInFilterOnlySupportedForTagboxFieldsException extends IPictureparkValidationException {
+export interface IIndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException extends IPictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
     relatedFieldId?: string | undefined;
