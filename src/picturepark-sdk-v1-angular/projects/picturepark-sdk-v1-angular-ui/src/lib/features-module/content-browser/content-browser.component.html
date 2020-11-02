@@ -48,13 +48,14 @@
       <ng-container *ngIf="deviceBreakpoint && isTouchDevice; else desktop">
         <pp-content-browser-item
           class="browser__item"
+          ppMobileTouch
           [browser]="self"
           [itemModel]="itemModel"
           [thumbnailSize]="activeThumbnailSize"
           [isListView]="activeView.type === 'list'"
           (previewItemChange)="previewItem($event)"
-          (press)="itemPressed($event, i)"
-          (click)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)"
+          (ppPress)="itemPressed($event, i)"
+          (ppClick)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)"
           (changeInBasket)="handleBasketChanges($event)"
         >
         </pp-content-browser-item>
