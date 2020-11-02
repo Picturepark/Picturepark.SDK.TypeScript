@@ -49,19 +49,19 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
 
     this.views = [
       {
-        name: 'Small',
+        name: this.translationService.translate('ContentBrowser.ThumbnailSmall'),
         icon: 'collections',
         type: 'thumbnailSmall',
         thumbnailSize: ThumbnailSize.Small,
       },
       {
-        name: 'Medium',
+        name: this.translationService.translate('ContentBrowser.ThumbnailMedium'),
         icon: 'collections',
         type: 'thumbnailMedium',
         thumbnailSize: ThumbnailSize.Medium,
       },
       {
-        name: 'Large',
+        name: this.translationService.translate('ContentBrowser.ThumbnailLarge'),
         icon: 'collections',
         type: 'thumbnailLarge',
         thumbnailSize: ThumbnailSize.Large,
