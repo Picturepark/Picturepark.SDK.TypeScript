@@ -4,23 +4,21 @@ import { Directive, Output, EventEmitter, HostListener, Input, OnInit } from '@a
   selector: '[ppMobileTouch]',
 })
 export class MobileTouchDirective {
-  @Input() pressTime = 300;
+  @Input() pressTime = 400;
   @Output() public ppPress: EventEmitter<MouseEvent> = new EventEmitter();
   @Output() public ppClick: EventEmitter<MouseEvent> = new EventEmitter();
 
   isLongPress = false;
-  pressTimer: NodeJS.Timeout;
-
-  constructor() {}
+  pressTimer: number;
 
   @HostListener('touchstart')
   public onMouseDown(): void {
-    this.pressTimer = setTimeout(() => {
+    this.pressTimer = window.setTimeout(() => {
       this.isLongPress = true;
     }, this.pressTime);
   }
 
-  @HostListener('touchend', ['$event'])
+  @HostListener('click', ['$event'])
   public onMouseUp(event: MouseEvent): void {
     clearTimeout(this.pressTimer);
     if (this.isLongPress) {
