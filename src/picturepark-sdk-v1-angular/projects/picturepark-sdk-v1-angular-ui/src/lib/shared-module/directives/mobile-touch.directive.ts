@@ -1,4 +1,4 @@
-import { Directive, Output, EventEmitter, HostListener, Input, OnInit, ElementRef } from '@angular/core';
+import { Directive, Output, EventEmitter, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[ppMobileTouch]',
@@ -6,51 +6,34 @@ import { Directive, Output, EventEmitter, HostListener, Input, OnInit, ElementRe
 export class MobileTouchDirective {
   @Input() pressTime = 400;
   @Output() public ppPress: EventEmitter<MouseEvent> = new EventEmitter();
-  @Output() public ppClick: EventEmitter<MouseEvent> = new EventEmitter();
+  @Output() public ppTap: EventEmitter<MouseEvent> = new EventEmitter();
 
-  isLongPress = false;
-  pressTimer: number;
+  touchHasEnded: boolean;
+  clickDetected: boolean;
+  pressTimer: number | null;
 
-  constructor(private elementRef: ElementRef) {}
-
-  @HostListener('touchstart')
-  public onMouseDown(): void {
-    this.isLongPress = false;
+  @HostListener('touchstart', ['$event'])
+  public onTouchStart(event: MouseEvent): void {
+    this.touchHasEnded = false;
     this.pressTimer = window.setTimeout(() => {
-      this.isLongPress = true;
+      this.pressTimer = null;
+
+      if (!this.touchHasEnded) {
+        this.ppPress.emit(event);
+      }
     }, this.pressTime);
   }
 
   @HostListener('click', ['$event'])
-  @HostListener('document:contextmenu ', ['$event'])
-  public onMouseUp(event: MouseEvent): void {
-    const isDescendant = this.isDescendant(event.target as HTMLElement, this.elementRef.nativeElement);
-    if (event.type === 'contextmenu' && !isDescendant) {
-      return;
+  public onClick(event: MouseEvent): void {
+    if (this.pressTimer) {
+      clearTimeout(this.pressTimer);
+      this.ppTap.emit(event);
     }
-
-    clearTimeout(this.pressTimer);
-    if (this.isLongPress) {
-      this.ppPress.emit(event);
-    } else {
-      this.ppClick.emit(event);
-    }
-    this.isLongPress = false;
   }
 
-  isDescendant(el: HTMLElement, parentElement: HTMLElement) {
-    let isChild = false;
-
-    if (el === parentElement) {
-      isChild = true;
-    }
-
-    while ((el = el.parentNode as HTMLElement)) {
-      if (el === parentElement) {
-        isChild = true;
-      }
-    }
-
-    return isChild;
+  @HostListener('touchend')
+  onTouchEnd() {
+    this.touchHasEnded = true;
   }
 }
