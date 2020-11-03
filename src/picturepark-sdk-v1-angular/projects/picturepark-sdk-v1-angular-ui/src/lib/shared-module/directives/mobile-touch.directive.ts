@@ -18,6 +18,7 @@ export class MobileTouchDirective {
     this.pressTimer = window.setTimeout(() => {
       this.pressTimer = null;
 
+      // This condition is needed to make sure that clicks on elements inside the component don't trigger a "long press"
       if (!this.touchHasEnded) {
         this.ppPress.emit(event);
       }
@@ -35,5 +36,13 @@ export class MobileTouchDirective {
   @HostListener('touchend')
   onTouchEnd() {
     this.touchHasEnded = true;
+  }
+
+  @HostListener('pan')
+  onPan() {
+    // This condition is needed to make sure that the pan gesture is not confused with a long press
+    if (this.pressTimer) {
+      clearTimeout(this.pressTimer);
+    }
   }
 }
