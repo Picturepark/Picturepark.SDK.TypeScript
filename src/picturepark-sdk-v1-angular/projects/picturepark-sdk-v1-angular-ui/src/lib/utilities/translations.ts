@@ -3,30 +3,18 @@ export let TRANSLATIONS = {
     demoApp: {
       en: 'Picturepark Demo App',
       de: 'Picturepark Demo App',
-      fr: 'Picturepark Demo App (FR)',
-      es: 'Picturepark Demo App (ES)',
-      pt: 'Picturepark Demo App (PT)',
     },
     contentPicker: {
       en: 'Picturepark Content Picker',
       de: 'Picturepark Content Picker',
-      fr: 'Picturepark Content Picker (FR)',
-      es: 'Picturepark Content Picker (ES)',
-      pt: 'Picturepark Content Picker (PT)',
     },
     listBrowser: {
       en: 'Picturepark List Browser',
       de: 'Picturepark List Browser',
-      fr: 'Picturepark List Browser (FR)',
-      es: 'Picturepark List Browser (ES)',
-      pt: 'Picturepark List Browser (PT)',
     },
     shareManager: {
       en: 'Picturepark Share Manager',
       de: 'Picturepark Share Manager',
-      fr: 'Picturepark Share Manager (FR)',
-      es: 'Picturepark Share Manager (ES)',
-      pt: 'Picturepark Share Manager (PT)',
     },
   },
   Basket: {
