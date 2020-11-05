@@ -1,4 +1,34 @@
 export let TRANSLATIONS = {
+  ApplicationTitle: {
+    demoApp: {
+      en: 'Picturepark Demo App',
+      de: 'Picturepark Demo App',
+      fr: 'Picturepark Demo App',
+      es: 'Picturepark Demo App',
+      pt: 'Picturepark Demo App',
+    },
+    contentPicker: {
+      en: 'Picturepark Content Picker',
+      de: 'Picturepark Content Picker',
+      fr: 'Picturepark Content Picker',
+      es: 'Picturepark Content Picker',
+      pt: 'Picturepark Content Picker',
+    },
+    listBrowser: {
+      en: 'Picturepark List Browser',
+      de: 'Picturepark List Browser',
+      fr: 'Picturepark List Browser',
+      es: 'Picturepark List Browser',
+      pt: 'Picturepark List Browser',
+    },
+    shareManager: {
+      en: 'Picturepark Share Manager',
+      de: 'Picturepark Share Manager',
+      fr: 'Picturepark Share Manager',
+      es: 'Picturepark Share Manager',
+      pt: 'Picturepark Share Manager',
+    },
+  },
   Basket: {
     NoImageForItem: {
       en: 'No image available',
