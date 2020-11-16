@@ -30,7 +30,7 @@
 
       <mat-menu #sortMenu="matMenu">
         <ng-template matMenuContent>
-          <div class="menu-title">Views</div>
+          <div class="menu-title">{{ 'ContentBrowser.ViewTypeMenu' | pptranslate }}</div>
           <mat-divider></mat-divider>
           <button
             *ngFor="let view of browser.views"
@@ -43,7 +43,7 @@
           </button>
 
           <mat-divider></mat-divider>
-          <div class="menu-title">Sort</div>
+          <div class="menu-title">{{ 'ContentBrowser.SortingMenu' | pptranslate }}</div>
           <mat-divider></mat-divider>
 
           <button

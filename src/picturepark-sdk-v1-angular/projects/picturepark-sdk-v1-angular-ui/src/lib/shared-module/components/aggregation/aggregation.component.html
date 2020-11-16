@@ -1,4 +1,11 @@
-<mat-expansion-panel class="aggregation mat-elevation-z0" [expanded]="canExpand" [disabled]="!active">
+<mat-expansion-panel
+  class="aggregation mat-elevation-z0"
+  [(expanded)]="expanded"
+  (click)="handleUserClick()"
+  (keyup)="handleUserEnter($event)"
+  [ngClass]="{ disabled: !active }"
+  [disabled]="!active"
+>
   <mat-expansion-panel-header [collapsedHeight]="'56px'" [expandedHeight]="'56px'">
     <mat-panel-title class="aggregation__title">
       <span *ngIf="expandedAggregator.names">{{ expandedAggregator.names | pptranslate }}</span>
@@ -56,14 +63,12 @@
         [selected]="item.active"
         [value]="item"
       >
-        <div
-          class="aggregation__option-title"
-          matTooltip="{{ item.getDisplayName(locale) }}"
-          [matTooltipDisabled]="false"
-        >
-          <div class="aggregation__option-name">{{ item.getDisplayName(locale) }}</div>
-          <div class="aggregation__option-number">{{ item.count }}</div>
-        </div>
+        <ng-container *ngIf="item | ppAggregationItemTranslate: locale as displayName">
+          <div class="aggregation__option-title" matTooltip="{{ displayName }}" [matTooltipDisabled]="false">
+            <div class="aggregation__option-name">{{ displayName }}</div>
+            <div class="aggregation__option-number">{{ item.count }}</div>
+          </div>
+        </ng-container>
       </mat-list-option>
     </mat-selection-list>
     <div class="expand-filters">

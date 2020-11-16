@@ -50,11 +50,10 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
   thumbnailUrlSafe: SafeUrl;
   pdfUrl: SafeUrl;
 
-  @Input() public content: ContentDetail;
+  @Input() public content: ContentDetail | ShareContentDetail;
   @Input() public outputId = 'Preview';
   @Input() public width?: number;
   @Input() public height?: number;
-  @Input() public shareContent?: ShareContentDetail;
   @Input() public shareDetail?: ShareDetail;
 
   @Output() public playChange = new EventEmitter<boolean>();
@@ -124,42 +123,36 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
   ngOnChanges(changes: SimpleChanges) {
     if (changes.content && changes.content.currentValue) {
       this.content = changes.content.currentValue;
+
       if (this.content instanceof ShareContentDetail) {
-        this.shareContent = this.content;
-      }
-
-      if (this.shareContent) {
-        const shareOutput = this.shareContent.outputs.find((i) => i.outputFormatId === this.outputId);
+        const shareOutput = this.content.outputs.find((i) => i.outputFormatId === this.outputId);
         if (shareOutput && shareOutput.viewUrl) {
-          this.setPreviewUrl(shareOutput.viewUrl);
+          this.setPreviewUrl(shareOutput.viewUrl, false);
           return;
-        } else if (this.shareContent.iconUrl) {
-          this.isIcon = true;
-          this.setPreviewUrl(this.shareContent.iconUrl);
+        } else if (this.content.iconUrl) {
+          this.setPreviewUrl(this.content.iconUrl, true);
           return;
         }
+      } else {
+        // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
+        const output = this.content.outputs!.find(
+          (i) => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed
+        );
+        const request = output
+          ? this.contentService.download(
+              this.content.id,
+              output.outputFormatId,
+              this.width || 800,
+              this.height || 650,
+              null
+            )
+          : this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
+
+        this.sub = request.subscribe((response) => {
+          const isIcon = (response.headers && response.headers['content-type'] === 'image/svg+xml') || false;
+          this.setPreviewUrl(URL.createObjectURL(response.data), isIcon);
+        });
       }
-
-      // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
-      const output = this.content.outputs!.find(
-        (i) => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed
-      );
-      const request = output
-        ? this.contentService.download(
-            this.content.id,
-            output.outputFormatId,
-            this.width || 800,
-            this.height || 650,
-            null
-          )
-        : this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
-
-      this.sub = request.subscribe((response) => {
-        if (response.headers && response.headers['content-type'] === 'image/svg+xml') {
-          this.isIcon = true;
-        }
-        this.setPreviewUrl(URL.createObjectURL(response.data));
-      });
     }
   }
 
@@ -167,19 +160,20 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
     this.thumbnailUrlSafe = BROKEN_IMAGE_URL;
   }
 
-  private setPreviewUrl(url: string): void {
+  private setPreviewUrl(url: string, isIcon: boolean): void {
     this.thumbnailUrl = url;
     this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
+    this.isIcon = isIcon;
     this.isLoading = false;
   }
 
   async showFullscreen() {
     let isPdf = this.content.contentType === ContentType.InterchangeDocument;
-    const isImage = !this.isVideo && !isPdf;
+    const isImage = !this.isVideo && !isPdf && !this.isIcon;
     let item: IShareItem;
     let items: IShareItem[] = [];
 
-    if (!this.shareContent) {
+    if (this.content instanceof ContentDetail) {
       const outputs = this.content.outputs!;
 
       const pdfOutput = outputs.find((i) => i.outputFormatId === 'Pdf');
@@ -191,6 +185,8 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         ? outputs.filter((o) => o.outputFormatId === 'AudioSmall')[0]
         : this.isVideo
         ? outputs.filter((o) => o.outputFormatId === 'VideoSmall')[0]
+        : this.isIcon
+        ? outputs.filter((o) => o.outputFormatId === 'Original')[0]
         : outputs.filter((o) => o.outputFormatId === 'Preview')[0];
 
       const downloadLink = await this.downloadFacade
@@ -210,6 +206,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         isMovie: this.isVideo,
         isAudio: this.isAudio,
         isBinary: false,
+        isIcon: this.isIcon,
         videoUrl: this.isVideo ? downloadLink.downloadUrl : '',
         audioUrl: this.isAudio ? downloadLink.downloadUrl : '',
         pdfUrl: isPdf ? downloadLink.downloadUrl : '',
@@ -252,6 +249,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
             isImage: s.contentSchemaId === 'ImageMetadata',
             isPdf: pdfOutput !== undefined,
             isBinary: s.contentType !== ContentType.Virtual,
+            isIcon: this.isIcon,
 
             previewUrl: previewOutput
               ? previewOutput.viewUrl

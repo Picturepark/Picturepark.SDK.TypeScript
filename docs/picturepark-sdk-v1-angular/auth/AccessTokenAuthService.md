@@ -25,13 +25,15 @@ import {
   AuthService,
   AccessTokenAuthService
 } from '@picturepark/sdk-v1-angular';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     ...
   ],
   imports: [
-    ...
+    ...,
+    HttpClientModule
   ],
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },

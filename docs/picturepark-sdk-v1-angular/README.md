@@ -34,19 +34,20 @@ Register the `PictureparkModule` or `PictureparkOidcModule` in your Angular app 
 
 ```typescript
 import { 
-  PICTUREPARK_CONFIGURATION, 
+  PICTUREPARK_CONFIGURATION,
   PictureparkConfiguration,
   AuthService,
   AccessTokenAuthService
-} 
-from '@picturepark/sdk-v1-angular';
+} from '@picturepark/sdk-v1-angular';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     ...
   ],
   imports: [
-    ...
+    ...,
+    HttpClientModule
   ],
   providers: [
     { provide: AuthService, useClass: AccessTokenAuthService },

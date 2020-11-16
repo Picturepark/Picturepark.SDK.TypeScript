@@ -68,14 +68,17 @@ export { MaterialsModule } from './lib/materials-module/materials-module.module'
 export { ShareOwnerPanelModule } from './lib/features-module/share-owner-panel/share-owner-panel.module';
 export { ShareMailRecipientsPanelModule } from './lib/features-module/share-mail-recipients-panel/share-mail-recipients-panel.module';
 export { ShareSettingsPanelModule } from './lib/features-module/share-settings-panel/share-settings-panel.module';
+export { LanguageSwitchModule } from './lib/features-module/language-switch/language-switch.module';
 
 // Components
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
 export { ListBrowserComponent } from './lib/features-module/list-browser/list-browser.component';
 export { ContentDetailsDialogComponent } from './lib/features-module/content-details-dialog/content-details-dialog.component';
+export { ReadMoreComponent } from './lib/features-module/layer-panels/components/read-more/read-more.component';
 
 // Directives
 export { LazyLoadDirective } from './lib/shared-module/directives/lazy-load.directive';
+export { MarkdownDirective } from './lib/features-module/layer-panels/directives/markdown-directive';
 
 // Services
 export { SelectionService } from './lib/shared-module/services/selection/selection.service';
@@ -94,10 +97,11 @@ export { TRANSLATIONS } from './lib/utilities/translations';
 
 // Interfaces
 export { SearchParameters } from './lib/shared-module/search-utils';
-export { ContentDetailDialogOptions } from './lib/features-module/content-details-dialog/ContentDetailDialogOptions';
+export { ContentDetailsDialogOptions } from './lib/features-module/content-details-dialog/content-details-dialog-options';
 
 // Pipes
 export { HighlightPipe } from './lib/shared-module/pipes/highlight.pipe';
 export { TranslatePipe } from './lib/shared-module/pipes/translate.pipe';
 export { FileSizePipe } from './lib/shared-module/pipes/filesize.pipe';
 export { AvatarPipe, AvatarHashedPipe } from './lib/shared-module/pipes/avatar.pipe';
+export { AggregationItemTranslatePipe } from './lib/shared-module/pipes/aggregation-item-translate';

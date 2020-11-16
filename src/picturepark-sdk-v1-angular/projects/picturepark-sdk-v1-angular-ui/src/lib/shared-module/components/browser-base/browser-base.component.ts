@@ -20,7 +20,7 @@ import { SelectionService } from '../../services/selection/selection.service';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
 import { IBrowserView } from './interfaces/browser-view';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { RangeSelection } from './interfaces/range-selection';
 
@@ -156,10 +156,10 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.facade.searchResultState.results = [];
     this.items = [];
     this.selectedItems = [];
-    this.loadData();
+    this.loadData()?.subscribe();
   }
 
-  public loadData(): void {
+  public loadData(): Observable<any> | undefined {
     if (this.isLoading) {
       return;
     }
@@ -169,20 +169,22 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
       return;
     }
 
-    this.sub = request.subscribe(async (searchResult) => {
-      if (searchResult.results) {
-        const items = searchResult.results.map((i) => i);
-        this.items.push(...items);
-        this.prepareData(items);
-      }
+    return request.pipe(
+      tap((searchResult) => {
+        if (searchResult.results) {
+          const items = searchResult.results.map((i) => i);
+          this.items.push(...items);
+          this.prepareData(items);
+        }
 
-      this.facade.setResultState({
-        totalResults: searchResult.totalResults,
-        results: [...this.facade.searchResultState.results, ...searchResult.results],
-        nextPageToken: searchResult.pageToken,
-        aggregationResults: searchResult.aggregationResults,
-      });
-    });
+        this.facade.setResultState({
+          totalResults: searchResult.totalResults,
+          results: [...this.facade.searchResultState.results, ...searchResult.results],
+          nextPageToken: searchResult.pageToken,
+          aggregationResults: searchResult.aggregationResults,
+        });
+      })
+    );
   }
 
   protected prepareData(items: TEntity[]): void {}
@@ -192,6 +194,13 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
    */
   public itemClicked(event: MouseEvent, index: number, presist = false): void {
     const itemModel = this.items[index];
+
+    if (this.isTouchDevice) {
+      this.lastSelectedIndex = index;
+      this.selectionService.toggle(itemModel);
+      return;
+    }
+
     if (event.ctrlKey || event.metaKey) {
       this.lastRangeSelection = null;
       this.lastSelectedIndex = index;
@@ -237,11 +246,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
   public itemPressed(event: Event, index: number): void {
     const itemModel = this.items[index];
-    if (event.type === 'tap') {
-      this.lastSelectedIndex = index;
-      this.selectionService.toggle(itemModel);
-      return;
-    }
 
     this.lastSelectedIndex = index;
     this.selectionService.clear();

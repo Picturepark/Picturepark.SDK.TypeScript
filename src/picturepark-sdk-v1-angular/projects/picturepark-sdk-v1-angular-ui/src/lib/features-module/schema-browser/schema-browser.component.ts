@@ -51,7 +51,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
 
     this.views = [
       {
-        name: 'Small',
+        name: this.translationService.translate('ContentBrowser.ThumbnailSmall'),
         icon: 'collections',
         type: 'thumbnailSmall',
       },
@@ -60,7 +60,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
   }
 
   onScroll(): void {
-    this.loadData();
+    this.loadData()?.subscribe();
   }
 
   checkContains(elementClassName: string): boolean {

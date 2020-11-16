@@ -42,7 +42,6 @@
                   <pp-content-image-preview
                     [content]="content"
                     [shareDetail]="data.shareDetail"
-                    [shareContent]="data.shareContent"
                     [width]="700"
                     [height]="600"
                     (playChange)="playing = $event"
@@ -62,7 +61,7 @@
             </div>
           </ng-template>
         </mat-tab>
-        <mat-tab label="Metadata" *ngIf="data.showMetadata">
+        <mat-tab label="{{ 'ContentDetailsDialog.Metadata' | pptranslate }}" *ngIf="data.showMetadata">
           <ng-template matTabContent>
             <div class="metadata-wrap" *ngIf="content">
               <pp-layer-panels
@@ -71,7 +70,7 @@
                 [schemas]="schemas"
                 [showContentSchema]="true"
                 [showReferenced]="data.showReferenced"
-                (relationClick)="setContent($event.contentId)"
+                (relationClick)="setContentId($event.contentId)"
               ></pp-layer-panels>
             </div>
           </ng-template>

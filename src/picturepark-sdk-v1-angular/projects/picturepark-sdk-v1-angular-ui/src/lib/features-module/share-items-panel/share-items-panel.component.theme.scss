@@ -29,6 +29,10 @@ $pp-share-items-panel-theme: (
         .item-funcs {
           background-color: mat-color($primary, surface-light);
           color: mat-color($primary, on-surface-light);
+
+          i:hover {
+            color: initial;
+          }
         }
       }
     }

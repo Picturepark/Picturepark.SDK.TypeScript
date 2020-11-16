@@ -15,8 +15,7 @@
       [mailRecipients]="mailRecipients"
       *ngIf="mailRecipients && mailRecipients.length"
     ></pp-share-mail-recipients-panel>
-    <pp-share-items-panel [items]="items" [shareDetail]="share" (showDetail)="showDetail($event)">
-    </pp-share-items-panel>
+    <pp-share-items-panel [shareDetail]="share" (showDetail)="showDetail($event)"></pp-share-items-panel>
     <pp-share-owner-panel [userId]="userId" id="owner" *ngIf="userId"></pp-share-owner-panel>
   </div>
   <div class="background-image" *ngIf="isLoading">

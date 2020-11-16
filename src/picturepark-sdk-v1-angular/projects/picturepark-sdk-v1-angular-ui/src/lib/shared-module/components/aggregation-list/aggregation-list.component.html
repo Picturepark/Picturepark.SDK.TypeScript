@@ -21,7 +21,7 @@
     <mat-accordion displayMode="flat" multi="true">
       <pp-aggregation-item
         *ngFor="let aggregator of facade.searchRequestState.aggregators; let i = index; trackBy: trackByName"
-        [isExpanded]="i === 0"
+        [shouldExpand]="i === 0"
         [aggregator]="aggregator"
         [aggregationResult]="aggregationResults[i]"
         [facade]="facade"

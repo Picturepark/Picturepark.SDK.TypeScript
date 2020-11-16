@@ -1,6 +1,6 @@
 <div class="browser">
   <div class="browser__header">
-    <pp-browser-toolbar [browser]="self" entityName="contents">
+    <pp-browser-toolbar [browser]="self" entityName="{{ 'ContentBrowser.ContentsLowercase' | pptranslate }}">
       <ng-container browser-buttons>
         <button
           mat-icon-button
@@ -48,13 +48,14 @@
       <ng-container *ngIf="deviceBreakpoint && isTouchDevice; else desktop">
         <pp-content-browser-item
           class="browser__item"
+          ppMobileTouch
           [browser]="self"
           [itemModel]="itemModel"
           [thumbnailSize]="activeThumbnailSize"
           [isListView]="activeView.type === 'list'"
           (previewItemChange)="previewItem($event)"
-          (press)="itemPressed($event, i)"
-          (tap)="selectedItems.length ? itemPressed($event, i) : previewItem(itemModel)"
+          (ppPress)="itemPressed($event, i)"
+          (ppTap)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)"
           (changeInBasket)="handleBasketChanges($event)"
         >
         </pp-content-browser-item>

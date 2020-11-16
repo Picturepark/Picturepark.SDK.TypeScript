@@ -52,7 +52,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   ) {
     this.toolBarOptions = [
       {
-        name: 'Download all contents',
+        name: this.translationService.translate('ShareManager.Download'),
         icon: 'file_download',
         action: () => {
           this.contentDownloadDialogService.showDialog({
@@ -62,7 +62,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
         },
       },
       {
-        name: 'Delete',
+        name: this.translationService.translate('ShareManager.Delete'),
         icon: 'delete',
         action: () => {
           this.dialogService
@@ -92,7 +92,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
   // GET SHARE INFO
   loadShare(shareId: string): void {
-    this.shareService.get(shareId, null).subscribe((data) => {
+    this.shareService.get(shareId, null, null).subscribe((data) => {
       this.share = data;
 
       this.items = data.contentSelections;

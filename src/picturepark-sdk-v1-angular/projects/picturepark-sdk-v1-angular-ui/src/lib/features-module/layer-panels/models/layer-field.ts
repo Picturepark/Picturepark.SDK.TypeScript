@@ -1,4 +1,4 @@
-import { FieldBase } from '@picturepark/sdk-v1-angular';
+import { FieldBase, FieldString, FieldTranslatedString, StringRenderingType } from '@picturepark/sdk-v1-angular';
 import { Observable } from 'rxjs';
 
 import { RelationFieldInfo } from './relation-field-info';
@@ -9,6 +9,7 @@ export class LayerField {
   public isOpened: boolean;
   public value?: string;
   public relatedField: FieldBase;
+  public markdown: boolean;
 
   public tagboxFields: {
     value: string;
@@ -23,5 +24,9 @@ export class LayerField {
     this.fieldsetFields = [];
     this.relatedField = field;
     this.title = (metadata._displayValues && metadata._displayValues.list) || '';
+    this.markdown =
+      (field instanceof FieldString && field.renderingType === StringRenderingType.Markdown) ||
+      (field instanceof FieldTranslatedString && field.renderingType === StringRenderingType.Markdown) ||
+      false;
   }
 }
