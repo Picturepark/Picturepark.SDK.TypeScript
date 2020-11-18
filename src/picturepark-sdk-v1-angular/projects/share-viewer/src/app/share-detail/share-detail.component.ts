@@ -32,6 +32,10 @@ export class ShareDetailComponent implements OnInit {
   public itemsLoading = false;
   public pageToken?: string;
 
+  get language() {
+    return this.languageService.currentLanguage.ietf;
+  }
+
   constructor(
     private shareService: ShareService,
     private shareFacade: ShareFacade,
@@ -72,9 +76,11 @@ export class ShareDetailComponent implements OnInit {
 
   onScroll() {
     this.itemsLoading = true;
-    this.shareFacade.loadNextPageOfContents(this.shareDetail, this.shareToken, 30).subscribe((page) => {
-      this.itemsLoading = false;
-    });
+    this.shareFacade
+      .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30, this.config.cdnUrl)
+      .subscribe((page) => {
+        this.itemsLoading = false;
+      });
   }
 
   update(searchString: string): void {
@@ -86,7 +92,7 @@ export class ShareDetailComponent implements OnInit {
     const shareInfo = forkJoin([
       this.shareService.getShareByToken(
         searchString,
-        this.languageService.currentLanguage.ietf,
+        this.language,
         [ShareResolveBehavior.Schemas],
         30,
         this.config.cdnUrl
@@ -140,7 +146,7 @@ export class ShareDetailComponent implements OnInit {
           }
 
           return this.shareFacade
-            .loadNextPageOfContents(this.shareDetail, this.shareToken, 30)
+            .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30, this.config.cdnUrl)
             .pipe(map(() => this.shareDetail.contentSelections[index]));
         },
       },
