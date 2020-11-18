@@ -8,8 +8,8 @@ import { ShareDetail, ShareService } from '../services/api-services';
 export class ShareFacade {
   constructor(private shareService: ShareService) {}
 
-  loadNextPageOfContents(shareDetail: ShareDetail, shareToken: string, limit: number) {
-    return this.shareService.getShareContents(shareToken, undefined, limit, shareDetail.pageToken).pipe(
+  loadNextPageOfContents(shareDetail: ShareDetail, shareToken: string, language: string, limit: number, url?: string) {
+    return this.shareService.getShareContents(shareToken, language, limit, shareDetail.pageToken).pipe(
       tap((contents) => {
         shareDetail.pageToken = contents.pageToken;
         shareDetail.contentSelections = [...shareDetail.contentSelections, ...contents.results];
