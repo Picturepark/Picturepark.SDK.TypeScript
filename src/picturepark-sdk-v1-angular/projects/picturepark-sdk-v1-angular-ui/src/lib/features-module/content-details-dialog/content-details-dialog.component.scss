@@ -82,6 +82,7 @@
       .content-info {
         float: left;
         flex: 30;
+        max-width: 30%;
 
         @media (max-width: 535px) {
           width: 100%;
@@ -91,6 +92,11 @@
           margin: 24px;
           list-style: none;
           padding: 0;
+
+          li {
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
 
           span {
             font-weight: 500;
