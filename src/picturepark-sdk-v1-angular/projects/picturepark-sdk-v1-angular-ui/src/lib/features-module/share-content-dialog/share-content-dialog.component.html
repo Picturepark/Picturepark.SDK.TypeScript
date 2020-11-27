@@ -78,7 +78,7 @@
         </li>
         <li class="input-content language">
           <mat-select [formControl]="sharedContentForm.controls['language']">
-            <mat-option *ngFor="let language of languages" [value]="language.ietf">
+            <mat-option *ngFor="let language of languageService.languages" [value]="language.ietf">
               {{ language.name | pptranslate }}
             </mat-option>
           </mat-select>
