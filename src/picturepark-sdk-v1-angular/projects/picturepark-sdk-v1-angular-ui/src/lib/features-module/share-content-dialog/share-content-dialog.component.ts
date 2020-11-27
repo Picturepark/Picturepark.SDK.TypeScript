@@ -75,6 +75,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   notificationDisplayTime = 10000;
 
   recipients: ConfirmRecipients[] = [];
+  languages = this.languageService.languages;
 
   @Output()
   public previewItemChange = new EventEmitter<string>();
@@ -100,6 +101,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       recipientSearch: new FormControl(''),
       recipients: new FormArray([], [Validators.required]),
       expire_date: new FormControl(''),
+      language: new FormControl(this.languageService.defaultLanguage, [Validators.required]),
     });
   }
 
@@ -140,7 +142,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
             recipientEmails: recipientsEmails,
             contents: contentItems,
             outputAccess: OutputAccess.Full,
-            languageCode: this.languageService.defaultLanguage,
+            languageCode: this.sharedContentForm.get('language')?.value ?? this.languageService.defaultLanguage,
             suppressNotifications: false,
           })
         )

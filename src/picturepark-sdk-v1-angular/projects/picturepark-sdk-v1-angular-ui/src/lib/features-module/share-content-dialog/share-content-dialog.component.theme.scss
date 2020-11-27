@@ -51,4 +51,9 @@ $pp-share-content-dialog: (
   .mat-tab-header {
     background-color: mat-color($primary, surface-mid);
   }
+
+  mat-select {
+    background-color: mat-color($primary, surface-light);
+    color: mat-color($primary, on-surface-light);
+  }
 }
