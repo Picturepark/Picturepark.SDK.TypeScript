@@ -1,4 +1,8 @@
+import { CommonModule } from '@angular/common';
+import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ApplicationMenuComponent } from './application-menu.component';
 
@@ -8,6 +12,7 @@ describe('ApplicationMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [CommonModule, MatSlideToggleModule, MatTooltipModule, RouterTestingModule],
       declarations: [ApplicationMenuComponent],
     }).compileComponents();
   }));
