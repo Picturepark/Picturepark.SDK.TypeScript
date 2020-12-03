@@ -16269,6 +16269,97 @@ export class ShareService extends PictureparkServiceBase {
     }
   }
 
+  getShareContents(
+    token: string | null,
+    lang: string | null | undefined,
+    limit: number | undefined,
+    pageToken: string | null | undefined,
+    cdnUrl?: string
+  ): Observable<ShareContentDetailResult> {
+    if (cdnUrl) {
+      return this.getShareContentsCoreFromUrl(token, lang, limit, pageToken, cdnUrl + 'json/{token}/contents?').pipe(
+        mergeMap(async (shareJson) => {
+          await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
+          return shareJson;
+        })
+      );
+    } else {
+      return this.getShareContentsCore(token, lang, limit, pageToken).pipe(
+        mergeMap(async (shareJson) => {
+          await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
+          return shareJson;
+        })
+      );
+    }
+  }
+
+  /**
+   * Get share contents
+   * @param token Share token
+   * @param lang (optional) Language code
+   * @param limit (optional) Number of contents to return
+   * @param pageToken (optional) PageToken to page over contents
+   * @return ShareContentDetailResult
+   */
+  protected getShareContentsCoreFromUrl(
+    token: string | null,
+    lang: string | null | undefined,
+    limit: number | undefined,
+    pageToken: string | null | undefined,
+    url: string
+  ): Observable<ShareContentDetailResult> {
+    let url_ = url;
+    if (token === undefined || token === null) {
+      throw new Error("The parameter 'token' must be defined.");
+    }
+    url_ = url_.replace('{token}', encodeURIComponent('' + token));
+    if (lang !== undefined && lang !== null) {
+      url_ += 'lang=' + encodeURIComponent('' + lang) + '&';
+    }
+    if (limit === null) {
+      throw new Error("The parameter 'limit' cannot be null.");
+    } else if (limit !== undefined) {
+      url_ += 'limit=' + encodeURIComponent('' + limit) + '&';
+    }
+    if (pageToken !== undefined && pageToken !== null) {
+      url_ += 'pageToken=' + encodeURIComponent('' + pageToken) + '&';
+    }
+    url_ = url_.replace(/[?&]$/, '');
+
+    const options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+      }),
+    };
+
+    return _observableFrom(this.transformOptions(options_))
+      .pipe(
+        _observableMergeMap((transformedOptions_) => {
+          return this.http.request('get', url_, transformedOptions_);
+        })
+      )
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGetShareContents(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGetShareContents(<any>response_);
+            } catch (e) {
+              return <Observable<ShareContentDetailResult>>(<any>_observableThrow(e));
+            }
+          } else {
+            return <Observable<ShareContentDetailResult>>(<any>_observableThrow(response_));
+          }
+        })
+      );
+  }
+
   /**
    * Get share json
    * @param token Share token
@@ -16458,7 +16549,7 @@ export class ShareService extends PictureparkServiceBase {
      * @param pageToken (optional) PageToken to page over contents
      * @return ShareContentDetailResult
      */
-    getShareContents(token: string | null, lang: string | null | undefined, limit: number | undefined, pageToken: string | null | undefined): Observable<ShareContentDetailResult> {
+    protected getShareContentsCore(token: string | null, lang: string | null | undefined, limit: number | undefined, pageToken: string | null | undefined): Observable<ShareContentDetailResult> {
         let url_ = this.baseUrl + "/v1/Shares/json/{token}/contents?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");

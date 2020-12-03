@@ -45,6 +45,7 @@
         "ListItemService.search",
         "ShareService.get",
         "ShareService.getShareJson",
+        "ShareService.getShareContents",
         "ShareService.search"
       ],
       "configurationClass": "AuthService",
