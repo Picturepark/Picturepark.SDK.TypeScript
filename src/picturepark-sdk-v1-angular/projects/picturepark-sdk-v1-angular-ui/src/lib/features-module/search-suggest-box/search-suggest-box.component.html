@@ -26,9 +26,7 @@
           <mat-option *ngIf="hasFocus && !typed" [disabled]="true">
             {{ 'SearchSuggestBox.TypeToSearch' | pptranslate }}
           </mat-option>
-          <mat-option *ngIf="isLoading" [disabled]="true">
-            Loading
-          </mat-option>
+          <mat-option *ngIf="isLoading" [disabled]="true"> Loading </mat-option>
           <ng-container *ngIf="suggestions$ | async as suggestions">
             <ng-container *ngIf="suggestions.length > 0; else noResults">
               <mat-optgroup *ngFor="let group of suggestions" [label]="group.name">
