@@ -79,6 +79,8 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   @Output()
   public previewItemChange = new EventEmitter<string>();
 
+  languageFormControl: FormControl;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private contentService: ContentService,
@@ -95,12 +97,13 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
     this.selectedContent = data;
 
+    this.languageFormControl = new FormControl(this.languageService.currentLanguage.ietf, [Validators.required]);
     this.sharedContentForm = this.formBuilder.group({
       share_name: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]),
       recipientSearch: new FormControl(''),
       recipients: new FormArray([], [Validators.required]),
       expire_date: new FormControl(''),
-      language: new FormControl(this.languageService.currentLanguage.ietf, [Validators.required]),
+      language: this.languageFormControl,
     });
   }
 

@@ -75,10 +75,12 @@ export { ContentBrowserComponent } from './lib/features-module/content-browser/c
 export { ListBrowserComponent } from './lib/features-module/list-browser/list-browser.component';
 export { ContentDetailsDialogComponent } from './lib/features-module/content-details-dialog/content-details-dialog.component';
 export { ReadMoreComponent } from './lib/features-module/layer-panels/components/read-more/read-more.component';
+export { LanguageSwitchComponent } from './lib/features-module/language-switch/language-switch.component';
 
 // Directives
 export { LazyLoadDirective } from './lib/shared-module/directives/lazy-load.directive';
 export { MarkdownDirective } from './lib/features-module/layer-panels/directives/markdown-directive';
+export { MobileTouchDirective } from './lib/shared-module/directives/mobile-touch.directive';
 
 // Services
 export { SelectionService } from './lib/shared-module/services/selection/selection.service';

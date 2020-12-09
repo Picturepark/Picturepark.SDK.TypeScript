@@ -77,7 +77,7 @@
           <label for="language">{{ 'ShareContentDialog.Language' | pptranslate }}:</label>
         </li>
         <li class="input-content language">
-          <mat-select [formControl]="sharedContentForm.controls['language']">
+          <mat-select [formControl]="languageFormControl">
             <mat-option *ngFor="let language of languageService.languages" [value]="language.ietf">
               {{ language.name | pptranslate }}
             </mat-option>
