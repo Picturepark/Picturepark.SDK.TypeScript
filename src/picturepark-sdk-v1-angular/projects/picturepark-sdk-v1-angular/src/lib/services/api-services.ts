@@ -46171,6 +46171,11 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
     // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
     if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
       displayName = this.name.split('/').pop() || null;
+    } else if (
+      this.filter &&
+      ((this.filter.filter as any).term === 'false' || (this.filter.filter as any).term === 'true')
+    ) {
+      displayName = (this.filter.filter as any).term;
     } else {
       displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
     }

@@ -169,6 +169,20 @@ export let TRANSLATIONS = {
       es: 'Sin valor',
       pt: 'Sem valor',
     },
+    false: {
+      en: 'False',
+      de: 'Falsch',
+      fr: 'Faux',
+      es: 'Falso',
+      pt: 'Falso',
+    },
+    true: {
+      en: 'True',
+      de: 'Wahr',
+      fr: 'Vrai',
+      es: 'Verdadero',
+      pt: 'Verdadeiro',
+    },
   },
   ContentBrowser: {
     NoImageForItem: {
