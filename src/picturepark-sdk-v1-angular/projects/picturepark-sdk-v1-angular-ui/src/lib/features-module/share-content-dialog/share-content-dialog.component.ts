@@ -97,9 +97,9 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
     this.selectedContent = data;
 
-    this.languageFormControl = new FormControl(this.languageService.currentLanguage.ietf, [Validators.required]);
+    this.languageFormControl = new FormControl(this.languageService.shareLanguages.find(lang=>lang.ietf=== this.languageService.currentLanguage.ietf)?.ietf??this.languageService.shareLanguages[0].ietf, [Validators.required]);
     this.sharedContentForm = this.formBuilder.group({
-      share_name: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]),
+      share_name: new FormControl('', [Validators.required]),
       recipientSearch: new FormControl(''),
       recipients: new FormArray([], [Validators.required]),
       expire_date: new FormControl(''),

@@ -66,12 +66,12 @@
 
   .selected-items-content {
     padding: 0px 0px 0px 0px;
-    max-height: 25vh;
 
     .selected-items {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
+      max-height: 35vh;
 
       .selected-item-wrapper {
         position: relative;

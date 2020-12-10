@@ -36,24 +36,6 @@
           >
             {{ 'ShareContentDialog.AddShareNameError' | pptranslate }}
           </div>
-          <div
-            class="share-name-error active"
-            *ngIf="
-              sharedContentForm.controls['share_name'].touched &&
-              sharedContentForm.controls['share_name'].errors?.maxlength
-            "
-          >
-            {{ 'ShareContentDialog.ShareNameTooLongError' | pptranslate }}
-          </div>
-          <div
-            class="share-name-error active"
-            *ngIf="
-              sharedContentForm.controls['share_name'].touched &&
-              sharedContentForm.controls['share_name'].errors?.minlength
-            "
-          >
-            {{ 'ShareContentDialog.ShareNameTooShortError' | pptranslate }}
-          </div>
         </li>
       </ul>
       <ul>
@@ -72,13 +54,13 @@
           <pp-date-picker [parentForm]="sharedContentForm" [placeHolderMessage]="'DD/MM/YYYY'"></pp-date-picker>
         </li>
       </ul>
-      <ul>
+      <ul *ngIf="languageService.shareLanguages.length > 1">
         <li class="label-content">
           <label for="language">{{ 'ShareContentDialog.Language' | pptranslate }}:</label>
         </li>
         <li class="input-content language">
           <mat-select [formControl]="languageFormControl">
-            <mat-option *ngFor="let language of languageService.languages" [value]="language.ietf">
+            <mat-option *ngFor="let language of languageService.shareLanguages" [value]="language.ietf">
               {{ language.name | pptranslate }}
             </mat-option>
           </mat-select>
