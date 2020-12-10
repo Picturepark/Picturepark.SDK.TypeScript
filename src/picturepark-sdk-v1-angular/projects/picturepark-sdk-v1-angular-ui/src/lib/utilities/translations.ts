@@ -1053,6 +1053,13 @@ export let TRANSLATIONS = {
       es: 'Hubo un error al compartir su contenido, intente nuevamente!',
       pt: 'Ocorreu um erro ao partilhar o seu conteúdo, tente novamente!',
     },
+    Language: {
+      en: 'Language',
+      de: 'Sprache',
+      fr: 'Langue',
+      es: 'Idioma',
+      pt: 'Idioma',
+    },
   },
   ContentDetailsDialog: {
     Download: {
