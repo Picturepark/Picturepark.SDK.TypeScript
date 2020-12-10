@@ -14,6 +14,8 @@ export class AggregationItemTranslatePipe implements PipeTransform {
 
     if (displayName === '') {
       displayName = this.translationService.translate('AggregationItemTranslatePipe.noValue');
+    } else if (displayName === 'false' || displayName === 'true') {
+      displayName = this.translationService.translate(`AggregationItemTranslatePipe.${displayName}`);
     }
 
     return displayName;

@@ -169,6 +169,20 @@ export let TRANSLATIONS = {
       es: 'Sin valor',
       pt: 'Sem valor',
     },
+    false: {
+      en: 'False',
+      de: 'Falsch',
+      fr: 'Faux',
+      es: 'Falso',
+      pt: 'Falso',
+    },
+    true: {
+      en: 'True',
+      de: 'Wahr',
+      fr: 'Vrai',
+      es: 'Verdadero',
+      pt: 'Verdadeiro',
+    },
   },
   ContentBrowser: {
     NoImageForItem: {
@@ -1038,6 +1052,13 @@ export let TRANSLATIONS = {
       fr: "Une erreur s'est produite lors du partage de votre contenu, veuillez réessayer!",
       es: 'Hubo un error al compartir su contenido, intente nuevamente!',
       pt: 'Ocorreu um erro ao partilhar o seu conteúdo, tente novamente!',
+    },
+    Language: {
+      en: 'Language',
+      de: 'Sprache',
+      fr: 'Langue',
+      es: 'Idioma',
+      pt: 'Idioma',
     },
   },
   ContentDetailsDialog: {

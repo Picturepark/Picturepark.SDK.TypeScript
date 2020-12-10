@@ -3,16 +3,25 @@
     list-style: none;
     padding: 0px;
     float: left;
+
     li {
       font-weight: 400;
       font-size: 13px;
       line-height: 38px;
     }
+
     &.settings-menu {
       width: 30%;
     }
+
     &.settings-info {
       width: 70%;
+
+      li {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
     }
   }
 }

@@ -18,6 +18,8 @@ pp-item-panel-preview {
       li {
         font-size: 13px;
         line-height: 21px;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
 
       .title {
@@ -39,6 +41,7 @@ pp-item-panel-preview {
       float: left;
       width: 200px;
       height: 200px;
+      min-width: 20%;
     }
 
     .item-info {
@@ -46,11 +49,12 @@ pp-item-panel-preview {
       float: left;
       flex: 1;
       cursor: pointer;
+      max-width: 65%;
     }
 
     .item-funcs {
       width: 100px;
-
+      min-width: 15%;
       & ul {
         display: none;
         position: relative;
@@ -97,4 +101,13 @@ pp-item-panel-preview {
       display: none;
     }
   }
+}
+
+button {
+  height: 24px;
+  line-height: 24px;
+}
+
+mat-icon {
+  vertical-align: baseline !important;
 }

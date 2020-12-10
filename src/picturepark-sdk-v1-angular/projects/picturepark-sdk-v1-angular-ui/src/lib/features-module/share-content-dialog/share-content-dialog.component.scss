@@ -3,7 +3,7 @@
   min-width: 500px;
   ul {
     list-style: none;
-    min-height: 35px;
+    min-height: 40px;
     padding: 0px 15px;
     li {
       position: relative;
@@ -12,7 +12,8 @@
         position: relative;
         bottom: 0.9em;
       }
-      input {
+      input,
+      mat-select {
         font-weight: 400;
         line-height: 17px;
         border-radius: 4px;
@@ -56,17 +57,21 @@
         width: 20px !important;
         height: 20px !important;
       }
+
+      &.language {
+        width: 180px;
+      }
     }
   }
 
   .selected-items-content {
     padding: 0px 0px 0px 0px;
-    max-height: 25vh;
 
     .selected-items {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
+      max-height: 35vh;
 
       .selected-item-wrapper {
         position: relative;
