@@ -52,7 +52,7 @@ $pp-share-content-dialog: (
     background-color: mat-color($primary, surface-mid);
   }
 
-  mat-select {
+  .inputs-content mat-select {
     background-color: mat-color($primary, surface-light);
     color: mat-color($primary, on-surface-light);
   }
