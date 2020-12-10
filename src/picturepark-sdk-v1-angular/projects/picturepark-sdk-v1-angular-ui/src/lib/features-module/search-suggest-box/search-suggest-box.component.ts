@@ -115,7 +115,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
     const aggs: AggregatorBase[] = [];
     this.facade.searchRequestState.aggregators.forEach((aggregation) => {
       if (aggregation.uiBehavior?.enableSuggestions) {
-        aggs.push(aggregation)
+        aggs.push(aggregation);
       }
     });
 
