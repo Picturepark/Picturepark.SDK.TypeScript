@@ -12,7 +12,7 @@ import {
 
 // COMPONENTS
 import { BaseComponent } from '../../components/base.component';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 
 @Component({
   selector: 'pp-aggregation-list',
@@ -29,7 +29,7 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
   loading$: Observable<boolean>;
 
   ngOnInit(): void {
-    this.aggregators$ = this.facade.aggregators$;
+    this.aggregators$ = this.facade.aggregators$.pipe(map((items) => this.filterDisabledAggregators(items)));
 
     // Show loading if it takes more than 100ms
     this.loading$ = this.facade.getLoadingInfos('initial').pipe(debounceTime(100));
@@ -54,13 +54,17 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
 
     aggregationResults.forEach((aggregationResult) => {
       const nested = this.facade.expandAggregationResult(aggregationResult);
-      const aggregatorIndex = this.facade.searchRequestState.aggregators.findIndex((aggregator) =>
-        nested.name.includes(aggregator.name)
-      );
+      const aggregatorIndex = this.filterDisabledAggregators(
+        this.facade.searchRequestState.aggregators
+      ).findIndex((aggregator) => nested.name.includes(aggregator.name));
 
       if (aggregatorIndex > -1) {
         this.aggregationResults[aggregatorIndex] = aggregationResult;
       }
     });
+  }
+
+  private filterDisabledAggregators(items: AggregatorBase[]) {
+    return items.filter((item) => item.uiBehavior?.enableFilter);
   }
 }

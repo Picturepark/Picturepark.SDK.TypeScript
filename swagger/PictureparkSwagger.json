@@ -1270,6 +1270,96 @@
         ]
       }
     },
+    "/v1/BusinessRules/schedule/run": {
+      "post": {
+        "tags": [
+          "BusinessRule"
+        ],
+        "summary": "Runs the supplied business rule schedule immediately.\nAllows for testing of schedules.",
+        "operationId": "BusinessRule_RunSchedule",
+        "requestBody": {
+          "x-name": "schedule",
+          "description": "BusinessRuleSchedule",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessRuleSchedule"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "BusinessProcess of the metadata operation triggered by the schedule.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessProcess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkValidationException"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkNotFoundException"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkConflictException"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "businessrule_write"
+            ]
+          }
+        ]
+      }
+    },
     "/v1/Channels": {
       "get": {
         "tags": [
@@ -22592,6 +22682,27 @@
           }
         ]
       },
+      "OutputBackupHashMismatchException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "requestedHash": {
+                "type": "string",
+                "nullable": true
+              },
+              "documentHash": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
       "DownloadLinkExpiredException": {
         "allOf": [
           {
@@ -23425,6 +23536,78 @@
               "fieldName": {
                 "type": "string",
                 "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "InvalidUiBehaviorInNonRootAggregatorException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "aggregatorName": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "InvalidUiBehaviorConfigurationException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "aggregatorName": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "InvalidSearchFieldInAggregatorException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fieldName": {
+                "type": "string",
+                "nullable": true
+              },
+              "aggregatorName": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "SearchStringTooLongException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "format": "int32"
               }
             }
           }
@@ -26852,38 +27035,6 @@
           "Content"
         ]
       },
-      "BusinessRuleActionInvalidExecutionScopeException": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/PictureparkValidationException"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "allowedScopes": {
-                "type": "array",
-                "nullable": true,
-                "items": {
-                  "$ref": "#/components/schemas/BusinessRuleExecutionScope"
-                }
-              }
-            }
-          }
-        ]
-      },
-      "BusinessRuleExecutionScope": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "MainDoc",
-          "SearchDoc"
-        ],
-        "enum": [
-          "MainDoc",
-          "SearchDoc"
-        ]
-      },
       "BusinessRuleActionsMissingException": {
         "allOf": [
           {
@@ -27028,26 +27179,6 @@
           }
         ]
       },
-      "BusinessRuleConditionInvalidTriggerPointDocumentTypeException": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/PictureparkValidationException"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "allowedDocumentTypes": {
-                "type": "array",
-                "nullable": true,
-                "items": {
-                  "$ref": "#/components/schemas/BusinessRuleTriggerDocType"
-                }
-              }
-            }
-          }
-        ]
-      },
       "BusinessRuleRegularExpressionInvalidException": {
         "allOf": [
           {
@@ -27065,7 +27196,7 @@
           }
         ]
       },
-      "BusinessRuleConditionInvalidTriggerPointActionException": {
+      "BusinessRuleConditionInvalidTriggerPointException": {
         "allOf": [
           {
             "$ref": "#/components/schemas/PictureparkValidationException"
@@ -27074,6 +27205,13 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
+              "allowedDocTypes": {
+                "type": "array",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/BusinessRuleTriggerDocType"
+                }
+              },
               "allowedActions": {
                 "type": "array",
                 "nullable": true,
@@ -27091,12 +27229,14 @@
         "x-enumNames": [
           "Create",
           "Update",
-          "FileReplacement"
+          "FileReplacement",
+          "Schedule"
         ],
         "enum": [
           "Create",
           "Update",
-          "FileReplacement"
+          "FileReplacement",
+          "Schedule"
         ]
       },
       "BusinessRuleRefIdsMissingException": {
@@ -27383,6 +27523,79 @@
         ]
       },
       "BusinessRuleNotificationRecipientUserRoleIdMissingException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "BusinessRuleNumberSequenceInvalidIdException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "BusinessRuleNumberSequenceIdDuplicationException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "BusinessRuleScheduleInvalidCronExpressionException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "expression": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "BusinessRuleScheduleFilterMissingException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkValidationException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "BusinessRuleScheduleRulesMissingException": {
         "allOf": [
           {
             "$ref": "#/components/schemas/PictureparkValidationException"
@@ -29314,6 +29527,22 @@
             "items": {
               "$ref": "#/components/schemas/BusinessRuleNotification"
             }
+          },
+          "numberSequences": {
+            "type": "array",
+            "description": "Numbers sequences.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/BusinessRuleNumberSequence"
+            }
+          },
+          "schedules": {
+            "type": "array",
+            "description": "Schedules.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/BusinessRuleSchedule"
+            }
           }
         }
       },
@@ -29340,14 +29569,13 @@
             "description": "User defined ID of the rule.",
             "nullable": true
           },
-          "triggerPoint": {
+          "triggerPoints": {
+            "type": "array",
             "description": "Trigger point.",
             "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/BusinessRuleTriggerPoint"
-              }
-            ]
+            "items": {
+              "$ref": "#/components/schemas/BusinessRuleTriggerPoint"
+            }
           },
           "isEnabled": {
             "type": "boolean",
@@ -29415,6 +29643,18 @@
             ]
           }
         }
+      },
+      "BusinessRuleExecutionScope": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "MainDoc",
+          "SearchDoc"
+        ],
+        "enum": [
+          "MainDoc",
+          "SearchDoc"
+        ]
       },
       "BusinessRuleConfigurable": {
         "allOf": [
@@ -30225,7 +30465,8 @@
             "ProduceMessageAction": "#/components/schemas/ProduceMessageAction",
             "AssignTagboxItemsInLayerAction": "#/components/schemas/AssignTagboxItemsInLayerAction",
             "EnqueueTaggingAction": "#/components/schemas/EnqueueTaggingAction",
-            "ProduceNotificationAction": "#/components/schemas/ProduceNotificationAction"
+            "ProduceNotificationAction": "#/components/schemas/ProduceNotificationAction",
+            "GetNumberFromNumberSequenceAction": "#/components/schemas/GetNumberFromNumberSequenceAction"
           }
         },
         "description": "Action to be performed by a business rule",
@@ -30703,6 +30944,30 @@
           }
         ]
       },
+      "GetNumberFromNumberSequenceAction": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BusinessRuleAction"
+          },
+          {
+            "type": "object",
+            "description": "Action to get a number from a configured number sequence and store it in a variable.",
+            "additionalProperties": false,
+            "properties": {
+              "numberSequenceId": {
+                "type": "string",
+                "description": "ID of the sequence number to get number from.",
+                "nullable": true
+              },
+              "storeIn": {
+                "type": "string",
+                "description": "Variable name to store number in.",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
       "BusinessRuleScript": {
         "allOf": [
           {
@@ -30891,43 +31156,110 @@
           }
         }
       },
-      "BusinessRuleConfigurationUpdateRequest": {
+      "BusinessRuleNumberSequence": {
         "type": "object",
-        "description": "Update request for changing business rule configuration",
+        "description": "Configuration for a number sequence.",
         "additionalProperties": false,
         "required": [
-          "disableRuleEngine"
+          "start"
         ],
         "properties": {
-          "disableRuleEngine": {
-            "type": "boolean",
-            "description": "Disables the rule engine completely."
+          "id": {
+            "type": "string",
+            "description": "ID of number sequence.",
+            "nullable": true
           },
-          "rules": {
-            "type": "array",
-            "description": "Rules.",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/BusinessRule"
-            }
+          "format": {
+            "type": "string",
+            "description": "Format.\nRefer to https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings for guidance.\nNote: formatting of numbers use invariant culture.",
+            "nullable": true
           },
-          "caches": {
-            "type": "array",
-            "description": "Named caches.",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/NamedCacheConfigurationBase"
-            }
-          },
-          "notifications": {
-            "type": "array",
-            "description": "Notifications.",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/BusinessRuleNotification"
-            }
+          "start": {
+            "type": "integer",
+            "description": "Starting number of the sequence.\nNote: When changing this, existing sequence number will be reset to new starting number and might produce duplicate numbers.",
+            "format": "int64"
           }
         }
+      },
+      "BusinessRuleSchedule": {
+        "type": "object",
+        "description": "Schedules business rules to run on a regular time frame.\nNote: If schedules do not complete within 15 minutes, next execution will be skipped",
+        "additionalProperties": false,
+        "required": [
+          "docType",
+          "isEnabled"
+        ],
+        "properties": {
+          "names": {
+            "description": "Language specific names.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TranslatedStringDictionary"
+              }
+            ]
+          },
+          "description": {
+            "description": "Language specific description.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TranslatedStringDictionary"
+              }
+            ]
+          },
+          "cronExpression": {
+            "type": "string",
+            "description": "Cron expression to specify run time.\nRefer to https://github.com/HangfireIO/Cronos#cron-format for reference.\nMinimum interval supported is 15 minutes.",
+            "nullable": true
+          },
+          "ruleIds": {
+            "type": "array",
+            "description": "IDs of business rules to run during schedule, regardless of trigger point",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "docType": {
+            "description": "Doc type of items that should be loaded.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BusinessRuleTriggerDocType"
+              }
+            ]
+          },
+          "searchString": {
+            "type": "string",
+            "description": "Search string to apply when searching for items to load.",
+            "nullable": true
+          },
+          "filter": {
+            "description": "Filter to apply when searching for items to load.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FilterBase"
+              }
+            ]
+          },
+          "isEnabled": {
+            "type": "boolean",
+            "description": "Indicates if schedule is enabled."
+          }
+        }
+      },
+      "BusinessRuleConfigurationUpdateRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BusinessRuleConfiguration"
+          },
+          {
+            "type": "object",
+            "description": "Update request for changing business rule configuration",
+            "additionalProperties": false
+          }
+        ]
       },
       "BusinessRuleTraceLogSearchResult": {
         "allOf": [
@@ -31495,8 +31827,41 @@
               }
             ]
           },
+          "uiBehavior": {
+            "description": "Optional behavior that the UI should keep in regards to the aggregation",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UiAggregatorBehavior"
+              }
+            ]
+          },
           "kind": {
             "type": "string"
+          }
+        }
+      },
+      "UiAggregatorBehavior": {
+        "type": "object",
+        "description": "Behavior that the UI should keep in regards to the aggregation",
+        "additionalProperties": false,
+        "required": [
+          "enableFilter",
+          "enableSuggestions",
+          "enableSearchInFilter"
+        ],
+        "properties": {
+          "enableFilter": {
+            "type": "boolean",
+            "description": "Filters should be enabled in the UI."
+          },
+          "enableSuggestions": {
+            "type": "boolean",
+            "description": "Suggestions should be enabled in the UI."
+          },
+          "enableSearchInFilter": {
+            "type": "boolean",
+            "description": "Search functionality should be enabled in the filters in the UI."
           }
         }
       },

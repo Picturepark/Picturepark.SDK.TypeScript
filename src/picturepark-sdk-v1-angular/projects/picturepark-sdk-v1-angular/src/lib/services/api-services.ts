@@ -1342,6 +1342,106 @@ export class BusinessRuleService extends PictureparkServiceBase {
         }
         return _observableOf<BusinessRuleTraceLogSearchResult>(<any>null);
     }
+
+    /**
+     * Runs the supplied business rule schedule immediately.
+    Allows for testing of schedules.
+     * @param schedule BusinessRuleSchedule
+     * @return BusinessProcess of the metadata operation triggered by the schedule.
+     */
+    runSchedule(schedule: BusinessRuleSchedule): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/BusinessRules/schedule/run";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(schedule);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processRunSchedule(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRunSchedule(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRunSchedule(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
 }
 
 @Injectable({
@@ -23974,6 +24074,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputBackupHashMismatchException") {
+            let result = new OutputBackupHashMismatchException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DownloadLinkExpiredException") {
             let result = new DownloadLinkExpiredException();
             result.init(data);
@@ -24174,6 +24279,26 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "InvalidSortFieldException") {
             let result = new InvalidSortFieldException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidUiBehaviorInNonRootAggregatorException") {
+            let result = new InvalidUiBehaviorInNonRootAggregatorException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidUiBehaviorConfigurationException") {
+            let result = new InvalidUiBehaviorConfigurationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidSearchFieldInAggregatorException") {
+            let result = new InvalidSearchFieldInAggregatorException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SearchStringTooLongException") {
+            let result = new SearchStringTooLongException();
             result.init(data);
             return result;
         }
@@ -24912,11 +25037,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessRuleActionInvalidExecutionScopeException") {
-            let result = new BusinessRuleActionInvalidExecutionScopeException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "BusinessRuleActionsMissingException") {
             let result = new BusinessRuleActionsMissingException();
             result.init(data);
@@ -24967,18 +25087,13 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessRuleConditionInvalidTriggerPointDocumentTypeException") {
-            let result = new BusinessRuleConditionInvalidTriggerPointDocumentTypeException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "BusinessRuleRegularExpressionInvalidException") {
             let result = new BusinessRuleRegularExpressionInvalidException();
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessRuleConditionInvalidTriggerPointActionException") {
-            let result = new BusinessRuleConditionInvalidTriggerPointActionException();
+        if (data["kind"] === "BusinessRuleConditionInvalidTriggerPointException") {
+            let result = new BusinessRuleConditionInvalidTriggerPointException();
             result.init(data);
             return result;
         }
@@ -25079,6 +25194,31 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "BusinessRuleNotificationRecipientUserRoleIdMissingException") {
             let result = new BusinessRuleNotificationRecipientUserRoleIdMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNumberSequenceInvalidIdException") {
+            let result = new BusinessRuleNumberSequenceInvalidIdException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNumberSequenceIdDuplicationException") {
+            let result = new BusinessRuleNumberSequenceIdDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleScheduleInvalidCronExpressionException") {
+            let result = new BusinessRuleScheduleInvalidCronExpressionException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleScheduleFilterMissingException") {
+            let result = new BusinessRuleScheduleFilterMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleScheduleRulesMissingException") {
+            let result = new BusinessRuleScheduleRulesMissingException();
             result.init(data);
             return result;
         }
@@ -25534,6 +25674,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputBackupHashMismatchException") {
+            let result = new OutputBackupHashMismatchException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DownloadLinkExpiredException") {
             let result = new DownloadLinkExpiredException();
             result.init(data);
@@ -25734,6 +25879,26 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "InvalidSortFieldException") {
             let result = new InvalidSortFieldException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidUiBehaviorInNonRootAggregatorException") {
+            let result = new InvalidUiBehaviorInNonRootAggregatorException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidUiBehaviorConfigurationException") {
+            let result = new InvalidUiBehaviorConfigurationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidSearchFieldInAggregatorException") {
+            let result = new InvalidSearchFieldInAggregatorException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SearchStringTooLongException") {
+            let result = new SearchStringTooLongException();
             result.init(data);
             return result;
         }
@@ -26472,11 +26637,6 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessRuleActionInvalidExecutionScopeException") {
-            let result = new BusinessRuleActionInvalidExecutionScopeException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "BusinessRuleActionsMissingException") {
             let result = new BusinessRuleActionsMissingException();
             result.init(data);
@@ -26527,18 +26687,13 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessRuleConditionInvalidTriggerPointDocumentTypeException") {
-            let result = new BusinessRuleConditionInvalidTriggerPointDocumentTypeException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "BusinessRuleRegularExpressionInvalidException") {
             let result = new BusinessRuleRegularExpressionInvalidException();
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessRuleConditionInvalidTriggerPointActionException") {
-            let result = new BusinessRuleConditionInvalidTriggerPointActionException();
+        if (data["kind"] === "BusinessRuleConditionInvalidTriggerPointException") {
+            let result = new BusinessRuleConditionInvalidTriggerPointException();
             result.init(data);
             return result;
         }
@@ -26639,6 +26794,31 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "BusinessRuleNotificationRecipientUserRoleIdMissingException") {
             let result = new BusinessRuleNotificationRecipientUserRoleIdMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNumberSequenceInvalidIdException") {
+            let result = new BusinessRuleNumberSequenceInvalidIdException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNumberSequenceIdDuplicationException") {
+            let result = new BusinessRuleNumberSequenceIdDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleScheduleInvalidCronExpressionException") {
+            let result = new BusinessRuleScheduleInvalidCronExpressionException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleScheduleFilterMissingException") {
+            let result = new BusinessRuleScheduleFilterMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleScheduleRulesMissingException") {
+            let result = new BusinessRuleScheduleRulesMissingException();
             result.init(data);
             return result;
         }
@@ -26971,6 +27151,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputBackupHashMismatchException") {
+            let result = new OutputBackupHashMismatchException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "InvalidStateException") {
             let result = new InvalidStateException();
             result.init(data);
@@ -27081,6 +27266,26 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "InvalidSortFieldException") {
             let result = new InvalidSortFieldException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidUiBehaviorInNonRootAggregatorException") {
+            let result = new InvalidUiBehaviorInNonRootAggregatorException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidUiBehaviorConfigurationException") {
+            let result = new InvalidUiBehaviorConfigurationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidSearchFieldInAggregatorException") {
+            let result = new InvalidSearchFieldInAggregatorException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SearchStringTooLongException") {
+            let result = new SearchStringTooLongException();
             result.init(data);
             return result;
         }
@@ -27644,11 +27849,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessRuleActionInvalidExecutionScopeException") {
-            let result = new BusinessRuleActionInvalidExecutionScopeException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "BusinessRuleActionsMissingException") {
             let result = new BusinessRuleActionsMissingException();
             result.init(data);
@@ -27699,18 +27899,13 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessRuleConditionInvalidTriggerPointDocumentTypeException") {
-            let result = new BusinessRuleConditionInvalidTriggerPointDocumentTypeException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "BusinessRuleRegularExpressionInvalidException") {
             let result = new BusinessRuleRegularExpressionInvalidException();
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessRuleConditionInvalidTriggerPointActionException") {
-            let result = new BusinessRuleConditionInvalidTriggerPointActionException();
+        if (data["kind"] === "BusinessRuleConditionInvalidTriggerPointException") {
+            let result = new BusinessRuleConditionInvalidTriggerPointException();
             result.init(data);
             return result;
         }
@@ -27811,6 +28006,31 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "BusinessRuleNotificationRecipientUserRoleIdMissingException") {
             let result = new BusinessRuleNotificationRecipientUserRoleIdMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNumberSequenceInvalidIdException") {
+            let result = new BusinessRuleNumberSequenceInvalidIdException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleNumberSequenceIdDuplicationException") {
+            let result = new BusinessRuleNumberSequenceIdDuplicationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleScheduleInvalidCronExpressionException") {
+            let result = new BusinessRuleScheduleInvalidCronExpressionException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleScheduleFilterMissingException") {
+            let result = new BusinessRuleScheduleFilterMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleScheduleRulesMissingException") {
+            let result = new BusinessRuleScheduleRulesMissingException();
             result.init(data);
             return result;
         }
@@ -30043,6 +30263,44 @@ export class OutputBackupNotRequestedException extends PictureparkValidationExce
 export interface IOutputBackupNotRequestedException extends IPictureparkValidationException {
 }
 
+export class OutputBackupHashMismatchException extends PictureparkValidationException implements IOutputBackupHashMismatchException {
+    requestedHash?: string | undefined;
+    documentHash?: string | undefined;
+
+    constructor(data?: IOutputBackupHashMismatchException) {
+        super(data);
+        this._discriminator = "OutputBackupHashMismatchException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.requestedHash = _data["requestedHash"];
+            this.documentHash = _data["documentHash"];
+        }
+    }
+
+    static fromJS(data: any): OutputBackupHashMismatchException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputBackupHashMismatchException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["requestedHash"] = this.requestedHash;
+        data["documentHash"] = this.documentHash;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputBackupHashMismatchException extends IPictureparkValidationException {
+    requestedHash?: string | undefined;
+    documentHash?: string | undefined;
+}
+
 export class DownloadLinkExpiredException extends PictureparkBusinessException implements IDownloadLinkExpiredException {
 
     constructor(data?: IDownloadLinkExpiredException) {
@@ -31771,6 +32029,146 @@ export class InvalidSortFieldException extends PictureparkValidationException im
 
 export interface IInvalidSortFieldException extends IPictureparkValidationException {
     fieldName?: string | undefined;
+}
+
+export class InvalidUiBehaviorInNonRootAggregatorException extends PictureparkValidationException implements IInvalidUiBehaviorInNonRootAggregatorException {
+    aggregatorName?: string | undefined;
+
+    constructor(data?: IInvalidUiBehaviorInNonRootAggregatorException) {
+        super(data);
+        this._discriminator = "InvalidUiBehaviorInNonRootAggregatorException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregatorName = _data["aggregatorName"];
+        }
+    }
+
+    static fromJS(data: any): InvalidUiBehaviorInNonRootAggregatorException {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvalidUiBehaviorInNonRootAggregatorException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregatorName"] = this.aggregatorName;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IInvalidUiBehaviorInNonRootAggregatorException extends IPictureparkValidationException {
+    aggregatorName?: string | undefined;
+}
+
+export class InvalidUiBehaviorConfigurationException extends PictureparkValidationException implements IInvalidUiBehaviorConfigurationException {
+    aggregatorName?: string | undefined;
+
+    constructor(data?: IInvalidUiBehaviorConfigurationException) {
+        super(data);
+        this._discriminator = "InvalidUiBehaviorConfigurationException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregatorName = _data["aggregatorName"];
+        }
+    }
+
+    static fromJS(data: any): InvalidUiBehaviorConfigurationException {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvalidUiBehaviorConfigurationException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregatorName"] = this.aggregatorName;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IInvalidUiBehaviorConfigurationException extends IPictureparkValidationException {
+    aggregatorName?: string | undefined;
+}
+
+export class InvalidSearchFieldInAggregatorException extends PictureparkValidationException implements IInvalidSearchFieldInAggregatorException {
+    fieldName?: string | undefined;
+    aggregatorName?: string | undefined;
+
+    constructor(data?: IInvalidSearchFieldInAggregatorException) {
+        super(data);
+        this._discriminator = "InvalidSearchFieldInAggregatorException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fieldName = _data["fieldName"];
+            this.aggregatorName = _data["aggregatorName"];
+        }
+    }
+
+    static fromJS(data: any): InvalidSearchFieldInAggregatorException {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvalidSearchFieldInAggregatorException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldName"] = this.fieldName;
+        data["aggregatorName"] = this.aggregatorName;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IInvalidSearchFieldInAggregatorException extends IPictureparkValidationException {
+    fieldName?: string | undefined;
+    aggregatorName?: string | undefined;
+}
+
+export class SearchStringTooLongException extends PictureparkValidationException implements ISearchStringTooLongException {
+    limit?: number;
+
+    constructor(data?: ISearchStringTooLongException) {
+        super(data);
+        this._discriminator = "SearchStringTooLongException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.limit = _data["limit"];
+        }
+    }
+
+    static fromJS(data: any): SearchStringTooLongException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchStringTooLongException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["limit"] = this.limit;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISearchStringTooLongException extends IPictureparkValidationException {
+    limit?: number;
 }
 
 export class DocumentVersionConflictException extends PictureparkConflictException implements IDocumentVersionConflictException {
@@ -37889,53 +38287,6 @@ export enum BusinessRuleTriggerDocType {
     Content = "Content",
 }
 
-export class BusinessRuleActionInvalidExecutionScopeException extends PictureparkValidationException implements IBusinessRuleActionInvalidExecutionScopeException {
-    allowedScopes?: BusinessRuleExecutionScope[] | undefined;
-
-    constructor(data?: IBusinessRuleActionInvalidExecutionScopeException) {
-        super(data);
-        this._discriminator = "BusinessRuleActionInvalidExecutionScopeException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            if (Array.isArray(_data["allowedScopes"])) {
-                this.allowedScopes = [] as any;
-                for (let item of _data["allowedScopes"])
-                    this.allowedScopes!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): BusinessRuleActionInvalidExecutionScopeException {
-        data = typeof data === 'object' ? data : {};
-        let result = new BusinessRuleActionInvalidExecutionScopeException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.allowedScopes)) {
-            data["allowedScopes"] = [];
-            for (let item of this.allowedScopes)
-                data["allowedScopes"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IBusinessRuleActionInvalidExecutionScopeException extends IPictureparkValidationException {
-    allowedScopes?: BusinessRuleExecutionScope[] | undefined;
-}
-
-export enum BusinessRuleExecutionScope {
-    MainDoc = "MainDoc",
-    SearchDoc = "SearchDoc",
-}
-
 export class BusinessRuleActionsMissingException extends PictureparkValidationException implements IBusinessRuleActionsMissingException {
 
     constructor(data?: IBusinessRuleActionsMissingException) {
@@ -38260,48 +38611,6 @@ export interface IBusinessRuleValidationException extends IPictureparkValidation
     innerExceptions?: PictureparkValidationException[] | undefined;
 }
 
-export class BusinessRuleConditionInvalidTriggerPointDocumentTypeException extends PictureparkValidationException implements IBusinessRuleConditionInvalidTriggerPointDocumentTypeException {
-    allowedDocumentTypes?: BusinessRuleTriggerDocType[] | undefined;
-
-    constructor(data?: IBusinessRuleConditionInvalidTriggerPointDocumentTypeException) {
-        super(data);
-        this._discriminator = "BusinessRuleConditionInvalidTriggerPointDocumentTypeException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            if (Array.isArray(_data["allowedDocumentTypes"])) {
-                this.allowedDocumentTypes = [] as any;
-                for (let item of _data["allowedDocumentTypes"])
-                    this.allowedDocumentTypes!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): BusinessRuleConditionInvalidTriggerPointDocumentTypeException {
-        data = typeof data === 'object' ? data : {};
-        let result = new BusinessRuleConditionInvalidTriggerPointDocumentTypeException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.allowedDocumentTypes)) {
-            data["allowedDocumentTypes"] = [];
-            for (let item of this.allowedDocumentTypes)
-                data["allowedDocumentTypes"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IBusinessRuleConditionInvalidTriggerPointDocumentTypeException extends IPictureparkValidationException {
-    allowedDocumentTypes?: BusinessRuleTriggerDocType[] | undefined;
-}
-
 export class BusinessRuleRegularExpressionInvalidException extends PictureparkValidationException implements IBusinessRuleRegularExpressionInvalidException {
     regex?: string | undefined;
 
@@ -38336,17 +38645,23 @@ export interface IBusinessRuleRegularExpressionInvalidException extends IPicture
     regex?: string | undefined;
 }
 
-export class BusinessRuleConditionInvalidTriggerPointActionException extends PictureparkValidationException implements IBusinessRuleConditionInvalidTriggerPointActionException {
+export class BusinessRuleConditionInvalidTriggerPointException extends PictureparkValidationException implements IBusinessRuleConditionInvalidTriggerPointException {
+    allowedDocTypes?: BusinessRuleTriggerDocType[] | undefined;
     allowedActions?: BusinessRuleTriggerAction[] | undefined;
 
-    constructor(data?: IBusinessRuleConditionInvalidTriggerPointActionException) {
+    constructor(data?: IBusinessRuleConditionInvalidTriggerPointException) {
         super(data);
-        this._discriminator = "BusinessRuleConditionInvalidTriggerPointActionException";
+        this._discriminator = "BusinessRuleConditionInvalidTriggerPointException";
     }
 
     init(_data?: any) {
         super.init(_data);
         if (_data) {
+            if (Array.isArray(_data["allowedDocTypes"])) {
+                this.allowedDocTypes = [] as any;
+                for (let item of _data["allowedDocTypes"])
+                    this.allowedDocTypes!.push(item);
+            }
             if (Array.isArray(_data["allowedActions"])) {
                 this.allowedActions = [] as any;
                 for (let item of _data["allowedActions"])
@@ -38355,15 +38670,20 @@ export class BusinessRuleConditionInvalidTriggerPointActionException extends Pic
         }
     }
 
-    static fromJS(data: any): BusinessRuleConditionInvalidTriggerPointActionException {
+    static fromJS(data: any): BusinessRuleConditionInvalidTriggerPointException {
         data = typeof data === 'object' ? data : {};
-        let result = new BusinessRuleConditionInvalidTriggerPointActionException();
+        let result = new BusinessRuleConditionInvalidTriggerPointException();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.allowedDocTypes)) {
+            data["allowedDocTypes"] = [];
+            for (let item of this.allowedDocTypes)
+                data["allowedDocTypes"].push(item);
+        }
         if (Array.isArray(this.allowedActions)) {
             data["allowedActions"] = [];
             for (let item of this.allowedActions)
@@ -38374,7 +38694,8 @@ export class BusinessRuleConditionInvalidTriggerPointActionException extends Pic
     }
 }
 
-export interface IBusinessRuleConditionInvalidTriggerPointActionException extends IPictureparkValidationException {
+export interface IBusinessRuleConditionInvalidTriggerPointException extends IPictureparkValidationException {
+    allowedDocTypes?: BusinessRuleTriggerDocType[] | undefined;
     allowedActions?: BusinessRuleTriggerAction[] | undefined;
 }
 
@@ -38382,6 +38703,7 @@ export enum BusinessRuleTriggerAction {
     Create = "Create",
     Update = "Update",
     FileReplacement = "FileReplacement",
+    Schedule = "Schedule",
 }
 
 export class BusinessRuleRefIdsMissingException extends PictureparkValidationException implements IBusinessRuleRefIdsMissingException {
@@ -39016,6 +39338,164 @@ export class BusinessRuleNotificationRecipientUserRoleIdMissingException extends
 }
 
 export interface IBusinessRuleNotificationRecipientUserRoleIdMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleNumberSequenceInvalidIdException extends PictureparkValidationException implements IBusinessRuleNumberSequenceInvalidIdException {
+    id?: string | undefined;
+
+    constructor(data?: IBusinessRuleNumberSequenceInvalidIdException) {
+        super(data);
+        this._discriminator = "BusinessRuleNumberSequenceInvalidIdException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleNumberSequenceInvalidIdException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleNumberSequenceInvalidIdException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleNumberSequenceInvalidIdException extends IPictureparkValidationException {
+    id?: string | undefined;
+}
+
+export class BusinessRuleNumberSequenceIdDuplicationException extends PictureparkValidationException implements IBusinessRuleNumberSequenceIdDuplicationException {
+    id?: string | undefined;
+
+    constructor(data?: IBusinessRuleNumberSequenceIdDuplicationException) {
+        super(data);
+        this._discriminator = "BusinessRuleNumberSequenceIdDuplicationException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleNumberSequenceIdDuplicationException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleNumberSequenceIdDuplicationException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleNumberSequenceIdDuplicationException extends IPictureparkValidationException {
+    id?: string | undefined;
+}
+
+export class BusinessRuleScheduleInvalidCronExpressionException extends PictureparkValidationException implements IBusinessRuleScheduleInvalidCronExpressionException {
+    expression?: string | undefined;
+
+    constructor(data?: IBusinessRuleScheduleInvalidCronExpressionException) {
+        super(data);
+        this._discriminator = "BusinessRuleScheduleInvalidCronExpressionException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.expression = _data["expression"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleScheduleInvalidCronExpressionException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleScheduleInvalidCronExpressionException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["expression"] = this.expression;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleScheduleInvalidCronExpressionException extends IPictureparkValidationException {
+    expression?: string | undefined;
+}
+
+export class BusinessRuleScheduleFilterMissingException extends PictureparkValidationException implements IBusinessRuleScheduleFilterMissingException {
+
+    constructor(data?: IBusinessRuleScheduleFilterMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleScheduleFilterMissingException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): BusinessRuleScheduleFilterMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleScheduleFilterMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleScheduleFilterMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleScheduleRulesMissingException extends PictureparkValidationException implements IBusinessRuleScheduleRulesMissingException {
+
+    constructor(data?: IBusinessRuleScheduleRulesMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleScheduleRulesMissingException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): BusinessRuleScheduleRulesMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleScheduleRulesMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleScheduleRulesMissingException extends IPictureparkValidationException {
 }
 
 export class NamedCacheConfigurationException extends PictureparkValidationException implements INamedCacheConfigurationException {
@@ -42648,6 +43128,10 @@ export class BusinessRuleConfiguration implements IBusinessRuleConfiguration {
     caches?: NamedCacheConfigurationBase[] | undefined;
     /** Notifications. */
     notifications?: BusinessRuleNotification[] | undefined;
+    /** Numbers sequences. */
+    numberSequences?: BusinessRuleNumberSequence[] | undefined;
+    /** Schedules. */
+    schedules?: BusinessRuleSchedule[] | undefined;
 
     constructor(data?: IBusinessRuleConfiguration) {
         if (data) {
@@ -42660,6 +43144,20 @@ export class BusinessRuleConfiguration implements IBusinessRuleConfiguration {
                 for (let i = 0; i < data.notifications.length; i++) {
                     let item = data.notifications[i];
                     this.notifications[i] = item && !(<any>item).toJSON ? new BusinessRuleNotification(item) : <BusinessRuleNotification>item;
+                }
+            }
+            if (data.numberSequences) {
+                this.numberSequences = [];
+                for (let i = 0; i < data.numberSequences.length; i++) {
+                    let item = data.numberSequences[i];
+                    this.numberSequences[i] = item && !(<any>item).toJSON ? new BusinessRuleNumberSequence(item) : <BusinessRuleNumberSequence>item;
+                }
+            }
+            if (data.schedules) {
+                this.schedules = [];
+                for (let i = 0; i < data.schedules.length; i++) {
+                    let item = data.schedules[i];
+                    this.schedules[i] = item && !(<any>item).toJSON ? new BusinessRuleSchedule(item) : <BusinessRuleSchedule>item;
                 }
             }
         }
@@ -42682,6 +43180,16 @@ export class BusinessRuleConfiguration implements IBusinessRuleConfiguration {
                 this.notifications = [] as any;
                 for (let item of _data["notifications"])
                     this.notifications!.push(BusinessRuleNotification.fromJS(item));
+            }
+            if (Array.isArray(_data["numberSequences"])) {
+                this.numberSequences = [] as any;
+                for (let item of _data["numberSequences"])
+                    this.numberSequences!.push(BusinessRuleNumberSequence.fromJS(item));
+            }
+            if (Array.isArray(_data["schedules"])) {
+                this.schedules = [] as any;
+                for (let item of _data["schedules"])
+                    this.schedules!.push(BusinessRuleSchedule.fromJS(item));
             }
         }
     }
@@ -42711,6 +43219,16 @@ export class BusinessRuleConfiguration implements IBusinessRuleConfiguration {
             for (let item of this.notifications)
                 data["notifications"].push(item.toJSON());
         }
+        if (Array.isArray(this.numberSequences)) {
+            data["numberSequences"] = [];
+            for (let item of this.numberSequences)
+                data["numberSequences"].push(item.toJSON());
+        }
+        if (Array.isArray(this.schedules)) {
+            data["schedules"] = [];
+            for (let item of this.schedules)
+                data["schedules"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -42725,6 +43243,10 @@ export interface IBusinessRuleConfiguration {
     caches?: NamedCacheConfigurationBase[] | undefined;
     /** Notifications. */
     notifications?: IBusinessRuleNotification[] | undefined;
+    /** Numbers sequences. */
+    numberSequences?: IBusinessRuleNumberSequence[] | undefined;
+    /** Schedules. */
+    schedules?: IBusinessRuleSchedule[] | undefined;
 }
 
 /** A business rule */
@@ -42732,7 +43254,7 @@ export abstract class BusinessRule implements IBusinessRule {
     /** User defined ID of the rule. */
     id?: string | undefined;
     /** Trigger point. */
-    triggerPoint?: BusinessRuleTriggerPoint | undefined;
+    triggerPoints?: BusinessRuleTriggerPoint[] | undefined;
     /** Enable. */
     isEnabled!: boolean;
     /** Language specific rule names. */
@@ -42750,7 +43272,13 @@ export abstract class BusinessRule implements IBusinessRule {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.triggerPoint = data.triggerPoint && !(<any>data.triggerPoint).toJSON ? new BusinessRuleTriggerPoint(data.triggerPoint) : <BusinessRuleTriggerPoint>this.triggerPoint; 
+            if (data.triggerPoints) {
+                this.triggerPoints = [];
+                for (let i = 0; i < data.triggerPoints.length; i++) {
+                    let item = data.triggerPoints[i];
+                    this.triggerPoints[i] = item && !(<any>item).toJSON ? new BusinessRuleTriggerPoint(item) : <BusinessRuleTriggerPoint>item;
+                }
+            }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
             this.description = data.description && !(<any>data.description).toJSON ? new TranslatedStringDictionary(data.description) : <TranslatedStringDictionary>this.description; 
         }
@@ -42760,7 +43288,11 @@ export abstract class BusinessRule implements IBusinessRule {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.triggerPoint = _data["triggerPoint"] ? BusinessRuleTriggerPoint.fromJS(_data["triggerPoint"]) : <any>undefined;
+            if (Array.isArray(_data["triggerPoints"])) {
+                this.triggerPoints = [] as any;
+                for (let item of _data["triggerPoints"])
+                    this.triggerPoints!.push(BusinessRuleTriggerPoint.fromJS(item));
+            }
             this.isEnabled = _data["isEnabled"];
             this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
             this.description = _data["description"] ? TranslatedStringDictionary.fromJS(_data["description"]) : <any>undefined;
@@ -42787,7 +43319,11 @@ export abstract class BusinessRule implements IBusinessRule {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
         data["id"] = this.id;
-        data["triggerPoint"] = this.triggerPoint ? this.triggerPoint.toJSON() : <any>undefined;
+        if (Array.isArray(this.triggerPoints)) {
+            data["triggerPoints"] = [];
+            for (let item of this.triggerPoints)
+                data["triggerPoints"].push(item.toJSON());
+        }
         data["isEnabled"] = this.isEnabled;
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
         data["description"] = this.description ? this.description.toJSON() : <any>undefined;
@@ -42801,7 +43337,7 @@ export interface IBusinessRule {
     /** User defined ID of the rule. */
     id?: string | undefined;
     /** Trigger point. */
-    triggerPoint?: IBusinessRuleTriggerPoint | undefined;
+    triggerPoints?: IBusinessRuleTriggerPoint[] | undefined;
     /** Enable. */
     isEnabled: boolean;
     /** Language specific rule names. */
@@ -42862,6 +43398,11 @@ export interface IBusinessRuleTriggerPoint {
     documentType: BusinessRuleTriggerDocType;
     /** Action performed. */
     action: BusinessRuleTriggerAction;
+}
+
+export enum BusinessRuleExecutionScope {
+    MainDoc = "MainDoc",
+    SearchDoc = "SearchDoc",
 }
 
 /** A business rule configurable by specific actions and conditions */
@@ -44571,6 +45112,11 @@ export abstract class BusinessRuleAction implements IBusinessRuleAction {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "GetNumberFromNumberSequenceAction") {
+            let result = new GetNumberFromNumberSequenceAction();
+            result.init(data);
+            return result;
+        }
         throw new Error("The abstract class 'BusinessRuleAction' cannot be instantiated.");
     }
 
@@ -45445,6 +45991,50 @@ export class OwnerNotificationRecipient extends NotificationRecipientBase implem
 export interface IOwnerNotificationRecipient extends INotificationRecipientBase {
 }
 
+/** Action to get a number from a configured number sequence and store it in a variable. */
+export class GetNumberFromNumberSequenceAction extends BusinessRuleAction implements IGetNumberFromNumberSequenceAction {
+    /** ID of the sequence number to get number from. */
+    numberSequenceId?: string | undefined;
+    /** Variable name to store number in. */
+    storeIn?: string | undefined;
+
+    constructor(data?: IGetNumberFromNumberSequenceAction) {
+        super(data);
+        this._discriminator = "GetNumberFromNumberSequenceAction";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.numberSequenceId = _data["numberSequenceId"];
+            this.storeIn = _data["storeIn"];
+        }
+    }
+
+    static fromJS(data: any): GetNumberFromNumberSequenceAction {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetNumberFromNumberSequenceAction();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["numberSequenceId"] = this.numberSequenceId;
+        data["storeIn"] = this.storeIn;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Action to get a number from a configured number sequence and store it in a variable. */
+export interface IGetNumberFromNumberSequenceAction extends IBusinessRuleAction {
+    /** ID of the sequence number to get number from. */
+    numberSequenceId?: string | undefined;
+    /** Variable name to store number in. */
+    storeIn?: string | undefined;
+}
+
 /** A business rule expressed as a script */
 export class BusinessRuleScript extends BusinessRule implements IBusinessRuleScript {
     /** Script */
@@ -45768,52 +46358,169 @@ export interface IBusinessRuleNotification {
     templateName?: string | undefined;
 }
 
-/** Update request for changing business rule configuration */
-export class BusinessRuleConfigurationUpdateRequest implements IBusinessRuleConfigurationUpdateRequest {
-    /** Disables the rule engine completely. */
-    disableRuleEngine!: boolean;
-    /** Rules. */
-    rules?: BusinessRule[] | undefined;
-    /** Named caches. */
-    caches?: NamedCacheConfigurationBase[] | undefined;
-    /** Notifications. */
-    notifications?: BusinessRuleNotification[] | undefined;
+/** Configuration for a number sequence. */
+export class BusinessRuleNumberSequence implements IBusinessRuleNumberSequence {
+    /** ID of number sequence. */
+    id?: string | undefined;
+    /** Format.
+Refer to https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings for guidance.
+Note: formatting of numbers use invariant culture. */
+    format?: string | undefined;
+    /** Starting number of the sequence.
+Note: When changing this, existing sequence number will be reset to new starting number and might produce duplicate numbers. */
+    start!: number;
 
-    constructor(data?: IBusinessRuleConfigurationUpdateRequest) {
+    constructor(data?: IBusinessRuleNumberSequence) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.notifications) {
-                this.notifications = [];
-                for (let i = 0; i < data.notifications.length; i++) {
-                    let item = data.notifications[i];
-                    this.notifications[i] = item && !(<any>item).toJSON ? new BusinessRuleNotification(item) : <BusinessRuleNotification>item;
-                }
             }
         }
     }
 
     init(_data?: any) {
         if (_data) {
-            this.disableRuleEngine = _data["disableRuleEngine"];
-            if (Array.isArray(_data["rules"])) {
-                this.rules = [] as any;
-                for (let item of _data["rules"])
-                    this.rules!.push(BusinessRule.fromJS(item));
-            }
-            if (Array.isArray(_data["caches"])) {
-                this.caches = [] as any;
-                for (let item of _data["caches"])
-                    this.caches!.push(NamedCacheConfigurationBase.fromJS(item));
-            }
-            if (Array.isArray(_data["notifications"])) {
-                this.notifications = [] as any;
-                for (let item of _data["notifications"])
-                    this.notifications!.push(BusinessRuleNotification.fromJS(item));
-            }
+            this.id = _data["id"];
+            this.format = _data["format"];
+            this.start = _data["start"];
         }
+    }
+
+    static fromJS(data: any): BusinessRuleNumberSequence {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleNumberSequence();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["format"] = this.format;
+        data["start"] = this.start;
+        return data; 
+    }
+}
+
+/** Configuration for a number sequence. */
+export interface IBusinessRuleNumberSequence {
+    /** ID of number sequence. */
+    id?: string | undefined;
+    /** Format.
+Refer to https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings for guidance.
+Note: formatting of numbers use invariant culture. */
+    format?: string | undefined;
+    /** Starting number of the sequence.
+Note: When changing this, existing sequence number will be reset to new starting number and might produce duplicate numbers. */
+    start: number;
+}
+
+/** Schedules business rules to run on a regular time frame. Note: If schedules do not complete within 15 minutes, next execution will be skipped */
+export class BusinessRuleSchedule implements IBusinessRuleSchedule {
+    /** Language specific names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific description. */
+    description?: TranslatedStringDictionary | undefined;
+    /** Cron expression to specify run time.
+Refer to https://github.com/HangfireIO/Cronos#cron-format for reference.
+Minimum interval supported is 15 minutes. */
+    cronExpression?: string | undefined;
+    /** IDs of business rules to run during schedule, regardless of trigger point */
+    ruleIds?: string[] | undefined;
+    /** Doc type of items that should be loaded. */
+    docType!: BusinessRuleTriggerDocType;
+    /** Search string to apply when searching for items to load. */
+    searchString?: string | undefined;
+    /** Filter to apply when searching for items to load. */
+    filter?: FilterBase | undefined;
+    /** Indicates if schedule is enabled. */
+    isEnabled!: boolean;
+
+    constructor(data?: IBusinessRuleSchedule) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.description = data.description && !(<any>data.description).toJSON ? new TranslatedStringDictionary(data.description) : <TranslatedStringDictionary>this.description; 
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
+            this.description = _data["description"] ? TranslatedStringDictionary.fromJS(_data["description"]) : <any>undefined;
+            this.cronExpression = _data["cronExpression"];
+            if (Array.isArray(_data["ruleIds"])) {
+                this.ruleIds = [] as any;
+                for (let item of _data["ruleIds"])
+                    this.ruleIds!.push(item);
+            }
+            this.docType = _data["docType"];
+            this.searchString = _data["searchString"];
+            this.filter = _data["filter"] ? FilterBase.fromJS(_data["filter"]) : <any>undefined;
+            this.isEnabled = _data["isEnabled"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleSchedule {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleSchedule();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["description"] = this.description ? this.description.toJSON() : <any>undefined;
+        data["cronExpression"] = this.cronExpression;
+        if (Array.isArray(this.ruleIds)) {
+            data["ruleIds"] = [];
+            for (let item of this.ruleIds)
+                data["ruleIds"].push(item);
+        }
+        data["docType"] = this.docType;
+        data["searchString"] = this.searchString;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["isEnabled"] = this.isEnabled;
+        return data; 
+    }
+}
+
+/** Schedules business rules to run on a regular time frame. Note: If schedules do not complete within 15 minutes, next execution will be skipped */
+export interface IBusinessRuleSchedule {
+    /** Language specific names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Language specific description. */
+    description?: ITranslatedStringDictionary | undefined;
+    /** Cron expression to specify run time.
+Refer to https://github.com/HangfireIO/Cronos#cron-format for reference.
+Minimum interval supported is 15 minutes. */
+    cronExpression?: string | undefined;
+    /** IDs of business rules to run during schedule, regardless of trigger point */
+    ruleIds?: string[] | undefined;
+    /** Doc type of items that should be loaded. */
+    docType: BusinessRuleTriggerDocType;
+    /** Search string to apply when searching for items to load. */
+    searchString?: string | undefined;
+    /** Filter to apply when searching for items to load. */
+    filter?: FilterBase | undefined;
+    /** Indicates if schedule is enabled. */
+    isEnabled: boolean;
+}
+
+/** Update request for changing business rule configuration */
+export class BusinessRuleConfigurationUpdateRequest extends BusinessRuleConfiguration implements IBusinessRuleConfigurationUpdateRequest {
+
+    constructor(data?: IBusinessRuleConfigurationUpdateRequest) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
     }
 
     static fromJS(data: any): BusinessRuleConfigurationUpdateRequest {
@@ -45825,36 +46532,13 @@ export class BusinessRuleConfigurationUpdateRequest implements IBusinessRuleConf
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["disableRuleEngine"] = this.disableRuleEngine;
-        if (Array.isArray(this.rules)) {
-            data["rules"] = [];
-            for (let item of this.rules)
-                data["rules"].push(item.toJSON());
-        }
-        if (Array.isArray(this.caches)) {
-            data["caches"] = [];
-            for (let item of this.caches)
-                data["caches"].push(item.toJSON());
-        }
-        if (Array.isArray(this.notifications)) {
-            data["notifications"] = [];
-            for (let item of this.notifications)
-                data["notifications"].push(item.toJSON());
-        }
+        super.toJSON(data);
         return data; 
     }
 }
 
 /** Update request for changing business rule configuration */
-export interface IBusinessRuleConfigurationUpdateRequest {
-    /** Disables the rule engine completely. */
-    disableRuleEngine: boolean;
-    /** Rules. */
-    rules?: BusinessRule[] | undefined;
-    /** Named caches. */
-    caches?: NamedCacheConfigurationBase[] | undefined;
-    /** Notifications. */
-    notifications?: IBusinessRuleNotification[] | undefined;
+export interface IBusinessRuleConfigurationUpdateRequest extends IBusinessRuleConfiguration {
 }
 
 /** Base class for search results */
@@ -47000,6 +47684,8 @@ export abstract class AggregatorBase implements IAggregatorBase {
     aggregators?: AggregatorBase[] | undefined;
     /** An optional filter to limit the data set the aggregation is operation on. */
     filter?: FilterBase | undefined;
+    /** Optional behavior that the UI should keep in regards to the aggregation */
+    uiBehavior?: UiAggregatorBehavior | undefined;
 
     protected _discriminator: string;
 
@@ -47010,6 +47696,7 @@ export abstract class AggregatorBase implements IAggregatorBase {
                     (<any>this)[property] = (<any>data)[property];
             }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.uiBehavior = data.uiBehavior && !(<any>data.uiBehavior).toJSON ? new UiAggregatorBehavior(data.uiBehavior) : <UiAggregatorBehavior>this.uiBehavior; 
         }
         this._discriminator = "AggregatorBase";
     }
@@ -47024,6 +47711,7 @@ export abstract class AggregatorBase implements IAggregatorBase {
                     this.aggregators!.push(AggregatorBase.fromJS(item));
             }
             this.filter = _data["filter"] ? FilterBase.fromJS(_data["filter"]) : <any>undefined;
+            this.uiBehavior = _data["uiBehavior"] ? UiAggregatorBehavior.fromJS(_data["uiBehavior"]) : <any>undefined;
         }
     }
 
@@ -47078,6 +47766,7 @@ export abstract class AggregatorBase implements IAggregatorBase {
                 data["aggregators"].push(item.toJSON());
         }
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["uiBehavior"] = this.uiBehavior ? this.uiBehavior.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -47092,6 +47781,60 @@ export interface IAggregatorBase {
     aggregators?: AggregatorBase[] | undefined;
     /** An optional filter to limit the data set the aggregation is operation on. */
     filter?: FilterBase | undefined;
+    /** Optional behavior that the UI should keep in regards to the aggregation */
+    uiBehavior?: IUiAggregatorBehavior | undefined;
+}
+
+/** Behavior that the UI should keep in regards to the aggregation */
+export class UiAggregatorBehavior implements IUiAggregatorBehavior {
+    /** Filters should be enabled in the UI. */
+    enableFilter!: boolean;
+    /** Suggestions should be enabled in the UI. */
+    enableSuggestions!: boolean;
+    /** Search functionality should be enabled in the filters in the UI. */
+    enableSearchInFilter!: boolean;
+
+    constructor(data?: IUiAggregatorBehavior) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.enableFilter = _data["enableFilter"];
+            this.enableSuggestions = _data["enableSuggestions"];
+            this.enableSearchInFilter = _data["enableSearchInFilter"];
+        }
+    }
+
+    static fromJS(data: any): UiAggregatorBehavior {
+        data = typeof data === 'object' ? data : {};
+        let result = new UiAggregatorBehavior();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["enableFilter"] = this.enableFilter;
+        data["enableSuggestions"] = this.enableSuggestions;
+        data["enableSearchInFilter"] = this.enableSearchInFilter;
+        return data; 
+    }
+}
+
+/** Behavior that the UI should keep in regards to the aggregation */
+export interface IUiAggregatorBehavior {
+    /** Filters should be enabled in the UI. */
+    enableFilter: boolean;
+    /** Suggestions should be enabled in the UI. */
+    enableSuggestions: boolean;
+    /** Search functionality should be enabled in the filters in the UI. */
+    enableSearchInFilter: boolean;
 }
 
 /** A multi-bucket range aggregator dedicated for date values. */
