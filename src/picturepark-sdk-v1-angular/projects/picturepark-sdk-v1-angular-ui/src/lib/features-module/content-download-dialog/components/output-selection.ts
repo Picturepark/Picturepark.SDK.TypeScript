@@ -108,9 +108,11 @@ export class OutputSelection {
   }
 
   public getOutputs(fileFormat: IOutputPerSchemaSelection): IOutputPerOutputFormatSelection[] {
-    return Object.keys(fileFormat.outputs)
-      .map((outputFormat) => fileFormat.outputs[outputFormat])
-      .sort((x, y) => (x.id === 'Original' ? -1 : x.name.localeCompare(y.name)));
+    const outputs = Object.keys(fileFormat.outputs).map((outputFormat) => fileFormat.outputs[outputFormat]);
+    return [
+      ...outputs.filter((o) => o.id === 'Original'),
+      ...outputs.filter((o) => o.id !== 'Original').sort((x, y) => x.name.localeCompare(y.name)),
+    ];
   }
 
   public getSelectedOutputs(): IContentDownloadOutput[] {
