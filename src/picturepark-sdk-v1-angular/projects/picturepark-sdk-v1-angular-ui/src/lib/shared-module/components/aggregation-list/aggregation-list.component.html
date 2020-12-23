@@ -19,14 +19,16 @@
     </mat-toolbar>
 
     <mat-accordion displayMode="flat" multi="true">
-      <pp-aggregation-item
-        *ngFor="let aggregator of aggregators$ | async; let i = index; trackBy: trackByName"
-        [shouldExpand]="i === 0"
-        [aggregator]="aggregator"
-        [aggregationResult]="aggregationResults[i]"
-        [facade]="facade"
-      >
-      </pp-aggregation-item>
+      <ng-container *ngIf="aggregationResults$ | async as aggregationResults">
+        <pp-aggregation-item
+          *ngFor="let aggregator of aggregators$ | async; let i = index; trackBy: trackByName"
+          [shouldExpand]="i === 0"
+          [aggregator]="aggregator"
+          [aggregationResult]="aggregationResults[i]"
+          [facade]="facade"
+        >
+        </pp-aggregation-item>
+      </ng-container>
     </mat-accordion>
   </div>
   <div *ngIf="loading$ && loading$ | async" class="aggregation-filter__loading-spinner">
