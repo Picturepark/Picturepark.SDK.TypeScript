@@ -46,7 +46,7 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     results: [],
   };
 
-  private searchRequest = new BehaviorSubject(this.searchRequestState);
+  private searchRequest = new BehaviorSubject({} as TState);
   private searchResults = new BehaviorSubject(this.searchResultState);
 
   protected loading = new BehaviorSubject<LoadingState>({ loading: false });
@@ -133,23 +133,9 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
   toggleAggregationResult(changedItem: AggregationResultItem) {
     const add = !changedItem.active;
     if (add) {
-      this.patchRequestState({
-        aggregationFilters: [...this.searchRequestState.aggregationFilters, changedItem.filter],
-      } as any);
+      this.addAggregationFilter(changedItem);
     } else {
-      const expanded = this.searchResultState.aggregationResults!.map((i) => this.expandAggregationResult(i));
-      const active = flatMap(expanded, (i) => i.aggregationResultItems!).filter((i) => i && i.active);
-
-      const aggregationName = changedItem.filter?.aggregationName;
-      const toRemove = active.find((i) => i.filter?.aggregationName === aggregationName && i.name === changedItem.name);
-      if (toRemove) {
-        const remaining = active
-          .map((i) => i.filter)
-          .map((i) => i)
-          .filter((i) => i !== toRemove.filter);
-
-        this.patchRequestState({ aggregationFilters: remaining } as any);
-      }
+      this.removeAggregationFilter(changedItem);
     }
   }
 
@@ -165,6 +151,41 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
     }
 
     return aggregationResult;
+  }
+
+  removeAggregationFilter(aggregationResultItem: AggregationResultItem) {
+    return this.removeAggregationFilters([aggregationResultItem]);
+  }
+
+  removeAggregationFilters(aggregationResultItems: AggregationResultItem[]) {
+    if (!this.searchResultState.aggregationResults) {
+      return;
+    }
+
+    const expanded = this.searchResultState.aggregationResults.map((i) => this.expandAggregationResult(i));
+    const active = flatMap(expanded, (i) => i.aggregationResultItems ?? []).filter((i) => i && i.active);
+
+    const toRemove = active.filter((i) =>
+      aggregationResultItems.find(
+        (aggregationResultItem) =>
+          i.filter?.aggregationName === aggregationResultItem.filter?.aggregationName &&
+          i.name === aggregationResultItem.name
+      )
+    );
+    if (toRemove) {
+      const remaining = active
+        .map((i) => i.filter)
+        .map((i) => i)
+        .filter((i) => toRemove.every((tr) => i !== tr.filter));
+
+      this.patchRequestState({ aggregationFilters: remaining } as any);
+    }
+  }
+
+  addAggregationFilter(aggregationResultItem: AggregationResultItem) {
+    this.patchRequestState({
+      aggregationFilters: [...this.searchRequestState.aggregationFilters, aggregationResultItem.filter],
+    } as any);
   }
 
   toSearchBehavior(searchMode: SearchMode) {
