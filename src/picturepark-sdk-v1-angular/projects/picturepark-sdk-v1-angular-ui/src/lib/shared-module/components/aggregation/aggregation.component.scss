@@ -12,6 +12,10 @@
     padding: 0 !important;
   }
 
+  &__title {
+    display: block;
+  }
+
   &__search {
     width: 100%;
   }
@@ -22,6 +26,7 @@
     justify-content: space-between;
   }
 
+  &__title,
   &__option-name {
     text-overflow: ellipsis;
     white-space: nowrap;
