@@ -6,14 +6,11 @@
   [ngClass]="{ disabled: !active }"
   [disabled]="!active"
 >
-  <mat-expansion-panel-header
-    [collapsedHeight]="'56px'"
-    [expandedHeight]="'56px'"
-    [matTooltip]="expandedAggregator.names | pptranslate"
-    [matTooltipDisabled]="(expandedAggregator.names | pptranslate).length <= 45"
-  >
-    <mat-panel-title class="aggregation__title">
-      <span *ngIf="expandedAggregator.names">{{ expandedAggregator.names | pptranslate }}</span>
+  <mat-expansion-panel-header [collapsedHeight]="'56px'" [expandedHeight]="'56px'">
+    <mat-panel-title class="aggregation__title-panel">
+      <div class="aggregation__title" *ngIf="expandedAggregator.names">
+        <span>{{ expandedAggregator.names | pptranslate }}</span>
+      </div>
       <button
         mat-icon-button
         *ngIf="aggregationsFiltersCount > 0"

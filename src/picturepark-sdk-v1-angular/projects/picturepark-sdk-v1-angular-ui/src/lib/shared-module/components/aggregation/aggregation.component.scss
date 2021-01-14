@@ -12,8 +12,8 @@
     padding: 0 !important;
   }
 
-  &__title {
-    display: block;
+  &__title-panel {
+    justify-content: space-between;
   }
 
   &__search {
