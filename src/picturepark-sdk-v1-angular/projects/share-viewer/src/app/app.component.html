@@ -7,7 +7,7 @@
     </div>
 
     <div *ngIf="showConsent">
-      <pp-panel>
+      <pp-panel [showHeader]="false">
         <div pp-panel-content class="consent">
           <div class="text" [innerHTML]="'ShareViewer.Consent' | pptranslate"></div>
           <div>
