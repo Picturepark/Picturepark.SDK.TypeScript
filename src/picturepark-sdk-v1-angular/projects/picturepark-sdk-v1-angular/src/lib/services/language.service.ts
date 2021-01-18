@@ -38,7 +38,7 @@ export class LanguageService {
     );
   }
 
-  public changeCurrentLanguage(languageCode: string, saveToStorage: boolean): void {
+  public changeCurrentLanguage(languageCode: string, saveToStorage = true): void {
     this.currentLanguage = this.getLanguage(languageCode);
     if (saveToStorage) {
       this.localStorageService.set(StorageKey.LanguageCode, this.currentLanguage.ietf);
