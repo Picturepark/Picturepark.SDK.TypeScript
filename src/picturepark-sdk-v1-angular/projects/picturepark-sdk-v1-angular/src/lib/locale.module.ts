@@ -24,6 +24,10 @@ export function loadLanguagesFactory(
   };
 }
 
+export function getCurrentLanguageCode(languageService: LanguageService) {
+  return languageService.currentLanguage.ietf;
+}
+
 @NgModule({})
 export class LocaleModule {
   static forRoot(
@@ -44,7 +48,7 @@ export class LocaleModule {
           deps: [LocalStorageService, LanguageService, ALLOWED_LANGUAGES, LOCALE_LANGUAGE, CDN_URL],
           multi: true,
         },
-        { provide: LOCALE_ID, useFactory: getLocaleFactory, deps: [LocalStorageService] },
+        { provide: LOCALE_ID, useFactory: getCurrentLanguageCode, deps: [LanguageService] },
       ],
     };
   }
