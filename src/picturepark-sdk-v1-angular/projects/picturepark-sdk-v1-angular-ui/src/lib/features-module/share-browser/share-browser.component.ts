@@ -25,9 +25,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
     super('ShareBrowserComponent', injector, facade);
   }
 
-  async init(): Promise<void> {
-    this.loadData()?.subscribe();
-  }
+  async init() {}
 
   initSort(): void {
     this.sortingTypes = [
