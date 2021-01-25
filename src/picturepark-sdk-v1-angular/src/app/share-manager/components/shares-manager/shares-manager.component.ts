@@ -33,6 +33,7 @@ export class SharesManagerComponent implements OnInit {
             size: 10,
           }),
         ],
+        uiBehavior: { enableFilter: true, enableSearchInFilter: true, enableSuggestions: true },
       }),
     ];
     this.initialized = true;
