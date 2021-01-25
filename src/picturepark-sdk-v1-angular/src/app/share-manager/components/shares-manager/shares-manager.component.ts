@@ -14,7 +14,7 @@ export class SharesManagerComponent implements OnInit {
   constructor(public facade: ShareSearchFacade, private infoFacade: InfoFacade) {}
   async ngOnInit() {
     const customerInfo = await this.infoFacade.getInfo().toPromise();
-    this.facade.searchRequestState.aggregators = [
+    const recipientsAggregator = [
       new NestedAggregator({
         name: 'email',
         names: {
@@ -33,9 +33,14 @@ export class SharesManagerComponent implements OnInit {
             size: 10,
           }),
         ],
-        uiBehavior: { enableFilter: true, enableSearchInFilter: true, enableSuggestions: true },
+        uiBehavior: { enableFilter: true, enableSearchInFilter: true, enableSuggestions: false },
       }),
     ];
+
+    this.facade.patchRequestState({
+      aggregators: recipientsAggregator,
+    });
+
     this.initialized = true;
   }
 }
