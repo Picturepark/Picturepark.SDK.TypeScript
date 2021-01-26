@@ -52,7 +52,10 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
   protected loading = new BehaviorSubject<LoadingState>({ loading: false });
 
   searchResults$ = this.searchResults.pipe(filter((i) => !!i));
-  searchRequest$ = this.searchRequest.pipe(filter((i) => !!i));
+  searchRequest$ = this.searchRequest.pipe(
+    filter((i) => !!i),
+    distinctUntilChanged((oldState, newState) => !this.changesAggregatorsOnly(newState, oldState))
+  );
   loading$ = this.loading.asObservable();
 
   totalResults$ = this.searchResults$.pipe(
@@ -218,5 +221,22 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
       sort: [],
       ...this.initialPartialState,
     } as any;
+  }
+
+  private changesAggregatorsOnly(newRequestState: TState, oldRequestState: TState) {
+    const requestStateKeys = Object.keys(newRequestState).filter((key) => key !== 'aggregators');
+
+    let isAnyFieldDifferent = false;
+    requestStateKeys.forEach((key) => {
+      if (newRequestState[key] !== oldRequestState[key]) {
+        isAnyFieldDifferent = true;
+      }
+    });
+
+    if (isAnyFieldDifferent) {
+      return true;
+    } else {
+      return newRequestState['aggregators'] === oldRequestState['aggregators'];
+    }
   }
 }
