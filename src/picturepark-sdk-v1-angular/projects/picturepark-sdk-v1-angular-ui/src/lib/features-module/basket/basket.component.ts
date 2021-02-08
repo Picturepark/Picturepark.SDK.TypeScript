@@ -53,6 +53,9 @@ export class BasketComponent extends BaseComponent implements OnInit {
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
       data: this.basketItems,
       autoFocus: false,
+      maxHeight: '99vh',
+      maxWidth: '99vw',
+      width: '840px',
     });
     dialogRef.componentInstance.title = 'Basket.Share';
   }

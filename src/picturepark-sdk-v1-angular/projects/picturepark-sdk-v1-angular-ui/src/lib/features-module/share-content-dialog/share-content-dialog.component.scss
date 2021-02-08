@@ -1,6 +1,7 @@
 .dialog-container {
   position: relative;
   min-width: 500px;
+
   ul {
     list-style: none;
     min-height: 40px;
@@ -141,9 +142,11 @@
   .dialog-container {
     min-width: unset;
     ul {
-      li.label-content,
+      li.label-content {
+        width: 40%;
+      }
       li.input-content {
-        width: 100%;
+        width: 60%;
       }
     }
   }
