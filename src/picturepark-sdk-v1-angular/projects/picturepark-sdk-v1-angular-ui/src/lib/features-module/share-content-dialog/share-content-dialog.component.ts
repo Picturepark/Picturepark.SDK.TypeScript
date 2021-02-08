@@ -176,7 +176,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       // SET LOADER HEIGHT DYNAMIC
       const containerHeight = this.contentContainer.nativeElement.offsetHeight;
-      this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight - 114}px`);
+      this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight}px`);
 
       this.loader = false;
 
