@@ -116,6 +116,17 @@ pp-content-details-dialog {
 }
 
 // SHARE CONTENT DIALOG
-pp-share-content-dialog .mat-tab-header {
-  height: 56px;
+pp-share-content-dialog {
+  .mat-tab-header {
+    height: 56px;
+  }
+
+  .mat-dialog-content {
+    max-height: unset;
+  }
+}
+
+.pp-dialog .mat-dialog-container {
+  padding: 0;
+  overflow: unset;
 }
