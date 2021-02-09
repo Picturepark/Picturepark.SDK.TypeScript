@@ -10,10 +10,11 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 import { ShareContentDialogComponent } from './share-content-dialog.component';
 import { ShareContentDialogItemComponent } from './components/share-content-dialog-item/share-content-dialog-item.component';
 import { ShareContentRecipientsInputComponent } from './components/share-content-recipients-input/share-content-recipients-input.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [ShareContentDialogComponent, ShareContentDialogItemComponent, ShareContentRecipientsInputComponent],
-  imports: [CommonModule, DatePickerModule, NotificationModule, SharedModule],
+  imports: [CommonModule, DatePickerModule, NotificationModule, SharedModule, MatDividerModule],
   exports: [ShareContentDialogComponent],
   entryComponents: [ShareContentDialogComponent],
 })
