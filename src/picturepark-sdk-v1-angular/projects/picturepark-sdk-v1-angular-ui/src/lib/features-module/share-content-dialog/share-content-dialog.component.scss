@@ -102,7 +102,7 @@
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      max-height: 30vh;
+      max-height: 27vh;
 
       .selected-item-wrapper {
         position: relative;
@@ -254,8 +254,12 @@
     .selected-items-content {
       padding: 0;
 
-      .selected-items .selected-item-wrapper {
-        padding-top: unset;
+      .selected-items {
+        max-height: 30vh;
+
+        .selected-item-wrapper {
+          padding-top: unset;
+        }
       }
     }
   }
