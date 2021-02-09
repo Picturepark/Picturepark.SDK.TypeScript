@@ -120,6 +120,9 @@
   }
 
   pp-share-content-recipients-input {
+    max-height: 70px;
+    overflow-x: hidden;
+    overflow-y: auto;
     width: 100%;
   }
 
@@ -249,6 +252,10 @@
       li.input-content {
         width: 70%;
       }
+    }
+
+    pp-share-content-recipients-input {
+      max-height: 130px;
     }
 
     .selected-items-content {
