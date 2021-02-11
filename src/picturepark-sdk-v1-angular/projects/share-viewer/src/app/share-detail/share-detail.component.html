@@ -43,7 +43,7 @@
     </div>
   </pp-panel>
 
-  <pp-panel *ngIf="shareDetail.expired">
+  <pp-panel *ngIf="shareDetail.expired" [showHeader]="false">
     <div pp-panel-content class="expired-box">
       {{ 'ShareViewer.Expired' | pptranslate }}
     </div>
