@@ -35,12 +35,11 @@ import { ItemBasketSelection } from './interfaces/content-browser-item.interface
 export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
   @Output() changeInBasket = new EventEmitter<ItemBasketSelection>();
   public listItemHtml: SafeHtml | null = null;
-
   public thumbnailSizes = ThumbnailSize;
 
   isSelected$: Observable<boolean> | undefined;
   isInBasket$: Observable<boolean> | undefined;
-  isSelected: boolean;
+  private isSelected: boolean | undefined;
 
   constructor(
     protected injector: Injector,
