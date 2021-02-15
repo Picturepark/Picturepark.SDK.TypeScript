@@ -86,8 +86,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
         sortDirection = this.channel.sort[0].direction;
       }
 
-      this.activeSortingType = sortField ?? this.sortingTypes[0];
       this.isAscending = sortDirection ? sortDirection === SortDirection.Asc : false;
+      this.setSort(sortField ?? this.sortingTypes[0], this.isAscending, false);
     }
   }
 
@@ -97,6 +97,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['channel'] && changes['channel'].currentValue) {
+      this.setSortFields();
+
       this.facade.searchRequestState.channelId = this.channel!.id;
       // Trigger load
       if (this.channel?.aggregations) {
@@ -104,8 +106,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       } else {
         this.facade.patchRequestState({});
       }
-
-      this.setSortFields();
     }
   }
 
