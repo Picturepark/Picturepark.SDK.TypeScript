@@ -19,7 +19,7 @@ import { BaseBrowserItemComponent } from '../../../../shared-module/components/b
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../../../content-download-dialog/services/content-download-dialog.service';
-import { map, share } from 'rxjs/operators';
+import { map, share, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ItemBasketSelection } from './interfaces/content-browser-item.interface';
 
@@ -40,6 +40,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
 
   isSelected$: Observable<boolean> | undefined;
   isInBasket$: Observable<boolean> | undefined;
+  isSelected: boolean;
 
   constructor(
     protected injector: Injector,
@@ -57,6 +58,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
 
     this.isSelected$ = this.browser.selectedItemsChange.pipe(
       map((items) => items.some((selectedItem) => selectedItem.id === this.itemModel.id)),
+      tap((isSelected) => (this.isSelected = isSelected)),
       share()
     );
   }
@@ -68,9 +70,13 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   }
 
   public downloadItem() {
+    if (!this.isSelected) {
+      this.browser.selectedItems = [this.itemModel];
+    }
+
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: [this.itemModel],
+      contents: this.browser.selectedItems,
     });
   }
 
