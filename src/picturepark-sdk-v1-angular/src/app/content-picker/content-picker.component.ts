@@ -11,6 +11,7 @@ import {
   SearchParameters,
   BaseComponent,
   ContentDetailsDialogOptions,
+  TranslationService,
 } from '@picturepark/sdk-v1-angular-ui';
 
 // COMPONENTS
@@ -20,6 +21,7 @@ import { ContentDetailsDialogComponent } from '@picturepark/sdk-v1-angular-ui';
 import { EmbedService } from './embed.service';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './content-picker.component.html',
@@ -50,7 +52,9 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     private basketService: BasketService,
     public facade: ContentSearchFacade,
     public selectionService: SelectionService<Content>,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    private translationService: TranslationService,
+    private titleService: Title
   ) {
     super(injector);
   }
@@ -90,6 +94,9 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   }
 
   public ngOnInit() {
+    // Set application Title
+    this.titleService.setTitle(this.translationService.translate('ApplicationTitle.contentPicker'));
+
     this.sub = this.basketService.basketChange.subscribe((items) => (this.itemsInBasket = items.length.toString()));
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];

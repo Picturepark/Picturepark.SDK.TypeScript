@@ -2,7 +2,7 @@ export const shareTranslations = {
   Expired: {
     en: 'This share has expired and is no longer available. Please contact the person who sent you this link.',
     de:
-      'Dieses Share ist abgelaufen und nicht mehr länger verfügbar. Bitte kontaktieren Sie die Person, dwelche Ihnen diesen Link geschickt hat.',
+      'Dieses Share ist abgelaufen und nicht mehr länger verfügbar. Bitte kontaktieren Sie die Person, welche Ihnen diesen Link geschickt hat.',
     fr:
       "Cette collection partagée a expiré et n'est plus disponible. Veuillez contacter la personne qui vous a envoyé ce lien s.v.p.",
     es:

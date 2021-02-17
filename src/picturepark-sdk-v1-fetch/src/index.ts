@@ -1109,6 +1109,87 @@ export class BusinessRuleClient extends PictureparkClientBase {
         }
         return Promise.resolve<BusinessRuleTraceLogSearchResult>(<any>null);
     }
+
+    /**
+     * Runs the supplied business rule schedule immediately.
+    Allows for testing of schedules.
+     * @param schedule BusinessRuleSchedule
+     * @return BusinessProcess of the metadata operation triggered by the schedule.
+     */
+    runSchedule(schedule: BusinessRuleSchedule): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/BusinessRules/schedule/run";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(schedule);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processRunSchedule(_response);
+        });
+    }
+
+    protected processRunSchedule(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
 }
 
 export class ChannelClient extends PictureparkClientBase {
@@ -18855,6 +18936,11 @@ export interface OutputFormatResizingNotSupportedException extends PictureparkVa
 export interface OutputBackupNotRequestedException extends PictureparkValidationException {
 }
 
+export interface OutputBackupHashMismatchException extends PictureparkValidationException {
+    requestedHash?: string | undefined;
+    documentHash?: string | undefined;
+}
+
 export interface DownloadLinkExpiredException extends PictureparkBusinessException {
 }
 
@@ -19058,6 +19144,23 @@ export interface InvalidDateTimeFormatException extends PictureparkValidationExc
 
 export interface InvalidSortFieldException extends PictureparkValidationException {
     fieldName?: string | undefined;
+}
+
+export interface InvalidUiBehaviorInNonRootAggregatorException extends PictureparkValidationException {
+    aggregatorName?: string | undefined;
+}
+
+export interface InvalidUiBehaviorConfigurationException extends PictureparkValidationException {
+    aggregatorName?: string | undefined;
+}
+
+export interface InvalidSearchFieldInAggregatorException extends PictureparkValidationException {
+    fieldName?: string | undefined;
+    aggregatorName?: string | undefined;
+}
+
+export interface SearchStringTooLongException extends PictureparkValidationException {
+    limit?: number;
 }
 
 export interface DocumentVersionConflictException extends PictureparkConflictException {
@@ -19925,15 +20028,6 @@ export enum BusinessRuleTriggerDocType {
     Content = <any>"Content",
 }
 
-export interface BusinessRuleActionInvalidExecutionScopeException extends PictureparkValidationException {
-    allowedScopes?: BusinessRuleExecutionScope[] | undefined;
-}
-
-export enum BusinessRuleExecutionScope {
-    MainDoc = <any>"MainDoc",
-    SearchDoc = <any>"SearchDoc",
-}
-
 export interface BusinessRuleActionsMissingException extends PictureparkValidationException {
 }
 
@@ -19969,15 +20063,12 @@ export interface BusinessRuleValidationException extends PictureparkValidationEx
     innerExceptions?: PictureparkValidationException[] | undefined;
 }
 
-export interface BusinessRuleConditionInvalidTriggerPointDocumentTypeException extends PictureparkValidationException {
-    allowedDocumentTypes?: BusinessRuleTriggerDocType[] | undefined;
-}
-
 export interface BusinessRuleRegularExpressionInvalidException extends PictureparkValidationException {
     regex?: string | undefined;
 }
 
-export interface BusinessRuleConditionInvalidTriggerPointActionException extends PictureparkValidationException {
+export interface BusinessRuleConditionInvalidTriggerPointException extends PictureparkValidationException {
+    allowedDocTypes?: BusinessRuleTriggerDocType[] | undefined;
     allowedActions?: BusinessRuleTriggerAction[] | undefined;
 }
 
@@ -19985,6 +20076,7 @@ export enum BusinessRuleTriggerAction {
     Create = <any>"Create",
     Update = <any>"Update",
     FileReplacement = <any>"FileReplacement",
+    Schedule = <any>"Schedule",
 }
 
 export interface BusinessRuleRefIdsMissingException extends PictureparkValidationException {
@@ -20058,6 +20150,24 @@ export interface BusinessRuleNotificationRecipientUserIdMissingException extends
 }
 
 export interface BusinessRuleNotificationRecipientUserRoleIdMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleNumberSequenceInvalidIdException extends PictureparkValidationException {
+    id?: string | undefined;
+}
+
+export interface BusinessRuleNumberSequenceIdDuplicationException extends PictureparkValidationException {
+    id?: string | undefined;
+}
+
+export interface BusinessRuleScheduleInvalidCronExpressionException extends PictureparkValidationException {
+    expression?: string | undefined;
+}
+
+export interface BusinessRuleScheduleFilterMissingException extends PictureparkValidationException {
+}
+
+export interface BusinessRuleScheduleRulesMissingException extends PictureparkValidationException {
 }
 
 export interface NamedCacheConfigurationException extends PictureparkValidationException {
@@ -20616,6 +20726,10 @@ export interface BusinessRuleConfiguration {
     caches?: NamedCacheConfigurationBase[] | undefined;
     /** Notifications. */
     notifications?: BusinessRuleNotification[] | undefined;
+    /** Numbers sequences. */
+    numberSequences?: BusinessRuleNumberSequence[] | undefined;
+    /** Schedules. */
+    schedules?: BusinessRuleSchedule[] | undefined;
 }
 
 /** A business rule */
@@ -20623,7 +20737,7 @@ export interface BusinessRule {
     /** User defined ID of the rule. */
     id?: string | undefined;
     /** Trigger point. */
-    triggerPoint?: BusinessRuleTriggerPoint | undefined;
+    triggerPoints?: BusinessRuleTriggerPoint[] | undefined;
     /** Enable. */
     isEnabled: boolean;
     /** Language specific rule names. */
@@ -20643,6 +20757,11 @@ export interface BusinessRuleTriggerPoint {
     documentType: BusinessRuleTriggerDocType;
     /** Action performed. */
     action: BusinessRuleTriggerAction;
+}
+
+export enum BusinessRuleExecutionScope {
+    MainDoc = <any>"MainDoc",
+    SearchDoc = <any>"SearchDoc",
 }
 
 /** A business rule configurable by specific actions and conditions */
@@ -21045,6 +21164,14 @@ export interface UserRightNotificationRecipient extends NotificationRecipientBas
 export interface OwnerNotificationRecipient extends NotificationRecipientBase {
 }
 
+/** Action to get a number from a configured number sequence and store it in a variable. */
+export interface GetNumberFromNumberSequenceAction extends BusinessRuleAction {
+    /** ID of the sequence number to get number from. */
+    numberSequenceId?: string | undefined;
+    /** Variable name to store number in. */
+    storeIn?: string | undefined;
+}
+
 /** A business rule expressed as a script */
 export interface BusinessRuleScript extends BusinessRule {
     /** Script */
@@ -21103,16 +21230,43 @@ export interface BusinessRuleNotification {
     templateName?: string | undefined;
 }
 
+/** Configuration for a number sequence. */
+export interface BusinessRuleNumberSequence {
+    /** ID of number sequence. */
+    id?: string | undefined;
+    /** Format.
+Refer to https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings for guidance.
+Note: formatting of numbers use invariant culture. */
+    format?: string | undefined;
+    /** Starting number of the sequence.
+Note: When changing this, existing sequence number will be reset to new starting number and might produce duplicate numbers. */
+    start: number;
+}
+
+/** Schedules business rules to run on a regular time frame. Note: If schedules do not complete within 15 minutes, next execution will be skipped */
+export interface BusinessRuleSchedule {
+    /** Language specific names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific description. */
+    description?: TranslatedStringDictionary | undefined;
+    /** Cron expression to specify run time.
+Refer to https://github.com/HangfireIO/Cronos#cron-format for reference.
+Minimum interval supported is 15 minutes. */
+    cronExpression?: string | undefined;
+    /** IDs of business rules to run during schedule, regardless of trigger point */
+    ruleIds?: string[] | undefined;
+    /** Doc type of items that should be loaded. */
+    docType: BusinessRuleTriggerDocType;
+    /** Search string to apply when searching for items to load. */
+    searchString?: string | undefined;
+    /** Filter to apply when searching for items to load. */
+    filter?: FilterBase | undefined;
+    /** Indicates if schedule is enabled. */
+    isEnabled: boolean;
+}
+
 /** Update request for changing business rule configuration */
-export interface BusinessRuleConfigurationUpdateRequest {
-    /** Disables the rule engine completely. */
-    disableRuleEngine: boolean;
-    /** Rules. */
-    rules?: BusinessRule[] | undefined;
-    /** Named caches. */
-    caches?: NamedCacheConfigurationBase[] | undefined;
-    /** Notifications. */
-    notifications?: BusinessRuleNotification[] | undefined;
+export interface BusinessRuleConfigurationUpdateRequest extends BusinessRuleConfiguration {
 }
 
 /** Base class for search results */
@@ -21305,7 +21459,19 @@ export interface AggregatorBase {
     aggregators?: AggregatorBase[] | undefined;
     /** An optional filter to limit the data set the aggregation is operation on. */
     filter?: FilterBase | undefined;
+    /** Optional behavior that the UI should keep in regards to the aggregation */
+    uiBehavior?: UiAggregatorBehavior | undefined;
     kind: string;
+}
+
+/** Behavior that the UI should keep in regards to the aggregation */
+export interface UiAggregatorBehavior {
+    /** Filters should be enabled in the UI. */
+    enableFilter: boolean;
+    /** Suggestions should be enabled in the UI. */
+    enableSuggestions: boolean;
+    /** Search functionality should be enabled in the filters in the UI. */
+    enableSearchInFilter: boolean;
 }
 
 /** A multi-bucket range aggregator dedicated for date values. */

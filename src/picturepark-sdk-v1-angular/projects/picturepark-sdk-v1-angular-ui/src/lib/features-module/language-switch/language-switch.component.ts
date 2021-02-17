@@ -21,7 +21,7 @@ export class LanguageSwitchComponent {
   }
 
   public changeLanguage(languageCode: string) {
-    this.languageService.changeCurrentLanguage(languageCode);
+    this.languageService.changeCurrentLanguage(languageCode, true);
     window.location.reload();
   }
 }

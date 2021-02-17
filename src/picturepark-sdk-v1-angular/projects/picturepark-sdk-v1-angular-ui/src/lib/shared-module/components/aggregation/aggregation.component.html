@@ -7,8 +7,10 @@
   [disabled]="!active"
 >
   <mat-expansion-panel-header [collapsedHeight]="'56px'" [expandedHeight]="'56px'">
-    <mat-panel-title class="aggregation__title">
-      <span *ngIf="expandedAggregator.names">{{ expandedAggregator.names | pptranslate }}</span>
+    <mat-panel-title class="aggregation__title-panel">
+      <div class="aggregation__title" *ngIf="expandedAggregator.names">
+        <span>{{ expandedAggregator.names | pptranslate }}</span>
+      </div>
       <button
         mat-icon-button
         *ngIf="aggregationsFiltersCount > 0"
@@ -21,7 +23,7 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
   <ng-template matExpansionPanelContent>
-    <mat-form-field class="search">
+    <mat-form-field *ngIf="aggregator.uiBehavior?.enableSearchInFilter" class="search">
       <i class="material-icons search-icon">search</i>
       <input
         matInput

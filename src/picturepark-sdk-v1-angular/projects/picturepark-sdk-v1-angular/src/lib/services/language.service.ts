@@ -11,6 +11,7 @@ export class LanguageService {
   public defaultLanguage: string;
   public currentLanguage: Language;
   public languages: Language[];
+  public shareLanguages: Language[];
 
   constructor(private infoFacade: InfoFacade, private localStorageService: LocalStorageService) {}
 
@@ -30,15 +31,18 @@ export class LanguageService {
             : undefined
         );
         this.defaultLanguage = info.languageConfiguration.defaultLanguage ?? info.languages[0].ietf;
-        this.changeCurrentLanguage(locale || this.defaultLanguage);
+        this.changeCurrentLanguage(locale || this.defaultLanguage, false);
+        this.shareLanguages = this.filterLanguages(info.languages, info.languageConfiguration.shareLanguages);
         return locale === this.currentLanguage.ietf;
       })
     );
   }
 
-  public changeCurrentLanguage(languageCode: string): void {
+  public changeCurrentLanguage(languageCode: string, saveToStorage = true): void {
     this.currentLanguage = this.getLanguage(languageCode);
-    this.localStorageService.set(StorageKey.LanguageCode, this.currentLanguage.ietf);
+    if (saveToStorage) {
+      this.localStorageService.set(StorageKey.LanguageCode, this.currentLanguage.ietf);
+    }
   }
 
   private filterLanguages(languages: Language[], systemLanguages?: string[]): Language[] {
