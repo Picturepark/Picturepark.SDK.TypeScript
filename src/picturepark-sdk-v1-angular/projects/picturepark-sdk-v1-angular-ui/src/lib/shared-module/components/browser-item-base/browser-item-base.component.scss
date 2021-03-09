@@ -169,4 +169,12 @@
       }
     }
   }
+
+  &__actions--mobile {
+    visibility: initial;
+  }
+
+  &__basket-icon--mobile {
+    visibility: initial !important;
+  }
 }

@@ -45,36 +45,21 @@
       [class.browser__item-container--mobile]="deviceBreakpoint"
       *ngFor="let itemModel of items; let i = index; trackBy: trackByItem"
     >
-      <ng-container *ngIf="deviceBreakpoint && isTouchDevice; else desktop">
-        <pp-content-browser-item
-          class="browser__item"
-          ppMobileTouch
-          [browser]="self"
-          [itemModel]="itemModel"
-          [thumbnailSize]="activeThumbnailSize"
-          [isListView]="activeView.type === 'list'"
-          (previewItemChange)="previewItem($event)"
-          (ppPress)="itemPressed($event, i)"
-          (ppTap)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)"
-          (changeInBasket)="handleBasketChanges($event)"
-        >
-        </pp-content-browser-item>
-      </ng-container>
-
-      <ng-template #desktop>
-        <pp-content-browser-item
-          class="browser__item"
-          [browser]="self"
-          [itemModel]="itemModel"
-          [thumbnailSize]="activeThumbnailSize"
-          [isListView]="activeView.type === 'list'"
-          (previewItemChange)="previewItem($event)"
-          (click)="itemClicked($event, i)"
-          (dblclick)="previewItem(itemModel)"
-          (changeInBasket)="handleBasketChanges($event)"
-        >
-        </pp-content-browser-item>
-      </ng-template>
+      <pp-content-browser-item
+        class="browser__item"
+        [browser]="self"
+        [itemModel]="itemModel"
+        [thumbnailSize]="activeThumbnailSize"
+        [isListView]="activeView.type === 'list'"
+        ppUserInteraction
+        (previewItemChange)="previewItem($event)"
+        (ppPress)="itemPressed($event, i)"
+        (ppTouch)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)"
+        (ppClick)="itemClicked($event, i)"
+        (ppDblclick)="previewItem(itemModel)"
+        (changeInBasket)="handleBasketChanges($event)"
+      >
+      </pp-content-browser-item>
     </div>
   </div>
 
