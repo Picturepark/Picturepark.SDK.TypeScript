@@ -51,8 +51,8 @@
         [itemModel]="itemModel"
         [thumbnailSize]="activeThumbnailSize"
         [isListView]="activeView.type === 'list'"
-        ppUserInteraction
         (previewItemChange)="previewItem($event)"
+        ppUserInteraction
         (ppPress)="itemPressed($event, i)"
         (ppTouch)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)"
         (ppClick)="itemClicked($event, i)"

@@ -36,9 +36,10 @@ function getCdnUrl(): string | null {
 export function PictureparkConfigurationFactory() {
   if (!environment.production) {
     return <PictureparkCdnConfiguration>{
-      apiServer: 'https://dev.picturepark.com',
-      customerAlias: 'testalias',
+      apiServer: 'https://api.01.qa-picturepark.com',
+      customerAlias: 'demo',
       cdnUrl: getCdnUrl(),
+      accessToken: '',
     };
   }
 
