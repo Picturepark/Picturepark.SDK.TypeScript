@@ -22,8 +22,11 @@
         [thumbnailSize]="activeThumbnailSize"
         [isListView]="false"
         (previewItemChange)="previewItemEvent($event)"
-        (click)="itemClicked($event, i)"
-        (dblclick)="itemDetails(itemModel)"
+        ppUserInteraction
+        (ppPress)="itemPressed($event, i)"
+        (ppTouch)="selectedItems.length ? itemClicked($event, i) : itemDetails(itemModel)"
+        (ppClick)="itemClicked($event, i)"
+        (ppDblclick)="itemDetails(itemModel)"
       >
       </pp-share-browser-item>
     </div>

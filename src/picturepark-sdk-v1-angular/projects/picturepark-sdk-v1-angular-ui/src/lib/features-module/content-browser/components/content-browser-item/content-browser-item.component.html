@@ -7,7 +7,7 @@
     <pp-content-item-thumbnail [item]="itemModel" [thumbnailSize]="thumbnailSize" [isListView]="isListView">
     </pp-content-item-thumbnail>
 
-    <div class="browser-item__actions" [class.browser-item__actions--mobile]="deviceBreakpoint" *ngIf="!isListView">
+    <div class="browser-item__actions" *ngIf="!isListView">
       <ul>
         <li>
           <button
