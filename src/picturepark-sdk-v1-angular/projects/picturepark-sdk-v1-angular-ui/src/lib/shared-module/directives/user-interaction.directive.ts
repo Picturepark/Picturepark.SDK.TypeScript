@@ -115,6 +115,11 @@ export class UserInteractionDirective {
   @HostListener('pan', ['$event'])
   onPan(event: TouchEvent) {
     this.eventQueue.push(event);
+
+    // This condition is needed to make sure that the pan gesture is not confused with a long press
+    if (this.pressTimer) {
+      clearTimeout(this.pressTimer);
+    }
   }
 
   @HostListener('document:selectionchange')
