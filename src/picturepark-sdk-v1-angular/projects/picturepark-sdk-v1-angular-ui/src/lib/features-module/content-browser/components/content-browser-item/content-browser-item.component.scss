@@ -36,6 +36,10 @@
     }
   }
 
+  &__basket-icon--mobile {
+    visibility: initial;
+  }
+
   &__image-slot {
     flex-grow: 1;
     position: relative;

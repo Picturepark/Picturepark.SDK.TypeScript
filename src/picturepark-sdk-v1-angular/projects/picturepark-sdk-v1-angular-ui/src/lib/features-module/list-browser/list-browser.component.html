@@ -52,7 +52,10 @@
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
-        (click)="toggle($event, row)"
+        ppUserInteraction
+        (ppPress)="onPress($event, row)"
+        (ppTouch)="toggle($event, row)"
+        (ppClick)="toggle($event, row)"
         [ngClass]="{ selected: isRowSelected(row) }"
       ></tr>
     </table>

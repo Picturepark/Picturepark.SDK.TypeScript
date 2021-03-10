@@ -28,7 +28,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 
 import 'hammerjs';
 import { AggregationItemTranslatePipe } from './pipes/aggregation-item-translate';
-import { MobileTouchDirective } from './directives/mobile-touch.directive';
+import { UserInteractionDirective } from './directives/user-interaction.directive';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -60,7 +60,7 @@ export class HammerConfig extends HammerGestureConfig {
     LazyLoadDirective,
     HighlightPipe,
     AggregationItemTranslatePipe,
-    MobileTouchDirective,
+    UserInteractionDirective,
   ],
   imports: [CommonModule, MaterialsModule, ReactiveFormsModule, HammerModule],
   exports: [
@@ -81,7 +81,7 @@ export class HammerConfig extends HammerGestureConfig {
     LazyLoadDirective,
     HighlightPipe,
     AggregationItemTranslatePipe,
-    MobileTouchDirective,
+    UserInteractionDirective,
   ],
 })
 export class SharedModule {
