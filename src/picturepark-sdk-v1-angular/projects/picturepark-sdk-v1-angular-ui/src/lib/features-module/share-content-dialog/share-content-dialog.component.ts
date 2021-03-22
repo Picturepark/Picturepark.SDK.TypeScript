@@ -95,7 +95,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   ) {
     super(data, dialogRef, injector);
 
-    this.selectedContent = data;
+    this.selectedContent = [...data];
 
     this.languageFormControl = new FormControl(
       this.languageService.shareLanguages.find((lang) => lang.ietf === this.languageService.currentLanguage.ietf)
