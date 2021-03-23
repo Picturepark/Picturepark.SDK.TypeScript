@@ -33,7 +33,7 @@ export class UserInteractionDirective {
     this.eventQueue.push(event);
 
     // If there was a touchend event then it means this is the simulated click from a touch interaction
-    if (this.eventQueue.some(e => e.type === 'touchend')) {
+    if (this.eventQueue.some((e) => e.type === 'touchend')) {
       this.ppTouch.emit(event);
     } else {
       this.ppClick.emit(event);
@@ -71,7 +71,7 @@ export class UserInteractionDirective {
     }
 
     // On touchend will simulate click on the target, except when it was a long press or the there has be any kind of panning
-    if (!this.eventQueue.some(e => e.type === 'press' || e.type === 'pan')) {
+    if (!this.eventQueue.some((e) => e.type === 'press' || e.type === 'pan')) {
       (<any>event.target).click();
     }
 
@@ -104,7 +104,7 @@ export class UserInteractionDirective {
     this.eventQueue.push(event);
 
     // On touch interaction do not show the context menu
-    if (this.eventQueue.some(e => e.type === 'press')) {
+    if (this.eventQueue.some((e) => e.type === 'press')) {
       event.preventDefault();
       event.stopPropagation();
     } else {
