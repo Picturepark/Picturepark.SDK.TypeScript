@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 // INTERFACES
 import { Notification } from '../../interfaces/notification.interface';
@@ -7,24 +8,28 @@ import { Notification } from '../../interfaces/notification.interface';
   selector: 'pp-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationComponent implements OnChanges {
   @Input() notification: Notification;
-  notificationData: Notification;
-
-  constructor() {}
+  notificationData$ = new BehaviorSubject<Notification | undefined>(undefined);
 
   // CLOSE NOTIFICATION
   closeNotification() {
-    this.notificationData.status = false;
+    this.notificationData$.next(undefined);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.notification && changes.notification.currentValue) {
-      this.notificationData = changes.notification.currentValue;
-      setTimeout(() => {
-        this.closeNotification();
-      }, this.notificationData.displayTime);
+      const notificationData = changes.notification.currentValue as Notification;
+
+      if (notificationData.displayTime > 0) {
+        setTimeout(() => {
+          this.closeNotification();
+        }, notificationData.displayTime);
+      }
+
+      this.notificationData$.next(notificationData);
     }
   }
 }

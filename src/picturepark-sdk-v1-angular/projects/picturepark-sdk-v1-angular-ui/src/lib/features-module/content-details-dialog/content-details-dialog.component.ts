@@ -42,7 +42,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     private schemaService: SchemaService,
     private contentDownloadDialogService: ContentDownloadDialogService
   ) {
-    super(data, dialogRef, injector);
+    super(dialogRef, injector);
 
     const shareDetail = this.data.shareDetail;
     if (shareDetail?.schemas) {

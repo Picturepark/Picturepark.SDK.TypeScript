@@ -1060,6 +1060,13 @@ export let TRANSLATIONS = {
       es: 'Idioma',
       pt: 'Idioma',
     },
+    AccessOriginal: {
+      en: 'Access Original',
+      de: 'Original Zugang',
+      fr: "Accès à l'original",
+      es: 'Acceso al original',
+      pt: 'Acesso ao original',
+    },
   },
   ContentDetailsDialog: {
     Download: {

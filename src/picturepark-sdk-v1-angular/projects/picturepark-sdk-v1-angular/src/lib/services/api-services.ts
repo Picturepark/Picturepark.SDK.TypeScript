@@ -95,6 +95,13 @@ export class BusinessProcessService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -193,6 +200,13 @@ export class BusinessProcessService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -297,6 +311,13 @@ export class BusinessProcessService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -395,6 +416,13 @@ export class BusinessProcessService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -487,6 +515,13 @@ export class BusinessProcessService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -592,6 +627,13 @@ export class BusinessProcessService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -695,6 +737,13 @@ export class BusinessProcessService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -802,6 +851,13 @@ export class BusinessProcessService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -843,6 +899,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * Get details
      * @param id The business process id.
      * @return BusinessProcessDetails
+     * @deprecated
      */
     getDetails(id: string | null): Observable<BusinessProcessDetails> {
         let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/details";
@@ -900,6 +957,13 @@ export class BusinessProcessService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -935,6 +999,341 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<BusinessProcessDetails>(<any>null);
+    }
+
+    /**
+     * Returns a summary of the business process.
+    Depending on the type of the business process, this can be not available at all or contain just a minimal set of information.
+    If business process produces a batch based response, page over successful and failed items using respective endpoints.
+     * @param id Business process id.
+     * @return BusinessProcessSummaryBaseViewItem
+     */
+    getSummary(id: string | null): Observable<BusinessProcessSummaryBase> {
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/summary";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetSummary(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSummary(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcessSummaryBase>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcessSummaryBase>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSummary(response: HttpResponseBase): Observable<BusinessProcessSummaryBase> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcessSummaryBase.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcessSummaryBase>(<any>null);
+    }
+
+    /**
+     * Gets a page of successful items of a batch based business process.
+    Use the page token to fetch next page.
+     * @param id Business process id.
+     * @param limit Number of items to fetch.
+     * @param pageToken (optional) PageToken for paging.
+     * @return BusinessProcessBatchViewItem
+     */
+    getSuccessfulItems(id: string | null, limit: number, pageToken: string | null | undefined): Observable<BusinessProcessBatch> {
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/items/successful?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (limit === undefined || limit === null)
+            throw new Error("The parameter 'limit' must be defined and cannot be null.");
+        else
+            url_ += "limit=" + encodeURIComponent("" + limit) + "&";
+        if (pageToken !== undefined && pageToken !== null)
+            url_ += "pageToken=" + encodeURIComponent("" + pageToken) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetSuccessfulItems(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSuccessfulItems(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcessBatch>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcessBatch>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSuccessfulItems(response: HttpResponseBase): Observable<BusinessProcessBatch> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcessBatch.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcessBatch>(<any>null);
+    }
+
+    /**
+     * Gets a page of failed items of a batch based business process.
+    Use the page token to fetch next page.
+     * @param id Business process id.
+     * @param limit Number of items to fetch.
+     * @param pageToken (optional) PageToken for paging.
+     * @return BusinessProcessBatchViewItem
+     */
+    getFailedItems(id: string | null, limit: number, pageToken: string | null | undefined): Observable<BusinessProcessBatch> {
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/items/failed?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (limit === undefined || limit === null)
+            throw new Error("The parameter 'limit' must be defined and cannot be null.");
+        else
+            url_ += "limit=" + encodeURIComponent("" + limit) + "&";
+        if (pageToken !== undefined && pageToken !== null)
+            url_ += "pageToken=" + encodeURIComponent("" + pageToken) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetFailedItems(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetFailedItems(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcessBatch>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcessBatch>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetFailedItems(response: HttpResponseBase): Observable<BusinessProcessBatch> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcessBatch.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcessBatch>(<any>null);
     }
 
     /**
@@ -998,6 +1397,13 @@ export class BusinessProcessService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -1108,6 +1514,13 @@ export class BusinessRuleService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -1206,6 +1619,13 @@ export class BusinessRuleService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -1306,6 +1726,13 @@ export class BusinessRuleService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -1405,6 +1832,13 @@ export class BusinessRuleService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -1519,6 +1953,13 @@ export class ChannelService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -1618,6 +2059,13 @@ export class ChannelService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -1715,6 +2163,13 @@ export class ChannelService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -1819,6 +2274,13 @@ export class ChannelService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -1912,6 +2374,13 @@ export class ChannelService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -2011,6 +2480,13 @@ export class ChannelService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -2109,6 +2585,13 @@ export class ChannelService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -2206,6 +2689,13 @@ export class ChannelService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -2320,6 +2810,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -2423,6 +2920,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -2515,6 +3019,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -2614,6 +3125,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -2716,6 +3234,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -2813,6 +3338,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -2916,6 +3448,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -3014,6 +3553,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -3114,6 +3660,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -3213,6 +3766,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -3306,6 +3866,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -3408,6 +3975,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -3506,6 +4080,13 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -3726,6 +4307,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -3835,6 +4423,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -3936,6 +4531,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -4050,6 +4652,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -4177,6 +4786,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -4282,6 +4898,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -4404,6 +5027,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -4520,6 +5150,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -4628,6 +5265,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -4738,6 +5382,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -4840,6 +5491,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -4944,6 +5602,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -5046,6 +5711,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -5145,6 +5817,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -5242,6 +5921,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -5342,6 +6028,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -5440,6 +6133,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -5540,6 +6240,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -5638,6 +6345,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -5738,6 +6452,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -5836,6 +6557,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -5936,6 +6664,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -6034,6 +6769,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -6138,6 +6880,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -6236,6 +6985,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -6336,6 +7092,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -6427,6 +7190,13 @@ export class ContentService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -6534,6 +7304,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -6633,6 +7410,13 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -6668,6 +7452,330 @@ export class ContentService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<ObjectAggregationResult>(<any>null);
+    }
+
+    /**
+     * Get historic versions
+     * @param id Content ID.
+     * @param request Request allowing for paging
+     * @return Historic versions
+     */
+    getVersions(id: string | null, request: HistoricVersionSearchRequest): Observable<HistoricVersionSearchResult> {
+        let url_ = this.baseUrl + "/v1/Contents/{id}/versions";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetVersions(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetVersions(<any>response_);
+                } catch (e) {
+                    return <Observable<HistoricVersionSearchResult>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<HistoricVersionSearchResult>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetVersions(response: HttpResponseBase): Observable<HistoricVersionSearchResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = HistoricVersionSearchResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<HistoricVersionSearchResult>(<any>null);
+    }
+
+    /**
+     * Get historic version download link
+     * @param id Content ID.
+     * @param versionId Version ID.
+     * @return Download token to be used with download/{token} endpoint
+     */
+    createVersionDownloadLink(id: string | null, versionId: number): Observable<string> {
+        let url_ = this.baseUrl + "/v1/Contents/{id}/versions/{versionId}/file";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (versionId === undefined || versionId === null)
+            throw new Error("The parameter 'versionId' must be defined.");
+        url_ = url_.replace("{versionId}", encodeURIComponent("" + versionId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreateVersionDownloadLink(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateVersionDownloadLink(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateVersionDownloadLink(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * Delete historic version
+     * @param id Content ID.
+     * @param versionId Version ID.
+     * @return OK
+     */
+    deleteVersion(id: string | null, versionId: number): Observable<void> {
+        let url_ = this.baseUrl + "/v1/Contents/{id}/versions/{versionId}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (versionId === undefined || versionId === null)
+            throw new Error("The parameter 'versionId' must be defined.");
+        url_ = url_.replace("{versionId}", encodeURIComponent("" + versionId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("delete", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDeleteVersion(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteVersion(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteVersion(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -6741,6 +7849,13 @@ export class DisplayValueService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -6835,6 +7950,13 @@ export class DisplayValueService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -6953,6 +8075,13 @@ export class DocumentHistoryService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -7058,6 +8187,13 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -7165,6 +8301,13 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -7277,6 +8420,13 @@ export class DocumentHistoryService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -7375,6 +8525,13 @@ export class DocumentHistoryService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -7489,6 +8646,13 @@ export class IdentityProviderService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -7587,6 +8751,13 @@ export class IdentityProviderService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -7684,6 +8855,13 @@ export class IdentityProviderService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -7788,6 +8966,13 @@ export class IdentityProviderService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -7885,6 +9070,13 @@ export class IdentityProviderService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -8168,6 +9360,13 @@ export class JsonSchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -8323,6 +9522,13 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -8444,6 +9650,13 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -8552,6 +9765,13 @@ export class ListItemService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -8662,6 +9882,13 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -8764,6 +9991,13 @@ export class ListItemService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -8882,6 +10116,13 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -8986,6 +10227,13 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -9084,6 +10332,13 @@ export class ListItemService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -9184,6 +10439,13 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -9282,6 +10544,13 @@ export class ListItemService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -9382,6 +10651,13 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -9480,6 +10756,13 @@ export class ListItemService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -9580,6 +10863,13 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -9678,6 +10968,13 @@ export class ListItemService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -9778,6 +11075,13 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -9877,6 +11181,13 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -9975,6 +11286,13 @@ export class ListItemService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -10090,6 +11408,13 @@ export class LiveStreamService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -10199,6 +11524,13 @@ export class MetadataService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -10292,6 +11624,13 @@ export class MetadataService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -10406,6 +11745,13 @@ export class NotificationService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -10503,6 +11849,13 @@ export class NotificationService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -10603,6 +11956,13 @@ export class NotificationService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -10702,6 +12062,13 @@ export class NotificationService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -10790,6 +12157,13 @@ export class NotificationService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -10884,6 +12258,13 @@ export class NotificationService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -10984,6 +12365,13 @@ export class NotificationService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -11081,6 +12469,13 @@ export class NotificationService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -11203,6 +12598,13 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -11301,6 +12703,13 @@ export class OutputFormatService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -11405,6 +12814,13 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -11504,6 +12920,13 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -11600,6 +13023,13 @@ export class OutputFormatService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -11711,6 +13141,13 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -11810,6 +13247,13 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -11907,6 +13351,13 @@ export class OutputFormatService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -12011,6 +13462,13 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -12108,6 +13566,13 @@ export class OutputFormatService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -12208,6 +13673,13 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -12307,6 +13779,13 @@ export class OutputFormatService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -12405,6 +13884,13 @@ export class OutputFormatService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -12519,6 +14005,13 @@ export class OutputService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -12618,6 +14111,13 @@ export class OutputService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -12716,6 +14216,13 @@ export class OutputService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -12826,6 +14333,13 @@ export class ProfileService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -12925,6 +14439,13 @@ export class ProfileService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -13014,6 +14535,13 @@ export class ProfileService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13128,6 +14656,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -13231,6 +14766,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -13323,6 +14865,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13422,6 +14971,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13524,6 +15080,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -13621,6 +15184,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13724,6 +15294,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -13822,6 +15399,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13922,6 +15506,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -14021,6 +15612,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -14114,6 +15712,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -14216,6 +15821,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -14314,6 +15926,13 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -14428,6 +16047,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -14535,6 +16161,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -14637,6 +16270,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -14734,6 +16374,13 @@ export class SchemaService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -14837,6 +16484,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -14938,6 +16592,13 @@ export class SchemaService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -15042,6 +16703,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -15145,6 +16813,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -15246,6 +16921,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -15345,6 +17027,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -15443,6 +17132,13 @@ export class SchemaService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -15545,6 +17241,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -15644,6 +17347,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -15742,6 +17452,13 @@ export class SchemaService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -15845,6 +17562,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -15945,6 +17669,13 @@ export class SchemaService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -16048,6 +17779,13 @@ export class SchemaService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -16148,6 +17886,13 @@ export class SchemaService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -16262,6 +18007,13 @@ export class SchemaTransferService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -16604,6 +18356,13 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -16713,6 +18472,13 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -16810,6 +18576,13 @@ export class ShareService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -16931,6 +18704,13 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -17049,6 +18829,13 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -17151,6 +18938,13 @@ export class ShareService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -17258,6 +19052,13 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -17356,6 +19157,13 @@ export class ShareService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -17456,6 +19264,13 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -17554,6 +19369,13 @@ export class ShareService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -17654,6 +19476,13 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -17752,6 +19581,13 @@ export class ShareService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -17866,6 +19702,13 @@ export class TemplateService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -17969,6 +19812,13 @@ export class TemplateService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -18061,6 +19911,13 @@ export class TemplateService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -18161,6 +20018,13 @@ export class TemplateService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -18258,6 +20122,13 @@ export class TemplateService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -18373,6 +20244,13 @@ export class TransferService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -18471,6 +20349,13 @@ export class TransferService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -18564,6 +20449,13 @@ export class TransferService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -18668,6 +20560,13 @@ export class TransferService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -18771,6 +20670,13 @@ export class TransferService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -18864,6 +20770,13 @@ export class TransferService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -18964,6 +20877,13 @@ export class TransferService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -19061,6 +20981,13 @@ export class TransferService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -19161,6 +21088,13 @@ export class TransferService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -19255,6 +21189,13 @@ export class TransferService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -19348,6 +21289,13 @@ export class TransferService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -19472,6 +21420,13 @@ export class TransferService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -19586,6 +21541,13 @@ export class UserRoleService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -19687,6 +21649,13 @@ export class UserRoleService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -19785,6 +21754,13 @@ export class UserRoleService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -19885,6 +21861,13 @@ export class UserRoleService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -19983,6 +21966,13 @@ export class UserRoleService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -20083,6 +22073,13 @@ export class UserRoleService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -20180,6 +22177,13 @@ export class UserRoleService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -20284,6 +22288,13 @@ export class UserRoleService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -20376,6 +22387,13 @@ export class UserRoleService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -20490,6 +22508,13 @@ export class UserService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -20593,6 +22618,13 @@ export class UserService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -20691,6 +22723,13 @@ export class UserService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -20791,6 +22830,13 @@ export class UserService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -20889,6 +22935,13 @@ export class UserService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -20989,6 +23042,13 @@ export class UserService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -21082,6 +23142,13 @@ export class UserService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -21182,6 +23249,13 @@ export class UserService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -21275,6 +23349,13 @@ export class UserService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -21375,6 +23456,13 @@ export class UserService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -21473,6 +23561,13 @@ export class UserService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -21573,6 +23668,114 @@ export class UserService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * Archive user
+     * @param id User ID
+     * @return OK
+     */
+    archive(id: string | null): Observable<void> {
+        let url_ = this.baseUrl + "/v1/Users/{id}/archive";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processArchive(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processArchive(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processArchive(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -21667,6 +23870,13 @@ export class UserService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -21760,6 +23970,13 @@ export class UserService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -21859,6 +24076,13 @@ export class UserService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -21957,6 +24181,13 @@ export class UserService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -22059,6 +24290,13 @@ export class UserService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -22157,6 +24395,13 @@ export class UserService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -22257,6 +24502,13 @@ export class UserService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -22355,6 +24607,13 @@ export class UserService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -22465,6 +24724,13 @@ export class XmpMappingService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -22564,6 +24830,13 @@ export class XmpMappingService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -22661,6 +24934,13 @@ export class XmpMappingService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -22765,6 +25045,13 @@ export class XmpMappingService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -22862,6 +25149,13 @@ export class XmpMappingService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -22961,6 +25255,13 @@ export class XmpMappingService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -23063,6 +25364,13 @@ export class XmpMappingService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -23161,6 +25469,13 @@ export class XmpMappingService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -23261,6 +25576,13 @@ export class XmpMappingService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result404: any = null;
@@ -23359,6 +25681,13 @@ export class XmpMappingService extends PictureparkServiceBase {
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
         } else if (status === 404) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -23834,6 +26163,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PictureparkForbiddenException") {
+            let result = new PictureparkForbiddenException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "PictureparkNotFoundException") {
             let result = new PictureparkNotFoundException();
             result.init(data);
@@ -23854,11 +26188,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "PictureparkForbiddenException") {
-            let result = new PictureparkForbiddenException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "UserEmailAlreadyExistsException") {
             let result = new UserEmailAlreadyExistsException();
             result.init(data);
@@ -23876,6 +26205,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "UserNotFoundException") {
             let result = new UserNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserNotDeactivatedException") {
+            let result = new UserNotDeactivatedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserWithOwnerTokensArchiveException") {
+            let result = new UserWithOwnerTokensArchiveException();
             result.init(data);
             return result;
         }
@@ -23966,6 +26305,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "UserPropertyChangeNotSupportedException") {
             let result = new UserPropertyChangeNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserNotLinkedWithIdsException") {
+            let result = new UserNotLinkedWithIdsException();
             result.init(data);
             return result;
         }
@@ -24457,6 +26801,21 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UploadFailedException") {
+            let result = new UploadFailedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "MaximumNumberOfChunksExceededException") {
+            let result = new MaximumNumberOfChunksExceededException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "MaximumFileSizeExceededException") {
+            let result = new MaximumFileSizeExceededException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "MissingDependenciesException") {
             let result = new MissingDependenciesException();
             result.init(data);
@@ -24922,6 +27281,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ContentHistoricVersionNotFoundException") {
+            let result = new ContentHistoricVersionNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException") {
+            let result = new UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "BusinessProcessEngineRequestException") {
             let result = new BusinessProcessEngineRequestException();
             result.init(data);
@@ -24954,6 +27323,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "BusinessProcessContinuationException") {
             let result = new BusinessProcessContinuationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessSummaryNotBatchBasedException") {
+            let result = new BusinessProcessSummaryNotBatchBasedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessSummaryNotFoundException") {
+            let result = new BusinessProcessSummaryNotFoundException();
             result.init(data);
             return result;
         }
@@ -25434,6 +27813,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PictureparkForbiddenException") {
+            let result = new PictureparkForbiddenException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "PictureparkNotFoundException") {
             let result = new PictureparkNotFoundException();
             result.init(data);
@@ -25454,11 +27838,6 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "PictureparkForbiddenException") {
-            let result = new PictureparkForbiddenException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "UserEmailAlreadyExistsException") {
             let result = new UserEmailAlreadyExistsException();
             result.init(data);
@@ -25476,6 +27855,16 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "UserNotFoundException") {
             let result = new UserNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserNotDeactivatedException") {
+            let result = new UserNotDeactivatedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserWithOwnerTokensArchiveException") {
+            let result = new UserWithOwnerTokensArchiveException();
             result.init(data);
             return result;
         }
@@ -25566,6 +27955,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "UserPropertyChangeNotSupportedException") {
             let result = new UserPropertyChangeNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserNotLinkedWithIdsException") {
+            let result = new UserNotLinkedWithIdsException();
             result.init(data);
             return result;
         }
@@ -26057,6 +28451,21 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UploadFailedException") {
+            let result = new UploadFailedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "MaximumNumberOfChunksExceededException") {
+            let result = new MaximumNumberOfChunksExceededException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "MaximumFileSizeExceededException") {
+            let result = new MaximumFileSizeExceededException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "MissingDependenciesException") {
             let result = new MissingDependenciesException();
             result.init(data);
@@ -26522,6 +28931,16 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ContentHistoricVersionNotFoundException") {
+            let result = new ContentHistoricVersionNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException") {
+            let result = new UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "BusinessProcessEngineRequestException") {
             let result = new BusinessProcessEngineRequestException();
             result.init(data);
@@ -26554,6 +28973,16 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "BusinessProcessContinuationException") {
             let result = new BusinessProcessContinuationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessSummaryNotBatchBasedException") {
+            let result = new BusinessProcessSummaryNotBatchBasedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessSummaryNotFoundException") {
+            let result = new BusinessProcessSummaryNotFoundException();
             result.init(data);
             return result;
         }
@@ -27041,6 +29470,16 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UserNotDeactivatedException") {
+            let result = new UserNotDeactivatedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserWithOwnerTokensArchiveException") {
+            let result = new UserWithOwnerTokensArchiveException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UserInactiveOrDeletedException") {
             let result = new UserInactiveOrDeletedException();
             result.init(data);
@@ -27381,6 +29820,16 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "FileIdDuplicatedException") {
             let result = new FileIdDuplicatedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "MaximumNumberOfChunksExceededException") {
+            let result = new MaximumNumberOfChunksExceededException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "MaximumFileSizeExceededException") {
+            let result = new MaximumFileSizeExceededException();
             result.init(data);
             return result;
         }
@@ -27784,8 +30233,18 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException") {
+            let result = new UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "BusinessProcessCancellationNotSupportedException") {
             let result = new BusinessProcessCancellationNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessSummaryNotBatchBasedException") {
+            let result = new BusinessProcessSummaryNotBatchBasedException();
             result.init(data);
             return result;
         }
@@ -28477,6 +30936,74 @@ export interface IUserNotFoundException extends IPictureparkBusinessException {
     missingUserId?: string | undefined;
 }
 
+export class UserNotDeactivatedException extends PictureparkValidationException implements IUserNotDeactivatedException {
+    notDeactivatedUserId?: string | undefined;
+
+    constructor(data?: IUserNotDeactivatedException) {
+        super(data);
+        this._discriminator = "UserNotDeactivatedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.notDeactivatedUserId = _data["notDeactivatedUserId"];
+        }
+    }
+
+    static fromJS(data: any): UserNotDeactivatedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserNotDeactivatedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["notDeactivatedUserId"] = this.notDeactivatedUserId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUserNotDeactivatedException extends IPictureparkValidationException {
+    notDeactivatedUserId?: string | undefined;
+}
+
+export class UserWithOwnerTokensArchiveException extends PictureparkValidationException implements IUserWithOwnerTokensArchiveException {
+    notArchivedUserId?: string | undefined;
+
+    constructor(data?: IUserWithOwnerTokensArchiveException) {
+        super(data);
+        this._discriminator = "UserWithOwnerTokensArchiveException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.notArchivedUserId = _data["notArchivedUserId"];
+        }
+    }
+
+    static fromJS(data: any): UserWithOwnerTokensArchiveException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserWithOwnerTokensArchiveException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["notArchivedUserId"] = this.notArchivedUserId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUserWithOwnerTokensArchiveException extends IPictureparkValidationException {
+    notArchivedUserId?: string | undefined;
+}
+
 export class UserInactiveOrDeletedException extends PictureparkValidationException implements IUserInactiveOrDeletedException {
     /** The ID of the inactive or deleted user in question. */
     affectedUserId?: string | undefined;
@@ -28739,6 +31266,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ContentHistoricVersionNotFoundException") {
+            let result = new ContentHistoricVersionNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "BusinessProcessNotFoundException") {
             let result = new BusinessProcessNotFoundException();
             result.init(data);
@@ -28746,6 +31278,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "BusinessProcessDefinitionNotFoundException") {
             let result = new BusinessProcessDefinitionNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessSummaryNotFoundException") {
+            let result = new BusinessProcessSummaryNotFoundException();
             result.init(data);
             return result;
         }
@@ -29262,6 +31799,40 @@ export class UserPropertyChangeNotSupportedException extends PictureparkValidati
 
 export interface IUserPropertyChangeNotSupportedException extends IPictureparkValidationException {
     propertyPath?: string | undefined;
+    affectedUserId?: string | undefined;
+}
+
+export class UserNotLinkedWithIdsException extends PictureparkBusinessException implements IUserNotLinkedWithIdsException {
+    affectedUserId?: string | undefined;
+
+    constructor(data?: IUserNotLinkedWithIdsException) {
+        super(data);
+        this._discriminator = "UserNotLinkedWithIdsException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.affectedUserId = _data["affectedUserId"];
+        }
+    }
+
+    static fromJS(data: any): UserNotLinkedWithIdsException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserNotLinkedWithIdsException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["affectedUserId"] = this.affectedUserId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUserNotLinkedWithIdsException extends IPictureparkBusinessException {
     affectedUserId?: string | undefined;
 }
 
@@ -32722,6 +35293,7 @@ export enum ContentRight {
     EditContent = "EditContent",
     ManagePermissions = "ManagePermissions",
     Delete = "Delete",
+    ManageHistoricVersions = "ManageHistoricVersions",
 }
 
 export class ListItemPermissionException extends PictureparkValidationException implements IListItemPermissionException {
@@ -33473,6 +36045,118 @@ export class FileIdDuplicatedException extends PictureparkValidationException im
 
 export interface IFileIdDuplicatedException extends IPictureparkValidationException {
     fileId?: string | undefined;
+}
+
+export class UploadFailedException extends PictureparkBusinessException implements IUploadFailedException {
+
+    constructor(data?: IUploadFailedException) {
+        super(data);
+        this._discriminator = "UploadFailedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): UploadFailedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UploadFailedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUploadFailedException extends IPictureparkBusinessException {
+}
+
+export class MaximumNumberOfChunksExceededException extends PictureparkValidationException implements IMaximumNumberOfChunksExceededException {
+    transferId?: string | undefined;
+    numberOfChunks?: number;
+    maximumNumberOfChunks?: number;
+
+    constructor(data?: IMaximumNumberOfChunksExceededException) {
+        super(data);
+        this._discriminator = "MaximumNumberOfChunksExceededException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.transferId = _data["transferId"];
+            this.numberOfChunks = _data["numberOfChunks"];
+            this.maximumNumberOfChunks = _data["maximumNumberOfChunks"];
+        }
+    }
+
+    static fromJS(data: any): MaximumNumberOfChunksExceededException {
+        data = typeof data === 'object' ? data : {};
+        let result = new MaximumNumberOfChunksExceededException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["transferId"] = this.transferId;
+        data["numberOfChunks"] = this.numberOfChunks;
+        data["maximumNumberOfChunks"] = this.maximumNumberOfChunks;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IMaximumNumberOfChunksExceededException extends IPictureparkValidationException {
+    transferId?: string | undefined;
+    numberOfChunks?: number;
+    maximumNumberOfChunks?: number;
+}
+
+export class MaximumFileSizeExceededException extends PictureparkValidationException implements IMaximumFileSizeExceededException {
+    transferId?: string | undefined;
+    declaredFileSize?: number;
+    maximumFileSize?: number;
+
+    constructor(data?: IMaximumFileSizeExceededException) {
+        super(data);
+        this._discriminator = "MaximumFileSizeExceededException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.transferId = _data["transferId"];
+            this.declaredFileSize = _data["declaredFileSize"];
+            this.maximumFileSize = _data["maximumFileSize"];
+        }
+    }
+
+    static fromJS(data: any): MaximumFileSizeExceededException {
+        data = typeof data === 'object' ? data : {};
+        let result = new MaximumFileSizeExceededException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["transferId"] = this.transferId;
+        data["declaredFileSize"] = this.declaredFileSize;
+        data["maximumFileSize"] = this.maximumFileSize;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IMaximumFileSizeExceededException extends IPictureparkValidationException {
+    transferId?: string | undefined;
+    declaredFileSize?: number;
+    maximumFileSize?: number;
 }
 
 export class MissingDependenciesException extends PictureparkValidationException implements IMissingDependenciesException {
@@ -37415,6 +40099,82 @@ export interface ILayerIdsByRootSchema {
     layerSchemaIds?: string[] | undefined;
 }
 
+export class ContentHistoricVersionNotFoundException extends PictureparkNotFoundException implements IContentHistoricVersionNotFoundException {
+    contentId?: string | undefined;
+    version?: number;
+
+    constructor(data?: IContentHistoricVersionNotFoundException) {
+        super(data);
+        this._discriminator = "ContentHistoricVersionNotFoundException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.contentId = _data["contentId"];
+            this.version = _data["version"];
+        }
+    }
+
+    static fromJS(data: any): ContentHistoricVersionNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentHistoricVersionNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["version"] = this.version;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentHistoricVersionNotFoundException extends IPictureparkNotFoundException {
+    contentId?: string | undefined;
+    version?: number;
+}
+
+export class UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException extends PictureparkValidationException implements IUnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException {
+    contentId?: string | undefined;
+    version?: number;
+
+    constructor(data?: IUnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException) {
+        super(data);
+        this._discriminator = "UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.contentId = _data["contentId"];
+            this.version = _data["version"];
+        }
+    }
+
+    static fromJS(data: any): UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["version"] = this.version;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException extends IPictureparkValidationException {
+    contentId?: string | undefined;
+    version?: number;
+}
+
 export class BusinessProcessEngineRequestException extends PictureparkBusinessException implements IBusinessProcessEngineRequestException {
     businessProcessId?: string | undefined;
     engineError?: string | undefined;
@@ -37671,6 +40431,74 @@ export interface IBusinessProcessContinuationException extends IPictureparkBusin
     continuationBusinessProcessId?: string | undefined;
     precedingBusinessProcessId?: string | undefined;
     precedingBusinessProcessException?: PictureparkException | undefined;
+}
+
+export class BusinessProcessSummaryNotBatchBasedException extends PictureparkValidationException implements IBusinessProcessSummaryNotBatchBasedException {
+    businessProcessId?: string | undefined;
+
+    constructor(data?: IBusinessProcessSummaryNotBatchBasedException) {
+        super(data);
+        this._discriminator = "BusinessProcessSummaryNotBatchBasedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.businessProcessId = _data["businessProcessId"];
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessSummaryNotBatchBasedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessSummaryNotBatchBasedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["businessProcessId"] = this.businessProcessId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessProcessSummaryNotBatchBasedException extends IPictureparkValidationException {
+    businessProcessId?: string | undefined;
+}
+
+export class BusinessProcessSummaryNotFoundException extends PictureparkNotFoundException implements IBusinessProcessSummaryNotFoundException {
+    businessProcessId?: string | undefined;
+
+    constructor(data?: IBusinessProcessSummaryNotFoundException) {
+        super(data);
+        this._discriminator = "BusinessProcessSummaryNotFoundException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.businessProcessId = _data["businessProcessId"];
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessSummaryNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessSummaryNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["businessProcessId"] = this.businessProcessId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessProcessSummaryNotFoundException extends IPictureparkNotFoundException {
+    businessProcessId?: string | undefined;
 }
 
 export class SnapshotTimeoutException extends PictureparkTimeoutException implements ISnapshotTimeoutException {
@@ -41093,11 +43921,6 @@ export abstract class BusinessProcessDetailsDataBase implements IBusinessProcess
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessProcessDetailsDataCdnPurge") {
-            let result = new BusinessProcessDetailsDataCdnPurge();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "BusinessProcessDetailsDataContentImport") {
             let result = new BusinessProcessDetailsDataContentImport();
             result.init(data);
@@ -41432,7 +44255,7 @@ export class ListItemImportResult implements IListItemImportResult {
     skippedListItemCount!: number;
     /** Total number of list items requested to be imported */
     totalListItemCount!: number;
-    /** Ids of the list items that were not imported because already found in the system */
+    /** Ids of the list items that were not imported because already found in the system or due to errors */
     skippedListItemIds?: string[] | undefined;
     /** Ids of the list items that were successfully imported */
     importedListItemIds?: string[] | undefined;
@@ -41498,200 +44321,12 @@ export interface IListItemImportResult {
     skippedListItemCount: number;
     /** Total number of list items requested to be imported */
     totalListItemCount: number;
-    /** Ids of the list items that were not imported because already found in the system */
+    /** Ids of the list items that were not imported because already found in the system or due to errors */
     skippedListItemIds?: string[] | undefined;
     /** Ids of the list items that were successfully imported */
     importedListItemIds?: string[] | undefined;
 }
 
-/** Business process detailed information regarding a CDN purge operation */
-export class BusinessProcessDetailsDataCdnPurge extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataCdnPurge {
-    /** Serialized CDN configuration. */
-    serializedCdnConfiguration!: string;
-    /** Jobs that were processed in the operation. */
-    jobs!: CdnPurgeJobBase[];
-
-    constructor(data?: IBusinessProcessDetailsDataCdnPurge) {
-        super(data);
-        if (!data) {
-            this.jobs = [];
-        }
-        this._discriminator = "BusinessProcessDetailsDataCdnPurge";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.serializedCdnConfiguration = _data["serializedCdnConfiguration"];
-            if (Array.isArray(_data["jobs"])) {
-                this.jobs = [] as any;
-                for (let item of _data["jobs"])
-                    this.jobs!.push(CdnPurgeJobBase.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): BusinessProcessDetailsDataCdnPurge {
-        data = typeof data === 'object' ? data : {};
-        let result = new BusinessProcessDetailsDataCdnPurge();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["serializedCdnConfiguration"] = this.serializedCdnConfiguration;
-        if (Array.isArray(this.jobs)) {
-            data["jobs"] = [];
-            for (let item of this.jobs)
-                data["jobs"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** Business process detailed information regarding a CDN purge operation */
-export interface IBusinessProcessDetailsDataCdnPurge extends IBusinessProcessDetailsDataBase {
-    /** Serialized CDN configuration. */
-    serializedCdnConfiguration: string;
-    /** Jobs that were processed in the operation. */
-    jobs: CdnPurgeJobBase[];
-}
-
-/** Base class for a CDN purge job */
-export class CdnPurgeJobBase implements ICdnPurgeJobBase {
-    /** Indicates if the operation was performed successfully. */
-    success!: boolean;
-    /** Number of retries left until the operation is considered as failed. */
-    retriesLeft!: number;
-
-    protected _discriminator: string;
-
-    constructor(data?: ICdnPurgeJobBase) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        this._discriminator = "CdnPurgeJobBase";
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.success = _data["success"];
-            this.retriesLeft = _data["retriesLeft"];
-        }
-    }
-
-    static fromJS(data: any): CdnPurgeJobBase {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "CdnPurgeJobByTag") {
-            let result = new CdnPurgeJobByTag();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "CdnPurgeJobByUri") {
-            let result = new CdnPurgeJobByUri();
-            result.init(data);
-            return result;
-        }
-        let result = new CdnPurgeJobBase();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._discriminator; 
-        data["success"] = this.success;
-        data["retriesLeft"] = this.retriesLeft;
-        return data; 
-    }
-}
-
-/** Base class for a CDN purge job */
-export interface ICdnPurgeJobBase {
-    /** Indicates if the operation was performed successfully. */
-    success: boolean;
-    /** Number of retries left until the operation is considered as failed. */
-    retriesLeft: number;
-}
-
-/** Represents a CDN purge by tag (e.g. share ID) */
-export class CdnPurgeJobByTag extends CdnPurgeJobBase implements ICdnPurgeJobByTag {
-    /** The tag that should be purged. */
-    tag!: string;
-
-    constructor(data?: ICdnPurgeJobByTag) {
-        super(data);
-        this._discriminator = "CdnPurgeJobByTag";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.tag = _data["tag"];
-        }
-    }
-
-    static fromJS(data: any): CdnPurgeJobByTag {
-        data = typeof data === 'object' ? data : {};
-        let result = new CdnPurgeJobByTag();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["tag"] = this.tag;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** Represents a CDN purge by tag (e.g. share ID) */
-export interface ICdnPurgeJobByTag extends ICdnPurgeJobBase {
-    /** The tag that should be purged. */
-    tag: string;
-}
-
-export class CdnPurgeJobByUri extends CdnPurgeJobBase implements ICdnPurgeJobByUri {
-    uri?: string | undefined;
-
-    constructor(data?: ICdnPurgeJobByUri) {
-        super(data);
-        this._discriminator = "CdnPurgeJobByUri";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.uri = _data["uri"];
-        }
-    }
-
-    static fromJS(data: any): CdnPurgeJobByUri {
-        data = typeof data === 'object' ? data : {};
-        let result = new CdnPurgeJobByUri();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["uri"] = this.uri;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ICdnPurgeJobByUri extends ICdnPurgeJobBase {
-    uri?: string | undefined;
-}
-
-/** Business process detailed information regarding Content import */
 export class BusinessProcessDetailsDataContentImport extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataContentImport {
     /** Items that were imported. */
     items?: ContentImportResult[] | undefined;
@@ -41740,7 +44375,6 @@ export class BusinessProcessDetailsDataContentImport extends BusinessProcessDeta
     }
 }
 
-/** Business process detailed information regarding Content import */
 export interface IBusinessProcessDetailsDataContentImport extends IBusinessProcessDetailsDataBase {
     /** Items that were imported. */
     items?: IContentImportResult[] | undefined;
@@ -41809,6 +44443,332 @@ export interface IContentImportResult {
     succeeded: boolean;
     /** If the operation did not succeeded, this contains error related information. */
     error?: IErrorResponse | undefined;
+}
+
+export class BusinessProcessSummaryBase implements IBusinessProcessSummaryBase {
+
+    protected _discriminator: string;
+
+    constructor(data?: IBusinessProcessSummaryBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "BusinessProcessSummaryBase";
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): BusinessProcessSummaryBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "BusinessProcessSummarySchemaImport") {
+            let result = new BusinessProcessSummarySchemaImport();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessSummaryBatchBased") {
+            let result = new BusinessProcessSummaryBatchBased();
+            result.init(data);
+            return result;
+        }
+        let result = new BusinessProcessSummaryBase();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+export interface IBusinessProcessSummaryBase {
+}
+
+export class BusinessProcessSummarySchemaImport extends BusinessProcessSummaryBase implements IBusinessProcessSummarySchemaImport {
+    /** The result of the import schema operation */
+    schemaImportResult?: SchemaImportResult | undefined;
+    /** The result of the import list item operation */
+    listItemImportResult?: ListItemImportResult | undefined;
+
+    constructor(data?: IBusinessProcessSummarySchemaImport) {
+        super(data);
+        if (data) {
+            this.schemaImportResult = data.schemaImportResult && !(<any>data.schemaImportResult).toJSON ? new SchemaImportResult(data.schemaImportResult) : <SchemaImportResult>this.schemaImportResult; 
+            this.listItemImportResult = data.listItemImportResult && !(<any>data.listItemImportResult).toJSON ? new ListItemImportResult(data.listItemImportResult) : <ListItemImportResult>this.listItemImportResult; 
+        }
+        this._discriminator = "BusinessProcessSummarySchemaImport";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaImportResult = _data["schemaImportResult"] ? SchemaImportResult.fromJS(_data["schemaImportResult"]) : <any>undefined;
+            this.listItemImportResult = _data["listItemImportResult"] ? ListItemImportResult.fromJS(_data["listItemImportResult"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessSummarySchemaImport {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessSummarySchemaImport();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaImportResult"] = this.schemaImportResult ? this.schemaImportResult.toJSON() : <any>undefined;
+        data["listItemImportResult"] = this.listItemImportResult ? this.listItemImportResult.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessProcessSummarySchemaImport extends IBusinessProcessSummaryBase {
+    /** The result of the import schema operation */
+    schemaImportResult?: ISchemaImportResult | undefined;
+    /** The result of the import list item operation */
+    listItemImportResult?: IListItemImportResult | undefined;
+}
+
+export class BusinessProcessSummaryBatchBased extends BusinessProcessSummaryBase implements IBusinessProcessSummaryBatchBased {
+    /** Succeeded item count. */
+    succeededItemCount?: number;
+    /** Failed item count. */
+    failedItemCount?: number;
+    /** Document type that was changed in the business process. */
+    docType?: string | undefined;
+
+    constructor(data?: IBusinessProcessSummaryBatchBased) {
+        super(data);
+        this._discriminator = "BusinessProcessSummaryBatchBased";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.succeededItemCount = _data["succeededItemCount"];
+            this.failedItemCount = _data["failedItemCount"];
+            this.docType = _data["docType"];
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessSummaryBatchBased {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessSummaryBatchBased();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["succeededItemCount"] = this.succeededItemCount;
+        data["failedItemCount"] = this.failedItemCount;
+        data["docType"] = this.docType;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessProcessSummaryBatchBased extends IBusinessProcessSummaryBase {
+    /** Succeeded item count. */
+    succeededItemCount?: number;
+    /** Failed item count. */
+    failedItemCount?: number;
+    /** Document type that was changed in the business process. */
+    docType?: string | undefined;
+}
+
+export class BusinessProcessBatch implements IBusinessProcessBatch {
+    pageToken?: string | undefined;
+    data?: BusinessProcessBatchItemBase | undefined;
+
+    constructor(data?: IBusinessProcessBatch) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.pageToken = _data["pageToken"];
+            this.data = _data["data"] ? BusinessProcessBatchItemBase.fromJS(_data["data"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessBatch {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessBatch();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageToken"] = this.pageToken;
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IBusinessProcessBatch {
+    pageToken?: string | undefined;
+    data?: BusinessProcessBatchItemBase | undefined;
+}
+
+export abstract class BusinessProcessBatchItemBase implements IBusinessProcessBatchItemBase {
+
+    protected _discriminator: string;
+
+    constructor(data?: IBusinessProcessBatchItemBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "BusinessProcessBatchItemBase";
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): BusinessProcessBatchItemBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "BusinessProcessBatchItemBatchResponse") {
+            let result = new BusinessProcessBatchItemBatchResponse();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessBatchItemContentImport") {
+            let result = new BusinessProcessBatchItemContentImport();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'BusinessProcessBatchItemBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+export interface IBusinessProcessBatchItemBase {
+}
+
+export class BusinessProcessBatchItemBatchResponse extends BusinessProcessBatchItemBase implements IBusinessProcessBatchItemBatchResponse {
+    docType?: string | undefined;
+    items?: BatchResponseRow[] | undefined;
+
+    constructor(data?: IBusinessProcessBatchItemBatchResponse) {
+        super(data);
+        if (data) {
+            if (data.items) {
+                this.items = [];
+                for (let i = 0; i < data.items.length; i++) {
+                    let item = data.items[i];
+                    this.items[i] = item && !(<any>item).toJSON ? new BatchResponseRow(item) : <BatchResponseRow>item;
+                }
+            }
+        }
+        this._discriminator = "BusinessProcessBatchItemBatchResponse";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.docType = _data["docType"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(BatchResponseRow.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessBatchItemBatchResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessBatchItemBatchResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["docType"] = this.docType;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessProcessBatchItemBatchResponse extends IBusinessProcessBatchItemBase {
+    docType?: string | undefined;
+    items?: IBatchResponseRow[] | undefined;
+}
+
+export class BusinessProcessBatchItemContentImport extends BusinessProcessBatchItemBase implements IBusinessProcessBatchItemContentImport {
+    items?: ContentImportResult[] | undefined;
+
+    constructor(data?: IBusinessProcessBatchItemContentImport) {
+        super(data);
+        if (data) {
+            if (data.items) {
+                this.items = [];
+                for (let i = 0; i < data.items.length; i++) {
+                    let item = data.items[i];
+                    this.items[i] = item && !(<any>item).toJSON ? new ContentImportResult(item) : <ContentImportResult>item;
+                }
+            }
+        }
+        this._discriminator = "BusinessProcessBatchItemContentImport";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ContentImportResult.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessBatchItemContentImport {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessBatchItemContentImport();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessProcessBatchItemContentImport extends IBusinessProcessBatchItemBase {
+    items?: IContentImportResult[] | undefined;
 }
 
 /** Base class for search results */
@@ -50772,6 +53732,8 @@ They are available only for file base contents, and they depends on the output f
     contentRights?: ContentRight[] | undefined;
     /** Activity information: dynamically mapped from configured metadata fields or from audit information if no mapping is configured. */
     activity?: Activity | undefined;
+    /** The number of historized versions of the content. Null if not requested, user has no ManageHistoricVersions right on the content or versioning is disabled. */
+    historicVersionCount?: number | undefined;
 
     isVirtual() {
     return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
@@ -50844,6 +53806,7 @@ They are available only for file base contents, and they depends on the output f
                     this.contentRights!.push(item);
             }
             this.activity = _data["activity"] ? Activity.fromJS(_data["activity"]) : <any>undefined;
+            this.historicVersionCount = _data["historicVersionCount"];
         }
     }
 
@@ -50908,6 +53871,7 @@ They are available only for file base contents, and they depends on the output f
                 data["contentRights"].push(item);
         }
         data["activity"] = this.activity ? this.activity.toJSON() : <any>undefined;
+        data["historicVersionCount"] = this.historicVersionCount;
         return data; 
     }
 }
@@ -50956,6 +53920,8 @@ They are available only for file base contents, and they depends on the output f
     contentRights?: ContentRight[] | undefined;
     /** Activity information: dynamically mapped from configured metadata fields or from audit information if no mapping is configured. */
     activity?: IActivity | undefined;
+    /** The number of historized versions of the content. Null if not requested, user has no ManageHistoricVersions right on the content or versioning is disabled. */
+    historicVersionCount?: number | undefined;
 }
 
 /** Output */
@@ -51620,6 +54586,7 @@ export enum ContentResolveBehavior {
     OuterDisplayValueList = "OuterDisplayValueList",
     OuterDisplayValueDetail = "OuterDisplayValueDetail",
     OuterDisplayValueName = "OuterDisplayValueName",
+    HistoricVersionCount = "HistoricVersionCount",
 }
 
 /** Values that represent thumbnail sizes. */
@@ -51628,6 +54595,7 @@ export enum ThumbnailSize {
     Medium = "Medium",
     Large = "Large",
     Preview = "Preview",
+    ExtraLarge = "ExtraLarge",
 }
 
 /** Request to create a content */
@@ -54885,6 +57853,267 @@ export interface IContentAggregationRequest extends IContentAggregationOnChannel
     aggregators: AggregatorBase[];
 }
 
+/** Base class for search results */
+export class BaseResultOfHistoricVersion implements IBaseResultOfHistoricVersion {
+    /** The total number of matching documents. */
+    totalResults!: number;
+    /** The matched documents. */
+    results!: HistoricVersion[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+
+    constructor(data?: IBaseResultOfHistoricVersion) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.results) {
+                this.results = [];
+                for (let i = 0; i < data.results.length; i++) {
+                    let item = data.results[i];
+                    this.results[i] = item && !(<any>item).toJSON ? new HistoricVersion(item) : <HistoricVersion>item;
+                }
+            }
+        }
+        if (!data) {
+            this.results = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalResults = _data["totalResults"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(HistoricVersion.fromJS(item));
+            }
+            this.elapsedMilliseconds = _data["elapsedMilliseconds"];
+            this.pageToken = _data["pageToken"];
+        }
+    }
+
+    static fromJS(data: any): BaseResultOfHistoricVersion {
+        data = typeof data === 'object' ? data : {};
+        let result = new BaseResultOfHistoricVersion();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
+        return data; 
+    }
+}
+
+/** Base class for search results */
+export interface IBaseResultOfHistoricVersion {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: IHistoricVersion[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+
+export class HistoricVersionSearchResult extends BaseResultOfHistoricVersion implements IHistoricVersionSearchResult {
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
+
+    constructor(data?: IHistoricVersionSearchResult) {
+        super(data);
+        if (data) {
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): HistoricVersionSearchResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new HistoricVersionSearchResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IHistoricVersionSearchResult extends IBaseResultOfHistoricVersion {
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
+}
+
+export class HistoricVersion implements IHistoricVersion {
+    /** Sequential version number. */
+    versionNumber!: number;
+    /** Content ID. */
+    contentId?: string | undefined;
+    /** The datetime when this version was replaced. */
+    replaced!: Date;
+    /** User who replaced this version. */
+    user?: User | undefined;
+    /** File name for this version. */
+    fileName?: string | undefined;
+    /** True if this version was created by XMP writeback (as the version without the mutation). */
+    createdByXmpWriteback!: boolean;
+    /** ID of the original output associated with this version. */
+    originalOutputId?: string | undefined;
+
+    constructor(data?: IHistoricVersion) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.user = data.user && !(<any>data.user).toJSON ? new User(data.user) : <User>this.user; 
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.versionNumber = _data["versionNumber"];
+            this.contentId = _data["contentId"];
+            this.replaced = _data["replaced"] ? new Date(_data["replaced"].toString()) : <any>undefined;
+            this.user = _data["user"] ? User.fromJS(_data["user"]) : <any>undefined;
+            this.fileName = _data["fileName"];
+            this.createdByXmpWriteback = _data["createdByXmpWriteback"];
+            this.originalOutputId = _data["originalOutputId"];
+        }
+    }
+
+    static fromJS(data: any): HistoricVersion {
+        data = typeof data === 'object' ? data : {};
+        let result = new HistoricVersion();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["versionNumber"] = this.versionNumber;
+        data["contentId"] = this.contentId;
+        data["replaced"] = this.replaced ? this.replaced.toISOString() : <any>undefined;
+        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["fileName"] = this.fileName;
+        data["createdByXmpWriteback"] = this.createdByXmpWriteback;
+        data["originalOutputId"] = this.originalOutputId;
+        return data; 
+    }
+}
+
+export interface IHistoricVersion {
+    /** Sequential version number. */
+    versionNumber: number;
+    /** Content ID. */
+    contentId?: string | undefined;
+    /** The datetime when this version was replaced. */
+    replaced: Date;
+    /** User who replaced this version. */
+    user?: IUser | undefined;
+    /** File name for this version. */
+    fileName?: string | undefined;
+    /** True if this version was created by XMP writeback (as the version without the mutation). */
+    createdByXmpWriteback: boolean;
+    /** ID of the original output associated with this version. */
+    originalOutputId?: string | undefined;
+}
+
+export class HistoricVersionSearchRequest implements IHistoricVersionSearchRequest {
+    /** Will exclude the historic versions that were created by XMP writeback */
+    excludeXmpWritebackGenerated!: boolean;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit!: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
+Warning! It severely affects performance. */
+    debugMode!: boolean;
+
+    constructor(data?: IHistoricVersionSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.excludeXmpWritebackGenerated = _data["excludeXmpWritebackGenerated"];
+            this.limit = _data["limit"];
+            this.pageToken = _data["pageToken"];
+            this.debugMode = _data["debugMode"];
+        }
+    }
+
+    static fromJS(data: any): HistoricVersionSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new HistoricVersionSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["excludeXmpWritebackGenerated"] = this.excludeXmpWritebackGenerated;
+        data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
+        data["debugMode"] = this.debugMode;
+        return data; 
+    }
+}
+
+export interface IHistoricVersionSearchRequest {
+    /** Will exclude the historic versions that were created by XMP writeback */
+    excludeXmpWritebackGenerated: boolean;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+}
+
 export class DisplayValueStatus implements IDisplayValueStatus {
     /** The schema ids (of type Content or Layer) for which the re-rendering of the display values is needed. */
     contentOrLayerSchemaIds?: string[] | undefined;
@@ -55688,6 +58917,8 @@ export class CustomerInfo implements ICustomerInfo {
     baseUrl!: string;
     /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
     logosUrl!: string;
+    /** License options and states */
+    licenseInformation!: LicenseInfo;
 
     constructor(data?: ICustomerInfo) {
         if (data) {
@@ -55717,12 +58948,14 @@ export class CustomerInfo implements ICustomerInfo {
                     this.apps[i] = item && !(<any>item).toJSON ? new CustomerApp(item) : <CustomerApp>item;
                 }
             }
+            this.licenseInformation = data.licenseInformation && !(<any>data.licenseInformation).toJSON ? new LicenseInfo(data.licenseInformation) : <LicenseInfo>this.licenseInformation; 
         }
         if (!data) {
             this.languageConfiguration = new LanguageConfigurationInfo();
             this.languages = [];
             this.outputFormats = [];
             this.boostValues = [];
+            this.licenseInformation = new LicenseInfo();
         }
     }
 
@@ -55758,6 +58991,7 @@ export class CustomerInfo implements ICustomerInfo {
             this.modificationDate = _data["modificationDate"] ? new Date(_data["modificationDate"].toString()) : <any>undefined;
             this.baseUrl = _data["baseUrl"];
             this.logosUrl = _data["logosUrl"];
+            this.licenseInformation = _data["licenseInformation"] ? LicenseInfo.fromJS(_data["licenseInformation"]) : new LicenseInfo();
         }
     }
 
@@ -55800,6 +59034,7 @@ export class CustomerInfo implements ICustomerInfo {
         data["modificationDate"] = this.modificationDate ? this.modificationDate.toISOString() : <any>undefined;
         data["baseUrl"] = this.baseUrl;
         data["logosUrl"] = this.logosUrl;
+        data["licenseInformation"] = this.licenseInformation ? this.licenseInformation.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -55833,6 +59068,8 @@ export interface ICustomerInfo {
     baseUrl: string;
     /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
     logosUrl: string;
+    /** License options and states */
+    licenseInformation: ILicenseInfo;
 }
 
 export class LanguageConfiguration implements ILanguageConfiguration {
@@ -56113,6 +59350,52 @@ export interface ICustomerApp {
     name?: ITranslatedStringDictionary | undefined;
     description?: ITranslatedStringDictionary | undefined;
     icon?: string | undefined;
+}
+
+/** Customer license information */
+export class LicenseInfo implements ILicenseInfo {
+    /** State of content historic versioning */
+    historicVersioningState!: HistoricVersioningState;
+
+    constructor(data?: ILicenseInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.historicVersioningState = _data["historicVersioningState"];
+        }
+    }
+
+    static fromJS(data: any): LicenseInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new LicenseInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["historicVersioningState"] = this.historicVersioningState;
+        return data; 
+    }
+}
+
+/** Customer license information */
+export interface ILicenseInfo {
+    /** State of content historic versioning */
+    historicVersioningState: HistoricVersioningState;
+}
+
+export enum HistoricVersioningState {
+    Disabled = "Disabled",
+    Suspended = "Suspended",
+    Enabled = "Enabled",
 }
 
 export class SystemStatus implements ISystemStatus {
@@ -58634,6 +61917,7 @@ export interface INotificationDetailBase {
 export abstract class NotificationDetailBusinessProcessBase extends NotificationDetailBase implements INotificationDetailBusinessProcessBase {
     businessProcessId?: string | undefined;
     businessProcessLifeCycle?: BusinessProcessLifeCycle;
+    supportsCancellation?: boolean;
 
     constructor(data?: INotificationDetailBusinessProcessBase) {
         super(data);
@@ -58645,6 +61929,7 @@ export abstract class NotificationDetailBusinessProcessBase extends Notification
         if (_data) {
             this.businessProcessId = _data["businessProcessId"];
             this.businessProcessLifeCycle = _data["businessProcessLifeCycle"];
+            this.supportsCancellation = _data["supportsCancellation"];
         }
     }
 
@@ -58692,6 +61977,7 @@ export abstract class NotificationDetailBusinessProcessBase extends Notification
         data = typeof data === 'object' ? data : {};
         data["businessProcessId"] = this.businessProcessId;
         data["businessProcessLifeCycle"] = this.businessProcessLifeCycle;
+        data["supportsCancellation"] = this.supportsCancellation;
         super.toJSON(data);
         return data; 
     }
@@ -58700,6 +61986,7 @@ export abstract class NotificationDetailBusinessProcessBase extends Notification
 export interface INotificationDetailBusinessProcessBase extends INotificationDetailBase {
     businessProcessId?: string | undefined;
     businessProcessLifeCycle?: BusinessProcessLifeCycle;
+    supportsCancellation?: boolean;
 }
 
 export class NotificationDetailTransfer extends NotificationDetailBusinessProcessBase implements INotificationDetailTransfer {
