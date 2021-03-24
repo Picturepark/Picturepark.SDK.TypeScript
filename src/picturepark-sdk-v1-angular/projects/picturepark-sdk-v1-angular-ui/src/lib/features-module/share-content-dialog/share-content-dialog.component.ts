@@ -35,8 +35,6 @@ import {
   BusinessProcessService,
   LanguageService,
   ShareFacade,
-  ContentRight,
-  ReshardNumberOfRoutingShardsInvalidException,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -60,8 +58,8 @@ import { map } from 'rxjs/operators';
   providers: [TranslatePipe],
 })
 export class ShareContentDialogComponent extends DialogBaseComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('contentContainer', { static: true }) contentContainer: ElementRef;
-  @ViewChild('loaderContainer', { static: true }) loaderContainer: ElementRef;
+  @ViewChild('contentContainer') contentContainer: ElementRef;
+  @ViewChild('loaderContainer') loaderContainer: ElementRef;
 
   @Output() previewItemChange = new EventEmitter<string>();
 
@@ -161,21 +159,13 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight}px`);
 
       this.loader = false;
-      const success = {
-        message: `#${response.referenceId} ${this.translatePipe.transform('ShareContentDialog.SuccessNotification')}`,
-        type: 'success',
-        status: true,
-        displayTime: 10000,
-      };
-
-      this.notificationService.sendNotification(success);
     } catch (err) {
       this.loader = false;
       const error = {
         message: err.exceptionMessage || this.translatePipe.transform('ShareContentDialog.ErrorNotification')!,
         type: 'error',
         status: true,
-        displayTime: 10000,
+        displayTime: -1,
       };
 
       this.notificationService.sendNotification(error);

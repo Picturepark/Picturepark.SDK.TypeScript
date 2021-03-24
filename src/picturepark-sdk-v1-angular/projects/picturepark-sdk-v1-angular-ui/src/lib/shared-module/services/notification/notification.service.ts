@@ -14,14 +14,14 @@ export class NotificationService {
     type: 'success',
   };
 
-  notification = new BehaviorSubject<Notification>(this.notificationStore);
+  notification$ = new BehaviorSubject<Notification>(this.notificationStore);
 
   // SEND NOTIFICATION
   sendNotification(notification: Notification) {
-    this.notification.next(notification);
+    this.notification$.next(notification);
   }
 
   clearNotification() {
-    this.notification.next(this.notificationStore);
+    this.notification$.next(this.notificationStore);
   }
 }

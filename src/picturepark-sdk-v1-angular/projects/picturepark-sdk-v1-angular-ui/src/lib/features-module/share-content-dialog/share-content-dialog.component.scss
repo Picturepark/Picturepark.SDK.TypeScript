@@ -103,7 +103,6 @@
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      max-height: 27vh;
 
       .selected-item-wrapper {
         position: relative;
@@ -214,7 +213,7 @@
 
   padding: 0 24px;
   margin: 0;
-  overflow: auto;
+  overflow: overlay;
   min-height: 200px;
 }
 

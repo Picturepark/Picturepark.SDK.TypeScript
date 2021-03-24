@@ -121,8 +121,10 @@ pp-share-content-dialog {
     height: 56px;
   }
 
-  .mat-dialog-content {
-    max-height: unset;
+  @media (max-width: 525px) {
+    .mat-dialog-content {
+      max-height: unset;
+    }
   }
 }
 

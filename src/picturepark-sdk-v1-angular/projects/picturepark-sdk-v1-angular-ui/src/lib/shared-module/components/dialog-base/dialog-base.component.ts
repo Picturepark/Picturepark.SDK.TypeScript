@@ -34,12 +34,13 @@ export class DialogBaseComponent extends BaseComponent implements OnInit, OnDest
 
   init() {
     // NOTIFICATION SUBSCRIBER
-    this.sub = this.notificationService.notification.subscribe((notification) => {
+    this.sub = this.notificationService.notification$.subscribe((notification) => {
       this.notification = notification;
     });
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.notificationService.clearNotification();
   }
 }
