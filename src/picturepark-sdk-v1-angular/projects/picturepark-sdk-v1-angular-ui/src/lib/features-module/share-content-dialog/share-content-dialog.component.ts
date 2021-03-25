@@ -35,6 +35,7 @@ import {
   BusinessProcessService,
   LanguageService,
   ShareFacade,
+  ContentRight,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
