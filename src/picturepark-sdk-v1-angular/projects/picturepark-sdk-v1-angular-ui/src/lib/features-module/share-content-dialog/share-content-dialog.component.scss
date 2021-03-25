@@ -287,3 +287,13 @@
   max-height: 80vh;
   overflow-y: auto;
 }
+
+/* Works on Firefox */
+.content {
+  scrollbar-width: 10px;
+}
+
+/* Works on Chrome, Edge, and Safari */
+.content::-webkit-scrollbar {
+  width: 10px;
+}
