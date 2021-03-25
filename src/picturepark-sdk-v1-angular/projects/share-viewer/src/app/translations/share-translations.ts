@@ -10,17 +10,16 @@ export const shareTranslations = {
     pt: 'Esta partilha expirou e já não está disponível. Por favor contacte a pessoa que lhe enviou esta ligação.',
   },
   Consent: {
-    en: `By continuing to browse this website, you agree to the use of cookies to improve your user experience and to collect statistics about your visits.<br />
-      Read the <a href="https://picturepark.com/en/terms/cookies" target="_blank">Cookie Policy</a>.`,
-    de: `Indem Sie die Website weiterhin verwenden, stimmen Sie der Nutzung von Cookies,
-      zur Verbesserung Ihrer Nutzungserfahrung und um Statistiken von Ihrem Besuch zu sammeln, zu.<br />
-      Lesen Sie die <a href="https://picturepark.com/de/terms/cookies" target="_blank">Cookie-Richtlinien</a>.`,
-    fr: `En continuant à naviguer sur ce site web, vous acceptez l'utilisation de cookies pour améliorer votre expérience d'utilisateur et pour collecter des statistiques sur vos visites.<br />
-      Lire les <a href="https://picturepark.com/en/terms/cookies" target="_blank">informations sur les cookies</a>.`,
-    es: `Al continuar navegando en este sitio web, acepta el uso de cookies para mejorar su experiencia de usuario y recopilar estadísticas sobre sus visitas. <br />
-      Leer la <a href="https://picturepark.com/en/terms/cookies" target="_blank">información de las cookies</a>.`,
-    pt: `Ao continuar a navegar neste site, concorda com a utilização de cookies para melhorar a sua experiência de utilizador e para recolher estatísticas sobre as suas visitas. <br />
-      Leia a <a href="https://picturepark.com/en/terms/cookies" target="_blank">Informação do Cookie </a>.`,
+    en: `Please note that we use cookies and HTML web storage solely for the functioning of the cloud service and for improving your user experience.<br />
+    For more information about your right to opt out and your other rights, please read the <a href="https://picturepark.com/terms/cookies-content-platform" target="_blank">Cookie Policy</a>.`,
+    de: `Bitte beachten Sie, dass wir Cookies und den HTML Web Storage ausschliesslich für das Funktionieren des Cloud Service und eine verbesserte Benutzerfreundlichkeit verwenden.<br />
+    Für weitere Informationen zum Einsatz von Cookies, Ihrem Widerspruchsrecht und anderen Rechten lesen Sie bitte die <a href="https://picturepark.com/de/terms/cookies-content-platform" target="_blank">Cookie Richtlinien</a>.`,
+    fr: `Veuillez noter que nous utilisons les cookies et le stockage du navigateur uniquement pour le fonctionnement du service et pour améliorer votre expérience d'utilisation.<br />
+    Pour plus d'informations sur votre droit d'opposition et vos autres droits, veuillez lire notre <a href="https://picturepark.com/terms/cookies-content-platform" target="_blank">politique de cookie et traçage</a>.`,
+    es: `Tenga en cuenta que utilizamos cookies y almacenamiento web HTML únicamente para el funcionamiento del servicio en la nube y para mejorar su experiencia de usuario.<br />
+    Para obtener más información sobre su derecho a excluirse y sus otros derechos, lea la <a href="https://picturepark.com/terms/cookies-content-platform" target="_blank">Política de Cookies</a>.`,
+    pt: `Note que utilizamos cookies e armazenamento web HTML apenas para o funcionamento do serviço na nuvem e para melhorar a sua experiência de utilizador.<br />
+    Para mais informações sobre o seu direito de auto-exclusão e outros direitos, por favor leia a <a href="https://picturepark.com/terms/cookies-content-platform" target="_blank">Política de Cookies</a>.`,
   },
   OK: {
     en: 'OK',
