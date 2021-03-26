@@ -11,7 +11,7 @@
       </ng-container>
     </pp-browser-toolbar>
   </div>
-  <div class="table-container" *ngIf="(totalResults$ | async) !== 0" cdkScrollable>
+  <div class="table-container cp-scrollbar" *ngIf="(totalResults$ | async) !== 0" cdkScrollable>
     <table
       mat-table
       class="list-table"

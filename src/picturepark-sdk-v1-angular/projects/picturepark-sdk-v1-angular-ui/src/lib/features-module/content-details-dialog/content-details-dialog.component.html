@@ -36,7 +36,7 @@
       <mat-tab-group (selectedTabChange)="tabChange($event)">
         <mat-tab label="{{ 'ContentDetailsDialog.Overview' | pptranslate }}">
           <ng-template matTabContent>
-            <div class="overview-wrap" *ngIf="content">
+            <div class="overview-wrap cp-scrollbar" *ngIf="content">
               <div class="content-preview">
                 <ng-container *ngIf="content.contentType !== 'Virtual'; else virtualItem">
                   <pp-content-image-preview

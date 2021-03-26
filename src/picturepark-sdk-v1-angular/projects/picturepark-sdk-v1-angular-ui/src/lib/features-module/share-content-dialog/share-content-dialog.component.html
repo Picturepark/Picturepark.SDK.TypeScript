@@ -7,7 +7,7 @@
   <pp-notification [notification]="notification"></pp-notification>
 
   <mat-dialog-content class="dialog-content" [formGroup]="sharedContentForm">
-    <div class="content" [ngClass]="{ 'content-share': recipients.length > 0 }">
+    <div class="content cp-scrollbar" [ngClass]="{ 'content-share': recipients.length > 0 }">
       <div class="inputs-content" *ngIf="recipients.length === 0">
         <ul>
           <li class="label-content">

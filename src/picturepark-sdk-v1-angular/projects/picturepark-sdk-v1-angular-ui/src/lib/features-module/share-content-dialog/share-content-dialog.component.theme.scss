@@ -40,16 +40,6 @@ $pp-share-content-dialog: (
         }
       }
     }
-
-    /* Works on Firefox */
-    .content {
-      scrollbar-color: mat-color($primary, surface-mid) transparent;
-    }
-
-    /* Works on Chrome, Edge, and Safari */
-    .content::-webkit-scrollbar-thumb {
-      background-color: mat-color($primary, surface-mid);
-    }
   }
 
   .selected-items-content {

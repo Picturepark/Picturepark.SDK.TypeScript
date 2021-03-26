@@ -36,10 +36,6 @@
           color: mat-color($primary, on-background-dark);
         }
       }
-
-      &::-webkit-scrollbar-thumb {
-        background-color: mat-color($primary, surface-mid);
-      }
     }
   }
 }

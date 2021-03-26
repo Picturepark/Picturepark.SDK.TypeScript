@@ -132,3 +132,14 @@ pp-share-content-dialog {
   padding: 0;
   overflow: unset;
 }
+
+//SCROLL BAR
+/* Works on Firefox */
+.cp-scrollbar {
+  scrollbar-width: 10px;
+}
+
+/* Works on Chrome, Edge, and Safari */
+.cp-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
