@@ -30,11 +30,6 @@
         }
       }
 
-      &__items {
-        &::-webkit-scrollbar-thumb {
-          background-color: mat-color($primary, surface-mid);
-        }
-      }
       .browser__items--list {
         .browser__item-container {
           border-color: mat-color($primary, divider);

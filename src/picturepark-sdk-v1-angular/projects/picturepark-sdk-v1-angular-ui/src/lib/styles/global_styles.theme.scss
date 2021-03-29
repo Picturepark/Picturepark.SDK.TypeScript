@@ -102,4 +102,15 @@
     }
   }
   // End Handle Angular Material Pannels Theming
+
+  //SCROLL BAR
+  /* Works on Firefox */
+  .cp-scrollbar {
+    scrollbar-color: mat-color($primary, surface-mid) transparent;
+  }
+
+  /* Works on Chrome, Edge, and Safari */
+  .cp-scrollbar::-webkit-scrollbar-thumb {
+    background-color: mat-color($primary, surface-mid);
+  }
 }

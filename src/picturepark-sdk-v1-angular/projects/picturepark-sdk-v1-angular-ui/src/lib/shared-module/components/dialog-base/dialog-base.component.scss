@@ -18,10 +18,6 @@
       float: right;
     }
   }
-  ::ng-deep .notification-container {
-    left: -24px !important;
-    width: calc(100% + 48px) !important;
-  }
 
   mat-dialog-content {
     height: 100%;
