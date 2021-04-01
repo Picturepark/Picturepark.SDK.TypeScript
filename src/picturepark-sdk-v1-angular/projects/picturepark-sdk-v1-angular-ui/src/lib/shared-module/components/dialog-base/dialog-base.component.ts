@@ -1,6 +1,5 @@
 import { OnInit, OnDestroy, Injector, Directive } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
 
 // COMPONENTS
 import { BaseComponent } from '../base.component';
@@ -11,6 +10,7 @@ import { NotificationService } from '../../services/notification/notification.se
 // INTERFACES
 import { Notification } from '../../../features-module/notification/interfaces/notification.interface';
 
+/* tslint:disable:directive-class-suffix */
 @Directive()
 export class DialogBaseComponent extends BaseComponent implements OnInit, OnDestroy {
   // VARS

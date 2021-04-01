@@ -200,7 +200,6 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   // SET PREFILL SUBJECT
   private setPrefillSubject(selectedContent: Content[]) {
     // REMOVE SHARE NAME FROM FIELD VALUE
-    //this.sharedContentForm.get('share_name')!.setValue('');
     const form = this.sharedContentForm$.value;
     if (!form) {
       return;
@@ -241,7 +240,6 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
           this.spinnerLoader = false;
 
           // SET SHARE NAME FORM FIELD VALUE
-          //this.sharedContentForm.get('share_name')!.setValue(shareName);
           form.get('share_name')!.setValue(shareName);
           this.sharedContentForm$.next(form);
         }, 200);
@@ -265,7 +263,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
           recipients: new FormArray([], [Validators.required]),
           expire_date: new FormControl(''),
           language: this.languageFormControl,
-          accessOriginal: new FormControl({ value: false, disabled: !accessOriginal }),
+          accessOriginal: new FormControl({ value: accessOriginal, disabled: !accessOriginal }),
         })
       );
       this.setPrefillSubject(this.selectedContent);
