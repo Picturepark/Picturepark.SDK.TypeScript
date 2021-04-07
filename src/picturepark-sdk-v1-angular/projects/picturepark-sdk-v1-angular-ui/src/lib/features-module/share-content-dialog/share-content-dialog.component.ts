@@ -122,6 +122,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
         return;
       }
 
+      const expDate = new Date(form.get('expire_date')?.value);
       const response = await this.shareService
         .create(
           new ShareBasicCreateRequest({
@@ -131,6 +132,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
             outputAccess: !!form.get('accessOriginal')?.value ? OutputAccess.Full : OutputAccess.Preview,
             languageCode: form.get('language')?.value ?? this.languageService.currentLanguage.ietf,
             suppressNotifications: false,
+            expirationDate: isNaN(expDate.getTime()) ? undefined : expDate,
           })
         )
         .toPromise();
