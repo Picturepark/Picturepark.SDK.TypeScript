@@ -54,6 +54,43 @@ $mat-picturepark-accent: (
   ),
 );
 
+$mat-picturepark-warn: (
+  50: #ffebee,
+  100: #ffcdd2,
+  200: #ef9a9a,
+  300: #e57373,
+  400: #ef5350,
+  500: #f74931,
+  600: #e53935,
+  700: #d32f2f,
+  800: #c62828,
+  900: #b71c1c,
+  A100: #ff8a80,
+  A200: #ff5252,
+  A400: #ff1744,
+  A700: #d50000,
+  success: #50be3c,
+  warning: #f59220,
+  contrast: (
+    50: #727272,
+    100: #727272,
+    200: #727272,
+    300: #727272,
+    400: #727272,
+    500: #eee,
+    600: #eee,
+    700: #eee,
+    800: #eee,
+    900: #eee,
+    A100: #727272,
+    A200: #eee,
+    A400: #eee,
+    A700: #eee,
+    success: #eee,
+    warning: #eee,
+  ),
+);
+
 // GLOBAL COLORS
 $base: #39acaa;
 
@@ -83,7 +120,7 @@ $mat-picturepark-primary: (
 
 $picturepark-app-primary: mat-palette($mat-picturepark-primary);
 $picturepark-app-accent: mat-palette($mat-picturepark-accent, 400, 200, 700);
-$picturepark-app-warn: mat-palette($mat-red);
+$picturepark-app-warn: mat-palette($mat-picturepark-warn);
 $picturepark-app-theme: mat-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);
 
 $mat-picturepark-primary-dark: (
@@ -108,7 +145,7 @@ $mat-picturepark-primary-dark: (
 
 $picturepark-app-primary-dark: mat-palette($mat-picturepark-primary-dark);
 $picturepark-app-accent-dark: mat-palette($mat-picturepark-accent, 400, 200, 700);
-$picturepark-app-warn-dark: mat-palette($mat-red);
+$picturepark-app-warn-dark: mat-palette($mat-picturepark-warn);
 $picturepark-app-theme-dark: mat-dark-theme(
   $picturepark-app-primary-dark,
   $picturepark-app-accent-dark,
