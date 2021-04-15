@@ -121,7 +121,6 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       if (!form) {
         return;
       }
-
       const expDate = new Date(form.get('expire_date')?.value);
       const response = await this.shareService
         .create(
@@ -177,6 +176,8 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
   // SHARE CONTENT SUBMIT BUTTON ACTION
   onFormSubmit() {
+    this.notificationService.clearNotification();
+
     if (this.sharedContentForm$.value && this.sharedContentForm$.value.valid) {
       this.loader = true;
 
@@ -249,8 +250,8 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   }
 
   ngAfterViewInit() {
+    this.notificationService.clearNotification();
     this.selectedContent = [...this.data];
-
     this.languageFormControl = new FormControl(
       this.languageService.shareLanguages.find((lang) => lang.ietf === this.languageService.currentLanguage.ietf)
         ?.ietf ?? this.languageService.shareLanguages[0].ietf,
