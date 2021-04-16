@@ -4,8 +4,8 @@ import { Directive, Output, EventEmitter, HostListener, Input } from '@angular/c
   selector: '[ppUserInteraction]',
 })
 export class UserInteractionDirective {
-  // Should be more than the default device press timer (300)
-  @Input() pressTime = 400;
+  // Should be more than the default device press timer (700)
+  @Input() pressTime = 800;
 
   @Output() ppClick: EventEmitter<MouseEvent> = new EventEmitter();
   @Output() ppDblclick: EventEmitter<MouseEvent> = new EventEmitter();

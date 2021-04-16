@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import { BrowserModule, HammerGestureConfig, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -74,6 +74,12 @@ export function oidcConfigFactory() {
   };
 }
 
+export class HammerConfig extends HammerGestureConfig  {
+  overrides = <any>{
+      'press': {time: 700},
+  }
+}
+
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
@@ -89,5 +95,9 @@ export function oidcConfigFactory() {
     LocaleModule.forRoot('system'),
   ],
   bootstrap: [AppComponent],
+  providers: [{
+    provide: HAMMER_GESTURE_CONFIG,
+    useClass: HammerConfig
+  }]
 })
 export class AppModule {}
