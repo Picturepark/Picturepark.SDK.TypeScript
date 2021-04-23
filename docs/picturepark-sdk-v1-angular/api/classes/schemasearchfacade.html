@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>SchemaSearchFacade | @picturepark/sdk-v1-angular API</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for @picturepark/sdk-v1-angular API">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -108,9 +108,12 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="schemasearchfacade.html#addaggregationfilter" class="tsd-kind-icon">add<wbr>Aggregation<wbr>Filter</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="schemasearchfacade.html#expandaggregationresult" class="tsd-kind-icon">expand<wbr>Aggregation<wbr>Result</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="schemasearchfacade.html#getloadinginfos" class="tsd-kind-icon">get<wbr>Loading<wbr>Infos</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="schemasearchfacade.html#patchrequeststate" class="tsd-kind-icon">patch<wbr>Request<wbr>State</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="schemasearchfacade.html#removeaggregationfilter" class="tsd-kind-icon">remove<wbr>Aggregation<wbr>Filter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="schemasearchfacade.html#removeaggregationfilters" class="tsd-kind-icon">remove<wbr>Aggregation<wbr>Filters</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="schemasearchfacade.html#resetrequeststate" class="tsd-kind-icon">reset<wbr>Request<wbr>State</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="schemasearchfacade.html#search" class="tsd-kind-icon">search</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="schemasearchfacade.html#searchaggregations" class="tsd-kind-icon">search<wbr>Aggregations</a></li>
@@ -143,7 +146,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts#L27">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts#L27">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -162,77 +165,77 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="aggregationfilters_" class="tsd-anchor"></a>
 					<h3>aggregation<wbr>Filters$</h3>
-					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Filters$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="aggregationfilter.html" class="tsd-signature-type">AggregationFilter</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;this.searchRequest$.pipe(map((i) &#x3D;&gt; i.aggregationFilters),distinctUntilChanged())</span></div>
+					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Filters$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="aggregationfilter.html" class="tsd-signature-type">AggregationFilter</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = this.searchRequest$.pipe(map((i) &#x3D;&gt; i.aggregationFilters),distinctUntilChanged())</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#aggregationfilters_">aggregationFilters$</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L78">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:78</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L78">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:78</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="aggregationresults_" class="tsd-anchor"></a>
 					<h3>aggregation<wbr>Results$</h3>
-					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Results$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="aggregationresult.html" class="tsd-signature-type">AggregationResult</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;this.searchResults$.pipe(map((i) &#x3D;&gt; i.aggregationResults),distinctUntilChanged())</span></div>
+					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Results$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="aggregationresult.html" class="tsd-signature-type">AggregationResult</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = this.searchResults$.pipe(map((i) &#x3D;&gt; i.aggregationResults),distinctUntilChanged())</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#aggregationresults_">aggregationResults$</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L68">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L68">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:68</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="aggregators_" class="tsd-anchor"></a>
 					<h3>aggregators$</h3>
-					<div class="tsd-signature tsd-kind-icon">aggregators$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="aggregatorbase.html" class="tsd-signature-type">AggregatorBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;this.searchRequest$.pipe(map((i) &#x3D;&gt; i.aggregators),distinctUntilChanged())</span></div>
+					<div class="tsd-signature tsd-kind-icon">aggregators$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="aggregatorbase.html" class="tsd-signature-type">AggregatorBase</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = this.searchRequest$.pipe(map((i) &#x3D;&gt; i.aggregators),distinctUntilChanged())</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#aggregators_">aggregators$</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L73">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:73</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L73">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:73</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="items_" class="tsd-anchor"></a>
 					<h3>items$</h3>
-					<div class="tsd-signature tsd-kind-icon">items$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;this.searchResults$.pipe(map((i) &#x3D;&gt; i.results),distinctUntilChanged())</span></div>
+					<div class="tsd-signature tsd-kind-icon">items$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = this.searchResults$.pipe(map((i) &#x3D;&gt; i.results),distinctUntilChanged())</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#items_">items$</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L63">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L63">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:63</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="loading" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> loading</h3>
-					<div class="tsd-signature tsd-kind-icon">loading<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">BehaviorSubject</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/loadingstate.html" class="tsd-signature-type">LoadingState</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new BehaviorSubject&lt;LoadingState&gt;({ loading: false })</span></div>
+					<div class="tsd-signature tsd-kind-icon">loading<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">BehaviorSubject</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/loadingstate.html" class="tsd-signature-type">LoadingState</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new BehaviorSubject&lt;LoadingState&gt;({ loading: false })</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#loading">loading</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L52">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L52">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:52</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="loading_" class="tsd-anchor"></a>
 					<h3>loading$</h3>
-					<div class="tsd-signature tsd-kind-icon">loading$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/loadingstate.html" class="tsd-signature-type">LoadingState</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;this.loading.asObservable()</span></div>
+					<div class="tsd-signature tsd-kind-icon">loading$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/loadingstate.html" class="tsd-signature-type">LoadingState</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = this.loading.asObservable()</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#loading_">loading$</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L56">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L56">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:56</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="searchrequest_" class="tsd-anchor"></a>
 					<h3>search<wbr>Request$</h3>
-					<div class="tsd-signature tsd-kind-icon">search<wbr>Request$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;this.searchRequest.pipe(filter((i) &#x3D;&gt; !!i))</span></div>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>Request$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = this.searchRequest.pipe(filter((i) &#x3D;&gt; !!i))</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#searchrequest_">searchRequest$</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L55">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L55">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:55</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -243,46 +246,70 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#searchrequeststate">searchRequestState</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L41">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L41">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:41</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="searchresults_" class="tsd-anchor"></a>
 					<h3>search<wbr>Results$</h3>
-					<div class="tsd-signature tsd-kind-icon">search<wbr>Results$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/searchresultstate.html" class="tsd-signature-type">SearchResultState</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;this.searchResults.pipe(filter((i) &#x3D;&gt; !!i))</span></div>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>Results$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/searchresultstate.html" class="tsd-signature-type">SearchResultState</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = this.searchResults.pipe(filter((i) &#x3D;&gt; !!i))</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#searchresults_">searchResults$</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L54">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L54">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:54</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="searchstring_" class="tsd-anchor"></a>
 					<h3>search<wbr>String$</h3>
-					<div class="tsd-signature tsd-kind-icon">search<wbr>String$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;this.searchRequest$.pipe(map((i) &#x3D;&gt; i.searchString),distinctUntilChanged())</span></div>
+					<div class="tsd-signature tsd-kind-icon">search<wbr>String$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = this.searchRequest$.pipe(map((i) &#x3D;&gt; i.searchString),distinctUntilChanged())</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#searchstring_">searchString$</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L83">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L83">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:83</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="totalresults_" class="tsd-anchor"></a>
 					<h3>total<wbr>Results$</h3>
-					<div class="tsd-signature tsd-kind-icon">total<wbr>Results$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;this.searchResults$.pipe(map((i) &#x3D;&gt; i.totalResults),distinctUntilChanged())</span></div>
+					<div class="tsd-signature tsd-kind-icon">total<wbr>Results$<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = this.searchResults$.pipe(map((i) &#x3D;&gt; i.totalResults),distinctUntilChanged())</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#totalresults_">totalResults$</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L58">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L58">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:58</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="addaggregationfilter" class="tsd-anchor"></a>
+					<h3>add<wbr>Aggregation<wbr>Filter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Aggregation<wbr>Filter<span class="tsd-signature-symbol">(</span>aggregationResultItem<span class="tsd-signature-symbol">: </span><a href="aggregationresultitem.html" class="tsd-signature-type">AggregationResultItem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#addaggregationfilter">addAggregationFilter</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L185">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:185</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aggregationResultItem: <a href="aggregationresultitem.html" class="tsd-signature-type">AggregationResultItem</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="expandaggregationresult" class="tsd-anchor"></a>
 					<h3>expand<wbr>Aggregation<wbr>Result</h3>
@@ -294,7 +321,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#expandaggregationresult">expandAggregationResult</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L156">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:156</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L142">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:142</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -318,7 +345,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#getloadinginfos">getLoadingInfos</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L118">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L118">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:118</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -347,13 +374,61 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#patchrequeststate">patchRequestState</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L103">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L103">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:103</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>partial: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/schemasearchinputstate.html" class="tsd-signature-type">SchemaSearchInputState</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="removeaggregationfilter" class="tsd-anchor"></a>
+					<h3>remove<wbr>Aggregation<wbr>Filter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Aggregation<wbr>Filter<span class="tsd-signature-symbol">(</span>aggregationResultItem<span class="tsd-signature-symbol">: </span><a href="aggregationresultitem.html" class="tsd-signature-type">AggregationResultItem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#removeaggregationfilter">removeAggregationFilter</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L156">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:156</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aggregationResultItem: <a href="aggregationresultitem.html" class="tsd-signature-type">AggregationResultItem</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="removeaggregationfilters" class="tsd-anchor"></a>
+					<h3>remove<wbr>Aggregation<wbr>Filters</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Aggregation<wbr>Filters<span class="tsd-signature-symbol">(</span>aggregationResultItems<span class="tsd-signature-symbol">: </span><a href="aggregationresultitem.html" class="tsd-signature-type">AggregationResultItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#removeaggregationfilters">removeAggregationFilters</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L160">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:160</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aggregationResultItems: <a href="aggregationresultitem.html" class="tsd-signature-type">AggregationResultItem</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -371,7 +446,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#resetrequeststate">resetRequestState</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L190">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L211">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:211</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -389,13 +464,10 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#search">search</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts#L32">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts#L32">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts:32</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="schemasearchresult.html" class="tsd-signature-type">SchemaSearchResult</a><span class="tsd-signature-symbol">&gt;</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">undefined</span>
-							</h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="schemasearchresult.html" class="tsd-signature-type">SchemaSearchResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -410,7 +482,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#searchaggregations">searchAggregations</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts#L64">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts#L64">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/schema-search.facade.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -419,10 +491,7 @@
 									<h5>aggregators: <a href="aggregatorbase.html" class="tsd-signature-type">AggregatorBase</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="aggregationresult.html" class="tsd-signature-type">AggregationResult</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">undefined</span>
-							</h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="aggregationresult.html" class="tsd-signature-type">AggregationResult</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -437,7 +506,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#setloading">setLoading</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L125">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L125">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:125</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -464,7 +533,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#setrequeststate">setRequestState</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L107">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L107">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:107</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -488,7 +557,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#setresultstate">setResultState</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L112">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L112">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:112</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -512,7 +581,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#tosearchbehavior">toSearchBehavior</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L170">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L191">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:191</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -521,12 +590,7 @@
 									<h5>searchMode: <a href="../enums/searchmode.html" class="tsd-signature-type">SearchMode</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<a href="../enums/searchbehavior.html#simplifiedsearch" class="tsd-signature-type">SimplifiedSearch</a>
-								<span class="tsd-signature-symbol"> | </span>
-								<a href="../enums/searchbehavior.html#simplifiedsearchor" class="tsd-signature-type">SimplifiedSearchOr</a>
-							</h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../enums/searchbehavior.html#simplifiedsearch" class="tsd-signature-type">SimplifiedSearch</a><span class="tsd-signature-symbol"> | </span><a href="../enums/searchbehavior.html#simplifiedsearchor" class="tsd-signature-type">SimplifiedSearchOr</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -541,7 +605,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#toggleaggregationresult">toggleAggregationResult</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L133">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L133">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:133</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -564,36 +628,36 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="searchfacade.html">SearchFacade</a>.<a href="searchfacade.html#searchresultstate">searchResultState</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L43">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L43">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:43</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-external">
 						<a name="searchresultstate.nextpagetoken" class="tsd-anchor"></a>
 						<h3>next<wbr>Page<wbr>Token</h3>
-						<div class="tsd-signature tsd-kind-icon">next<wbr>Page<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
+						<div class="tsd-signature tsd-kind-icon">next<wbr>Page<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L45">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:45</a></li>
+								<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L45">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:45</a></li>
 							</ul>
 						</aside>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-external">
 						<a name="searchresultstate.results" class="tsd-anchor"></a>
 						<h3>results</h3>
-						<div class="tsd-signature tsd-kind-icon">results<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+						<div class="tsd-signature tsd-kind-icon">results<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L46">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:46</a></li>
+								<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L46">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:46</a></li>
 							</ul>
 						</aside>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-external">
 						<a name="searchresultstate.totalresults" class="tsd-anchor"></a>
 						<h3>total<wbr>Results</h3>
-						<div class="tsd-signature tsd-kind-icon">total<wbr>Results<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
+						<div class="tsd-signature tsd-kind-icon">total<wbr>Results<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L44">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:44</a></li>
+								<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts#L44">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/facade/search.facade.ts:44</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -652,6 +716,9 @@
 								<a href="schemasearchfacade.html#totalresults_" class="tsd-kind-icon">total<wbr>Results$</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="schemasearchfacade.html#addaggregationfilter" class="tsd-kind-icon">add<wbr>Aggregation<wbr>Filter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="schemasearchfacade.html#expandaggregationresult" class="tsd-kind-icon">expand<wbr>Aggregation<wbr>Result</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -659,6 +726,12 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="schemasearchfacade.html#patchrequeststate" class="tsd-kind-icon">patch<wbr>Request<wbr>State</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="schemasearchfacade.html#removeaggregationfilter" class="tsd-kind-icon">remove<wbr>Aggregation<wbr>Filter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="schemasearchfacade.html#removeaggregationfilters" class="tsd-kind-icon">remove<wbr>Aggregation<wbr>Filters</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="schemasearchfacade.html#resetrequeststate" class="tsd-kind-icon">reset<wbr>Request<wbr>State</a>
@@ -700,59 +773,6 @@
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
 		</div>
 	</div>
 </footer>
@@ -761,6 +781,5 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

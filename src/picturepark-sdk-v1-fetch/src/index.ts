@@ -15622,6 +15622,275 @@ export class ShareClient extends PictureparkClientBase {
     }
 }
 
+export class StatisticClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    /**
+     * Export content statistics statistic
+     * @param request Request
+     * @return Business process
+     */
+    exportContentStatistics(request: ExportContentStatisticsRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Statistics/contents/export";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processExportContentStatistics(_response);
+        });
+    }
+
+    protected processExportContentStatistics(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Resolve an actual Url to download exported file from referenceId found on completed BusinessProcess.
+     * @param referenceId Reference id
+     * @return Download link information
+     */
+    resolveDownloadLink(referenceId: string | null): Promise<DownloadLink> {
+        let url_ = this.baseUrl + "/v1/Statistics/downloadLink/{referenceId}";
+        if (referenceId === undefined || referenceId === null)
+            throw new Error("The parameter 'referenceId' must be defined.");
+        url_ = url_.replace("{referenceId}", encodeURIComponent("" + referenceId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processResolveDownloadLink(_response);
+        });
+    }
+
+    protected processResolveDownloadLink(response: Response): Promise<DownloadLink> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <DownloadLink>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<DownloadLink>(<any>null);
+    }
+
+    /**
+     * Add content events statistic
+     * @param request Request
+     * @return Business process
+     */
+    addContentEvents(request: AddContentEventsRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Statistics/contents/events";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processAddContentEvents(_response);
+        });
+    }
+
+    protected processAddContentEvents(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+}
+
 export class TemplateClient extends PictureparkClientBase {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -20905,6 +21174,7 @@ export interface NotSupportedFileExtensionException extends PictureparkValidatio
 }
 
 export interface DuplicateOutputFormatIdException extends PictureparkValidationException {
+    id?: string | undefined;
 }
 
 export interface OutputFormatResizingNotSupportedException extends PictureparkValidationException {
@@ -20996,7 +21266,8 @@ export interface OwnerTokenInUseException extends PictureparkValidationException
     ownerTokenUserId?: string | undefined;
 }
 
-export interface InvalidValueFormatException extends PictureparkValidationException {
+export interface InvalidValueFormatException extends InvalidArgumentException {
+    expectedFormat?: string | undefined;
 }
 
 export interface ItemIdDuplicatedException extends PictureparkValidationException {
@@ -21203,6 +21474,9 @@ export enum UserRight {
     ManageBusinessProcesses = <any>"ManageBusinessProcesses",
     ManageIdentityProviders = <any>"ManageIdentityProviders",
     ManageXmpMappings = <any>"ManageXmpMappings",
+    ReadStatistics = <any>"ReadStatistics",
+    WriteStatistics = <any>"WriteStatistics",
+    ExportStatistics = <any>"ExportStatistics",
 }
 
 export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
@@ -22238,6 +22512,22 @@ export interface OutputFormatXmpWritebackNotSupportedException extends Picturepa
     outputFormatId?: string | undefined;
 }
 
+export interface OutputFormatsInUseException extends PictureparkValidationException {
+    outputFormatIds?: string[] | undefined;
+    dependentOutputFormatIds?: string[] | undefined;
+}
+
+export interface OutputFormatOperationInProgressException extends PictureparkBusinessException {
+}
+
+export interface StaticOutputFormatModificationNotSupportedException extends PictureparkValidationException {
+    outputFormatId?: string | undefined;
+    property?: string | undefined;
+}
+
+export interface OriginalOutputFormatModificationNotSupportedException extends PictureparkValidationException {
+}
+
 export interface CollectionSizeLimitExceededException extends PictureparkValidationException {
     collectionId?: string | undefined;
     limit?: number;
@@ -22307,6 +22597,19 @@ export interface XmpMappingConfigurationInvalidException extends PictureparkVali
 
 export interface ActivityMappingInvalidException extends PictureparkValidationException {
     activityMapping?: string | undefined;
+}
+
+export interface StatisticsFeatureNotEnabledException extends PictureparkValidationException {
+    scope?: string | undefined;
+}
+
+export interface StatisticsExportNotEnabledException extends StatisticsFeatureNotEnabledException {
+}
+
+export interface StatisticsReadNotEnabledException extends StatisticsFeatureNotEnabledException {
+}
+
+export interface StatisticsWriteNotEnabledException extends StatisticsFeatureNotEnabledException {
 }
 
 export interface ProblemDetails {
@@ -24020,7 +24323,12 @@ They are available only for file base contents, and they depends on the output f
     contentRights?: ContentRight[] | undefined;
     /** Activity information: dynamically mapped from configured metadata fields or from audit information if no mapping is configured. */
     activity?: Activity | undefined;
-    /** The number of historized versions of the content. Null if not requested, user has no ManageHistoricVersions right on the content or versioning is disabled. */
+    /** The number of historized versions of the content. Contains null if
+(i) not requested by using HistoricVersionCount resolve behavior,
+(ii) user lacks ManageHistoricVersions right on the content,
+(iii) user lacks ManageContent user right,
+(iv) historic versioning is disabled or
+(v) content is a virtual item (ContentType is Virtual). */
     historicVersionCount?: number | undefined;
 }
 
@@ -25008,12 +25316,25 @@ export interface CustomerApp {
 export interface LicenseInfo {
     /** State of content historic versioning */
     historicVersioningState: HistoricVersioningState;
+    /** State of statistics features for Content */
+    contentStatistics: StatisticsLicenseState;
 }
 
 export enum HistoricVersioningState {
     Disabled = <any>"Disabled",
     Suspended = <any>"Suspended",
     Enabled = <any>"Enabled",
+}
+
+export interface StatisticsLicenseState {
+    /** Defines whether the respective statistics are gathered periodically */
+    collection: boolean;
+    /** Allows or prevents access to read endpoints */
+    read: boolean;
+    /** Allows or prevents access to write endpoints */
+    write: boolean;
+    /** Allows or prevents export of the respective statistics */
+    export: boolean;
 }
 
 export interface SystemStatus {
@@ -25387,7 +25708,7 @@ export interface MetadataStatus {
 }
 
 export interface Notification {
-    id?: string | undefined;
+    id: string;
     recipientUserId?: string | undefined;
     referenceDocType?: string | undefined;
     referenceId?: string | undefined;
@@ -25493,6 +25814,11 @@ export enum TitleCode {
     BatchRenderingCompletedWithErrors = <any>"BatchRenderingCompletedWithErrors",
     BatchRenderingFailed = <any>"BatchRenderingFailed",
     BusinessRuleTitle = <any>"BusinessRuleTitle",
+    StatisticsExportDraft = <any>"StatisticsExportDraft",
+    StatisticsExportInProgress = <any>"StatisticsExportInProgress",
+    StatisticsExportCompleted = <any>"StatisticsExportCompleted",
+    StatisticsExportFailed = <any>"StatisticsExportFailed",
+    StatisticsExportCancelled = <any>"StatisticsExportCancelled",
     UserEmailConflictSolved = <any>"UserEmailConflictSolved",
     UserEmailConflictSolvedSubject = <any>"UserEmailConflictSolvedSubject",
     SupportUserDeactivation = <any>"SupportUserDeactivation",
@@ -25596,6 +25922,11 @@ export enum MessageCode {
     BatchRenderingCompletedWithErrors = <any>"BatchRenderingCompletedWithErrors",
     BatchRenderingFailed = <any>"BatchRenderingFailed",
     BusinessRuleMessage = <any>"BusinessRuleMessage",
+    StatisticsExportDraft = <any>"StatisticsExportDraft",
+    StatisticsExportInProgress = <any>"StatisticsExportInProgress",
+    StatisticsExportCompleted = <any>"StatisticsExportCompleted",
+    StatisticsExportFailed = <any>"StatisticsExportFailed",
+    StatisticsExportCancelled = <any>"StatisticsExportCancelled",
 }
 
 export interface NotificationDetailBase {
@@ -25603,9 +25934,9 @@ export interface NotificationDetailBase {
 }
 
 export interface NotificationDetailBusinessProcessBase extends NotificationDetailBase {
-    businessProcessId?: string | undefined;
+    businessProcessId: string;
     businessProcessLifeCycle?: BusinessProcessLifeCycle;
-    supportsCancellation?: boolean;
+    supportsCancellation: boolean;
 }
 
 export interface NotificationDetailTransfer extends NotificationDetailBusinessProcessBase {
@@ -25614,12 +25945,12 @@ export interface NotificationDetailTransfer extends NotificationDetailBusinessPr
     failedCount?: number;
     cancelledCount?: number;
     name?: string | undefined;
-    transferId?: string | undefined;
+    transferId: string;
 }
 
 export interface NotificationDetailShare extends NotificationDetailBase {
     token?: string | undefined;
-    shareId?: string | undefined;
+    shareId: string;
 }
 
 export interface NotificationDetailSchemaImport extends NotificationDetailBusinessProcessBase {
@@ -25628,7 +25959,7 @@ export interface NotificationDetailSchemaImport extends NotificationDetailBusine
     listItemCount?: number;
     listItemProgress?: number;
     name?: string | undefined;
-    transferId?: string | undefined;
+    transferId: string;
     importedSchemaCount?: number;
     skippedSchemaCount?: number;
     importedListItemCount?: number;
@@ -25638,14 +25969,14 @@ export interface NotificationDetailSchemaImport extends NotificationDetailBusine
 }
 
 export interface NotificationDetailIndexReindexProgress extends NotificationDetailBusinessProcessBase {
-    indexId?: string | undefined;
+    indexId: string;
     expected?: number;
     current?: number;
 }
 
 export interface NotificationDetailUserRegistered extends NotificationDetailBase {
     displayName?: string | undefined;
-    userId?: string | undefined;
+    userId: string;
 }
 
 export interface NotificationDetailContentBackupRecovery extends NotificationDetailBusinessProcessBase {
@@ -25676,7 +26007,7 @@ export interface NotificationDetailBusinessRule extends NotificationDetailBase {
     title?: TranslatedStringDictionary | undefined;
     message?: TranslatedStringDictionary | undefined;
     collectionId?: string | undefined;
-    notificationId?: string | undefined;
+    notificationId: string;
 }
 
 export enum NotificationState {
@@ -27463,6 +27794,55 @@ export interface ShareSearchRequest extends ShareSearchAndAggregationBaseRequest
     aggregators?: AggregatorBase[] | undefined;
 }
 
+export interface ExportContentStatisticsRequest {
+    /** Allows filtering of retrieved statistical data */
+    filter?: ContentFilterRequest | undefined;
+    /** Optional begin of time range for which statistical data should be exported */
+    after?: Date | undefined;
+    /** Optional end of time range for which statistical data should be exported */
+    before?: Date | undefined;
+    /** Whether exported information should be separated by api client */
+    aggregateApiClients: boolean;
+    /** Enrich export with Name display value of Content */
+    includeContentNames: boolean;
+    /** Desired temporal resolution of exported data. Must not be lower than 1 hour */
+    interval?: string | undefined;
+    /** Whether notifications should be published for progress and completion */
+    notifyProgress: boolean;
+}
+
+export interface AddContentEventsRequest {
+    /** Data to be added to statistics */
+    events?: AddContentEventsRequestItem[] | undefined;
+}
+
+export interface AddContentEventsRequestItem {
+    /** Specifies at which time the events happened. The information will be automatically aggregated according to internal temporal resolution of statistics. */
+    timestamp: Date;
+    /** Specifies content for which the events happened */
+    contentId?: string | undefined;
+    /** Optionally specify the used ApiClient. Defaults to the API Client sending this request. */
+    apiClientId?: string | undefined;
+    /** Data to be added to statistics */
+    statistics?: ContentStatisticsDataEditable | undefined;
+    /** Optionally specify an additional id under which the supplied data should be tracked. This
+Id is only used internally and cannot be retrieved through API or export. */
+    externalEventTraceId?: string | undefined;
+}
+
+export interface ContentStatisticsDataEditable {
+    downloads?: ContentDownloadsEditable | undefined;
+}
+
+export interface ContentDownloadsEditable {
+    /** Total downloads of content (regardless of formats, single download of multiple formats is counted once) */
+    total: number;
+    /** Downloads of content through basic Share */
+    share: number;
+    /** Downloads of content through embed */
+    embed: number;
+}
+
 /** Request to update a template */
 export interface TemplateUpdateRequest {
     /** Language specific names. */
@@ -27955,6 +28335,8 @@ export interface UserReviewRequest {
     /** Indicates the requested review state of the user.
 If _true_ is specified, user will be transitioned into _reviewed_ state. _False_ will put the user back into _to be reviewed_ state. */
     reviewed: boolean;
+    /** If true, no email will be sent to inform the user that they were reviewed. */
+    suppressEmail: boolean;
 }
 
 /** Review many request */
@@ -27962,6 +28344,8 @@ export interface UserReviewManyRequest extends UserManyRequestBase {
     /** Indicates the requested review state of the user.
 If _true_ is specified, user will be transitioned into _reviewed_ state. _False_ will put the user back into _to be reviewed_ state. */
     reviewed: boolean;
+    /** If true, no email will be sent to inform the users that they were reviewed. */
+    suppressEmail?: boolean;
 }
 
 /** Request for inviting users (applies to users in states ToBeReviewed + Reviewed) */
@@ -28369,6 +28753,12 @@ export interface DownloadTrackingInfo {
 export enum ContentDisposition {
     Attachment = <any>"Attachment",
     Inline = <any>"Inline",
+}
+
+export interface ContentShareEvent extends ApplicationEvent {
+    shareId?: string | undefined;
+    shareType?: ShareType;
+    addedContentIds?: string[] | undefined;
 }
 
 export interface SessionRenewalEvent extends ApplicationEvent {
