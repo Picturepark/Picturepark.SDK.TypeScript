@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { from } from 'rxjs';
-import { bufferCount, concatAll, map, mergeMap, tap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { ContentResolveBehavior, ContentService, ShareDetail, ShareService } from '../services/api-services';
+import { flatArray } from '../utilities/array-functions';
+import { createArrayOfObservablesByChunks } from '../utilities/observable-functions';
 
 @Injectable({
   providedIn: 'root',
@@ -19,14 +21,14 @@ export class ShareFacade {
   }
 
   getContentRights(contentIds: string[]) {
-    return from(contentIds).pipe(
-      bufferCount(100),
-      mergeMap((contentIdsChunk) =>
-        this.contentService.getMany(contentIdsChunk, [ContentResolveBehavior.Permissions]).pipe(
-          map((response) => response.map((cupr) => cupr.contentRights)),
-          concatAll()
-        )
-      )
+    const getPermissionsObservables = createArrayOfObservablesByChunks(contentIds, 100, (chunk) =>
+      this.contentService.getMany(chunk, [ContentResolveBehavior.Permissions])
+    );
+
+    return forkJoin(getPermissionsObservables).pipe(
+      map((response) => flatArray(response).map((cupr) => cupr.contentRights)),
+      map(flatArray),
+      map((x) => Array.from(new Set(x)))
     );
   }
 }
