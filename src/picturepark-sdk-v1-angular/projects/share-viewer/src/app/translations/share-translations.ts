@@ -1,12 +1,9 @@
 export const shareTranslations = {
   Expired: {
     en: 'This share has expired and is no longer available. Please contact the person who sent you this link.',
-    de:
-      'Dieses Share ist abgelaufen und nicht mehr länger verfügbar. Bitte kontaktieren Sie die Person, welche Ihnen diesen Link geschickt hat.',
-    fr:
-      "Cette collection partagée a expiré et n'est plus disponible. Veuillez contacter la personne qui vous a envoyé ce lien s.v.p.",
-    es:
-      'Estos archivos compartidos han caducado y ya no están disponibles. Comuníquese con la persona que le envió este enlace.',
+    de: 'Dieses Share ist abgelaufen und nicht mehr länger verfügbar. Bitte kontaktieren Sie die Person, welche Ihnen diesen Link geschickt hat.',
+    fr: "Cette collection partagée a expiré et n'est plus disponible. Veuillez contacter la personne qui vous a envoyé ce lien s.v.p.",
+    es: 'Estos archivos compartidos han caducado y ya no están disponibles. Comuníquese con la persona que le envió este enlace.',
     pt: 'Esta partilha expirou e já não está disponível. Por favor contacte a pessoa que lhe enviou esta ligação.',
   },
   Consent: {

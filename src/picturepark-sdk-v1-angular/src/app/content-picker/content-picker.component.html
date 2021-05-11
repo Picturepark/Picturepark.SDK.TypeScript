@@ -31,7 +31,7 @@
   </mat-toolbar>
 
   <div class="content-picker-content">
-    <mat-sidenav-container style="width: 100%;">
+    <mat-sidenav-container style="width: 100%">
       <mat-sidenav
         #snav
         [mode]="deviceBreakpoint ? 'over' : 'side'"
@@ -40,10 +40,10 @@
         [fixedInViewport]="deviceBreakpoint ? false : true"
         fixedTopGap="64"
         [opened]="deviceBreakpoint ? false : true"
-        style="width: 375px;"
+        style="width: 375px"
       >
         <mat-toolbar-row *ngIf="deviceBreakpoint">
-          <pp-channel-picker style="width: 100%;" [channel]="selectedChannel" (channelChange)="changeChannel($event)">
+          <pp-channel-picker style="width: 100%" [channel]="selectedChannel" (channelChange)="changeChannel($event)">
           </pp-channel-picker>
         </mat-toolbar-row>
         <mat-toolbar-row *ngIf="deviceBreakpoint">
