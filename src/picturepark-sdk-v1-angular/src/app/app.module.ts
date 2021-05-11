@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import { BrowserModule, HammerGestureConfig, HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,6 +17,8 @@ import { HomeComponent } from './home/home.component';
 import { environment } from '../environments/environment';
 import { PictureparkAppSetting } from 'src/config';
 import { ApplicationMenuModule } from './components/application-menu/application-menu.module';
+
+import * as Hammer from 'hammerjs';
 
 const translations = TRANSLATIONS;
 translations['ShareManager'] = {
@@ -74,10 +76,22 @@ export function oidcConfigFactory() {
   };
 }
 
-export class HammerConfig extends HammerGestureConfig  {
+@Injectable()
+export class HammerConfig extends HammerGestureConfig {
+  // iOS Safari & Android Chrome inconsistencies
+  // https://github.com/hammerjs/hammer.js/issues/1166
   overrides = <any>{
-      'press': {time: 700},
-  }
+    press: { time: 700 },
+    pan: {
+      direction: Hammer.DIRECTION_ALL,
+      enable: true,
+      pointers: 0,
+    },
+  };
+
+  options = {
+    touchAction: 'auto',
+  };
 }
 
 @NgModule({
@@ -95,9 +109,11 @@ export class HammerConfig extends HammerGestureConfig  {
     LocaleModule.forRoot('system'),
   ],
   bootstrap: [AppComponent],
-  providers: [{
-    provide: HAMMER_GESTURE_CONFIG,
-    useClass: HammerConfig
-  }]
+  providers: [
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: HammerConfig,
+    },
+  ],
 })
 export class AppModule {}
