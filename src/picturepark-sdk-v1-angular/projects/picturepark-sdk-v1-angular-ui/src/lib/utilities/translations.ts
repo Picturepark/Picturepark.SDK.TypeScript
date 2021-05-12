@@ -637,14 +637,10 @@ export let TRANSLATIONS = {
     },
     SimpleOrSearchTooltip: {
       en: 'Results will contain matches for any term. Separate terms via a blank space, semicolon, or comma.',
-      de:
-        'Die Ergebnisse enthalten Übereinstimmungen für jeden Begriff. Trennen Sie Begriffe durch ein Leerzeichen, ein Semikolon oder ein Komma.',
-      fr:
-        "Les résultats contiendront des correspondances pour n'importe quel terme. Séparez les termes par un espace, un point-virgule ou une virgule.",
-      es:
-        'Los resultados contendrán coincidencias para cualquier término. Separe los términos mediante un espacio en blanco, un punto y coma o una coma.',
-      pt:
-        'Os resultados conterão correspondências para qualquer termo. Separe os termos com um espaço em branco, ponto e vírgula ou vírgula.',
+      de: 'Die Ergebnisse enthalten Übereinstimmungen für jeden Begriff. Trennen Sie Begriffe durch ein Leerzeichen, ein Semikolon oder ein Komma.',
+      fr: "Les résultats contiendront des correspondances pour n'importe quel terme. Séparez les termes par un espace, un point-virgule ou une virgule.",
+      es: 'Los resultados contendrán coincidencias para cualquier término. Separe los términos mediante un espacio en blanco, un punto y coma o una coma.',
+      pt: 'Os resultados conterão correspondências para qualquer termo. Separe os termos com um espaço em branco, ponto e vírgula ou vírgula.',
     },
     SimpleOrSearch: {
       en: 'OR',
@@ -655,14 +651,10 @@ export let TRANSLATIONS = {
     },
     SimpleAndSearchTooltip: {
       en: 'Results will contain matches for all terms. Separate terms via a blank space, semicolon, or comma.',
-      de:
-        'Die Ergebnisse enthalten Übereinstimmungen für alle Begriffe. Trennen Sie Begriffe durch ein Leerzeichen, ein Semikolon oder ein Komma.',
-      fr:
-        'Les résultats contiendront des correspondances pour tous les termes. Séparez les termes par un espace, un point-virgule ou une virgule.',
-      es:
-        'Los resultados contendrán coincidencias para todos los términos. Separe los términos mediante un espacio en blanco, un punto y coma o una coma.',
-      pt:
-        'Os resultados conterão correspondências para todos os termos. Separe os termos com um espaço em branco, ponto e vírgula ou vírgula.',
+      de: 'Die Ergebnisse enthalten Übereinstimmungen für alle Begriffe. Trennen Sie Begriffe durch ein Leerzeichen, ein Semikolon oder ein Komma.',
+      fr: 'Les résultats contiendront des correspondances pour tous les termes. Séparez les termes par un espace, un point-virgule ou une virgule.',
+      es: 'Los resultados contendrán coincidencias para todos los términos. Separe los términos mediante un espacio en blanco, un punto y coma o una coma.',
+      pt: 'Os resultados conterão correspondências para todos os termos. Separe os termos com um espaço em branco, ponto e vírgula ou vírgula.',
     },
     SimpleAndSearch: {
       en: 'AND',
@@ -672,16 +664,11 @@ export let TRANSLATIONS = {
       pt: 'E (AND)',
     },
     AdvancedSearchTooltip: {
-      en:
-        'Advanced syntax can be used like operands AND, OR, NOT, ~ for fuzziness or brackets for grouping of criteria. More examples in the Advanced Search Cheat Sheet in the manual.',
-      de:
-        'Erweiterte Syntax kann verwendet werden, wie die Operanden AND, OR, NOT, ~ für Fuzziness oder Klammern für die Gruppierung von Kriterien. Mehr Beispiele im Advanced Search Cheat Sheet im Manual',
-      fr:
-        "La syntaxe avancée peut être utilisée comme les opérandes AND, OR, NOT, ~ pour termes 'diffus',   ou les crochets pour le regroupement de critères. Plus d'exemples dans la feuille de triche de recherche avancée dans le manuel.",
-      es:
-        'La sintaxis avanzada se puede utilizar como operandos AND, OR, NOT, ~ para falta de claridad o corchetes para agrupar criterios. Más ejemplos en la hoja de referencia de búsqueda avanzada en el manual.',
-      pt:
-        'A sintaxe avançada pode ser usada como operandos AND, OR, NOT, ~ para imprecisão ou colchetes para agrupamento de critérios. Mais exemplos na Folha de Dicas de Pesquisa Avançada no manual.',
+      en: 'Advanced syntax can be used like operands AND, OR, NOT, ~ for fuzziness or brackets for grouping of criteria. More examples in the Advanced Search Cheat Sheet in the manual.',
+      de: 'Erweiterte Syntax kann verwendet werden, wie die Operanden AND, OR, NOT, ~ für Fuzziness oder Klammern für die Gruppierung von Kriterien. Mehr Beispiele im Advanced Search Cheat Sheet im Manual',
+      fr: "La syntaxe avancée peut être utilisée comme les opérandes AND, OR, NOT, ~ pour termes 'diffus',   ou les crochets pour le regroupement de critères. Plus d'exemples dans la feuille de triche de recherche avancée dans le manuel.",
+      es: 'La sintaxis avanzada se puede utilizar como operandos AND, OR, NOT, ~ para falta de claridad o corchetes para agrupar criterios. Más ejemplos en la hoja de referencia de búsqueda avanzada en el manual.',
+      pt: 'A sintaxe avançada pode ser usada como operandos AND, OR, NOT, ~ para imprecisão ou colchetes para agrupamento de critérios. Mais exemplos na Folha de Dicas de Pesquisa Avançada no manual.',
     },
     AdvancedSearch: {
       en: 'Advanced',

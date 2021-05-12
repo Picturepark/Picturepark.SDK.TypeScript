@@ -15,8 +15,6 @@ export class UserInteractionDirective {
   @Output() ppPress: EventEmitter<any> = new EventEmitter();
 
   eventQueue: (MouseEvent | TouchEvent)[] = [];
-  shouldCancelSelection = false;
-
   pressTimer: number | null;
 
   resetEventQueue() {
@@ -96,7 +94,6 @@ export class UserInteractionDirective {
     }
 
     this.ppPress.emit(event);
-    this.shouldCancelSelection = true;
   }
 
   @HostListener('contextmenu', ['$event'])
@@ -119,14 +116,6 @@ export class UserInteractionDirective {
     // This condition is needed to make sure that the pan gesture is not confused with a long press
     if (this.pressTimer) {
       clearTimeout(this.pressTimer);
-    }
-  }
-
-  @HostListener('document:selectionchange')
-  onSelectionchange() {
-    if (this.shouldCancelSelection) {
-      window.getSelection()?.removeAllRanges();
-      window.getSelection()?.empty();
     }
   }
 }
