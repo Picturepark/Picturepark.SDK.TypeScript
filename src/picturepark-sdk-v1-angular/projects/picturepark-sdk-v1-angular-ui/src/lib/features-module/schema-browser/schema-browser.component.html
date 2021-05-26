@@ -6,7 +6,7 @@
       [selectionEnabled]="false"
     ></pp-browser-toolbar>
   </div>
-  <div *ngIf="(totalResults$ | async) !== 0" class="browser__items" cdkScrollable>
+  <div *ngIf="(totalResults$ | async) !== 0" class="browser__items cp-scrollbar" cdkScrollable>
     <div class="browser__item-container" *ngFor="let schema of items; trackBy: trackByItem">
       <pp-schema-browser-item
         [schema]="schema"

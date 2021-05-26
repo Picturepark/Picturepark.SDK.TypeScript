@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>BusinessRuleService | @picturepark/sdk-v1-angular API</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for @picturepark/sdk-v1-angular API">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -101,8 +101,10 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="businessruleservice.html#getbaseurl" class="tsd-kind-icon">get<wbr>Base<wbr>Url</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="businessruleservice.html#getconfiguration" class="tsd-kind-icon">get<wbr>Configuration</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external"><a href="businessruleservice.html#processgetconfiguration" class="tsd-kind-icon">process<wbr>Get<wbr>Configuration</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external"><a href="businessruleservice.html#processrunschedule" class="tsd-kind-icon">process<wbr>Run<wbr>Schedule</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external"><a href="businessruleservice.html#processsearchtraces" class="tsd-kind-icon">process<wbr>Search<wbr>Traces</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external"><a href="businessruleservice.html#processupdateconfiguration" class="tsd-kind-icon">process<wbr>Update<wbr>Configuration</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="businessruleservice.html#runschedule" class="tsd-kind-icon">run<wbr>Schedule</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="businessruleservice.html#searchtraces" class="tsd-kind-icon">search<wbr>Traces</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="businessruleservice.html#transformoptions" class="tsd-kind-icon">transform<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="businessruleservice.html#updateconfiguration" class="tsd-kind-icon">update<wbr>Configuration</a></li>
@@ -124,7 +126,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="pictureparkservicebase.html">PictureparkServiceBase</a>.<a href="pictureparkservicebase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1046">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1046</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1452">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1452</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -149,10 +151,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-external">
 					<a name="jsonparsereviver" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> json<wbr>Parse<wbr>Reviver</h3>
-					<div class="tsd-signature tsd-kind-icon">json<wbr>Parse<wbr>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> =&nbsp;undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">json<wbr>Parse<wbr>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> = undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1046">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1046</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1452">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1452</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -170,7 +172,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="pictureparkservicebase.html">PictureparkServiceBase</a>.<a href="pictureparkservicebase.html#getbaseurl">getBaseUrl</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/base.service.ts#L9">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/base.service.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/base.service.ts#L9">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/base.service.ts:9</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -193,7 +195,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1058">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1058</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1464">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1464</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -216,7 +218,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1086">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1086</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1492">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1492</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -230,6 +232,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
+					<a name="processrunschedule" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> process<wbr>Run<wbr>Schedule</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Run<wbr>Schedule<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HttpResponseBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1811">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1811</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>response: <span class="tsd-signature-type">HttpResponseBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
 					<a name="processsearchtraces" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> process<wbr>Search<wbr>Traces</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
@@ -239,7 +264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1284">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1284</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1704">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1704</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -262,7 +287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1185">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1185</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1598">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1598</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -276,6 +301,39 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+					<a name="runschedule" class="tsd-anchor"></a>
+					<h3>run<wbr>Schedule</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">run<wbr>Schedule<span class="tsd-signature-symbol">(</span>schedule<span class="tsd-signature-symbol">: </span><a href="businessruleschedule.html" class="tsd-signature-type">BusinessRuleSchedule</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1779">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1779</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Runs the supplied business rule schedule immediately.
+									Allows for testing of schedules.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>schedule: <a href="businessruleschedule.html" class="tsd-signature-type">BusinessRuleSchedule</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>BusinessRuleSchedule</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Observable</span><span class="tsd-signature-symbol">&lt;</span><a href="businessprocess.html" class="tsd-signature-type">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>BusinessProcess of the metadata operation triggered by the schedule.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
 					<a name="searchtraces" class="tsd-anchor"></a>
 					<h3>search<wbr>Traces</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
@@ -285,7 +343,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1252">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1252</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1672">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1672</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -318,7 +376,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="pictureparkservicebase.html">PictureparkServiceBase</a>.<a href="pictureparkservicebase.html#transformoptions">transformOptions</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/base.service.ts#L13">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/base.service.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/base.service.ts#L13">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/base.service.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -341,7 +399,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/cdc1302fd/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1153">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1153</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/695a2a535/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L1566">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:1566</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -396,10 +454,16 @@
 								<a href="businessruleservice.html#processgetconfiguration" class="tsd-kind-icon">process<wbr>Get<wbr>Configuration</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
+								<a href="businessruleservice.html#processrunschedule" class="tsd-kind-icon">process<wbr>Run<wbr>Schedule</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
 								<a href="businessruleservice.html#processsearchtraces" class="tsd-kind-icon">process<wbr>Search<wbr>Traces</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
 								<a href="businessruleservice.html#processupdateconfiguration" class="tsd-kind-icon">process<wbr>Update<wbr>Configuration</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
+								<a href="businessruleservice.html#runschedule" class="tsd-kind-icon">run<wbr>Schedule</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
 								<a href="businessruleservice.html#searchtraces" class="tsd-kind-icon">search<wbr>Traces</a>
@@ -423,59 +487,6 @@
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
 		</div>
 	</div>
 </footer>
@@ -484,6 +495,5 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

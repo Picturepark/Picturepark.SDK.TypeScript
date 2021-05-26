@@ -11,7 +11,7 @@
       </ng-container>
     </pp-browser-toolbar>
   </div>
-  <div class="table-container" *ngIf="(totalResults$ | async) !== 0" cdkScrollable>
+  <div class="table-container cp-scrollbar" *ngIf="(totalResults$ | async) !== 0" cdkScrollable>
     <table
       mat-table
       class="list-table"
@@ -52,7 +52,10 @@
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
-        (click)="toggle($event, row)"
+        ppUserInteraction
+        (ppPress)="onPress($event, row)"
+        (ppTouch)="toggle($event, row)"
+        (ppClick)="toggle($event, row)"
         [ngClass]="{ selected: isRowSelected(row) }"
       ></tr>
     </table>

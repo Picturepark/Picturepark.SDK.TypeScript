@@ -76,7 +76,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     private dialogService: DialogService,
     private downloadFacade: DownloadFacade
   ) {
-    super(data, dialogRef, injector);
+    super(dialogRef, injector);
   }
 
   async getSelection(outputs: IContentDownloadOutput[], contents: IContentDownload[]) {

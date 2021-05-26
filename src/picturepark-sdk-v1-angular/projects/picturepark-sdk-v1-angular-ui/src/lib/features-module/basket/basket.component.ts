@@ -45,13 +45,13 @@ export class BasketComponent extends BaseComponent implements OnInit {
   public downloadItems(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: this.basketItems,
+      contents: [...this.basketItems],
     });
   }
 
   public openShareContentDialog(): void {
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-      data: this.basketItems,
+      data: [...this.basketItems],
       autoFocus: false,
       maxHeight: '95vh',
       maxWidth: '99vw',

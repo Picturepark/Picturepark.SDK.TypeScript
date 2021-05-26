@@ -13,6 +13,6 @@ export class ConfirmDialogComponent extends DialogBaseComponent {
     @Inject(MAT_DIALOG_DATA) public options: ConfirmOptions,
     injector: Injector
   ) {
-    super(options, dialogRef, injector);
+    super(dialogRef, injector);
   }
 }

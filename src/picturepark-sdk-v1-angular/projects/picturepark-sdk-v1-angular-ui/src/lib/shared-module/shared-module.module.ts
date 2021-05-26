@@ -26,22 +26,24 @@ import { HammerGestureConfig, HAMMER_GESTURE_CONFIG, HammerModule } from '@angul
 import { ContentItemThumbnailComponent } from './components/content-item-thumbnail/content-item-thumbnail.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
-import 'hammerjs';
 import { AggregationItemTranslatePipe } from './pipes/aggregation-item-translate';
-import { MobileTouchDirective } from './directives/mobile-touch.directive';
+import { UserInteractionDirective } from './directives/user-interaction.directive';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
+  // iOS Safari & Android Chrome inconsistencies
+  // https://github.com/hammerjs/hammer.js/issues/1166
   overrides = <any>{
+    press: { time: 700 },
     pan: {
-      direction: 6,
+      direction: 30,
+      enable: true,
+      pointers: 0,
     },
-    pinch: {
-      enable: false,
-    },
-    rotate: {
-      enable: false,
-    },
+  };
+
+  options = {
+    touchAction: 'auto',
   };
 }
 
@@ -60,7 +62,7 @@ export class HammerConfig extends HammerGestureConfig {
     LazyLoadDirective,
     HighlightPipe,
     AggregationItemTranslatePipe,
-    MobileTouchDirective,
+    UserInteractionDirective,
   ],
   imports: [CommonModule, MaterialsModule, ReactiveFormsModule, HammerModule],
   exports: [
@@ -81,7 +83,7 @@ export class HammerConfig extends HammerGestureConfig {
     LazyLoadDirective,
     HighlightPipe,
     AggregationItemTranslatePipe,
-    MobileTouchDirective,
+    UserInteractionDirective,
   ],
 })
 export class SharedModule {

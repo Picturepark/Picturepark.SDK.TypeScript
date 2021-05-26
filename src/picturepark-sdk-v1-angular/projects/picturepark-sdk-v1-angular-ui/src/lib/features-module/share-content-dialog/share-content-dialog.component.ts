@@ -12,7 +12,6 @@ import {
   Injector,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 
 // MD5 HASH
@@ -35,6 +34,8 @@ import {
   Content,
   BusinessProcessService,
   LanguageService,
+  ShareFacade,
+  ContentRight,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -45,6 +46,8 @@ import { ConfirmRecipients } from './interfaces/confirm-recipients.interface';
 
 // PIPES
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'pp-share-content-dialog',
@@ -56,29 +59,16 @@ import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
   providers: [TranslatePipe],
 })
 export class ShareContentDialogComponent extends DialogBaseComponent implements AfterViewInit, OnInit, OnDestroy {
-  @ViewChild('contentContainer', { static: true }) contentContainer: ElementRef;
-  @ViewChild('loaderContainer', { static: true }) loaderContainer: ElementRef;
+  @ViewChild('contentContainer') contentContainer: ElementRef;
+  @ViewChild('loaderContainer') loaderContainer: ElementRef;
 
-  // SUBSCRIBERS
-  contentItemSelectionSubscription: Subscription;
-  downloadThumbnailSubscription: Subscription;
+  @Output() previewItemChange = new EventEmitter<string>();
 
   selectedContent: Content[] = [];
-  sharedContentForm: FormGroup;
-
+  sharedContentForm$ = new BehaviorSubject<FormGroup | undefined>(undefined);
   loader = false;
   spinnerLoader = true;
-
-  notificationMessage = '';
-  notificationStatus = false;
-  notificationType = 'success';
-  notificationDisplayTime = 10000;
-
   recipients: ConfirmRecipients[] = [];
-
-  @Output()
-  public previewItemChange = new EventEmitter<string>();
-
   languageFormControl: FormControl;
 
   constructor(
@@ -91,27 +81,13 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     private translatePipe: TranslatePipe,
     private renderer: Renderer2,
     private businessProcessService: BusinessProcessService,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    private shareFacade: ShareFacade
   ) {
-    super(data, dialogRef, injector);
-
-    this.selectedContent = data;
-
-    this.languageFormControl = new FormControl(
-      this.languageService.shareLanguages.find((lang) => lang.ietf === this.languageService.currentLanguage.ietf)
-        ?.ietf ?? this.languageService.shareLanguages[0].ietf,
-      [Validators.required]
-    );
-    this.sharedContentForm = this.formBuilder.group({
-      share_name: new FormControl('', [Validators.required]),
-      recipientSearch: new FormControl(''),
-      recipients: new FormArray([], [Validators.required]),
-      expire_date: new FormControl(''),
-      language: this.languageFormControl,
-    });
+    super(dialogRef, injector);
   }
 
-  public removeContent(event: Content): void {
+  removeContent(event: Content) {
     this.selectedContent.forEach((item, index) => {
       if (event.id === item.id) {
         this.selectedContent.splice(index, 1);
@@ -126,11 +102,11 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     }
   }
 
-  public previewItem(itemId: string): void {
+  previewItem(itemId: string) {
     this.previewItemChange.emit(itemId);
   }
 
-  public copyToClipboard(recipienturl: string): void {
+  copyToClipboard(recipienturl: string) {
     const copyBox = document.createElement('textarea');
     copyBox.value = recipienturl;
     document.body.appendChild(copyBox);
@@ -139,17 +115,23 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   }
 
   // CREATE NEW SHARED CONTENT
-  async newSharedContent(contentItems: ShareContent[], recipientsEmails: IUserEmail[]): Promise<void> {
+  private async newSharedContent(contentItems: ShareContent[], recipientsEmails: IUserEmail[]) {
     try {
+      const form = this.sharedContentForm$.value;
+      if (!form) {
+        return;
+      }
+      const expDate = new Date(form.get('expire_date')?.value);
       const response = await this.shareService
         .create(
           new ShareBasicCreateRequest({
-            name: this.sharedContentForm.get('share_name')!.value,
+            name: form.get('share_name')!.value,
             recipientEmails: recipientsEmails,
             contents: contentItems,
-            outputAccess: OutputAccess.Full,
-            languageCode: this.sharedContentForm.get('language')?.value ?? this.languageService.currentLanguage.ietf,
+            outputAccess: !!form.get('accessOriginal')?.value ? OutputAccess.Full : OutputAccess.Preview,
+            languageCode: form.get('language')?.value ?? this.languageService.currentLanguage.ietf,
             suppressNotifications: false,
+            expirationDate: isNaN(expDate.getTime()) ? undefined : expDate,
           })
         )
         .toPromise();
@@ -179,33 +161,24 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       this.renderer.setStyle(this.loaderContainer.nativeElement, 'height', `${containerHeight}px`);
 
       this.loader = false;
-
-      setTimeout(() => {
-        // SET NOTIFICATION PROPERTIES
-        this.notificationMessage = `#${response.referenceId} ${this.translatePipe.transform(
-          'ShareContentDialog.SuccessNotification'
-        )}`;
-        this.notificationType = 'success';
-        this.notificationStatus = true;
-        this.notificationDisplayTime = 10000;
-      }, 200);
     } catch (err) {
       this.loader = false;
+      const error = {
+        message: err.exceptionMessage || this.translatePipe.transform('ShareContentDialog.ErrorNotification')!,
+        type: 'error',
+        status: true,
+        displayTime: -1,
+      };
 
-      setTimeout(() => {
-        // SET ERROR NOTIFICATION PROPERTIES
-        this.notificationMessage =
-          err.exceptionMessage || this.translatePipe.transform('ShareContentDialog.ErrorNotification')!;
-        this.notificationType = 'error';
-        this.notificationStatus = true;
-        this.notificationDisplayTime = 10000;
-      }, 200);
+      this.notificationService.sendNotification(error);
     }
   }
 
   // SHARE CONTENT SUBMIT BUTTON ACTION
-  public onFormSubmit(): void {
-    if (this.sharedContentForm.valid) {
+  onFormSubmit() {
+    this.notificationService.clearNotification();
+
+    if (this.sharedContentForm$.value && this.sharedContentForm$.value.valid) {
       this.loader = true;
 
       // CONTENT ITEMS
@@ -218,7 +191,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       );
 
       // RECIPIENTS EMAILS
-      const recipientsEmails = this.sharedContentForm.get('recipients')!.value.map((recipientEmail) => {
+      const recipientsEmails = this.sharedContentForm$.value.get('recipients')!.value.map((recipientEmail) => {
         return { emailAddress: recipientEmail };
       });
 
@@ -228,9 +201,15 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   }
 
   // SET PREFILL SUBJECT
-  public setPrefillSubject(selectedContent: Content[]): void {
-    // REMOVE SHARE NAME FORM FIELD VALUE
-    this.sharedContentForm.get('share_name')!.setValue('');
+  private setPrefillSubject(selectedContent: Content[]) {
+    // REMOVE SHARE NAME FROM FIELD VALUE
+    const form = this.sharedContentForm$.value;
+    if (!form) {
+      return;
+    }
+
+    form.get('share_name')!.setValue('');
+    this.sharedContentForm$.next(form);
 
     // SHOW SHARE NAME LOADER
     this.spinnerLoader = true;
@@ -264,12 +243,39 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
           this.spinnerLoader = false;
 
           // SET SHARE NAME FORM FIELD VALUE
-          this.sharedContentForm.get('share_name')!.setValue(shareName);
+          form.get('share_name')!.setValue(shareName);
+          this.sharedContentForm$.next(form);
         }, 200);
       });
   }
 
   ngAfterViewInit() {
-    this.setPrefillSubject(this.selectedContent);
+    this.notificationService.clearNotification();
+    this.selectedContent = [...this.data];
+    this.languageFormControl = new FormControl(
+      this.languageService.shareLanguages.find((lang) => lang.ietf === this.languageService.currentLanguage.ietf)
+        ?.ietf ?? this.languageService.shareLanguages[0].ietf,
+      [Validators.required]
+    );
+
+    this.sub = this.hasAccessOriginalRights().subscribe((accessOriginal) => {
+      this.sharedContentForm$.next(
+        this.formBuilder.group({
+          share_name: new FormControl('', [Validators.required]),
+          recipientSearch: new FormControl(''),
+          recipients: new FormArray([], [Validators.required]),
+          expire_date: new FormControl(''),
+          language: this.languageFormControl,
+          accessOriginal: new FormControl({ value: accessOriginal, disabled: !accessOriginal }),
+        })
+      );
+      this.setPrefillSubject(this.selectedContent);
+    });
+  }
+
+  private hasAccessOriginalRights() {
+    return this.shareFacade
+      .getContentRights(this.selectedContent.map((c) => c.id))
+      .pipe(map((cr) => cr?.some((i) => i === ContentRight.AccessOriginal) ?? false));
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 // INTERFACES
 import { Notification } from '../../../features-module/notification/interfaces/notification.interface';
@@ -7,25 +7,21 @@ import { Notification } from '../../../features-module/notification/interfaces/n
 @Injectable()
 export class NotificationService {
   // NOTIFICATION BEHAVIOR SUBJECT DEFINITION
-  notificationStore: Notification;
-  notification: Observable<Notification>;
-  _notification: BehaviorSubject<Notification>;
+  private readonly notificationStore: Notification = {
+    message: '',
+    displayTime: 0,
+    status: false,
+    type: 'success',
+  };
 
-  constructor() {
-    // NOTIFICATION BEHAVIOR SUBJECT INITIALIZATION
-    this.notificationStore = {
-      message: '',
-      displayTime: 0,
-      status: false,
-      type: 'success',
-    };
-
-    this._notification = new BehaviorSubject(this.notificationStore);
-    this.notification = this._notification.asObservable();
-  }
+  notification$ = new BehaviorSubject<Notification>(this.notificationStore);
 
   // SEND NOTIFICATION
-  sendNotification(notification: Notification): void {
-    this._notification.next(notification);
+  sendNotification(notification: Notification) {
+    this.notification$.next(notification);
+  }
+
+  clearNotification() {
+    this.notification$.next(this.notificationStore);
   }
 }

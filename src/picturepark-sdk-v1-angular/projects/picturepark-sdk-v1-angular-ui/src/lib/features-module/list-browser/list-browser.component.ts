@@ -176,6 +176,13 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     }
   }
 
+  public onPress(event: MouseEvent, row: any, presist = false) {
+    if (this.enableSelection) {
+      const index = this.items.findIndex((item) => item.id === row._refId);
+      this.itemPressed(event, index);
+    }
+  }
+
   /** The label for the checkbox on the passed row */
   public checkboxLabel(row?: any): string {
     if (!row) {

@@ -94,6 +94,12 @@ export class BusinessProcessClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -173,6 +179,12 @@ export class BusinessProcessClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -258,6 +270,12 @@ export class BusinessProcessClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -338,6 +356,12 @@ export class BusinessProcessClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -412,6 +436,12 @@ export class BusinessProcessClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -498,6 +528,12 @@ export class BusinessProcessClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -582,6 +618,12 @@ export class BusinessProcessClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -670,6 +712,12 @@ export class BusinessProcessClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -708,6 +756,7 @@ export class BusinessProcessClient extends PictureparkClientBase {
      * Get details
      * @param id The business process id.
      * @return BusinessProcessDetails
+     * @deprecated
      */
     getDetails(id: string | null): Promise<BusinessProcessDetails> {
         let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/details";
@@ -749,6 +798,12 @@ export class BusinessProcessClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -781,6 +836,281 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<BusinessProcessDetails>(<any>null);
+    }
+
+    /**
+     * Returns a summary of the business process.
+    Depending on the type of the business process, this can be not available at all or contain just a minimal set of information.
+    If business process produces a batch based response, page over successful and failed items using respective endpoints.
+     * @param id Business process id.
+     * @return BusinessProcessSummaryBaseViewItem
+     */
+    getSummary(id: string | null): Promise<BusinessProcessSummaryBase> {
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/summary";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetSummary(_response);
+        });
+    }
+
+    protected processGetSummary(response: Response): Promise<BusinessProcessSummaryBase> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcessSummaryBase>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcessSummaryBase>(<any>null);
+    }
+
+    /**
+     * Gets a page of successful items of a batch based business process.
+    Use the page token to fetch next page.
+     * @param id Business process id.
+     * @param limit Number of items to fetch.
+     * @param pageToken (optional) PageToken for paging.
+     * @return BusinessProcessBatchViewItem
+     */
+    getSuccessfulItems(id: string | null, limit: number, pageToken?: string | null | undefined): Promise<BusinessProcessBatch> {
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/items/successful?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (limit === undefined || limit === null)
+            throw new Error("The parameter 'limit' must be defined and cannot be null.");
+        else
+            url_ += "limit=" + encodeURIComponent("" + limit) + "&";
+        if (pageToken !== undefined && pageToken !== null)
+            url_ += "pageToken=" + encodeURIComponent("" + pageToken) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetSuccessfulItems(_response);
+        });
+    }
+
+    protected processGetSuccessfulItems(response: Response): Promise<BusinessProcessBatch> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcessBatch>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcessBatch>(<any>null);
+    }
+
+    /**
+     * Gets a page of failed items of a batch based business process.
+    Use the page token to fetch next page.
+     * @param id Business process id.
+     * @param limit Number of items to fetch.
+     * @param pageToken (optional) PageToken for paging.
+     * @return BusinessProcessBatchViewItem
+     */
+    getFailedItems(id: string | null, limit: number, pageToken?: string | null | undefined): Promise<BusinessProcessBatch> {
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/items/failed?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (limit === undefined || limit === null)
+            throw new Error("The parameter 'limit' must be defined and cannot be null.");
+        else
+            url_ += "limit=" + encodeURIComponent("" + limit) + "&";
+        if (pageToken !== undefined && pageToken !== null)
+            url_ += "pageToken=" + encodeURIComponent("" + pageToken) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetFailedItems(_response);
+        });
+    }
+
+    protected processGetFailedItems(response: Response): Promise<BusinessProcessBatch> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcessBatch>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcessBatch>(<any>null);
     }
 
     /**
@@ -828,6 +1158,12 @@ export class BusinessProcessClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -916,6 +1252,12 @@ export class BusinessRuleClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -995,6 +1337,12 @@ export class BusinessRuleClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -1076,6 +1424,12 @@ export class BusinessRuleClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -1156,6 +1510,12 @@ export class BusinessRuleClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -1244,6 +1604,12 @@ export class ChannelClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -1324,6 +1690,12 @@ export class ChannelClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -1402,6 +1774,12 @@ export class ChannelClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -1487,6 +1865,12 @@ export class ChannelClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -1563,6 +1947,12 @@ export class ChannelClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -1637,6 +2027,12 @@ export class ChannelClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -1713,6 +2109,12 @@ export class ChannelClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -1787,6 +2189,12 @@ export class ChannelClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -1879,6 +2287,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -1963,6 +2377,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -2037,6 +2457,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -2118,6 +2544,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -2195,6 +2627,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -2276,6 +2714,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -2354,6 +2798,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -2435,6 +2885,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -2514,6 +2970,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -2595,6 +3057,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -2670,6 +3138,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -2748,6 +3222,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -2828,6 +3308,12 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -2923,6 +3409,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -3014,6 +3506,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -3097,6 +3595,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -3193,6 +3697,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -3301,6 +3811,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -3383,6 +3899,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -3486,6 +4008,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -3583,6 +4111,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -3673,6 +4207,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -3765,6 +4305,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -3848,6 +4394,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -3933,6 +4485,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -4011,6 +4569,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -4092,6 +4656,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -4170,6 +4740,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -4251,6 +4827,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -4330,6 +4912,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -4411,6 +4999,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -4490,6 +5084,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -4571,6 +5171,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -4650,6 +5256,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -4731,6 +5343,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -4810,6 +5428,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -4891,6 +5515,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -4970,6 +5600,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -5051,6 +5687,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -5124,6 +5766,12 @@ export class ContentClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -5211,6 +5859,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -5291,6 +5945,12 @@ export class ContentClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -5323,6 +5983,271 @@ export class ContentClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<ObjectAggregationResult>(<any>null);
+    }
+
+    /**
+     * Get historic versions
+     * @param id Content ID.
+     * @param request Request allowing for paging
+     * @return Historic versions
+     */
+    getVersions(id: string | null, request: HistoricVersionSearchRequest): Promise<HistoricVersionSearchResult> {
+        let url_ = this.baseUrl + "/v1/Contents/{id}/versions";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetVersions(_response);
+        });
+    }
+
+    protected processGetVersions(response: Response): Promise<HistoricVersionSearchResult> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <HistoricVersionSearchResult>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<HistoricVersionSearchResult>(<any>null);
+    }
+
+    /**
+     * Get historic version download link
+     * @param id Content ID.
+     * @param versionId Version ID.
+     * @return Download token to be used with download/{token} endpoint
+     */
+    createVersionDownloadLink(id: string | null, versionId: number): Promise<string> {
+        let url_ = this.baseUrl + "/v1/Contents/{id}/versions/{versionId}/file";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (versionId === undefined || versionId === null)
+            throw new Error("The parameter 'versionId' must be defined.");
+        url_ = url_.replace("{versionId}", encodeURIComponent("" + versionId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCreateVersionDownloadLink(_response);
+        });
+    }
+
+    protected processCreateVersionDownloadLink(response: Response): Promise<string> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <string>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string>(<any>null);
+    }
+
+    /**
+     * Delete historic version
+     * @param id Content ID.
+     * @param versionId Version ID.
+     * @return OK
+     */
+    deleteVersion(id: string | null, versionId: number): Promise<void> {
+        let url_ = this.baseUrl + "/v1/Contents/{id}/versions/{versionId}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (versionId === undefined || versionId === null)
+            throw new Error("The parameter 'versionId' must be defined.");
+        url_ = url_.replace("{versionId}", encodeURIComponent("" + versionId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "DELETE",
+            headers: {
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processDeleteVersion(_response);
+        });
+    }
+
+    protected processDeleteVersion(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
     }
 }
 
@@ -5377,6 +6302,12 @@ export class DisplayValueClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -5452,6 +6383,12 @@ export class DisplayValueClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -5548,6 +6485,12 @@ export class DocumentHistoryClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -5634,6 +6577,12 @@ export class DocumentHistoryClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -5722,6 +6671,12 @@ export class DocumentHistoryClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -5815,6 +6770,12 @@ export class DocumentHistoryClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -5894,6 +6855,12 @@ export class DocumentHistoryClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -5982,6 +6949,12 @@ export class IdentityProviderClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -6056,6 +7029,12 @@ export class IdentityProviderClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -6135,6 +7114,12 @@ export class IdentityProviderClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -6220,6 +7205,12 @@ export class IdentityProviderClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -6294,6 +7285,12 @@ export class IdentityProviderClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -6508,6 +7505,12 @@ export class JsonSchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -6607,6 +7610,12 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -6710,6 +7719,12 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -6800,6 +7815,12 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -6892,6 +7913,12 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -6975,6 +8002,12 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -7074,6 +8107,12 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -7155,6 +8194,12 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -7234,6 +8279,12 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -7315,6 +8366,12 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -7394,6 +8451,12 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -7475,6 +8538,12 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -7554,6 +8623,12 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -7635,6 +8710,12 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -7714,6 +8795,12 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -7795,6 +8882,12 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -7875,6 +8968,12 @@ export class ListItemClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -7954,6 +9053,12 @@ export class ListItemClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -8047,6 +9152,12 @@ export class LiveStreamClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -8134,6 +9245,12 @@ export class MetadataClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -8208,6 +9325,12 @@ export class MetadataClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -8300,6 +9423,12 @@ export class NotificationClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -8378,6 +9507,12 @@ export class NotificationClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -8459,6 +9594,12 @@ export class NotificationClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -8539,6 +9680,12 @@ export class NotificationClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -8609,6 +9756,12 @@ export class NotificationClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -8684,6 +9837,12 @@ export class NotificationClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -8765,6 +9924,12 @@ export class NotificationClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -8839,6 +10004,12 @@ export class NotificationClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -8939,6 +10110,12 @@ export class OutputFormatClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -9018,6 +10195,12 @@ export class OutputFormatClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -9103,6 +10286,12 @@ export class OutputFormatClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -9183,6 +10372,12 @@ export class OutputFormatClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -9261,6 +10456,12 @@ export class OutputFormatClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -9349,6 +10550,12 @@ export class OutputFormatClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -9429,6 +10636,12 @@ export class OutputFormatClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -9507,6 +10720,12 @@ export class OutputFormatClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -9592,6 +10811,12 @@ export class OutputFormatClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -9670,6 +10895,12 @@ export class OutputFormatClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -9751,6 +10982,12 @@ export class OutputFormatClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -9831,6 +11068,12 @@ export class OutputFormatClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -9910,6 +11153,12 @@ export class OutputFormatClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -10002,6 +11251,12 @@ export class OutputClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -10082,6 +11337,12 @@ export class OutputClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -10161,6 +11422,12 @@ export class OutputClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -10249,6 +11516,12 @@ export class ProfileClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -10329,6 +11602,12 @@ export class ProfileClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -10400,6 +11679,12 @@ export class ProfileClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -10492,6 +11777,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -10576,6 +11867,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -10650,6 +11947,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -10731,6 +12034,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -10808,6 +12117,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -10889,6 +12204,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -10967,6 +12288,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -11048,6 +12375,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -11127,6 +12460,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -11208,6 +12547,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -11283,6 +12628,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -11361,6 +12712,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -11441,6 +12798,12 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -11533,6 +12896,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -11621,6 +12990,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -11704,6 +13079,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -11782,6 +13163,12 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -11866,6 +13253,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -11944,6 +13337,12 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -12030,6 +13429,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -12114,6 +13519,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -12191,6 +13602,12 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -12272,6 +13689,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -12352,6 +13775,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -12429,6 +13858,12 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -12510,6 +13945,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -12590,6 +14031,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -12669,6 +14116,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -12746,6 +14199,12 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -12826,6 +14285,12 @@ export class SchemaClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -12903,6 +14368,12 @@ export class SchemaClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -12995,6 +14466,12 @@ export class SchemaTransferClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -13096,6 +14573,12 @@ export class ShareClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -13186,6 +14669,12 @@ export class ShareClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -13265,6 +14754,12 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -13368,6 +14863,12 @@ export class ShareClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -13467,6 +14968,12 @@ export class ShareClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -13550,6 +15057,12 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -13638,6 +15151,12 @@ export class ShareClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -13717,6 +15236,12 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -13798,6 +15323,12 @@ export class ShareClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -13877,6 +15408,12 @@ export class ShareClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -13958,6 +15495,12 @@ export class ShareClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -14038,6 +15581,12 @@ export class ShareClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -14070,6 +15619,275 @@ export class ShareClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<ShareSearchResult>(<any>null);
+    }
+}
+
+export class StatisticClient extends PictureparkClientBase {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(configuration: AuthClient, baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super(configuration);
+        this.http = http ? http : <any>window;
+        this.baseUrl = this.getBaseUrl("", baseUrl);
+    }
+
+    /**
+     * Export content statistics statistic
+     * @param request Request
+     * @return Business process
+     */
+    exportContentStatistics(request: ExportContentStatisticsRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Statistics/contents/export";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processExportContentStatistics(_response);
+        });
+    }
+
+    protected processExportContentStatistics(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Resolve an actual Url to download exported file from referenceId found on completed BusinessProcess.
+     * @param referenceId Reference id
+     * @return Download link information
+     */
+    resolveDownloadLink(referenceId: string | null): Promise<DownloadLink> {
+        let url_ = this.baseUrl + "/v1/Statistics/downloadLink/{referenceId}";
+        if (referenceId === undefined || referenceId === null)
+            throw new Error("The parameter 'referenceId' must be defined.");
+        url_ = url_.replace("{referenceId}", encodeURIComponent("" + referenceId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processResolveDownloadLink(_response);
+        });
+    }
+
+    protected processResolveDownloadLink(response: Response): Promise<DownloadLink> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <DownloadLink>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<DownloadLink>(<any>null);
+    }
+
+    /**
+     * Add content events statistic
+     * @param request Request
+     * @return Business process
+     */
+    addContentEvents(request: AddContentEventsRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Statistics/contents/events";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processAddContentEvents(_response);
+        });
+    }
+
+    protected processAddContentEvents(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 }
 
@@ -14128,6 +15946,12 @@ export class TemplateClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -14213,6 +16037,12 @@ export class TemplateClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -14287,6 +16117,12 @@ export class TemplateClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -14368,6 +16204,12 @@ export class TemplateClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -14442,6 +16284,12 @@ export class TemplateClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -14535,6 +16383,12 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -14614,6 +16468,12 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -14689,6 +16549,12 @@ export class TransferClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -14774,6 +16640,12 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -14858,6 +16730,12 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -14933,6 +16811,12 @@ export class TransferClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -15014,6 +16898,12 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -15092,6 +16982,12 @@ export class TransferClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -15173,6 +17069,12 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -15249,6 +17151,12 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -15323,6 +17231,12 @@ export class TransferClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -15429,6 +17343,12 @@ export class TransferClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -15521,6 +17441,12 @@ export class UserRoleClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -15598,6 +17524,12 @@ export class UserRoleClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -15679,6 +17611,12 @@ export class UserRoleClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -15758,6 +17696,12 @@ export class UserRoleClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -15839,6 +17783,12 @@ export class UserRoleClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -15919,6 +17869,12 @@ export class UserRoleClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -15997,6 +17953,12 @@ export class UserRoleClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -16082,6 +18044,12 @@ export class UserRoleClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -16156,6 +18124,12 @@ export class UserRoleClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -16248,6 +18222,12 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -16332,6 +18312,12 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -16413,6 +18399,12 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -16492,6 +18484,12 @@ export class UserClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -16574,6 +18572,12 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -16654,6 +18658,12 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -16729,6 +18739,12 @@ export class UserClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -16810,6 +18826,12 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -16885,6 +18907,12 @@ export class UserClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -16966,6 +18994,12 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -17045,6 +19079,12 @@ export class UserClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -17127,6 +19167,94 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<void>(<any>null);
+    }
+
+    /**
+     * Archive user
+     * @param id User ID
+     * @return OK
+     */
+    archive(id: string | null): Promise<void> {
+        let url_ = this.baseUrl + "/v1/Users/{id}/archive";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processArchive(_response);
+        });
+    }
+
+    protected processArchive(response: Response): Promise<void> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            return;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -17203,6 +19331,12 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -17278,6 +19412,12 @@ export class UserClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -17357,6 +19497,12 @@ export class UserClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -17438,6 +19584,12 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -17515,6 +19667,12 @@ export class UserClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -17596,6 +19754,12 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -17676,6 +19840,12 @@ export class UserClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -17755,6 +19925,12 @@ export class UserClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -17843,6 +20019,12 @@ export class XmpMappingClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -17923,6 +20105,12 @@ export class XmpMappingClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -18001,6 +20189,12 @@ export class XmpMappingClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -18086,6 +20280,12 @@ export class XmpMappingClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -18164,6 +20364,12 @@ export class XmpMappingClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -18245,6 +20451,12 @@ export class XmpMappingClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -18322,6 +20534,12 @@ export class XmpMappingClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -18403,6 +20621,12 @@ export class XmpMappingClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -18483,6 +20707,12 @@ export class XmpMappingClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
             let result404: any = null;
@@ -18562,6 +20792,12 @@ export class XmpMappingClient extends PictureparkClientBase {
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
             });
         } else if (status === 404) {
             return response.text().then((_responseText) => {
@@ -18722,6 +20958,14 @@ export interface UserNotFoundException extends PictureparkBusinessException {
     missingUserId?: string | undefined;
 }
 
+export interface UserNotDeactivatedException extends PictureparkValidationException {
+    notDeactivatedUserId?: string | undefined;
+}
+
+export interface UserWithOwnerTokensArchiveException extends PictureparkValidationException {
+    notArchivedUserId?: string | undefined;
+}
+
 export interface UserInactiveOrDeletedException extends PictureparkValidationException {
     /** The ID of the inactive or deleted user in question. */
     affectedUserId?: string | undefined;
@@ -18806,6 +21050,10 @@ export interface UnableToDeleteUserRoleReferencedInIdentityProviderGroupMappingE
 
 export interface UserPropertyChangeNotSupportedException extends PictureparkValidationException {
     propertyPath?: string | undefined;
+    affectedUserId?: string | undefined;
+}
+
+export interface UserNotLinkedWithIdsException extends PictureparkBusinessException {
     affectedUserId?: string | undefined;
 }
 
@@ -18926,6 +21174,7 @@ export interface NotSupportedFileExtensionException extends PictureparkValidatio
 }
 
 export interface DuplicateOutputFormatIdException extends PictureparkValidationException {
+    id?: string | undefined;
 }
 
 export interface OutputFormatResizingNotSupportedException extends PictureparkValidationException {
@@ -19017,7 +21266,8 @@ export interface OwnerTokenInUseException extends PictureparkValidationException
     ownerTokenUserId?: string | undefined;
 }
 
-export interface InvalidValueFormatException extends PictureparkValidationException {
+export interface InvalidValueFormatException extends InvalidArgumentException {
+    expectedFormat?: string | undefined;
 }
 
 export interface ItemIdDuplicatedException extends PictureparkValidationException {
@@ -19224,6 +21474,9 @@ export enum UserRight {
     ManageBusinessProcesses = <any>"ManageBusinessProcesses",
     ManageIdentityProviders = <any>"ManageIdentityProviders",
     ManageXmpMappings = <any>"ManageXmpMappings",
+    ReadStatistics = <any>"ReadStatistics",
+    WriteStatistics = <any>"WriteStatistics",
+    ExportStatistics = <any>"ExportStatistics",
 }
 
 export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
@@ -19261,6 +21514,7 @@ export enum ContentRight {
     EditContent = <any>"EditContent",
     ManagePermissions = <any>"ManagePermissions",
     Delete = <any>"Delete",
+    ManageHistoricVersions = <any>"ManageHistoricVersions",
 }
 
 export interface ListItemPermissionException extends PictureparkValidationException {
@@ -19365,6 +21619,21 @@ export interface MaximumTransferSizeException extends PictureparkException {
 
 export interface FileIdDuplicatedException extends PictureparkValidationException {
     fileId?: string | undefined;
+}
+
+export interface UploadFailedException extends PictureparkBusinessException {
+}
+
+export interface MaximumNumberOfChunksExceededException extends PictureparkValidationException {
+    transferId?: string | undefined;
+    numberOfChunks?: number;
+    maximumNumberOfChunks?: number;
+}
+
+export interface MaximumFileSizeExceededException extends PictureparkValidationException {
+    transferId?: string | undefined;
+    declaredFileSize?: number;
+    maximumFileSize?: number;
 }
 
 export interface MissingDependenciesException extends PictureparkValidationException {
@@ -19917,6 +22186,16 @@ export interface LayerIdsByRootSchema {
     layerSchemaIds?: string[] | undefined;
 }
 
+export interface ContentHistoricVersionNotFoundException extends PictureparkNotFoundException {
+    contentId?: string | undefined;
+    version?: number;
+}
+
+export interface UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException extends PictureparkValidationException {
+    contentId?: string | undefined;
+    version?: number;
+}
+
 export interface BusinessProcessEngineRequestException extends PictureparkBusinessException {
     businessProcessId?: string | undefined;
     engineError?: string | undefined;
@@ -19946,6 +22225,14 @@ export interface BusinessProcessContinuationException extends PictureparkBusines
     continuationBusinessProcessId?: string | undefined;
     precedingBusinessProcessId?: string | undefined;
     precedingBusinessProcessException?: PictureparkException | undefined;
+}
+
+export interface BusinessProcessSummaryNotBatchBasedException extends PictureparkValidationException {
+    businessProcessId?: string | undefined;
+}
+
+export interface BusinessProcessSummaryNotFoundException extends PictureparkNotFoundException {
+    businessProcessId?: string | undefined;
 }
 
 export interface SnapshotTimeoutException extends PictureparkTimeoutException {
@@ -20225,6 +22512,22 @@ export interface OutputFormatXmpWritebackNotSupportedException extends Picturepa
     outputFormatId?: string | undefined;
 }
 
+export interface OutputFormatsInUseException extends PictureparkValidationException {
+    outputFormatIds?: string[] | undefined;
+    dependentOutputFormatIds?: string[] | undefined;
+}
+
+export interface OutputFormatOperationInProgressException extends PictureparkBusinessException {
+}
+
+export interface StaticOutputFormatModificationNotSupportedException extends PictureparkValidationException {
+    outputFormatId?: string | undefined;
+    property?: string | undefined;
+}
+
+export interface OriginalOutputFormatModificationNotSupportedException extends PictureparkValidationException {
+}
+
 export interface CollectionSizeLimitExceededException extends PictureparkValidationException {
     collectionId?: string | undefined;
     limit?: number;
@@ -20294,6 +22597,19 @@ export interface XmpMappingConfigurationInvalidException extends PictureparkVali
 
 export interface ActivityMappingInvalidException extends PictureparkValidationException {
     activityMapping?: string | undefined;
+}
+
+export interface StatisticsFeatureNotEnabledException extends PictureparkValidationException {
+    scope?: string | undefined;
+}
+
+export interface StatisticsExportNotEnabledException extends StatisticsFeatureNotEnabledException {
+}
+
+export interface StatisticsReadNotEnabledException extends StatisticsFeatureNotEnabledException {
+}
+
+export interface StatisticsWriteNotEnabledException extends StatisticsFeatureNotEnabledException {
 }
 
 export interface ProblemDetails {
@@ -20445,40 +22761,12 @@ export interface ListItemImportResult {
     skippedListItemCount: number;
     /** Total number of list items requested to be imported */
     totalListItemCount: number;
-    /** Ids of the list items that were not imported because already found in the system */
+    /** Ids of the list items that were not imported because already found in the system or due to errors */
     skippedListItemIds?: string[] | undefined;
     /** Ids of the list items that were successfully imported */
     importedListItemIds?: string[] | undefined;
 }
 
-/** Business process detailed information regarding a CDN purge operation */
-export interface BusinessProcessDetailsDataCdnPurge extends BusinessProcessDetailsDataBase {
-    /** Serialized CDN configuration. */
-    serializedCdnConfiguration: string;
-    /** Jobs that were processed in the operation. */
-    jobs: CdnPurgeJobBase[];
-}
-
-/** Base class for a CDN purge job */
-export interface CdnPurgeJobBase {
-    /** Indicates if the operation was performed successfully. */
-    success: boolean;
-    /** Number of retries left until the operation is considered as failed. */
-    retriesLeft: number;
-    kind: string;
-}
-
-/** Represents a CDN purge by tag (e.g. share ID) */
-export interface CdnPurgeJobByTag extends CdnPurgeJobBase {
-    /** The tag that should be purged. */
-    tag: string;
-}
-
-export interface CdnPurgeJobByUri extends CdnPurgeJobBase {
-    uri?: string | undefined;
-}
-
-/** Business process detailed information regarding Content import */
 export interface BusinessProcessDetailsDataContentImport extends BusinessProcessDetailsDataBase {
     /** Items that were imported. */
     items?: ContentImportResult[] | undefined;
@@ -20496,6 +22784,44 @@ export interface ContentImportResult {
     succeeded: boolean;
     /** If the operation did not succeeded, this contains error related information. */
     error?: ErrorResponse | undefined;
+}
+
+export interface BusinessProcessSummaryBase {
+    kind: string;
+}
+
+export interface BusinessProcessSummarySchemaImport extends BusinessProcessSummaryBase {
+    /** The result of the import schema operation */
+    schemaImportResult?: SchemaImportResult | undefined;
+    /** The result of the import list item operation */
+    listItemImportResult?: ListItemImportResult | undefined;
+}
+
+export interface BusinessProcessSummaryBatchBased extends BusinessProcessSummaryBase {
+    /** Succeeded item count. */
+    succeededItemCount?: number;
+    /** Failed item count. */
+    failedItemCount?: number;
+    /** Document type that was changed in the business process. */
+    docType?: string | undefined;
+}
+
+export interface BusinessProcessBatch {
+    pageToken?: string | undefined;
+    data?: BusinessProcessBatchItemBase | undefined;
+}
+
+export interface BusinessProcessBatchItemBase {
+    kind: string;
+}
+
+export interface BusinessProcessBatchItemBatchResponse extends BusinessProcessBatchItemBase {
+    docType?: string | undefined;
+    items?: BatchResponseRow[] | undefined;
+}
+
+export interface BusinessProcessBatchItemContentImport extends BusinessProcessBatchItemBase {
+    items?: ContentImportResult[] | undefined;
 }
 
 /** Base class for search results */
@@ -21997,6 +24323,13 @@ They are available only for file base contents, and they depends on the output f
     contentRights?: ContentRight[] | undefined;
     /** Activity information: dynamically mapped from configured metadata fields or from audit information if no mapping is configured. */
     activity?: Activity | undefined;
+    /** The number of historized versions of the content. Contains null if
+(i) not requested by using HistoricVersionCount resolve behavior,
+(ii) user lacks ManageHistoricVersions right on the content,
+(iii) user lacks ManageContent user right,
+(iv) historic versioning is disabled or
+(v) content is a virtual item (ContentType is Virtual). */
+    historicVersionCount?: number | undefined;
 }
 
 /** Output */
@@ -22139,6 +24472,7 @@ export enum ContentResolveBehavior {
     OuterDisplayValueList = <any>"OuterDisplayValueList",
     OuterDisplayValueDetail = <any>"OuterDisplayValueDetail",
     OuterDisplayValueName = <any>"OuterDisplayValueName",
+    HistoricVersionCount = <any>"HistoricVersionCount",
 }
 
 /** Values that represent thumbnail sizes. */
@@ -22147,6 +24481,7 @@ export enum ThumbnailSize {
     Medium = <any>"Medium",
     Large = <any>"Large",
     Preview = <any>"Preview",
+    ExtraLarge = <any>"ExtraLarge",
 }
 
 /** Request to create a content */
@@ -22716,6 +25051,52 @@ export interface ContentAggregationRequest extends ContentAggregationOnChannelRe
     aggregators: AggregatorBase[];
 }
 
+/** Base class for search results */
+export interface BaseResultOfHistoricVersion {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: HistoricVersion[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+
+export interface HistoricVersionSearchResult extends BaseResultOfHistoricVersion {
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
+}
+
+export interface HistoricVersion {
+    /** Sequential version number. */
+    versionNumber: number;
+    /** Content ID. */
+    contentId?: string | undefined;
+    /** The datetime when this version was replaced. */
+    replaced: Date;
+    /** User who replaced this version. */
+    user?: User | undefined;
+    /** File name for this version. */
+    fileName?: string | undefined;
+    /** True if this version was created by XMP writeback (as the version without the mutation). */
+    createdByXmpWriteback: boolean;
+    /** ID of the original output associated with this version. */
+    originalOutputId?: string | undefined;
+}
+
+export interface HistoricVersionSearchRequest {
+    /** Will exclude the historic versions that were created by XMP writeback */
+    excludeXmpWritebackGenerated: boolean;
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+}
+
 export interface DisplayValueStatus {
     /** The schema ids (of type Content or Layer) for which the re-rendering of the display values is needed. */
     contentOrLayerSchemaIds?: string[] | undefined;
@@ -22886,6 +25267,8 @@ export interface CustomerInfo {
     baseUrl: string;
     /** Base bath to access logos of customer (including trailing slash), available images: name, full, small, background */
     logosUrl: string;
+    /** License options and states */
+    licenseInformation: LicenseInfo;
 }
 
 export interface LanguageConfiguration {
@@ -22927,6 +25310,31 @@ export interface CustomerApp {
     name?: TranslatedStringDictionary | undefined;
     description?: TranslatedStringDictionary | undefined;
     icon?: string | undefined;
+}
+
+/** Customer license information */
+export interface LicenseInfo {
+    /** State of content historic versioning */
+    historicVersioningState: HistoricVersioningState;
+    /** State of statistics features for Content */
+    contentStatistics: StatisticsLicenseState;
+}
+
+export enum HistoricVersioningState {
+    Disabled = <any>"Disabled",
+    Suspended = <any>"Suspended",
+    Enabled = <any>"Enabled",
+}
+
+export interface StatisticsLicenseState {
+    /** Defines whether the respective statistics are gathered periodically */
+    collection: boolean;
+    /** Allows or prevents access to read endpoints */
+    read: boolean;
+    /** Allows or prevents access to write endpoints */
+    write: boolean;
+    /** Allows or prevents export of the respective statistics */
+    export: boolean;
 }
 
 export interface SystemStatus {
@@ -23300,7 +25708,7 @@ export interface MetadataStatus {
 }
 
 export interface Notification {
-    id?: string | undefined;
+    id: string;
     recipientUserId?: string | undefined;
     referenceDocType?: string | undefined;
     referenceId?: string | undefined;
@@ -23406,6 +25814,11 @@ export enum TitleCode {
     BatchRenderingCompletedWithErrors = <any>"BatchRenderingCompletedWithErrors",
     BatchRenderingFailed = <any>"BatchRenderingFailed",
     BusinessRuleTitle = <any>"BusinessRuleTitle",
+    StatisticsExportDraft = <any>"StatisticsExportDraft",
+    StatisticsExportInProgress = <any>"StatisticsExportInProgress",
+    StatisticsExportCompleted = <any>"StatisticsExportCompleted",
+    StatisticsExportFailed = <any>"StatisticsExportFailed",
+    StatisticsExportCancelled = <any>"StatisticsExportCancelled",
     UserEmailConflictSolved = <any>"UserEmailConflictSolved",
     UserEmailConflictSolvedSubject = <any>"UserEmailConflictSolvedSubject",
     SupportUserDeactivation = <any>"SupportUserDeactivation",
@@ -23509,6 +25922,11 @@ export enum MessageCode {
     BatchRenderingCompletedWithErrors = <any>"BatchRenderingCompletedWithErrors",
     BatchRenderingFailed = <any>"BatchRenderingFailed",
     BusinessRuleMessage = <any>"BusinessRuleMessage",
+    StatisticsExportDraft = <any>"StatisticsExportDraft",
+    StatisticsExportInProgress = <any>"StatisticsExportInProgress",
+    StatisticsExportCompleted = <any>"StatisticsExportCompleted",
+    StatisticsExportFailed = <any>"StatisticsExportFailed",
+    StatisticsExportCancelled = <any>"StatisticsExportCancelled",
 }
 
 export interface NotificationDetailBase {
@@ -23516,8 +25934,9 @@ export interface NotificationDetailBase {
 }
 
 export interface NotificationDetailBusinessProcessBase extends NotificationDetailBase {
-    businessProcessId?: string | undefined;
+    businessProcessId: string;
     businessProcessLifeCycle?: BusinessProcessLifeCycle;
+    supportsCancellation: boolean;
 }
 
 export interface NotificationDetailTransfer extends NotificationDetailBusinessProcessBase {
@@ -23526,12 +25945,12 @@ export interface NotificationDetailTransfer extends NotificationDetailBusinessPr
     failedCount?: number;
     cancelledCount?: number;
     name?: string | undefined;
-    transferId?: string | undefined;
+    transferId: string;
 }
 
 export interface NotificationDetailShare extends NotificationDetailBase {
     token?: string | undefined;
-    shareId?: string | undefined;
+    shareId: string;
 }
 
 export interface NotificationDetailSchemaImport extends NotificationDetailBusinessProcessBase {
@@ -23540,7 +25959,7 @@ export interface NotificationDetailSchemaImport extends NotificationDetailBusine
     listItemCount?: number;
     listItemProgress?: number;
     name?: string | undefined;
-    transferId?: string | undefined;
+    transferId: string;
     importedSchemaCount?: number;
     skippedSchemaCount?: number;
     importedListItemCount?: number;
@@ -23550,14 +25969,14 @@ export interface NotificationDetailSchemaImport extends NotificationDetailBusine
 }
 
 export interface NotificationDetailIndexReindexProgress extends NotificationDetailBusinessProcessBase {
-    indexId?: string | undefined;
+    indexId: string;
     expected?: number;
     current?: number;
 }
 
 export interface NotificationDetailUserRegistered extends NotificationDetailBase {
     displayName?: string | undefined;
-    userId?: string | undefined;
+    userId: string;
 }
 
 export interface NotificationDetailContentBackupRecovery extends NotificationDetailBusinessProcessBase {
@@ -23588,7 +26007,7 @@ export interface NotificationDetailBusinessRule extends NotificationDetailBase {
     title?: TranslatedStringDictionary | undefined;
     message?: TranslatedStringDictionary | undefined;
     collectionId?: string | undefined;
-    notificationId?: string | undefined;
+    notificationId: string;
 }
 
 export enum NotificationState {
@@ -25375,6 +27794,55 @@ export interface ShareSearchRequest extends ShareSearchAndAggregationBaseRequest
     aggregators?: AggregatorBase[] | undefined;
 }
 
+export interface ExportContentStatisticsRequest {
+    /** Allows filtering of retrieved statistical data */
+    filter?: ContentFilterRequest | undefined;
+    /** Optional begin of time range for which statistical data should be exported */
+    after?: Date | undefined;
+    /** Optional end of time range for which statistical data should be exported */
+    before?: Date | undefined;
+    /** Whether exported information should be separated by api client */
+    aggregateApiClients: boolean;
+    /** Enrich export with Name display value of Content */
+    includeContentNames: boolean;
+    /** Desired temporal resolution of exported data. Must not be lower than 1 hour */
+    interval?: string | undefined;
+    /** Whether notifications should be published for progress and completion */
+    notifyProgress: boolean;
+}
+
+export interface AddContentEventsRequest {
+    /** Data to be added to statistics */
+    events?: AddContentEventsRequestItem[] | undefined;
+}
+
+export interface AddContentEventsRequestItem {
+    /** Specifies at which time the events happened. The information will be automatically aggregated according to internal temporal resolution of statistics. */
+    timestamp: Date;
+    /** Specifies content for which the events happened */
+    contentId?: string | undefined;
+    /** Optionally specify the used ApiClient. Defaults to the API Client sending this request. */
+    apiClientId?: string | undefined;
+    /** Data to be added to statistics */
+    statistics?: ContentStatisticsDataEditable | undefined;
+    /** Optionally specify an additional id under which the supplied data should be tracked. This
+Id is only used internally and cannot be retrieved through API or export. */
+    externalEventTraceId?: string | undefined;
+}
+
+export interface ContentStatisticsDataEditable {
+    downloads?: ContentDownloadsEditable | undefined;
+}
+
+export interface ContentDownloadsEditable {
+    /** Total downloads of content (regardless of formats, single download of multiple formats is counted once) */
+    total: number;
+    /** Downloads of content through basic Share */
+    share: number;
+    /** Downloads of content through embed */
+    embed: number;
+}
+
 /** Request to update a template */
 export interface TemplateUpdateRequest {
     /** Language specific names. */
@@ -25867,6 +28335,8 @@ export interface UserReviewRequest {
     /** Indicates the requested review state of the user.
 If _true_ is specified, user will be transitioned into _reviewed_ state. _False_ will put the user back into _to be reviewed_ state. */
     reviewed: boolean;
+    /** If true, no email will be sent to inform the user that they were reviewed. */
+    suppressEmail: boolean;
 }
 
 /** Review many request */
@@ -25874,6 +28344,8 @@ export interface UserReviewManyRequest extends UserManyRequestBase {
     /** Indicates the requested review state of the user.
 If _true_ is specified, user will be transitioned into _reviewed_ state. _False_ will put the user back into _to be reviewed_ state. */
     reviewed: boolean;
+    /** If true, no email will be sent to inform the users that they were reviewed. */
+    suppressEmail?: boolean;
 }
 
 /** Request for inviting users (applies to users in states ToBeReviewed + Reviewed) */
@@ -26281,6 +28753,12 @@ export interface DownloadTrackingInfo {
 export enum ContentDisposition {
     Attachment = <any>"Attachment",
     Inline = <any>"Inline",
+}
+
+export interface ContentShareEvent extends ApplicationEvent {
+    shareId?: string | undefined;
+    shareType?: ShareType;
+    addedContentIds?: string[] | undefined;
 }
 
 export interface SessionRenewalEvent extends ApplicationEvent {

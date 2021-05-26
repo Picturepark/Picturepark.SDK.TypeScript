@@ -9,7 +9,7 @@
 
   <div
     *ngIf="(totalResults$ | async) !== 0"
-    class="browser__items browser__items--medium"
+    class="browser__items browser__items--medium cp-scrollbar"
     [class.browser__items--list]="activeView.type === 'list'"
     [class.browser__items--large]="activeView.type === 'thumbnailLarge'"
     [class.browser__items--medium]="activeView.type === 'thumbnailMedium'"
@@ -22,8 +22,11 @@
         [thumbnailSize]="activeThumbnailSize"
         [isListView]="false"
         (previewItemChange)="previewItemEvent($event)"
-        (click)="itemClicked($event, i)"
-        (dblclick)="itemDetails(itemModel)"
+        ppUserInteraction
+        (ppPress)="itemPressed($event, i)"
+        (ppTouch)="selectedItems.length ? itemClicked($event, i) : itemDetails(itemModel)"
+        (ppClick)="itemClicked($event, i)"
+        (ppDblclick)="itemDetails(itemModel)"
       >
       </pp-share-browser-item>
     </div>

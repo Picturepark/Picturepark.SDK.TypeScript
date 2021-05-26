@@ -23,7 +23,8 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   // REGULAR EXPRESSION FOR EMAIL VALIDATION
-  private reg = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  private reg =
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
   constructor(private shareService: ShareService, protected injector: Injector) {
     super(injector);
@@ -62,9 +63,10 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
         )
       )
       .subscribe((users) => {
-        this.recipientsAutocomplete = users.aggregationResults[0].aggregationResultItems![0].aggregationResults![0].aggregationResultItems!.map(
-          (i) => i.name
-        );
+        this.recipientsAutocomplete =
+          users.aggregationResults[0].aggregationResultItems![0].aggregationResults![0].aggregationResultItems!.map(
+            (i) => i.name
+          );
       });
   }
 

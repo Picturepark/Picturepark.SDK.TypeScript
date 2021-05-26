@@ -59,10 +59,6 @@
         @media (max-width: 600px) {
           flex-direction: column;
         }
-
-        &::-webkit-scrollbar {
-          width: 10px;
-        }
       }
 
       .mat-tab-header {

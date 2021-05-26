@@ -80,7 +80,7 @@ export { LanguageSwitchComponent } from './lib/features-module/language-switch/l
 // Directives
 export { LazyLoadDirective } from './lib/shared-module/directives/lazy-load.directive';
 export { MarkdownDirective } from './lib/features-module/layer-panels/directives/markdown-directive';
-export { MobileTouchDirective } from './lib/shared-module/directives/mobile-touch.directive';
+export { UserInteractionDirective } from './lib/shared-module/directives/user-interaction.directive';
 
 // Services
 export { SelectionService } from './lib/shared-module/services/selection/selection.service';
