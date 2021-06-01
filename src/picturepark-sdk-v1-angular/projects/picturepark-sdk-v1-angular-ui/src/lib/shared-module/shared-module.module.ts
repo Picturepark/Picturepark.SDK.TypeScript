@@ -34,7 +34,7 @@ export class HammerConfig extends HammerGestureConfig {
   // iOS Safari & Android Chrome inconsistencies
   // https://github.com/hammerjs/hammer.js/issues/1166
   overrides = <any>{
-    press: { time: 700 },
+    press: { time: 600 },
     pan: {
       direction: 30,
       enable: true,
