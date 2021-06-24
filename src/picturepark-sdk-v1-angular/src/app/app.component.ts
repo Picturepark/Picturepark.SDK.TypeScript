@@ -1,7 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 
 // LIBRARIES
 import { AuthService } from '@picturepark/sdk-v1-angular';
