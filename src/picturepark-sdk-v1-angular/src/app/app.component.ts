@@ -1,5 +1,7 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 // LIBRARIES
 import { AuthService } from '@picturepark/sdk-v1-angular';
@@ -20,6 +22,9 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle(this.translationService.translate('ApplicationTitle.demoApp'));
-    this.authService.requireLogin(location.pathname);
+    const httpParams = new HttpParams({ fromString: location.search.split('?')[1] });
+    const postUrl = httpParams.get('postUrl');
+    const redirectUri = !!postUrl ? `${location.pathname}?postUrl=${postUrl}` : location.pathname;
+    this.authService.requireLogin(redirectUri);
   }
 }
