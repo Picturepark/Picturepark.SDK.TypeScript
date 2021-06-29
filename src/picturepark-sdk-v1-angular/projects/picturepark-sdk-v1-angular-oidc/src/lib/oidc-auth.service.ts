@@ -7,6 +7,7 @@ import {
   AuthService,
   PictureparkConfiguration,
 } from '@picturepark/sdk-v1-angular';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class OidcAuthService extends AuthService {
@@ -73,7 +74,19 @@ export class OidcAuthService extends AuthService {
    */
   async requireLogin(redirectRoute?: string) {
     if (!this.isAuthenticated) {
-      await this.login(redirectRoute);
+      let route = redirectRoute;
+      if (redirectRoute && redirectRoute?.indexOf('?') > 0) {
+        const routeSplit = redirectRoute.split('?');
+        const params = routeSplit[1].split('&');
+        const filteredParams = params.filter(
+          (p) =>
+            !p.startsWith('code') && !p.startsWith('scope') && !p.startsWith('state') && !p.startsWith('session_state')
+        );
+        const httpParams = new HttpParams({ fromString: filteredParams.join('&') });
+        route = httpParams.keys().length > 0 ? `${routeSplit[0]}?${httpParams.toString()}` : routeSplit[0];
+      }
+
+      await this.login(route);
     } else {
       await this.setupAutomaticSilentRefresh();
     }
