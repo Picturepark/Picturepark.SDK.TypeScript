@@ -1,8 +1,8 @@
-import { Component, Output, EventEmitter, OnInit, Inject, Injector } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
-import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
+import { ConfigActions } from '../../configuration';
 
 // COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
@@ -27,7 +27,6 @@ export class BasketComponent extends BaseComponent implements OnInit {
   public previewItemChange = new EventEmitter<Content>();
 
   constructor(
-    @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private basketService: BasketService,
     private contentDownloadDialogService: ContentDownloadDialogService,
     protected injector: Injector,
