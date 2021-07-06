@@ -12,6 +12,8 @@ import { ShareContentDialogComponent } from '../../features-module/share-content
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 import { Content } from '@picturepark/sdk-v1-angular';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pp-basket',
@@ -20,8 +22,7 @@ import { Content } from '@picturepark/sdk-v1-angular';
 })
 export class BasketComponent extends BaseComponent implements OnInit {
   public basketItems: Content[] = [];
-
-  public configActions: ConfigActions;
+  public configActions$: Observable<ConfigActions>;
 
   @Output()
   public previewItemChange = new EventEmitter<Content>();
@@ -69,6 +70,6 @@ export class BasketComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.configActions = this.pictureParkUIConfig['BasketComponent'];
+    this.configActions$ = this.pictureParkUIConfig$.pipe(map((cfg) => cfg.BasketComponent));
   }
 }

@@ -1,7 +1,7 @@
 <div class="browser">
   <div class="browser__header">
     <pp-browser-toolbar [browser]="self" entityName="{{ 'ContentBrowser.ContentsLowercase' | pptranslate }}">
-      <ng-container browser-buttons>
+      <ng-container browser-buttons *ngIf="configActions$ | async as configActions">
         <button
           mat-icon-button
           *ngIf="selectedItems.length === 1 && configActions['preview']"

@@ -2,6 +2,7 @@
   class="browser-item"
   [class.browser-item--selected]="isSelected$ | async"
   [class.browser-item--list-view]="isListView"
+  *ngIf="browser.configActions$ | async as configActions"
 >
   <div class="browser-item__image-slot" [class.browser-item__image-slot--mobile]="deviceBreakpoint">
     <pp-content-item-thumbnail [item]="itemModel" [thumbnailSize]="thumbnailSize" [isListView]="isListView">
@@ -12,7 +13,7 @@
         <li>
           <button
             mat-icon-button
-            *ngIf="browser.configActions['preview']"
+            *ngIf="configActions['preview']"
             (click)="previewItem(); $event.stopPropagation()"
             [matTooltip]="'ContentBrowser.Details' | pptranslate"
           >
@@ -22,7 +23,7 @@
         <li>
           <button
             mat-icon-button
-            *ngIf="browser.configActions['download']"
+            *ngIf="configActions['download']"
             (click)="downloadItem(); $event.stopPropagation()"
             [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate"
           >
@@ -49,7 +50,7 @@
       <li>
         <button
           mat-icon-button
-          *ngIf="browser.configActions['preview']"
+          *ngIf="configActions['preview']"
           (click)="previewItem(); $event.stopPropagation()"
           [matTooltip]="'ContentBrowser.Details' | pptranslate"
         >
@@ -59,7 +60,7 @@
       <li>
         <button
           mat-icon-button
-          *ngIf="browser.configActions['download']"
+          *ngIf="configActions['download']"
           (click)="downloadItem(); $event.stopPropagation()"
           [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate"
         >
@@ -69,7 +70,7 @@
       <li [ngClass]="{ 'in-basket': isInBasket$ | async }">
         <button
           mat-icon-button
-          *ngIf="browser.configActions['basket']"
+          *ngIf="configActions['basket']"
           [matTooltip]="
             ((isInBasket$ | async) ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate
           "
@@ -100,7 +101,7 @@
     </ul>
   </div>
   <button
-    *ngIf="browser.configActions['basket'] && !isListView"
+    *ngIf="configActions['basket'] && !isListView"
     mat-mini-fab
     class="browser-item__basket-icon"
     [class.browser-item__basket-icon--mobile]="deviceBreakpoint"

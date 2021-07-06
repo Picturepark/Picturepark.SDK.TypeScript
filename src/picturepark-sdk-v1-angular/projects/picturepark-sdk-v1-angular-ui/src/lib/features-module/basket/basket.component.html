@@ -1,6 +1,6 @@
 <div class="basket">
   <ng-container *ngIf="basketItems.length > 0; else emptyBasket">
-    <mat-toolbar class="basket__header">
+    <mat-toolbar class="basket__header" *ngIf="configActions$ | async as configActions">
       <button
         mat-icon-button
         [matTooltip]="'Basket.Download' | pptranslate"
