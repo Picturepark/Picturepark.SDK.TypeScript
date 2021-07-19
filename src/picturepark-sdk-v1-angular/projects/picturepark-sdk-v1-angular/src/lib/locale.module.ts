@@ -11,6 +11,19 @@ export const LANGUAGES_LOADED = new InjectionToken<BehaviorSubject<boolean>>('LA
 
 const languagesLoaded$ = new BehaviorSubject<boolean>(false);
 
+// Workaround to set LOCALE_ID as it needs to be changed after service calls which require the LOCALE_ID
+// https://github.com/angular/angular/issues/15039
+export class DynamicMetadataLangId extends String {
+  static localeId = '';
+  constructor(private localStorageService: LocalStorageService) {
+    super();
+  }
+
+  toString() {
+    return DynamicMetadataLangId.localeId || getLocaleFactory(this.localStorageService);
+  }
+}
+
 export function getLocaleFactory(localStorageService: LocalStorageService): string {
   return localStorageService.get(StorageKey.LanguageCode) || (navigator.language || navigator.languages[0]).slice(0, 2);
 }
@@ -28,14 +41,11 @@ export function loadLanguagesFactory(
       .loadLanguages(allowedLanguages, languageToSelect, cdnUrl)
       .toPromise()
       .then((value) => {
+        DynamicMetadataLangId.localeId = languageService.currentLanguage.ietf;
         languagesLoaded$.next(true);
         return value;
       });
   };
-}
-
-export function getCurrentLanguageCode(languageService: LanguageService) {
-  return languageService.currentLanguage?.ietf ?? 'en';
 }
 
 @NgModule({})
@@ -58,7 +68,7 @@ export class LocaleModule {
           deps: [LocalStorageService, LanguageService, ALLOWED_LANGUAGES, LOCALE_LANGUAGE, CDN_URL],
           multi: true,
         },
-        { provide: LOCALE_ID, useFactory: getCurrentLanguageCode, deps: [LanguageService] },
+        { provide: LOCALE_ID, useClass: DynamicMetadataLangId, deps: [LocalStorageService] },
         { provide: LANGUAGES_LOADED, useValue: languagesLoaded$ },
       ],
     };

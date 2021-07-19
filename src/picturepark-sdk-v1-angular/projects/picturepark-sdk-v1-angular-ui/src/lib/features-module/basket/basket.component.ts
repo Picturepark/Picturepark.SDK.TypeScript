@@ -1,8 +1,8 @@
-import { Component, Output, EventEmitter, OnInit, Injector, Inject } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Inject, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
-import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../configuration';
+import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
 
 // COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';

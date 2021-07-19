@@ -6,7 +6,7 @@ import { LazyGetter } from 'lazy-get-decorator';
 // ANGULAR CDK
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
-import { ConfigActions } from '../../../configuration';
+import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
 import {
   IEntityBase,
   ThumbnailSize,
@@ -50,6 +50,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   }
 
   public self: BaseBrowserComponent<TEntity>;
+
+  protected pictureParkUIConfig: PictureparkUIConfiguration;
 
   public configActions: ConfigActions;
   public isLoading = false;
@@ -99,6 +101,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
       this.activeSortingType = this.sortingTypes[0];
     }
     this.setSort(this.activeSortingType, this.isAscending ?? true, false);
+
+    this.pictureParkUIConfig = injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
   }
 
   async ngOnInit(): Promise<void> {

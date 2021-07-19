@@ -142,7 +142,7 @@ export class OidcAuthService extends AuthService {
       }
 
       if (this.locale) {
-        options.headers = options.headers.append('Picturepark-Language', this.locale);
+        options.headers = options.headers.append('Picturepark-Language', this.locale.toString());
       }
     }
     return options;
