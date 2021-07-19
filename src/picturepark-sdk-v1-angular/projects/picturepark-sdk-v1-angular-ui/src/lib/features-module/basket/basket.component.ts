@@ -1,8 +1,8 @@
-import { Component, Output, EventEmitter, OnInit, Injector } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Injector, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 // LIBRARIES
-import { ConfigActions } from '../../configuration';
+import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../configuration';
 
 // COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
@@ -12,8 +12,6 @@ import { ShareContentDialogComponent } from '../../features-module/share-content
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 import { Content } from '@picturepark/sdk-v1-angular';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pp-basket',
@@ -22,12 +20,14 @@ import { Observable } from 'rxjs';
 })
 export class BasketComponent extends BaseComponent implements OnInit {
   public basketItems: Content[] = [];
-  public configActions$: Observable<ConfigActions>;
+
+  public configActions: ConfigActions;
 
   @Output()
   public previewItemChange = new EventEmitter<Content>();
 
   constructor(
+    @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
     private basketService: BasketService,
     private contentDownloadDialogService: ContentDownloadDialogService,
     protected injector: Injector,
@@ -70,6 +70,6 @@ export class BasketComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.configActions$ = this.pictureParkUIConfig$.pipe(map((cfg) => cfg.BasketComponent));
+    this.configActions = this.pictureParkUIConfig['BasketComponent'];
   }
 }

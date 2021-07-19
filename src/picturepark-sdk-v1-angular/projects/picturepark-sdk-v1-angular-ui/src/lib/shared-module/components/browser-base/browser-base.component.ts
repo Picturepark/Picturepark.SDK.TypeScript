@@ -15,15 +15,12 @@ import {
   SortDirection,
   SearchInputState,
   AggregationResult,
-  ProfileService,
-  UserProfile,
-  UserRight,
 } from '@picturepark/sdk-v1-angular';
 import { SelectionService } from '../../services/selection/selection.service';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
 import { IBrowserView } from './interfaces/browser-view';
-import { debounceTime, map, tap } from 'rxjs/operators';
+import { debounceTime, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { RangeSelection } from './interfaces/range-selection';
 
@@ -52,14 +49,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     return this.injector.get(MatDialog);
   }
 
-  @LazyGetter()
-  protected get profileService(): ProfileService {
-    return this.injector.get(ProfileService);
-  }
-
   public self: BaseBrowserComponent<TEntity>;
 
-  public configActions$: Observable<ConfigActions>;
+  public configActions: ConfigActions;
   public isLoading = false;
   public items: TEntity[] = [];
   public isAscending: boolean | null = null;
@@ -82,8 +74,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   items$ = this.facade.items$;
   aggregationResults$: Observable<AggregationResult[] | undefined> = this.facade.aggregationResults$;
 
-  private profile: UserProfile;
-
   abstract init(): Promise<void>;
   abstract initSort(): void;
   abstract onScroll(): void;
@@ -95,11 +85,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public facade: SearchFacade<TEntity, SearchInputState>
   ) {
     super(injector);
-
-    this.sub = this.profileService.get().subscribe((profile) => {
-      this.profile = profile;
-      this.checkUserPermissions();
-    });
 
     this.self = this;
     // Init default sort
@@ -117,7 +102,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   }
 
   async ngOnInit(): Promise<void> {
-    this.configActions$ = this.pictureParkUIConfig$.pipe(map((cfg) => cfg[this.componentName]));
+    this.configActions = this.pictureParkUIConfig[this.componentName];
 
     // Scroll loader
     this.sub = this.scrollDispatcher
@@ -315,22 +300,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     if (this.checkContains(event.srcElement.className)) {
       this.selectionService.clear();
-    }
-  }
-
-  hasRight(userRight: UserRight) {
-    return this.profile?.userRights?.some((ur) => ur === userRight) ?? false;
-  }
-
-  private checkUserPermissions() {
-    if (!this.hasRight(UserRight.ManageSharings)) {
-      const pictureParkUIConfig = this.pictureParkUIConfig$.value;
-      delete pictureParkUIConfig.BasketComponent['share'];
-      delete pictureParkUIConfig.BrowserToolbarComponent['share'];
-      delete pictureParkUIConfig.ContentBrowserComponent['share'];
-      delete pictureParkUIConfig.ListBrowserComponent['share'];
-
-      this.pictureParkUIConfig$.next(pictureParkUIConfig);
     }
   }
 }

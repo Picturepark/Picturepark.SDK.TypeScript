@@ -35,7 +35,7 @@ export function loadLanguagesFactory(
 }
 
 export function getCurrentLanguageCode(languageService: LanguageService) {
-  return languageService.currentLanguage.ietf;
+  return languageService.currentLanguage?.ietf ?? 'en';
 }
 
 @NgModule({})
