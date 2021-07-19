@@ -1,4 +1,5 @@
 import { APP_INITIALIZER, LOCALE_ID, ModuleWithProviders, NgModule, InjectionToken } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { LanguageService } from './services/language.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { StorageKey } from './utilities/storage-key.enum';
@@ -6,6 +7,9 @@ import { StorageKey } from './utilities/storage-key.enum';
 export const LOCALE_LANGUAGE = new InjectionToken<string>('LOCALE_LANGUAGE');
 export const CDN_URL = new InjectionToken<string>('CDN_URL');
 export const ALLOWED_LANGUAGES = new InjectionToken<string>('ALLOWED_LANGUAGES');
+export const LANGUAGES_LOADED = new InjectionToken<BehaviorSubject<boolean>>('LANGUAGES_LOADED');
+
+const languagesLoaded$ = new BehaviorSubject<boolean>(false);
 
 export function getLocaleFactory(localStorageService: LocalStorageService): string {
   return localStorageService.get(StorageKey.LanguageCode) || (navigator.language || navigator.languages[0]).slice(0, 2);
@@ -20,7 +24,13 @@ export function loadLanguagesFactory(
 ): () => Promise<boolean> {
   const languageToSelect = language || getLocaleFactory(localStorageService);
   return () => {
-    return languageService.loadLanguages(allowedLanguages, languageToSelect, cdnUrl).toPromise();
+    return languageService
+      .loadLanguages(allowedLanguages, languageToSelect, cdnUrl)
+      .toPromise()
+      .then((value) => {
+        languagesLoaded$.next(true);
+        return value;
+      });
   };
 }
 
@@ -49,6 +59,7 @@ export class LocaleModule {
           multi: true,
         },
         { provide: LOCALE_ID, useFactory: getCurrentLanguageCode, deps: [LanguageService] },
+        { provide: LANGUAGES_LOADED, useValue: languagesLoaded$ },
       ],
     };
   }
