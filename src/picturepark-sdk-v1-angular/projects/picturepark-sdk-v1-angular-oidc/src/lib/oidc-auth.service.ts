@@ -86,9 +86,10 @@ export class OidcAuthService extends AuthService {
         route = httpParams.keys().length > 0 ? `${routeSplit[0]}?${httpParams.toString()}` : routeSplit[0];
       }
 
-      await this.login(route);
+      return await this.login(route);
     } else {
       await this.setupAutomaticSilentRefresh();
+      return true;
     }
   }
 
@@ -97,10 +98,14 @@ export class OidcAuthService extends AuthService {
    * @param redirectRoute The optional route to redirect after login (e.g. '/content-picker')
    */
   async login(redirectRoute?: string) {
-    this.oauthService.redirectUri = redirectRoute ? window.location.origin + redirectRoute : window.location.origin;
-    await this.oauthService.loadDiscoveryDocumentAndLogin();
+    this.oauthService.redirectUri = redirectRoute
+      ? window.location.origin + redirectRoute
+      : window.location.origin + window.location.pathname;
+    const loggedIn = await this.oauthService.loadDiscoveryDocumentAndLogin();
 
-    this.initSilentRefresh();
+    if (loggedIn) this.initSilentRefresh();
+
+    return loggedIn;
   }
 
   /**

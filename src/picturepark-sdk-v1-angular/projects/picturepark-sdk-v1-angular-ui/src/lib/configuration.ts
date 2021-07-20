@@ -1,6 +1,7 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { ProfileService, UserRight, UserProfile, LANGUAGES_LOADED } from '@picturepark/sdk-v1-angular';
-import { BehaviorSubject } from 'rxjs';
+import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
 export interface ConfigActions {
@@ -27,12 +28,12 @@ export class ConfigService {
   ) {}
 
   load(): Promise<any> {
-    const promise = new Promise((resolve, reject) =>
+    return new Promise((resolve, reject) =>
       this.languagesLoaded$
         .pipe(
           filter((loaded) => loaded),
           mergeMap(() =>
-            this.profileService.get().pipe(map((profile) => this.hasRight(profile, UserRight.ManageSharings)))
+            this.profileService.get().pipe(map((profile) => !this.hasRight(profile, UserRight.ManageSharings)))
           )
         )
         .subscribe(
@@ -43,7 +44,6 @@ export class ConfigService {
           (error) => reject(error)
         )
     );
-    return promise;
   }
 
   private hasRight(profile: UserProfile, userRight: UserRight) {
@@ -51,8 +51,11 @@ export class ConfigService {
   }
 }
 
-export function initConfigurationFactory(service: ConfigService): Function {
-  return () => service.load();
+export function initConfigurationFactory(service: ConfigService, authService: OidcAuthService): Function {
+  return () =>
+    combineLatest([authService.requireLogin(`${location.pathname}${location.search}`)])
+      .pipe(filter(([loggedIn]) => !!loggedIn))
+      .subscribe(() => service.load());
 }
 
 export function PictureparkUIConfigurationFactory(service: ConfigService) {

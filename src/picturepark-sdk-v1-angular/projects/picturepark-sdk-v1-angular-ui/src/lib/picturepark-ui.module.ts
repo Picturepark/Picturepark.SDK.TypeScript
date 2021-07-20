@@ -13,6 +13,7 @@ import {
 import { FeaturesModule } from './features-module/features-module.module';
 import { SharedModule } from './shared-module/shared-module.module';
 import { LANGUAGES_LOADED, ProfileService } from '@picturepark/sdk-v1-angular';
+import { OidcAuthService } from '@picturepark/sdk-v1-angular-oidc';
 
 // IMPORTANT: Update docs/picturepark-sdk-v1-angular/modules.md when changing modules
 @NgModule({
@@ -22,7 +23,7 @@ import { LANGUAGES_LOADED, ProfileService } from '@picturepark/sdk-v1-angular';
     {
       provide: APP_INITIALIZER,
       useFactory: initConfigurationFactory,
-      deps: [ConfigService, ProfileService, LANGUAGES_LOADED],
+      deps: [ConfigService, OidcAuthService, ProfileService, LANGUAGES_LOADED],
       multi: true,
     },
     {

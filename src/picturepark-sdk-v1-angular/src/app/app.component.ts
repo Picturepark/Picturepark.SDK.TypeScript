@@ -20,6 +20,5 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     this.titleService.setTitle(this.translationService.translate('ApplicationTitle.demoApp'));
-    this.authService.requireLogin(`${location.pathname}${location.search}`);
   }
 }
