@@ -1,6 +1,6 @@
 import { Input, OnChanges, SimpleChanges, Component, Inject, LOCALE_ID, Injector, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounce, map, flatMap } from 'rxjs/operators';
+import { debounce, map, mergeMap } from 'rxjs/operators';
 import { timer, Observable, from } from 'rxjs';
 
 // LIBRARIES
@@ -59,7 +59,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     this.autoCompleteOptions = this.aggregationQuery.valueChanges.pipe(
       debounce(() => timer(500)),
       map((value: string | AggregationResultItem) => (typeof value === 'string' ? value : value.name || '')),
-      flatMap((value) => this.searchAggregator(value))
+      mergeMap((value) => this.searchAggregator(value))
     );
   }
 

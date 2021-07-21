@@ -46,7 +46,7 @@ export class AccessTokenAuthService extends AuthService {
       }
 
       if (this.locale) {
-        options.headers = options.headers.append('Picturepark-Language', this.locale);
+        options.headers = options.headers.append('Picturepark-Language', this.locale.toString());
       }
     }
     return Promise.resolve(options);

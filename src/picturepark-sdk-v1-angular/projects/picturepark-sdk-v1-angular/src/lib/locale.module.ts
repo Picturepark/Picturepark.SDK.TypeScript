@@ -1,4 +1,5 @@
 import { APP_INITIALIZER, LOCALE_ID, ModuleWithProviders, NgModule, InjectionToken } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { LanguageService } from './services/language.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { StorageKey } from './utilities/storage-key.enum';
@@ -6,6 +7,22 @@ import { StorageKey } from './utilities/storage-key.enum';
 export const LOCALE_LANGUAGE = new InjectionToken<string>('LOCALE_LANGUAGE');
 export const CDN_URL = new InjectionToken<string>('CDN_URL');
 export const ALLOWED_LANGUAGES = new InjectionToken<string>('ALLOWED_LANGUAGES');
+export const LANGUAGES_LOADED = new InjectionToken<BehaviorSubject<boolean>>('LANGUAGES_LOADED');
+
+const languagesLoaded$ = new BehaviorSubject<boolean>(false);
+
+// Workaround to set LOCALE_ID as it needs to be changed after service calls which require the LOCALE_ID
+// https://github.com/angular/angular/issues/15039
+export class DynamicMetadataLangId extends String {
+  static localeId = '';
+  constructor(private localStorageService: LocalStorageService) {
+    super();
+  }
+
+  toString() {
+    return DynamicMetadataLangId.localeId || getLocaleFactory(this.localStorageService);
+  }
+}
 
 export function getLocaleFactory(localStorageService: LocalStorageService): string {
   return localStorageService.get(StorageKey.LanguageCode) || (navigator.language || navigator.languages[0]).slice(0, 2);
@@ -20,12 +37,15 @@ export function loadLanguagesFactory(
 ): () => Promise<boolean> {
   const languageToSelect = language || getLocaleFactory(localStorageService);
   return () => {
-    return languageService.loadLanguages(allowedLanguages, languageToSelect, cdnUrl).toPromise();
+    return languageService
+      .loadLanguages(allowedLanguages, languageToSelect, cdnUrl)
+      .toPromise()
+      .then((value) => {
+        DynamicMetadataLangId.localeId = languageService.currentLanguage.ietf;
+        languagesLoaded$.next(true);
+        return value;
+      });
   };
-}
-
-export function getCurrentLanguageCode(languageService: LanguageService) {
-  return languageService.currentLanguage.ietf;
 }
 
 @NgModule({})
@@ -48,7 +68,8 @@ export class LocaleModule {
           deps: [LocalStorageService, LanguageService, ALLOWED_LANGUAGES, LOCALE_LANGUAGE, CDN_URL],
           multi: true,
         },
-        { provide: LOCALE_ID, useFactory: getCurrentLanguageCode, deps: [LanguageService] },
+        { provide: LOCALE_ID, useClass: DynamicMetadataLangId, deps: [LocalStorageService] },
+        { provide: LANGUAGES_LOADED, useValue: languagesLoaded$ },
       ],
     };
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, zip, EMPTY } from 'rxjs';
-import { expand, flatMap, map, reduce, switchMap } from 'rxjs/operators';
+import { expand, map, mergeMap, reduce, switchMap } from 'rxjs/operators';
 
 // LIBRARIES
 import {
@@ -23,7 +23,7 @@ export class ExportService {
 
   public getReferencedData(referencedData: Observable<ReferencedData>): Observable<ReferencedData> {
     return referencedData.pipe(
-      flatMap((referenced) => {
+      mergeMap((referenced) => {
         return zip(of(referenced), this.schemaService.getMany(referenced.schemaIds));
       }),
       map((data) => {
