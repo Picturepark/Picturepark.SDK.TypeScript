@@ -20,7 +20,7 @@ export const PICTUREPARK_UI_SCRIPTPATH = new InjectionToken<string>('PICTUREPARK
 
 @Injectable()
 export class ConfigService {
-  hasManageSharings: boolean;
+  profile: UserProfile;
 
   constructor(
     private profileService: ProfileService,
@@ -32,13 +32,11 @@ export class ConfigService {
       this.languagesLoaded$
         .pipe(
           filter((loaded) => loaded),
-          mergeMap(() =>
-            this.profileService.get().pipe(map((profile) => !this.hasRight(profile, UserRight.ManageSharings)))
-          )
+          mergeMap(() => this.profileService.get())
         )
         .subscribe(
           (response) => {
-            this.hasManageSharings = response;
+            this.profile = response;
             resolve(response);
           },
           (error) => reject(error)
@@ -46,8 +44,8 @@ export class ConfigService {
     );
   }
 
-  private hasRight(profile: UserProfile, userRight: UserRight) {
-    return profile?.userRights?.some((ur) => ur === userRight) ?? false;
+  hasRight(userRight: UserRight) {
+    return this.profile?.userRights?.some((ur) => ur === userRight) ?? false;
   }
 }
 
@@ -55,22 +53,25 @@ export function initConfigurationFactory(service: ConfigService, authService: Oi
   return () =>
     combineLatest([authService.requireLogin(`${location.pathname}${location.search}`)])
       .pipe(filter(([loggedIn]) => !!loggedIn))
-      .subscribe(() => service.load());
+      .toPromise()
+      .then(() => service.load());
 }
 
 export function PictureparkUIConfigurationFactory(service: ConfigService) {
+  const hasManageSharings = service.hasRight(UserRight.ManageSharings) ? true : undefined;
+
   return <PictureparkUIConfiguration>{
     ContentBrowserComponent: {
       download: true,
       select: true,
-      share: service.hasManageSharings ? true : undefined,
+      share: hasManageSharings,
       preview: true,
       basket: true,
     },
     BasketComponent: {
       download: true,
       select: false,
-      share: service.hasManageSharings ? true : undefined,
+      share: hasManageSharings,
     },
     BrowserToolbarComponent: {
       select: true,
@@ -78,7 +79,6 @@ export function PictureparkUIConfigurationFactory(service: ConfigService) {
     ListBrowserComponent: {
       download: true,
       select: true,
-      share: service.hasManageSharings ? true : undefined,
     },
   };
 }

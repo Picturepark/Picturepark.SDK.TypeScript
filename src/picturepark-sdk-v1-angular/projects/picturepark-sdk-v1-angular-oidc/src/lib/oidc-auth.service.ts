@@ -103,7 +103,9 @@ export class OidcAuthService extends AuthService {
       : window.location.origin + window.location.pathname;
     const loggedIn = await this.oauthService.loadDiscoveryDocumentAndLogin();
 
-    if (loggedIn) this.initSilentRefresh();
+    if (loggedIn) {
+      this.initSilentRefresh();
+    }
 
     return loggedIn;
   }
