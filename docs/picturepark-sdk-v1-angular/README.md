@@ -12,7 +12,9 @@ The `@picturepark/sdk-v1-angular` package provides Angular 6.1+ service classes 
 
 1. Install the NPM package:
 
-    `@picturepark/sdk-v1-angular`
+```
+npm install @picturepark/sdk-v1-angular liquidjs@8.2.1 lazy-get-decorator@2.2.0
+```
 
 2. Register one of the Picturepark modules: 
 
