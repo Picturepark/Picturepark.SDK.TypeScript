@@ -36,3 +36,4 @@ export * from './lib/facade/schema-search.facade';
 export * from './lib/facade/share-facade';
 export * from './lib/facade/share-search.facade';
 export * from './lib/facade/list-item-search.facade';
+export * from './lib/facade/content.facade';

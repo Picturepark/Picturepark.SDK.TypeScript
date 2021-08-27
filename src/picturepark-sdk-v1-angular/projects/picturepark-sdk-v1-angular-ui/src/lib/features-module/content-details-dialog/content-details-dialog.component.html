@@ -49,7 +49,7 @@
                   </pp-content-image-preview>
                 </ng-container>
                 <ng-template #virtualItem>
-                  <div *ngIf="content?.displayValues as displayValues" [innerHTML]="displayValues['thumbnail']"></div>
+                  <div *ngIf="virtualItemHtml" [innerHTML]="virtualItemHtml"></div>
                 </ng-template>
               </div>
 

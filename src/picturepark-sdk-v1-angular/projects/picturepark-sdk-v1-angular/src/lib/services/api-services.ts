@@ -19642,7 +19642,114 @@ export class StatisticService extends PictureparkServiceBase {
     }
 
     /**
-     * Export content statistics statistic
+     * Retrieve single content statistics
+     * @param contentId Id of Content
+     * @param timeFrames (optional) Optionally aggregate data for given time frames
+     */
+    getSingleContentStatistics(contentId: string | null, timeFrames: string[] | null | undefined): Observable<ContentStatisticsAggregated> {
+        let url_ = this.baseUrl + "/v1/Statistics/contents/{contentId}?";
+        if (contentId === undefined || contentId === null)
+            throw new Error("The parameter 'contentId' must be defined.");
+        url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId));
+        if (timeFrames !== undefined && timeFrames !== null)
+            timeFrames && timeFrames.forEach(item => { url_ += "timeFrames=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetSingleContentStatistics(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSingleContentStatistics(<any>response_);
+                } catch (e) {
+                    return <Observable<ContentStatisticsAggregated>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ContentStatisticsAggregated>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSingleContentStatistics(response: HttpResponseBase): Observable<ContentStatisticsAggregated> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ContentStatisticsAggregated.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ContentStatisticsAggregated>(<any>null);
+    }
+
+    /**
+     * Export content statistics
      * @param request Request
      * @return Business process
      */
@@ -19748,7 +19855,7 @@ export class StatisticService extends PictureparkServiceBase {
     }
 
     /**
-     * Resolve an actual Url to download exported file from referenceId found on completed BusinessProcess.
+     * Resolve download link
      * @param referenceId Reference id
      * @return Download link information
      */
@@ -19853,7 +19960,7 @@ export class StatisticService extends PictureparkServiceBase {
     }
 
     /**
-     * Add content events statistic
+     * Add content events
      * @param request Request
      * @return Business process
      */
@@ -35488,7 +35595,6 @@ export enum UserRight {
     ManageUserRoles = "ManageUserRoles",
     ManagePermissions = "ManagePermissions",
     ManageSearchIndexes = "ManageSearchIndexes",
-    ManageCollections = "ManageCollections",
     ManageListItems = "ManageListItems",
     ManageServiceProviders = "ManageServiceProviders",
     ManageEmbeds = "ManageEmbeds",
@@ -61622,7 +61728,7 @@ export class ListItem implements IListItem {
     /** The list item id. */
     id!: string;
     /** The id of the schema with schema type list. */
-    contentSchemaId?: string | undefined;
+    contentSchemaId!: string;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
     displayValues?: DisplayValueDictionary | undefined;
     /** The content data of the list item. */
@@ -61713,7 +61819,7 @@ export interface IListItem {
     /** The list item id. */
     id: string;
     /** The id of the schema with schema type list. */
-    contentSchemaId?: string | undefined;
+    contentSchemaId: string;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
     displayValues?: IDisplayValueDictionary | undefined;
     /** The content data of the list item. */
@@ -62519,10 +62625,6 @@ export enum TitleCode {
     AutoTaggingSucceededWithErrors = "AutoTaggingSucceededWithErrors",
     AutoTaggingFailed = "AutoTaggingFailed",
     AutoTaggingCancelled = "AutoTaggingCancelled",
-    ListItemUpdateManyInProgress = "ListItemUpdateManyInProgress",
-    ListItemUpdateManyCompleted = "ListItemUpdateManyCompleted",
-    ListItemUpdateManyCompletedWithErrors = "ListItemUpdateManyCompletedWithErrors",
-    ListItemUpdateManyFailed = "ListItemUpdateManyFailed",
     ContentUpdateManyInProgress = "ContentUpdateManyInProgress",
     ContentUpdateManyCompleted = "ContentUpdateManyCompleted",
     ContentUpdateManyCompletedWithErrors = "ContentUpdateManyCompletedWithErrors",
@@ -62627,10 +62729,6 @@ export enum MessageCode {
     AutoTaggingSucceededWithErrors = "AutoTaggingSucceededWithErrors",
     AutoTaggingFailed = "AutoTaggingFailed",
     AutoTaggingCancelled = "AutoTaggingCancelled",
-    ListItemUpdateManyInProgress = "ListItemUpdateManyInProgress",
-    ListItemUpdateManyCompleted = "ListItemUpdateManyCompleted",
-    ListItemUpdateManyCompletedWithErrors = "ListItemUpdateManyCompletedWithErrors",
-    ListItemUpdateManyFailed = "ListItemUpdateManyFailed",
     ContentUpdateManyInProgress = "ContentUpdateManyInProgress",
     ContentUpdateManyCompleted = "ContentUpdateManyCompleted",
     ContentUpdateManyCompletedWithErrors = "ContentUpdateManyCompletedWithErrors",
@@ -62677,8 +62775,16 @@ export abstract class NotificationDetailBase implements INotificationDetailBase 
         if (data["kind"] === "NotificationDetailBusinessProcessBase") {
             throw new Error("The abstract class 'NotificationDetailBusinessProcessBase' cannot be instantiated.");
         }
+        if (data["kind"] === "NotificationDetailTransferBase") {
+            throw new Error("The abstract class 'NotificationDetailTransferBase' cannot be instantiated.");
+        }
         if (data["kind"] === "NotificationDetailTransfer") {
             let result = new NotificationDetailTransfer();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailTransferImport") {
+            let result = new NotificationDetailTransferImport();
             result.init(data);
             return result;
         }
@@ -62707,16 +62813,6 @@ export abstract class NotificationDetailBase implements INotificationDetailBase 
             result.init(data);
             return result;
         }
-        if (data["kind"] === "NotificationDetailProgress") {
-            let result = new NotificationDetailProgress();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NotificationDetailMetadataItemDeactivation") {
-            let result = new NotificationDetailMetadataItemDeactivation();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "NotificationDetailExternalBusinessProcess") {
             let result = new NotificationDetailExternalBusinessProcess();
             result.init(data);
@@ -62724,6 +62820,78 @@ export abstract class NotificationDetailBase implements INotificationDetailBase 
         }
         if (data["kind"] === "NotificationDetailBusinessRule") {
             let result = new NotificationDetailBusinessRule();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailProgressBase") {
+            throw new Error("The abstract class 'NotificationDetailProgressBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailTagging") {
+            let result = new NotificationDetailTagging();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailBatchRendering") {
+            let result = new NotificationDetailBatchRendering();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailStatisticsExport") {
+            let result = new NotificationDetailStatisticsExport();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailProgressWithRelatedItemsBase") {
+            throw new Error("The abstract class 'NotificationDetailProgressWithRelatedItemsBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItems") {
+            let result = new NotificationDetailMetadataItemCreateRelatedItems();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItemsBySchema") {
+            let result = new NotificationDetailMetadataItemCreateRelatedItemsBySchema();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemUpdateOutdated") {
+            let result = new NotificationDetailMetadataItemUpdateOutdated();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentBatchEditBase") {
+            throw new Error("The abstract class 'NotificationDetailContentBatchEditBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailContentMetadataBatchEdit") {
+            let result = new NotificationDetailContentMetadataBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentOwnershipBatchEdit") {
+            let result = new NotificationDetailContentOwnershipBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentPermissionsBatchEdit") {
+            let result = new NotificationDetailContentPermissionsBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemDeactivationBase") {
+            throw new Error("The abstract class 'NotificationDetailMetadataItemDeactivationBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailContentDeactivation") {
+            let result = new NotificationDetailContentDeactivation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailListItemMetadataBatchEdit") {
+            let result = new NotificationDetailListItemMetadataBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailListItemDeactivation") {
+            let result = new NotificationDetailListItemDeactivation();
             result.init(data);
             return result;
         }
@@ -62761,8 +62929,16 @@ export abstract class NotificationDetailBusinessProcessBase extends Notification
 
     static fromJS(data: any): NotificationDetailBusinessProcessBase {
         data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "NotificationDetailTransferBase") {
+            throw new Error("The abstract class 'NotificationDetailTransferBase' cannot be instantiated.");
+        }
         if (data["kind"] === "NotificationDetailTransfer") {
             let result = new NotificationDetailTransfer();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailTransferImport") {
+            let result = new NotificationDetailTransferImport();
             result.init(data);
             return result;
         }
@@ -62781,18 +62957,80 @@ export abstract class NotificationDetailBusinessProcessBase extends Notification
             result.init(data);
             return result;
         }
-        if (data["kind"] === "NotificationDetailProgress") {
-            let result = new NotificationDetailProgress();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NotificationDetailMetadataItemDeactivation") {
-            let result = new NotificationDetailMetadataItemDeactivation();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "NotificationDetailExternalBusinessProcess") {
             let result = new NotificationDetailExternalBusinessProcess();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailProgressBase") {
+            throw new Error("The abstract class 'NotificationDetailProgressBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailTagging") {
+            let result = new NotificationDetailTagging();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailBatchRendering") {
+            let result = new NotificationDetailBatchRendering();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailStatisticsExport") {
+            let result = new NotificationDetailStatisticsExport();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailProgressWithRelatedItemsBase") {
+            throw new Error("The abstract class 'NotificationDetailProgressWithRelatedItemsBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItems") {
+            let result = new NotificationDetailMetadataItemCreateRelatedItems();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItemsBySchema") {
+            let result = new NotificationDetailMetadataItemCreateRelatedItemsBySchema();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemUpdateOutdated") {
+            let result = new NotificationDetailMetadataItemUpdateOutdated();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentBatchEditBase") {
+            throw new Error("The abstract class 'NotificationDetailContentBatchEditBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailContentMetadataBatchEdit") {
+            let result = new NotificationDetailContentMetadataBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentOwnershipBatchEdit") {
+            let result = new NotificationDetailContentOwnershipBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentPermissionsBatchEdit") {
+            let result = new NotificationDetailContentPermissionsBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemDeactivationBase") {
+            throw new Error("The abstract class 'NotificationDetailMetadataItemDeactivationBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailContentDeactivation") {
+            let result = new NotificationDetailContentDeactivation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailListItemMetadataBatchEdit") {
+            let result = new NotificationDetailListItemMetadataBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailListItemDeactivation") {
+            let result = new NotificationDetailListItemDeactivation();
             result.init(data);
             return result;
         }
@@ -62815,7 +63053,7 @@ export interface INotificationDetailBusinessProcessBase extends INotificationDet
     supportsCancellation: boolean;
 }
 
-export class NotificationDetailTransfer extends NotificationDetailBusinessProcessBase implements INotificationDetailTransfer {
+export abstract class NotificationDetailTransferBase extends NotificationDetailBusinessProcessBase implements INotificationDetailTransferBase {
     fileProgress?: number;
     fileCount?: number;
     failedCount?: number;
@@ -62823,9 +63061,9 @@ export class NotificationDetailTransfer extends NotificationDetailBusinessProces
     name?: string | undefined;
     transferId!: string;
 
-    constructor(data?: INotificationDetailTransfer) {
+    constructor(data?: INotificationDetailTransferBase) {
         super(data);
-        this._discriminator = "NotificationDetailTransfer";
+        this._discriminator = "NotificationDetailTransferBase";
     }
 
     init(_data?: any) {
@@ -62840,11 +63078,19 @@ export class NotificationDetailTransfer extends NotificationDetailBusinessProces
         }
     }
 
-    static fromJS(data: any): NotificationDetailTransfer {
+    static fromJS(data: any): NotificationDetailTransferBase {
         data = typeof data === 'object' ? data : {};
-        let result = new NotificationDetailTransfer();
-        result.init(data);
-        return result;
+        if (data["kind"] === "NotificationDetailTransfer") {
+            let result = new NotificationDetailTransfer();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailTransferImport") {
+            let result = new NotificationDetailTransferImport();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'NotificationDetailTransferBase' cannot be instantiated.");
     }
 
     toJSON(data?: any) {
@@ -62860,13 +63106,69 @@ export class NotificationDetailTransfer extends NotificationDetailBusinessProces
     }
 }
 
-export interface INotificationDetailTransfer extends INotificationDetailBusinessProcessBase {
+export interface INotificationDetailTransferBase extends INotificationDetailBusinessProcessBase {
     fileProgress?: number;
     fileCount?: number;
     failedCount?: number;
     cancelledCount?: number;
     name?: string | undefined;
     transferId: string;
+}
+
+export class NotificationDetailTransfer extends NotificationDetailTransferBase implements INotificationDetailTransfer {
+
+    constructor(data?: INotificationDetailTransfer) {
+        super(data);
+        this._discriminator = "NotificationDetailTransfer";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailTransfer {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailTransfer();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailTransfer extends INotificationDetailTransferBase {
+}
+
+export class NotificationDetailTransferImport extends NotificationDetailTransferBase implements INotificationDetailTransferImport {
+
+    constructor(data?: INotificationDetailTransferImport) {
+        super(data);
+        this._discriminator = "NotificationDetailTransferImport";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailTransferImport {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailTransferImport();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailTransferImport extends INotificationDetailTransferBase {
 }
 
 export class NotificationDetailShare extends NotificationDetailBase implements INotificationDetailShare {
@@ -63103,99 +63405,6 @@ export interface INotificationDetailContentBackupRecovery extends INotificationD
     contentProgressCount?: number;
 }
 
-export class NotificationDetailProgress extends NotificationDetailBusinessProcessBase implements INotificationDetailProgress {
-    total?: number;
-    succeeded?: number;
-    failed?: number;
-    relatedItemCount?: number;
-    relatedItemProgress?: number;
-
-    constructor(data?: INotificationDetailProgress) {
-        super(data);
-        this._discriminator = "NotificationDetailProgress";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.total = _data["total"];
-            this.succeeded = _data["succeeded"];
-            this.failed = _data["failed"];
-            this.relatedItemCount = _data["relatedItemCount"];
-            this.relatedItemProgress = _data["relatedItemProgress"];
-        }
-    }
-
-    static fromJS(data: any): NotificationDetailProgress {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "NotificationDetailMetadataItemDeactivation") {
-            let result = new NotificationDetailMetadataItemDeactivation();
-            result.init(data);
-            return result;
-        }
-        let result = new NotificationDetailProgress();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["total"] = this.total;
-        data["succeeded"] = this.succeeded;
-        data["failed"] = this.failed;
-        data["relatedItemCount"] = this.relatedItemCount;
-        data["relatedItemProgress"] = this.relatedItemProgress;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface INotificationDetailProgress extends INotificationDetailBusinessProcessBase {
-    total?: number;
-    succeeded?: number;
-    failed?: number;
-    relatedItemCount?: number;
-    relatedItemProgress?: number;
-}
-
-export class NotificationDetailMetadataItemDeactivation extends NotificationDetailProgress implements INotificationDetailMetadataItemDeactivation {
-    referencingItemsCount?: number;
-    referencingItemsProgress?: number;
-
-    constructor(data?: INotificationDetailMetadataItemDeactivation) {
-        super(data);
-        this._discriminator = "NotificationDetailMetadataItemDeactivation";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.referencingItemsCount = _data["referencingItemsCount"];
-            this.referencingItemsProgress = _data["referencingItemsProgress"];
-        }
-    }
-
-    static fromJS(data: any): NotificationDetailMetadataItemDeactivation {
-        data = typeof data === 'object' ? data : {};
-        let result = new NotificationDetailMetadataItemDeactivation();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["referencingItemsCount"] = this.referencingItemsCount;
-        data["referencingItemsProgress"] = this.referencingItemsProgress;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface INotificationDetailMetadataItemDeactivation extends INotificationDetailProgress {
-    referencingItemsCount?: number;
-    referencingItemsProgress?: number;
-}
-
 export class NotificationDetailExternalBusinessProcess extends NotificationDetailBusinessProcessBase implements INotificationDetailExternalBusinessProcess {
     title?: TranslatedStringDictionary | undefined;
     message?: TranslatedStringDictionary | undefined;
@@ -63243,9 +63452,13 @@ export interface INotificationDetailExternalBusinessProcess extends INotificatio
 }
 
 export class NotificationDetailBusinessRule extends NotificationDetailBase implements INotificationDetailBusinessRule {
+    /** Title of the notification */
     title?: TranslatedStringDictionary | undefined;
+    /** Message of the notification */
     message?: TranslatedStringDictionary | undefined;
+    /** Id of collection, if created */
     collectionId?: string | undefined;
+    /** Id of BusinessRule notification configuration */
     notificationId!: string;
 
     constructor(data?: INotificationDetailBusinessRule) {
@@ -63286,10 +63499,621 @@ export class NotificationDetailBusinessRule extends NotificationDetailBase imple
 }
 
 export interface INotificationDetailBusinessRule extends INotificationDetailBase {
+    /** Title of the notification */
     title?: ITranslatedStringDictionary | undefined;
+    /** Message of the notification */
     message?: ITranslatedStringDictionary | undefined;
+    /** Id of collection, if created */
     collectionId?: string | undefined;
+    /** Id of BusinessRule notification configuration */
     notificationId: string;
+}
+
+export abstract class NotificationDetailProgressBase extends NotificationDetailBusinessProcessBase implements INotificationDetailProgressBase {
+    total?: number;
+    succeeded?: number;
+    failed?: number;
+
+    constructor(data?: INotificationDetailProgressBase) {
+        super(data);
+        this._discriminator = "NotificationDetailProgressBase";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.total = _data["total"];
+            this.succeeded = _data["succeeded"];
+            this.failed = _data["failed"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailProgressBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "NotificationDetailTagging") {
+            let result = new NotificationDetailTagging();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailBatchRendering") {
+            let result = new NotificationDetailBatchRendering();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailStatisticsExport") {
+            let result = new NotificationDetailStatisticsExport();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailProgressWithRelatedItemsBase") {
+            throw new Error("The abstract class 'NotificationDetailProgressWithRelatedItemsBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItems") {
+            let result = new NotificationDetailMetadataItemCreateRelatedItems();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItemsBySchema") {
+            let result = new NotificationDetailMetadataItemCreateRelatedItemsBySchema();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemUpdateOutdated") {
+            let result = new NotificationDetailMetadataItemUpdateOutdated();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentBatchEditBase") {
+            throw new Error("The abstract class 'NotificationDetailContentBatchEditBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailContentMetadataBatchEdit") {
+            let result = new NotificationDetailContentMetadataBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentOwnershipBatchEdit") {
+            let result = new NotificationDetailContentOwnershipBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentPermissionsBatchEdit") {
+            let result = new NotificationDetailContentPermissionsBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemDeactivationBase") {
+            throw new Error("The abstract class 'NotificationDetailMetadataItemDeactivationBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailContentDeactivation") {
+            let result = new NotificationDetailContentDeactivation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailListItemMetadataBatchEdit") {
+            let result = new NotificationDetailListItemMetadataBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailListItemDeactivation") {
+            let result = new NotificationDetailListItemDeactivation();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'NotificationDetailProgressBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["total"] = this.total;
+        data["succeeded"] = this.succeeded;
+        data["failed"] = this.failed;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailProgressBase extends INotificationDetailBusinessProcessBase {
+    total?: number;
+    succeeded?: number;
+    failed?: number;
+}
+
+export class NotificationDetailTagging extends NotificationDetailProgressBase implements INotificationDetailTagging {
+
+    constructor(data?: INotificationDetailTagging) {
+        super(data);
+        this._discriminator = "NotificationDetailTagging";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailTagging {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailTagging();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailTagging extends INotificationDetailProgressBase {
+}
+
+export class NotificationDetailBatchRendering extends NotificationDetailProgressBase implements INotificationDetailBatchRendering {
+
+    constructor(data?: INotificationDetailBatchRendering) {
+        super(data);
+        this._discriminator = "NotificationDetailBatchRendering";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailBatchRendering {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailBatchRendering();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailBatchRendering extends INotificationDetailProgressBase {
+}
+
+export class NotificationDetailStatisticsExport extends NotificationDetailProgressBase implements INotificationDetailStatisticsExport {
+
+    constructor(data?: INotificationDetailStatisticsExport) {
+        super(data);
+        this._discriminator = "NotificationDetailStatisticsExport";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailStatisticsExport {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailStatisticsExport();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailStatisticsExport extends INotificationDetailProgressBase {
+}
+
+export abstract class NotificationDetailProgressWithRelatedItemsBase extends NotificationDetailProgressBase implements INotificationDetailProgressWithRelatedItemsBase {
+    relatedItemCount?: number;
+    relatedItemProgress?: number;
+
+    constructor(data?: INotificationDetailProgressWithRelatedItemsBase) {
+        super(data);
+        this._discriminator = "NotificationDetailProgressWithRelatedItemsBase";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.relatedItemCount = _data["relatedItemCount"];
+            this.relatedItemProgress = _data["relatedItemProgress"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailProgressWithRelatedItemsBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItems") {
+            let result = new NotificationDetailMetadataItemCreateRelatedItems();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItemsBySchema") {
+            let result = new NotificationDetailMetadataItemCreateRelatedItemsBySchema();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemUpdateOutdated") {
+            let result = new NotificationDetailMetadataItemUpdateOutdated();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailMetadataItemDeactivationBase") {
+            throw new Error("The abstract class 'NotificationDetailMetadataItemDeactivationBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "NotificationDetailContentDeactivation") {
+            let result = new NotificationDetailContentDeactivation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailListItemMetadataBatchEdit") {
+            let result = new NotificationDetailListItemMetadataBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailListItemDeactivation") {
+            let result = new NotificationDetailListItemDeactivation();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'NotificationDetailProgressWithRelatedItemsBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["relatedItemCount"] = this.relatedItemCount;
+        data["relatedItemProgress"] = this.relatedItemProgress;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailProgressWithRelatedItemsBase extends INotificationDetailProgressBase {
+    relatedItemCount?: number;
+    relatedItemProgress?: number;
+}
+
+export class NotificationDetailMetadataItemCreateRelatedItems extends NotificationDetailProgressWithRelatedItemsBase implements INotificationDetailMetadataItemCreateRelatedItems {
+
+    constructor(data?: INotificationDetailMetadataItemCreateRelatedItems) {
+        super(data);
+        this._discriminator = "NotificationDetailMetadataItemCreateRelatedItems";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailMetadataItemCreateRelatedItems {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailMetadataItemCreateRelatedItems();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailMetadataItemCreateRelatedItems extends INotificationDetailProgressWithRelatedItemsBase {
+}
+
+export class NotificationDetailMetadataItemCreateRelatedItemsBySchema extends NotificationDetailProgressWithRelatedItemsBase implements INotificationDetailMetadataItemCreateRelatedItemsBySchema {
+
+    constructor(data?: INotificationDetailMetadataItemCreateRelatedItemsBySchema) {
+        super(data);
+        this._discriminator = "NotificationDetailMetadataItemCreateRelatedItemsBySchema";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailMetadataItemCreateRelatedItemsBySchema {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailMetadataItemCreateRelatedItemsBySchema();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailMetadataItemCreateRelatedItemsBySchema extends INotificationDetailProgressWithRelatedItemsBase {
+}
+
+export class NotificationDetailMetadataItemUpdateOutdated extends NotificationDetailProgressWithRelatedItemsBase implements INotificationDetailMetadataItemUpdateOutdated {
+
+    constructor(data?: INotificationDetailMetadataItemUpdateOutdated) {
+        super(data);
+        this._discriminator = "NotificationDetailMetadataItemUpdateOutdated";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailMetadataItemUpdateOutdated {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailMetadataItemUpdateOutdated();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailMetadataItemUpdateOutdated extends INotificationDetailProgressWithRelatedItemsBase {
+}
+
+export abstract class NotificationDetailContentBatchEditBase extends NotificationDetailProgressBase implements INotificationDetailContentBatchEditBase {
+    collectionId?: string | undefined;
+
+    constructor(data?: INotificationDetailContentBatchEditBase) {
+        super(data);
+        this._discriminator = "NotificationDetailContentBatchEditBase";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.collectionId = _data["collectionId"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailContentBatchEditBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "NotificationDetailContentMetadataBatchEdit") {
+            let result = new NotificationDetailContentMetadataBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentOwnershipBatchEdit") {
+            let result = new NotificationDetailContentOwnershipBatchEdit();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailContentPermissionsBatchEdit") {
+            let result = new NotificationDetailContentPermissionsBatchEdit();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'NotificationDetailContentBatchEditBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["collectionId"] = this.collectionId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailContentBatchEditBase extends INotificationDetailProgressBase {
+    collectionId?: string | undefined;
+}
+
+export class NotificationDetailContentMetadataBatchEdit extends NotificationDetailContentBatchEditBase implements INotificationDetailContentMetadataBatchEdit {
+
+    constructor(data?: INotificationDetailContentMetadataBatchEdit) {
+        super(data);
+        this._discriminator = "NotificationDetailContentMetadataBatchEdit";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailContentMetadataBatchEdit {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailContentMetadataBatchEdit();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailContentMetadataBatchEdit extends INotificationDetailContentBatchEditBase {
+}
+
+export class NotificationDetailContentOwnershipBatchEdit extends NotificationDetailContentBatchEditBase implements INotificationDetailContentOwnershipBatchEdit {
+
+    constructor(data?: INotificationDetailContentOwnershipBatchEdit) {
+        super(data);
+        this._discriminator = "NotificationDetailContentOwnershipBatchEdit";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailContentOwnershipBatchEdit {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailContentOwnershipBatchEdit();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailContentOwnershipBatchEdit extends INotificationDetailContentBatchEditBase {
+}
+
+export class NotificationDetailContentPermissionsBatchEdit extends NotificationDetailContentBatchEditBase implements INotificationDetailContentPermissionsBatchEdit {
+
+    constructor(data?: INotificationDetailContentPermissionsBatchEdit) {
+        super(data);
+        this._discriminator = "NotificationDetailContentPermissionsBatchEdit";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailContentPermissionsBatchEdit {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailContentPermissionsBatchEdit();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailContentPermissionsBatchEdit extends INotificationDetailContentBatchEditBase {
+}
+
+export abstract class NotificationDetailMetadataItemDeactivationBase extends NotificationDetailProgressWithRelatedItemsBase implements INotificationDetailMetadataItemDeactivationBase {
+    referencingItemsCount?: number;
+    referencingItemsProgress?: number;
+
+    constructor(data?: INotificationDetailMetadataItemDeactivationBase) {
+        super(data);
+        this._discriminator = "NotificationDetailMetadataItemDeactivationBase";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.referencingItemsCount = _data["referencingItemsCount"];
+            this.referencingItemsProgress = _data["referencingItemsProgress"];
+        }
+    }
+
+    static fromJS(data: any): NotificationDetailMetadataItemDeactivationBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "NotificationDetailContentDeactivation") {
+            let result = new NotificationDetailContentDeactivation();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationDetailListItemDeactivation") {
+            let result = new NotificationDetailListItemDeactivation();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'NotificationDetailMetadataItemDeactivationBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["referencingItemsCount"] = this.referencingItemsCount;
+        data["referencingItemsProgress"] = this.referencingItemsProgress;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailMetadataItemDeactivationBase extends INotificationDetailProgressWithRelatedItemsBase {
+    referencingItemsCount?: number;
+    referencingItemsProgress?: number;
+}
+
+export class NotificationDetailContentDeactivation extends NotificationDetailMetadataItemDeactivationBase implements INotificationDetailContentDeactivation {
+
+    constructor(data?: INotificationDetailContentDeactivation) {
+        super(data);
+        this._discriminator = "NotificationDetailContentDeactivation";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailContentDeactivation {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailContentDeactivation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailContentDeactivation extends INotificationDetailMetadataItemDeactivationBase {
+}
+
+export class NotificationDetailListItemMetadataBatchEdit extends NotificationDetailProgressWithRelatedItemsBase implements INotificationDetailListItemMetadataBatchEdit {
+
+    constructor(data?: INotificationDetailListItemMetadataBatchEdit) {
+        super(data);
+        this._discriminator = "NotificationDetailListItemMetadataBatchEdit";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailListItemMetadataBatchEdit {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailListItemMetadataBatchEdit();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailListItemMetadataBatchEdit extends INotificationDetailProgressWithRelatedItemsBase {
+}
+
+export class NotificationDetailListItemDeactivation extends NotificationDetailMetadataItemDeactivationBase implements INotificationDetailListItemDeactivation {
+
+    constructor(data?: INotificationDetailListItemDeactivation) {
+        super(data);
+        this._discriminator = "NotificationDetailListItemDeactivation";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): NotificationDetailListItemDeactivation {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationDetailListItemDeactivation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface INotificationDetailListItemDeactivation extends INotificationDetailMetadataItemDeactivationBase {
 }
 
 export enum NotificationState {
@@ -68322,8 +69146,6 @@ export class FieldIndexingInfo implements IFieldIndexingInfo {
     index!: boolean;
     /** Field is stored for simple search. */
     simpleSearch!: boolean;
-    /** Field is stored for sorting. */
-    sortable!: boolean;
     /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
     boost!: number;
     /** Indexing information of schema's fields related to this field (if existing). */
@@ -68344,7 +69166,6 @@ export class FieldIndexingInfo implements IFieldIndexingInfo {
             this.id = _data["id"];
             this.index = _data["index"];
             this.simpleSearch = _data["simpleSearch"];
-            this.sortable = _data["sortable"];
             this.boost = _data["boost"];
             this.relatedSchemaIndexing = _data["relatedSchemaIndexing"] ? SchemaIndexingInfo.fromJS(_data["relatedSchemaIndexing"]) : <any>undefined;
         }
@@ -68362,7 +69183,6 @@ export class FieldIndexingInfo implements IFieldIndexingInfo {
         data["id"] = this.id;
         data["index"] = this.index;
         data["simpleSearch"] = this.simpleSearch;
-        data["sortable"] = this.sortable;
         data["boost"] = this.boost;
         data["relatedSchemaIndexing"] = this.relatedSchemaIndexing ? this.relatedSchemaIndexing.toJSON() : <any>undefined;
         return data; 
@@ -68377,8 +69197,6 @@ export interface IFieldIndexingInfo {
     index: boolean;
     /** Field is stored for simple search. */
     simpleSearch: boolean;
-    /** Field is stored for sorting. */
-    sortable: boolean;
     /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
     boost: number;
     /** Indexing information of schema's fields related to this field (if existing). */
@@ -73129,6 +73947,261 @@ export interface IShareSearchRequest extends IShareSearchAndAggregationBaseReque
     aggregators?: AggregatorBase[] | undefined;
 }
 
+export class ContentStatisticsAggregated implements IContentStatisticsAggregated {
+    /** Contains aggregated data for the complete lifetime of the Content */
+    overall!: ContentStatisticsData;
+    /** Contains aggregated data according to requested time frames */
+    timeFrames!: ContentStatisticsAggregatedTimeFrameBucket[];
+
+    constructor(data?: IContentStatisticsAggregated) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.overall = data.overall && !(<any>data.overall).toJSON ? new ContentStatisticsData(data.overall) : <ContentStatisticsData>this.overall; 
+            if (data.timeFrames) {
+                this.timeFrames = [];
+                for (let i = 0; i < data.timeFrames.length; i++) {
+                    let item = data.timeFrames[i];
+                    this.timeFrames[i] = item && !(<any>item).toJSON ? new ContentStatisticsAggregatedTimeFrameBucket(item) : <ContentStatisticsAggregatedTimeFrameBucket>item;
+                }
+            }
+        }
+        if (!data) {
+            this.overall = new ContentStatisticsData();
+            this.timeFrames = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.overall = _data["overall"] ? ContentStatisticsData.fromJS(_data["overall"]) : new ContentStatisticsData();
+            if (Array.isArray(_data["timeFrames"])) {
+                this.timeFrames = [] as any;
+                for (let item of _data["timeFrames"])
+                    this.timeFrames!.push(ContentStatisticsAggregatedTimeFrameBucket.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentStatisticsAggregated {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentStatisticsAggregated();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["overall"] = this.overall ? this.overall.toJSON() : <any>undefined;
+        if (Array.isArray(this.timeFrames)) {
+            data["timeFrames"] = [];
+            for (let item of this.timeFrames)
+                data["timeFrames"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IContentStatisticsAggregated {
+    /** Contains aggregated data for the complete lifetime of the Content */
+    overall: IContentStatisticsData;
+    /** Contains aggregated data according to requested time frames */
+    timeFrames: IContentStatisticsAggregatedTimeFrameBucket[];
+}
+
+export class ContentStatisticsData implements IContentStatisticsData {
+    /** Statistical data for downloads of a Content */
+    downloads?: ContentDownloads | undefined;
+    /** Statistical data of share-related activities for a Content */
+    sharings!: ContentSharings;
+
+    constructor(data?: IContentStatisticsData) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.downloads = data.downloads && !(<any>data.downloads).toJSON ? new ContentDownloads(data.downloads) : <ContentDownloads>this.downloads; 
+            this.sharings = data.sharings && !(<any>data.sharings).toJSON ? new ContentSharings(data.sharings) : <ContentSharings>this.sharings; 
+        }
+        if (!data) {
+            this.sharings = new ContentSharings();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.downloads = _data["downloads"] ? ContentDownloads.fromJS(_data["downloads"]) : <any>undefined;
+            this.sharings = _data["sharings"] ? ContentSharings.fromJS(_data["sharings"]) : new ContentSharings();
+        }
+    }
+
+    static fromJS(data: any): ContentStatisticsData {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentStatisticsData();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["downloads"] = this.downloads ? this.downloads.toJSON() : <any>undefined;
+        data["sharings"] = this.sharings ? this.sharings.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IContentStatisticsData {
+    /** Statistical data for downloads of a Content */
+    downloads?: IContentDownloads | undefined;
+    /** Statistical data of share-related activities for a Content */
+    sharings: IContentSharings;
+}
+
+export class ContentDownloads implements IContentDownloads {
+    /** Total downloads of content (regardless of formats, single download of multiple formats is counted once) */
+    total!: number;
+    /** Downloads of content through basic Share */
+    share!: number;
+    /** Downloads of content through embed */
+    embed!: number;
+
+    constructor(data?: IContentDownloads) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.total = _data["total"];
+            this.share = _data["share"];
+            this.embed = _data["embed"];
+        }
+    }
+
+    static fromJS(data: any): ContentDownloads {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentDownloads();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["total"] = this.total;
+        data["share"] = this.share;
+        data["embed"] = this.embed;
+        return data; 
+    }
+}
+
+export interface IContentDownloads {
+    /** Total downloads of content (regardless of formats, single download of multiple formats is counted once) */
+    total: number;
+    /** Downloads of content through basic Share */
+    share: number;
+    /** Downloads of content through embed */
+    embed: number;
+}
+
+export class ContentSharings implements IContentSharings {
+    /** Times this Content was added to a Share (does not decrease when removed from Share) */
+    shareAdd!: number;
+    /** Times this Content was added to an Embed (does not decrease when removed from Embed) */
+    embedAdd!: number;
+
+    constructor(data?: IContentSharings) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.shareAdd = _data["shareAdd"];
+            this.embedAdd = _data["embedAdd"];
+        }
+    }
+
+    static fromJS(data: any): ContentSharings {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentSharings();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["shareAdd"] = this.shareAdd;
+        data["embedAdd"] = this.embedAdd;
+        return data; 
+    }
+}
+
+export interface IContentSharings {
+    /** Times this Content was added to a Share (does not decrease when removed from Share) */
+    shareAdd: number;
+    /** Times this Content was added to an Embed (does not decrease when removed from Embed) */
+    embedAdd: number;
+}
+
+export class ContentStatisticsAggregatedTimeFrameBucket implements IContentStatisticsAggregatedTimeFrameBucket {
+    /** The timeframe for which statistical data in this bucket was aggregated */
+    timeFrame!: string;
+    /** Aggregated data for timeframe */
+    data!: ContentStatisticsData;
+
+    constructor(data?: IContentStatisticsAggregatedTimeFrameBucket) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.data = data.data && !(<any>data.data).toJSON ? new ContentStatisticsData(data.data) : <ContentStatisticsData>this.data; 
+        }
+        if (!data) {
+            this.data = new ContentStatisticsData();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.timeFrame = _data["timeFrame"];
+            this.data = _data["data"] ? ContentStatisticsData.fromJS(_data["data"]) : new ContentStatisticsData();
+        }
+    }
+
+    static fromJS(data: any): ContentStatisticsAggregatedTimeFrameBucket {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentStatisticsAggregatedTimeFrameBucket();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["timeFrame"] = this.timeFrame;
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IContentStatisticsAggregatedTimeFrameBucket {
+    /** The timeframe for which statistical data in this bucket was aggregated */
+    timeFrame: string;
+    /** Aggregated data for timeframe */
+    data: IContentStatisticsData;
+}
+
 export class ExportContentStatisticsRequest implements IExportContentStatisticsRequest {
     /** Allows filtering of retrieved statistical data */
     filter?: ContentFilterRequest | undefined;
@@ -73206,7 +74279,7 @@ export interface IExportContentStatisticsRequest {
 
 export class AddContentEventsRequest implements IAddContentEventsRequest {
     /** Data to be added to statistics */
-    events?: AddContentEventsRequestItem[] | undefined;
+    events!: AddContentEventsRequestItem[];
 
     constructor(data?: IAddContentEventsRequest) {
         if (data) {
@@ -73221,6 +74294,9 @@ export class AddContentEventsRequest implements IAddContentEventsRequest {
                     this.events[i] = item && !(<any>item).toJSON ? new AddContentEventsRequestItem(item) : <AddContentEventsRequestItem>item;
                 }
             }
+        }
+        if (!data) {
+            this.events = [];
         }
     }
 
@@ -73254,18 +74330,18 @@ export class AddContentEventsRequest implements IAddContentEventsRequest {
 
 export interface IAddContentEventsRequest {
     /** Data to be added to statistics */
-    events?: IAddContentEventsRequestItem[] | undefined;
+    events: IAddContentEventsRequestItem[];
 }
 
 export class AddContentEventsRequestItem implements IAddContentEventsRequestItem {
     /** Specifies at which time the events happened. The information will be automatically aggregated according to internal temporal resolution of statistics. */
     timestamp!: Date;
     /** Specifies content for which the events happened */
-    contentId?: string | undefined;
+    contentId!: string;
     /** Optionally specify the used ApiClient. Defaults to the API Client sending this request. */
     apiClientId?: string | undefined;
     /** Data to be added to statistics */
-    statistics?: ContentStatisticsDataEditable | undefined;
+    statistics!: ContentStatisticsDataEditable;
     /** Optionally specify an additional id under which the supplied data should be tracked. This
 Id is only used internally and cannot be retrieved through API or export. */
     externalEventTraceId?: string | undefined;
@@ -73278,6 +74354,9 @@ Id is only used internally and cannot be retrieved through API or export. */
             }
             this.statistics = data.statistics && !(<any>data.statistics).toJSON ? new ContentStatisticsDataEditable(data.statistics) : <ContentStatisticsDataEditable>this.statistics; 
         }
+        if (!data) {
+            this.statistics = new ContentStatisticsDataEditable();
+        }
     }
 
     init(_data?: any) {
@@ -73285,7 +74364,7 @@ Id is only used internally and cannot be retrieved through API or export. */
             this.timestamp = _data["timestamp"] ? new Date(_data["timestamp"].toString()) : <any>undefined;
             this.contentId = _data["contentId"];
             this.apiClientId = _data["apiClientId"];
-            this.statistics = _data["statistics"] ? ContentStatisticsDataEditable.fromJS(_data["statistics"]) : <any>undefined;
+            this.statistics = _data["statistics"] ? ContentStatisticsDataEditable.fromJS(_data["statistics"]) : new ContentStatisticsDataEditable();
             this.externalEventTraceId = _data["externalEventTraceId"];
         }
     }
@@ -73312,17 +74391,18 @@ export interface IAddContentEventsRequestItem {
     /** Specifies at which time the events happened. The information will be automatically aggregated according to internal temporal resolution of statistics. */
     timestamp: Date;
     /** Specifies content for which the events happened */
-    contentId?: string | undefined;
+    contentId: string;
     /** Optionally specify the used ApiClient. Defaults to the API Client sending this request. */
     apiClientId?: string | undefined;
     /** Data to be added to statistics */
-    statistics?: IContentStatisticsDataEditable | undefined;
+    statistics: IContentStatisticsDataEditable;
     /** Optionally specify an additional id under which the supplied data should be tracked. This
 Id is only used internally and cannot be retrieved through API or export. */
     externalEventTraceId?: string | undefined;
 }
 
 export class ContentStatisticsDataEditable implements IContentStatisticsDataEditable {
+    /** Statistical data for downloads of a Content */
     downloads?: ContentDownloadsEditable | undefined;
 
     constructor(data?: IContentStatisticsDataEditable) {
@@ -73356,6 +74436,7 @@ export class ContentStatisticsDataEditable implements IContentStatisticsDataEdit
 }
 
 export interface IContentStatisticsDataEditable {
+    /** Statistical data for downloads of a Content */
     downloads?: IContentDownloadsEditable | undefined;
 }
 
@@ -77070,7 +78151,7 @@ export interface IUserAggregationRequest extends IUserSearchAndAggregationBaseRe
 /** Request to update identity provider assignment of users. */
 export class UserUpdateIdentityProviderManyRequest extends UserManyRequestBase implements IUserUpdateIdentityProviderManyRequest {
     /** Identity provider to assign to users. */
-    identityProviderId!: string;
+    identityProviderId?: string | undefined;
 
     constructor(data?: IUserUpdateIdentityProviderManyRequest) {
         super(data);
@@ -77101,7 +78182,7 @@ export class UserUpdateIdentityProviderManyRequest extends UserManyRequestBase i
 /** Request to update identity provider assignment of users. */
 export interface IUserUpdateIdentityProviderManyRequest extends IUserManyRequestBase {
     /** Identity provider to assign to users. */
-    identityProviderId: string;
+    identityProviderId?: string | undefined;
 }
 
 /** Represents a list of source/target fields for XMP mappings */
@@ -78349,11 +79430,6 @@ export class ApplicationEvent implements IApplicationEvent {
             result.init(data);
             return result;
         }
-        if (data["kind"] === "BusinessProcessEvent") {
-            let result = new BusinessProcessEvent();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "OutputRenderedEvent") {
             let result = new OutputRenderedEvent();
             result.init(data);
@@ -78381,11 +79457,6 @@ export class ApplicationEvent implements IApplicationEvent {
         }
         if (data["kind"] === "BusinessProcessCancellationRequestedEvent") {
             let result = new BusinessProcessCancellationRequestedEvent();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "XmpWritebackCompletedEvent") {
-            let result = new XmpWritebackCompletedEvent();
             result.init(data);
             return result;
         }
@@ -78818,48 +79889,6 @@ export interface IApiStatisticsEvent extends IApplicationEvent {
     requestsPerClient?: { [key: string]: number; } | undefined;
 }
 
-export class BusinessProcessEvent extends ApplicationEvent implements IBusinessProcessEvent {
-    businessProcessId?: string | undefined;
-    lifeCycle?: BusinessProcessLifeCycle | undefined;
-    state?: string | undefined;
-
-    constructor(data?: IBusinessProcessEvent) {
-        super(data);
-        this._discriminator = "BusinessProcessEvent";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.businessProcessId = _data["businessProcessId"];
-            this.lifeCycle = _data["lifeCycle"];
-            this.state = _data["state"];
-        }
-    }
-
-    static fromJS(data: any): BusinessProcessEvent {
-        data = typeof data === 'object' ? data : {};
-        let result = new BusinessProcessEvent();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["businessProcessId"] = this.businessProcessId;
-        data["lifeCycle"] = this.lifeCycle;
-        data["state"] = this.state;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IBusinessProcessEvent extends IApplicationEvent {
-    businessProcessId?: string | undefined;
-    lifeCycle?: BusinessProcessLifeCycle | undefined;
-    state?: string | undefined;
-}
-
 export class OutputRenderedEvent extends ApplicationEvent implements IOutputRenderedEvent {
     outputId?: string | undefined;
     contentId?: string | undefined;
@@ -79161,40 +80190,6 @@ export class BusinessProcessCancellationRequestedEvent extends ApplicationEvent 
 
 export interface IBusinessProcessCancellationRequestedEvent extends IApplicationEvent {
     businessProcessId?: string | undefined;
-}
-
-export class XmpWritebackCompletedEvent extends ApplicationEvent implements IXmpWritebackCompletedEvent {
-    outputDocId?: string | undefined;
-
-    constructor(data?: IXmpWritebackCompletedEvent) {
-        super(data);
-        this._discriminator = "XmpWritebackCompletedEvent";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.outputDocId = _data["outputDocId"];
-        }
-    }
-
-    static fromJS(data: any): XmpWritebackCompletedEvent {
-        data = typeof data === 'object' ? data : {};
-        let result = new XmpWritebackCompletedEvent();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["outputDocId"] = this.outputDocId;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IXmpWritebackCompletedEvent extends IApplicationEvent {
-    outputDocId?: string | undefined;
 }
 
 export class ConsoleMessage extends Message implements IConsoleMessage {
