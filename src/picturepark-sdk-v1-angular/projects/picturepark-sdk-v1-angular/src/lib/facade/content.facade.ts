@@ -9,7 +9,10 @@ export class ContentFacade {
 
   getVirtualItemHtml(displayValue: string) {
     if (displayValue.includes('<cp-thumbnail-content')) {
-      displayValue = `<cp-thumbnail-content>${displayValue}</cp-thumbnail-content>`;
+      const element = this.getElements(displayValue, 'cp-thumbnail-content')[0];
+      if (element) {
+        displayValue = element.innerHTML;
+      }
     }
 
     displayValue = this.removeOverlayElements(displayValue);
