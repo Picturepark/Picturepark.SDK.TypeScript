@@ -55,7 +55,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
     const shareContent = this.data.shareContent;
     if (shareContent) {
-      this.content = shareContent as any;
+      this.initContent(shareContent);
       return;
     }
 
@@ -107,7 +107,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
         if (typeof content === 'string') {
           this.loadContent(content);
         } else {
-          this.content = content;
+          this.initContent(content);
         }
       });
     });
@@ -127,13 +127,17 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
         ContentResolveBehavior.OuterDisplayValueThumbnail,
         ContentResolveBehavior.Outputs,
       ])
-      .subscribe(async (content) => {
+      .subscribe((content) => {
         if (content) {
-          this.content = content;
-          if (content.isVirtual()) {
-            this.virtualItemHtml = this.contentFacade.getVirtualItemHtml(content.displayValues?.['thumbnail']);
-          }
+          this.initContent(content);
         }
       });
+  }
+
+  initContent(content: ShareContentDetail | ContentDetail) {
+    if (content.isVirtual()) {
+      this.virtualItemHtml = this.contentFacade.getVirtualItemHtml(content.displayValues?.['thumbnail']);
+    }
+    this.content = content;
   }
 }
