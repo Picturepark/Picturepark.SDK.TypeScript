@@ -34,19 +34,7 @@
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
       "protectedMethods": [
-        "ContentService.create",
-        "ContentService.get",
-        "ContentService.getMany",
-        "ContentService.search",
-        "ContentService.updateMetadata",
-        "ContentService.updatePermissions",
-        "InfoService.getInfo",
-        "ListItemService.get",
-        "ListItemService.search",
-        "ShareService.get",
-        "ShareService.getShareJson",
-        "ShareService.getShareContents",
-        "ShareService.search"
+        
       ],
       "configurationClass": "AuthService",
       "useTransformOptionsMethod": true,
