@@ -568,7 +568,7 @@ export class ShareAccesService extends PictureparkServiceBase {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    createShareSelectionDownloadLink(token: string | null, request: ShareDownloadRequest): Observable<DownloadLink> {
+    createShareSelectionDownloadLink(token: string | null, request: any): Observable<DownloadLink> {
         let url_ = this.baseUrl + "/d/{token}";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
