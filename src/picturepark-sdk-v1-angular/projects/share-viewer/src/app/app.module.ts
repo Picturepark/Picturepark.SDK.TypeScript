@@ -8,7 +8,6 @@ import {
   AuthService,
   AccessTokenAuthService,
   PICTUREPARK_CONFIGURATION,
-  LocalStorageService,
   StorageKey,
   LocaleModule,
 } from '@picturepark/sdk-v1-angular';
@@ -20,45 +19,47 @@ import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/uti
 import { PICTUREPARK_UI_SCRIPTPATH } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/configuration';
 import { PictureparkCdnConfiguration } from '../models/cdn-config';
 import { shareTranslations } from './translations/share-translations';
+import { PICTUREPARK_CDN_URL } from 'projects/picturepark-sdk-v1-angular/src/lib/services/frontend-services';
 
 const translations = TRANSLATIONS;
 translations['ShareViewer'] = shareTranslations;
+
+function getAttribute(attribute: string) {
+  const appRootTag = document.getElementsByTagName('app-root')[0];
+  return appRootTag.getAttribute(attribute);
+}
 
 function getCdnUrl(): string | null {
   if (!environment.production) {
     return '';
   }
 
-  const appRootTag = document.getElementsByTagName('app-root')[0];
-  return appRootTag.getAttribute('picturepark-cdn-url');
+  return getAttribute('picturepark-cdn-url');
 }
 
 export function PictureparkConfigurationFactory() {
   if (!environment.production) {
     return <PictureparkCdnConfiguration>{
-      apiServer: 'https://dev.picturepark.com',
-      customerAlias: 'testalias',
+      apiServer: 'https://api.01.qa-picturepark.com',
+      customerAlias: 'brodev001',
       cdnUrl: getCdnUrl(),
     };
   }
 
-  const appRootTag = document.getElementsByTagName('app-root')[0];
   return <PictureparkCdnConfiguration>{
-    apiServer: appRootTag.getAttribute('picturepark-api-server'),
-    customerAlias: appRootTag.getAttribute('picturepark-customer-alias'),
+    apiServer: getAttribute('picturepark-api-server'),
+    customerAlias: getAttribute('picturepark-customer-alias'),
     cdnUrl: getCdnUrl(),
   };
 }
 
 export function PictureparkUIScriptPathFactory() {
-  const appRootTag = document.getElementsByTagName('app-root')[0];
-  return appRootTag.getAttribute('picturepark-script-path');
+  return getAttribute('picturepark-script-path');
 }
 
 export function getLanguageFactory(): string {
-  const appRootTag = document.getElementsByTagName('app-root')[0];
   const storedLanguage = localStorage.getItem(StorageKey.LanguageCode);
-  const language = appRootTag.getAttribute('language');
+  const language = getAttribute('language');
   return storedLanguage ?? language ?? '';
 }
 
@@ -81,6 +82,7 @@ export function getLanguageFactory(): string {
     { provide: AuthService, useClass: AccessTokenAuthService },
     { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
     { provide: PICTUREPARK_UI_SCRIPTPATH, useFactory: PictureparkUIScriptPathFactory },
+    { provide: PICTUREPARK_CDN_URL, useFactory: getCdnUrl },
   ],
   bootstrap: [AppComponent],
 })
