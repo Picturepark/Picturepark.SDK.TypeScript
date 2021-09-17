@@ -10,6 +10,7 @@ import {
   PICTUREPARK_CONFIGURATION,
   StorageKey,
   LocaleModule,
+  PICTUREPARK_CDN_URL,
 } from '@picturepark/sdk-v1-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,7 +20,7 @@ import { TRANSLATIONS } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/uti
 import { PICTUREPARK_UI_SCRIPTPATH } from 'projects/picturepark-sdk-v1-angular-ui/src/lib/configuration';
 import { PictureparkCdnConfiguration } from '../models/cdn-config';
 import { shareTranslations } from './translations/share-translations';
-import { PICTUREPARK_CDN_URL } from 'projects/picturepark-sdk-v1-angular/src/lib/services/frontend-services';
+import { getDevCdnUrl, PictureparkAppSetting } from 'src/config';
 
 const translations = TRANSLATIONS;
 translations['ShareViewer'] = shareTranslations;
@@ -31,7 +32,7 @@ function getAttribute(attribute: string) {
 
 function getCdnUrl(): string | null {
   if (!environment.production) {
-    return 'https://brodev001.01.qa-picturepark.com';
+    return getDevCdnUrl();
   }
 
   return getAttribute('picturepark-cdn-url');
@@ -39,9 +40,10 @@ function getCdnUrl(): string | null {
 
 export function PictureparkConfigurationFactory() {
   if (!environment.production) {
+    const settings = PictureparkAppSetting();
     return <PictureparkCdnConfiguration>{
-      apiServer: 'https://api.01.qa-picturepark.com',
-      customerAlias: 'brodev001',
+      apiServer: settings.apiServer,
+      customerAlias: settings.customerAlias,
       cdnUrl: getCdnUrl(),
     };
   }
