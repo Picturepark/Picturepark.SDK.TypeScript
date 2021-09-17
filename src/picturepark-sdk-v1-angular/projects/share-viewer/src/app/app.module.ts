@@ -31,7 +31,7 @@ function getAttribute(attribute: string) {
 
 function getCdnUrl(): string | null {
   if (!environment.production) {
-    return '';
+    return 'https://brodev001.01.qa-picturepark.com';
   }
 
   return getAttribute('picturepark-cdn-url');

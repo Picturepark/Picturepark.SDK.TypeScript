@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import Liquid from 'liquidjs';
+import { Liquid } from 'liquidjs';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +46,27 @@ export class LiquidRenderingService {
           displayValueObject[key] !== undefined
         ) {
           displayValueObject[key] = await this.liquidEngine.parseAndRender(displayValueObject[key]);
+        }
+      }
+    }
+  }
+
+  renderNestedDisplayValuesSync(obj: Object) {
+    const displayValues: any[] = [];
+    this.traverseObject(obj, (key, value) => {
+      if (key === '_displayValues' || key === 'displayValues') {
+        displayValues.push(value);
+      }
+    });
+
+    for (const displayValueObject of displayValues) {
+      for (const key in displayValueObject) {
+        if (
+          displayValueObject.hasOwnProperty(key) &&
+          displayValueObject[key] !== null &&
+          displayValueObject[key] !== undefined
+        ) {
+          displayValueObject[key] = this.liquidEngine.parseAndRenderSync(displayValueObject[key]);
         }
       }
     }

@@ -7,14 +7,8 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-import { Injector } from '@angular/core';
-import { mergeMap } from 'rxjs/operators';
-import { LazyGetter } from 'lazy-get-decorator';
-import { AuthService } from './auth.service';
-import { LiquidRenderingService } from './liquid-rendering.service';
-import { PictureparkServiceBase } from './base.service';
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
-import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import {
@@ -28,39 +22,21 @@ import {
   ShareContentDetailResult,
   OutputResolveResult,
   DownloadLink,
-  PICTUREPARK_API_URL,
-  ContentResolveBehavior,
-  ContentCreateRequest,
-  ContentSearchRequest,
-  ContentSearchResult,
-  ContentMetadataUpdateRequest,
-  ContentPermissionsUpdateRequest,
-  ListItemResolveBehavior,
-  ListItemDetail,
-  ListItemSearchRequest,
-  ListItemSearchResult,
-  ShareSearchRequest,
-  ShareSearchResult,
-} from '@picturepark/sdk-v1-angular';
+} from './api-services';
 
 export const PICTUREPARK_CDN_URL = new InjectionToken<string>('PICTUREPARK_CDN_URL');
 
 @Injectable({
   providedIn: 'root',
 })
-export class ShareAccesService extends PictureparkServiceBase {
+export class ShareAccesService {
   private http: HttpClient;
   private baseUrl: string;
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-  constructor(
-    @Inject(AuthService) configuration: AuthService,
-    @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(PICTUREPARK_CDN_URL) baseUrl?: string
-  ) {
-    super(configuration);
+  constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_CDN_URL) baseUrl?: string) {
     this.http = http;
-    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl('');
+    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : '';
   }
 
   getSharePage(token: string | null, lang: string | null | undefined): Observable<FileResponse> {
@@ -78,12 +54,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('get', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('get', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processGetSharePage(response_);
@@ -222,12 +194,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('get', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('get', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processGetJson(response_);
@@ -366,12 +334,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('get', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('get', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processGetContentsInShare(response_);
@@ -501,12 +465,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('get', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('get', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processGetOutputsInShare(response_);
@@ -660,12 +620,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('get', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('get', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processDownloadShare(response_);
@@ -795,12 +751,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('post', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('post', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processCreateShareSelectionDownloadLink(response_);
@@ -951,12 +903,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('get', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('get', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processDownloadShare2(response_);
@@ -1103,12 +1051,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('get', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('get', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processDownloadShare3(response_);
@@ -1255,12 +1199,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('get', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('get', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processDownloadShareInline(response_);
@@ -1407,12 +1347,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('get', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('get', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processDownloadShareInline2(response_);
@@ -1559,12 +1495,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('get', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('get', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processDownloadShareInline3(response_);
@@ -1692,12 +1624,8 @@ export class ShareAccesService extends PictureparkServiceBase {
       }),
     };
 
-    return _observableFrom(this.transformOptions(options_))
-      .pipe(
-        _observableMergeMap((transformedOptions_) => {
-          return this.http.request('get', url_, transformedOptions_);
-        })
-      )
+    return this.http
+      .request('get', url_, options_)
       .pipe(
         _observableMergeMap((response_: any) => {
           return this.processGetContentIcon(response_);

@@ -7,11 +7,10 @@ import {
   InfoFacade,
   ShareDataBasic,
   ShareContentDetail,
-  ShareService,
   PICTUREPARK_CONFIGURATION,
   ShareResolveBehavior,
-  ShareFacade,
   LanguageService,
+  ShareAccessFacade,
 } from '@picturepark/sdk-v1-angular';
 import { ContentDetailsDialogComponent, ContentDetailsDialogOptions } from '@picturepark/sdk-v1-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
@@ -37,8 +36,7 @@ export class ShareDetailComponent implements OnInit {
   }
 
   constructor(
-    private shareService: ShareService,
-    private shareFacade: ShareFacade,
+    private shareAccessFacade: ShareAccessFacade,
     private infoFacade: InfoFacade,
     private dialog: MatDialog,
     private route: ActivatedRoute,
@@ -76,8 +74,8 @@ export class ShareDetailComponent implements OnInit {
 
   onScroll() {
     this.itemsLoading = true;
-    this.shareFacade
-      .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30, this.config.cdnUrl)
+    this.shareAccessFacade
+      .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30)
       .subscribe((page) => {
         this.itemsLoading = false;
       });
@@ -90,13 +88,7 @@ export class ShareDetailComponent implements OnInit {
 
     this.isLoading = true;
     const shareInfo = forkJoin([
-      this.shareService.getShareByToken(
-        searchString,
-        this.language,
-        [ShareResolveBehavior.Schemas],
-        30,
-        this.config.cdnUrl
-      ),
+      this.shareAccessFacade.getShareByToken(searchString, this.language, [ShareResolveBehavior.Schemas], 30),
       this.infoFacade.getInfo(this.config.cdnUrl),
     ]);
 
@@ -145,8 +137,8 @@ export class ShareDetailComponent implements OnInit {
             return of(content);
           }
 
-          return this.shareFacade
-            .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30, this.config.cdnUrl)
+          return this.shareAccessFacade
+            .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30)
             .pipe(map(() => this.shareDetail.contentSelections[index]));
         },
       },
