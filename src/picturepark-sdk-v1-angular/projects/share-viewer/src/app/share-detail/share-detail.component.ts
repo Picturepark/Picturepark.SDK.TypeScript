@@ -12,7 +12,7 @@ import {
   LanguageService,
   ShareAccessFacade,
 } from '@picturepark/sdk-v1-angular';
-import { ContentDetailsDialogComponent, ContentDetailsDialogOptions } from '@picturepark/sdk-v1-angular-ui';
+import { ContentDetailsDialogComponent, ContentDetailsDialogOptions, ContentDownloadDialogService } from '@picturepark/sdk-v1-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
 import { forkJoin, fromEvent, of } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
@@ -42,6 +42,7 @@ export class ShareDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private ngZone: NgZone,
     public languageService: LanguageService,
+    public contentDownloadDialogService: ContentDownloadDialogService,
     @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkCdnConfiguration
   ) {}
 
@@ -107,7 +108,11 @@ export class ShareDetailComponent implements OnInit {
   }
 
   downloadAll(): void {
-    window.location.replace(this.shareDetail.data!.url);
+    this.contentDownloadDialogService.showDialog({
+      mode: 'multi',
+      contents: this.shareDetail.contentSelections,
+      shareToken: this.shareToken,
+    });
   }
 
   showDetail(item: ShareContentDetail): void {

@@ -1,5 +1,6 @@
 import { Injectable, Inject, LOCALE_ID } from '@angular/core';
-import { InfoFacade, CustomerInfo } from '@picturepark/sdk-v1-angular';
+import { InfoFacade, CustomerInfo, PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v1-angular';
+import { PictureparkCdnConfiguration } from 'projects/share-viewer/src/models/cdn-config';
 import { translate } from '../../../utilities/translations';
 
 export interface IOutputFormatTranslations {
@@ -12,11 +13,12 @@ export interface IOutputFormatTranslations {
 export class TranslationService {
   private customerInfo: CustomerInfo;
 
-  constructor(@Inject(LOCALE_ID) private locale: string, private infoFacade: InfoFacade) {}
+  constructor(@Inject(LOCALE_ID) private locale: string, private infoFacade: InfoFacade,
+  @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkCdnConfiguration) {}
 
   public async getOutputFormatTranslations(): Promise<IOutputFormatTranslations> {
     if (!this.customerInfo) {
-      this.customerInfo = await this.infoFacade.getInfo().toPromise();
+      this.customerInfo = await this.infoFacade.getInfo(this.config.cdnUrl).toPromise();
     }
 
     const outputTranslations: { [outputFormatId: string]: string } = {};

@@ -18,4 +18,5 @@ export interface IContentDownload {
 export interface ContentDownloadDialogOptions {
   contents: IContentDownload[];
   mode: 'single' | 'multi';
+  shareToken?: string;
 }
