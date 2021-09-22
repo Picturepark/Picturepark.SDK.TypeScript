@@ -4180,7 +4180,7 @@
           "Content"
         ],
         "summary": "Download content",
-        "description": "Download a single content in a specific output format. To resize images on download specify target width &amp; height. To download only a portion of the file, specify the range parameter.",
+        "description": "Download a single content in a specific output format. To resize images on download specify target width &amp; height. To download only a portion of the file, specify the range parameter.\nTo use conversion presets on download, e.g. to crop or rotate, please see [EditOutput](#operation/Content_EditOutput).",
         "operationId": "Content_Download",
         "parameters": [
           {
@@ -7093,6 +7093,208 @@
           {
             "Bearer": [
               "content_read"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Contents/many/repair/filter": {
+      "post": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Repair contents by filter",
+        "description": "A repair operation re-extracts Metadata from the originally uploaded file, applies it and triggers follow-up actions where needed (e.g. Rendering, XmpWriteback)\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "operationId": "Content_RepairContentsByFilter",
+        "requestBody": {
+          "x-name": "request",
+          "description": "Content repair request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContentRepairByFilterRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Business process",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessProcess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkValidationException"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkForbiddenException"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkNotFoundException"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkConflictException"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "content_write"
+            ]
+          }
+        ]
+      }
+    },
+    "/v1/Contents/many/repair/batch": {
+      "post": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Repair contents",
+        "description": "A repair operation re-extracts Metadata from the originally uploaded file, applies it and triggers follow-up actions where needed (e.g. Rendering, XmpWriteback)\nThe operation is executed asynchronous and is not awaited. Call [WaitForCompletion](#operation/BusinessProcess_WaitForCompletion) to wait for the process to finish.",
+        "operationId": "Content_RepairContentsBatch",
+        "requestBody": {
+          "x-name": "request",
+          "description": "Content repair request.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContentRepairBatchRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Business process",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessProcess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkValidationException"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkForbiddenException"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkNotFoundException"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkConflictException"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [
+              "content_write"
             ]
           }
         ]
@@ -17830,6 +18032,102 @@
         }
       }
     },
+    "/v1/Shares/json/{token}/outputs": {
+      "get": {
+        "tags": [
+          "Share"
+        ],
+        "summary": "Get shared outputs",
+        "operationId": "Share_GetOutputsInShare",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "Share token",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of OutputResolveResult",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OutputResolveResult"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkValidationException"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkForbiddenException"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkNotFoundException"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkConflictException"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/Shares/d/{token}": {
       "get": {
         "tags": [
@@ -17966,6 +18264,110 @@
           },
           "412": {
             "description": null
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Share"
+        ],
+        "summary": "Download selection of a share",
+        "operationId": "Share_CreateShareSelectionDownloadLink",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "Share token",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "description": "Share download request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShareDownloadRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "DownloadLink",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadLink"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation exception",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkValidationException"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkForbiddenException"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkNotFoundException"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "409": {
+            "description": "Version conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkConflictException"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests"
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PictureparkException"
+                }
+              }
+            }
           }
         }
       }
@@ -25649,13 +26051,7 @@
           },
           {
             "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "reference": {
-                "type": "string",
-                "nullable": true
-              }
-            }
+            "additionalProperties": false
           }
         ]
       },
@@ -26591,6 +26987,17 @@
                 "nullable": true
               }
             }
+          }
+        ]
+      },
+      "UnmodifiedOriginalOutputNotFoundException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/OutputNotFoundException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
           }
         ]
       },
@@ -30793,6 +31200,31 @@
                 "items": {
                   "type": "string"
                 }
+              }
+            }
+          }
+        ]
+      },
+      "ConcurrentFileReplacementDuringRepairException": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PictureparkConflictException"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "contentId": {
+                "type": "string",
+                "nullable": true
+              },
+              "expectedOriginalFileVersion": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "actualOriginalFileVersion": {
+                "type": "integer",
+                "format": "int32"
               }
             }
           }
@@ -39393,6 +39825,132 @@
           }
         }
       },
+      "ContentRepairByFilterRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ContentRepairRequestBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "filter"
+            ],
+            "properties": {
+              "filter": {
+                "description": "Filter used to enumerate Contents to repair",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ContentFilterRequest"
+                  }
+                ]
+              },
+              "repairSettingOverrides": {
+                "type": "array",
+                "description": "Settings for specific contents (overwrites DefaultSettings)",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/ContentRepairRequestItem"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ContentRepairRequestItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contentId"
+        ],
+        "properties": {
+          "contentId": {
+            "type": "string",
+            "description": "Content to repair",
+            "minLength": 1
+          },
+          "settings": {
+            "description": "Options for this repair",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ContentRepairSettings"
+              }
+            ]
+          }
+        }
+      },
+      "ContentRepairSettings": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "forceInvalidateXmpWriteback"
+        ],
+        "properties": {
+          "acceptableLayerUnassignments": {
+            "type": "array",
+            "description": "List of layers that can be unassigned (due to change of ContentSchemaId and LayerSchemaIds)",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "forceInvalidateXmpWriteback": {
+            "type": "boolean",
+            "description": "Whether to enforce XmpWriteback for Outputs of Content (ignored if repair was not performed)"
+          }
+        }
+      },
+      "ContentRepairRequestBase": {
+        "type": "object",
+        "discriminator": {
+          "propertyName": "kind",
+          "mapping": {
+            "ContentRepairBatchRequest": "#/components/schemas/ContentRepairBatchRequest",
+            "ContentRepairByFilterRequest": "#/components/schemas/ContentRepairByFilterRequest"
+          }
+        },
+        "x-abstract": true,
+        "additionalProperties": false,
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "defaultSettings": {
+            "description": "Settings to use if no specific settings for a requested Content were specified",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ContentRepairSettings"
+              }
+            ]
+          },
+          "kind": {
+            "type": "string"
+          }
+        }
+      },
+      "ContentRepairBatchRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ContentRepairRequestBase"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "description": "List of contents and options for repair",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/ContentRepairRequestItem"
+                }
+              }
+            }
+          }
+        ]
+      },
       "ContentFieldsBatchUpdateRequest": {
         "allOf": [
           {
@@ -40414,29 +40972,17 @@
         }
       },
       "DocumentHistorySearchResult": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/BaseResultOfDocumentHistory"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false
-          }
-        ]
-      },
-      "BaseResultOfDocumentHistory": {
         "type": "object",
-        "description": "Base class for search results",
         "additionalProperties": false,
         "required": [
           "results",
-          "totalResults",
+          "maxResults",
           "elapsedMilliseconds"
         ],
         "properties": {
-          "totalResults": {
+          "maxResults": {
             "type": "integer",
-            "description": "The total number of matching documents.",
+            "description": "The upper bound of the total number of matching documents.",
             "format": "int64"
           },
           "results": {
@@ -42698,7 +43244,13 @@
           },
           {
             "type": "object",
-            "additionalProperties": false
+            "additionalProperties": false,
+            "properties": {
+              "collectionId": {
+                "type": "string",
+                "nullable": true
+              }
+            }
           }
         ]
       },
@@ -48285,6 +48837,23 @@
           }
         }
       },
+      "ShareDownloadRequest": {
+        "type": "object",
+        "description": "Request specifying which part of a share should be downloaded",
+        "additionalProperties": false,
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "Specifies which content / output format combinations should be downloaded.",
+            "items": {
+              "$ref": "#/components/schemas/ContentDownloadRequestItem"
+            }
+          }
+        }
+      },
       "ShareBaseUpdateRequest": {
         "type": "object",
         "discriminator": {
@@ -50406,6 +50975,9 @@
             "type": "object",
             "description": "Represents the updateable fields of the user.",
             "additionalProperties": false,
+            "required": [
+              "languageCode"
+            ],
             "properties": {
               "userRoles": {
                 "type": "array",
@@ -50423,7 +50995,7 @@
               "languageCode": {
                 "type": "string",
                 "description": "Preferred language, e.g. for correspondence.",
-                "nullable": true
+                "minLength": 1
               },
               "address": {
                 "description": "User's address.",
@@ -50627,7 +51199,8 @@
         "description": "Holds information needed for user creation.",
         "additionalProperties": false,
         "required": [
-          "emailAddress"
+          "emailAddress",
+          "languageCode"
         ],
         "properties": {
           "firstName": {
@@ -50648,7 +51221,7 @@
           "languageCode": {
             "type": "string",
             "description": "Preferred language, e.g. for correspondence.",
-            "nullable": true
+            "minLength": 1
           },
           "userRoleIds": {
             "type": "array",
@@ -51590,7 +52163,8 @@
             "CustomerChangeEvent": "#/components/schemas/CustomerChangeEvent",
             "SearchReindexCompletedEvent": "#/components/schemas/SearchReindexCompletedEvent",
             "BusinessRuleFiredEvent": "#/components/schemas/BusinessRuleFiredEvent",
-            "BusinessProcessCancellationRequestedEvent": "#/components/schemas/BusinessProcessCancellationRequestedEvent"
+            "BusinessProcessCancellationRequestedEvent": "#/components/schemas/BusinessProcessCancellationRequestedEvent",
+            "DataExtractionRepairEvent": "#/components/schemas/DataExtractionRepairEvent"
           }
         },
         "additionalProperties": false,
@@ -51995,6 +52569,36 @@
               "businessProcessId": {
                 "type": "string",
                 "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "DataExtractionRepairEvent": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApplicationEvent"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "contentRepairRequestId": {
+                "type": "string"
+              },
+              "contentId": {
+                "type": "string"
+              },
+              "error": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                ]
+              },
+              "hadChanges": {
+                "type": "boolean"
               }
             }
           }

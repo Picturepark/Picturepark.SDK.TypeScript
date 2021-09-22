@@ -5832,6 +5832,178 @@ export class ContentClient extends PictureparkClientBase {
     }
 
     /**
+     * Repair contents by filter
+     * @param request Content repair request.
+     * @return Business process
+     */
+    repairContentsByFilter(request: ContentRepairByFilterRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Contents/many/repair/filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processRepairContentsByFilter(_response);
+        });
+    }
+
+    protected processRepairContentsByFilter(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Repair contents
+     * @param request Content repair request.
+     * @return Business process
+     */
+    repairContentsBatch(request: ContentRepairBatchRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Contents/many/repair/batch";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processRepairContentsBatch(_response);
+        });
+    }
+
+    protected processRepairContentsBatch(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
      * Batch update content fields - by IDs
      * @param request Content fields batch update request.
      * @return Business process
@@ -14986,6 +15158,91 @@ export class ShareClient extends PictureparkClientBase {
     }
 
     /**
+     * Get shared outputs
+     * @param token Share token
+     * @return List of OutputResolveResult
+     */
+    getOutputsInShare(token: string | null): Promise<OutputResolveResult[]> {
+        let url_ = this.baseUrl + "/v1/Shares/json/{token}/outputs";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetOutputsInShare(_response);
+        });
+    }
+
+    protected processGetOutputsInShare(response: Response): Promise<OutputResolveResult[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <OutputResolveResult[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<OutputResolveResult[]>(<any>null);
+    }
+
+    /**
      * Download shared outputs
      * @param token Share token
      * @param width (optional) Optional width in pixels to resize image
@@ -15083,6 +15340,96 @@ export class ShareClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<FileResponse>(<any>null);
+    }
+
+    /**
+     * Download selection of a share
+     * @param token Share token
+     * @param request Share download request
+     * @return DownloadLink
+     */
+    createShareSelectionDownloadLink(token: string | null, request: ShareDownloadRequest): Promise<DownloadLink> {
+        let url_ = this.baseUrl + "/v1/Shares/d/{token}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCreateShareSelectionDownloadLink(_response);
+        });
+    }
+
+    protected processCreateShareSelectionDownloadLink(response: Response): Promise<DownloadLink> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <DownloadLink>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<DownloadLink>(<any>null);
     }
 
     /**
@@ -21395,7 +21742,6 @@ export enum TraceLevel {
 }
 
 export interface PictureparkConflictException extends PictureparkBusinessException {
-    reference?: string | undefined;
 }
 
 export interface PictureparkTimeoutException extends PictureparkValidationException {
@@ -21631,6 +21977,9 @@ export interface OutputIdNotFoundException extends PictureparkNotFoundException 
 export interface OutputNotFoundException extends PictureparkNotFoundException {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
+}
+
+export interface UnmodifiedOriginalOutputNotFoundException extends OutputNotFoundException {
 }
 
 export interface UnableToCreateOrModifyStaticOutputFormatException extends PictureparkValidationException {
@@ -22687,6 +23036,12 @@ export interface ContentSchemaChangeException extends PictureparkValidationExcep
     requestedContentSchemaId?: string | undefined;
     /** Layers assigned to this Content which are not allowed for contents of type RequestedContentSchemaId */
     incompatibleLayerAssignments?: string[] | undefined;
+}
+
+export interface ConcurrentFileReplacementDuringRepairException extends PictureparkConflictException {
+    contentId?: string | undefined;
+    expectedOriginalFileVersion?: number;
+    actualOriginalFileVersion?: number;
 }
 
 export interface BusinessProcessEngineRequestException extends PictureparkBusinessException {
@@ -25370,6 +25725,38 @@ export interface OutputResolveManyRequest {
     contentIds: string[];
 }
 
+export interface ContentRepairRequestBase {
+    /** Settings to use if no specific settings for a requested Content were specified */
+    defaultSettings?: ContentRepairSettings | undefined;
+    kind: string;
+}
+
+export interface ContentRepairByFilterRequest extends ContentRepairRequestBase {
+    /** Filter used to enumerate Contents to repair */
+    filter: ContentFilterRequest;
+    /** Settings for specific contents (overwrites DefaultSettings) */
+    repairSettingOverrides?: ContentRepairRequestItem[] | undefined;
+}
+
+export interface ContentRepairRequestItem {
+    /** Content to repair */
+    contentId: string;
+    /** Options for this repair */
+    settings?: ContentRepairSettings | undefined;
+}
+
+export interface ContentRepairSettings {
+    /** List of layers that can be unassigned (due to change of ContentSchemaId and LayerSchemaIds) */
+    acceptableLayerUnassignments?: string[] | undefined;
+    /** Whether to enforce XmpWriteback for Outputs of Content (ignored if repair was not performed) */
+    forceInvalidateXmpWriteback: boolean;
+}
+
+export interface ContentRepairBatchRequest extends ContentRepairRequestBase {
+    /** List of contents and options for repair */
+    items?: ContentRepairRequestItem[] | undefined;
+}
+
 /** Base class for the content metadata batch requests. */
 export interface MetadataValuesChangeRequestBase {
     /** Changes that need to be applied to the existing content metadata. The same set of changes is applied to all contents. */
@@ -25683,19 +26070,15 @@ or jsondiffpatch (https://github.com/benjamine/jsondiffpatch) to process this. *
     patch?: any | undefined;
 }
 
-/** Base class for search results */
-export interface BaseResultOfDocumentHistory {
-    /** The total number of matching documents. */
-    totalResults: number;
+export interface DocumentHistorySearchResult {
+    /** The upper bound of the total number of matching documents. */
+    maxResults: number;
     /** The matched documents. */
     results: DocumentHistory[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
     /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
-}
-
-export interface DocumentHistorySearchResult extends BaseResultOfDocumentHistory {
 }
 
 export interface DocumentHistorySearchRequest {
@@ -26480,6 +26863,7 @@ export interface NotificationDetailTransfer extends NotificationDetailTransferBa
 }
 
 export interface NotificationDetailTransferImport extends NotificationDetailTransferBase {
+    collectionId?: string | undefined;
 }
 
 export interface NotificationDetailShare extends NotificationDetailBase {
@@ -28286,6 +28670,12 @@ export interface BaseResultOfShareContentDetail {
 export interface ShareContentDetailResult extends BaseResultOfShareContentDetail {
 }
 
+/** Request specifying which part of a share should be downloaded */
+export interface ShareDownloadRequest {
+    /** Specifies which content / output format combinations should be downloaded. */
+    items: ContentDownloadRequestItem[];
+}
+
 /** Base of update request for share */
 export interface ShareBaseUpdateRequest {
     /** Name of share. */
@@ -28983,7 +29373,7 @@ export interface UserUpdateRequest extends User {
     /** Comment saved for the user. */
     comment?: string | undefined;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode: string;
     /** User's address. */
     address?: UserAddress | undefined;
     /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
@@ -29068,7 +29458,7 @@ export interface UserCreateRequest {
     /** Email address of the user (doubles as username). */
     emailAddress: string;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode: string;
     /** IDs of user roles the user is assigned to. */
     userRoleIds?: string[] | undefined;
     /** User address. */
@@ -29492,6 +29882,13 @@ export interface BusinessRuleFiredEventDetail {
 
 export interface BusinessProcessCancellationRequestedEvent extends ApplicationEvent {
     businessProcessId?: string | undefined;
+}
+
+export interface DataExtractionRepairEvent extends ApplicationEvent {
+    contentRepairRequestId?: string;
+    contentId?: string;
+    error?: ErrorResponse | undefined;
+    hadChanges?: boolean;
 }
 
 export interface ConsoleMessage extends Message {

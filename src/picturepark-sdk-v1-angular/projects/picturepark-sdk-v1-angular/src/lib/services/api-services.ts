@@ -7260,6 +7260,218 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
+     * Repair contents by filter
+     * @param request Content repair request.
+     * @return Business process
+     */
+    repairContentsByFilter(request: ContentRepairByFilterRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Contents/many/repair/filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processRepairContentsByFilter(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRepairContentsByFilter(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRepairContentsByFilter(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Repair contents
+     * @param request Content repair request.
+     * @return Business process
+     */
+    repairContentsBatch(request: ContentRepairBatchRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Contents/many/repair/batch";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processRepairContentsBatch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRepairContentsBatch(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRepairContentsBatch(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
      * Batch update content fields - by IDs
      * @param request Content fields batch update request.
      * @return Business process
@@ -18852,6 +19064,115 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
+     * Get shared outputs
+     * @param token Share token
+     * @return List of OutputResolveResult
+     */
+    getOutputsInShare(token: string | null): Observable<OutputResolveResult[]> {
+        let url_ = this.baseUrl + "/v1/Shares/json/{token}/outputs";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetOutputsInShare(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOutputsInShare(<any>response_);
+                } catch (e) {
+                    return <Observable<OutputResolveResult[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OutputResolveResult[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOutputsInShare(response: HttpResponseBase): Observable<OutputResolveResult[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OutputResolveResult.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OutputResolveResult[]>(<any>null);
+    }
+
+    /**
      * Download shared outputs
      * @param token Share token
      * @param width (optional) Optional width in pixels to resize image
@@ -18968,6 +19289,116 @@ export class ShareService extends PictureparkServiceBase {
             }));
         }
         return _observableOf<FileResponse>(<any>null);
+    }
+
+    /**
+     * Download selection of a share
+     * @param token Share token
+     * @param request Share download request
+     * @return DownloadLink
+     */
+    createShareSelectionDownloadLink(token: string | null, request: ShareDownloadRequest): Observable<DownloadLink> {
+        let url_ = this.baseUrl + "/v1/Shares/d/{token}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreateShareSelectionDownloadLink(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateShareSelectionDownloadLink(<any>response_);
+                } catch (e) {
+                    return <Observable<DownloadLink>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DownloadLink>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateShareSelectionDownloadLink(response: HttpResponseBase): Observable<DownloadLink> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DownloadLink.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DownloadLink>(<any>null);
     }
 
     /**
@@ -27294,6 +27725,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnmodifiedOriginalOutputNotFoundException") {
+            let result = new UnmodifiedOriginalOutputNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UnableToCreateOrModifyStaticOutputFormatException") {
             let result = new UnableToCreateOrModifyStaticOutputFormatException();
             result.init(data);
@@ -28209,6 +28645,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException") {
             let result = new UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ConcurrentFileReplacementDuringRepairException") {
+            let result = new ConcurrentFileReplacementDuringRepairException();
             result.init(data);
             return result;
         }
@@ -29012,6 +29453,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnmodifiedOriginalOutputNotFoundException") {
+            let result = new UnmodifiedOriginalOutputNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UnableToCreateOrModifyStaticOutputFormatException") {
             let result = new UnableToCreateOrModifyStaticOutputFormatException();
             result.init(data);
@@ -29927,6 +30373,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException") {
             let result = new UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ConcurrentFileReplacementDuringRepairException") {
+            let result = new ConcurrentFileReplacementDuringRepairException();
             result.init(data);
             return result;
         }
@@ -31737,7 +32188,6 @@ export enum TraceLevel {
 }
 
 export class PictureparkConflictException extends PictureparkBusinessException implements IPictureparkConflictException {
-    reference?: string | undefined;
 
     constructor(data?: IPictureparkConflictException) {
         super(data);
@@ -31746,15 +32196,17 @@ export class PictureparkConflictException extends PictureparkBusinessException i
 
     init(_data?: any) {
         super.init(_data);
-        if (_data) {
-            this.reference = _data["reference"];
-        }
     }
 
     static fromJS(data: any): PictureparkConflictException {
         data = typeof data === 'object' ? data : {};
         if (data["kind"] === "DocumentVersionConflictException") {
             let result = new DocumentVersionConflictException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ConcurrentFileReplacementDuringRepairException") {
+            let result = new ConcurrentFileReplacementDuringRepairException();
             result.init(data);
             return result;
         }
@@ -31765,14 +32217,12 @@ export class PictureparkConflictException extends PictureparkBusinessException i
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["reference"] = this.reference;
         super.toJSON(data);
         return data; 
     }
 }
 
 export interface IPictureparkConflictException extends IPictureparkBusinessException {
-    reference?: string | undefined;
 }
 
 export class PictureparkTimeoutException extends PictureparkValidationException implements IPictureparkTimeoutException {
@@ -32313,6 +32763,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "OutputNotFoundException") {
             let result = new OutputNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnmodifiedOriginalOutputNotFoundException") {
+            let result = new UnmodifiedOriginalOutputNotFoundException();
             result.init(data);
             return result;
         }
@@ -33794,6 +34249,11 @@ export class OutputNotFoundException extends PictureparkNotFoundException implem
 
     static fromJS(data: any): OutputNotFoundException {
         data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "UnmodifiedOriginalOutputNotFoundException") {
+            let result = new UnmodifiedOriginalOutputNotFoundException();
+            result.init(data);
+            return result;
+        }
         let result = new OutputNotFoundException();
         result.init(data);
         return result;
@@ -33811,6 +34271,34 @@ export class OutputNotFoundException extends PictureparkNotFoundException implem
 export interface IOutputNotFoundException extends IPictureparkNotFoundException {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
+}
+
+export class UnmodifiedOriginalOutputNotFoundException extends OutputNotFoundException implements IUnmodifiedOriginalOutputNotFoundException {
+
+    constructor(data?: IUnmodifiedOriginalOutputNotFoundException) {
+        super(data);
+        this._discriminator = "UnmodifiedOriginalOutputNotFoundException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): UnmodifiedOriginalOutputNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnmodifiedOriginalOutputNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUnmodifiedOriginalOutputNotFoundException extends IOutputNotFoundException {
 }
 
 export class UnableToCreateOrModifyStaticOutputFormatException extends PictureparkValidationException implements IUnableToCreateOrModifyStaticOutputFormatException {
@@ -41532,6 +42020,48 @@ export interface IContentSchemaChangeException extends IPictureparkValidationExc
     requestedContentSchemaId?: string | undefined;
     /** Layers assigned to this Content which are not allowed for contents of type RequestedContentSchemaId */
     incompatibleLayerAssignments?: string[] | undefined;
+}
+
+export class ConcurrentFileReplacementDuringRepairException extends PictureparkConflictException implements IConcurrentFileReplacementDuringRepairException {
+    contentId?: string | undefined;
+    expectedOriginalFileVersion?: number;
+    actualOriginalFileVersion?: number;
+
+    constructor(data?: IConcurrentFileReplacementDuringRepairException) {
+        super(data);
+        this._discriminator = "ConcurrentFileReplacementDuringRepairException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.contentId = _data["contentId"];
+            this.expectedOriginalFileVersion = _data["expectedOriginalFileVersion"];
+            this.actualOriginalFileVersion = _data["actualOriginalFileVersion"];
+        }
+    }
+
+    static fromJS(data: any): ConcurrentFileReplacementDuringRepairException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConcurrentFileReplacementDuringRepairException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["expectedOriginalFileVersion"] = this.expectedOriginalFileVersion;
+        data["actualOriginalFileVersion"] = this.actualOriginalFileVersion;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IConcurrentFileReplacementDuringRepairException extends IPictureparkConflictException {
+    contentId?: string | undefined;
+    expectedOriginalFileVersion?: number;
+    actualOriginalFileVersion?: number;
 }
 
 export class BusinessProcessEngineRequestException extends PictureparkBusinessException implements IBusinessProcessEngineRequestException {
@@ -58422,6 +58952,270 @@ export interface IOutputResolveManyRequest {
     contentIds: string[];
 }
 
+export abstract class ContentRepairRequestBase implements IContentRepairRequestBase {
+    /** Settings to use if no specific settings for a requested Content were specified */
+    defaultSettings?: ContentRepairSettings | undefined;
+
+    protected _discriminator: string;
+
+    constructor(data?: IContentRepairRequestBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.defaultSettings = data.defaultSettings && !(<any>data.defaultSettings).toJSON ? new ContentRepairSettings(data.defaultSettings) : <ContentRepairSettings>this.defaultSettings; 
+        }
+        this._discriminator = "ContentRepairRequestBase";
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.defaultSettings = _data["defaultSettings"] ? ContentRepairSettings.fromJS(_data["defaultSettings"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ContentRepairRequestBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "ContentRepairByFilterRequest") {
+            let result = new ContentRepairByFilterRequest();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentRepairBatchRequest") {
+            let result = new ContentRepairBatchRequest();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'ContentRepairRequestBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        data["defaultSettings"] = this.defaultSettings ? this.defaultSettings.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IContentRepairRequestBase {
+    /** Settings to use if no specific settings for a requested Content were specified */
+    defaultSettings?: IContentRepairSettings | undefined;
+}
+
+export class ContentRepairByFilterRequest extends ContentRepairRequestBase implements IContentRepairByFilterRequest {
+    /** Filter used to enumerate Contents to repair */
+    filter!: ContentFilterRequest;
+    /** Settings for specific contents (overwrites DefaultSettings) */
+    repairSettingOverrides?: ContentRepairRequestItem[] | undefined;
+
+    constructor(data?: IContentRepairByFilterRequest) {
+        super(data);
+        if (data) {
+            this.filter = data.filter && !(<any>data.filter).toJSON ? new ContentFilterRequest(data.filter) : <ContentFilterRequest>this.filter; 
+            if (data.repairSettingOverrides) {
+                this.repairSettingOverrides = [];
+                for (let i = 0; i < data.repairSettingOverrides.length; i++) {
+                    let item = data.repairSettingOverrides[i];
+                    this.repairSettingOverrides[i] = item && !(<any>item).toJSON ? new ContentRepairRequestItem(item) : <ContentRepairRequestItem>item;
+                }
+            }
+        }
+        if (!data) {
+            this.filter = new ContentFilterRequest();
+        }
+        this._discriminator = "ContentRepairByFilterRequest";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.filter = _data["filter"] ? ContentFilterRequest.fromJS(_data["filter"]) : new ContentFilterRequest();
+            if (Array.isArray(_data["repairSettingOverrides"])) {
+                this.repairSettingOverrides = [] as any;
+                for (let item of _data["repairSettingOverrides"])
+                    this.repairSettingOverrides!.push(ContentRepairRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentRepairByFilterRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRepairByFilterRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        if (Array.isArray(this.repairSettingOverrides)) {
+            data["repairSettingOverrides"] = [];
+            for (let item of this.repairSettingOverrides)
+                data["repairSettingOverrides"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentRepairByFilterRequest extends IContentRepairRequestBase {
+    /** Filter used to enumerate Contents to repair */
+    filter: IContentFilterRequest;
+    /** Settings for specific contents (overwrites DefaultSettings) */
+    repairSettingOverrides?: IContentRepairRequestItem[] | undefined;
+}
+
+export class ContentRepairRequestItem implements IContentRepairRequestItem {
+    /** Content to repair */
+    contentId!: string;
+    /** Options for this repair */
+    settings?: ContentRepairSettings | undefined;
+
+    constructor(data?: IContentRepairRequestItem) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.settings = data.settings && !(<any>data.settings).toJSON ? new ContentRepairSettings(data.settings) : <ContentRepairSettings>this.settings; 
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.contentId = _data["contentId"];
+            this.settings = _data["settings"] ? ContentRepairSettings.fromJS(_data["settings"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ContentRepairRequestItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRepairRequestItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["settings"] = this.settings ? this.settings.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IContentRepairRequestItem {
+    /** Content to repair */
+    contentId: string;
+    /** Options for this repair */
+    settings?: IContentRepairSettings | undefined;
+}
+
+export class ContentRepairSettings implements IContentRepairSettings {
+    /** List of layers that can be unassigned (due to change of ContentSchemaId and LayerSchemaIds) */
+    acceptableLayerUnassignments?: string[] | undefined;
+    /** Whether to enforce XmpWriteback for Outputs of Content (ignored if repair was not performed) */
+    forceInvalidateXmpWriteback!: boolean;
+
+    constructor(data?: IContentRepairSettings) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["acceptableLayerUnassignments"])) {
+                this.acceptableLayerUnassignments = [] as any;
+                for (let item of _data["acceptableLayerUnassignments"])
+                    this.acceptableLayerUnassignments!.push(item);
+            }
+            this.forceInvalidateXmpWriteback = _data["forceInvalidateXmpWriteback"];
+        }
+    }
+
+    static fromJS(data: any): ContentRepairSettings {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRepairSettings();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.acceptableLayerUnassignments)) {
+            data["acceptableLayerUnassignments"] = [];
+            for (let item of this.acceptableLayerUnassignments)
+                data["acceptableLayerUnassignments"].push(item);
+        }
+        data["forceInvalidateXmpWriteback"] = this.forceInvalidateXmpWriteback;
+        return data; 
+    }
+}
+
+export interface IContentRepairSettings {
+    /** List of layers that can be unassigned (due to change of ContentSchemaId and LayerSchemaIds) */
+    acceptableLayerUnassignments?: string[] | undefined;
+    /** Whether to enforce XmpWriteback for Outputs of Content (ignored if repair was not performed) */
+    forceInvalidateXmpWriteback: boolean;
+}
+
+export class ContentRepairBatchRequest extends ContentRepairRequestBase implements IContentRepairBatchRequest {
+    /** List of contents and options for repair */
+    items?: ContentRepairRequestItem[] | undefined;
+
+    constructor(data?: IContentRepairBatchRequest) {
+        super(data);
+        if (data) {
+            if (data.items) {
+                this.items = [];
+                for (let i = 0; i < data.items.length; i++) {
+                    let item = data.items[i];
+                    this.items[i] = item && !(<any>item).toJSON ? new ContentRepairRequestItem(item) : <ContentRepairRequestItem>item;
+                }
+            }
+        }
+        this._discriminator = "ContentRepairBatchRequest";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ContentRepairRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentRepairBatchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRepairBatchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentRepairBatchRequest extends IContentRepairRequestBase {
+    /** List of contents and options for repair */
+    items?: IContentRepairRequestItem[] | undefined;
+}
+
 /** Base class for the content metadata batch requests. */
 export abstract class MetadataValuesChangeRequestBase implements IMetadataValuesChangeRequestBase {
     /** Changes that need to be applied to the existing content metadata. The same set of changes is applied to all contents. */
@@ -60304,10 +61098,9 @@ or jsondiffpatch (https://github.com/benjamine/jsondiffpatch) to process this. *
     patch?: any | undefined;
 }
 
-/** Base class for search results */
-export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory {
-    /** The total number of matching documents. */
-    totalResults!: number;
+export class DocumentHistorySearchResult implements IDocumentHistorySearchResult {
+    /** The upper bound of the total number of matching documents. */
+    maxResults!: number;
     /** The matched documents. */
     results!: DocumentHistory[];
     /** The search execution time in milliseconds. */
@@ -60315,7 +61108,7 @@ export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory
     /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
-    constructor(data?: IBaseResultOfDocumentHistory) {
+    constructor(data?: IDocumentHistorySearchResult) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -60336,7 +61129,7 @@ export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory
 
     init(_data?: any) {
         if (_data) {
-            this.totalResults = _data["totalResults"];
+            this.maxResults = _data["maxResults"];
             if (Array.isArray(_data["results"])) {
                 this.results = [] as any;
                 for (let item of _data["results"])
@@ -60345,49 +61138,6 @@ export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory
             this.elapsedMilliseconds = _data["elapsedMilliseconds"];
             this.pageToken = _data["pageToken"];
         }
-    }
-
-    static fromJS(data: any): BaseResultOfDocumentHistory {
-        data = typeof data === 'object' ? data : {};
-        let result = new BaseResultOfDocumentHistory();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
-}
-
-/** Base class for search results */
-export interface IBaseResultOfDocumentHistory {
-    /** The total number of matching documents. */
-    totalResults: number;
-    /** The matched documents. */
-    results: IDocumentHistory[];
-    /** The search execution time in milliseconds. */
-    elapsedMilliseconds: number;
-    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
-    pageToken?: string | undefined;
-}
-
-export class DocumentHistorySearchResult extends BaseResultOfDocumentHistory implements IDocumentHistorySearchResult {
-
-    constructor(data?: IDocumentHistorySearchResult) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
     }
 
     static fromJS(data: any): DocumentHistorySearchResult {
@@ -60399,12 +61149,27 @@ export class DocumentHistorySearchResult extends BaseResultOfDocumentHistory imp
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
+        data["maxResults"] = this.maxResults;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
 
-export interface IDocumentHistorySearchResult extends IBaseResultOfDocumentHistory {
+export interface IDocumentHistorySearchResult {
+    /** The upper bound of the total number of matching documents. */
+    maxResults: number;
+    /** The matched documents. */
+    results: IDocumentHistory[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
 }
 
 export class DocumentHistorySearchRequest implements IDocumentHistorySearchRequest {
@@ -64235,6 +65000,7 @@ export interface INotificationDetailTransfer extends INotificationDetailTransfer
 }
 
 export class NotificationDetailTransferImport extends NotificationDetailTransferBase implements INotificationDetailTransferImport {
+    collectionId?: string | undefined;
 
     constructor(data?: INotificationDetailTransferImport) {
         super(data);
@@ -64243,6 +65009,9 @@ export class NotificationDetailTransferImport extends NotificationDetailTransfer
 
     init(_data?: any) {
         super.init(_data);
+        if (_data) {
+            this.collectionId = _data["collectionId"];
+        }
     }
 
     static fromJS(data: any): NotificationDetailTransferImport {
@@ -64254,12 +65023,14 @@ export class NotificationDetailTransferImport extends NotificationDetailTransfer
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["collectionId"] = this.collectionId;
         super.toJSON(data);
         return data; 
     }
 }
 
 export interface INotificationDetailTransferImport extends INotificationDetailTransferBase {
+    collectionId?: string | undefined;
 }
 
 export class NotificationDetailShare extends NotificationDetailBase implements INotificationDetailShare {
@@ -74393,6 +75164,64 @@ export class ShareContentDetailResult extends BaseResultOfShareContentDetail imp
 export interface IShareContentDetailResult extends IBaseResultOfShareContentDetail {
 }
 
+/** Request specifying which part of a share should be downloaded */
+export class ShareDownloadRequest implements IShareDownloadRequest {
+    /** Specifies which content / output format combinations should be downloaded. */
+    items!: ContentDownloadRequestItem[];
+
+    constructor(data?: IShareDownloadRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.items) {
+                this.items = [];
+                for (let i = 0; i < data.items.length; i++) {
+                    let item = data.items[i];
+                    this.items[i] = item && !(<any>item).toJSON ? new ContentDownloadRequestItem(item) : <ContentDownloadRequestItem>item;
+                }
+            }
+        }
+        if (!data) {
+            this.items = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ContentDownloadRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ShareDownloadRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareDownloadRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Request specifying which part of a share should be downloaded */
+export interface IShareDownloadRequest {
+    /** Specifies which content / output format combinations should be downloaded. */
+    items: IContentDownloadRequestItem[];
+}
+
 /** Base of update request for share */
 export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest {
     /** Name of share. */
@@ -78461,7 +79290,7 @@ export class UserUpdateRequest extends User implements IUserUpdateRequest {
     /** Comment saved for the user. */
     comment?: string | undefined;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode!: string;
     /** User's address. */
     address?: UserAddress | undefined;
     /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
@@ -78519,7 +79348,7 @@ export interface IUserUpdateRequest extends IUser {
     /** Comment saved for the user. */
     comment?: string | undefined;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode: string;
     /** User's address. */
     address?: IUserAddress | undefined;
     /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
@@ -78921,7 +79750,7 @@ export class UserCreateRequest implements IUserCreateRequest {
     /** Email address of the user (doubles as username). */
     emailAddress!: string;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode!: string;
     /** IDs of user roles the user is assigned to. */
     userRoleIds?: string[] | undefined;
     /** User address. */
@@ -78984,7 +79813,7 @@ export interface IUserCreateRequest {
     /** Email address of the user (doubles as username). */
     emailAddress: string;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode: string;
     /** IDs of user roles the user is assigned to. */
     userRoleIds?: string[] | undefined;
     /** User address. */
@@ -80886,6 +81715,11 @@ export class ApplicationEvent implements IApplicationEvent {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DataExtractionRepairEvent") {
+            let result = new DataExtractionRepairEvent();
+            result.init(data);
+            return result;
+        }
         let result = new ApplicationEvent();
         result.init(data);
         return result;
@@ -81616,6 +82450,55 @@ export class BusinessProcessCancellationRequestedEvent extends ApplicationEvent 
 
 export interface IBusinessProcessCancellationRequestedEvent extends IApplicationEvent {
     businessProcessId?: string | undefined;
+}
+
+export class DataExtractionRepairEvent extends ApplicationEvent implements IDataExtractionRepairEvent {
+    contentRepairRequestId?: string;
+    contentId?: string;
+    error?: ErrorResponse | undefined;
+    hadChanges?: boolean;
+
+    constructor(data?: IDataExtractionRepairEvent) {
+        super(data);
+        if (data) {
+            this.error = data.error && !(<any>data.error).toJSON ? new ErrorResponse(data.error) : <ErrorResponse>this.error; 
+        }
+        this._discriminator = "DataExtractionRepairEvent";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.contentRepairRequestId = _data["contentRepairRequestId"];
+            this.contentId = _data["contentId"];
+            this.error = _data["error"] ? ErrorResponse.fromJS(_data["error"]) : <any>undefined;
+            this.hadChanges = _data["hadChanges"];
+        }
+    }
+
+    static fromJS(data: any): DataExtractionRepairEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new DataExtractionRepairEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentRepairRequestId"] = this.contentRepairRequestId;
+        data["contentId"] = this.contentId;
+        data["error"] = this.error ? this.error.toJSON() : <any>undefined;
+        data["hadChanges"] = this.hadChanges;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IDataExtractionRepairEvent extends IApplicationEvent {
+    contentRepairRequestId?: string;
+    contentId?: string;
+    error?: IErrorResponse | undefined;
+    hadChanges?: boolean;
 }
 
 export class ConsoleMessage extends Message implements IConsoleMessage {

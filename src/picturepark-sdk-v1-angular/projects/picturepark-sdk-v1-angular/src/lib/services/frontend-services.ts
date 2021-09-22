@@ -22,6 +22,7 @@ import {
   ShareContentDetailResult,
   OutputResolveResult,
   DownloadLink,
+  ShareDownloadRequest,
 } from './api-services';
 
 export const PICTUREPARK_CDN_URL = new InjectionToken<string>('PICTUREPARK_CDN_URL');
@@ -733,7 +734,7 @@ export class ShareAccesService {
     return _observableOf<FileResponse>(<any>null);
   }
 
-  createShareSelectionDownloadLink(token: string | null, request: any): Observable<DownloadLink> {
+  createShareSelectionDownloadLink(token: string | null, request: ShareDownloadRequest): Observable<DownloadLink> {
     let url_ = this.baseUrl + '/d/{token}';
     if (token === undefined || token === null) throw new Error("The parameter 'token' must be defined.");
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
