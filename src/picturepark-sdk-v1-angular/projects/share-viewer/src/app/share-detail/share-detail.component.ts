@@ -12,7 +12,11 @@ import {
   LanguageService,
   ShareAccessFacade,
 } from '@picturepark/sdk-v1-angular';
-import { ContentDetailsDialogComponent, ContentDetailsDialogOptions, ContentDownloadDialogService } from '@picturepark/sdk-v1-angular-ui';
+import {
+  ContentDetailsDialogComponent,
+  ContentDetailsDialogOptions,
+  ContentDownloadDialogService,
+} from '@picturepark/sdk-v1-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
 import { forkJoin, fromEvent, of } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
@@ -107,7 +111,7 @@ export class ShareDetailComponent implements OnInit {
     });
   }
 
-  downloadAll(): void {
+  download(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
       contents: this.shareDetail.contentSelections,
