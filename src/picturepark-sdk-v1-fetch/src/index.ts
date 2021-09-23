@@ -3651,6 +3651,106 @@ export class ContentClient extends PictureparkClientBase {
     }
 
     /**
+     * Edit output
+     * @param contentId The content ID.
+     * @param outputFormatId The output format ID.
+     * @param conversionPreset The conversion preset.
+     */
+    editOutput(contentId: string | null, outputFormatId: string | null, conversionPreset: string | null): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/v1/Contents/downloads/{contentId}/{outputFormatId}/{conversionPreset}";
+        if (contentId === undefined || contentId === null)
+            throw new Error("The parameter 'contentId' must be defined.");
+        url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId));
+        if (outputFormatId === undefined || outputFormatId === null)
+            throw new Error("The parameter 'outputFormatId' must be defined.");
+        url_ = url_.replace("{outputFormatId}", encodeURIComponent("" + outputFormatId));
+        if (conversionPreset === undefined || conversionPreset === null)
+            throw new Error("The parameter 'conversionPreset' must be defined.");
+        url_ = url_.replace("{conversionPreset}", encodeURIComponent("" + conversionPreset));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processEditOutput(_response);
+        });
+    }
+
+    protected processEditOutput(response: Response): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status === 412) {
+            return response.text().then((_responseText) => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse>(<any>null);
+    }
+
+    /**
      * Download thumbnail
      * @param id The content ID.
      * @param size Thumbnail size. Either small, medium or large.
@@ -4343,6 +4443,182 @@ export class ContentClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<void>(<any>null);
+    }
+
+    /**
+     * Check if given changes of ContentSchemaId are possible without incurring data loss (due to assigned Layers and LayerSchemaIds)
+     * @param request Changes to check
+     * @return Result indicating if data loss would occur for given requests
+     */
+    checkContentSchemaChange(request: CheckContentSchemaIdChangeRequest): Promise<CheckContentSchemaIdChangeResult> {
+        let url_ = this.baseUrl + "/v1/Contents/checkContentSchemaChange";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCheckContentSchemaChange(_response);
+        });
+    }
+
+    protected processCheckContentSchemaChange(response: Response): Promise<CheckContentSchemaIdChangeResult> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <CheckContentSchemaIdChangeResult>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<CheckContentSchemaIdChangeResult>(<any>null);
+    }
+
+    /**
+     * Check if a file update is possible without incurring data loss
+     * @param id The ID of the content to replace.
+     * @param request Content file update request
+     * @return Information about data loss, if any
+     */
+    checkUpdateFile(id: string | null, request: ContentFileUpdateCheckRequest): Promise<CheckContentSchemaIdChangeResult> {
+        let url_ = this.baseUrl + "/v1/Contents/{id}/file/check";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCheckUpdateFile(_response);
+        });
+    }
+
+    protected processCheckUpdateFile(response: Response): Promise<CheckContentSchemaIdChangeResult> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <CheckContentSchemaIdChangeResult>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<CheckContentSchemaIdChangeResult>(<any>null);
     }
 
     /**
@@ -5553,6 +5829,178 @@ export class ContentClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<OutputResolveResult[]>(<any>null);
+    }
+
+    /**
+     * Repair contents by filter
+     * @param request Content repair request.
+     * @return Business process
+     */
+    repairContentsByFilter(request: ContentRepairByFilterRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Contents/many/repair/filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processRepairContentsByFilter(_response);
+        });
+    }
+
+    protected processRepairContentsByFilter(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Repair contents
+     * @param request Content repair request.
+     * @return Business process
+     */
+    repairContentsBatch(request: ContentRepairBatchRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Contents/many/repair/batch";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processRepairContentsBatch(_response);
+        });
+    }
+
+    protected processRepairContentsBatch(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(<any>null);
     }
 
     /**
@@ -14710,6 +15158,91 @@ export class ShareClient extends PictureparkClientBase {
     }
 
     /**
+     * Get shared outputs
+     * @param token Share token
+     * @return List of OutputResolveResult
+     */
+    getOutputsInShare(token: string | null): Promise<OutputResolveResult[]> {
+        let url_ = this.baseUrl + "/v1/Shares/json/{token}/outputs";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetOutputsInShare(_response);
+        });
+    }
+
+    protected processGetOutputsInShare(response: Response): Promise<OutputResolveResult[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <OutputResolveResult[]>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<OutputResolveResult[]>(<any>null);
+    }
+
+    /**
      * Download shared outputs
      * @param token Share token
      * @param width (optional) Optional width in pixels to resize image
@@ -14810,6 +15343,96 @@ export class ShareClient extends PictureparkClientBase {
     }
 
     /**
+     * Download selection of a share
+     * @param token Share token
+     * @param request Share download request
+     * @return DownloadLink
+     */
+    createShareSelectionDownloadLink(token: string | null, request: ShareDownloadRequest): Promise<DownloadLink> {
+        let url_ = this.baseUrl + "/v1/Shares/d/{token}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCreateShareSelectionDownloadLink(_response);
+        });
+    }
+
+    protected processCreateShareSelectionDownloadLink(response: Response): Promise<DownloadLink> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <DownloadLink>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<DownloadLink>(<any>null);
+    }
+
+    /**
      * Download shared output
      * @param token Share token
      * @param contentId The content id
@@ -14851,6 +15474,104 @@ export class ShareClient extends PictureparkClientBase {
     }
 
     protected processDownloadSingleContent(response: Response): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status === 412) {
+            return response.text().then((_responseText) => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse>(<any>null);
+    }
+
+    /**
+     * Download shared outputs
+     * @param token Share token
+     * @param conversionPreset Image editing specification
+     * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
+     */
+    downloadWithConversionPreset(token: string | null, conversionPreset: string | null, range?: string | null | undefined): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/v1/Shares/d/{token}/{conversionPreset}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        if (conversionPreset === undefined || conversionPreset === null)
+            throw new Error("The parameter 'conversionPreset' must be defined.");
+        url_ = url_.replace("{conversionPreset}", encodeURIComponent("" + conversionPreset));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "range": range !== undefined && range !== null ? "" + range : "",
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processDownloadWithConversionPreset(_response);
+        });
+    }
+
+    protected processDownloadWithConversionPreset(response: Response): Promise<FileResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 400) {
@@ -21021,7 +21742,6 @@ export enum TraceLevel {
 }
 
 export interface PictureparkConflictException extends PictureparkBusinessException {
-    reference?: string | undefined;
 }
 
 export interface PictureparkTimeoutException extends PictureparkValidationException {
@@ -21144,6 +21864,11 @@ export interface UserNotLinkedWithIdsException extends PictureparkBusinessExcept
     affectedUserId?: string | undefined;
 }
 
+export interface LanguageCodeNotExistingException extends PictureparkValidationException {
+    languageCode?: string | undefined;
+    existingLanguageCodes?: string[] | undefined;
+}
+
 export interface RenderingException extends PictureparkBusinessException {
 }
 
@@ -21235,13 +21960,26 @@ export interface ShareSizeLimitExceededException extends PictureparkValidationEx
     limit?: number;
 }
 
+export interface DuplicateSharedOutputException extends PictureparkValidationException {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+}
+
+export interface DuplicateEmbedConversionPresetException extends PictureparkValidationException {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+}
+
 export interface OutputIdNotFoundException extends PictureparkNotFoundException {
     outputId?: string | undefined;
 }
 
-export interface OutputNotFoundException extends PictureparkBusinessException {
+export interface OutputNotFoundException extends PictureparkNotFoundException {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
+}
+
+export interface UnmodifiedOriginalOutputNotFoundException extends OutputNotFoundException {
 }
 
 export interface UnableToCreateOrModifyStaticOutputFormatException extends PictureparkValidationException {
@@ -21281,6 +22019,14 @@ export interface DownloadLinkExpiredException extends PictureparkBusinessExcepti
 }
 
 export interface RenderingNotAwaitedException extends PictureparkBusinessException {
+}
+
+export interface DuplicateContentDownloadRequestException extends PictureparkValidationException {
+    contentId?: string | undefined;
+    outputFormatId?: string | undefined;
+}
+
+export interface InvalidContentDownloadRequestException extends PictureparkValidationException {
 }
 
 export interface LeaseNotAcquiredException extends PictureparkBusinessException {
@@ -21563,6 +22309,7 @@ export enum UserRight {
     ReadStatistics = <any>"ReadStatistics",
     WriteStatistics = <any>"WriteStatistics",
     ExportStatistics = <any>"ExportStatistics",
+    EditImages = <any>"EditImages",
 }
 
 export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
@@ -22280,6 +23027,21 @@ export interface ContentHistoricVersionNotFoundException extends PictureparkNotF
 export interface UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException extends PictureparkValidationException {
     contentId?: string | undefined;
     version?: number;
+}
+
+export interface ContentSchemaChangeException extends PictureparkValidationException {
+    /** Content for which a change to RequestedContentSchemaId would cause data loss */
+    contentId?: string | undefined;
+    /** ContentSchemaId to which the Content would have been changed */
+    requestedContentSchemaId?: string | undefined;
+    /** Layers assigned to this Content which are not allowed for contents of type RequestedContentSchemaId */
+    incompatibleLayerAssignments?: string[] | undefined;
+}
+
+export interface ConcurrentFileReplacementDuringRepairException extends PictureparkConflictException {
+    contentId?: string | undefined;
+    expectedOriginalFileVersion?: number;
+    actualOriginalFileVersion?: number;
 }
 
 export interface BusinessProcessEngineRequestException extends PictureparkBusinessException {
@@ -24645,10 +25407,53 @@ export interface ContentOwnershipTransferRequest {
     transferUserId: string;
 }
 
-/** Request to update a content file */
-export interface ContentFileUpdateRequest {
+/** Result for CheckContentSchemaIdChangeRequest */
+export interface CheckContentSchemaIdChangeResult {
+    /** List of operations which incur loss of data if carried out */
+    problematicChanges?: ContentSchemaChangeException[] | undefined;
+    /** List of errors preventing validation of ContentSchema change */
+    errors?: CheckContentSchemaIdChangeResultErrorItem[] | undefined;
+}
+
+export interface CheckContentSchemaIdChangeResultErrorItem {
+    /** Request for which this error occured */
+    request?: CheckContentSchemaIdChangeRequestItem | undefined;
+    /** Error which occured when trying to check ContentSchema change (e.g. ContentNotFoundException or ContentPermissionException) */
+    exception?: PictureparkException | undefined;
+}
+
+/** Change of ContentSchemaId to check */
+export interface CheckContentSchemaIdChangeRequestItem {
+    /** Content for which to check a ContentSchemaId change */
+    contentId?: string | undefined;
+    /** ContentSchemaId to change to */
+    newContentSchemaId?: string | undefined;
+}
+
+/** Request to check if given changes to ContentSchemaId are possible without data loss due to restrictions (LayerSchemaIds) on assigned metadata */
+export interface CheckContentSchemaIdChangeRequest {
+    /** Operations which should be checked */
+    requests?: CheckContentSchemaIdChangeRequestItem[] | undefined;
+}
+
+export interface ContentFileUpdateRequestBase {
     /** ID of the file transfer to use to replace the content file. */
     fileTransferId: string;
+}
+
+/** Request to check if update of a content file incurs data loss */
+export interface ContentFileUpdateCheckRequest extends ContentFileUpdateRequestBase {
+}
+
+/** Request to update a content file */
+export interface ContentFileUpdateRequest extends ContentFileUpdateRequestBase {
+    /** Whether ContentType is allowed to change. This is needed if the newly uploaded file is of a different type (e.g. ".jpg" is replaced by ".svg") */
+    allowContentTypeChange?: boolean;
+    /** When enabled, content file update will take place regardless of any layers that are not compatible with updated ContentSchemaId.
+For better safety, consider using AcceptableLayerUnassignments instead. */
+    allowAnyLayerUnassignment?: boolean;
+    /** Allow removal of given Layers from Content if needed. Ignored when AllowAnyLayerUnassignment is enabled. */
+    acceptableLayerUnassignments?: string[] | undefined;
 }
 
 /** Result to a get content references operation */
@@ -24918,6 +25723,38 @@ export interface ContentManyReferencesRequest {
 export interface OutputResolveManyRequest {
     /** The IDs of the contents whose outputs should to be retrieved. */
     contentIds: string[];
+}
+
+export interface ContentRepairRequestBase {
+    /** Settings to use if no specific settings for a requested Content were specified */
+    defaultSettings?: ContentRepairSettings | undefined;
+    kind: string;
+}
+
+export interface ContentRepairByFilterRequest extends ContentRepairRequestBase {
+    /** Filter used to enumerate Contents to repair */
+    filter: ContentFilterRequest;
+    /** Settings for specific contents (overwrites DefaultSettings) */
+    repairSettingOverrides?: ContentRepairRequestItem[] | undefined;
+}
+
+export interface ContentRepairRequestItem {
+    /** Content to repair */
+    contentId: string;
+    /** Options for this repair */
+    settings?: ContentRepairSettings | undefined;
+}
+
+export interface ContentRepairSettings {
+    /** List of layers that can be unassigned (due to change of ContentSchemaId and LayerSchemaIds) */
+    acceptableLayerUnassignments?: string[] | undefined;
+    /** Whether to enforce XmpWriteback for Outputs of Content (ignored if repair was not performed) */
+    forceInvalidateXmpWriteback: boolean;
+}
+
+export interface ContentRepairBatchRequest extends ContentRepairRequestBase {
+    /** List of contents and options for repair */
+    items?: ContentRepairRequestItem[] | undefined;
 }
 
 /** Base class for the content metadata batch requests. */
@@ -25233,19 +26070,15 @@ or jsondiffpatch (https://github.com/benjamine/jsondiffpatch) to process this. *
     patch?: any | undefined;
 }
 
-/** Base class for search results */
-export interface BaseResultOfDocumentHistory {
-    /** The total number of matching documents. */
-    totalResults: number;
+export interface DocumentHistorySearchResult {
+    /** The upper bound of the total number of matching documents. */
+    maxResults: number;
     /** The matched documents. */
     results: DocumentHistory[];
     /** The search execution time in milliseconds. */
     elapsedMilliseconds: number;
     /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
-}
-
-export interface DocumentHistorySearchResult extends BaseResultOfDocumentHistory {
 }
 
 export interface DocumentHistorySearchRequest {
@@ -26030,6 +26863,7 @@ export interface NotificationDetailTransfer extends NotificationDetailTransferBa
 }
 
 export interface NotificationDetailTransferImport extends NotificationDetailTransferBase {
+    collectionId?: string | undefined;
 }
 
 export interface NotificationDetailShare extends NotificationDetailBase {
@@ -26387,16 +27221,45 @@ export enum AlphaHandling {
     ReplaceInvertedAlpha = <any>"ReplaceInvertedAlpha",
 }
 
-/** An ImageAction that allows cropping an image. */
-export interface CropAction extends ImageActionBase {
-    /** X-Coordinate of top left point of the cropping rectangle. */
-    x?: number;
-    /** Y-Coordinate of top left point of the cropping rectangle. */
-    y?: number;
+/** Base parameters for cropping actions. */
+export interface CropActionBase extends ImageActionBase {
     /** Width of the cropping rectangle. */
     width?: number;
     /** Height of the cropping rectangle. */
     height?: number;
+}
+
+/** An ImageAction that allows cropping an image. */
+export interface CropAction extends CropActionBase {
+    /** X-Coordinate of top left point of the cropping rectangle. */
+    x?: number;
+    /** Y-Coordinate of top left point of the cropping rectangle. */
+    y?: number;
+}
+
+/** An ImageAction that allows cropping an image, weighing the cropping rectangle on a gravity. */
+export interface GravityBasedCropAction extends CropActionBase {
+    /** Gravity of the cropping rectangle. */
+    gravity?: CropGravity;
+}
+
+export enum CropGravity {
+    NorthWest = <any>"NorthWest",
+    North = <any>"North",
+    NorthEast = <any>"NorthEast",
+    East = <any>"East",
+    SouthEast = <any>"SouthEast",
+    South = <any>"South",
+    SouthWest = <any>"SouthWest",
+    West = <any>"West",
+}
+
+/** An ImageAction that allows cropping an image, positioning the cropping rectangle relative to the width/height of the image. */
+export interface RelativeCropAction extends CropActionBase {
+    /** Relative position of origin point from the left of the image. 0.5 designates the center of the image. */
+    x?: number;
+    /** Relative position of origin point from the top of the image. 0.5 designates the center of the image. */
+    y?: number;
 }
 
 /** Increases sharpness of an image by using the unsharp mask technique. */
@@ -26427,6 +27290,19 @@ export interface WatermarkAction extends ImageActionBase {
     widthRatio?: number;
     /** Scales the watermark height according to the size of the final image. */
     heightRatio?: number;
+}
+
+/** An ImageAction that allows rotating an image. */
+export interface RotateAction extends ImageActionBase {
+    /** Degrees to rotate the image in. */
+    degrees?: number;
+    /** Direction the rotation should be applied in. */
+    direction?: RotateDirection;
+}
+
+export enum RotateDirection {
+    Clockwise = <any>"Clockwise",
+    CounterClockwise = <any>"CounterClockwise",
 }
 
 /** Special format that represents the original. */
@@ -27608,7 +28484,7 @@ export interface ShareDetail {
     /** Detailed information about contents in the share. */
     contentSelections: ShareContentDetail[];
     /** List of all contents in share including outputs. */
-    contents: ShareContent[];
+    contents: ShareContentBase[];
     /** List of shared layers. */
     layerSchemaIds?: string[] | undefined;
     /** Detail of share. */
@@ -27688,11 +28564,33 @@ export interface ShareOutputEmbed extends ShareOutputBase {
     token?: string | undefined;
 }
 
-export interface ShareContent {
+export interface ShareContentBase {
     /** Content ID to share. */
     contentId: string;
     /** List of output formats for this content to share. If not specified outer OutputAccess is used. */
     outputFormatIds?: string[] | undefined;
+    kind: string;
+}
+
+/** Shared content */
+export interface ShareContent extends ShareContentBase {
+}
+
+/** Embedded content */
+export interface EmbedContent extends ShareContentBase {
+    /** Conversion presets: Each output format of the shared content can be optionally converted/edited
+when delivering. */
+    conversionPresets?: ConversionPreset[] | undefined;
+}
+
+/** Preset for converting an output. */
+export interface ConversionPreset {
+    /** OutputFormatId of output to be converted. */
+    outputFormatId: string;
+    /** Conversion to apply to the output. */
+    conversion?: string | undefined;
+    /** Indicates if the conversion is locked and therefore cannot be changed by the caller of the embed URI. */
+    locked: boolean;
 }
 
 /** Base of share data */
@@ -27772,6 +28670,12 @@ export interface BaseResultOfShareContentDetail {
 export interface ShareContentDetailResult extends BaseResultOfShareContentDetail {
 }
 
+/** Request specifying which part of a share should be downloaded */
+export interface ShareDownloadRequest {
+    /** Specifies which content / output format combinations should be downloaded. */
+    items: ContentDownloadRequestItem[];
+}
+
 /** Base of update request for share */
 export interface ShareBaseUpdateRequest {
     /** Name of share. */
@@ -27781,7 +28685,7 @@ export interface ShareBaseUpdateRequest {
     /** Optional description of share. */
     description?: string | undefined;
     /** List of contents including outputs. Existing items needs to be sent again, otherwise they will be removed. */
-    contents: ShareContent[];
+    contents: ShareContentBase[];
     /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
     /** Access for content outputs in share. */
@@ -27806,7 +28710,7 @@ export interface ShareBaseCreateRequest {
     /** Optional date when share expires and cannot be accessed anymore. */
     expirationDate?: Date | undefined;
     /** List of contents including outputs to share. */
-    contents: ShareContent[];
+    contents: ShareContentBase[];
     /** List of content layers to share. */
     layerSchemaIds?: string[] | undefined;
     /** Access for content outputs in share. */
@@ -28469,7 +29373,7 @@ export interface UserUpdateRequest extends User {
     /** Comment saved for the user. */
     comment?: string | undefined;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode: string;
     /** User's address. */
     address?: UserAddress | undefined;
     /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
@@ -28554,7 +29458,7 @@ export interface UserCreateRequest {
     /** Email address of the user (doubles as username). */
     emailAddress: string;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode: string;
     /** IDs of user roles the user is assigned to. */
     userRoleIds?: string[] | undefined;
     /** User address. */
@@ -28978,6 +29882,13 @@ export interface BusinessRuleFiredEventDetail {
 
 export interface BusinessProcessCancellationRequestedEvent extends ApplicationEvent {
     businessProcessId?: string | undefined;
+}
+
+export interface DataExtractionRepairEvent extends ApplicationEvent {
+    contentRepairRequestId?: string;
+    contentId?: string;
+    error?: ErrorResponse | undefined;
+    hadChanges?: boolean;
 }
 
 export interface ConsoleMessage extends Message {

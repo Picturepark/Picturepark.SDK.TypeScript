@@ -46,11 +46,11 @@ export const shareTranslations = {
     es: 'Remitente',
     pt: 'Remetente',
   },
-  DownloadAll: {
-    en: 'Download all',
-    de: 'Alles herunterladen',
-    fr: 'Tout télécharger',
-    es: 'Descargar todo',
-    pt: 'Descarregar tudo',
+  Download: {
+    en: 'Download',
+    de: 'Herunterladen',
+    fr: 'Télécharger',
+    es: 'Descargar',
+    pt: 'Descarregar',
   },
 };

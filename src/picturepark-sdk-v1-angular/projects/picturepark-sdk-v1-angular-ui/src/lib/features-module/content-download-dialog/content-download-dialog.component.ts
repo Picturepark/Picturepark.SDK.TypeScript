@@ -9,6 +9,7 @@ import {
   IShareOutputBase,
   OutputResolveManyRequest,
   DownloadFacade,
+  ShareAccessFacade,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -68,6 +69,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ContentDownloadDialogOptions,
     private contentService: ContentService,
+    private shareAccessFacade: ShareAccessFacade,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
     protected injector: Injector,
     private renderer: Renderer2,
@@ -147,7 +149,10 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     }, 8000);
 
     const contents = data.map((i) => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }));
-    this.downloadFacade.getDownloadLink(contents).subscribe(
+    (this.data.shareToken
+      ? this.shareAccessFacade.createShareSelectionDownloadLink(this.data.shareToken, contents)
+      : this.downloadFacade.getDownloadLink(contents)
+    ).subscribe(
       (downloadLink) => {
         clearTimeout(downloadTimmer);
         if (this.waitingDownload) {
@@ -247,9 +252,11 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
         return;
       }
 
-      this.sub = this.contentService.getOutputs(this.data.contents[0].id).subscribe((output) => {
-        this.setSelection(output);
-      });
+      this.sub = (
+        this.data.shareToken
+          ? this.shareAccessFacade.getOutputsInShare(this.data.shareToken)
+          : this.contentService.getOutputs(this.data.contents[0].id)
+      ).subscribe((output) => this.setSelection(output));
     } else {
       if (this.data.contents.every((content) => content.outputs)) {
         const outputs = flatMap(this.data.contents, (content) => content.outputs!);
@@ -267,9 +274,12 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   private fetchOutputs(): void {
-    const request = new OutputResolveManyRequest({ contentIds: this.data.contents.map((i) => i.id) });
-    this.sub = this.contentService.getOutputsMany(request).subscribe((outputs) => {
-      this.setSelection(outputs);
-    });
+    this.sub = (
+      this.data.shareToken
+        ? this.shareAccessFacade.getOutputsInShare(this.data.shareToken)
+        : this.contentService.getOutputsMany(
+            new OutputResolveManyRequest({ contentIds: this.data.contents.map((i) => i.id) })
+          )
+    ).subscribe((o) => this.setSelection(o));
   }
 }
