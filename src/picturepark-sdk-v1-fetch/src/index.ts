@@ -15634,7 +15634,94 @@ export class StatisticClient extends PictureparkClientBase {
     }
 
     /**
-     * Export content statistics statistic
+     * Retrieve single content statistics
+     * @param contentId Id of Content
+     * @param timeFrames (optional) Optionally aggregate data for given time frames
+     */
+    getSingleContentStatistics(contentId: string | null, timeFrames?: string[] | null | undefined): Promise<ContentStatisticsAggregated> {
+        let url_ = this.baseUrl + "/v1/Statistics/contents/{contentId}?";
+        if (contentId === undefined || contentId === null)
+            throw new Error("The parameter 'contentId' must be defined.");
+        url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId));
+        if (timeFrames !== undefined && timeFrames !== null)
+            timeFrames && timeFrames.forEach(item => { url_ += "timeFrames=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetSingleContentStatistics(_response);
+        });
+    }
+
+    protected processGetSingleContentStatistics(response: Response): Promise<ContentStatisticsAggregated> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <ContentStatisticsAggregated>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : <PictureparkConflictException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ContentStatisticsAggregated>(<any>null);
+    }
+
+    /**
+     * Export content statistics
      * @param request Request
      * @return Business process
      */
@@ -15720,7 +15807,7 @@ export class StatisticClient extends PictureparkClientBase {
     }
 
     /**
-     * Resolve an actual Url to download exported file from referenceId found on completed BusinessProcess.
+     * Resolve download link
      * @param referenceId Reference id
      * @return Download link information
      */
@@ -15805,7 +15892,7 @@ export class StatisticClient extends PictureparkClientBase {
     }
 
     /**
-     * Add content events statistic
+     * Add content events
      * @param request Request
      * @return Business process
      */
@@ -21461,7 +21548,6 @@ export enum UserRight {
     ManageUserRoles = <any>"ManageUserRoles",
     ManagePermissions = <any>"ManagePermissions",
     ManageSearchIndexes = <any>"ManageSearchIndexes",
-    ManageCollections = <any>"ManageCollections",
     ManageListItems = <any>"ManageListItems",
     ManageServiceProviders = <any>"ManageServiceProviders",
     ManageEmbeds = <any>"ManageEmbeds",
@@ -25582,7 +25668,7 @@ export interface ListItem {
     /** The list item id. */
     id: string;
     /** The id of the schema with schema type list. */
-    contentSchemaId?: string | undefined;
+    contentSchemaId: string;
     /** Contains language specific display values, rendered according to the list schema's display pattern configuration. */
     displayValues?: DisplayValueDictionary | undefined;
     /** The content data of the list item. */
@@ -25793,10 +25879,6 @@ export enum TitleCode {
     AutoTaggingSucceededWithErrors = <any>"AutoTaggingSucceededWithErrors",
     AutoTaggingFailed = <any>"AutoTaggingFailed",
     AutoTaggingCancelled = <any>"AutoTaggingCancelled",
-    ListItemUpdateManyInProgress = <any>"ListItemUpdateManyInProgress",
-    ListItemUpdateManyCompleted = <any>"ListItemUpdateManyCompleted",
-    ListItemUpdateManyCompletedWithErrors = <any>"ListItemUpdateManyCompletedWithErrors",
-    ListItemUpdateManyFailed = <any>"ListItemUpdateManyFailed",
     ContentUpdateManyInProgress = <any>"ContentUpdateManyInProgress",
     ContentUpdateManyCompleted = <any>"ContentUpdateManyCompleted",
     ContentUpdateManyCompletedWithErrors = <any>"ContentUpdateManyCompletedWithErrors",
@@ -25901,10 +25983,6 @@ export enum MessageCode {
     AutoTaggingSucceededWithErrors = <any>"AutoTaggingSucceededWithErrors",
     AutoTaggingFailed = <any>"AutoTaggingFailed",
     AutoTaggingCancelled = <any>"AutoTaggingCancelled",
-    ListItemUpdateManyInProgress = <any>"ListItemUpdateManyInProgress",
-    ListItemUpdateManyCompleted = <any>"ListItemUpdateManyCompleted",
-    ListItemUpdateManyCompletedWithErrors = <any>"ListItemUpdateManyCompletedWithErrors",
-    ListItemUpdateManyFailed = <any>"ListItemUpdateManyFailed",
     ContentUpdateManyInProgress = <any>"ContentUpdateManyInProgress",
     ContentUpdateManyCompleted = <any>"ContentUpdateManyCompleted",
     ContentUpdateManyCompletedWithErrors = <any>"ContentUpdateManyCompletedWithErrors",
@@ -25939,13 +26017,19 @@ export interface NotificationDetailBusinessProcessBase extends NotificationDetai
     supportsCancellation: boolean;
 }
 
-export interface NotificationDetailTransfer extends NotificationDetailBusinessProcessBase {
+export interface NotificationDetailTransferBase extends NotificationDetailBusinessProcessBase {
     fileProgress?: number;
     fileCount?: number;
     failedCount?: number;
     cancelledCount?: number;
     name?: string | undefined;
     transferId: string;
+}
+
+export interface NotificationDetailTransfer extends NotificationDetailTransferBase {
+}
+
+export interface NotificationDetailTransferImport extends NotificationDetailTransferBase {
 }
 
 export interface NotificationDetailShare extends NotificationDetailBase {
@@ -25984,19 +26068,6 @@ export interface NotificationDetailContentBackupRecovery extends NotificationDet
     contentProgressCount?: number;
 }
 
-export interface NotificationDetailProgress extends NotificationDetailBusinessProcessBase {
-    total?: number;
-    succeeded?: number;
-    failed?: number;
-    relatedItemCount?: number;
-    relatedItemProgress?: number;
-}
-
-export interface NotificationDetailMetadataItemDeactivation extends NotificationDetailProgress {
-    referencingItemsCount?: number;
-    referencingItemsProgress?: number;
-}
-
 export interface NotificationDetailExternalBusinessProcess extends NotificationDetailBusinessProcessBase {
     title?: TranslatedStringDictionary | undefined;
     message?: TranslatedStringDictionary | undefined;
@@ -26004,10 +26075,70 @@ export interface NotificationDetailExternalBusinessProcess extends NotificationD
 }
 
 export interface NotificationDetailBusinessRule extends NotificationDetailBase {
+    /** Title of the notification */
     title?: TranslatedStringDictionary | undefined;
+    /** Message of the notification */
     message?: TranslatedStringDictionary | undefined;
+    /** Id of collection, if created */
     collectionId?: string | undefined;
+    /** Id of BusinessRule notification configuration */
     notificationId: string;
+}
+
+export interface NotificationDetailProgressBase extends NotificationDetailBusinessProcessBase {
+    total?: number;
+    succeeded?: number;
+    failed?: number;
+}
+
+export interface NotificationDetailTagging extends NotificationDetailProgressBase {
+}
+
+export interface NotificationDetailBatchRendering extends NotificationDetailProgressBase {
+}
+
+export interface NotificationDetailStatisticsExport extends NotificationDetailProgressBase {
+}
+
+export interface NotificationDetailProgressWithRelatedItemsBase extends NotificationDetailProgressBase {
+    relatedItemCount?: number;
+    relatedItemProgress?: number;
+}
+
+export interface NotificationDetailMetadataItemCreateRelatedItems extends NotificationDetailProgressWithRelatedItemsBase {
+}
+
+export interface NotificationDetailMetadataItemCreateRelatedItemsBySchema extends NotificationDetailProgressWithRelatedItemsBase {
+}
+
+export interface NotificationDetailMetadataItemUpdateOutdated extends NotificationDetailProgressWithRelatedItemsBase {
+}
+
+export interface NotificationDetailContentBatchEditBase extends NotificationDetailProgressBase {
+    collectionId?: string | undefined;
+}
+
+export interface NotificationDetailContentMetadataBatchEdit extends NotificationDetailContentBatchEditBase {
+}
+
+export interface NotificationDetailContentOwnershipBatchEdit extends NotificationDetailContentBatchEditBase {
+}
+
+export interface NotificationDetailContentPermissionsBatchEdit extends NotificationDetailContentBatchEditBase {
+}
+
+export interface NotificationDetailMetadataItemDeactivationBase extends NotificationDetailProgressWithRelatedItemsBase {
+    referencingItemsCount?: number;
+    referencingItemsProgress?: number;
+}
+
+export interface NotificationDetailContentDeactivation extends NotificationDetailMetadataItemDeactivationBase {
+}
+
+export interface NotificationDetailListItemMetadataBatchEdit extends NotificationDetailProgressWithRelatedItemsBase {
+}
+
+export interface NotificationDetailListItemDeactivation extends NotificationDetailMetadataItemDeactivationBase {
 }
 
 export enum NotificationState {
@@ -26937,8 +27068,6 @@ export interface FieldIndexingInfo {
     index: boolean;
     /** Field is stored for simple search. */
     simpleSearch: boolean;
-    /** Field is stored for sorting. */
-    sortable: boolean;
     /** Value to prioritize search results. Set to 1 by default. Ignored if SimpleSearch not set to true. */
     boost: number;
     /** Indexing information of schema's fields related to this field (if existing). */
@@ -27794,6 +27923,43 @@ export interface ShareSearchRequest extends ShareSearchAndAggregationBaseRequest
     aggregators?: AggregatorBase[] | undefined;
 }
 
+export interface ContentStatisticsAggregated {
+    /** Contains aggregated data for the complete lifetime of the Content */
+    overall: ContentStatisticsData;
+    /** Contains aggregated data according to requested time frames */
+    timeFrames: ContentStatisticsAggregatedTimeFrameBucket[];
+}
+
+export interface ContentStatisticsData {
+    /** Statistical data for downloads of a Content */
+    downloads?: ContentDownloads | undefined;
+    /** Statistical data of share-related activities for a Content */
+    sharings: ContentSharings;
+}
+
+export interface ContentDownloads {
+    /** Total downloads of content (regardless of formats, single download of multiple formats is counted once) */
+    total: number;
+    /** Downloads of content through basic Share */
+    share: number;
+    /** Downloads of content through embed */
+    embed: number;
+}
+
+export interface ContentSharings {
+    /** Times this Content was added to a Share (does not decrease when removed from Share) */
+    shareAdd: number;
+    /** Times this Content was added to an Embed (does not decrease when removed from Embed) */
+    embedAdd: number;
+}
+
+export interface ContentStatisticsAggregatedTimeFrameBucket {
+    /** The timeframe for which statistical data in this bucket was aggregated */
+    timeFrame: string;
+    /** Aggregated data for timeframe */
+    data: ContentStatisticsData;
+}
+
 export interface ExportContentStatisticsRequest {
     /** Allows filtering of retrieved statistical data */
     filter?: ContentFilterRequest | undefined;
@@ -27813,24 +27979,25 @@ export interface ExportContentStatisticsRequest {
 
 export interface AddContentEventsRequest {
     /** Data to be added to statistics */
-    events?: AddContentEventsRequestItem[] | undefined;
+    events: AddContentEventsRequestItem[];
 }
 
 export interface AddContentEventsRequestItem {
     /** Specifies at which time the events happened. The information will be automatically aggregated according to internal temporal resolution of statistics. */
     timestamp: Date;
     /** Specifies content for which the events happened */
-    contentId?: string | undefined;
+    contentId: string;
     /** Optionally specify the used ApiClient. Defaults to the API Client sending this request. */
     apiClientId?: string | undefined;
     /** Data to be added to statistics */
-    statistics?: ContentStatisticsDataEditable | undefined;
+    statistics: ContentStatisticsDataEditable;
     /** Optionally specify an additional id under which the supplied data should be tracked. This
 Id is only used internally and cannot be retrieved through API or export. */
     externalEventTraceId?: string | undefined;
 }
 
 export interface ContentStatisticsDataEditable {
+    /** Statistical data for downloads of a Content */
     downloads?: ContentDownloadsEditable | undefined;
 }
 
@@ -28501,7 +28668,7 @@ export interface UserAggregationRequest extends UserSearchAndAggregationBaseRequ
 /** Request to update identity provider assignment of users. */
 export interface UserUpdateIdentityProviderManyRequest extends UserManyRequestBase {
     /** Identity provider to assign to users. */
-    identityProviderId: string;
+    identityProviderId?: string | undefined;
 }
 
 /** Represents a list of source/target fields for XMP mappings */
@@ -28773,12 +28940,6 @@ export interface ApiStatisticsEvent extends ApplicationEvent {
     requestsPerClient?: { [key: string]: number; } | undefined;
 }
 
-export interface BusinessProcessEvent extends ApplicationEvent {
-    businessProcessId?: string | undefined;
-    lifeCycle?: BusinessProcessLifeCycle | undefined;
-    state?: string | undefined;
-}
-
 export interface OutputRenderedEvent extends ApplicationEvent {
     outputId?: string | undefined;
     contentId?: string | undefined;
@@ -28817,10 +28978,6 @@ export interface BusinessRuleFiredEventDetail {
 
 export interface BusinessProcessCancellationRequestedEvent extends ApplicationEvent {
     businessProcessId?: string | undefined;
-}
-
-export interface XmpWritebackCompletedEvent extends ApplicationEvent {
-    outputDocId?: string | undefined;
 }
 
 export interface ConsoleMessage extends Message {

@@ -12,7 +12,7 @@ import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap, map, tap, finalize } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
-import { ThumbnailSize, Content, ShareDetail, ShareContentDetail } from '@picturepark/sdk-v1-angular';
+import { ThumbnailSize, Content, ShareDetail, ShareContentDetail, ContentFacade } from '@picturepark/sdk-v1-angular';
 import { ContentService } from '@picturepark/sdk-v1-angular';
 import { Observable } from 'rxjs';
 
@@ -46,6 +46,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
 
   public constructor(
     private contentService: ContentService,
+    private contentFacade: ContentFacade,
     private sanitizer: DomSanitizer,
     protected injector: Injector
   ) {
@@ -104,7 +105,8 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   handleVirtualItem() {
     if (this.item.displayValues['thumbnail']) {
       this.thumbnailUrl$ = null;
-      this.virtualItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.item.displayValues['thumbnail']);
+      this.virtualItemHtml = this.contentFacade.getVirtualItemHtml(this.item.displayValues['thumbnail']);
+
       this.isLoading = false;
     }
   }

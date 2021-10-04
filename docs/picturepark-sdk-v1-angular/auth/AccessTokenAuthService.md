@@ -12,7 +12,9 @@ Authenticates with an access token. To create an access token, go to "Settings" 
 
 Install the required NPM package:
 
-    @picturepark/sdk-v1-angular
+```
+npm install @picturepark/sdk-v1-angular liquidjs@8.2.1 lazy-get-decorator@2.2.0
+```
 
 **2. Module registration**
 

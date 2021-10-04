@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {
   ContentDetail,
+  ContentFacade,
   ContentResolveBehavior,
   ContentService,
   SchemaDetail,
@@ -17,6 +18,7 @@ import { ContentDetailsDialogOptions } from './content-details-dialog-options';
 // SERVICES
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 import { Observable, of } from 'rxjs';
+import { SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'pp-content-details-dialog',
@@ -29,6 +31,7 @@ import { Observable, of } from 'rxjs';
 })
 export class ContentDetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
   content: ContentDetail | ShareContentDetail;
+  virtualItemHtml: SafeHtml | null;
 
   contentId: string;
   schemas: SchemaDetail[];
@@ -40,7 +43,8 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     protected dialogRef: MatDialogRef<ContentDetailsDialogComponent>,
     protected injector: Injector,
     private schemaService: SchemaService,
-    private contentDownloadDialogService: ContentDownloadDialogService
+    private contentDownloadDialogService: ContentDownloadDialogService,
+    private contentFacade: ContentFacade
   ) {
     super(dialogRef, injector);
 
@@ -51,7 +55,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
     const shareContent = this.data.shareContent;
     if (shareContent) {
-      this.content = shareContent as any;
+      this.initContent(shareContent);
       return;
     }
 
@@ -103,7 +107,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
         if (typeof content === 'string') {
           this.loadContent(content);
         } else {
-          this.content = content;
+          this.initContent(content);
         }
       });
     });
@@ -123,10 +127,17 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
         ContentResolveBehavior.OuterDisplayValueThumbnail,
         ContentResolveBehavior.Outputs,
       ])
-      .subscribe(async (content) => {
+      .subscribe((content) => {
         if (content) {
-          this.content = content;
+          this.initContent(content);
         }
       });
+  }
+
+  initContent(content: ShareContentDetail | ContentDetail) {
+    if (content.isVirtual()) {
+      this.virtualItemHtml = this.contentFacade.getVirtualItemHtml(content.displayValues?.['thumbnail']);
+    }
+    this.content = content;
   }
 }
