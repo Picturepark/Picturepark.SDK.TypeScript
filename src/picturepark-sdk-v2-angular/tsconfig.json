@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "importHelpers": true,
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2015",
+    "strictNullChecks": true,
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
+    "paths": {
+      "@picturepark/sdk-v2-angular": ["projects/picturepark-sdk-v2-angular/src/public_api.ts"],
+      "@picturepark/sdk-v2-angular-oidc": ["projects/picturepark-sdk-v2-angular-oidc/src/public_api.ts"],
+      "@picturepark/sdk-v2-angular-ui": ["projects/picturepark-sdk-v2-angular-ui/src/public_api.ts"]
+    }
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInjectionParameters": true
+  }
+}

@@ -1,0 +1,24 @@
+@import '~@angular/material/theming';
+.share-content-item {
+  $self: &;
+  cursor: pointer;
+  width: 100%;
+  transition: 200ms;
+  //@include mat-elevation-transition;
+  //@include mat-elevation(2);
+  &:hover {
+    //@include mat-elevation(8);
+    #{ $self }__remove-button {
+      display: initial;
+    }
+  }
+  &__remove-button {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+}

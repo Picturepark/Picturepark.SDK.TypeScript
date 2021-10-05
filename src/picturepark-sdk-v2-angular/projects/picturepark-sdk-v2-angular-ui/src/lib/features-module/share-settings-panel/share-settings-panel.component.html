@@ -1,0 +1,17 @@
+<pp-panel [title]="'ShareSettingsPanel.Settings' | pptranslate">
+  <div pp-panel-content>
+    <ul class="settings-menu">
+      <li>{{ 'ShareSettingsPanel.Subject' | pptranslate }}</li>
+      <li>{{ 'ShareSettingsPanel.AccessOriginal' | pptranslate }}</li>
+      <li>{{ 'ShareSettingsPanel.CreationDate' | pptranslate }}</li>
+      <li>{{ 'ShareSettingsPanel.ModificationDate' | pptranslate }}</li>
+    </ul>
+    <ul class="settings-info">
+      <li>{{ subject }}</li>
+      <li>{{ accessOriginal }}</li>
+      <li>{{ creationDate | date: 'yyyy-MM-dd':undefined:'en-US' }}</li>
+      <!-- TODO: Add support for more locales -->
+      <li>{{ modificationDate | date: 'yyyy-MM-dd':undefined:'en-US' }}</li>
+    </ul>
+  </div>
+</pp-panel>

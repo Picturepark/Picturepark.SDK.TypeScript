@@ -1,0 +1,144 @@
+<div *ngIf="sharedContentForm$ | async as sharedContentForm" class="dialog-container" #contentContainer>
+  <div class="header">
+    <span class="header-title">{{ title | pptranslate }}</span>
+    <mat-icon class="header-close" (click)="closeDialog()">close</mat-icon>
+  </div>
+  <mat-divider></mat-divider>
+  <pp-notification [notification]="notification"></pp-notification>
+
+  <mat-dialog-content class="dialog-content" [formGroup]="sharedContentForm">
+    <div class="content cp-scrollbar" [ngClass]="{ 'content-share': recipients.length > 0 }">
+      <div class="inputs-content" *ngIf="recipients.length === 0">
+        <ul>
+          <li class="label-content">
+            <label for="share-name">{{ 'ShareContentDialog.ShareName' | pptranslate }}:</label>
+          </li>
+          <li class="input-content" [ngClass]="{ active: spinnerLoader }">
+            <mat-spinner></mat-spinner>
+
+            <input
+              id="share-name"
+              type="text"
+              formControlName="share_name"
+              [ngClass]="{
+                'error-active':
+                  sharedContentForm.controls['share_name'].touched &&
+                  (sharedContentForm.controls['share_name'].hasError('required') ||
+                    sharedContentForm.controls['share_name'].errors?.maxlength ||
+                    sharedContentForm.controls['share_name'].errors?.minlength)
+              }"
+              autocomplete="pp-share-name "
+            />
+            <div
+              class="share-name-error active"
+              *ngIf="
+                sharedContentForm.controls['share_name'].touched &&
+                sharedContentForm.controls['share_name'].hasError('required')
+              "
+            >
+              {{ 'ShareContentDialog.AddShareNameError' | pptranslate }}
+            </div>
+          </li>
+        </ul>
+        <ul>
+          <li class="label-content">
+            <label for="share-recipients">{{ 'ShareContentDialog.Recipients' | pptranslate }}:</label>
+          </li>
+          <li class="input-content">
+            <pp-share-content-recipients-input [parentForm]="sharedContentForm"></pp-share-content-recipients-input>
+          </li>
+        </ul>
+        <ul>
+          <li class="label-content">
+            <label for="expiry-date">{{ 'ShareContentDialog.ExpireDate' | pptranslate }}:</label>
+          </li>
+          <li class="input-content">
+            <pp-date-picker [parentForm]="sharedContentForm" [placeHolderMessage]="'DD/MM/YYYY'"></pp-date-picker>
+          </li>
+        </ul>
+        <ul>
+          <li class="label-content">
+            <label for="expiry-date">{{ 'ShareContentDialog.AccessOriginal' | pptranslate }}:</label>
+          </li>
+          <li class="input-content">
+            <mat-slide-toggle formControlName="accessOriginal"></mat-slide-toggle>
+          </li>
+        </ul>
+        <ul *ngIf="languageService.shareLanguages.length > 1">
+          <li class="label-content">
+            <label for="language">{{ 'ShareContentDialog.Language' | pptranslate }}:</label>
+          </li>
+          <li class="input-content language">
+            <mat-select [formControl]="languageFormControl">
+              <mat-option *ngFor="let language of languageService.shareLanguages" [value]="language.ietf">
+                {{ language.name | pptranslate }}
+              </mat-option>
+            </mat-select>
+          </li>
+        </ul>
+      </div>
+
+      <div class="selected-items-content" *ngIf="recipients.length === 0">
+        <mat-tab-group autoFocus="false">
+          <mat-tab label="{{ 'ShareContentDialog.Items' | pptranslate }}">
+            <ng-template matTabContent>
+              <div class="selected-items">
+                <div class="selected-item-wrapper" *ngFor="let content of selectedContent">
+                  <pp-share-content-dialog-item
+                    [item]="content"
+                    (removeDialogContent)="removeContent($event)"
+                    (dblclick)="previewItem(content.id)"
+                  ></pp-share-content-dialog-item>
+                </div>
+              </div>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+
+      <div class="share-content-confirmation-container" *ngIf="recipients.length > 0">
+        <div class="share-content-confirmation" *ngFor="let recipient of recipients">
+          <div class="user-image-container">
+            <img src="{{ recipient.img }}" />
+          </div>
+          <div class="user-info-container">
+            <ul>
+              <li>
+                <span>{{ recipient.email }}</span>
+              </li>
+              <li>
+                <mat-icon (click)="copyToClipboard(recipient.url)">file_copy</mat-icon
+                ><a href="{{ recipient.url }}" target="_blank">{{ recipient.url }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="loader-container" #loaderContainer [ngClass]="{ active: loader }">
+        <div class="loader">
+          <mat-spinner></mat-spinner>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <mat-dialog-actions class="actions">
+    <button mat-button (click)="closeDialog()" *ngIf="recipients.length === 0" [disabled]="loader">
+      {{ 'ShareContentDialog.CancelShare' | pptranslate }}
+    </button>
+    <button mat-button (click)="closeDialog()" *ngIf="recipients.length > 0" [disabled]="loader">
+      {{ 'ShareContentDialog.CloseDialog' | pptranslate }}
+    </button>
+    <button
+      mat-flat-button
+      color="accent"
+      [ngClass]="{ active: sharedContentForm.valid }"
+      (click)="onFormSubmit()"
+      *ngIf="recipients.length === 0"
+      [disabled]="loader"
+    >
+      {{ 'ShareContentDialog.ShareContent' | pptranslate }}
+    </button>
+  </mat-dialog-actions>
+</div>

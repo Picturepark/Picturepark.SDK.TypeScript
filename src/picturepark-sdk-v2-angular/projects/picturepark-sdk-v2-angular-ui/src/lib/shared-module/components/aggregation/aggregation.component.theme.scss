@@ -1,0 +1,76 @@
+@import '~@angular/material/theming';
+
+@mixin pp-aggregation-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  pp-aggregation-item {
+    .aggregation {
+      border-color: mat-color($primary, divider);
+
+      &__option-title {
+        color: mat-color($primary, on-background-dark);
+      }
+
+      .mat-expansion-panel-header {
+        font-size: mat-font-size($custom-typography, display-1);
+
+        .mat-content {
+          border-bottom: 1px solid mat-color($primary, divider);
+        }
+
+        mat-panel-title {
+          &.mat-expansion-panel-header-title {
+            color: mat-color($primary, on-background-dark);
+          }
+        }
+
+        &:hover {
+          background-color: mat-color($primary, opacity-light);
+        }
+      }
+
+      .mat-list-base {
+        .mat-list-item,
+        .mat-list-option,
+        .mat-subheader {
+          font-size: mat-font-size($custom-typography, display-1);
+        }
+      }
+
+      .mat-list-item.mat-list-option .mat-list-item-content {
+        .mat-pseudo-checkbox {
+          color: mat-color($primary, on-background-dark);
+
+          &.mat-pseudo-checkbox-checked {
+            color: mat-color($primary, primary);
+          }
+        }
+      }
+
+      .expand-filters {
+        button {
+          color: mat-color($primary, primary);
+        }
+      }
+    }
+
+    .aggregation.disabled {
+      mat-panel-title {
+        &.mat-expansion-panel-header-title {
+          opacity: 0.7;
+        }
+      }
+      &:hover {
+        background-color: initial;
+      }
+    }
+
+    mat-form-field.search {
+      background-color: mat-color($primary, surface-light);
+
+      .search-icon {
+        color: mat-color($primary, on-surface-light);
+      }
+    }
+  }
+}

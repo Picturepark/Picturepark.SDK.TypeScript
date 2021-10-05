@@ -1,0 +1,76 @@
+<div class="browser">
+  <div class="browser__header">
+    <pp-browser-toolbar [browser]="self" entityName="{{ 'ContentBrowser.ContentsLowercase' | pptranslate }}">
+      <ng-container browser-buttons>
+        <button
+          mat-icon-button
+          *ngIf="selectedItems.length === 1 && configActions['preview']"
+          [matTooltip]="'ContentBrowser.Preview' | pptranslate"
+        >
+          <mat-icon aria-label="Preview item" (click)="previewSelectedItem()">open_in_new</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          *ngIf="selectedItems.length > 0 && configActions['download']"
+          (click)="openDownloadContentDialog()"
+          [matTooltip]="'ContentBrowser.Download' | pptranslate"
+        >
+          <mat-icon aria-label="Download selected items">get_app</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="openShareContentDialog()"
+          [matTooltip]="'ContentBrowser.ShareImages' | pptranslate"
+          *ngIf="selectedItems.length >= 1 && configActions['share']"
+        >
+          <mat-icon aria-label="Share selected items">share</mat-icon>
+        </button>
+        <ng-content select="[content-buttons]"></ng-content>
+      </ng-container>
+    </pp-browser-toolbar>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  </div>
+
+  <div
+    *ngIf="(totalResults$ | async) !== 0"
+    class="browser__items cp-scrollbar"
+    [class.browser__items--list]="activeView.type === 'list'"
+    [class.browser__items--large]="activeView.type === 'thumbnailLarge'"
+    [class.browser__items--medium]="activeView.type === 'thumbnailMedium'"
+    [class.browser__items--mobile]="deviceBreakpoint"
+    cdkScrollable
+  >
+    <div
+      class="browser__item-container"
+      [class.browser__item-container--mobile]="deviceBreakpoint"
+      *ngFor="let itemModel of items; let i = index; trackBy: trackByItem"
+    >
+      <pp-content-browser-item
+        class="browser__item"
+        [browser]="self"
+        [itemModel]="itemModel"
+        [thumbnailSize]="activeThumbnailSize"
+        [isListView]="activeView.type === 'list'"
+        (previewItemChange)="previewItem($event)"
+        ppUserInteraction
+        (ppPress)="itemPressed($event, i)"
+        (ppTouch)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)"
+        (ppClick)="itemClicked($event, i)"
+        (ppDblclick)="previewItem(itemModel)"
+        (changeInBasket)="handleBasketChanges($event)"
+      >
+      </pp-content-browser-item>
+    </div>
+  </div>
+
+  <div *ngIf="(totalResults$ | async) === 0" class="browser__empty-result mat-typography">
+    {{ 'ContentBrowser.NoItems' | pptranslate }}
+    <strong> {{ this.facade.searchRequestState.searchString }}</strong>
+    <br />
+    {{ 'ContentBrowser.NoItemsHist' | pptranslate }}
+    <ul>
+      <li>{{ 'ContentBrowser.NoItemsActionChannel' | pptranslate }}</li>
+      <li>{{ 'ContentBrowser.NoItemsActionSearchString' | pptranslate }}</li>
+    </ul>
+  </div>
+</div>

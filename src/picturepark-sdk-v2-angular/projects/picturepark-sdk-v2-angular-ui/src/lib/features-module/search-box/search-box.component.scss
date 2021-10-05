@@ -1,0 +1,35 @@
+#search-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+
+  .form {
+    display: flex;
+    flex: 1;
+    border-radius: 4px;
+    align-items: center;
+    transition: background 100ms ease-in;
+
+    input {
+      background: transparent;
+      border: none;
+      outline: none;
+      box-sizing: border-box;
+
+      flex-grow: 1;
+    }
+
+    input::-ms-clear {
+      display: none;
+    }
+  }
+}
+
+.active {
+  font-weight: 600;
+}
