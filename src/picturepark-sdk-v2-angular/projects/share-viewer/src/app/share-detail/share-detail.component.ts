@@ -12,7 +12,11 @@ import {
   LanguageService,
   ShareAccessFacade,
 } from '@picturepark/sdk-v2-angular';
-import { ContentDetailsDialogComponent, ContentDetailsDialogOptions, ContentDownloadDialogService } from '@picturepark/sdk-v2-angular-ui';
+import {
+  ContentDetailsDialogComponent,
+  ContentDetailsDialogOptions,
+  ContentDownloadDialogService,
+} from '@picturepark/sdk-v2-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
 import { forkJoin, fromEvent, of } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
@@ -107,11 +111,12 @@ export class ShareDetailComponent implements OnInit {
     });
   }
 
-  downloadAll(): void {
+  download(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
       contents: this.shareDetail.contentSelections,
       shareToken: this.shareToken,
+      isShareViewer: true
     });
   }
 
@@ -146,12 +151,14 @@ export class ShareDetailComponent implements OnInit {
             .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30)
             .pipe(map(() => this.shareDetail.contentSelections[index]));
         },
+        isShareViewer: true
       },
       autoFocus: false,
       width: '980px',
       height: '700px',
       maxWidth: '98vw',
       maxHeight: '99vh',
+      panelClass: ['pp-dialog'],
     });
   }
 }

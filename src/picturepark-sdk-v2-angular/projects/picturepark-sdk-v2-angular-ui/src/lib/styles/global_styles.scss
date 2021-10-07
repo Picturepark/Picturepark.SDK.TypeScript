@@ -20,7 +20,7 @@
 }
 
 .filters .mat-tab-label {
-  height: 54px;
+  height: 48px;
 }
 
 .mat-expansion-panel-header .mat-selection-list {
@@ -30,7 +30,7 @@
 }
 
 .mat-tab-header {
-  height: 56px;
+  height: 50px;
 }
 
 .filters mat-tab-group mat-tab-header .mat-tab-header-pagination {
@@ -111,14 +111,14 @@ pp-content-details-dialog {
     flex: 1 1 100%;
   }
   .dialog-content .mat-tab-labels .mat-tab-label {
-    height: 54px;
+    height: 48px;
   }
 }
 
 // SHARE CONTENT DIALOG
 pp-share-content-dialog {
   .mat-tab-header {
-    height: 56px;
+    height: 50px;
   }
 
   @media (max-width: 525px) {
@@ -142,4 +142,9 @@ pp-share-content-dialog {
 /* Works on Chrome, Edge, and Safari */
 .cp-scrollbar::-webkit-scrollbar {
   width: 10px;
+}
+
+// Extends the base mat-stroked-button styling
+.mat-stroked-button {
+  line-height: 30px !important;
 }

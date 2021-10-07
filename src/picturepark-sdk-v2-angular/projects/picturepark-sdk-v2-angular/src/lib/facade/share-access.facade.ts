@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
-import { IContentDownloadRequestItem, ShareDetail, ShareResolveBehavior } from '../services/api-services';
+import {
+  IContentDownloadRequestItem,
+  ShareDetail,
+  ShareDownloadRequest,
+  ShareResolveBehavior,
+} from '../services/api-services';
 import { ShareAccesService } from '../services/frontend-services';
 import { LiquidRenderingService } from '../services/liquid-rendering.service';
 
@@ -35,7 +40,10 @@ export class ShareAccessFacade {
   }
 
   createShareSelectionDownloadLink(shareToken: string, contents: IContentDownloadRequestItem[]) {
-    return this.shareAccessService.createShareSelectionDownloadLink(shareToken, { items: contents });
+    return this.shareAccessService.createShareSelectionDownloadLink(
+      shareToken,
+      new ShareDownloadRequest({ items: contents })
+    );
   }
 
   getOutputsInShare(shareToken: string) {

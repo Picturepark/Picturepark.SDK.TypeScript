@@ -47,7 +47,7 @@
     transition: 500ms;
     .expand-browser {
       position: absolute;
-      height: 56px;
+      height: 50px;
       width: 46px;
       text-align: center;
       z-index: 100;
@@ -57,7 +57,7 @@
       color: #727272;
 
       i {
-        line-height: 56px;
+        line-height: 50px;
         margin: 0px 0px 0px 10px;
         &:hover {
           color: #444;
@@ -82,7 +82,7 @@
 
     &.expand {
       position: relative;
-      height: 56px;
+      height: 50px;
       width: 46px;
       text-align: center;
       z-index: 100;
@@ -90,7 +90,7 @@
       border-left: 1px solid #d8d8d8;
       cursor: pointer;
       i {
-        line-height: 56px;
+        line-height: 50px;
         color: #727272;
       }
       &:hover {

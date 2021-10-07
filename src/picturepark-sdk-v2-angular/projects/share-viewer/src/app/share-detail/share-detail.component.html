@@ -10,6 +10,17 @@
   </div>
 
   <pp-panel class="settings" [title]="shareDetail.name">
+    <div pp-panel-buttons>
+      <button
+        mat-stroked-button
+        aria-label="Download"
+        *ngIf="shareDetail.data!.url"
+        (click)="download()"
+        [disabled]="!shareDetail.contentSelections.length"
+      >
+        {{ 'ShareViewer.Download' | pptranslate }}
+      </button>
+    </div>
     <div pp-panel-content class="settings-wrap">
       <div class="left">
         <div *ngIf="shareDetail.description" [innerHTML]="shareDetail.description" class="description"></div>
@@ -28,17 +39,7 @@
         </ul>
       </div>
       <div class="right">
-        <div class="download">
-          <button
-            mat-stroked-button
-            aria-label="Download"
-            *ngIf="shareDetail.data!.url"
-            (click)="downloadAll()"
-            [disabled]="!shareDetail.contentSelections.length"
-          >
-            {{ 'ShareViewer.DownloadAll' | pptranslate }}
-          </button>
-        </div>
+        <div class="download"></div>
       </div>
     </div>
   </pp-panel>
@@ -54,6 +55,6 @@
     *ngIf="mailRecipients && mailRecipients.length"
   ></pp-share-mail-recipients-panel>
 
-  <pp-share-items-panel *ngIf="!shareDetail.expired" [shareDetail]="shareDetail" (showDetail)="showDetail($event)">
+  <pp-share-items-panel *ngIf="!shareDetail.expired" [shareDetail]="shareDetail" [isShareViewer]="true" (showDetail)="showDetail($event)">
   </pp-share-items-panel>
 </ng-container>

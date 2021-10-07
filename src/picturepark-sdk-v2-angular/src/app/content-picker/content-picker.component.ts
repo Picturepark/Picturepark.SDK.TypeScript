@@ -90,6 +90,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
       autoFocus: false,
       width: '980px',
       height: '700px',
+      panelClass: ['pp-dialog'],
     });
   }
 

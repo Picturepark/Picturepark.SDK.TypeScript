@@ -7,27 +7,25 @@ $pp-share-items-panel-theme: (
 
 @mixin pp-share-items-panel-theme($theme) {
   $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
 
   pp-share-items-panel {
     .grid {
       > .item {
-        background-color: mat-color($primary, divider);
+        background-color: mat-color($accent, 550);
+        border: 1px solid mat-color($accent, 600);
       }
     }
 
     .list {
       > .item {
-        .thumbnail {
-          background-color: mat-color($primary, surface-mid);
-        }
+        background-color: mat-color($accent, 450);
 
-        .item-info {
-          background-color: mat-color($primary, surface-light);
-          color: mat-color($primary, on-surface-light);
+        &:hover {
+          background-color: mat-color($accent, 600);
         }
 
         .item-funcs {
-          background-color: mat-color($primary, surface-light);
           color: mat-color($primary, on-surface-light);
 
           i:hover {

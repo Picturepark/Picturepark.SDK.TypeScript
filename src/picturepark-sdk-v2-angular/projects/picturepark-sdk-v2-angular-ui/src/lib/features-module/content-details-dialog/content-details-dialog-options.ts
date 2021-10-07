@@ -11,4 +11,5 @@ export interface ContentDetailsDialogOptions {
   next(): Observable<ShareContentDetail | ContentDetail | string>;
   hasPrevious(): boolean;
   previous(): Observable<ShareContentDetail | ContentDetail | string>;
+  isShareViewer?: boolean; 
 }

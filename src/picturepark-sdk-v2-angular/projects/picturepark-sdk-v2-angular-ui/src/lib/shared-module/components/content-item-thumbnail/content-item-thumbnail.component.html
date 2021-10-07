@@ -13,11 +13,12 @@
     <ng-container *ngIf="thumbnailUrl$ | async as url">
       <img
         *ngIf="!isLoading"
-        [ngClass]="{ shadow: shadow }"
+        [ngClass]="{ shadow: shadow, cover: cover, radius: isListView && !cover, 'radius-left': isListView && cover }"
         class="content-item-thumbnail__image"
         [src]="url"
         [alt]="'ContentBrowser.NoImageForItem' | pptranslate"
-        (error)="updateUrl($event)"
+        (error)="setErrorImage($event)"
+        (load)="onLoad($event)"
       />
     </ng-container>
   </div>

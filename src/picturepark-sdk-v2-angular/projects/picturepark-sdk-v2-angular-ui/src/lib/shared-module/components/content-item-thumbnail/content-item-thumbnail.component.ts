@@ -1,13 +1,4 @@
-import {
-  Component,
-  OnChanges,
-  SimpleChanges,
-  SecurityContext,
-  Input,
-  Injector,
-  ChangeDetectionStrategy,
-} from '@angular/core';
-
+import { Component, OnChanges, SimpleChanges, Input, Injector, ChangeDetectionStrategy } from '@angular/core';
 import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap, map, tap, finalize } from 'rxjs/operators';
@@ -38,6 +29,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
    * If true the image will have a shadow box around
    */
   @Input() shadow: boolean;
+  @Input() cover: boolean;
 
   public isLoading = false;
   public thumbnailUrl$: Observable<SafeUrl> | null;
@@ -115,7 +107,22 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
     return this.sanitizer.bypassSecurityTrustUrl(data);
   }
 
-  public updateUrl(event) {
-    event.path[0].src = BROKEN_IMAGE_URL;
+  setErrorImage(event) {
+    if (event.path && event.path[0].src !== BROKEN_IMAGE_URL) {
+      event.path[0].src = BROKEN_IMAGE_URL;
+    } else if (event.target?.src && event.target.src !== BROKEN_IMAGE_URL) {
+      event.target.src = BROKEN_IMAGE_URL;
+    }
+  }
+
+  onLoad(event: any) {
+    if (event && event.target) {
+      const width = event.target.naturalWidth;
+      const height = event.target.naturalHeight;
+      const factor = width / height;
+
+      // If aspect is in a specific range, cover the content to fit thumbnail.
+      this.cover = factor > 1.3 && factor < 1.8;
+    }
   }
 }

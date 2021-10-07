@@ -4,29 +4,29 @@
 
 @mixin pp-share-mail-recipients-panel-theme($theme) {
   $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
 
   pp-share-mail-recipients-panel {
-    .panel-container {
-      .panel-content {
-        .recipient {
-          border-bottom-color: mat-color($primary, divider);
+    .panel-content {
+      .recipient {
+        border-bottom-color: mat-color($primary, divider);
 
-          .recipient-url {
-            a {
-              color: mat-color($primary, on-surface-mid);
-            }
+        .recipient-url {
+          a {
+            color: mat-color($primary, on-surface-mid);
+            text-decoration: none;
           }
         }
+      }
 
-        ul {
-          li {
-            span {
-              color: mat-color($primary, on-surface-light);
-            }
+      ul {
+        li {
+          span {
+            color: mat-color($primary, on-surface-light);
+          }
 
-            a {
-              color: mat-color($primary, on-surface-light);
-            }
+          a {
+            color: mat-color($accent, '200-contrast');
           }
         }
       }

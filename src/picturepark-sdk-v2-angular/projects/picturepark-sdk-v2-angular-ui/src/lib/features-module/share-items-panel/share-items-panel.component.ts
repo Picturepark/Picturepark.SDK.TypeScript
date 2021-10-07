@@ -11,6 +11,7 @@ import { ContentDownloadDialogService } from '../content-download-dialog/service
 export class ShareItemsPanelComponent extends BaseComponent implements OnInit {
   @Input() view: 'grid' | 'list' = 'grid';
   @Input() shareDetail: ShareDetail;
+  @Input() isShareViewer: boolean;
 
   @Output() showDetail: EventEmitter<ShareContentDetail> = new EventEmitter();
 
@@ -28,6 +29,7 @@ export class ShareItemsPanelComponent extends BaseComponent implements OnInit {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
       contents: [item],
+      isShareViewer: this.isShareViewer
     });
   }
 

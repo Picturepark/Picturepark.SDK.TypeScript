@@ -3,8 +3,7 @@
 
   .dialog-content {
     overflow: hidden;
-    margin: 0px -24px;
-    height: calc(100% - 25px);
+    height: calc(100% - 62px);
 
     mat-dialog-content {
       position: relative;
@@ -28,11 +27,6 @@
         flex-direction: row;
         justify-content: flex-end;
 
-        .download {
-          border-width: 2px;
-          border-radius: 2px;
-        }
-
         div {
           padding-left: 8px;
 
@@ -51,9 +45,6 @@
       .overview-wrap {
         display: flex;
         flex-direction: row;
-        padding: 2px;
-        overflow: hidden;
-        height: 99%;
         overflow: auto;
 
         @media (max-width: 600px) {
@@ -62,7 +53,7 @@
       }
 
       .mat-tab-header {
-        height: 56px;
+        height: 50px;
       }
 
       .content-preview {

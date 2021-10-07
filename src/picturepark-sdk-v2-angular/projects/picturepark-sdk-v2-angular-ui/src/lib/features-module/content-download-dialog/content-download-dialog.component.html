@@ -1,11 +1,12 @@
 <div class="dialog-container" #contentContainer>
-  <h3 class="header">
-    <span>{{ title | pptranslate }}</span>
+  <div class="header">
+    <span class="header-title mat-display-4 u-text-ellipsis">{{ title | pptranslate }}</span>
     <mat-icon (click)="closeDialog()">close</mat-icon>
-  </h3>
-  <pp-notification [notification]="notification"></pp-notification>
+  </div>
+  <mat-divider></mat-divider>
   <mat-dialog-content>
     <div class="content-wrapper">
+      <pp-notification [notification]="notification" *ngIf="notification.message"></pp-notification>
       <ng-container *ngIf="!tooManyContents; else tooManyContentsMessage">
         <div class="loader-wrapper" *ngIf="waitingDownload">
           <mat-spinner></mat-spinner>
@@ -18,6 +19,7 @@
                 <div *ngFor="let output of selection.getOutputs(filetype)">
                   <mat-checkbox
                     *ngIf="!output.hidden && output.values.length"
+                    color="primary"
                     [name]="filetype.id + '-' + output.id"
                     [(ngModel)]="output.selected"
                     (change)="update()"
@@ -55,19 +57,26 @@
       </ng-template>
     </div>
   </mat-dialog-content>
-
+  <mat-divider></mat-divider>
   <mat-dialog-actions align="end">
-    <button mat-button class="option" [disabled]="waitingDownload" (click)="toggleAdvanced()" *ngIf="enableAdvanced">
+    <button
+      mat-button
+      color="primary"
+      class="option"
+      [disabled]="waitingDownload"
+      (click)="toggleAdvanced()"
+      *ngIf="enableAdvanced"
+    >
       <span *ngIf="!advancedMode">{{ 'ContentDownloadDialog.Advanced' | pptranslate }}</span>
       <span *ngIf="advancedMode">{{ 'ContentDownloadDialog.Simple' | pptranslate }}</span>
     </button>
     <span class="spacer"></span>
-    <button mat-button mat-dialog-close [disabled]="waitingDownload">
+    <button mat-button color="primary" mat-dialog-close [disabled]="waitingDownload">
       {{ 'ContentDownloadDialog.Cancel' | pptranslate }}
     </button>
     <button
       mat-flat-button
-      color="accent"
+      color="primary"
       *ngIf="!noOutputs"
       (click)="download()"
       [disabled]="(fileSize === 0 && !hasDynamicOutputs) || waitingDownload"

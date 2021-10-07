@@ -117,6 +117,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       autoFocus: false,
       width: '980px',
       height: '700px',
+      panelClass: ['pp-dialog'],
     });
   }
 

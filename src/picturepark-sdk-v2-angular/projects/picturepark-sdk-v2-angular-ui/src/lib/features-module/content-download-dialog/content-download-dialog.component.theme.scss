@@ -1,6 +1,7 @@
 @import '~@angular/material/theming';
 
 @mixin pp-content-download-dialog-theme($theme) {
+  $accent: map-get($theme, accent);
   $primary: map-get($theme, primary);
 
   pp-content-download-dialog {

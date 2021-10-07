@@ -7,37 +7,41 @@ $pp-panel: (
 
 @mixin pp-panel-theme($theme) {
   $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
 
-  pp-panel,
-  pp-share-mail-recipients-panel,
-  pp-share-owner-panel,
-  pp-share-settings-panel {
-    .panel-container {
-      background-color: mat-color($primary, surface-light);
-      color: mat-color($primary, on-surface-light);
+  pp-panel {
+    background-color: mat-color($accent, 300);
+    color: mat-color($accent, '300-contrast');
+    @include mat-elevation(2, mat-color($accent, A800), 0.7);
 
-      .panel-header {
-        border-bottom-color: mat-color($primary, divider);
+    .panel-header {
+      border-bottom-color: mat-color($accent, A500);
 
-        .panel-buttons {
-          & button {
-            border-color: mat-color($primary, divider);
-
-            &:hover {
-              border-color: mat-color($primary, primary);
-              box-shadow: 0 0 3px mat-color($primary, primary);
-            }
-
-            &.square {
-              border: 2px solid mat-color($primary, primary);
-            }
-          }
-        }
+      .panel-header-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: mat-color($accent, '200-contrast');
       }
+    }
 
-      .panel-content {
-        a {
-          color: mat-color($primary, on-surface-mid);
+    .panel-content {
+      a {
+        color: mat-color($primary, on-surface-mid);
+      }
+    }
+  }
+
+  .share-manager-item-container {
+    pp-panel {
+      background-color: mat-color($primary, surface-light);
+      color: mat-color($primary, on-surface-mid);
+      @include mat-elevation(2, mat-color($accent, A800), 0.7);
+    
+      .panel-header {
+        border-bottom-color: mat-color($primary, surface-mid);
+  
+        .panel-header-title {
+          color: mat-color($primary, on-surface-light);
         }
       }
     }

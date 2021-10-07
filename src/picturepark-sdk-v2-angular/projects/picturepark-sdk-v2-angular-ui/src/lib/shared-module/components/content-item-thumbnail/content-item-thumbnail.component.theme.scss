@@ -2,14 +2,17 @@
 
 @mixin pp-content-item-thumbnail-theme($theme) {
   $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $color: mat-color($accent, '650-contrast');
 
   pp-content-item-thumbnail {
     .content-item-thumbnail {
       $self: &;
 
       &__image-virtual-item-container {
-        color: mat-color($primary, on-surface-dark);
-        background-color: rgba(mat-color($primary, surface-dark), 0.7);
+        background-color: mat-color($accent, 650);
+        color: $color;
+        fill: $color;
       }
     }
   }

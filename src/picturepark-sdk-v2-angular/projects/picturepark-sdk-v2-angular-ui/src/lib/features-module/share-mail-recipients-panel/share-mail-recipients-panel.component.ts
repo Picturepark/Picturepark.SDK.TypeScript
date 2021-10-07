@@ -4,10 +4,7 @@ import { IMailRecipient } from '@picturepark/sdk-v2-angular';
 @Component({
   selector: 'pp-share-mail-recipients-panel',
   templateUrl: './share-mail-recipients-panel.component.html',
-  styleUrls: [
-    '../../shared-module/components/panel/panel.component.scss',
-    './share-mail-recipients-panel.component.scss',
-  ],
+  styleUrls: ['./share-mail-recipients-panel.component.scss'],
 })
 export class ShareMailRecipientsPanelComponent {
   @Input() mailRecipients: IMailRecipient[];

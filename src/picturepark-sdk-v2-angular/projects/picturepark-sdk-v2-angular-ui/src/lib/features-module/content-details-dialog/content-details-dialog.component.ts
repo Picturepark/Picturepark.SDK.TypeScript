@@ -82,6 +82,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
       contents: [this.content],
+      isShareViewer: this.data.isShareViewer
     });
   }
 

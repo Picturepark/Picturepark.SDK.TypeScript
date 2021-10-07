@@ -1,4 +1,4 @@
-import { Input, Output, EventEmitter } from '@angular/core';
+import { Input, Output, EventEmitter, Component } from '@angular/core';
 import { Subject } from 'rxjs';
 
 // LIBRARIES
@@ -8,6 +8,9 @@ import { ThumbnailSize, IEntityBase } from '@picturepark/sdk-v2-angular';
 import { BaseBrowserComponent } from '../browser-base/browser-base.component';
 import { BaseComponent } from '../base.component';
 
+@Component({
+  template: '',
+})
 export abstract class BaseBrowserItemComponent<TEntity extends IEntityBase> extends BaseComponent {
   // INPUTS
   @Input() public itemModel: TEntity;

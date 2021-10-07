@@ -1,7 +1,23 @@
 .dialog-container {
+  .header {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    flex-grow: 0;
+    flex-shrink: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    min-height: 62px;
+
+    .header-title {
+      margin: 0;
+    }
+  }
+
   h3 {
     display: flex;
-    margin: 0 -24px 0 -24px;
+    margin: 0;
     padding: 0px 24px 24px 24px;
     border-bottom-style: solid;
     border-bottom-width: 1px;
@@ -21,8 +37,6 @@
 
   mat-dialog-content {
     height: 100%;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
 
     .mat-tab-group {
       height: 100%;
@@ -51,6 +65,8 @@
   }
 
   mat-dialog-actions {
+    padding: 8px 24px;
+    margin: 0;
     justify-content: flex-end;
     position: relative;
     z-index: 25;

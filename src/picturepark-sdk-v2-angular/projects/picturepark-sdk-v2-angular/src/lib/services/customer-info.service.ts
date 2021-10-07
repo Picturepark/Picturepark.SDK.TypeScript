@@ -20,7 +20,7 @@ export class CustomerInfoService {
     if (cdnUrl) {
       url_ = cdnUrl + '/service/Info/customer';
     } else {
-      url_ = this.config.apiServer + '/v2/Info/customer';
+      url_ = this.config.apiServer + '/v1/Info/customer';
     }
     url_ = url_.replace(/[?&]$/, '');
 

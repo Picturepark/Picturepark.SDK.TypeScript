@@ -7,6 +7,7 @@ $pp-dialog-base: (
 
 @mixin pp-dialog-base-theme($theme) {
   $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
 
   pp-content-details-dialog,
   pp-content-download-dialog,
@@ -21,8 +22,15 @@ $pp-dialog-base: (
 
       mat-dialog-content {
         background-color: mat-color($primary, background-dark);
-        border-color: mat-color($primary, divider);
         color: mat-color($primary, on-background-dark);
+
+        .mat-checkbox-checked {
+          &.mat-primary {
+            .mat-checkbox-background {
+              background-color: mat-color($primary, primary);
+            }
+          }
+        }
 
         .mat-tab-body-content {
           background-color: mat-color($primary, surface-mid);
@@ -37,6 +45,39 @@ $pp-dialog-base: (
       mat-dialog-actions {
         background-color: mat-color($primary, surface-light);
         color: mat-color($primary, on-surface-light);
+      }
+    }
+  }
+
+  .cp-dialog {
+    .dialog-container {
+      .header {
+        color: mat-color($accent, '100-contrast');
+        border-color: mat-color($primary, divider);
+
+        mat-icon {
+          fill: mat-color($accent, default-contrast);
+          cursor: pointer;
+        }
+      }
+
+      mat-dialog-content {
+        background-color: mat-color($accent, 400);
+        color: mat-color($accent, '400-contrast');
+        fill: mat-color($accent, '200-contrast');
+
+        .mat-radio-button {
+          &.mat-accent {
+            &.mat-radio-checked {
+              .mat-radio-outer-circle {
+                border-color: mat-color($primary, 400);
+              }
+            }
+            .mat-radio-inner-circle {
+              background-color: mat-color($primary, 400);
+            }
+          }
+        }
       }
     }
   }

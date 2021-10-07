@@ -19,4 +19,5 @@ export interface ContentDownloadDialogOptions {
   contents: IContentDownload[];
   mode: 'single' | 'multi';
   shareToken?: string;
+  isShareViewer?: boolean;
 }

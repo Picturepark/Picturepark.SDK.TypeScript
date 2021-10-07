@@ -40,7 +40,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @return BusinessProcess
      */
     get(id: string | null): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/{id}";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -145,7 +145,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @return BusinessProcess
      */
     create(request: BusinessProcessCreateRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -252,7 +252,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @return BusinessProcess
      */
     changeState(id: string | null, request: BusinessProcessStateChangeRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/{id}/state";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/state";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -361,7 +361,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @param request The business process notification update request.
      */
     updateNotification(id: string | null, request: BusinessProcessNotificationUpdateRequest): Observable<void> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/{id}/notification";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/notification";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -465,7 +465,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @param id The business process id.
      */
     cancel(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/{id}/cancel";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/cancel";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -568,7 +568,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @return BusinessProcessWaitResult
      */
     waitForStates(id: string | null, states: string[] | null | undefined, timeout: string | null | undefined): Observable<BusinessProcessWaitForStateResult> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/{id}/waitStates?";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/waitStates?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -679,7 +679,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @return BusinessProcessWaitForLifeCycleResult
      */
     waitForLifeCycles(id: string | null, lifeCycles: BusinessProcessLifeCycle[] | null | undefined, timeout: string | null | undefined): Observable<BusinessProcessWaitForLifeCycleResult> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/{id}/waitLifeCycles?";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/waitLifeCycles?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -790,7 +790,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @return BusinessProcessWaitResult
      */
     waitForCompletion(id: string | null, timeout: string | null | undefined, waitForContinuationCompletion: boolean | undefined): Observable<BusinessProcessWaitForLifeCycleResult> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/{id}/waitCompletion?";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/waitCompletion?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -902,7 +902,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @deprecated
      */
     getDetails(id: string | null): Observable<BusinessProcessDetails> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/{id}/details";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/details";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -1009,7 +1009,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @return BusinessProcessSummaryBaseViewItem
      */
     getSummary(id: string | null): Observable<BusinessProcessSummaryBase> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/{id}/summary";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/summary";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -1117,7 +1117,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @return BusinessProcessBatchViewItem
      */
     getSuccessfulItems(id: string | null, limit: number, pageToken: string | null | undefined): Observable<BusinessProcessBatch> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/{id}/items/successful?";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/items/successful?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -1231,7 +1231,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @return BusinessProcessBatchViewItem
      */
     getFailedItems(id: string | null, limit: number, pageToken: string | null | undefined): Observable<BusinessProcessBatch> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/{id}/items/failed?";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/{id}/items/failed?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -1342,7 +1342,7 @@ export class BusinessProcessService extends PictureparkServiceBase {
      * @return BusinessProcessSearchResult
      */
     search(request: BusinessProcessSearchRequest): Observable<BusinessProcessSearchResult> {
-        let url_ = this.baseUrl + "/v2/BusinessProcesses/search";
+        let url_ = this.baseUrl + "/v1/BusinessProcesses/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -1462,7 +1462,7 @@ export class BusinessRuleService extends PictureparkServiceBase {
      * @return BusinessRuleConfiguration
      */
     getConfiguration(): Observable<BusinessRuleConfiguration> {
-        let url_ = this.baseUrl + "/v2/BusinessRules/configuration";
+        let url_ = this.baseUrl + "/v1/BusinessRules/configuration";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1564,7 +1564,7 @@ export class BusinessRuleService extends PictureparkServiceBase {
      * @return Business process
      */
     updateConfiguration(request: BusinessRuleConfigurationUpdateRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/BusinessRules/configuration";
+        let url_ = this.baseUrl + "/v1/BusinessRules/configuration";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -1670,7 +1670,7 @@ export class BusinessRuleService extends PictureparkServiceBase {
      * @return Holds results of trace log search.
      */
     searchTraces(request: BusinessRuleTraceLogSearchRequest): Observable<BusinessRuleTraceLogSearchResult> {
-        let url_ = this.baseUrl + "/v2/BusinessRules/traceLog/search";
+        let url_ = this.baseUrl + "/v1/BusinessRules/traceLog/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -1777,7 +1777,7 @@ export class BusinessRuleService extends PictureparkServiceBase {
      * @return BusinessProcess of the metadata operation triggered by the schedule.
      */
     runSchedule(schedule: BusinessRuleSchedule): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/BusinessRules/schedule/run";
+        let url_ = this.baseUrl + "/v1/BusinessRules/schedule/run";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(schedule);
@@ -1897,7 +1897,7 @@ export class ChannelService extends PictureparkServiceBase {
      * @return List of channel
      */
     getAll(): Observable<Channel[]> {
-        let url_ = this.baseUrl + "/v2/Channels";
+        let url_ = this.baseUrl + "/v1/Channels";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2003,7 +2003,7 @@ export class ChannelService extends PictureparkServiceBase {
      * @return Created channel
      */
     create(request: ChannelCreateRequest): Observable<Channel> {
-        let url_ = this.baseUrl + "/v2/Channels";
+        let url_ = this.baseUrl + "/v1/Channels";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -2109,7 +2109,7 @@ export class ChannelService extends PictureparkServiceBase {
      * @return Requested channel
      */
     get(id: string | null): Observable<Channel> {
-        let url_ = this.baseUrl + "/v2/Channels/{id}";
+        let url_ = this.baseUrl + "/v1/Channels/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -2215,7 +2215,7 @@ export class ChannelService extends PictureparkServiceBase {
      * @return Updated channel
      */
     update(id: string | null, request: ChannelUpdateRequest): Observable<Channel> {
-        let url_ = this.baseUrl + "/v2/Channels/{id}";
+        let url_ = this.baseUrl + "/v1/Channels/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -2324,7 +2324,7 @@ export class ChannelService extends PictureparkServiceBase {
      * @return OK
      */
     delete(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Channels/{id}";
+        let url_ = this.baseUrl + "/v1/Channels/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -2424,7 +2424,7 @@ export class ChannelService extends PictureparkServiceBase {
      * @return The list of fields
      */
     getAggregationFields(): Observable<FieldInfo[]> {
-        let url_ = this.baseUrl + "/v2/Channels/fields/aggregation";
+        let url_ = this.baseUrl + "/v1/Channels/fields/aggregation";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2529,7 +2529,7 @@ export class ChannelService extends PictureparkServiceBase {
      * @return The list of fields
      */
     getSortFields(): Observable<SortFieldInfo[]> {
-        let url_ = this.baseUrl + "/v2/Channels/fields/sort";
+        let url_ = this.baseUrl + "/v1/Channels/fields/sort";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2634,7 +2634,7 @@ export class ChannelService extends PictureparkServiceBase {
      * @return The list of fields
      */
     getFilterFields(): Observable<FieldInfo[]> {
-        let url_ = this.baseUrl + "/v2/Channels/fields/filter";
+        let url_ = this.baseUrl + "/v1/Channels/fields/filter";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2755,7 +2755,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @return Detail of a content permission set
      */
     get(id: string | null): Observable<ContentPermissionSetDetail> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets/{id}";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -2861,7 +2861,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @return Detail of a content permission set
      */
     update(id: string | null, permissionSet: ContentPermissionSetUpdateRequest): Observable<ContentPermissionSetDetail> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets/{id}";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -2969,7 +2969,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @param id Content permission set ID.
      */
     delete(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets/{id}";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -3070,7 +3070,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @return Detail of a content permission set
      */
     create(permissionSet: ContentPermissionSetCreateRequest): Observable<ContentPermissionSetDetail> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(permissionSet);
@@ -3176,7 +3176,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @return Array of Detail of a content permission set
      */
     getMany(ids: string[] | null | undefined): Observable<ContentPermissionSetDetail[]> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets?";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -3284,7 +3284,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @param request Request to transfer the ownership of a permission set.
      */
     transferOwnership(id: string | null, request: PermissionSetOwnershipTransferRequest): Observable<void> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets/{id}/ownership";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets/{id}/ownership";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -3389,7 +3389,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @return Array of Permission set rights
      */
     getPermissions(id: string | null): Observable<PermissionSetRight[]> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets/{id}/permissions";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets/{id}/permissions";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -3498,7 +3498,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @return Response to a bulk operation
      */
     createMany(request: ContentPermissionSetCreateManyRequest): Observable<BulkResponse> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets/many";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -3604,7 +3604,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @return Response to a bulk operation
      */
     updateMany(request: ContentPermissionSetUpdateManyRequest): Observable<BulkResponse> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets/many";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -3710,7 +3710,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @return Response to a bulk operation
      */
     deleteMany(request: PermissionSetDeleteManyRequest): Observable<BulkResponse> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets/many/delete";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -3815,7 +3815,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @param request Request to transfer the ownership of multiple permission sets.
      */
     transferOwnershipMany(request: PermissionSetOwnershipTransferManyRequest): Observable<void> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets/many/ownership";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets/many/ownership";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -3917,7 +3917,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @return Array of Rights that the current user has on a permission set
      */
     getPermissionsMany(ids: string[] | null | undefined): Observable<PermissionSetUserPermissionRights[]> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets/many/permissions?";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets/many/permissions?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -4025,7 +4025,7 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
      * @return Result of a permission set search operation
      */
     search(request: PermissionSetSearchRequest): Observable<PermissionSetSearchResult> {
-        let url_ = this.baseUrl + "/v2/ContentPermissionSets/search";
+        let url_ = this.baseUrl + "/v1/ContentPermissionSets/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -4250,7 +4250,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Content detail
      */
     protected getCore(id: string | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}?";
+        let url_ = this.baseUrl + "/v1/Contents/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -4362,7 +4362,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Ok
      */
     delete(id: string | null, forceReferenceRemoval: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}?";
+        let url_ = this.baseUrl + "/v1/Contents/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -4476,7 +4476,7 @@ export class ContentService extends PictureparkServiceBase {
      * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000).
      */
     download(contentId: string, outputFormatId: string, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/v2/Contents/downloads/{contentId}/{outputFormatId}?";
+        let url_ = this.baseUrl + "/v1/Contents/downloads/{contentId}/{outputFormatId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId));
@@ -4597,7 +4597,7 @@ export class ContentService extends PictureparkServiceBase {
      * @param conversionPreset The conversion preset.
      */
     editOutput(contentId: string | null, outputFormatId: string | null, conversionPreset: string | null): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/v2/Contents/downloads/{contentId}/{outputFormatId}/{conversionPreset}";
+        let url_ = this.baseUrl + "/v1/Contents/downloads/{contentId}/{outputFormatId}/{conversionPreset}";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId));
@@ -4717,7 +4717,7 @@ export class ContentService extends PictureparkServiceBase {
      * @param height (optional) Optional height in pixels to resize image.
      */
     downloadThumbnail(id: string | null, size: ThumbnailSize, width: number | null | undefined, height: number | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/v2/Contents/thumbnails/{id}/{size}?";
+        let url_ = this.baseUrl + "/v1/Contents/thumbnails/{id}/{size}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -4837,7 +4837,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return The content details
      */
     protected createCore(resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, request: ContentCreateRequest): Observable<ContentDetail> {
-        let url_ = this.baseUrl + "/v2/Contents?";
+        let url_ = this.baseUrl + "/v1/Contents?";
         if (resolveBehaviors !== undefined && resolveBehaviors !== null)
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (allowMissingDependencies === null)
@@ -4956,7 +4956,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return List of Content detail
      */
     protected getManyCore(ids: string[] | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail[]> {
-        let url_ = this.baseUrl + "/v2/Contents?";
+        let url_ = this.baseUrl + "/v1/Contents?";
         if (ids === undefined)
             throw new Error("The parameter 'ids' must be defined.");
         else if(ids !== null)
@@ -5075,7 +5075,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Content detail
      */
     protected updateMetadataCore(id: string | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, request: ContentMetadataUpdateRequest): Observable<ContentDetail> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}/metadata?";
+        let url_ = this.baseUrl + "/v1/Contents/{id}/metadata?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -5202,7 +5202,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Content detail
      */
     protected updatePermissionsCore(id: string | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, request: ContentPermissionsUpdateRequest): Observable<ContentDetail> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}/permissions?";
+        let url_ = this.baseUrl + "/v1/Contents/{id}/permissions?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -5324,7 +5324,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Ok
      */
     restore(id: string | null, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}/restore?";
+        let url_ = this.baseUrl + "/v1/Contents/{id}/restore?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -5440,7 +5440,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Ok
      */
     transferOwnership(id: string | null, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, request: ContentOwnershipTransferRequest): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}/ownership?";
+        let url_ = this.baseUrl + "/v1/Contents/{id}/ownership?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -5551,7 +5551,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Result indicating if data loss would occur for given requests
      */
     checkContentSchemaChange(request: CheckContentSchemaIdChangeRequest): Observable<CheckContentSchemaIdChangeResult> {
-        let url_ = this.baseUrl + "/v2/Contents/checkContentSchemaChange";
+        let url_ = this.baseUrl + "/v1/Contents/checkContentSchemaChange";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -5658,7 +5658,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Information about data loss, if any
      */
     checkUpdateFile(id: string | null, request: ContentFileUpdateCheckRequest): Observable<CheckContentSchemaIdChangeResult> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}/file/check";
+        let url_ = this.baseUrl + "/v1/Contents/{id}/file/check";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -5768,7 +5768,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Business process
      */
     updateFile(id: string | null, request: ContentFileUpdateRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}/file";
+        let url_ = this.baseUrl + "/v1/Contents/{id}/file";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -5878,7 +5878,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return ContentReferencesResult
      */
     getReferences(id: string | null, request: ContentReferencesRequest): Observable<ContentReferencesResult> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}/references/search";
+        let url_ = this.baseUrl + "/v1/Contents/{id}/references/search";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -5987,7 +5987,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Array of Result of output resolution.
      */
     getOutputs(id: string | null): Observable<OutputResolveResult[]> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}/outputs";
+        let url_ = this.baseUrl + "/v1/Contents/{id}/outputs";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -6096,7 +6096,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Download link
      */
     createDownloadLink(request: ContentDownloadLinkCreateRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Contents/downloadLinks";
+        let url_ = this.baseUrl + "/v1/Contents/downloadLinks";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -6202,7 +6202,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Download link information
      */
     getDownloadLink(token: string | null): Observable<DownloadLink> {
-        let url_ = this.baseUrl + "/v2/Contents/downloadLink/{token}";
+        let url_ = this.baseUrl + "/v1/Contents/downloadLink/{token}";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
         url_ = url_.replace("{token}", encodeURIComponent("" + token));
@@ -6307,7 +6307,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Business process
      */
     createMany(request: ContentCreateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Contents/many";
+        let url_ = this.baseUrl + "/v1/Contents/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -6413,7 +6413,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Business process
      */
     updateMetadataMany(request: ContentMetadataUpdateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Contents/many/metadata";
+        let url_ = this.baseUrl + "/v1/Contents/many/metadata";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -6519,7 +6519,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Business process
      */
     updatePermissionsMany(request: ContentPermissionsUpdateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Contents/many/permissions";
+        let url_ = this.baseUrl + "/v1/Contents/many/permissions";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -6625,7 +6625,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Business process
      */
     transferOwnershipMany(request: ContentOwnershipTransferManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Contents/many/ownership";
+        let url_ = this.baseUrl + "/v1/Contents/many/ownership";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -6731,7 +6731,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Business process
      */
     deleteMany(request: ContentDeleteManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Contents/many/delete";
+        let url_ = this.baseUrl + "/v1/Contents/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -6837,7 +6837,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Business process
      */
     deleteManyByFilter(request: ContentDeleteManyFilterRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Contents/many/delete/filter";
+        let url_ = this.baseUrl + "/v1/Contents/many/delete/filter";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -6943,7 +6943,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Business process
      */
     restoreMany(request: ContentRestoreManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Contents/many/restore";
+        let url_ = this.baseUrl + "/v1/Contents/many/restore";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -7049,7 +7049,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Content references result
      */
     getReferencesMany(request: ContentManyReferencesRequest): Observable<ContentReferencesResult> {
-        let url_ = this.baseUrl + "/v2/Contents/many/references/search";
+        let url_ = this.baseUrl + "/v1/Contents/many/references/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -7155,7 +7155,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Array of Result of output resolution.
      */
     getOutputsMany(request: OutputResolveManyRequest): Observable<OutputResolveResult[]> {
-        let url_ = this.baseUrl + "/v2/Contents/many/outputs";
+        let url_ = this.baseUrl + "/v1/Contents/many/outputs";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -7260,12 +7260,224 @@ export class ContentService extends PictureparkServiceBase {
     }
 
     /**
+     * Repair contents by filter
+     * @param request Content repair request.
+     * @return Business process
+     */
+    repairContentsByFilter(request: ContentRepairByFilterRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Contents/many/repair/filter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processRepairContentsByFilter(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRepairContentsByFilter(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRepairContentsByFilter(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
+     * Repair contents
+     * @param request Content repair request.
+     * @return Business process
+     */
+    repairContentsBatch(request: ContentRepairBatchRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Contents/many/repair/batch";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processRepairContentsBatch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRepairContentsBatch(<any>response_);
+                } catch (e) {
+                    return <Observable<BusinessProcess>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BusinessProcess>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processRepairContentsBatch(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BusinessProcess>(<any>null);
+    }
+
+    /**
      * Batch update content fields - by IDs
      * @param request Content fields batch update request.
      * @return Business process
      */
     batchUpdateFieldsByIds(request: ContentFieldsBatchUpdateRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Contents/batches/fields/ids";
+        let url_ = this.baseUrl + "/v1/Contents/batches/fields/ids";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -7371,7 +7583,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Business process
      */
     batchUpdateFieldsByFilter(request: ContentFieldsBatchUpdateFilterRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Contents/batches/fields/filter";
+        let url_ = this.baseUrl + "/v1/Contents/batches/fields/filter";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -7477,7 +7689,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Result for content search operation
      */
     protected searchCore(request: ContentSearchRequest): Observable<ContentSearchResult> {
-        let url_ = this.baseUrl + "/v2/Contents/search";
+        let url_ = this.baseUrl + "/v1/Contents/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -7583,7 +7795,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Object aggregation result
      */
     aggregateOnChannel(request: ContentAggregationOnChannelRequest): Observable<ObjectAggregationResult> {
-        let url_ = this.baseUrl + "/v2/Contents/aggregateOnChannel";
+        let url_ = this.baseUrl + "/v1/Contents/aggregateOnChannel";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -7689,7 +7901,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Object aggregation result
      */
     aggregate(request: ContentAggregationRequest): Observable<ObjectAggregationResult> {
-        let url_ = this.baseUrl + "/v2/Contents/aggregate";
+        let url_ = this.baseUrl + "/v1/Contents/aggregate";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -7796,7 +8008,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Historic versions
      */
     getVersions(id: string | null, request: HistoricVersionSearchRequest): Observable<HistoricVersionSearchResult> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}/versions";
+        let url_ = this.baseUrl + "/v1/Contents/{id}/versions";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -7906,7 +8118,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return Download token to be used with download/{token} endpoint
      */
     createVersionDownloadLink(id: string | null, versionId: number): Observable<string> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}/versions/{versionId}/file";
+        let url_ = this.baseUrl + "/v1/Contents/{id}/versions/{versionId}/file";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -8015,7 +8227,7 @@ export class ContentService extends PictureparkServiceBase {
      * @return OK
      */
     deleteVersion(id: string | null, versionId: number): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Contents/{id}/versions/{versionId}";
+        let url_ = this.baseUrl + "/v1/Contents/{id}/versions/{versionId}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -8133,7 +8345,7 @@ export class DisplayValueService extends PictureparkServiceBase {
      * @return VersionInfo
      */
     getStatus(): Observable<DisplayValueStatus> {
-        let url_ = this.baseUrl + "/v2/DisplayValues/status";
+        let url_ = this.baseUrl + "/v1/DisplayValues/status";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8234,7 +8446,7 @@ export class DisplayValueService extends PictureparkServiceBase {
      * @return VersionInfo
      */
     rerender(): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/DisplayValues/rerender";
+        let url_ = this.baseUrl + "/v1/DisplayValues/rerender";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8352,7 +8564,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
      * @return Document history item
      */
     getCurrent(documentType: string | null, documentId: string | null): Observable<DocumentHistory> {
-        let url_ = this.baseUrl + "/v2/history/{documentType}/{documentId}/current";
+        let url_ = this.baseUrl + "/v1/history/{documentType}/{documentId}/current";
         if (documentType === undefined || documentType === null)
             throw new Error("The parameter 'documentType' must be defined.");
         url_ = url_.replace("{documentType}", encodeURIComponent("" + documentType));
@@ -8462,7 +8674,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
      * @return Document history item
      */
     getVersion(documentType: string | null, documentId: string | null, documentVersion: number): Observable<DocumentHistory> {
-        let url_ = this.baseUrl + "/v2/history/{documentType}/{documentId}/{documentVersion}";
+        let url_ = this.baseUrl + "/v1/history/{documentType}/{documentId}/{documentVersion}";
         if (documentType === undefined || documentType === null)
             throw new Error("The parameter 'documentType' must be defined.");
         url_ = url_.replace("{documentType}", encodeURIComponent("" + documentType));
@@ -8575,7 +8787,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
      * @return Document history difference.
      */
     compareWithCurrent(documentType: string | null, documentId: string | null, version: number | undefined): Observable<DocumentHistoryDifference> {
-        let url_ = this.baseUrl + "/v2/history/{documentType}/{documentId}/current/compare?";
+        let url_ = this.baseUrl + "/v1/history/{documentType}/{documentId}/current/compare?";
         if (documentType === undefined || documentType === null)
             throw new Error("The parameter 'documentType' must be defined.");
         url_ = url_.replace("{documentType}", encodeURIComponent("" + documentType));
@@ -8690,7 +8902,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
      * @return Document history difference
      */
     compareWithVersion(documentType: string | null, documentId: string | null, documentVersion: number, version: number | undefined): Observable<DocumentHistoryDifference> {
-        let url_ = this.baseUrl + "/v2/history/{documentType}/{documentId}/{documentVersion}/compare?";
+        let url_ = this.baseUrl + "/v1/history/{documentType}/{documentId}/{documentVersion}/compare?";
         if (documentType === undefined || documentType === null)
             throw new Error("The parameter 'documentType' must be defined.");
         url_ = url_.replace("{documentType}", encodeURIComponent("" + documentType));
@@ -8805,7 +9017,7 @@ export class DocumentHistoryService extends PictureparkServiceBase {
      * @return Document history search result.
      */
     search(request: DocumentHistorySearchRequest): Observable<DocumentHistorySearchResult> {
-        let url_ = this.baseUrl + "/v2/history/search";
+        let url_ = this.baseUrl + "/v1/history/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -8925,7 +9137,7 @@ export class IdentityProviderService extends PictureparkServiceBase {
      * @return Array of identity providers
      */
     getAll(): Observable<IdentityProvider[]> {
-        let url_ = this.baseUrl + "/v2/IdentityProviders";
+        let url_ = this.baseUrl + "/v1/IdentityProviders";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9030,7 +9242,7 @@ export class IdentityProviderService extends PictureparkServiceBase {
      * @return Array of identity provider basic information
      */
     getAllBasicInfos(): Observable<IdentityProviderBasicInfo[]> {
-        let url_ = this.baseUrl + "/v2/IdentityProviders/basicInfo";
+        let url_ = this.baseUrl + "/v1/IdentityProviders/basicInfo";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9136,7 +9348,7 @@ export class IdentityProviderService extends PictureparkServiceBase {
      * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
      */
     get(id: string | null): Observable<IdentityProvider> {
-        let url_ = this.baseUrl + "/v2/IdentityProviders/{id}";
+        let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -9242,7 +9454,7 @@ export class IdentityProviderService extends PictureparkServiceBase {
      * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
      */
     update(id: string | null, provider: IdentityProviderEditable): Observable<IdentityProvider> {
-        let url_ = this.baseUrl + "/v2/IdentityProviders/{id}";
+        let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -9350,7 +9562,7 @@ export class IdentityProviderService extends PictureparkServiceBase {
      * @return Names of user attributes
      */
     getSynchronizableAttributes(): Observable<string[]> {
-        let url_ = this.baseUrl + "/v2/IdentityProviders/synchronizableAttributes";
+        let url_ = this.baseUrl + "/v1/IdentityProviders/synchronizableAttributes";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9470,7 +9682,7 @@ export class InfoService extends PictureparkServiceBase {
      * @return VersionInfo
      */
     getVersion(): Observable<VersionInfo> {
-        let url_ = this.baseUrl + "/v2/Info/version";
+        let url_ = this.baseUrl + "/v1/Info/version";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9524,7 +9736,7 @@ export class InfoService extends PictureparkServiceBase {
      * @return CustomerInfo
      */
     protected getInfoCore(): Observable<CustomerInfo> {
-        let url_ = this.baseUrl + "/v2/Info/customer";
+        let url_ = this.baseUrl + "/v1/Info/customer";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9578,7 +9790,7 @@ export class InfoService extends PictureparkServiceBase {
      * @return SystemStatus
      */
     getStatus(): Observable<SystemStatus> {
-        let url_ = this.baseUrl + "/v2/Info/status";
+        let url_ = this.baseUrl + "/v1/Info/status";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9647,7 +9859,7 @@ export class JsonSchemaService extends PictureparkServiceBase {
      * @param id The ID of the schema whose json schema to retrieve.
      */
     get(id: string | null): Observable<any> {
-        let url_ = this.baseUrl + "/v2/JsonSchemas/{id}";
+        let url_ = this.baseUrl + "/v1/JsonSchemas/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -9800,7 +10012,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return List item detail
      */
     protected getCore(id: string | null, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
-        let url_ = this.baseUrl + "/v2/ListItems/{id}?";
+        let url_ = this.baseUrl + "/v1/ListItems/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -9914,7 +10126,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return List item detail
      */
     update(id: string | null, resolveBehaviors: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, request: ListItemUpdateRequest): Observable<ListItemDetail> {
-        let url_ = this.baseUrl + "/v2/ListItems/{id}?";
+        let url_ = this.baseUrl + "/v1/ListItems/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -10040,7 +10252,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return Ok
      */
     delete(id: string | null, forceReferenceRemoval: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/v2/ListItems/{id}?";
+        let url_ = this.baseUrl + "/v1/ListItems/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -10156,7 +10368,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return Ok
      */
     restore(id: string | null, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/v2/ListItems/{id}/restore?";
+        let url_ = this.baseUrl + "/v1/ListItems/{id}/restore?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -10268,7 +10480,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return List item references
      */
     getReferences(id: string | null, request: ListItemReferencesRequest): Observable<ListItemReferencesResult> {
-        let url_ = this.baseUrl + "/v2/ListItems/{id}/references/search";
+        let url_ = this.baseUrl + "/v1/ListItems/{id}/references/search";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -10383,7 +10595,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return List item detail
      */
     create(resolveBehaviors: ListItemResolveBehavior[] | null | undefined, allowMissingDependencies: boolean | undefined, timeout: string | null | undefined, waitSearchDocCreation: boolean | undefined, request: ListItemCreateRequest): Observable<ListItemDetail> {
-        let url_ = this.baseUrl + "/v2/ListItems?";
+        let url_ = this.baseUrl + "/v1/ListItems?";
         if (resolveBehaviors !== undefined && resolveBehaviors !== null)
             resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
         if (allowMissingDependencies === null)
@@ -10502,7 +10714,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return List of list item details
      */
     getMany(ids: string[] | null | undefined, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail[]> {
-        let url_ = this.baseUrl + "/v2/ListItems?";
+        let url_ = this.baseUrl + "/v1/ListItems?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         if (resolveBehaviors !== undefined && resolveBehaviors !== null)
@@ -10612,7 +10824,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return Business process
      */
     createMany(request: ListItemCreateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/ListItems/many";
+        let url_ = this.baseUrl + "/v1/ListItems/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -10718,7 +10930,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return Business process
      */
     updateMany(request: ListItemUpdateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/ListItems/many";
+        let url_ = this.baseUrl + "/v1/ListItems/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -10824,7 +11036,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return Business process
      */
     deleteMany(request: ListItemDeleteManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/ListItems/many/delete";
+        let url_ = this.baseUrl + "/v1/ListItems/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -10930,7 +11142,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return Business process
      */
     deleteManyByFilter(request: ListItemDeleteManyFilterRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/ListItems/many/delete/filter";
+        let url_ = this.baseUrl + "/v1/ListItems/many/delete/filter";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -11036,7 +11248,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return Business process
      */
     restoreMany(request: ListItemRestoreManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/ListItems/many/restore";
+        let url_ = this.baseUrl + "/v1/ListItems/many/restore";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -11142,7 +11354,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return A list of references per list item.
      */
     getReferencesMany(request: ListItemManyReferencesRequest): Observable<ListItemReferencesResult> {
-        let url_ = this.baseUrl + "/v2/ListItems/many/references/search";
+        let url_ = this.baseUrl + "/v1/ListItems/many/references/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -11248,7 +11460,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return Business process
      */
     batchUpdateFieldsByIds(request: ListItemFieldsBatchUpdateRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/ListItems/batches/fields/ids";
+        let url_ = this.baseUrl + "/v1/ListItems/batches/fields/ids";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -11354,7 +11566,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return Business process
      */
     batchUpdateFieldsByFilter(request: ListItemFieldsBatchUpdateFilterRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/ListItems/batches/fields/filter";
+        let url_ = this.baseUrl + "/v1/ListItems/batches/fields/filter";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -11460,7 +11672,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return List item search result
      */
     protected searchCore(request: ListItemSearchRequest): Observable<ListItemSearchResult> {
-        let url_ = this.baseUrl + "/v2/ListItems/search";
+        let url_ = this.baseUrl + "/v1/ListItems/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -11566,7 +11778,7 @@ export class ListItemService extends PictureparkServiceBase {
      * @return Object aggregation result
      */
     aggregate(request: ListItemAggregationRequest): Observable<ObjectAggregationResult> {
-        let url_ = this.baseUrl + "/v2/ListItems/aggregate";
+        let url_ = this.baseUrl + "/v1/ListItems/aggregate";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -11687,7 +11899,7 @@ export class LiveStreamService extends PictureparkServiceBase {
      * @return Resulting live stream events
      */
     search(request: LiveStreamSearchRequest): Observable<LiveStreamSearchResult> {
-        let url_ = this.baseUrl + "/v2/LiveStream/search";
+        let url_ = this.baseUrl + "/v1/LiveStream/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -11807,7 +12019,7 @@ export class MetadataService extends PictureparkServiceBase {
      * @return The overall status of the contents and list items in comparison to the actual schemas' structure
      */
     getStatus(): Observable<MetadataStatus> {
-        let url_ = this.baseUrl + "/v2/Metadata/status";
+        let url_ = this.baseUrl + "/v1/Metadata/status";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11908,7 +12120,7 @@ export class MetadataService extends PictureparkServiceBase {
      * @return Business process
      */
     updateOutdated(): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Metadata/many/updateOutdated";
+        let url_ = this.baseUrl + "/v1/Metadata/many/updateOutdated";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12025,7 +12237,7 @@ export class NotificationService extends PictureparkServiceBase {
      * @return Notification
      */
     get(id: string | null): Observable<Notification> {
-        let url_ = this.baseUrl + "/v2/Notifications/{id}";
+        let url_ = this.baseUrl + "/v1/Notifications/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -12130,7 +12342,7 @@ export class NotificationService extends PictureparkServiceBase {
      * @return Notification
      */
     markAsRead(id: string | null): Observable<Notification> {
-        let url_ = this.baseUrl + "/v2/Notifications/{id}/markAsRead";
+        let url_ = this.baseUrl + "/v1/Notifications/{id}/markAsRead";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -12235,7 +12447,7 @@ export class NotificationService extends PictureparkServiceBase {
      * @return Notification search result
      */
     search(request: NotificationSearchRequest): Observable<NotificationCompactResult> {
-        let url_ = this.baseUrl + "/v2/Notifications/search";
+        let url_ = this.baseUrl + "/v1/Notifications/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -12341,7 +12553,7 @@ export class NotificationService extends PictureparkServiceBase {
      * @return Aggregation result
      */
     aggregate(request: NotificationAggregationRequest): Observable<ObjectAggregationResult> {
-        let url_ = this.baseUrl + "/v2/Notifications/aggregate";
+        let url_ = this.baseUrl + "/v1/Notifications/aggregate";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -12445,7 +12657,7 @@ export class NotificationService extends PictureparkServiceBase {
      * Mark all notifications as read
      */
     markAllAsRead(): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Notifications/markAllAsRead";
+        let url_ = this.baseUrl + "/v1/Notifications/markAllAsRead";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12542,7 +12754,7 @@ export class NotificationService extends PictureparkServiceBase {
      * @return Email notification settings
      */
     getEmailNotificationSettings(): Observable<EmailNotificationsSettings> {
-        let url_ = this.baseUrl + "/v2/Notifications/emailNotifications/settings";
+        let url_ = this.baseUrl + "/v1/Notifications/emailNotifications/settings";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12644,7 +12856,7 @@ export class NotificationService extends PictureparkServiceBase {
      * @return Email notification settings
      */
     putEmailNotificationSettings(configuration: EmailNotificationsSettings): Observable<EmailNotificationsSettings> {
-        let url_ = this.baseUrl + "/v2/Notifications/emailNotifications/settings";
+        let url_ = this.baseUrl + "/v1/Notifications/emailNotifications/settings";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(configuration);
@@ -12749,7 +12961,7 @@ export class NotificationService extends PictureparkServiceBase {
      * @return Array of Notification that is available for email settings.
      */
     getAvailableNotificationTypes(): Observable<NotificationType[]> {
-        let url_ = this.baseUrl + "/v2/Notifications/emailNotifications/types";
+        let url_ = this.baseUrl + "/v1/Notifications/emailNotifications/types";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12874,7 +13086,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Business process
      */
     setDownloadFileNamePatterns(id: string | null, patterns: { [key: string]: string; }): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/OutputFormats/{id}/downloadFileNamePatterns";
+        let url_ = this.baseUrl + "/v1/OutputFormats/{id}/downloadFileNamePatterns";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -12983,7 +13195,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Business process
      */
     setDownloadFileNamePatternsMany(request: OutputFormatDownloadFileNamePatternUpdateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/OutputFormats/many/downloadFileNamePatterns";
+        let url_ = this.baseUrl + "/v1/OutputFormats/many/downloadFileNamePatterns";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -13090,7 +13302,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Business process
      */
     setXmpWritebackState(id: string | null, request: OutputFormatSetXmpWritebackStateRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/OutputFormats/{id}/xmpWriteback";
+        let url_ = this.baseUrl + "/v1/OutputFormats/{id}/xmpWriteback";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -13199,7 +13411,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Business process
      */
     setXmpWritebackState2(request: OutputFormatSetXmpWritebackStateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/OutputFormats/many/xmpWriteback";
+        let url_ = this.baseUrl + "/v1/OutputFormats/many/xmpWriteback";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -13305,7 +13517,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Rendered file
      */
     renderFormatPreview(request: OutputFormatRenderPreviewRequest): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/v2/OutputFormats/preview";
+        let url_ = this.baseUrl + "/v1/OutputFormats/preview";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -13418,7 +13630,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Array of Represents an output format.
      */
     getMany(ids: string[] | null | undefined): Observable<OutputFormatDetail[]> {
-        let url_ = this.baseUrl + "/v2/OutputFormats?";
+        let url_ = this.baseUrl + "/v1/OutputFormats?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -13526,7 +13738,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Business process
      */
     create(request: OutputFormat): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/OutputFormats";
+        let url_ = this.baseUrl + "/v1/OutputFormats";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -13632,7 +13844,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Represents an output format.
      */
     get(id: string | null): Observable<OutputFormatDetail> {
-        let url_ = this.baseUrl + "/v2/OutputFormats/{id}";
+        let url_ = this.baseUrl + "/v1/OutputFormats/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -13738,7 +13950,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Business process
      */
     update(id: string | null, request: OutputFormatEditable): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/OutputFormats/{id}";
+        let url_ = this.baseUrl + "/v1/OutputFormats/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -13847,7 +14059,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Business process
      */
     delete(id: string | null): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/OutputFormats/{id}";
+        let url_ = this.baseUrl + "/v1/OutputFormats/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -13952,7 +14164,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Business process
      */
     createMany(request: OutputFormatCreateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/OutputFormats/many";
+        let url_ = this.baseUrl + "/v1/OutputFormats/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -14058,7 +14270,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Business process
      */
     updateMany(request: OutputFormatUpdateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/OutputFormats/many";
+        let url_ = this.baseUrl + "/v1/OutputFormats/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -14164,7 +14376,7 @@ export class OutputFormatService extends PictureparkServiceBase {
      * @return Business process
      */
     deleteMany(request: OutputFormatDeleteManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/OutputFormats/many/delete";
+        let url_ = this.baseUrl + "/v1/OutputFormats/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -14285,7 +14497,7 @@ export class OutputService extends PictureparkServiceBase {
      * @return Output detail
      */
     get(id: string | null): Observable<OutputDetail> {
-        let url_ = this.baseUrl + "/v2/Outputs/{id}";
+        let url_ = this.baseUrl + "/v1/Outputs/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -14390,7 +14602,7 @@ export class OutputService extends PictureparkServiceBase {
      * @return Output result set
      */
     search(request: OutputSearchRequest): Observable<OutputSearchResult> {
-        let url_ = this.baseUrl + "/v2/Outputs/search";
+        let url_ = this.baseUrl + "/v1/Outputs/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -14496,7 +14708,7 @@ export class OutputService extends PictureparkServiceBase {
      * @return Business process tracking the resetting
      */
     resetRetryAttempts(request: OutputResetRetryAttemptsRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Outputs/resetRetryAttempts";
+        let url_ = this.baseUrl + "/v1/Outputs/resetRetryAttempts";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -14616,7 +14828,7 @@ export class ProfileService extends PictureparkServiceBase {
      * @return User profile
      */
     get(): Observable<UserProfile> {
-        let url_ = this.baseUrl + "/v2/Profile";
+        let url_ = this.baseUrl + "/v1/Profile";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -14718,7 +14930,7 @@ export class ProfileService extends PictureparkServiceBase {
      * @return Updated user profile
      */
     update(request: UserProfileUpdateRequest): Observable<UserProfile> {
-        let url_ = this.baseUrl + "/v2/Profile";
+        let url_ = this.baseUrl + "/v1/Profile";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -14823,7 +15035,7 @@ export class ProfileService extends PictureparkServiceBase {
      * @return OK
      */
     requestDeletion(): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Profile/requestDeletion";
+        let url_ = this.baseUrl + "/v1/Profile/requestDeletion";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -14936,7 +15148,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @return Detail of a schema permission set
      */
     get(id: string | null): Observable<SchemaPermissionSetDetail> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets/{id}";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -15042,7 +15254,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @return Detail of a schema permission set
      */
     update(id: string | null, permissionSet: SchemaPermissionSetUpdateRequest): Observable<SchemaPermissionSetDetail> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets/{id}";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -15150,7 +15362,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @param id Schema permission set ID.
      */
     delete(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets/{id}";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -15251,7 +15463,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @return Detail of a schema permission set
      */
     create(permissionSet: SchemaPermissionSetCreateRequest): Observable<SchemaPermissionSetDetail> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(permissionSet);
@@ -15357,7 +15569,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @return Array of Detail of a schema permission set
      */
     getMany(ids: string[] | null | undefined): Observable<SchemaPermissionSetDetail[]> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets?";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -15465,7 +15677,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @param request Request to transfer the ownership of a permission set.
      */
     transferOwnership(id: string | null, request: PermissionSetOwnershipTransferRequest): Observable<void> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets/{id}/ownership";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets/{id}/ownership";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -15570,7 +15782,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @return Array of Permission set rights
      */
     getPermissions(id: string | null): Observable<PermissionSetRight[]> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets/{id}/permissions";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets/{id}/permissions";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -15679,7 +15891,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @return Response to a bulk operation
      */
     createMany(request: SchemaPermissionSetCreateManyRequest): Observable<BulkResponse> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets/many";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -15785,7 +15997,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @return Response to a bulk operation
      */
     updateMany(request: SchemaPermissionSetUpdateManyRequest): Observable<BulkResponse> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets/many";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -15891,7 +16103,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @return Response to a bulk operation
      */
     deleteMany(request: PermissionSetDeleteManyRequest): Observable<BulkResponse> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets/many/delete";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -15996,7 +16208,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @param request Request to transfer the ownership of multiple permission sets.
      */
     transferOwnershipMany(request: PermissionSetOwnershipTransferManyRequest): Observable<void> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets/many/ownership";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets/many/ownership";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -16098,7 +16310,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @return Array of Rights that the current user has on a permission set
      */
     getPermissionsMany(ids: string[] | null | undefined): Observable<PermissionSetUserPermissionRights[]> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets/many/permissions?";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets/many/permissions?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -16206,7 +16418,7 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
      * @return Result of a permission set search operation
      */
     search(request: PermissionSetSearchRequest): Observable<PermissionSetSearchResult> {
-        let url_ = this.baseUrl + "/v2/SchemaPermissionSets/search";
+        let url_ = this.baseUrl + "/v1/SchemaPermissionSets/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -16327,7 +16539,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return Schema detail
      */
     get(id: string | null): Observable<SchemaDetail> {
-        let url_ = this.baseUrl + "/v2/Schemas/{id}";
+        let url_ = this.baseUrl + "/v1/Schemas/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -16435,7 +16647,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return Schema update result, containing the updated schema
      */
     update(id: string | null, timeout: string | null | undefined, request: SchemaUpdateRequest): Observable<SchemaUpdateResult> {
-        let url_ = this.baseUrl + "/v2/Schemas/{id}?";
+        let url_ = this.baseUrl + "/v1/Schemas/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -16548,7 +16760,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return Schema delete result
      */
     delete(id: string | null, timeout: string | null | undefined): Observable<SchemaDeleteResult> {
-        let url_ = this.baseUrl + "/v2/Schemas/{id}?";
+        let url_ = this.baseUrl + "/v1/Schemas/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -16655,7 +16867,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return Schema Exists response
      */
     exists(id: string | null): Observable<SchemaExistsResponse> {
-        let url_ = this.baseUrl + "/v2/Schemas/{id}/exists";
+        let url_ = this.baseUrl + "/v1/Schemas/{id}/exists";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -16761,7 +16973,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return Field Exists response
      */
     fieldExists(schemaId: string | null, fieldId: string | null): Observable<FieldExistsResponse> {
-        let url_ = this.baseUrl + "/v2/Schemas/{schemaId}/{fieldId}/exists";
+        let url_ = this.baseUrl + "/v1/Schemas/{schemaId}/{fieldId}/exists";
         if (schemaId === undefined || schemaId === null)
             throw new Error("The parameter 'schemaId' must be defined.");
         url_ = url_.replace("{schemaId}", encodeURIComponent("" + schemaId));
@@ -16869,7 +17081,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return Referenced schema details
      */
     getReferenced(id: string | null): Observable<SchemaDetail[]> {
-        let url_ = this.baseUrl + "/v2/Schemas/{id}/referenced";
+        let url_ = this.baseUrl + "/v1/Schemas/{id}/referenced";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -16981,7 +17193,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return OK
      */
     transferOwnership(id: string | null, timeout: string | null | undefined, request: SchemaOwnershipTransferRequest): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Schemas/{id}/ownership?";
+        let url_ = this.baseUrl + "/v1/Schemas/{id}/ownership?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -17090,7 +17302,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return Schema create result, containing the created schema
      */
     create(timeout: string | null | undefined, request: SchemaCreateRequest): Observable<SchemaCreateResult> {
-        let url_ = this.baseUrl + "/v2/Schemas?";
+        let url_ = this.baseUrl + "/v1/Schemas?";
         if (timeout !== undefined && timeout !== null)
             url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
         url_ = url_.replace(/[?&]$/, "");
@@ -17198,7 +17410,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return List of schema details
      */
     getMany(ids: string[] | null | undefined): Observable<SchemaDetail[]> {
-        let url_ = this.baseUrl + "/v2/Schemas?";
+        let url_ = this.baseUrl + "/v1/Schemas?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -17306,7 +17518,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return BusinessProcess which can be awaited
      */
     createMany(request: SchemaCreateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Schemas/many";
+        let url_ = this.baseUrl + "/v1/Schemas/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -17412,7 +17624,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return BusinessProcess which can be awaited
      */
     updateMany(request: SchemaUpdateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Schemas/many";
+        let url_ = this.baseUrl + "/v1/Schemas/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -17518,7 +17730,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return Referenced schema details
      */
     getManyReferenced(ids: string[] | null | undefined): Observable<SchemaDetail[]> {
-        let url_ = this.baseUrl + "/v2/Schemas/many/referenced?";
+        let url_ = this.baseUrl + "/v1/Schemas/many/referenced?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -17626,7 +17838,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return Business process
      */
     transferOwnershipMany(request: SchemaOwnershipTransferManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Schemas/many/ownership";
+        let url_ = this.baseUrl + "/v1/Schemas/many/ownership";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -17732,7 +17944,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return Schema search result
      */
     search(request: SchemaSearchRequest): Observable<SchemaSearchResult> {
-        let url_ = this.baseUrl + "/v2/Schemas/search";
+        let url_ = this.baseUrl + "/v1/Schemas/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -17838,7 +18050,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return The list of fields
      */
     getAggregationFields(id: string | null): Observable<FieldInfo[]> {
-        let url_ = this.baseUrl + "/v2/Schemas/{id}/aggregationFields";
+        let url_ = this.baseUrl + "/v1/Schemas/{id}/aggregationFields";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -17947,7 +18159,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return The list of fields
      */
     getAggregationFieldsMany(ids: string[] | null | undefined): Observable<FieldInfo[]> {
-        let url_ = this.baseUrl + "/v2/Schemas/many/aggregationFields?";
+        let url_ = this.baseUrl + "/v1/Schemas/many/aggregationFields?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -18055,7 +18267,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return The list of fields
      */
     getFilterFields(id: string | null): Observable<FieldInfo[]> {
-        let url_ = this.baseUrl + "/v2/Schemas/{id}/filterFields";
+        let url_ = this.baseUrl + "/v1/Schemas/{id}/filterFields";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -18164,7 +18376,7 @@ export class SchemaService extends PictureparkServiceBase {
      * @return The list of fields
      */
     getFilterFieldsMany(ids: string[] | null | undefined): Observable<FieldInfo[]> {
-        let url_ = this.baseUrl + "/v2/Schemas/many/filterFields?";
+        let url_ = this.baseUrl + "/v1/Schemas/many/filterFields?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -18287,7 +18499,7 @@ export class SchemaTransferService extends PictureparkServiceBase {
      * @return Transfer
      */
     import(request: SchemaImportRequest): Observable<Transfer> {
-        let url_ = this.baseUrl + "/v2/SchemaTransfers/import";
+        let url_ = this.baseUrl + "/v1/SchemaTransfers/import";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -18630,7 +18842,7 @@ export class ShareService extends PictureparkServiceBase {
      * @return ShareDetail
      */
     protected getShareJsonCore(token: string | null, lang: string | null | undefined, resolveBehaviors: ShareResolveBehavior[] | null | undefined, contentResolveLimit: number | null | undefined): Observable<ShareDetail> {
-        let url_ = this.baseUrl + "/v2/Shares/json/{token}?";
+        let url_ = this.baseUrl + "/v1/Shares/json/{token}?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
         url_ = url_.replace("{token}", encodeURIComponent("" + token));
@@ -18744,7 +18956,7 @@ export class ShareService extends PictureparkServiceBase {
      * @return ShareContentDetailResult
      */
     protected getShareContentsCore(token: string | null, lang: string | null | undefined, limit: number | undefined, pageToken: string | null | undefined): Observable<ShareContentDetailResult> {
-        let url_ = this.baseUrl + "/v2/Shares/json/{token}/contents?";
+        let url_ = this.baseUrl + "/v1/Shares/json/{token}/contents?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
         url_ = url_.replace("{token}", encodeURIComponent("" + token));
@@ -18852,6 +19064,115 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
+     * Get shared outputs
+     * @param token Share token
+     * @return List of OutputResolveResult
+     */
+    getOutputsInShare(token: string | null): Observable<OutputResolveResult[]> {
+        let url_ = this.baseUrl + "/v1/Shares/json/{token}/outputs";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetOutputsInShare(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOutputsInShare(<any>response_);
+                } catch (e) {
+                    return <Observable<OutputResolveResult[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OutputResolveResult[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOutputsInShare(response: HttpResponseBase): Observable<OutputResolveResult[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(OutputResolveResult.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OutputResolveResult[]>(<any>null);
+    }
+
+    /**
      * Download shared outputs
      * @param token Share token
      * @param width (optional) Optional width in pixels to resize image
@@ -18859,7 +19180,7 @@ export class ShareService extends PictureparkServiceBase {
      * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
      */
     download(token: string | null, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/v2/Shares/d/{token}?";
+        let url_ = this.baseUrl + "/v1/Shares/d/{token}?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
         url_ = url_.replace("{token}", encodeURIComponent("" + token));
@@ -18971,6 +19292,116 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
+     * Download selection of a share
+     * @param token Share token
+     * @param request Share download request
+     * @return DownloadLink
+     */
+    createShareSelectionDownloadLink(token: string | null, request: ShareDownloadRequest): Observable<DownloadLink> {
+        let url_ = this.baseUrl + "/v1/Shares/d/{token}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreateShareSelectionDownloadLink(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateShareSelectionDownloadLink(<any>response_);
+                } catch (e) {
+                    return <Observable<DownloadLink>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DownloadLink>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateShareSelectionDownloadLink(response: HttpResponseBase): Observable<DownloadLink> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DownloadLink.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DownloadLink>(<any>null);
+    }
+
+    /**
      * Download shared output
      * @param token Share token
      * @param contentId The content id
@@ -18980,7 +19411,7 @@ export class ShareService extends PictureparkServiceBase {
      * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
      */
     downloadSingleContent(token: string | null, contentId: string | null, outputFormatId: string | null, width: number | null | undefined, height: number | null | undefined, range: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/v2/Shares/d/{token}/{contentId}/{outputFormatId}?";
+        let url_ = this.baseUrl + "/v1/Shares/d/{token}/{contentId}/{outputFormatId}?";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
         url_ = url_.replace("{token}", encodeURIComponent("" + token));
@@ -19104,7 +19535,7 @@ export class ShareService extends PictureparkServiceBase {
      * @param range (optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)
      */
     downloadWithConversionPreset(token: string | null, conversionPreset: string | null, range: string | null | undefined): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/v2/Shares/d/{token}/{conversionPreset}";
+        let url_ = this.baseUrl + "/v1/Shares/d/{token}/{conversionPreset}";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
         url_ = url_.replace("{token}", encodeURIComponent("" + token));
@@ -19222,7 +19653,7 @@ export class ShareService extends PictureparkServiceBase {
      * @return Share detail
      */
     protected getCore(id: string | null, resolveBehaviors: ShareResolveBehavior[] | null | undefined, contentResolveLimit: number | null | undefined): Observable<ShareDetail> {
-        let url_ = this.baseUrl + "/v2/Shares/{id}?";
+        let url_ = this.baseUrl + "/v1/Shares/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -19332,7 +19763,7 @@ export class ShareService extends PictureparkServiceBase {
      * @return BusinessProcess
      */
     update(id: string | null, request: ShareBaseUpdateRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Shares/{id}";
+        let url_ = this.baseUrl + "/v1/Shares/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -19443,7 +19874,7 @@ export class ShareService extends PictureparkServiceBase {
      * @return ShareContentDetailResult
      */
     getContentsInShare(id: string | null, limit: number | undefined, pageToken: string | null | undefined): Observable<ShareContentDetailResult> {
-        let url_ = this.baseUrl + "/v2/Shares/{id}/contents?";
+        let url_ = this.baseUrl + "/v1/Shares/{id}/contents?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -19554,7 +19985,7 @@ export class ShareService extends PictureparkServiceBase {
      * @return BusinessProcess
      */
     create(request: ShareBaseCreateRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Shares";
+        let url_ = this.baseUrl + "/v1/Shares";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -19660,7 +20091,7 @@ export class ShareService extends PictureparkServiceBase {
      * @return BusinessProcess
      */
     deleteMany(request: ShareDeleteManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Shares/many/delete";
+        let url_ = this.baseUrl + "/v1/Shares/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -19766,7 +20197,7 @@ export class ShareService extends PictureparkServiceBase {
      * @return BusinessProcess
      */
     revoke(request: ShareRevokeManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Shares/many/revoke";
+        let url_ = this.baseUrl + "/v1/Shares/many/revoke";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -19872,7 +20303,7 @@ export class ShareService extends PictureparkServiceBase {
      * @return Share aggregation result
      */
     aggregate(request: ShareAggregationRequest): Observable<ObjectAggregationResult> {
-        let url_ = this.baseUrl + "/v2/Shares/aggregate";
+        let url_ = this.baseUrl + "/v1/Shares/aggregate";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -19978,7 +20409,7 @@ export class ShareService extends PictureparkServiceBase {
      * @return Share search result
      */
     protected searchCore(request: ShareSearchRequest): Observable<ShareSearchResult> {
-        let url_ = this.baseUrl + "/v2/Shares/search";
+        let url_ = this.baseUrl + "/v1/Shares/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -20099,7 +20530,7 @@ export class StatisticService extends PictureparkServiceBase {
      * @param timeFrames (optional) Optionally aggregate data for given time frames
      */
     getSingleContentStatistics(contentId: string | null, timeFrames: string[] | null | undefined): Observable<ContentStatisticsAggregated> {
-        let url_ = this.baseUrl + "/v2/Statistics/contents/{contentId}?";
+        let url_ = this.baseUrl + "/v1/Statistics/contents/{contentId}?";
         if (contentId === undefined || contentId === null)
             throw new Error("The parameter 'contentId' must be defined.");
         url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId));
@@ -20206,7 +20637,7 @@ export class StatisticService extends PictureparkServiceBase {
      * @return Business process
      */
     exportContentStatistics(request: ExportContentStatisticsRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Statistics/contents/export";
+        let url_ = this.baseUrl + "/v1/Statistics/contents/export";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -20312,7 +20743,7 @@ export class StatisticService extends PictureparkServiceBase {
      * @return Download link information
      */
     resolveDownloadLink(referenceId: string | null): Observable<DownloadLink> {
-        let url_ = this.baseUrl + "/v2/Statistics/downloadLink/{referenceId}";
+        let url_ = this.baseUrl + "/v1/Statistics/downloadLink/{referenceId}";
         if (referenceId === undefined || referenceId === null)
             throw new Error("The parameter 'referenceId' must be defined.");
         url_ = url_.replace("{referenceId}", encodeURIComponent("" + referenceId));
@@ -20417,7 +20848,7 @@ export class StatisticService extends PictureparkServiceBase {
      * @return Business process
      */
     addContentEvents(request: AddContentEventsRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Statistics/contents/events";
+        let url_ = this.baseUrl + "/v1/Statistics/contents/events";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -20538,7 +20969,7 @@ export class TemplateService extends PictureparkServiceBase {
      * @return Template
      */
     get(id: string | null): Observable<Template> {
-        let url_ = this.baseUrl + "/v2/Templates/{id}";
+        let url_ = this.baseUrl + "/v1/Templates/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -20644,7 +21075,7 @@ export class TemplateService extends PictureparkServiceBase {
      * @return Template
      */
     update(id: string | null, request: TemplateUpdateRequest): Observable<Template> {
-        let url_ = this.baseUrl + "/v2/Templates/{id}";
+        let url_ = this.baseUrl + "/v1/Templates/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -20752,7 +21183,7 @@ export class TemplateService extends PictureparkServiceBase {
      * @param id ID of template
      */
     delete(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Templates/{id}";
+        let url_ = this.baseUrl + "/v1/Templates/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -20853,7 +21284,7 @@ export class TemplateService extends PictureparkServiceBase {
      * @return Template
      */
     create(request: TemplateCreateRequest): Observable<Template> {
-        let url_ = this.baseUrl + "/v2/Templates";
+        let url_ = this.baseUrl + "/v1/Templates";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -20958,7 +21389,7 @@ export class TemplateService extends PictureparkServiceBase {
      * @return All templates
      */
     getAll(): Observable<Template[]> {
-        let url_ = this.baseUrl + "/v2/Templates";
+        let url_ = this.baseUrl + "/v1/Templates";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -21079,7 +21510,7 @@ export class TransferService extends PictureparkServiceBase {
      * @return Transfer
      */
     create(request: CreateTransferRequest): Observable<Transfer> {
-        let url_ = this.baseUrl + "/v2/Transfers";
+        let url_ = this.baseUrl + "/v1/Transfers";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -21185,7 +21616,7 @@ export class TransferService extends PictureparkServiceBase {
      * @return TransferDetail
      */
     get(id: string | null): Observable<TransferDetail> {
-        let url_ = this.baseUrl + "/v2/Transfers/{id}";
+        let url_ = this.baseUrl + "/v1/Transfers/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -21290,7 +21721,7 @@ export class TransferService extends PictureparkServiceBase {
      * @return OK
      */
     delete(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Transfers/{id}";
+        let url_ = this.baseUrl + "/v1/Transfers/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -21392,7 +21823,7 @@ export class TransferService extends PictureparkServiceBase {
      * @return Transfer
      */
     import(id: string | null, request: ImportTransferRequest): Observable<Transfer> {
-        let url_ = this.baseUrl + "/v2/Transfers/{id}/import";
+        let url_ = this.baseUrl + "/v1/Transfers/{id}/import";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -21502,7 +21933,7 @@ export class TransferService extends PictureparkServiceBase {
      * @return Transfer
      */
     partialImport(id: string | null, request: ImportTransferPartialRequest): Observable<Transfer> {
-        let url_ = this.baseUrl + "/v2/Transfers/{id}/partialImport";
+        let url_ = this.baseUrl + "/v1/Transfers/{id}/partialImport";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -21611,7 +22042,7 @@ export class TransferService extends PictureparkServiceBase {
      * @return OK
      */
     cancel(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Transfers/{id}/cancel";
+        let url_ = this.baseUrl + "/v1/Transfers/{id}/cancel";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -21712,7 +22143,7 @@ export class TransferService extends PictureparkServiceBase {
      * @return TransferSearchResult
      */
     search(request: TransferSearchRequest): Observable<TransferSearchResult> {
-        let url_ = this.baseUrl + "/v2/Transfers/search";
+        let url_ = this.baseUrl + "/v1/Transfers/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -21818,7 +22249,7 @@ export class TransferService extends PictureparkServiceBase {
      * @return FileTransferDetail
      */
     getFile(id: string | null): Observable<FileTransferDetail> {
-        let url_ = this.baseUrl + "/v2/Transfers/files/{id}";
+        let url_ = this.baseUrl + "/v1/Transfers/files/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -21923,7 +22354,7 @@ export class TransferService extends PictureparkServiceBase {
      * @return FileTransferSearchResult
      */
     searchFiles(request: FileTransferSearchRequest): Observable<FileTransferSearchResult> {
-        let url_ = this.baseUrl + "/v2/Transfers/files/search";
+        let url_ = this.baseUrl + "/v1/Transfers/files/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -22028,7 +22459,7 @@ export class TransferService extends PictureparkServiceBase {
      * @param request The file transfer delete request
      */
     deleteFiles(request: FileTransferDeleteRequest): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Transfers/files/delete";
+        let url_ = this.baseUrl + "/v1/Transfers/files/delete";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -22129,7 +22560,7 @@ export class TransferService extends PictureparkServiceBase {
      * @return Blacklist
      */
     getBlacklist(): Observable<Blacklist> {
-        let url_ = this.baseUrl + "/v2/Transfers/files/blacklist";
+        let url_ = this.baseUrl + "/v1/Transfers/files/blacklist";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -22237,7 +22668,7 @@ export class TransferService extends PictureparkServiceBase {
      * @return OK
      */
     uploadFile(chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string | null, requestId: string | null, body: Blob | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Transfers/{transferId}/files/{requestId}/upload?";
+        let url_ = this.baseUrl + "/v1/Transfers/{transferId}/files/{requestId}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
         url_ = url_.replace("{transferId}", encodeURIComponent("" + transferId));
@@ -22376,7 +22807,7 @@ export class UserRoleService extends PictureparkServiceBase {
      * @return Result of the user role search
      */
     search(request: UserRoleSearchRequest): Observable<UserRoleSearchResult> {
-        let url_ = this.baseUrl + "/v2/UserRoles/search";
+        let url_ = this.baseUrl + "/v1/UserRoles/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -22482,7 +22913,7 @@ export class UserRoleService extends PictureparkServiceBase {
      * @return Array of Represents a user role, which associates users with user rights.
      */
     getMany(ids: string[] | null | undefined): Observable<UserRoleDetail[]> {
-        let url_ = this.baseUrl + "/v2/UserRoles?";
+        let url_ = this.baseUrl + "/v1/UserRoles?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -22590,7 +23021,7 @@ export class UserRoleService extends PictureparkServiceBase {
      * @return Represents a user role, which associates users with user rights.
      */
     create(request: UserRoleCreateRequest): Observable<UserRoleDetail> {
-        let url_ = this.baseUrl + "/v2/UserRoles";
+        let url_ = this.baseUrl + "/v1/UserRoles";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -22696,7 +23127,7 @@ export class UserRoleService extends PictureparkServiceBase {
      * @return Response to a bulk operation
      */
     createMany(request: UserRoleCreateManyRequest): Observable<BulkResponse> {
-        let url_ = this.baseUrl + "/v2/UserRoles/many";
+        let url_ = this.baseUrl + "/v1/UserRoles/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -22802,7 +23233,7 @@ export class UserRoleService extends PictureparkServiceBase {
      * @return Response to a bulk operation
      */
     updateMany(request: UserRoleUpdateManyRequest): Observable<BulkResponse> {
-        let url_ = this.baseUrl + "/v2/UserRoles/many";
+        let url_ = this.baseUrl + "/v1/UserRoles/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -22908,7 +23339,7 @@ export class UserRoleService extends PictureparkServiceBase {
      * @return Response to a bulk operation
      */
     deleteMany(request: UserRoleDeleteManyRequest): Observable<BulkResponse> {
-        let url_ = this.baseUrl + "/v2/UserRoles/many/delete";
+        let url_ = this.baseUrl + "/v1/UserRoles/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -23014,7 +23445,7 @@ export class UserRoleService extends PictureparkServiceBase {
      * @return Represents a user role, which associates users with user rights.
      */
     get(id: string | null): Observable<UserRoleDetail> {
-        let url_ = this.baseUrl + "/v2/UserRoles/{id}";
+        let url_ = this.baseUrl + "/v1/UserRoles/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -23120,7 +23551,7 @@ export class UserRoleService extends PictureparkServiceBase {
      * @return Represents a user role, which associates users with user rights.
      */
     update(id: string | null, request: UserRoleEditable): Observable<UserRoleDetail> {
-        let url_ = this.baseUrl + "/v2/UserRoles/{id}";
+        let url_ = this.baseUrl + "/v1/UserRoles/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -23228,7 +23659,7 @@ export class UserRoleService extends PictureparkServiceBase {
      * @param id User role ID.
      */
     delete(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/UserRoles/{id}";
+        let url_ = this.baseUrl + "/v1/UserRoles/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -23344,7 +23775,7 @@ export class UserService extends PictureparkServiceBase {
      * @return Requested user details
      */
     get(id: string | null): Observable<UserDetail> {
-        let url_ = this.baseUrl + "/v2/Users/{id}";
+        let url_ = this.baseUrl + "/v1/Users/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -23450,7 +23881,7 @@ export class UserService extends PictureparkServiceBase {
      * @return User details after the update of the user
      */
     update(id: string | null, request: UserUpdateRequest): Observable<UserDetail> {
-        let url_ = this.baseUrl + "/v2/Users/{id}";
+        let url_ = this.baseUrl + "/v1/Users/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -23560,7 +23991,7 @@ export class UserService extends PictureparkServiceBase {
      * @return OK
      */
     lock(id: string | null, request: UserLockRequest): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Users/{id}/lock";
+        let url_ = this.baseUrl + "/v1/Users/{id}/lock";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -23665,7 +24096,7 @@ export class UserService extends PictureparkServiceBase {
      * @return Business process
      */
     lockMany(request: UserLockManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Users/many/lock";
+        let url_ = this.baseUrl + "/v1/Users/many/lock";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -23772,7 +24203,7 @@ export class UserService extends PictureparkServiceBase {
      * @return OK
      */
     review(id: string | null, request: UserReviewRequest): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Users/{id}/review";
+        let url_ = this.baseUrl + "/v1/Users/{id}/review";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -23877,7 +24308,7 @@ export class UserService extends PictureparkServiceBase {
      * @return Business process
      */
     reviewMany(request: UserReviewManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Users/many/review";
+        let url_ = this.baseUrl + "/v1/Users/many/review";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -23983,7 +24414,7 @@ export class UserService extends PictureparkServiceBase {
      * @return OK
      */
     invite(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Users/{id}/invite";
+        let url_ = this.baseUrl + "/v1/Users/{id}/invite";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -24084,7 +24515,7 @@ export class UserService extends PictureparkServiceBase {
      * @return Business process
      */
     inviteMany(request: UserInviteManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Users/many/invite";
+        let url_ = this.baseUrl + "/v1/Users/many/invite";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -24190,7 +24621,7 @@ export class UserService extends PictureparkServiceBase {
      * @return OK
      */
     reinvite(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Users/{id}/reinvite";
+        let url_ = this.baseUrl + "/v1/Users/{id}/reinvite";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -24291,7 +24722,7 @@ export class UserService extends PictureparkServiceBase {
      * @return Business process
      */
     reInviteMany(request: UserReinviteManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Users/many/reinvite";
+        let url_ = this.baseUrl + "/v1/Users/many/reinvite";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -24397,7 +24828,7 @@ export class UserService extends PictureparkServiceBase {
      * @return Business process
      */
     assignUserRoles(request: UserRoleAssignManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Users/many/assignUserRoles";
+        let url_ = this.baseUrl + "/v1/Users/many/assignUserRoles";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -24504,7 +24935,7 @@ export class UserService extends PictureparkServiceBase {
      * @return OK
      */
     delete(id: string | null, request: UserDeleteRequest): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Users/{id}/delete";
+        let url_ = this.baseUrl + "/v1/Users/{id}/delete";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -24609,7 +25040,7 @@ export class UserService extends PictureparkServiceBase {
      * @return OK
      */
     archive(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Users/{id}/archive";
+        let url_ = this.baseUrl + "/v1/Users/{id}/archive";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -24710,7 +25141,7 @@ export class UserService extends PictureparkServiceBase {
      * @return OK
      */
     restore(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Users/{id}/restore";
+        let url_ = this.baseUrl + "/v1/Users/{id}/restore";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -24811,7 +25242,7 @@ export class UserService extends PictureparkServiceBase {
      * @return OK
      */
     cancelDeletionRequest(id: string | null): Observable<void> {
-        let url_ = this.baseUrl + "/v2/Users/{id}/cancelDeletionRequest";
+        let url_ = this.baseUrl + "/v1/Users/{id}/cancelDeletionRequest";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -24912,7 +25343,7 @@ export class UserService extends PictureparkServiceBase {
      * @return User details of the user referenced by the owner token
      */
     getByOwnerToken(tokenId: string | null): Observable<UserDetail> {
-        let url_ = this.baseUrl + "/v2/Users/owner/{tokenId}";
+        let url_ = this.baseUrl + "/v1/Users/owner/{tokenId}";
         if (tokenId === undefined || tokenId === null)
             throw new Error("The parameter 'tokenId' must be defined.");
         url_ = url_.replace("{tokenId}", encodeURIComponent("" + tokenId));
@@ -25017,7 +25448,7 @@ export class UserService extends PictureparkServiceBase {
      * @return Newly created user
      */
     create(request: UserCreateRequest): Observable<UserDetail> {
-        let url_ = this.baseUrl + "/v2/Users";
+        let url_ = this.baseUrl + "/v1/Users";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -25123,7 +25554,7 @@ export class UserService extends PictureparkServiceBase {
      * @return Details of all the users who were found
      */
     getMany(ids: string[] | null | undefined): Observable<UserDetail[]> {
-        let url_ = this.baseUrl + "/v2/Users/many?";
+        let url_ = this.baseUrl + "/v1/Users/many?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -25231,7 +25662,7 @@ export class UserService extends PictureparkServiceBase {
      * @return Result of the user search
      */
     search(request: UserSearchRequest): Observable<UserSearchResult> {
-        let url_ = this.baseUrl + "/v2/Users/search";
+        let url_ = this.baseUrl + "/v1/Users/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -25337,7 +25768,7 @@ export class UserService extends PictureparkServiceBase {
      * @return Aggregation based on the request
      */
     aggregate(request: UserAggregationRequest): Observable<ObjectAggregationResult> {
-        let url_ = this.baseUrl + "/v2/Users/aggregate";
+        let url_ = this.baseUrl + "/v1/Users/aggregate";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -25443,7 +25874,7 @@ export class UserService extends PictureparkServiceBase {
      * @return Business process
      */
     updateIdentityProviderMany(request: UserUpdateIdentityProviderManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/Users/many/updateIdentityProvider";
+        let url_ = this.baseUrl + "/v1/Users/many/updateIdentityProvider";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -25563,7 +25994,7 @@ export class XmpMappingService extends PictureparkServiceBase {
      * @return XmpMappingTargets containing both XMP fields and metadata fields that are available for mapping.
      */
     getAvailableTargets(): Observable<XmpMappingTargets> {
-        let url_ = this.baseUrl + "/v2/XmpMappings/targets";
+        let url_ = this.baseUrl + "/v1/XmpMappings/targets";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -25665,7 +26096,7 @@ export class XmpMappingService extends PictureparkServiceBase {
      * @return Holds results of search for XMP mappings
      */
     search(request: XmpMappingEntrySearchRequest): Observable<XmpMappingEntrySearchResult> {
-        let url_ = this.baseUrl + "/v2/XmpMappings/search";
+        let url_ = this.baseUrl + "/v1/XmpMappings/search";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -25771,7 +26202,7 @@ export class XmpMappingService extends PictureparkServiceBase {
      * @return XMP mapping entry
      */
     get(id: string | null): Observable<XmpMappingEntry> {
-        let url_ = this.baseUrl + "/v2/XmpMappings/{id}";
+        let url_ = this.baseUrl + "/v1/XmpMappings/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -25877,7 +26308,7 @@ export class XmpMappingService extends PictureparkServiceBase {
      * @return Business process
      */
     update(id: string | null, request: XmpMappingEntry): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/XmpMappings/{id}";
+        let url_ = this.baseUrl + "/v1/XmpMappings/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -25986,7 +26417,7 @@ export class XmpMappingService extends PictureparkServiceBase {
      * @return Business process
      */
     delete(id: string | null): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/XmpMappings/{id}";
+        let url_ = this.baseUrl + "/v1/XmpMappings/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -26091,7 +26522,7 @@ export class XmpMappingService extends PictureparkServiceBase {
      * @return Business process
      */
     create(request: XmpMappingEntryCreateRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/XmpMappings";
+        let url_ = this.baseUrl + "/v1/XmpMappings";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -26197,7 +26628,7 @@ export class XmpMappingService extends PictureparkServiceBase {
      * @return Array of XMP mapping entry
      */
     getMany(ids: string[] | null | undefined): Observable<XmpMappingEntry[]> {
-        let url_ = this.baseUrl + "/v2/XmpMappings?";
+        let url_ = this.baseUrl + "/v1/XmpMappings?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
@@ -26305,7 +26736,7 @@ export class XmpMappingService extends PictureparkServiceBase {
      * @return Business process
      */
     createMany(request: XmpMappingEntryCreateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/XmpMappings/many";
+        let url_ = this.baseUrl + "/v1/XmpMappings/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -26411,7 +26842,7 @@ export class XmpMappingService extends PictureparkServiceBase {
      * @return Business process
      */
     updateMany(request: XmpMappingEntryUpdateManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/XmpMappings/many";
+        let url_ = this.baseUrl + "/v1/XmpMappings/many";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -26517,7 +26948,7 @@ export class XmpMappingService extends PictureparkServiceBase {
      * @return Business process
      */
     deleteMany(request: XmpMappingEntryDeleteManyRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v2/XmpMappings/many/delete";
+        let url_ = this.baseUrl + "/v1/XmpMappings/many/delete";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(request);
@@ -27291,6 +27722,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "OutputNotFoundException") {
             let result = new OutputNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnmodifiedOriginalOutputNotFoundException") {
+            let result = new UnmodifiedOriginalOutputNotFoundException();
             result.init(data);
             return result;
         }
@@ -28209,6 +28645,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException") {
             let result = new UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ConcurrentFileReplacementDuringRepairException") {
+            let result = new ConcurrentFileReplacementDuringRepairException();
             result.init(data);
             return result;
         }
@@ -29012,6 +29453,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UnmodifiedOriginalOutputNotFoundException") {
+            let result = new UnmodifiedOriginalOutputNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UnableToCreateOrModifyStaticOutputFormatException") {
             let result = new UnableToCreateOrModifyStaticOutputFormatException();
             result.init(data);
@@ -29927,6 +30373,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException") {
             let result = new UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ConcurrentFileReplacementDuringRepairException") {
+            let result = new ConcurrentFileReplacementDuringRepairException();
             result.init(data);
             return result;
         }
@@ -31737,7 +32188,6 @@ export enum TraceLevel {
 }
 
 export class PictureparkConflictException extends PictureparkBusinessException implements IPictureparkConflictException {
-    reference?: string | undefined;
 
     constructor(data?: IPictureparkConflictException) {
         super(data);
@@ -31746,15 +32196,17 @@ export class PictureparkConflictException extends PictureparkBusinessException i
 
     init(_data?: any) {
         super.init(_data);
-        if (_data) {
-            this.reference = _data["reference"];
-        }
     }
 
     static fromJS(data: any): PictureparkConflictException {
         data = typeof data === 'object' ? data : {};
         if (data["kind"] === "DocumentVersionConflictException") {
             let result = new DocumentVersionConflictException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ConcurrentFileReplacementDuringRepairException") {
+            let result = new ConcurrentFileReplacementDuringRepairException();
             result.init(data);
             return result;
         }
@@ -31765,14 +32217,12 @@ export class PictureparkConflictException extends PictureparkBusinessException i
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["reference"] = this.reference;
         super.toJSON(data);
         return data; 
     }
 }
 
 export interface IPictureparkConflictException extends IPictureparkBusinessException {
-    reference?: string | undefined;
 }
 
 export class PictureparkTimeoutException extends PictureparkValidationException implements IPictureparkTimeoutException {
@@ -32313,6 +32763,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "OutputNotFoundException") {
             let result = new OutputNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UnmodifiedOriginalOutputNotFoundException") {
+            let result = new UnmodifiedOriginalOutputNotFoundException();
             result.init(data);
             return result;
         }
@@ -33794,6 +34249,11 @@ export class OutputNotFoundException extends PictureparkNotFoundException implem
 
     static fromJS(data: any): OutputNotFoundException {
         data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "UnmodifiedOriginalOutputNotFoundException") {
+            let result = new UnmodifiedOriginalOutputNotFoundException();
+            result.init(data);
+            return result;
+        }
         let result = new OutputNotFoundException();
         result.init(data);
         return result;
@@ -33811,6 +34271,34 @@ export class OutputNotFoundException extends PictureparkNotFoundException implem
 export interface IOutputNotFoundException extends IPictureparkNotFoundException {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
+}
+
+export class UnmodifiedOriginalOutputNotFoundException extends OutputNotFoundException implements IUnmodifiedOriginalOutputNotFoundException {
+
+    constructor(data?: IUnmodifiedOriginalOutputNotFoundException) {
+        super(data);
+        this._discriminator = "UnmodifiedOriginalOutputNotFoundException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): UnmodifiedOriginalOutputNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnmodifiedOriginalOutputNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IUnmodifiedOriginalOutputNotFoundException extends IOutputNotFoundException {
 }
 
 export class UnableToCreateOrModifyStaticOutputFormatException extends PictureparkValidationException implements IUnableToCreateOrModifyStaticOutputFormatException {
@@ -41532,6 +42020,48 @@ export interface IContentSchemaChangeException extends IPictureparkValidationExc
     requestedContentSchemaId?: string | undefined;
     /** Layers assigned to this Content which are not allowed for contents of type RequestedContentSchemaId */
     incompatibleLayerAssignments?: string[] | undefined;
+}
+
+export class ConcurrentFileReplacementDuringRepairException extends PictureparkConflictException implements IConcurrentFileReplacementDuringRepairException {
+    contentId?: string | undefined;
+    expectedOriginalFileVersion?: number;
+    actualOriginalFileVersion?: number;
+
+    constructor(data?: IConcurrentFileReplacementDuringRepairException) {
+        super(data);
+        this._discriminator = "ConcurrentFileReplacementDuringRepairException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.contentId = _data["contentId"];
+            this.expectedOriginalFileVersion = _data["expectedOriginalFileVersion"];
+            this.actualOriginalFileVersion = _data["actualOriginalFileVersion"];
+        }
+    }
+
+    static fromJS(data: any): ConcurrentFileReplacementDuringRepairException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConcurrentFileReplacementDuringRepairException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["expectedOriginalFileVersion"] = this.expectedOriginalFileVersion;
+        data["actualOriginalFileVersion"] = this.actualOriginalFileVersion;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IConcurrentFileReplacementDuringRepairException extends IPictureparkConflictException {
+    contentId?: string | undefined;
+    expectedOriginalFileVersion?: number;
+    actualOriginalFileVersion?: number;
 }
 
 export class BusinessProcessEngineRequestException extends PictureparkBusinessException implements IBusinessProcessEngineRequestException {
@@ -58422,6 +58952,270 @@ export interface IOutputResolveManyRequest {
     contentIds: string[];
 }
 
+export abstract class ContentRepairRequestBase implements IContentRepairRequestBase {
+    /** Settings to use if no specific settings for a requested Content were specified */
+    defaultSettings?: ContentRepairSettings | undefined;
+
+    protected _discriminator: string;
+
+    constructor(data?: IContentRepairRequestBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.defaultSettings = data.defaultSettings && !(<any>data.defaultSettings).toJSON ? new ContentRepairSettings(data.defaultSettings) : <ContentRepairSettings>this.defaultSettings; 
+        }
+        this._discriminator = "ContentRepairRequestBase";
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.defaultSettings = _data["defaultSettings"] ? ContentRepairSettings.fromJS(_data["defaultSettings"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ContentRepairRequestBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "ContentRepairByFilterRequest") {
+            let result = new ContentRepairByFilterRequest();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ContentRepairBatchRequest") {
+            let result = new ContentRepairBatchRequest();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'ContentRepairRequestBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        data["defaultSettings"] = this.defaultSettings ? this.defaultSettings.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IContentRepairRequestBase {
+    /** Settings to use if no specific settings for a requested Content were specified */
+    defaultSettings?: IContentRepairSettings | undefined;
+}
+
+export class ContentRepairByFilterRequest extends ContentRepairRequestBase implements IContentRepairByFilterRequest {
+    /** Filter used to enumerate Contents to repair */
+    filter!: ContentFilterRequest;
+    /** Settings for specific contents (overwrites DefaultSettings) */
+    repairSettingOverrides?: ContentRepairRequestItem[] | undefined;
+
+    constructor(data?: IContentRepairByFilterRequest) {
+        super(data);
+        if (data) {
+            this.filter = data.filter && !(<any>data.filter).toJSON ? new ContentFilterRequest(data.filter) : <ContentFilterRequest>this.filter; 
+            if (data.repairSettingOverrides) {
+                this.repairSettingOverrides = [];
+                for (let i = 0; i < data.repairSettingOverrides.length; i++) {
+                    let item = data.repairSettingOverrides[i];
+                    this.repairSettingOverrides[i] = item && !(<any>item).toJSON ? new ContentRepairRequestItem(item) : <ContentRepairRequestItem>item;
+                }
+            }
+        }
+        if (!data) {
+            this.filter = new ContentFilterRequest();
+        }
+        this._discriminator = "ContentRepairByFilterRequest";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.filter = _data["filter"] ? ContentFilterRequest.fromJS(_data["filter"]) : new ContentFilterRequest();
+            if (Array.isArray(_data["repairSettingOverrides"])) {
+                this.repairSettingOverrides = [] as any;
+                for (let item of _data["repairSettingOverrides"])
+                    this.repairSettingOverrides!.push(ContentRepairRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentRepairByFilterRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRepairByFilterRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        if (Array.isArray(this.repairSettingOverrides)) {
+            data["repairSettingOverrides"] = [];
+            for (let item of this.repairSettingOverrides)
+                data["repairSettingOverrides"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentRepairByFilterRequest extends IContentRepairRequestBase {
+    /** Filter used to enumerate Contents to repair */
+    filter: IContentFilterRequest;
+    /** Settings for specific contents (overwrites DefaultSettings) */
+    repairSettingOverrides?: IContentRepairRequestItem[] | undefined;
+}
+
+export class ContentRepairRequestItem implements IContentRepairRequestItem {
+    /** Content to repair */
+    contentId!: string;
+    /** Options for this repair */
+    settings?: ContentRepairSettings | undefined;
+
+    constructor(data?: IContentRepairRequestItem) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.settings = data.settings && !(<any>data.settings).toJSON ? new ContentRepairSettings(data.settings) : <ContentRepairSettings>this.settings; 
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.contentId = _data["contentId"];
+            this.settings = _data["settings"] ? ContentRepairSettings.fromJS(_data["settings"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ContentRepairRequestItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRepairRequestItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["settings"] = this.settings ? this.settings.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IContentRepairRequestItem {
+    /** Content to repair */
+    contentId: string;
+    /** Options for this repair */
+    settings?: IContentRepairSettings | undefined;
+}
+
+export class ContentRepairSettings implements IContentRepairSettings {
+    /** List of layers that can be unassigned (due to change of ContentSchemaId and LayerSchemaIds) */
+    acceptableLayerUnassignments?: string[] | undefined;
+    /** Whether to enforce XmpWriteback for Outputs of Content (ignored if repair was not performed) */
+    forceInvalidateXmpWriteback!: boolean;
+
+    constructor(data?: IContentRepairSettings) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["acceptableLayerUnassignments"])) {
+                this.acceptableLayerUnassignments = [] as any;
+                for (let item of _data["acceptableLayerUnassignments"])
+                    this.acceptableLayerUnassignments!.push(item);
+            }
+            this.forceInvalidateXmpWriteback = _data["forceInvalidateXmpWriteback"];
+        }
+    }
+
+    static fromJS(data: any): ContentRepairSettings {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRepairSettings();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.acceptableLayerUnassignments)) {
+            data["acceptableLayerUnassignments"] = [];
+            for (let item of this.acceptableLayerUnassignments)
+                data["acceptableLayerUnassignments"].push(item);
+        }
+        data["forceInvalidateXmpWriteback"] = this.forceInvalidateXmpWriteback;
+        return data; 
+    }
+}
+
+export interface IContentRepairSettings {
+    /** List of layers that can be unassigned (due to change of ContentSchemaId and LayerSchemaIds) */
+    acceptableLayerUnassignments?: string[] | undefined;
+    /** Whether to enforce XmpWriteback for Outputs of Content (ignored if repair was not performed) */
+    forceInvalidateXmpWriteback: boolean;
+}
+
+export class ContentRepairBatchRequest extends ContentRepairRequestBase implements IContentRepairBatchRequest {
+    /** List of contents and options for repair */
+    items?: ContentRepairRequestItem[] | undefined;
+
+    constructor(data?: IContentRepairBatchRequest) {
+        super(data);
+        if (data) {
+            if (data.items) {
+                this.items = [];
+                for (let i = 0; i < data.items.length; i++) {
+                    let item = data.items[i];
+                    this.items[i] = item && !(<any>item).toJSON ? new ContentRepairRequestItem(item) : <ContentRepairRequestItem>item;
+                }
+            }
+        }
+        this._discriminator = "ContentRepairBatchRequest";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ContentRepairRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ContentRepairBatchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentRepairBatchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IContentRepairBatchRequest extends IContentRepairRequestBase {
+    /** List of contents and options for repair */
+    items?: IContentRepairRequestItem[] | undefined;
+}
+
 /** Base class for the content metadata batch requests. */
 export abstract class MetadataValuesChangeRequestBase implements IMetadataValuesChangeRequestBase {
     /** Changes that need to be applied to the existing content metadata. The same set of changes is applied to all contents. */
@@ -60304,10 +61098,9 @@ or jsondiffpatch (https://github.com/benjamine/jsondiffpatch) to process this. *
     patch?: any | undefined;
 }
 
-/** Base class for search results */
-export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory {
-    /** The total number of matching documents. */
-    totalResults!: number;
+export class DocumentHistorySearchResult implements IDocumentHistorySearchResult {
+    /** The upper bound of the total number of matching documents. */
+    maxResults!: number;
     /** The matched documents. */
     results!: DocumentHistory[];
     /** The search execution time in milliseconds. */
@@ -60315,7 +61108,7 @@ export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory
     /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
     pageToken?: string | undefined;
 
-    constructor(data?: IBaseResultOfDocumentHistory) {
+    constructor(data?: IDocumentHistorySearchResult) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -60336,7 +61129,7 @@ export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory
 
     init(_data?: any) {
         if (_data) {
-            this.totalResults = _data["totalResults"];
+            this.maxResults = _data["maxResults"];
             if (Array.isArray(_data["results"])) {
                 this.results = [] as any;
                 for (let item of _data["results"])
@@ -60345,49 +61138,6 @@ export class BaseResultOfDocumentHistory implements IBaseResultOfDocumentHistory
             this.elapsedMilliseconds = _data["elapsedMilliseconds"];
             this.pageToken = _data["pageToken"];
         }
-    }
-
-    static fromJS(data: any): BaseResultOfDocumentHistory {
-        data = typeof data === 'object' ? data : {};
-        let result = new BaseResultOfDocumentHistory();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data; 
-    }
-}
-
-/** Base class for search results */
-export interface IBaseResultOfDocumentHistory {
-    /** The total number of matching documents. */
-    totalResults: number;
-    /** The matched documents. */
-    results: IDocumentHistory[];
-    /** The search execution time in milliseconds. */
-    elapsedMilliseconds: number;
-    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
-    pageToken?: string | undefined;
-}
-
-export class DocumentHistorySearchResult extends BaseResultOfDocumentHistory implements IDocumentHistorySearchResult {
-
-    constructor(data?: IDocumentHistorySearchResult) {
-        super(data);
-    }
-
-    init(_data?: any) {
-        super.init(_data);
     }
 
     static fromJS(data: any): DocumentHistorySearchResult {
@@ -60399,12 +61149,27 @@ export class DocumentHistorySearchResult extends BaseResultOfDocumentHistory imp
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
+        data["maxResults"] = this.maxResults;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
         return data; 
     }
 }
 
-export interface IDocumentHistorySearchResult extends IBaseResultOfDocumentHistory {
+export interface IDocumentHistorySearchResult {
+    /** The upper bound of the total number of matching documents. */
+    maxResults: number;
+    /** The matched documents. */
+    results: IDocumentHistory[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
 }
 
 export class DocumentHistorySearchRequest implements IDocumentHistorySearchRequest {
@@ -64235,6 +65000,7 @@ export interface INotificationDetailTransfer extends INotificationDetailTransfer
 }
 
 export class NotificationDetailTransferImport extends NotificationDetailTransferBase implements INotificationDetailTransferImport {
+    collectionId?: string | undefined;
 
     constructor(data?: INotificationDetailTransferImport) {
         super(data);
@@ -64243,6 +65009,9 @@ export class NotificationDetailTransferImport extends NotificationDetailTransfer
 
     init(_data?: any) {
         super.init(_data);
+        if (_data) {
+            this.collectionId = _data["collectionId"];
+        }
     }
 
     static fromJS(data: any): NotificationDetailTransferImport {
@@ -64254,12 +65023,14 @@ export class NotificationDetailTransferImport extends NotificationDetailTransfer
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["collectionId"] = this.collectionId;
         super.toJSON(data);
         return data; 
     }
 }
 
 export interface INotificationDetailTransferImport extends INotificationDetailTransferBase {
+    collectionId?: string | undefined;
 }
 
 export class NotificationDetailShare extends NotificationDetailBase implements INotificationDetailShare {
@@ -74393,6 +75164,64 @@ export class ShareContentDetailResult extends BaseResultOfShareContentDetail imp
 export interface IShareContentDetailResult extends IBaseResultOfShareContentDetail {
 }
 
+/** Request specifying which part of a share should be downloaded */
+export class ShareDownloadRequest implements IShareDownloadRequest {
+    /** Specifies which content / output format combinations should be downloaded. */
+    items!: ContentDownloadRequestItem[];
+
+    constructor(data?: IShareDownloadRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.items) {
+                this.items = [];
+                for (let i = 0; i < data.items.length; i++) {
+                    let item = data.items[i];
+                    this.items[i] = item && !(<any>item).toJSON ? new ContentDownloadRequestItem(item) : <ContentDownloadRequestItem>item;
+                }
+            }
+        }
+        if (!data) {
+            this.items = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ContentDownloadRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ShareDownloadRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareDownloadRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Request specifying which part of a share should be downloaded */
+export interface IShareDownloadRequest {
+    /** Specifies which content / output format combinations should be downloaded. */
+    items: IContentDownloadRequestItem[];
+}
+
 /** Base of update request for share */
 export abstract class ShareBaseUpdateRequest implements IShareBaseUpdateRequest {
     /** Name of share. */
@@ -78461,7 +79290,7 @@ export class UserUpdateRequest extends User implements IUserUpdateRequest {
     /** Comment saved for the user. */
     comment?: string | undefined;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode!: string;
     /** User's address. */
     address?: UserAddress | undefined;
     /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
@@ -78519,7 +79348,7 @@ export interface IUserUpdateRequest extends IUser {
     /** Comment saved for the user. */
     comment?: string | undefined;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode: string;
     /** User's address. */
     address?: IUserAddress | undefined;
     /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
@@ -78921,7 +79750,7 @@ export class UserCreateRequest implements IUserCreateRequest {
     /** Email address of the user (doubles as username). */
     emailAddress!: string;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode!: string;
     /** IDs of user roles the user is assigned to. */
     userRoleIds?: string[] | undefined;
     /** User address. */
@@ -78984,7 +79813,7 @@ export interface IUserCreateRequest {
     /** Email address of the user (doubles as username). */
     emailAddress: string;
     /** Preferred language, e.g. for correspondence. */
-    languageCode?: string | undefined;
+    languageCode: string;
     /** IDs of user roles the user is assigned to. */
     userRoleIds?: string[] | undefined;
     /** User address. */
@@ -80886,6 +81715,11 @@ export class ApplicationEvent implements IApplicationEvent {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DataExtractionRepairEvent") {
+            let result = new DataExtractionRepairEvent();
+            result.init(data);
+            return result;
+        }
         let result = new ApplicationEvent();
         result.init(data);
         return result;
@@ -81616,6 +82450,55 @@ export class BusinessProcessCancellationRequestedEvent extends ApplicationEvent 
 
 export interface IBusinessProcessCancellationRequestedEvent extends IApplicationEvent {
     businessProcessId?: string | undefined;
+}
+
+export class DataExtractionRepairEvent extends ApplicationEvent implements IDataExtractionRepairEvent {
+    contentRepairRequestId?: string;
+    contentId?: string;
+    error?: ErrorResponse | undefined;
+    hadChanges?: boolean;
+
+    constructor(data?: IDataExtractionRepairEvent) {
+        super(data);
+        if (data) {
+            this.error = data.error && !(<any>data.error).toJSON ? new ErrorResponse(data.error) : <ErrorResponse>this.error; 
+        }
+        this._discriminator = "DataExtractionRepairEvent";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.contentRepairRequestId = _data["contentRepairRequestId"];
+            this.contentId = _data["contentId"];
+            this.error = _data["error"] ? ErrorResponse.fromJS(_data["error"]) : <any>undefined;
+            this.hadChanges = _data["hadChanges"];
+        }
+    }
+
+    static fromJS(data: any): DataExtractionRepairEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new DataExtractionRepairEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentRepairRequestId"] = this.contentRepairRequestId;
+        data["contentId"] = this.contentId;
+        data["error"] = this.error ? this.error.toJSON() : <any>undefined;
+        data["hadChanges"] = this.hadChanges;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IDataExtractionRepairEvent extends IApplicationEvent {
+    contentRepairRequestId?: string;
+    contentId?: string;
+    error?: IErrorResponse | undefined;
+    hadChanges?: boolean;
 }
 
 export class ConsoleMessage extends Message implements IConsoleMessage {

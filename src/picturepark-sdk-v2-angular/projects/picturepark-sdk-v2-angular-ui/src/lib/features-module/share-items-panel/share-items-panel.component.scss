@@ -3,13 +3,17 @@ pp-item-panel-preview {
 }
 
 .list {
-  padding: 20px 0;
-
+  padding: 16px 0;
   > .item {
-    padding: 5vh 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    overflow: hidden;
     display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    border-radius: 4px;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
 
     & ul {
       list-style: none;
@@ -36,12 +40,19 @@ pp-item-panel-preview {
     }
 
     .thumbnail {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+
+      flex-basis: 0;
+      border-radius: 4px 0px 0px 4px;
+
       position: relative;
-      padding: 4px;
       float: left;
-      width: 200px;
-      height: 200px;
-      min-width: 20%;
+
+      width: 216px;
+      height: 149px;
+      min-width: 216px;
     }
 
     .item-info {
@@ -58,7 +69,6 @@ pp-item-panel-preview {
       & ul {
         display: none;
         position: relative;
-        top: 15px;
         float: right;
 
         & li {
@@ -77,16 +87,14 @@ pp-item-panel-preview {
 }
 
 .grid {
-  padding: 20px 0;
+  padding: 16px 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
-  grid-gap: 20px;
+  grid-gap: 16px;
 
   > .item {
     height: 200px;
-    padding: 4px;
-    border-radius: 4px;
 
     .thumbnail {
       position: relative;
@@ -101,13 +109,4 @@ pp-item-panel-preview {
       display: none;
     }
   }
-}
-
-button {
-  height: 24px;
-  line-height: 24px;
-}
-
-mat-icon {
-  vertical-align: baseline !important;
 }

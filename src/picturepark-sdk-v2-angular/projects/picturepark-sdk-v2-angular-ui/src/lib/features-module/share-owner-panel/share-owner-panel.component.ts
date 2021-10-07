@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'pp-share-owner-panel',
   templateUrl: './share-owner-panel.component.html',
-  styleUrls: ['../../shared-module/components/panel/panel.component.scss', './share-owner-panel.component.scss'],
+  styleUrls: ['./share-owner-panel.component.scss'],
 })
 export class ShareOwnerPanelComponent implements OnInit {
   @Input() userId: string;

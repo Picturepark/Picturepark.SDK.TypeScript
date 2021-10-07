@@ -1,9 +1,10 @@
 <div class="dialog-container" #contentContainer>
-  <h3 class="header">
-    <span *ngIf="content && content.displayValues">{{ content.displayValues['name'] }}</span>
-    <span *ngIf="contentId && !(content && content.displayValues)">{{ contentId }}</span>
-    <mat-icon (click)="closeDialog()">close</mat-icon>
-  </h3>
+  <div class="header">
+    <span *ngIf="content && content.displayValues" class="header-title mat-display-4 u-text-ellipsis">{{ content.displayValues['name'] }}</span>
+    <span *ngIf="contentId && !(content && content.displayValues)" class="header-title mat-display-4 u-text-ellipsis">{{ contentId }}</span>
+    <mat-icon class="header-close" (click)="closeDialog()">close</mat-icon>
+  </div>
+  <mat-divider></mat-divider>
   <div class="dialog-content" *ngIf="content">
     <mat-dialog-content>
       <div class="action-buttons">

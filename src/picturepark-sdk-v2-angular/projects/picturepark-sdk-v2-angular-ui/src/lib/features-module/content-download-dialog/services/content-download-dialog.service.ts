@@ -13,6 +13,7 @@ export class ContentDownloadDialogService {
     const dialogRef = this.dialog.open(ContentDownloadDialogComponent, {
       data: options,
       autoFocus: false,
+      panelClass: ['pp-dialog', options.isShareViewer ? 'cp-dialog' : ''],
     });
 
     const instance = dialogRef.componentInstance;
