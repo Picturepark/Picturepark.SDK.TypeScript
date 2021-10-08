@@ -1,0 +1,14 @@
+.browser {
+  $self: &;
+  &__items {
+    display: grid;
+    height: unset;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: auto;
+    grid-gap: 5px;
+
+    #{ $self }__item-container {
+      height: unset;
+    }
+  }
+}

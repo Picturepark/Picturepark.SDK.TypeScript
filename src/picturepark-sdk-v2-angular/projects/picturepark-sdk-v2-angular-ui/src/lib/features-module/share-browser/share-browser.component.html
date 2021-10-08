@@ -1,0 +1,45 @@
+<div class="browser" cdkScrollable>
+  <div class="browser__header">
+    <pp-browser-toolbar
+      [browser]="self"
+      entityName="{{ 'ShareBrowser.SharesLowercase' | pptranslate }}"
+    ></pp-browser-toolbar>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <div
+    *ngIf="(totalResults$ | async) !== 0"
+    class="browser__items browser__items--medium cp-scrollbar"
+    [class.browser__items--list]="activeView.type === 'list'"
+    [class.browser__items--large]="activeView.type === 'thumbnailLarge'"
+    [class.browser__items--medium]="activeView.type === 'thumbnailMedium'"
+  >
+    <div class="browser__item-container" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
+      <pp-share-browser-item
+        class="browser__item"
+        [browser]="self"
+        [itemModel]="itemModel"
+        [thumbnailSize]="activeThumbnailSize"
+        [isListView]="false"
+        (previewItemChange)="previewItemEvent($event)"
+        ppUserInteraction
+        (ppPress)="itemPressed($event, i)"
+        (ppTouch)="selectedItems.length ? itemClicked($event, i) : itemDetails(itemModel)"
+        (ppClick)="itemClicked($event, i)"
+        (ppDblclick)="itemDetails(itemModel)"
+      >
+      </pp-share-browser-item>
+    </div>
+  </div>
+
+  <div *ngIf="(totalResults$ | async) === 0" class="browser__empty-result mat-typography">
+    {{ 'ContentBrowser.NoItems' | pptranslate }}
+    <strong> {{ this.facade.searchRequestState.searchString }}</strong>
+    <br />
+    {{ 'ContentBrowser.NoItemsHist' | pptranslate }}
+    <ul>
+      <li>{{ 'ContentBrowser.NoItemsActionChannel' | pptranslate }}</li>
+      <li>{{ 'ContentBrowser.NoItemsActionSearchString' | pptranslate }}</li>
+    </ul>
+  </div>
+</div>

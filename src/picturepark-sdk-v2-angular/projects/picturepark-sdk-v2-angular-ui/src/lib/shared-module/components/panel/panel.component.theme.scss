@@ -1,0 +1,49 @@
+@import '~@angular/material/theming';
+
+// PANEL BASE VARS
+$pp-panel: (
+  contrast: (),
+);
+
+@mixin pp-panel-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  pp-panel {
+    background-color: mat-color($accent, 300);
+    color: mat-color($accent, '300-contrast');
+    @include mat-elevation(2, mat-color($accent, A800), 0.7);
+
+    .panel-header {
+      border-bottom-color: mat-color($accent, A500);
+
+      .panel-header-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: mat-color($accent, '200-contrast');
+      }
+    }
+
+    .panel-content {
+      a {
+        color: mat-color($primary, on-surface-mid);
+      }
+    }
+  }
+
+  .share-manager-item-container {
+    pp-panel {
+      background-color: mat-color($primary, surface-light);
+      color: mat-color($primary, on-surface-mid);
+      @include mat-elevation(2, mat-color($accent, A800), 0.7);
+    
+      .panel-header {
+        border-bottom-color: mat-color($primary, surface-mid);
+  
+        .panel-header-title {
+          color: mat-color($primary, on-surface-light);
+        }
+      }
+    }
+  }
+}

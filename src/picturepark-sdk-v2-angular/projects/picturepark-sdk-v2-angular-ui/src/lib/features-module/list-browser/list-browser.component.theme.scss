@@ -1,0 +1,41 @@
+@import '~@angular/material/theming';
+
+// LIST BROWSER MODULE
+
+@mixin pp-list-browser-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  pp-list-browser {
+    .browser__header .browser__empty-result {
+      color: mat-color($primary, on-background-light);
+    }
+    .table-container {
+      background: mat-color($primary, background-light);
+
+      .mat-header-cell,
+      .mat-cell,
+      .mat-footer-cell {
+        background: mat-color($primary, background-light);
+        color: mat-color($primary, on-background-light);
+      }
+
+      tr.selected {
+        .mat-header-cell,
+        .mat-cell,
+        .mat-footer-cell {
+          background: mat-color($primary, background-dark);
+          color: mat-color($primary, on-background-dark);
+        }
+      }
+
+      tr.mat-row:hover {
+        .mat-header-cell,
+        .mat-cell,
+        .mat-footer-cell {
+          background: mat-color($primary, background-dark);
+          color: mat-color($primary, on-background-dark);
+        }
+      }
+    }
+  }
+}

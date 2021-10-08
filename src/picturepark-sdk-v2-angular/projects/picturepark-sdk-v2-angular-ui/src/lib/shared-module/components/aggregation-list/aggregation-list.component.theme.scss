@@ -1,0 +1,33 @@
+@import '~@angular/material/theming';
+
+@mixin pp-aggregation-list-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  pp-aggregation-list {
+    .aggregation-filter {
+      background-color: mat-color($primary, background-dark);
+
+      &__loading-spinner {
+        background: mat-color($primary, opacity-light);
+      }
+
+      .filters {
+        &__active-filters {
+          background-color: mat-color($primary, background-dark);
+          border-bottom-color: mat-color($primary, divider);
+        }
+      }
+
+      mat-toolbar {
+        color: mat-color($primary, on-background-dark);
+
+        button {
+          mat-icon {
+            font-size: 21px;
+            color: mat-color($primary, on-background-dark);
+          }
+        }
+      }
+    }
+  }
+}

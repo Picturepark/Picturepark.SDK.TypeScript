@@ -1,0 +1,101 @@
+@import '~@angular/material/theming';
+
+// BROWSER ITEM BASE VARS
+
+@mixin pp-browser-item-base-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  pp-content-browser-item,
+  pp-share-browser-item {
+    .browser-item {
+      &__image-slot {
+        background-color: mat-color($primary, surface-mid);
+      }
+
+      &__basket-icon {
+        mat-icon {
+          background-color: mat-color($primary, opacity-light);
+          border-radius: 15%;
+        }
+      }
+
+      &__actions {
+        color: mat-color($primary, on-opacity-light);
+
+        &:hover {
+          background-color: mat-color($primary, opacity-light);
+        }
+      }
+
+      &__actions,
+      &__basket-icon {
+        mat-icon {
+          font-size: 16px;
+        }
+      }
+
+      &__image-virtual-item-container {
+        color: mat-color($primary, on-surface-mid);
+      }
+
+      &__title {
+        background-color: mat-color($primary, background-dark);
+        color: mat-color($primary, on-background-dark);
+        font-size: mat-font-size($custom-typography, display-1);
+      }
+    }
+
+    .browser-item--selected {
+      box-shadow: 0 0 0 2px mat-color($primary, surface-dark);
+
+      .browser-item__actions {
+        background-color: mat-color($primary, opacity-light);
+      }
+
+      .browser-item__title {
+        background-color: mat-color($primary, surface-dark);
+        color: mat-color($primary, on-surface-dark);
+      }
+    }
+
+    .browser-item--list-view {
+      .browser-item__image-slot {
+        border-color: mat-color($primary, surface-mid);
+      }
+
+      .browser-item__title {
+        &__title-content {
+          font-size: mat-font-size($custom-typography, body-2);
+        }
+      }
+
+      .browser-item__list-view-actions {
+        color: mat-color($primary, on-background-dark);
+
+        ul {
+          li {
+            button {
+              mat-icon {
+                font-size: 21px;
+              }
+            }
+
+            &.in-basket {
+              button {
+                background-color: mat-color($primary, opacity-light);
+                color: mat-color($primary, on-opacity-light);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .browser-item--selected.browser-item--list-view {
+      .browser-item__title {
+        background-color: mat-color($primary, background-dark);
+        color: mat-color($primary, on-background-dark);
+      }
+    }
+  }
+}

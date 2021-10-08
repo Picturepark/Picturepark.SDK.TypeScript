@@ -1,0 +1,78 @@
+.dialog-container {
+  .header {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    flex-grow: 0;
+    flex-shrink: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    min-height: 62px;
+
+    .header-title {
+      margin: 0;
+    }
+
+    mat-icon {
+      cursor: pointer;
+    }
+  }
+
+  h3 {
+    display: flex;
+    margin: 0;
+    padding: 0px 24px 24px 24px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+
+    span {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    mat-icon {
+      cursor: pointer;
+      float: right;
+    }
+  }
+
+  mat-dialog-content {
+    height: 100%;
+
+    .mat-tab-group {
+      height: 100%;
+    }
+  }
+
+  .loader-container {
+    position: absolute;
+    display: none;
+    width: calc(100% + 48px);
+    top: 46px;
+    left: -24px;
+    height: 100%;
+    z-index: 20;
+    &.active {
+      display: table;
+    }
+    .loader {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+      mat-spinner {
+        margin: 0 auto;
+      }
+    }
+  }
+
+  mat-dialog-actions {
+    padding: 8px 24px;
+    margin: 0;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 25;
+  }
+}
