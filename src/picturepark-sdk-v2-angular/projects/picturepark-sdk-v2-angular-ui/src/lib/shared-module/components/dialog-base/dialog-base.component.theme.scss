@@ -24,6 +24,10 @@ $pp-dialog-base: (
         background-color: mat-color($primary, background-dark);
         color: mat-color($primary, on-background-dark);
 
+        .mat-tab-header {
+          background-color: mat-color($accent, 550);
+        }
+
         .mat-checkbox-checked {
           &.mat-primary {
             .mat-checkbox-background {
@@ -33,7 +37,7 @@ $pp-dialog-base: (
         }
 
         .mat-tab-body-content {
-          background-color: mat-color($primary, surface-mid);
+          background-color: mat-color($accent, 450);
           color: mat-color($primary, on-surface-mid);
         }
       }

@@ -14,7 +14,6 @@ $pp-search-box: (
       .form {
         background-color: mat-color($accent, lighter);
         color: mat-color($accent, '200-contrast');
-        @include mat-elevation(2, mat-color($accent, A800), 0.7);
 
         input {
           color: mat-color($primary, on-surface-mid);
@@ -49,6 +48,14 @@ $pp-search-box: (
 
       #search-options-container {
         color: mat-color($primary, opacity-light);
+      }
+    }
+  }
+
+  pp-search-box {
+    #search-container {
+      .form {
+        @include mat-elevation(2, mat-color($accent, A800), 0.7);
       }
     }
   }

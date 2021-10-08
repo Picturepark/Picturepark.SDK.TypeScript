@@ -1163,13 +1163,6 @@ export let TRANSLATIONS = {
       es: 'Elementos',
       pt: 'Itens',
     },
-    Details: {
-      en: 'Details',
-      de: 'Details',
-      fr: 'Détails',
-      es: 'Detalles',
-      pt: 'Detalhes',
-    },
     Download: {
       en: 'Download',
       de: 'Herunterladen',

@@ -14,6 +14,12 @@ $pp-share-items-panel-theme: (
       > .item {
         background-color: mat-color($accent, 550);
         border: 1px solid mat-color($accent, 600);
+
+        &:hover {
+          border: 3px solid mat-color($accent, 680);
+          border-radius: 4px;
+          margin: -2px;
+        }
       }
     }
 

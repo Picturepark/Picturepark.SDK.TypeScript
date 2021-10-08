@@ -1,10 +1,7 @@
-pp-item-panel-preview {
-  cursor: pointer;
-}
-
 .list {
   padding: 16px 0;
-  > .item {
+  
+  .item {
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
@@ -15,41 +12,14 @@ pp-item-panel-preview {
       margin-bottom: 0;
     }
 
-    & ul {
-      list-style: none;
-      padding-left: 8px;
-
-      li {
-        font-size: 13px;
-        line-height: 21px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-
-      .title {
-        font-size: 14px;
-      }
-    }
-
-    &:hover {
-      .item-funcs {
-        & ul {
-          display: inherit;
-        }
-      }
-    }
-
     .thumbnail {
       display: flex;
       align-items: center;
       flex-wrap: nowrap;
-
       flex-basis: 0;
       border-radius: 4px 0px 0px 4px;
-
       position: relative;
       float: left;
-
       width: 216px;
       height: 149px;
       min-width: 216px;
@@ -59,29 +29,27 @@ pp-item-panel-preview {
       padding-left: 1vw;
       float: left;
       flex: 1;
-      cursor: pointer;
       max-width: 65%;
+
+      ul {
+        padding-left: 8px;
+  
+        li {
+          font-size: 13px;
+          line-height: 21px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+  
+        .title {
+          font-size: 14px;
+        }
+      }
     }
 
     .item-funcs {
       width: 100px;
       min-width: 15%;
-      & ul {
-        display: none;
-        position: relative;
-        float: right;
-
-        & li {
-          float: left;
-          margin: 0px;
-          width: 40px;
-
-          & i {
-            font-size: 21px;
-            cursor: pointer;
-          }
-        }
-      }
     }
   }
 }
@@ -93,8 +61,9 @@ pp-item-panel-preview {
   grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
   grid-gap: 16px;
 
-  > .item {
+  .item {
     height: 200px;
+    position: relative;
 
     .thumbnail {
       position: relative;
@@ -106,7 +75,43 @@ pp-item-panel-preview {
     }
 
     .item-funcs {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+.item {
+  cursor: pointer;
+
+  .item-funcs {
+    ul {
       display: none;
+      position: relative;
+      float: right;
+
+      li {
+        float: left;
+        margin: 0px;
+        width: 40px;
+
+        i {
+          font-size: 21px;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    .item-funcs {
+      ul {
+        display: inherit;
+      }
     }
   }
 }

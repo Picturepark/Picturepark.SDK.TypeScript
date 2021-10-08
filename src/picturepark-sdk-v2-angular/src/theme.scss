@@ -2,7 +2,7 @@
 
 $custom-typography: mat-typography-config(
   $font-family: '"Roboto", "Helvetica Neue", sans-serif',
-  $display-4: mat-typography-level(21px, 56px, 400),
+  $display-4: mat-typography-level(16px, 25px, 300),
   $display-3: mat-typography-level(18px, 48px, 400),
   $display-2: mat-typography-level(14px, 112px, 300),
   $display-1: mat-typography-level(13px, 40px, 400),
@@ -43,7 +43,7 @@ $mat-picturepark-accent: (
   contrast: (
     50: #000000,
     100: #000000,
-    200: #000000,
+    200: #727272,
     300: #000000,
     400: #ffffff,
     450: #727272,
