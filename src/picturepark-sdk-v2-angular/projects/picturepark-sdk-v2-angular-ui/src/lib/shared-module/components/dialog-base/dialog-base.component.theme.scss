@@ -16,7 +16,7 @@ $pp-dialog-base: (
     .dialog,
     .dialog-container {
       .header {
-        color: mat-color($primary, on-surface-light);
+        color: mat-color($accent, '200-contrast');
         border-color: mat-color($primary, divider);
       }
 
@@ -55,16 +55,6 @@ $pp-dialog-base: (
 
   .cp-dialog {
     .dialog-container {
-      .header {
-        color: mat-color($accent, '100-contrast');
-        border-color: mat-color($primary, divider);
-
-        mat-icon {
-          fill: mat-color($accent, default-contrast);
-          cursor: pointer;
-        }
-      }
-
       mat-dialog-content {
         background-color: mat-color($accent, 400);
         color: mat-color($accent, '400-contrast');
