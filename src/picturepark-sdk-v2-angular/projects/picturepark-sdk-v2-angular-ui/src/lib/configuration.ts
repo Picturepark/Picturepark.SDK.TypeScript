@@ -13,6 +13,8 @@ export interface PictureparkUIConfiguration {
 
 export const PICTUREPARK_UI_CONFIGURATION = new InjectionToken<string>('PICTUREPARK_UI_CONFIGURATION');
 export const PICTUREPARK_UI_SCRIPTPATH = new InjectionToken<string>('PICTUREPARK_UI_SCRIPTPATH');
+export const VIEW_MODE = new InjectionToken<string>('VIEW_MODE');
+export const COOKIE_CONSENT = new InjectionToken<string>('COOKIE_CONSENT');
 
 export function PictureparkUIConfigurationFactory() {
   return <PictureparkUIConfiguration>{

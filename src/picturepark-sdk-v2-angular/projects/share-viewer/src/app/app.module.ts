@@ -17,7 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShareDetailModule } from './share-detail/share-detail.module';
 import { environment } from '../environments/environment';
 import { TRANSLATIONS } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/utilities/translations';
-import { PICTUREPARK_UI_SCRIPTPATH } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
+import { COOKIE_CONSENT, PICTUREPARK_UI_SCRIPTPATH, VIEW_MODE } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
 import { PictureparkCdnConfiguration } from '../models/cdn-config';
 import { shareTranslations } from './translations/share-translations';
 import { getDevCdnUrl, PictureparkAppSetting } from 'src/config';
@@ -65,6 +65,14 @@ export function getLanguageFactory(): string {
   return storedLanguage ?? language ?? '';
 }
 
+export function getViewModeFactory(): string {
+  return localStorage.getItem(StorageKey.ViewMode) ?? getAttribute('view-mode') ?? '';
+}
+
+export function getCookieConsentFactory(): boolean {
+  return getAttribute('cookie-consent') === 'true';
+}
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -85,6 +93,8 @@ export function getLanguageFactory(): string {
     { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
     { provide: PICTUREPARK_UI_SCRIPTPATH, useFactory: PictureparkUIScriptPathFactory },
     { provide: PICTUREPARK_CDN_URL, useFactory: getCdnUrl },
+    { provide: VIEW_MODE, useFactory: getViewModeFactory },
+    { provide: COOKIE_CONSENT, useFactory: getCookieConsentFactory },
   ],
   bootstrap: [AppComponent],
 })

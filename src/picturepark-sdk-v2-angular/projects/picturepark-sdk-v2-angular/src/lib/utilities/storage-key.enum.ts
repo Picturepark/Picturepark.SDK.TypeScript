@@ -4,4 +4,5 @@ export enum StorageKey {
   BasketItems = 'basket-items',
   ShareCookieConsent = 'share-cookie-consent',
   IsLightTheme = 'is-light-theme',
+  ViewMode = 'view-mode'
 }

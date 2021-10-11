@@ -1,20 +1,20 @@
 <pp-panel [title]="'ShareItemsPanel.Items' | pptranslate">
   <div pp-panel-buttons>
-    <button mat-icon-button aria-label="List" *ngIf="view === 'list'" (click)="view = 'grid'">
+    <button mat-icon-button aria-label="List" *ngIf="viewMode === 'list'" (click)="onViewChange('grid')">
       <mat-icon>list</mat-icon>
     </button>
-    <button mat-icon-button aria-label="Thumbnails" *ngIf="view === 'grid'" (click)="view = 'list'">
+    <button mat-icon-button aria-label="Thumbnails" *ngIf="viewMode === 'grid'" (click)="onViewChange('list')">
       <mat-icon>grid_on</mat-icon>
     </button>
   </div>
-  <div pp-panel-content [ngClass]="[view]">
+  <div pp-panel-content [ngClass]="[viewMode]">
     <div class="item" *ngFor="let item of shareDetail.contentSelections" (click)="openInNewWindow(item)">
       <div class="thumbnail">
         <pp-content-item-thumbnail
           [item]="item"
           [shareItem]="shareDetail"
           [thumbnailSize]="thumbnailSize.Large"
-          [isListView]="view === 'list'"
+          [isListView]="viewMode === 'list'"
         ></pp-content-item-thumbnail>
       </div>
       <div class="item-info">

@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
-import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk-v2-angular';
+import { Component, EventEmitter, Inject, Injector, Input, OnInit, Optional, Output } from '@angular/core';
+import { LocalStorageService, ShareContentDetail, ShareDetail, StorageKey, ThumbnailSize } from '@picturepark/sdk-v2-angular';
+import { VIEW_MODE } from '../../configuration';
 import { BaseComponent } from '../../shared-module/components/base.component';
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 
@@ -9,7 +10,6 @@ import { ContentDownloadDialogService } from '../content-download-dialog/service
   styleUrls: ['./share-items-panel.component.scss'],
 })
 export class ShareItemsPanelComponent extends BaseComponent implements OnInit {
-  @Input() view: 'grid' | 'list' = 'grid';
   @Input() shareDetail: ShareDetail;
   @Input() isShareViewer: boolean;
 
@@ -17,8 +17,17 @@ export class ShareItemsPanelComponent extends BaseComponent implements OnInit {
 
   thumbnailSize = ThumbnailSize;
 
-  constructor(injector: Injector, private contentDownloadDialogService: ContentDownloadDialogService) {
+  constructor(injector: Injector,
+    private contentDownloadDialogService: ContentDownloadDialogService,
+    private localStorageService: LocalStorageService,
+    @Optional() @Inject(VIEW_MODE) public viewMode: 'grid' | 'list') {
     super(injector);
+  }
+
+  ngOnInit() {
+    if (this.viewMode !== 'list') {
+      this.viewMode = 'grid';  
+    }
   }
 
   openInNewWindow(item: ShareContentDetail): void {
@@ -33,5 +42,8 @@ export class ShareItemsPanelComponent extends BaseComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  onViewChange(view: 'grid' | 'list'): void {
+    this.viewMode = view;
+    this.localStorageService.set(StorageKey.ViewMode, view);
+  }
 }
