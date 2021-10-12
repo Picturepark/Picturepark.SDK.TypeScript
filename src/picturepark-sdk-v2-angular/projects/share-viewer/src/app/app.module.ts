@@ -65,8 +65,8 @@ export function getLanguageFactory(): string {
   return storedLanguage ?? language ?? '';
 }
 
-export function getViewModeFactory(): string {
-  return localStorage.getItem(StorageKey.ViewMode) ?? getAttribute('view-mode') ?? '';
+export function getViewModeFactory(): 'grid' | 'list' {
+  return getAttribute('view-mode') === 'list' ? 'list' : 'grid';
 }
 
 export function getCookieConsentFactory(): boolean {
