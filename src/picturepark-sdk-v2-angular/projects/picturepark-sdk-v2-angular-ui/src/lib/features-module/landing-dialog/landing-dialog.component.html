@@ -1,0 +1,21 @@
+<div class="dialog-container" #contentContainer>
+  <div class="header">
+    <span class="header-title mat-display-4 u-text-ellipsis">{{ 'LandingDialog.title' | pptranslate }}</span>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-dialog-content>
+    <div class="content-wrapper">
+      <span>{{ 'LandingDialog.message' | pptranslate }}</span>
+      <div class="toggle-wrap">
+        <mat-slide-toggle color="primary" [(ngModel)]="termsAccepted"></mat-slide-toggle>
+        <span class="toggle-label" [innerHTML]="'LandingDialog.content' | pptranslate"></span>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <mat-dialog-actions>
+    <button mat-flat-button [disabled]="!termsAccepted" color="accent" (click)="accept()">
+      {{ 'LandingDialog.continue' | pptranslate }}
+    </button>
+  </mat-dialog-actions>
+</div>

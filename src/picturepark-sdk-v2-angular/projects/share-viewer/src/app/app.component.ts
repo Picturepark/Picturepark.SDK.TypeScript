@@ -2,7 +2,9 @@ import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { ShareDetail, IMailRecipient, StorageKey, LocalStorageService } from '@picturepark/sdk-v2-angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../environments/environment';
-import { COOKIE_CONSENT } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
+import { COOKIE_CONSENT, TERMS } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
+import { MatDialog } from '@angular/material/dialog';
+import { LandingDialogComponent } from '@picturepark/sdk-v2-angular-ui';
 
 @Component({
   selector: 'app-root',
@@ -20,10 +22,22 @@ export class AppComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private localStorageService: LocalStorageService,
-    @Optional() @Inject(COOKIE_CONSENT) public cookieConsent: boolean
+    private dialog: MatDialog,
+    @Optional() @Inject(COOKIE_CONSENT) public cookieConsent: boolean,
+    @Optional() @Inject(TERMS) public terms: boolean
   ) {}
 
   ngOnInit() {
+    if(this.terms && !this.localStorageService.get(StorageKey.Terms)) {
+      this.dialog.open(LandingDialogComponent, {
+        disableClose: true,
+        autoFocus: false,
+        maxHeight: '95vh',
+        maxWidth: '99vw',
+        minWidth: '33vw',
+        panelClass: ['pp-dialog', 'cp-dialog'],
+      });
+    }
     const getShowConsent = () => this.cookieConsent && !this.localStorageService.get(StorageKey.ShareCookieConsent);
     // Needed because changes to the local storage [edge] are not updated on soft refresh in a tab [PP9-9217]
     this.showConsent = getShowConsent();

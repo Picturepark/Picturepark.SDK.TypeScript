@@ -848,6 +848,37 @@ export let TRANSLATIONS = {
       pt: 'A descarga não pode conter mais de 1000 itens de conteúdo!',
     },
   },
+  LandingDialog: {
+    title: {
+      en: 'Terms of service',
+      de: 'Nutzungsbedingungen',
+      fr: 'Terms of service',
+      es: 'Terms of service',
+      pt: 'Terms of service',
+    },
+    message: {
+      en: 'Please review and accept the terms of service for this instance.',
+      de: 'Bitte überprüfen und akzeptieren Sie die Nutzungsbedingungen für diese Instanz.',
+      fr: 'Please review and accept the terms of service for this instance.',
+      es: 'Please review and accept the terms of service for this instance.',
+      pt: 'Please review and accept the terms of service for this instance.',
+    },
+    content: {
+      en: 'I accept the <a href=\"https://www.picturepark.com/terms/aup\" target=\"_blank\">Picturepark Acceptable Use Policy</a> and <a href=\"https://www.picturepark.com/terms/privacy\" target=\"_blank\">Privacy Policy</a>',
+      de: 'Ich akzeptiere die <a href=\"https://picturepark.com/de/terms/aup\" target=\"_blank\">Nutzungsbedingungen von Picturepark</a> und <a href=\"https://picturepark.com/de/terms/privacy\" target=\"_blank\">Datenschutzrichtlinie</a>',
+      fr: 'I accept the <a href=\"https://www.picturepark.com/terms/aup\" target=\"_blank\">Picturepark Acceptable Use Policy</a> and <a href=\"https://www.picturepark.com/terms/privacy\" target=\"_blank\">Privacy Policy</a>',
+      es: 'I accept the <a href=\"https://www.picturepark.com/terms/aup\" target=\"_blank\">Picturepark Acceptable Use Policy</a> and <a href=\"https://www.picturepark.com/terms/privacy\" target=\"_blank\">Privacy Policy</a>',
+      pt: 'I accept the <a href=\"https://www.picturepark.com/terms/aup\" target=\"_blank\">Picturepark Acceptable Use Policy</a> and <a href=\"https://www.picturepark.com/terms/privacy\" target=\"_blank\">Privacy Policy</a>',
+    },
+    continue: {
+      en: 'Continue',
+      de: 'Fortfahren',
+      fr: 'Continue',
+      es: 'Continue',
+      pt: 'Continue',
+    },
+
+  },
   SchemaBrowser: {
     Ascending: {
       en: 'Ascending',

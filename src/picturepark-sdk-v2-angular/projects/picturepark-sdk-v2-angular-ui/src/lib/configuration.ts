@@ -15,6 +15,7 @@ export const PICTUREPARK_UI_CONFIGURATION = new InjectionToken<string>('PICTUREP
 export const PICTUREPARK_UI_SCRIPTPATH = new InjectionToken<string>('PICTUREPARK_UI_SCRIPTPATH');
 export const VIEW_MODE = new InjectionToken<string>('VIEW_MODE');
 export const COOKIE_CONSENT = new InjectionToken<string>('COOKIE_CONSENT');
+export const TERMS = new InjectionToken<string>('TERMS');
 
 export function PictureparkUIConfigurationFactory() {
   return <PictureparkUIConfiguration>{
