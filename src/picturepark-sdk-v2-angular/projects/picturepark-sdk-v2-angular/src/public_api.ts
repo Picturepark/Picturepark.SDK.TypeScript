@@ -11,7 +11,7 @@ export * from './lib/services/access-token-auth.service';
 
 // services
 export * from './lib/services/api-services';
-export { ShareAccesService, PICTUREPARK_CDN_URL } from './lib/services/frontend-services';
+export { ShareAccesService, TermsOfServiceService, PICTUREPARK_CDN_URL } from './lib/services/frontend-services';
 export { CustomerInfoService } from './lib/services/customer-info.service';
 export { LanguageService } from './lib/services/language.service';
 export { LiquidRenderingService } from './lib/services/liquid-rendering.service';
@@ -39,3 +39,4 @@ export * from './lib/facade/share-search.facade';
 export * from './lib/facade/list-item-search.facade';
 export * from './lib/facade/content.facade';
 export * from './lib/facade/share-access.facade';
+export * from './lib/facade/terms-of-service.facade';

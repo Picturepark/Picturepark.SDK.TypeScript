@@ -863,13 +863,6 @@ export let TRANSLATIONS = {
       es: 'Please review and accept the terms of service for this instance.',
       pt: 'Please review and accept the terms of service for this instance.',
     },
-    content: {
-      en: 'I accept the <a href=\"https://www.picturepark.com/terms/aup\" target=\"_blank\">Picturepark Acceptable Use Policy</a> and <a href=\"https://www.picturepark.com/terms/privacy\" target=\"_blank\">Privacy Policy</a>',
-      de: 'Ich akzeptiere die <a href=\"https://picturepark.com/de/terms/aup\" target=\"_blank\">Nutzungsbedingungen von Picturepark</a> und <a href=\"https://picturepark.com/de/terms/privacy\" target=\"_blank\">Datenschutzrichtlinie</a>',
-      fr: 'I accept the <a href=\"https://www.picturepark.com/terms/aup\" target=\"_blank\">Picturepark Acceptable Use Policy</a> and <a href=\"https://www.picturepark.com/terms/privacy\" target=\"_blank\">Privacy Policy</a>',
-      es: 'I accept the <a href=\"https://www.picturepark.com/terms/aup\" target=\"_blank\">Picturepark Acceptable Use Policy</a> and <a href=\"https://www.picturepark.com/terms/privacy\" target=\"_blank\">Privacy Policy</a>',
-      pt: 'I accept the <a href=\"https://www.picturepark.com/terms/aup\" target=\"_blank\">Picturepark Acceptable Use Policy</a> and <a href=\"https://www.picturepark.com/terms/privacy\" target=\"_blank\">Privacy Policy</a>',
-    },
     continue: {
       en: 'Continue',
       de: 'Fortfahren',

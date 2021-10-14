@@ -3415,12 +3415,6 @@ export class ContentClient extends PictureparkClientBase {
             result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Forbidden", status, _responseText, _headers, result403);
             });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            let result404: any = null;
-            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
             return throwException("Method not allowed", status, _responseText, _headers);
@@ -3440,6 +3434,12 @@ export class ContentClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -3901,12 +3901,6 @@ export class ContentClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <ContentDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -3942,6 +3936,12 @@ export class ContentClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -3990,12 +3990,6 @@ export class ContentClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <ContentDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -4005,12 +3999,6 @@ export class ContentClient extends PictureparkClientBase {
             let result403: any = null;
             result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Forbidden", status, _responseText, _headers, result403);
-            });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            let result404: any = null;
-            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
@@ -4031,6 +4019,18 @@ export class ContentClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -4098,12 +4098,6 @@ export class ContentClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <ContentDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -4139,6 +4133,12 @@ export class ContentClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -4201,12 +4201,6 @@ export class ContentClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <ContentDetail>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -4242,6 +4236,12 @@ export class ContentClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -5195,12 +5195,6 @@ export class ContentClient extends PictureparkClientBase {
             result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Forbidden", status, _responseText, _headers, result403);
             });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            let result404: any = null;
-            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
             return throwException("Method not allowed", status, _responseText, _headers);
@@ -5220,6 +5214,12 @@ export class ContentClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -10776,7 +10776,7 @@ export class OutputFormatClient extends PictureparkClientBase {
 
     /**
      * Enables or disables XMP writeback for multiple output formats
-     * @param request The request containing the state to be set for the output format.
+     * @param request The request containing the state changes for each output format.
      * @return Business process
      */
     setXmpWritebackState2(request: OutputFormatSetXmpWritebackStateManyRequest): Promise<BusinessProcess> {
@@ -10988,12 +10988,6 @@ export class OutputFormatClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <OutputFormatDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <RequestSizeLimitExceededException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -11029,6 +11023,12 @@ export class OutputFormatClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -13350,12 +13350,6 @@ export class SchemaClient extends PictureparkClientBase {
             result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Forbidden", status, _responseText, _headers, result403);
             });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            let result404: any = null;
-            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
             return throwException("Method not allowed", status, _responseText, _headers);
@@ -13375,6 +13369,12 @@ export class SchemaClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -13428,12 +13428,6 @@ export class SchemaClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <SchemaUpdateResult>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -13443,12 +13437,6 @@ export class SchemaClient extends PictureparkClientBase {
             let result403: any = null;
             result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Forbidden", status, _responseText, _headers, result403);
-            });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            let result404: any = null;
-            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
@@ -13469,6 +13457,18 @@ export class SchemaClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -13517,12 +13517,6 @@ export class SchemaClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <SchemaDeleteResult>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -13532,12 +13526,6 @@ export class SchemaClient extends PictureparkClientBase {
             let result403: any = null;
             result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Forbidden", status, _responseText, _headers, result403);
-            });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            let result404: any = null;
-            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
@@ -13558,6 +13546,18 @@ export class SchemaClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -13742,15 +13742,20 @@ export class SchemaClient extends PictureparkClientBase {
     }
 
     /**
-     * Gets all schemas referenced by the schema specified in
+     * Gets all schemas referenced by the schema specified in id
      * @param id The schema ID.
+     * @param sourceSchema (optional) If true, the returned schemas contain also the source schema for which the referenced schemas were requested. If false, the source schema is not returned (default behavior).
      * @return Referenced schema details
      */
-    getReferenced(id: string | null): Promise<SchemaDetail[]> {
-        let url_ = this.baseUrl + "/v1/Schemas/{id}/referenced";
+    getReferenced(id: string | null, sourceSchema?: boolean | undefined): Promise<SchemaDetail[]> {
+        let url_ = this.baseUrl + "/v1/Schemas/{id}/referenced?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (sourceSchema === null)
+            throw new Error("The parameter 'sourceSchema' cannot be null.");
+        else if (sourceSchema !== undefined)
+            url_ += "sourceSchema=" + encodeURIComponent("" + sourceSchema) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -13775,12 +13780,6 @@ export class SchemaClient extends PictureparkClientBase {
             let result200: any = null;
             result200 = _responseText === "" ? null : <SchemaDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
@@ -13817,6 +13816,12 @@ export class SchemaClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -13957,12 +13962,6 @@ export class SchemaClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <SchemaCreateResult>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -13998,6 +13997,12 @@ export class SchemaClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -14041,12 +14046,6 @@ export class SchemaClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <SchemaDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -14082,6 +14081,12 @@ export class SchemaClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -14127,12 +14132,6 @@ export class SchemaClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -14168,6 +14167,12 @@ export class SchemaClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -14213,12 +14218,6 @@ export class SchemaClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -14255,6 +14254,12 @@ export class SchemaClient extends PictureparkClientBase {
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
             });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -14264,14 +14269,19 @@ export class SchemaClient extends PictureparkClientBase {
     }
 
     /**
-     * Gets all schemas referenced by the schemas specified in
+     * Gets all schemas referenced by the schemas specified in ids
      * @param ids (optional) The schema IDs.
+     * @param sourceSchema (optional) If true, the returned schemas contain also the source schemas for which the referenced schemas were requested. If false, the source schemas are not returned (default behavior).
      * @return Referenced schema details
      */
-    getManyReferenced(ids?: string[] | null | undefined): Promise<SchemaDetail[]> {
+    getManyReferenced(ids?: string[] | null | undefined, sourceSchema?: boolean | undefined): Promise<SchemaDetail[]> {
         let url_ = this.baseUrl + "/v1/Schemas/many/referenced?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        if (sourceSchema === null)
+            throw new Error("The parameter 'sourceSchema' cannot be null.");
+        else if (sourceSchema !== undefined)
+            url_ += "sourceSchema=" + encodeURIComponent("" + sourceSchema) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -14905,12 +14915,6 @@ export class SchemaTransferClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <Transfer>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -14946,6 +14950,12 @@ export class SchemaTransferClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -15695,12 +15705,6 @@ export class ShareClient extends PictureparkClientBase {
             result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Forbidden", status, _responseText, _headers, result403);
             });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            let result404: any = null;
-            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
             return throwException("Method not allowed", status, _responseText, _headers);
@@ -15720,6 +15724,12 @@ export class ShareClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -15769,12 +15779,6 @@ export class ShareClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <BusinessProcess>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -15810,6 +15814,12 @@ export class ShareClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -15958,18 +15968,6 @@ export class ShareClient extends PictureparkClientBase {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
             });
-        } else if (status === 403) {
-            return response.text().then((_responseText) => {
-            let result403: any = null;
-            result403 = _responseText === "" ? null : <PictureparkForbiddenException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-            });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            let result404: any = null;
-            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            });
         } else if (status === 405) {
             return response.text().then((_responseText) => {
             return throwException("Method not allowed", status, _responseText, _headers);
@@ -15989,6 +15987,18 @@ export class ShareClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : <PictureparkBusinessException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : <PictureparkNotFoundException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -17181,12 +17191,6 @@ export class TransferClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <Transfer>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -17222,6 +17226,12 @@ export class TransferClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Internal server error", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -18323,12 +18333,6 @@ export class UserRoleClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <UserRoleDetail[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <RequestSizeLimitExceededException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -18364,6 +18368,12 @@ export class UserRoleClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -21333,12 +21343,6 @@ export class XmpMappingClient extends PictureparkClientBase {
             result200 = _responseText === "" ? null : <XmpMappingEntry[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : <RequestSizeLimitExceededException>JSON.parse(_responseText, this.jsonParseReviver);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
-            });
         } else if (status === 401) {
             return response.text().then((_responseText) => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -21374,6 +21378,12 @@ export class XmpMappingClient extends PictureparkClientBase {
             let result500: any = null;
             result500 = _responseText === "" ? null : <PictureparkException>JSON.parse(_responseText, this.jsonParseReviver);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : <PictureparkValidationException>JSON.parse(_responseText, this.jsonParseReviver);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
@@ -22002,7 +22012,7 @@ export interface DuplicateOutputFormatIdException extends PictureparkValidationE
     id?: string | undefined;
 }
 
-export interface OutputFormatResizingNotSupportedException extends PictureparkValidationException {
+export interface OutputEditingNotSupportedException extends PictureparkValidationException {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
 }
@@ -22027,6 +22037,10 @@ export interface DuplicateContentDownloadRequestException extends PictureparkVal
 }
 
 export interface InvalidContentDownloadRequestException extends PictureparkValidationException {
+}
+
+export interface DownloadNotFoundException extends PictureparkNotFoundException {
+    token?: string | undefined;
 }
 
 export interface LeaseNotAcquiredException extends PictureparkBusinessException {
@@ -23161,6 +23175,7 @@ export interface BusinessRuleActionInvalidDocumentTypeException extends Picturep
 
 export enum BusinessRuleTriggerDocType {
     Content = <any>"Content",
+    ListItem = <any>"ListItem",
 }
 
 export interface BusinessRuleActionsMissingException extends PictureparkValidationException {
@@ -23360,6 +23375,10 @@ export interface OutputFormatXmpWritebackNotSupportedException extends Picturepa
     outputFormatId?: string | undefined;
 }
 
+export interface OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException extends OutputFormatXmpWritebackNotSupportedException {
+    derivingCopyFormatIds?: string[] | undefined;
+}
+
 export interface OutputFormatsInUseException extends PictureparkValidationException {
     outputFormatIds?: string[] | undefined;
     dependentOutputFormatIds?: string[] | undefined;
@@ -23374,6 +23393,12 @@ export interface StaticOutputFormatModificationNotSupportedException extends Pic
 }
 
 export interface OriginalOutputFormatModificationNotSupportedException extends PictureparkValidationException {
+}
+
+export interface OutputFormatSourceNotValidForRenderingCategoryException extends PictureparkValidationException {
+    outputFormatId?: string | undefined;
+    sourceFormatId?: string | undefined;
+    renderingCategory?: RenderingCategory;
 }
 
 export interface CollectionSizeLimitExceededException extends PictureparkValidationException {
@@ -25899,6 +25924,8 @@ export interface Content {
     brokenRelationTargetIds?: string[] | undefined;
     /** Life cycle of content */
     lifeCycle: LifeCycle;
+    /** List of content rights the user has on this content. Values are returned only if related resolve behavior is requested in the search request. */
+    contentRights?: ContentRight[] | undefined;
 }
 
 /** Request to aggregate contents based on the aggregators defined on a channel */
@@ -25952,6 +25979,13 @@ Warning! It severely affects performance. */
     debugMode?: boolean;
     /** List of aggregators that defines how the items should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
+    /** List of enums that allow additional resolutions on top of the standard Content result */
+    resolveBehaviors?: ContentSearchResolveBehavior[] | undefined;
+}
+
+/** Enum that allow additional resolutions on top of the standard Content result */
+export enum ContentSearchResolveBehavior {
+    Permissions = <any>"Permissions",
 }
 
 /** Result for an aggregation operation */
@@ -27124,8 +27158,21 @@ export interface FormatBase {
     kind: string;
 }
 
+export interface FormatWithFixedExtensionBase extends FormatBase {
+    /** The filename extension of the file produced by this Format. */
+    extension?: string | undefined;
+}
+
+/** Special format that represents the original. */
+export interface OriginalFormat extends FormatBase {
+}
+
+/** A format that, when rendered, simply copies the source file. Primarily intended for use with XmpWriteback. */
+export interface CopyFormat extends FormatBase {
+}
+
 /** Base class for ImageFormats such as JPEG, PNG, TIFF, ... */
-export interface ImageFormatBase extends FormatBase {
+export interface ImageFormatBase extends FormatWithFixedExtensionBase {
     /** Color profile to use. Colorspace is derived from the chosen profile. */
     colorProfile?: ColorProfile | undefined;
     /** The method of conversion for color spaces (e.g. CMYK to RGB). Further information can be found here: http://www.colourphil.co.uk/rendering_intents.shtml */
@@ -27305,23 +27352,16 @@ export enum RotateDirection {
     CounterClockwise = <any>"CounterClockwise",
 }
 
-/** Special format that represents the original. */
-export interface OriginalFormat extends FormatBase {
-    extension?: string | undefined;
-}
-
 /** Renders a JPEG image. */
 export interface JpegFormat extends ImageFormatBase {
     /** Compression quality. Must be in range [0,100] and defaults to 80. */
     quality?: number;
     /** Whether to use chroma subsampling or not. */
     chromaSubsamplingEnabled?: boolean;
-    extension?: string | undefined;
 }
 
 /** Renders a PNG image. */
 export interface PngFormat extends ImageFormatBase {
-    extension?: string | undefined;
 }
 
 /** Renders a TIFF image */
@@ -27332,7 +27372,6 @@ export interface TiffFormat extends ImageFormatBase {
     compressionType?: CompressionType;
     /** Preserve (including size affecting changes) unspecified extraChannels. */
     includeUnspecifiedTiffExtraChannels?: boolean;
-    extension?: string | undefined;
 }
 
 /** Available compression types. */
@@ -27344,7 +27383,7 @@ export enum CompressionType {
 }
 
 /** Base class for rendering video. */
-export interface VideoFormatBase extends FormatBase {
+export interface VideoFormatBase extends FormatWithFixedExtensionBase {
 }
 
 /** Renders H.264 in mp4 container. */
@@ -27355,11 +27394,10 @@ export interface Mp4VideoFormat extends VideoFormatBase {
     audioCodec?: AudioFormatBase | undefined;
     /** Gets or sets the encoding codec preset. */
     preset?: Preset;
-    extension?: string | undefined;
 }
 
 /** Base class for rendering audio. */
-export interface AudioFormatBase extends FormatBase {
+export interface AudioFormatBase extends FormatWithFixedExtensionBase {
 }
 
 /** Video rendering preset, see http://dev.beandog.org/x264_preset_reference.html for more information. */
@@ -27382,18 +27420,15 @@ export interface VideoSpriteFormat extends VideoFormatBase {
     maxNumberOfSprites?: number;
     /** JPEG-quality to use for the sprite. */
     quality?: number;
-    extension?: string | undefined;
 }
 
 export interface VideoStillFormat extends VideoFormatBase {
-    extension?: string | undefined;
     /** Specifies the position from which to produce the image. */
     positionInSeconds?: number;
 }
 
 /** Specifies Aac encoding for the output and additional settings for the encoder. */
 export interface AacAudioFormat extends AudioFormatBase {
-    extension?: string | undefined;
     /** Gets or sets the encoding profile. */
     profile?: Profile;
     /** Gets or sets the encoding coder. */
@@ -27420,12 +27455,10 @@ export enum Coder {
 
 /** Generates a waveform image from an Audio source. */
 export interface AudioStillFormat extends AudioFormatBase {
-    extension?: string | undefined;
 }
 
 /** Renders an MP3 audio file. */
 export interface Mp3AudioFormat extends AudioFormatBase {
-    extension?: string | undefined;
     /** Gets or sets the encoding bitrate. This setting and Quality are mutually exclusive. */
     bitrate?: number | undefined;
     /** Gets or sets the encoding quality. This setting and Bitrate are mutually exclusive.
@@ -27434,12 +27467,11 @@ Values can be set it range of 0 to 9, where a lower value is a higher quality. *
 }
 
 /** Base class for rendering documents. */
-export interface DocumentFormatBase extends FormatBase {
+export interface DocumentFormatBase extends FormatWithFixedExtensionBase {
 }
 
 /** Render a document to a raster image */
 export interface DocumentStillFormat extends DocumentFormatBase {
-    extension?: string | undefined;
     /** Allows resizing of the image. */
     resizeAction?: ResizeAction | undefined;
 }
@@ -27451,23 +27483,20 @@ export interface PdfFormat extends DocumentFormatBase {
     fastWebView?: boolean;
     /** Whether to apply measures to decrease output size or not. */
     reduceFileSize?: boolean;
-    extension?: string | undefined;
     /** Whether to extract document full text from this output. */
     extractFullText?: boolean;
 }
 
 /** Base class for rendering vector graphics. */
-export interface VectorFormatBase extends FormatBase {
+export interface VectorFormatBase extends FormatWithFixedExtensionBase {
 }
 
 /** Render a PDF to SVG */
 export interface SvgFormat extends VectorFormatBase {
-    extension?: string | undefined;
 }
 
 /** Render a vector graphic to a raster image */
 export interface VectorStillFormat extends VectorFormatBase {
-    extension?: string | undefined;
     /** Specifies output dimensions for raster operation */
     resizeAction?: ResizeAction | undefined;
 }

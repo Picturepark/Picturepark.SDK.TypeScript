@@ -4314,13 +4314,6 @@ export class ContentService extends PictureparkServiceBase {
             result403 = PictureparkForbiddenException.fromJS(resultData403);
             return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Method not allowed", status, _responseText, _headers);
@@ -4342,6 +4335,13 @@ export class ContentService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -4894,13 +4894,6 @@ export class ContentService extends PictureparkServiceBase {
             result200 = ContentDetail.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -4940,6 +4933,13 @@ export class ContentService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -5007,13 +5007,6 @@ export class ContentService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -5024,13 +5017,6 @@ export class ContentService extends PictureparkServiceBase {
             let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result403 = PictureparkForbiddenException.fromJS(resultData403);
             return throwException("Forbidden", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -5053,6 +5039,20 @@ export class ContentService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -5135,13 +5135,6 @@ export class ContentService extends PictureparkServiceBase {
             result200 = ContentDetail.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -5181,6 +5174,13 @@ export class ContentService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -5258,13 +5258,6 @@ export class ContentService extends PictureparkServiceBase {
             result200 = ContentDetail.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -5304,6 +5297,13 @@ export class ContentService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -6476,13 +6476,6 @@ export class ContentService extends PictureparkServiceBase {
             result403 = PictureparkForbiddenException.fromJS(resultData403);
             return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Method not allowed", status, _responseText, _headers);
@@ -6504,6 +6497,13 @@ export class ContentService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -13407,7 +13407,7 @@ export class OutputFormatService extends PictureparkServiceBase {
 
     /**
      * Enables or disables XMP writeback for multiple output formats
-     * @param request The request containing the state to be set for the output format.
+     * @param request The request containing the state changes for each output format.
      * @return Business process
      */
     setXmpWritebackState2(request: OutputFormatSetXmpWritebackStateManyRequest): Observable<BusinessProcess> {
@@ -13677,13 +13677,6 @@ export class OutputFormatService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = RequestSizeLimitExceededException.fromJS(resultData400);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -13723,6 +13716,13 @@ export class OutputFormatService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -16601,13 +16601,6 @@ export class SchemaService extends PictureparkServiceBase {
             result403 = PictureparkForbiddenException.fromJS(resultData403);
             return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Method not allowed", status, _responseText, _headers);
@@ -16629,6 +16622,13 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -16697,13 +16697,6 @@ export class SchemaService extends PictureparkServiceBase {
             result200 = SchemaUpdateResult.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -16714,13 +16707,6 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result403 = PictureparkForbiddenException.fromJS(resultData403);
             return throwException("Forbidden", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -16743,6 +16729,20 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -16806,13 +16806,6 @@ export class SchemaService extends PictureparkServiceBase {
             result200 = SchemaDeleteResult.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -16823,13 +16816,6 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result403 = PictureparkForbiddenException.fromJS(resultData403);
             return throwException("Forbidden", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -16852,6 +16838,20 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -17076,15 +17076,20 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Gets all schemas referenced by the schema specified in
+     * Gets all schemas referenced by the schema specified in id
      * @param id The schema ID.
+     * @param sourceSchema (optional) If true, the returned schemas contain also the source schema for which the referenced schemas were requested. If false, the source schema is not returned (default behavior).
      * @return Referenced schema details
      */
-    getReferenced(id: string | null): Observable<SchemaDetail[]> {
-        let url_ = this.baseUrl + "/v1/Schemas/{id}/referenced";
+    getReferenced(id: string | null, sourceSchema: boolean | undefined): Observable<SchemaDetail[]> {
+        let url_ = this.baseUrl + "/v1/Schemas/{id}/referenced?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (sourceSchema === null)
+            throw new Error("The parameter 'sourceSchema' cannot be null.");
+        else if (sourceSchema !== undefined)
+            url_ += "sourceSchema=" + encodeURIComponent("" + sourceSchema) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -17129,13 +17134,6 @@ export class SchemaService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -17175,6 +17173,13 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -17349,13 +17354,6 @@ export class SchemaService extends PictureparkServiceBase {
             result200 = SchemaCreateResult.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -17395,6 +17393,13 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -17457,13 +17462,6 @@ export class SchemaService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -17503,6 +17501,13 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -17563,13 +17568,6 @@ export class SchemaService extends PictureparkServiceBase {
             result200 = BusinessProcess.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -17609,6 +17607,13 @@ export class SchemaService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -17669,13 +17674,6 @@ export class SchemaService extends PictureparkServiceBase {
             result200 = BusinessProcess.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -17716,6 +17714,13 @@ export class SchemaService extends PictureparkServiceBase {
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
             }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -17725,14 +17730,19 @@ export class SchemaService extends PictureparkServiceBase {
     }
 
     /**
-     * Gets all schemas referenced by the schemas specified in
+     * Gets all schemas referenced by the schemas specified in ids
      * @param ids (optional) The schema IDs.
+     * @param sourceSchema (optional) If true, the returned schemas contain also the source schemas for which the referenced schemas were requested. If false, the source schemas are not returned (default behavior).
      * @return Referenced schema details
      */
-    getManyReferenced(ids: string[] | null | undefined): Observable<SchemaDetail[]> {
+    getManyReferenced(ids: string[] | null | undefined, sourceSchema: boolean | undefined): Observable<SchemaDetail[]> {
         let url_ = this.baseUrl + "/v1/Schemas/many/referenced?";
         if (ids !== undefined && ids !== null)
             ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        if (sourceSchema === null)
+            throw new Error("The parameter 'sourceSchema' cannot be null.");
+        else if (sourceSchema !== undefined)
+            url_ += "sourceSchema=" + encodeURIComponent("" + sourceSchema) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -18544,13 +18554,6 @@ export class SchemaTransferService extends PictureparkServiceBase {
             result200 = Transfer.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -18590,6 +18593,13 @@ export class SchemaTransferService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkBusinessException.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -19719,13 +19729,6 @@ export class ShareService extends PictureparkServiceBase {
             result403 = PictureparkForbiddenException.fromJS(resultData403);
             return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Method not allowed", status, _responseText, _headers);
@@ -19747,6 +19750,13 @@ export class ShareService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -19811,13 +19821,6 @@ export class ShareService extends PictureparkServiceBase {
             result200 = BusinessProcess.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -19857,6 +19860,13 @@ export class ShareService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -20041,20 +20051,6 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
             }));
-        } else if (status === 403) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result403: any = null;
-            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result403 = PictureparkForbiddenException.fromJS(resultData403);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            }));
         } else if (status === 405) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Method not allowed", status, _responseText, _headers);
@@ -20076,6 +20072,20 @@ export class ShareService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkBusinessException.fromJS(resultData403);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -21555,13 +21565,6 @@ export class TransferService extends PictureparkServiceBase {
             result200 = Transfer.fromJS(resultData200);
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -21601,6 +21604,13 @@ export class TransferService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkException.fromJS(resultData400);
+            return throwException("Internal server error", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -22960,13 +22970,6 @@ export class UserRoleService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = RequestSizeLimitExceededException.fromJS(resultData400);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -23006,6 +23009,13 @@ export class UserRoleService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -26675,13 +26685,6 @@ export class XmpMappingService extends PictureparkServiceBase {
             }
             return _observableOf(result200);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = RequestSizeLimitExceededException.fromJS(resultData400);
-            return throwException("List of IDs exceeded maximum size", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -26721,6 +26724,13 @@ export class XmpMappingService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -27500,8 +27510,18 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "ContentSchemaChangeException") {
-            let result = new ContentSchemaChangeException();
+        if (data["kind"] === "ContentNotFoundException") {
+            let result = new ContentNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
+            let result = new BusinessProcessLifeCycleNotHitException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PictureparkTimeoutException") {
+            let result = new PictureparkTimeoutException();
             result.init(data);
             return result;
         }
@@ -27510,8 +27530,48 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "PictureparkTimeoutException") {
-            let result = new PictureparkTimeoutException();
+        if (data["kind"] === "ContentSchemaChangeException") {
+            let result = new ContentSchemaChangeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaNotFoundException") {
+            let result = new SchemaNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PictureparkArgumentNullException") {
+            let result = new PictureparkArgumentNullException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaValidationException") {
+            let result = new SchemaValidationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaInUseException") {
+            let result = new SchemaInUseException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "DuplicateSchemaException") {
+            let result = new DuplicateSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FileTransferNotFoundException") {
+            let result = new FileTransferNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareNotFoundException") {
+            let result = new ShareNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PermissionValidationException") {
+            let result = new PermissionValidationException();
             result.init(data);
             return result;
         }
@@ -27680,11 +27740,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "ShareNotFoundException") {
-            let result = new ShareNotFoundException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "ShareByTokenNotFoundException") {
             let result = new ShareByTokenNotFoundException();
             result.init(data);
@@ -27755,8 +27810,8 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "OutputFormatResizingNotSupportedException") {
-            let result = new OutputFormatResizingNotSupportedException();
+        if (data["kind"] === "OutputEditingNotSupportedException") {
+            let result = new OutputEditingNotSupportedException();
             result.init(data);
             return result;
         }
@@ -27790,6 +27845,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DownloadNotFoundException") {
+            let result = new DownloadNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "LeaseNotAcquiredException") {
             let result = new LeaseNotAcquiredException();
             result.init(data);
@@ -27807,11 +27867,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "InvalidStateException") {
             let result = new InvalidStateException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PictureparkArgumentNullException") {
-            let result = new PictureparkArgumentNullException();
             result.init(data);
             return result;
         }
@@ -28048,11 +28103,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "PermissionValidationException") {
-            let result = new PermissionValidationException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "PermissionSetInUseException") {
             let result = new PermissionSetInUseException();
             result.init(data);
@@ -28125,11 +28175,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "TransferInfoNotFoundException") {
             let result = new TransferInfoNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FileTransferNotFoundException") {
-            let result = new FileTransferNotFoundException();
             result.init(data);
             return result;
         }
@@ -28373,11 +28418,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "DuplicateSchemaException") {
-            let result = new DuplicateSchemaException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "SchemaImportEmptyException") {
             let result = new SchemaImportEmptyException();
             result.init(data);
@@ -28395,11 +28435,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SchemaInheritanceTypeDeviationException") {
             let result = new SchemaInheritanceTypeDeviationException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaValidationException") {
-            let result = new SchemaValidationException();
             result.init(data);
             return result;
         }
@@ -28470,16 +28505,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SchemaIdException") {
             let result = new SchemaIdException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaInUseException") {
-            let result = new SchemaInUseException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaNotFoundException") {
-            let result = new SchemaNotFoundException();
             result.init(data);
             return result;
         }
@@ -28610,11 +28635,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "ContentMetadataUpdateManyException") {
             let result = new ContentMetadataUpdateManyException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ContentNotFoundException") {
-            let result = new ContentNotFoundException();
             result.init(data);
             return result;
         }
@@ -28755,11 +28775,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "BusinessProcessStateNotHitException") {
             let result = new BusinessProcessStateNotHitException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
-            let result = new BusinessProcessLifeCycleNotHitException();
             result.init(data);
             return result;
         }
@@ -29038,6 +29053,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException") {
+            let result = new OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "OutputFormatsInUseException") {
             let result = new OutputFormatsInUseException();
             result.init(data);
@@ -29055,6 +29075,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "OriginalOutputFormatModificationNotSupportedException") {
             let result = new OriginalOutputFormatModificationNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputFormatSourceNotValidForRenderingCategoryException") {
+            let result = new OutputFormatSourceNotValidForRenderingCategoryException();
             result.init(data);
             return result;
         }
@@ -29228,8 +29253,18 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "ContentSchemaChangeException") {
-            let result = new ContentSchemaChangeException();
+        if (data["kind"] === "ContentNotFoundException") {
+            let result = new ContentNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
+            let result = new BusinessProcessLifeCycleNotHitException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PictureparkTimeoutException") {
+            let result = new PictureparkTimeoutException();
             result.init(data);
             return result;
         }
@@ -29238,8 +29273,48 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "PictureparkTimeoutException") {
-            let result = new PictureparkTimeoutException();
+        if (data["kind"] === "ContentSchemaChangeException") {
+            let result = new ContentSchemaChangeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaNotFoundException") {
+            let result = new SchemaNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PictureparkArgumentNullException") {
+            let result = new PictureparkArgumentNullException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaValidationException") {
+            let result = new SchemaValidationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaInUseException") {
+            let result = new SchemaInUseException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "DuplicateSchemaException") {
+            let result = new DuplicateSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FileTransferNotFoundException") {
+            let result = new FileTransferNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareNotFoundException") {
+            let result = new ShareNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PermissionValidationException") {
+            let result = new PermissionValidationException();
             result.init(data);
             return result;
         }
@@ -29408,11 +29483,6 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "ShareNotFoundException") {
-            let result = new ShareNotFoundException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "ShareByTokenNotFoundException") {
             let result = new ShareByTokenNotFoundException();
             result.init(data);
@@ -29483,8 +29553,8 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "OutputFormatResizingNotSupportedException") {
-            let result = new OutputFormatResizingNotSupportedException();
+        if (data["kind"] === "OutputEditingNotSupportedException") {
+            let result = new OutputEditingNotSupportedException();
             result.init(data);
             return result;
         }
@@ -29518,6 +29588,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DownloadNotFoundException") {
+            let result = new DownloadNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "LeaseNotAcquiredException") {
             let result = new LeaseNotAcquiredException();
             result.init(data);
@@ -29535,11 +29610,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "InvalidStateException") {
             let result = new InvalidStateException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PictureparkArgumentNullException") {
-            let result = new PictureparkArgumentNullException();
             result.init(data);
             return result;
         }
@@ -29776,11 +29846,6 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "PermissionValidationException") {
-            let result = new PermissionValidationException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "PermissionSetInUseException") {
             let result = new PermissionSetInUseException();
             result.init(data);
@@ -29853,11 +29918,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "TransferInfoNotFoundException") {
             let result = new TransferInfoNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "FileTransferNotFoundException") {
-            let result = new FileTransferNotFoundException();
             result.init(data);
             return result;
         }
@@ -30101,11 +30161,6 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "DuplicateSchemaException") {
-            let result = new DuplicateSchemaException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "SchemaImportEmptyException") {
             let result = new SchemaImportEmptyException();
             result.init(data);
@@ -30123,11 +30178,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SchemaInheritanceTypeDeviationException") {
             let result = new SchemaInheritanceTypeDeviationException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaValidationException") {
-            let result = new SchemaValidationException();
             result.init(data);
             return result;
         }
@@ -30198,16 +30248,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SchemaIdException") {
             let result = new SchemaIdException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaInUseException") {
-            let result = new SchemaInUseException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaNotFoundException") {
-            let result = new SchemaNotFoundException();
             result.init(data);
             return result;
         }
@@ -30338,11 +30378,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "ContentMetadataUpdateManyException") {
             let result = new ContentMetadataUpdateManyException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ContentNotFoundException") {
-            let result = new ContentNotFoundException();
             result.init(data);
             return result;
         }
@@ -30483,11 +30518,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "BusinessProcessStateNotHitException") {
             let result = new BusinessProcessStateNotHitException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
-            let result = new BusinessProcessLifeCycleNotHitException();
             result.init(data);
             return result;
         }
@@ -30766,6 +30796,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException") {
+            let result = new OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "OutputFormatsInUseException") {
             let result = new OutputFormatsInUseException();
             result.init(data);
@@ -30783,6 +30818,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "OriginalOutputFormatModificationNotSupportedException") {
             let result = new OriginalOutputFormatModificationNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputFormatSourceNotValidForRenderingCategoryException") {
+            let result = new OutputFormatSourceNotValidForRenderingCategoryException();
             result.init(data);
             return result;
         }
@@ -30923,8 +30963,13 @@ export class PictureparkValidationException extends PictureparkBusinessException
 
     static fromJS(data: any): PictureparkValidationException {
         data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "ContentSchemaChangeException") {
-            let result = new ContentSchemaChangeException();
+        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
+            let result = new BusinessProcessLifeCycleNotHitException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PictureparkTimeoutException") {
+            let result = new PictureparkTimeoutException();
             result.init(data);
             return result;
         }
@@ -30933,8 +30978,33 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "PictureparkTimeoutException") {
-            let result = new PictureparkTimeoutException();
+        if (data["kind"] === "ContentSchemaChangeException") {
+            let result = new ContentSchemaChangeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PictureparkArgumentNullException") {
+            let result = new PictureparkArgumentNullException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaValidationException") {
+            let result = new SchemaValidationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaInUseException") {
+            let result = new SchemaInUseException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "DuplicateSchemaException") {
+            let result = new DuplicateSchemaException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PermissionValidationException") {
+            let result = new PermissionValidationException();
             result.init(data);
             return result;
         }
@@ -31078,8 +31148,8 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "OutputFormatResizingNotSupportedException") {
-            let result = new OutputFormatResizingNotSupportedException();
+        if (data["kind"] === "OutputEditingNotSupportedException") {
+            let result = new OutputEditingNotSupportedException();
             result.init(data);
             return result;
         }
@@ -31105,11 +31175,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "InvalidStateException") {
             let result = new InvalidStateException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PictureparkArgumentNullException") {
-            let result = new PictureparkArgumentNullException();
             result.init(data);
             return result;
         }
@@ -31253,11 +31318,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "DuplicateRightException") {
             let result = new DuplicateRightException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "PermissionValidationException") {
-            let result = new PermissionValidationException();
             result.init(data);
             return result;
         }
@@ -31501,11 +31561,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "DuplicateSchemaException") {
-            let result = new DuplicateSchemaException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "SchemaImportEmptyException") {
             let result = new SchemaImportEmptyException();
             result.init(data);
@@ -31523,11 +31578,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaInheritanceTypeDeviationException") {
             let result = new SchemaInheritanceTypeDeviationException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaValidationException") {
-            let result = new SchemaValidationException();
             result.init(data);
             return result;
         }
@@ -31598,11 +31648,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaIdException") {
             let result = new SchemaIdException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaInUseException") {
-            let result = new SchemaInUseException();
             result.init(data);
             return result;
         }
@@ -31793,11 +31838,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "BusinessProcessStateNotHitException") {
             let result = new BusinessProcessStateNotHitException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
-            let result = new BusinessProcessLifeCycleNotHitException();
             result.init(data);
             return result;
         }
@@ -32056,6 +32096,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException") {
+            let result = new OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "OutputFormatsInUseException") {
             let result = new OutputFormatsInUseException();
             result.init(data);
@@ -32068,6 +32113,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "OriginalOutputFormatModificationNotSupportedException") {
             let result = new OriginalOutputFormatModificationNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "OutputFormatSourceNotValidForRenderingCategoryException") {
+            let result = new OutputFormatSourceNotValidForRenderingCategoryException();
             result.init(data);
             return result;
         }
@@ -32238,6 +32288,11 @@ export class PictureparkTimeoutException extends PictureparkValidationException 
 
     static fromJS(data: any): PictureparkTimeoutException {
         data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
+            let result = new BusinessProcessLifeCycleNotHitException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SnapshotTimeoutException") {
             let result = new SnapshotTimeoutException();
             result.init(data);
@@ -32260,11 +32315,6 @@ export class PictureparkTimeoutException extends PictureparkValidationException 
         }
         if (data["kind"] === "BusinessProcessStateNotHitException") {
             let result = new BusinessProcessStateNotHitException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
-            let result = new BusinessProcessLifeCycleNotHitException();
             result.init(data);
             return result;
         }
@@ -32731,6 +32781,26 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
 
     static fromJS(data: any): PictureparkNotFoundException {
         data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "ContentNotFoundException") {
+            let result = new ContentNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaNotFoundException") {
+            let result = new SchemaNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FileTransferNotFoundException") {
+            let result = new FileTransferNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareNotFoundException") {
+            let result = new ShareNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "UserRolesNotFoundException") {
             let result = new UserRolesNotFoundException();
             result.init(data);
@@ -32743,11 +32813,6 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "ChannelsNotFoundException") {
             let result = new ChannelsNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ShareNotFoundException") {
-            let result = new ShareNotFoundException();
             result.init(data);
             return result;
         }
@@ -32771,6 +32836,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DownloadNotFoundException") {
+            let result = new DownloadNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "OwnerTokenNotFoundException") {
             let result = new OwnerTokenNotFoundException();
             result.init(data);
@@ -32791,11 +32861,6 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
             result.init(data);
             return result;
         }
-        if (data["kind"] === "FileTransferNotFoundException") {
-            let result = new FileTransferNotFoundException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "TransferNotFoundException") {
             let result = new TransferNotFoundException();
             result.init(data);
@@ -32803,16 +32868,6 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "SchemaInfoNotFoundException") {
             let result = new SchemaInfoNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SchemaNotFoundException") {
-            let result = new SchemaNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ContentNotFoundException") {
-            let result = new ContentNotFoundException();
             result.init(data);
             return result;
         }
@@ -34479,13 +34534,13 @@ export interface IDuplicateOutputFormatIdException extends IPictureparkValidatio
     id?: string | undefined;
 }
 
-export class OutputFormatResizingNotSupportedException extends PictureparkValidationException implements IOutputFormatResizingNotSupportedException {
+export class OutputEditingNotSupportedException extends PictureparkValidationException implements IOutputEditingNotSupportedException {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
 
-    constructor(data?: IOutputFormatResizingNotSupportedException) {
+    constructor(data?: IOutputEditingNotSupportedException) {
         super(data);
-        this._discriminator = "OutputFormatResizingNotSupportedException";
+        this._discriminator = "OutputEditingNotSupportedException";
     }
 
     init(_data?: any) {
@@ -34496,9 +34551,9 @@ export class OutputFormatResizingNotSupportedException extends PictureparkValida
         }
     }
 
-    static fromJS(data: any): OutputFormatResizingNotSupportedException {
+    static fromJS(data: any): OutputEditingNotSupportedException {
         data = typeof data === 'object' ? data : {};
-        let result = new OutputFormatResizingNotSupportedException();
+        let result = new OutputEditingNotSupportedException();
         result.init(data);
         return result;
     }
@@ -34512,7 +34567,7 @@ export class OutputFormatResizingNotSupportedException extends PictureparkValida
     }
 }
 
-export interface IOutputFormatResizingNotSupportedException extends IPictureparkValidationException {
+export interface IOutputEditingNotSupportedException extends IPictureparkValidationException {
     contentId?: string | undefined;
     outputFormatId?: string | undefined;
 }
@@ -34703,6 +34758,40 @@ export class InvalidContentDownloadRequestException extends PictureparkValidatio
 }
 
 export interface IInvalidContentDownloadRequestException extends IPictureparkValidationException {
+}
+
+export class DownloadNotFoundException extends PictureparkNotFoundException implements IDownloadNotFoundException {
+    token?: string | undefined;
+
+    constructor(data?: IDownloadNotFoundException) {
+        super(data);
+        this._discriminator = "DownloadNotFoundException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.token = _data["token"];
+        }
+    }
+
+    static fromJS(data: any): DownloadNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new DownloadNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["token"] = this.token;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IDownloadNotFoundException extends IPictureparkNotFoundException {
+    token?: string | undefined;
 }
 
 export class LeaseNotAcquiredException extends PictureparkBusinessException implements ILeaseNotAcquiredException {
@@ -43002,6 +43091,7 @@ export interface IBusinessRuleActionInvalidDocumentTypeException extends IPictur
 
 export enum BusinessRuleTriggerDocType {
     Content = "Content",
+    ListItem = "ListItem",
 }
 
 export class BusinessRuleActionsMissingException extends PictureparkValidationException implements IBusinessRuleActionsMissingException {
@@ -44684,6 +44774,11 @@ export class OutputFormatXmpWritebackNotSupportedException extends PictureparkVa
 
     static fromJS(data: any): OutputFormatXmpWritebackNotSupportedException {
         data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException") {
+            let result = new OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException();
+            result.init(data);
+            return result;
+        }
         let result = new OutputFormatXmpWritebackNotSupportedException();
         result.init(data);
         return result;
@@ -44699,6 +44794,48 @@ export class OutputFormatXmpWritebackNotSupportedException extends PictureparkVa
 
 export interface IOutputFormatXmpWritebackNotSupportedException extends IPictureparkValidationException {
     outputFormatId?: string | undefined;
+}
+
+export class OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException extends OutputFormatXmpWritebackNotSupportedException implements IOutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException {
+    derivingCopyFormatIds?: string[] | undefined;
+
+    constructor(data?: IOutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException) {
+        super(data);
+        this._discriminator = "OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["derivingCopyFormatIds"])) {
+                this.derivingCopyFormatIds = [] as any;
+                for (let item of _data["derivingCopyFormatIds"])
+                    this.derivingCopyFormatIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.derivingCopyFormatIds)) {
+            data["derivingCopyFormatIds"] = [];
+            for (let item of this.derivingCopyFormatIds)
+                data["derivingCopyFormatIds"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputFormatXmpWritebackDerivedFromCopyFormatNotSupportedException extends IOutputFormatXmpWritebackNotSupportedException {
+    derivingCopyFormatIds?: string[] | undefined;
 }
 
 export class OutputFormatsInUseException extends PictureparkValidationException implements IOutputFormatsInUseException {
@@ -44847,6 +44984,48 @@ export class OriginalOutputFormatModificationNotSupportedException extends Pictu
 }
 
 export interface IOriginalOutputFormatModificationNotSupportedException extends IPictureparkValidationException {
+}
+
+export class OutputFormatSourceNotValidForRenderingCategoryException extends PictureparkValidationException implements IOutputFormatSourceNotValidForRenderingCategoryException {
+    outputFormatId?: string | undefined;
+    sourceFormatId?: string | undefined;
+    renderingCategory?: RenderingCategory;
+
+    constructor(data?: IOutputFormatSourceNotValidForRenderingCategoryException) {
+        super(data);
+        this._discriminator = "OutputFormatSourceNotValidForRenderingCategoryException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.outputFormatId = _data["outputFormatId"];
+            this.sourceFormatId = _data["sourceFormatId"];
+            this.renderingCategory = _data["renderingCategory"];
+        }
+    }
+
+    static fromJS(data: any): OutputFormatSourceNotValidForRenderingCategoryException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatSourceNotValidForRenderingCategoryException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["outputFormatId"] = this.outputFormatId;
+        data["sourceFormatId"] = this.sourceFormatId;
+        data["renderingCategory"] = this.renderingCategory;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IOutputFormatSourceNotValidForRenderingCategoryException extends IPictureparkValidationException {
+    outputFormatId?: string | undefined;
+    sourceFormatId?: string | undefined;
+    renderingCategory?: RenderingCategory;
 }
 
 export class CollectionSizeLimitExceededException extends PictureparkValidationException implements ICollectionSizeLimitExceededException {
@@ -60063,6 +60242,8 @@ export class Content implements IContent {
     brokenRelationTargetIds?: string[] | undefined;
     /** Life cycle of content */
     lifeCycle!: LifeCycle;
+    /** List of content rights the user has on this content. Values are returned only if related resolve behavior is requested in the search request. */
+    contentRights?: ContentRight[] | undefined;
 
     isVirtual() {
     return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
@@ -60115,6 +60296,11 @@ export class Content implements IContent {
                     this.brokenRelationTargetIds!.push(item);
             }
             this.lifeCycle = _data["lifeCycle"];
+            if (Array.isArray(_data["contentRights"])) {
+                this.contentRights = [] as any;
+                for (let item of _data["contentRights"])
+                    this.contentRights!.push(item);
+            }
         }
     }
 
@@ -60159,6 +60345,11 @@ export class Content implements IContent {
                 data["brokenRelationTargetIds"].push(item);
         }
         data["lifeCycle"] = this.lifeCycle;
+        if (Array.isArray(this.contentRights)) {
+            data["contentRights"] = [];
+            for (let item of this.contentRights)
+                data["contentRights"].push(item);
+        }
         return data; 
     }
 }
@@ -60183,6 +60374,8 @@ export interface IContent {
     brokenRelationTargetIds?: string[] | undefined;
     /** Life cycle of content */
     lifeCycle: LifeCycle;
+    /** List of content rights the user has on this content. Values are returned only if related resolve behavior is requested in the search request. */
+    contentRights?: ContentRight[] | undefined;
 }
 
 /** Request to aggregate contents based on the aggregators defined on a channel */
@@ -60337,6 +60530,8 @@ Warning! It severely affects performance. */
     debugMode?: boolean;
     /** List of aggregators that defines how the items should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
+    /** List of enums that allow additional resolutions on top of the standard Content result */
+    resolveBehaviors?: ContentSearchResolveBehavior[] | undefined;
 
     constructor(data?: IContentSearchRequest) {
         super(data);
@@ -60382,6 +60577,11 @@ Warning! It severely affects performance. */
                 for (let item of _data["aggregators"])
                     this.aggregators!.push(AggregatorBase.fromJS(item));
             }
+            if (Array.isArray(_data["resolveBehaviors"])) {
+                this.resolveBehaviors = [] as any;
+                for (let item of _data["resolveBehaviors"])
+                    this.resolveBehaviors!.push(item);
+            }
         }
     }
 
@@ -60422,6 +60622,11 @@ Warning! It severely affects performance. */
             for (let item of this.aggregators)
                 data["aggregators"].push(item.toJSON());
         }
+        if (Array.isArray(this.resolveBehaviors)) {
+            data["resolveBehaviors"] = [];
+            for (let item of this.resolveBehaviors)
+                data["resolveBehaviors"].push(item);
+        }
         super.toJSON(data);
         return data; 
     }
@@ -60447,6 +60652,13 @@ Warning! It severely affects performance. */
     debugMode?: boolean;
     /** List of aggregators that defines how the items should be aggregated. */
     aggregators?: AggregatorBase[] | undefined;
+    /** List of enums that allow additional resolutions on top of the standard Content result */
+    resolveBehaviors?: ContentSearchResolveBehavior[] | undefined;
+}
+
+/** Enum that allow additional resolutions on top of the standard Content result */
+export enum ContentSearchResolveBehavior {
+    Permissions = "Permissions",
 }
 
 /** Result for an aggregation operation */
@@ -66830,13 +67042,21 @@ export abstract class FormatBase implements IFormatBase {
 
     static fromJS(data: any): FormatBase {
         data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "ImageFormatBase") {
-            throw new Error("The abstract class 'ImageFormatBase' cannot be instantiated.");
+        if (data["kind"] === "FormatWithFixedExtensionBase") {
+            throw new Error("The abstract class 'FormatWithFixedExtensionBase' cannot be instantiated.");
         }
         if (data["kind"] === "OriginalFormat") {
             let result = new OriginalFormat();
             result.init(data);
             return result;
+        }
+        if (data["kind"] === "CopyFormat") {
+            let result = new CopyFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ImageFormatBase") {
+            throw new Error("The abstract class 'ImageFormatBase' cannot be instantiated.");
         }
         if (data["kind"] === "JpegFormat") {
             let result = new JpegFormat();
@@ -66928,8 +67148,182 @@ export abstract class FormatBase implements IFormatBase {
 export interface IFormatBase {
 }
 
+export abstract class FormatWithFixedExtensionBase extends FormatBase implements IFormatWithFixedExtensionBase {
+    /** The filename extension of the file produced by this Format. */
+    extension?: string | undefined;
+
+    constructor(data?: IFormatWithFixedExtensionBase) {
+        super(data);
+        this._discriminator = "FormatWithFixedExtensionBase";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.extension = _data["extension"];
+        }
+    }
+
+    static fromJS(data: any): FormatWithFixedExtensionBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "ImageFormatBase") {
+            throw new Error("The abstract class 'ImageFormatBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "JpegFormat") {
+            let result = new JpegFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PngFormat") {
+            let result = new PngFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TiffFormat") {
+            let result = new TiffFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VideoFormatBase") {
+            throw new Error("The abstract class 'VideoFormatBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "AudioFormatBase") {
+            throw new Error("The abstract class 'AudioFormatBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "Mp4VideoFormat") {
+            let result = new Mp4VideoFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VideoSpriteFormat") {
+            let result = new VideoSpriteFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VideoStillFormat") {
+            let result = new VideoStillFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AacAudioFormat") {
+            let result = new AacAudioFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AudioStillFormat") {
+            let result = new AudioStillFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "Mp3AudioFormat") {
+            let result = new Mp3AudioFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "DocumentFormatBase") {
+            throw new Error("The abstract class 'DocumentFormatBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "DocumentStillFormat") {
+            let result = new DocumentStillFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "PdfFormat") {
+            let result = new PdfFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VectorFormatBase") {
+            throw new Error("The abstract class 'VectorFormatBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "SvgFormat") {
+            let result = new SvgFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VectorStillFormat") {
+            let result = new VectorStillFormat();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'FormatWithFixedExtensionBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IFormatWithFixedExtensionBase extends IFormatBase {
+    /** The filename extension of the file produced by this Format. */
+    extension?: string | undefined;
+}
+
+/** Special format that represents the original. */
+export class OriginalFormat extends FormatBase implements IOriginalFormat {
+
+    constructor(data?: IOriginalFormat) {
+        super(data);
+        this._discriminator = "OriginalFormat";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): OriginalFormat {
+        data = typeof data === 'object' ? data : {};
+        let result = new OriginalFormat();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Special format that represents the original. */
+export interface IOriginalFormat extends IFormatBase {
+}
+
+/** A format that, when rendered, simply copies the source file. Primarily intended for use with XmpWriteback. */
+export class CopyFormat extends FormatBase implements ICopyFormat {
+
+    constructor(data?: ICopyFormat) {
+        super(data);
+        this._discriminator = "CopyFormat";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): CopyFormat {
+        data = typeof data === 'object' ? data : {};
+        let result = new CopyFormat();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** A format that, when rendered, simply copies the source file. Primarily intended for use with XmpWriteback. */
+export interface ICopyFormat extends IFormatBase {
+}
+
 /** Base class for ImageFormats such as JPEG, PNG, TIFF, ... */
-export abstract class ImageFormatBase extends FormatBase implements IImageFormatBase {
+export abstract class ImageFormatBase extends FormatWithFixedExtensionBase implements IImageFormatBase {
     /** Color profile to use. Colorspace is derived from the chosen profile. */
     colorProfile?: ColorProfile | undefined;
     /** The method of conversion for color spaces (e.g. CMYK to RGB). Further information can be found here: http://www.colourphil.co.uk/rendering_intents.shtml */
@@ -67009,7 +67403,7 @@ export abstract class ImageFormatBase extends FormatBase implements IImageFormat
 }
 
 /** Base class for ImageFormats such as JPEG, PNG, TIFF, ... */
-export interface IImageFormatBase extends IFormatBase {
+export interface IImageFormatBase extends IFormatWithFixedExtensionBase {
     /** Color profile to use. Colorspace is derived from the chosen profile. */
     colorProfile?: ColorProfile | undefined;
     /** The method of conversion for color spaces (e.g. CMYK to RGB). Further information can be found here: http://www.colourphil.co.uk/rendering_intents.shtml */
@@ -67622,49 +68016,12 @@ export enum RotateDirection {
     CounterClockwise = "CounterClockwise",
 }
 
-/** Special format that represents the original. */
-export class OriginalFormat extends FormatBase implements IOriginalFormat {
-    extension?: string | undefined;
-
-    constructor(data?: IOriginalFormat) {
-        super(data);
-        this._discriminator = "OriginalFormat";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.extension = _data["extension"];
-        }
-    }
-
-    static fromJS(data: any): OriginalFormat {
-        data = typeof data === 'object' ? data : {};
-        let result = new OriginalFormat();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** Special format that represents the original. */
-export interface IOriginalFormat extends IFormatBase {
-    extension?: string | undefined;
-}
-
 /** Renders a JPEG image. */
 export class JpegFormat extends ImageFormatBase implements IJpegFormat {
     /** Compression quality. Must be in range [0,100] and defaults to 80. */
     quality?: number;
     /** Whether to use chroma subsampling or not. */
     chromaSubsamplingEnabled?: boolean;
-    extension?: string | undefined;
 
     constructor(data?: IJpegFormat) {
         super(data);
@@ -67676,7 +68033,6 @@ export class JpegFormat extends ImageFormatBase implements IJpegFormat {
         if (_data) {
             this.quality = _data["quality"];
             this.chromaSubsamplingEnabled = _data["chromaSubsamplingEnabled"];
-            this.extension = _data["extension"];
         }
     }
 
@@ -67691,7 +68047,6 @@ export class JpegFormat extends ImageFormatBase implements IJpegFormat {
         data = typeof data === 'object' ? data : {};
         data["quality"] = this.quality;
         data["chromaSubsamplingEnabled"] = this.chromaSubsamplingEnabled;
-        data["extension"] = this.extension;
         super.toJSON(data);
         return data; 
     }
@@ -67703,12 +68058,10 @@ export interface IJpegFormat extends IImageFormatBase {
     quality?: number;
     /** Whether to use chroma subsampling or not. */
     chromaSubsamplingEnabled?: boolean;
-    extension?: string | undefined;
 }
 
 /** Renders a PNG image. */
 export class PngFormat extends ImageFormatBase implements IPngFormat {
-    extension?: string | undefined;
 
     constructor(data?: IPngFormat) {
         super(data);
@@ -67717,9 +68070,6 @@ export class PngFormat extends ImageFormatBase implements IPngFormat {
 
     init(_data?: any) {
         super.init(_data);
-        if (_data) {
-            this.extension = _data["extension"];
-        }
     }
 
     static fromJS(data: any): PngFormat {
@@ -67731,7 +68081,6 @@ export class PngFormat extends ImageFormatBase implements IPngFormat {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
         super.toJSON(data);
         return data; 
     }
@@ -67739,7 +68088,6 @@ export class PngFormat extends ImageFormatBase implements IPngFormat {
 
 /** Renders a PNG image. */
 export interface IPngFormat extends IImageFormatBase {
-    extension?: string | undefined;
 }
 
 /** Renders a TIFF image */
@@ -67750,7 +68098,6 @@ export class TiffFormat extends ImageFormatBase implements ITiffFormat {
     compressionType?: CompressionType;
     /** Preserve (including size affecting changes) unspecified extraChannels. */
     includeUnspecifiedTiffExtraChannels?: boolean;
-    extension?: string | undefined;
 
     constructor(data?: ITiffFormat) {
         super(data);
@@ -67763,7 +68110,6 @@ export class TiffFormat extends ImageFormatBase implements ITiffFormat {
             this.alphaPremultiplied = _data["alphaPremultiplied"];
             this.compressionType = _data["compressionType"];
             this.includeUnspecifiedTiffExtraChannels = _data["includeUnspecifiedTiffExtraChannels"];
-            this.extension = _data["extension"];
         }
     }
 
@@ -67779,7 +68125,6 @@ export class TiffFormat extends ImageFormatBase implements ITiffFormat {
         data["alphaPremultiplied"] = this.alphaPremultiplied;
         data["compressionType"] = this.compressionType;
         data["includeUnspecifiedTiffExtraChannels"] = this.includeUnspecifiedTiffExtraChannels;
-        data["extension"] = this.extension;
         super.toJSON(data);
         return data; 
     }
@@ -67793,7 +68138,6 @@ export interface ITiffFormat extends IImageFormatBase {
     compressionType?: CompressionType;
     /** Preserve (including size affecting changes) unspecified extraChannels. */
     includeUnspecifiedTiffExtraChannels?: boolean;
-    extension?: string | undefined;
 }
 
 /** Available compression types. */
@@ -67805,7 +68149,7 @@ export enum CompressionType {
 }
 
 /** Base class for rendering video. */
-export abstract class VideoFormatBase extends FormatBase implements IVideoFormatBase {
+export abstract class VideoFormatBase extends FormatWithFixedExtensionBase implements IVideoFormatBase {
 
     constructor(data?: IVideoFormatBase) {
         super(data);
@@ -67844,7 +68188,7 @@ export abstract class VideoFormatBase extends FormatBase implements IVideoFormat
 }
 
 /** Base class for rendering video. */
-export interface IVideoFormatBase extends IFormatBase {
+export interface IVideoFormatBase extends IFormatWithFixedExtensionBase {
 }
 
 /** Renders H.264 in mp4 container. */
@@ -67855,7 +68199,6 @@ export class Mp4VideoFormat extends VideoFormatBase implements IMp4VideoFormat {
     audioCodec?: AudioFormatBase | undefined;
     /** Gets or sets the encoding codec preset. */
     preset?: Preset;
-    extension?: string | undefined;
 
     constructor(data?: IMp4VideoFormat) {
         super(data);
@@ -67871,7 +68214,6 @@ export class Mp4VideoFormat extends VideoFormatBase implements IMp4VideoFormat {
             this.resizeAction = _data["resizeAction"] ? ResizeAction.fromJS(_data["resizeAction"]) : <any>undefined;
             this.audioCodec = _data["audioCodec"] ? AudioFormatBase.fromJS(_data["audioCodec"]) : <any>undefined;
             this.preset = _data["preset"];
-            this.extension = _data["extension"];
         }
     }
 
@@ -67887,7 +68229,6 @@ export class Mp4VideoFormat extends VideoFormatBase implements IMp4VideoFormat {
         data["resizeAction"] = this.resizeAction ? this.resizeAction.toJSON() : <any>undefined;
         data["audioCodec"] = this.audioCodec ? this.audioCodec.toJSON() : <any>undefined;
         data["preset"] = this.preset;
-        data["extension"] = this.extension;
         super.toJSON(data);
         return data; 
     }
@@ -67901,11 +68242,10 @@ export interface IMp4VideoFormat extends IVideoFormatBase {
     audioCodec?: AudioFormatBase | undefined;
     /** Gets or sets the encoding codec preset. */
     preset?: Preset;
-    extension?: string | undefined;
 }
 
 /** Base class for rendering audio. */
-export abstract class AudioFormatBase extends FormatBase implements IAudioFormatBase {
+export abstract class AudioFormatBase extends FormatWithFixedExtensionBase implements IAudioFormatBase {
 
     constructor(data?: IAudioFormatBase) {
         super(data);
@@ -67944,7 +68284,7 @@ export abstract class AudioFormatBase extends FormatBase implements IAudioFormat
 }
 
 /** Base class for rendering audio. */
-export interface IAudioFormatBase extends IFormatBase {
+export interface IAudioFormatBase extends IFormatWithFixedExtensionBase {
 }
 
 /** Video rendering preset, see http://dev.beandog.org/x264_preset_reference.html for more information. */
@@ -67967,7 +68307,6 @@ export class VideoSpriteFormat extends VideoFormatBase implements IVideoSpriteFo
     maxNumberOfSprites?: number;
     /** JPEG-quality to use for the sprite. */
     quality?: number;
-    extension?: string | undefined;
 
     constructor(data?: IVideoSpriteFormat) {
         super(data);
@@ -67983,7 +68322,6 @@ export class VideoSpriteFormat extends VideoFormatBase implements IVideoSpriteFo
             this.spriteResizeAction = _data["spriteResizeAction"] ? ResizeAction.fromJS(_data["spriteResizeAction"]) : <any>undefined;
             this.maxNumberOfSprites = _data["maxNumberOfSprites"];
             this.quality = _data["quality"];
-            this.extension = _data["extension"];
         }
     }
 
@@ -67999,7 +68337,6 @@ export class VideoSpriteFormat extends VideoFormatBase implements IVideoSpriteFo
         data["spriteResizeAction"] = this.spriteResizeAction ? this.spriteResizeAction.toJSON() : <any>undefined;
         data["maxNumberOfSprites"] = this.maxNumberOfSprites;
         data["quality"] = this.quality;
-        data["extension"] = this.extension;
         super.toJSON(data);
         return data; 
     }
@@ -68013,11 +68350,9 @@ export interface IVideoSpriteFormat extends IVideoFormatBase {
     maxNumberOfSprites?: number;
     /** JPEG-quality to use for the sprite. */
     quality?: number;
-    extension?: string | undefined;
 }
 
 export class VideoStillFormat extends VideoFormatBase implements IVideoStillFormat {
-    extension?: string | undefined;
     /** Specifies the position from which to produce the image. */
     positionInSeconds?: number;
 
@@ -68029,7 +68364,6 @@ export class VideoStillFormat extends VideoFormatBase implements IVideoStillForm
     init(_data?: any) {
         super.init(_data);
         if (_data) {
-            this.extension = _data["extension"];
             this.positionInSeconds = _data["positionInSeconds"];
         }
     }
@@ -68043,7 +68377,6 @@ export class VideoStillFormat extends VideoFormatBase implements IVideoStillForm
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
         data["positionInSeconds"] = this.positionInSeconds;
         super.toJSON(data);
         return data; 
@@ -68051,14 +68384,12 @@ export class VideoStillFormat extends VideoFormatBase implements IVideoStillForm
 }
 
 export interface IVideoStillFormat extends IVideoFormatBase {
-    extension?: string | undefined;
     /** Specifies the position from which to produce the image. */
     positionInSeconds?: number;
 }
 
 /** Specifies Aac encoding for the output and additional settings for the encoder. */
 export class AacAudioFormat extends AudioFormatBase implements IAacAudioFormat {
-    extension?: string | undefined;
     /** Gets or sets the encoding profile. */
     profile?: Profile;
     /** Gets or sets the encoding coder. */
@@ -68076,7 +68407,6 @@ export class AacAudioFormat extends AudioFormatBase implements IAacAudioFormat {
     init(_data?: any) {
         super.init(_data);
         if (_data) {
-            this.extension = _data["extension"];
             this.profile = _data["profile"];
             this.coder = _data["coder"];
             this.bitrate = _data["bitrate"];
@@ -68093,7 +68423,6 @@ export class AacAudioFormat extends AudioFormatBase implements IAacAudioFormat {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
         data["profile"] = this.profile;
         data["coder"] = this.coder;
         data["bitrate"] = this.bitrate;
@@ -68105,7 +68434,6 @@ export class AacAudioFormat extends AudioFormatBase implements IAacAudioFormat {
 
 /** Specifies Aac encoding for the output and additional settings for the encoder. */
 export interface IAacAudioFormat extends IAudioFormatBase {
-    extension?: string | undefined;
     /** Gets or sets the encoding profile. */
     profile?: Profile;
     /** Gets or sets the encoding coder. */
@@ -68132,7 +68460,6 @@ export enum Coder {
 
 /** Generates a waveform image from an Audio source. */
 export class AudioStillFormat extends AudioFormatBase implements IAudioStillFormat {
-    extension?: string | undefined;
 
     constructor(data?: IAudioStillFormat) {
         super(data);
@@ -68141,9 +68468,6 @@ export class AudioStillFormat extends AudioFormatBase implements IAudioStillForm
 
     init(_data?: any) {
         super.init(_data);
-        if (_data) {
-            this.extension = _data["extension"];
-        }
     }
 
     static fromJS(data: any): AudioStillFormat {
@@ -68155,7 +68479,6 @@ export class AudioStillFormat extends AudioFormatBase implements IAudioStillForm
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
         super.toJSON(data);
         return data; 
     }
@@ -68163,12 +68486,10 @@ export class AudioStillFormat extends AudioFormatBase implements IAudioStillForm
 
 /** Generates a waveform image from an Audio source. */
 export interface IAudioStillFormat extends IAudioFormatBase {
-    extension?: string | undefined;
 }
 
 /** Renders an MP3 audio file. */
 export class Mp3AudioFormat extends AudioFormatBase implements IMp3AudioFormat {
-    extension?: string | undefined;
     /** Gets or sets the encoding bitrate. This setting and Quality are mutually exclusive. */
     bitrate?: number | undefined;
     /** Gets or sets the encoding quality. This setting and Bitrate are mutually exclusive.
@@ -68183,7 +68504,6 @@ Values can be set it range of 0 to 9, where a lower value is a higher quality. *
     init(_data?: any) {
         super.init(_data);
         if (_data) {
-            this.extension = _data["extension"];
             this.bitrate = _data["bitrate"];
             this.quality = _data["quality"];
         }
@@ -68198,7 +68518,6 @@ Values can be set it range of 0 to 9, where a lower value is a higher quality. *
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
         data["bitrate"] = this.bitrate;
         data["quality"] = this.quality;
         super.toJSON(data);
@@ -68208,7 +68527,6 @@ Values can be set it range of 0 to 9, where a lower value is a higher quality. *
 
 /** Renders an MP3 audio file. */
 export interface IMp3AudioFormat extends IAudioFormatBase {
-    extension?: string | undefined;
     /** Gets or sets the encoding bitrate. This setting and Quality are mutually exclusive. */
     bitrate?: number | undefined;
     /** Gets or sets the encoding quality. This setting and Bitrate are mutually exclusive.
@@ -68217,7 +68535,7 @@ Values can be set it range of 0 to 9, where a lower value is a higher quality. *
 }
 
 /** Base class for rendering documents. */
-export abstract class DocumentFormatBase extends FormatBase implements IDocumentFormatBase {
+export abstract class DocumentFormatBase extends FormatWithFixedExtensionBase implements IDocumentFormatBase {
 
     constructor(data?: IDocumentFormatBase) {
         super(data);
@@ -68251,12 +68569,11 @@ export abstract class DocumentFormatBase extends FormatBase implements IDocument
 }
 
 /** Base class for rendering documents. */
-export interface IDocumentFormatBase extends IFormatBase {
+export interface IDocumentFormatBase extends IFormatWithFixedExtensionBase {
 }
 
 /** Render a document to a raster image */
 export class DocumentStillFormat extends DocumentFormatBase implements IDocumentStillFormat {
-    extension?: string | undefined;
     /** Allows resizing of the image. */
     resizeAction?: ResizeAction | undefined;
 
@@ -68271,7 +68588,6 @@ export class DocumentStillFormat extends DocumentFormatBase implements IDocument
     init(_data?: any) {
         super.init(_data);
         if (_data) {
-            this.extension = _data["extension"];
             this.resizeAction = _data["resizeAction"] ? ResizeAction.fromJS(_data["resizeAction"]) : <any>undefined;
         }
     }
@@ -68285,7 +68601,6 @@ export class DocumentStillFormat extends DocumentFormatBase implements IDocument
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
         data["resizeAction"] = this.resizeAction ? this.resizeAction.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
@@ -68294,7 +68609,6 @@ export class DocumentStillFormat extends DocumentFormatBase implements IDocument
 
 /** Render a document to a raster image */
 export interface IDocumentStillFormat extends IDocumentFormatBase {
-    extension?: string | undefined;
     /** Allows resizing of the image. */
     resizeAction?: IResizeAction | undefined;
 }
@@ -68306,7 +68620,6 @@ export class PdfFormat extends DocumentFormatBase implements IPdfFormat {
     fastWebView?: boolean;
     /** Whether to apply measures to decrease output size or not. */
     reduceFileSize?: boolean;
-    extension?: string | undefined;
     /** Whether to extract document full text from this output. */
     extractFullText?: boolean;
 
@@ -68321,7 +68634,6 @@ export class PdfFormat extends DocumentFormatBase implements IPdfFormat {
             this.jpegQuality = _data["jpegQuality"];
             this.fastWebView = _data["fastWebView"];
             this.reduceFileSize = _data["reduceFileSize"];
-            this.extension = _data["extension"];
             this.extractFullText = _data["extractFullText"];
         }
     }
@@ -68338,7 +68650,6 @@ export class PdfFormat extends DocumentFormatBase implements IPdfFormat {
         data["jpegQuality"] = this.jpegQuality;
         data["fastWebView"] = this.fastWebView;
         data["reduceFileSize"] = this.reduceFileSize;
-        data["extension"] = this.extension;
         data["extractFullText"] = this.extractFullText;
         super.toJSON(data);
         return data; 
@@ -68352,13 +68663,12 @@ export interface IPdfFormat extends IDocumentFormatBase {
     fastWebView?: boolean;
     /** Whether to apply measures to decrease output size or not. */
     reduceFileSize?: boolean;
-    extension?: string | undefined;
     /** Whether to extract document full text from this output. */
     extractFullText?: boolean;
 }
 
 /** Base class for rendering vector graphics. */
-export abstract class VectorFormatBase extends FormatBase implements IVectorFormatBase {
+export abstract class VectorFormatBase extends FormatWithFixedExtensionBase implements IVectorFormatBase {
 
     constructor(data?: IVectorFormatBase) {
         super(data);
@@ -68392,12 +68702,11 @@ export abstract class VectorFormatBase extends FormatBase implements IVectorForm
 }
 
 /** Base class for rendering vector graphics. */
-export interface IVectorFormatBase extends IFormatBase {
+export interface IVectorFormatBase extends IFormatWithFixedExtensionBase {
 }
 
 /** Render a PDF to SVG */
 export class SvgFormat extends VectorFormatBase implements ISvgFormat {
-    extension?: string | undefined;
 
     constructor(data?: ISvgFormat) {
         super(data);
@@ -68406,9 +68715,6 @@ export class SvgFormat extends VectorFormatBase implements ISvgFormat {
 
     init(_data?: any) {
         super.init(_data);
-        if (_data) {
-            this.extension = _data["extension"];
-        }
     }
 
     static fromJS(data: any): SvgFormat {
@@ -68420,7 +68726,6 @@ export class SvgFormat extends VectorFormatBase implements ISvgFormat {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
         super.toJSON(data);
         return data; 
     }
@@ -68428,12 +68733,10 @@ export class SvgFormat extends VectorFormatBase implements ISvgFormat {
 
 /** Render a PDF to SVG */
 export interface ISvgFormat extends IVectorFormatBase {
-    extension?: string | undefined;
 }
 
 /** Render a vector graphic to a raster image */
 export class VectorStillFormat extends VectorFormatBase implements IVectorStillFormat {
-    extension?: string | undefined;
     /** Specifies output dimensions for raster operation */
     resizeAction?: ResizeAction | undefined;
 
@@ -68448,7 +68751,6 @@ export class VectorStillFormat extends VectorFormatBase implements IVectorStillF
     init(_data?: any) {
         super.init(_data);
         if (_data) {
-            this.extension = _data["extension"];
             this.resizeAction = _data["resizeAction"] ? ResizeAction.fromJS(_data["resizeAction"]) : <any>undefined;
         }
     }
@@ -68462,7 +68764,6 @@ export class VectorStillFormat extends VectorFormatBase implements IVectorStillF
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
         data["resizeAction"] = this.resizeAction ? this.resizeAction.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
@@ -68471,7 +68772,6 @@ export class VectorStillFormat extends VectorFormatBase implements IVectorStillF
 
 /** Render a vector graphic to a raster image */
 export interface IVectorStillFormat extends IVectorFormatBase {
-    extension?: string | undefined;
     /** Specifies output dimensions for raster operation */
     resizeAction?: IResizeAction | undefined;
 }
@@ -83385,3 +83685,115 @@ export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
 ];
 
 export const SYSTEM_LAYER_SCHEMA_IDS = ['XmpMetadata', 'ExifMetadata'];
+
+export class TermsOfServiceEditable implements ITermsOfServiceEditable {
+    content?: TranslatedStringDictionary | undefined;
+    validFrom!: Date;
+
+    constructor(data?: ITermsOfServiceEditable) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.content = data.content && !(<any>data.content).toJSON ? new TranslatedStringDictionary(data.content) : <TranslatedStringDictionary>this.content; 
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.content = _data["content"] ? TranslatedStringDictionary.fromJS(_data["content"]) : <any>undefined;
+            this.validFrom = _data["validFrom"] ? new Date(_data["validFrom"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): TermsOfServiceEditable {
+        data = typeof data === 'object' ? data : {};
+        let result = new TermsOfServiceEditable();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["content"] = this.content ? this.content.toJSON() : <any>undefined;
+        data["validFrom"] = this.validFrom ? this.validFrom.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface ITermsOfServiceEditable {
+    content?: ITranslatedStringDictionary | undefined;
+    validFrom: Date;
+}
+
+export class TermsOfService extends TermsOfServiceEditable implements ITermsOfService {
+    id?: string | undefined;
+
+    constructor(data?: ITermsOfService) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): TermsOfService {
+        data = typeof data === 'object' ? data : {};
+        let result = new TermsOfService();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ITermsOfService extends ITermsOfServiceEditable {
+    id?: string | undefined;
+}
+
+export class TermsOfServiceDetail extends TermsOfService implements ITermsOfServiceDetail {
+    /** Audit information. */
+    audit?: UserAuditDetail | undefined;
+
+    constructor(data?: ITermsOfServiceDetail) {
+        super(data);
+        if (data) {
+            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit; 
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.audit = _data["audit"] ? UserAuditDetail.fromJS(_data["audit"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): TermsOfServiceDetail {
+        data = typeof data === 'object' ? data : {};
+        let result = new TermsOfServiceDetail();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ITermsOfServiceDetail extends ITermsOfService {
+    /** Audit information. */
+    audit?: IUserAuditDetail | undefined;
+}
