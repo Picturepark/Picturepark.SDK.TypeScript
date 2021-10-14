@@ -9,7 +9,7 @@ try {
       const operations = {};
       Object.keys(paths[pathKey]).forEach(operationKey => {
           const operation = paths[pathKey][operationKey];
-        if(operation.tags.includes("ShareAccess")) {
+        if(operation.tags.includes("ShareAccess") || operation.tags.includes("TermsOfService")) {
             console.log(operation)
             operations[operationKey] = operation;
         }
