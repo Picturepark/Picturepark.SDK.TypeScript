@@ -25,7 +25,7 @@ import { PanelComponent } from './components/panel/panel.component';
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { ContentItemThumbnailComponent } from './components/content-item-thumbnail/content-item-thumbnail.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-
+import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
 import { AggregationItemTranslatePipe } from './pipes/aggregation-item-translate';
 import { UserInteractionDirective } from './directives/user-interaction.directive';
 
@@ -54,6 +54,7 @@ export class HammerConfig extends HammerGestureConfig {
     ContentItemThumbnailComponent,
     PanelComponent,
     ConfirmDialogComponent,
+    AlertDialogComponent,
     // PIPES
     AvatarPipe,
     AvatarHashedPipe,
@@ -75,6 +76,7 @@ export class HammerConfig extends HammerGestureConfig {
     ContentItemThumbnailComponent,
     PanelComponent,
     ConfirmDialogComponent,
+    AlertDialogComponent,
     // PIPES
     AvatarPipe,
     AvatarHashedPipe,

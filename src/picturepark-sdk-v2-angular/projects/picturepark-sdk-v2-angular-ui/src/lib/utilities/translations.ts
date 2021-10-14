@@ -706,6 +706,29 @@ export let TRANSLATIONS = {
       pt: 'A carregar...',
     },
   },
+  LimitAlert: {
+    Title: {
+      en: 'Limit reached',
+      de: 'Grenzwert erreicht',
+      fr: 'Limit reached',
+      es: 'Limit reached',
+      pt: 'Limit reached',
+    },
+    DownloadLimit: {
+      en: 'Download cannot contain more than 1000 content items!',
+      de: 'Download kann nicht mehr als 1000 Content Items enthalten!',
+      fr: 'Le téléchargement ne peut pas contenir plus de 1 000 éléments de contenu!',
+      es: 'La descarga no puede contener más de 1000 elementos de contenido!',
+      pt: 'A descarga não pode conter mais de 1000 itens de conteúdo!',
+    },
+    Close: {
+      en: 'Close',
+      de: 'Schliessen',
+      fr: 'Fermer',
+      es: 'Cerrar',
+      pt: 'Fechar',
+    },
+  },
   ContentDownloadDialog: {
     AudioMetadata: {
       en: 'Audio',
