@@ -113,7 +113,7 @@ export class ShareDetailComponent implements OnInit {
   }
 
   download(): void {
-    if (this.shareDetail.contents.length > 0) {
+    if (this.shareDetail.contents.length > 1000) {
       this.dialog.open(AlertDialogComponent, {
         data: {
           title: 'LimitAlert.Title',
