@@ -27,6 +27,8 @@ import {
   ShareContentDetail,
   ShareDetail,
   DownloadFacade,
+  PICTUREPARK_CDN_URL,
+  ShareDataEmbed,
 } from '@picturepark/sdk-v2-angular';
 
 // SERVICES
@@ -71,7 +73,8 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
     private fullscreenService: FullscreenService,
     private cdr: ChangeDetectorRef,
     protected injector: Injector,
-    private downloadFacade: DownloadFacade
+    private downloadFacade: DownloadFacade,
+    @Inject(PICTUREPARK_CDN_URL) private cdnUrl: string
   ) {
     super(injector);
   }
@@ -132,6 +135,11 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         } else if (this.content.iconUrl) {
           this.setPreviewUrl(this.content.iconUrl, true);
           return;
+        } else {
+          this.setPreviewUrl(
+            `${this.cdnUrl}/icon/${(this.shareDetail?.data as ShareDataEmbed).token}/${this.content.id}`,
+            true
+          );
         }
       } else {
         // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
