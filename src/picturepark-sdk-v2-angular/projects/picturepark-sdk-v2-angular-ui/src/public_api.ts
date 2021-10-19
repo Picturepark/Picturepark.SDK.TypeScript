@@ -26,7 +26,6 @@ export { ShareOwnerPanelComponent } from './lib/features-module/share-owner-pane
 export { ShareMailRecipientsPanelComponent } from './lib/features-module/share-mail-recipients-panel/share-mail-recipients-panel.component';
 export { ShareSettingsPanelComponent } from './lib/features-module/share-settings-panel/share-settings-panel.component';
 export { ConfirmDialogComponent } from './lib/shared-module/components/confirm-dialog/confirm-dialog.component';
-export { AlertDialogComponent } from './lib/shared-module/components/alert-dialog/alert-dialog.component';
 export { PanelComponent } from './lib/shared-module/components/panel/panel.component';
 export { ContentItemThumbnailComponent } from './lib/shared-module/components/content-item-thumbnail/content-item-thumbnail.component';
 export { AggregationComponent } from './lib/shared-module/components/aggregation/aggregation.component';

@@ -13,7 +13,6 @@ import {
   ShareAccessFacade,
 } from '@picturepark/sdk-v2-angular';
 import {
-  AlertDialogComponent,
   ContentDetailsDialogComponent,
   ContentDetailsDialogOptions,
   ContentDownloadDialogService,
@@ -113,20 +112,6 @@ export class ShareDetailComponent implements OnInit {
   }
 
   download(): void {
-    if (this.shareDetail.contents.length > 1000) {
-      this.dialog.open(AlertDialogComponent, {
-        data: {
-          title: 'LimitAlert.Title',
-          message: 'LimitAlert.DownloadLimit',
-          close: 'LimitAlert.Close',
-        },
-        autoFocus: false,
-        minWidth: '400px',
-        panelClass: ['pp-dialog', 'cp-dialog']
-      });
-      return;
-    }
-
     this.itemsLoading = true;
     (this.shareDetail.contentSelections.length ===  this.shareDetail.contents.length
       ? of(undefined as any) : this.shareAccessFacade.loadNextPageOfContents(this.shareDetail, this.shareToken, this.language,

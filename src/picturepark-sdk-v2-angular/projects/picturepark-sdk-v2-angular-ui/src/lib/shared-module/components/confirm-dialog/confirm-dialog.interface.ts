@@ -2,7 +2,7 @@ export interface ConfirmOptions {
   title: string;
   message: string;
   options?: {
-    okText?: string;
+    okText: string;
     cancelText: string;
   };
 }

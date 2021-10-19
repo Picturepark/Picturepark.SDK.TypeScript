@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "nswag": "npm run nswag-prepare && nswag run \"src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/nswag.json\" && nswag run \"src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/nswag-frontend.json\" && nswag run \"src/picturepark-sdk-v1-fetch/nswag.json\"",
+    "nswag": "npm run nswag-prepare && nswag run \"src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/nswag.json\" && nswag run \"src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/nswag-frontend.json\" && nswag run \"src/picturepark-sdk-v1-fetch/nswag.json\" && nswag run \"src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/nswag.json\" && nswag run \"src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/nswag-frontend.json\"",
     "nswag-prepare": "node ./swagger/patch-frontend.js",
     "test": "PowerShell -File \"build/02_RunTests.ps1\"",
     "build:fetch": "call \"build/03_RebuildFetchBundle.bat\"",

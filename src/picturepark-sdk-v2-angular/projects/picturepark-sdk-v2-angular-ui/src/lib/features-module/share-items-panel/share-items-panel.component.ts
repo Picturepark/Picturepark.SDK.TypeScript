@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, Injector, Input, Optional, Output } from '@angular/core';
-import { LocalStorageService, ShareContentDetail, ShareDetail, StorageKey, ThumbnailSize } from '@picturepark/sdk-v2-angular';
+import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk-v2-angular';
 import { VIEW_MODE } from '../../configuration';
 import { BaseComponent } from '../../shared-module/components/base.component';
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
@@ -19,16 +19,15 @@ export class ShareItemsPanelComponent extends BaseComponent {
 
   constructor(injector: Injector,
     private contentDownloadDialogService: ContentDownloadDialogService,
-    private localStorageService: LocalStorageService,
     @Optional() @Inject(VIEW_MODE) public viewMode: 'grid' | 'list') {
     super(injector);
   }
 
-  openInNewWindow(item: ShareContentDetail): void {
+  openInNewWindow(item: ShareContentDetail) {
     this.showDetail.emit(item);
   }
 
-  public downloadItem(item: ShareContentDetail) {
+  downloadItem(item: ShareContentDetail) {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
       contents: [item],
@@ -36,7 +35,7 @@ export class ShareItemsPanelComponent extends BaseComponent {
     });
   }
 
-  onViewChange(view: 'grid' | 'list'): void {
+  onViewChange(view: 'grid' | 'list') {
     this.viewMode = view;
   }
 }

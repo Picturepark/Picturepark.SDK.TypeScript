@@ -1,12 +1,10 @@
 import { Component } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
-import { TermsOfServiceFacade } from "projects/picturepark-sdk-v2-angular/src/lib/facade/terms-of-service.facade";
-import { LocalStorageService } from "projects/picturepark-sdk-v2-angular/src/lib/services/local-storage.service";
-import { StorageKey } from "projects/picturepark-sdk-v2-angular/src/lib/utilities/storage-key.enum";
+import { LocalStorageService, StorageKey, TermsOfServiceFacade } from "@picturepark/sdk-v2-angular";
 import { map } from "rxjs/operators";
 
 @Component({
-  selector: 'cp-landing-dialog',
+  selector: 'pp-landing-dialog',
   templateUrl: './landing-dialog.component.html',
   styleUrls: ['../../shared-module/components/dialog-base/dialog-base.component.scss', './landing-dialog.component.scss']
 })
