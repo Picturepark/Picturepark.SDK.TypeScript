@@ -875,25 +875,24 @@ export let TRANSLATIONS = {
     title: {
       en: 'Terms of service',
       de: 'Nutzungsbedingungen',
-      fr: 'Terms of service',
-      es: 'Terms of service',
-      pt: 'Terms of service',
+      fr: 'Conditions de service',
+      es: 'Condiciones de servicio',
+      pt: 'Termos de Serviço',
     },
     message: {
       en: 'Please review and accept the terms of service for this instance.',
       de: 'Bitte überprüfen und akzeptieren Sie die Nutzungsbedingungen für diese Instanz.',
-      fr: 'Please review and accept the terms of service for this instance.',
-      es: 'Please review and accept the terms of service for this instance.',
-      pt: 'Please review and accept the terms of service for this instance.',
+      fr: 'Veuillez consulter et accepter les conditions de service pour cette instance.',
+      es: 'Por favor, revise y acepte las condiciones de servicio de esta instancia.',
+      pt: 'Favor rever e aceitar os termos de serviço para esta instância.',
     },
     continue: {
       en: 'Continue',
       de: 'Fortfahren',
-      fr: 'Continue',
-      es: 'Continue',
-      pt: 'Continue',
+      fr: 'Continuer',
+      es: 'Continuar',
+      pt: 'Continuar',
     },
-
   },
   SchemaBrowser: {
     Ascending: {
