@@ -112,18 +112,12 @@ export class ShareDetailComponent implements OnInit {
   }
 
   download(): void {
-    this.itemsLoading = true;
-    (this.shareDetail.contentSelections.length ===  this.shareDetail.contents.length
-      ? of(undefined as any) : this.shareAccessFacade.loadNextPageOfContents(this.shareDetail, this.shareToken, this.language,
-      this.shareDetail.contents.length - this.shareDetail.contentSelections.length)).subscribe(() => {
-        this.itemsLoading = false;
-        this.contentDownloadDialogService.showDialog({
-          mode: 'multi',
-          contents: this.shareDetail.contentSelections,
-          shareToken: this.shareToken,
-          isShareViewer: true
-        });
-      });
+    this.contentDownloadDialogService.showDialog({
+      mode: 'multi',
+      contents: this.shareDetail.contentSelections,
+      shareToken: this.shareToken,
+      isShareViewer: true
+    });
   }
 
   showDetail(item: ShareContentDetail): void {
