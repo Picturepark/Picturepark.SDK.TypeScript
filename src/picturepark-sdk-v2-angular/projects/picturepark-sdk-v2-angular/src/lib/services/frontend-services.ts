@@ -20,7 +20,7 @@ import {
     ShareResolveBehavior,
     ShareDetail,
     ShareContentDetailResult,
-    OutputResolveResult,
+    ShareOutputsResult,
     DownloadLink,
     ShareDownloadRequest,
     TermsOfService,
@@ -351,7 +351,7 @@ export class ShareAccesService {
         return _observableOf<ShareContentDetailResult>(<any>null);
     }
 
-    getOutputsInShare(token: string | null): Observable<OutputResolveResult[]> {
+    getOutputsInShare(token: string | null): Observable<ShareOutputsResult> {
         let url_ = this.baseUrl + "/json/{token}/outputs";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
@@ -373,14 +373,14 @@ export class ShareAccesService {
                 try {
                     return this.processGetOutputsInShare(<any>response_);
                 } catch (e) {
-                    return <Observable<OutputResolveResult[]>><any>_observableThrow(e);
+                    return <Observable<ShareOutputsResult>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<OutputResolveResult[]>><any>_observableThrow(response_);
+                return <Observable<ShareOutputsResult>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetOutputsInShare(response: HttpResponseBase): Observable<OutputResolveResult[]> {
+    protected processGetOutputsInShare(response: HttpResponseBase): Observable<ShareOutputsResult> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -391,11 +391,7 @@ export class ShareAccesService {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(OutputResolveResult.fromJS(item));
-            }
+            result200 = ShareOutputsResult.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 400) {
@@ -450,7 +446,7 @@ export class ShareAccesService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<OutputResolveResult[]>(<any>null);
+        return _observableOf<ShareOutputsResult>(<any>null);
     }
 
     downloadShare(token: string | null, conversionPreset: string | null, w: number | null | undefined, h: number | null | undefined, width: number | null | undefined, height: number | null | undefined, contentId: string | null, outputFormatId: string | null): Observable<FileResponse> {

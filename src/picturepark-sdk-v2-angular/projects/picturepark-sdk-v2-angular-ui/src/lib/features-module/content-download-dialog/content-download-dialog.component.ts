@@ -252,11 +252,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
         return;
       }
 
-      this.sub = (
-        this.data.shareToken
-          ? this.shareAccessFacade.getOutputsInShare(this.data.shareToken)
-          : this.contentService.getOutputs(this.data.contents[0].id)
-      ).subscribe((output) => this.setSelection(output));
+      this.sub = this.contentService.getOutputs(this.data.contents[0].id).subscribe((output) => this.setSelection(output));
     } else {
       if (this.data.contents.every((content) => content.outputs)) {
         const outputs = flatMap(this.data.contents, (content) => content.outputs!);
@@ -274,12 +270,6 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   private fetchOutputs(): void {
-    this.sub = (
-      this.data.shareToken
-        ? this.shareAccessFacade.getOutputsInShare(this.data.shareToken)
-        : this.contentService.getOutputsMany(
-            new OutputResolveManyRequest({ contentIds: this.data.contents.map((i) => i.id) })
-          )
-    ).subscribe((o) => this.setSelection(o));
+    this.sub = this.contentService.getOutputsMany(new OutputResolveManyRequest({ contentIds: this.data.contents.map((i) => i.id) })).subscribe((o) => this.setSelection(o));
   }
 }
