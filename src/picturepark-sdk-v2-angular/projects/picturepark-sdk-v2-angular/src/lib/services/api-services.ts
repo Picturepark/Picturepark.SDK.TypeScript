@@ -19078,7 +19078,7 @@ export class ShareService extends PictureparkServiceBase {
      * @param token Share token
      * @return List of OutputResolveResult
      */
-    getOutputsInShare(token: string | null): Observable<OutputResolveResult[]> {
+    getOutputsInShare(token: string | null): Observable<ShareOutputsResult> {
         let url_ = this.baseUrl + "/v1/Shares/json/{token}/outputs";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
@@ -19102,14 +19102,14 @@ export class ShareService extends PictureparkServiceBase {
                 try {
                     return this.processGetOutputsInShare(<any>response_);
                 } catch (e) {
-                    return <Observable<OutputResolveResult[]>><any>_observableThrow(e);
+                    return <Observable<ShareOutputsResult>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<OutputResolveResult[]>><any>_observableThrow(response_);
+                return <Observable<ShareOutputsResult>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetOutputsInShare(response: HttpResponseBase): Observable<OutputResolveResult[]> {
+    protected processGetOutputsInShare(response: HttpResponseBase): Observable<ShareOutputsResult> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -19120,11 +19120,7 @@ export class ShareService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(OutputResolveResult.fromJS(item));
-            }
+            result200 = ShareOutputsResult.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 400) {
@@ -19179,7 +19175,7 @@ export class ShareService extends PictureparkServiceBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<OutputResolveResult[]>(<any>null);
+        return _observableOf<ShareOutputsResult>(<any>null);
     }
 
     /**
@@ -27850,6 +27846,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "EmbedMultiDownloadException") {
+            let result = new EmbedMultiDownloadException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "LeaseNotAcquiredException") {
             let result = new LeaseNotAcquiredException();
             result.init(data);
@@ -29593,6 +29594,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "EmbedMultiDownloadException") {
+            let result = new EmbedMultiDownloadException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "LeaseNotAcquiredException") {
             let result = new LeaseNotAcquiredException();
             result.init(data);
@@ -31170,6 +31176,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "InvalidContentDownloadRequestException") {
             let result = new InvalidContentDownloadRequestException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "EmbedMultiDownloadException") {
+            let result = new EmbedMultiDownloadException();
             result.init(data);
             return result;
         }
@@ -34791,6 +34802,40 @@ export class DownloadNotFoundException extends PictureparkNotFoundException impl
 }
 
 export interface IDownloadNotFoundException extends IPictureparkNotFoundException {
+    token?: string | undefined;
+}
+
+export class EmbedMultiDownloadException extends PictureparkValidationException implements IEmbedMultiDownloadException {
+    token?: string | undefined;
+
+    constructor(data?: IEmbedMultiDownloadException) {
+        super(data);
+        this._discriminator = "EmbedMultiDownloadException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.token = _data["token"];
+        }
+    }
+
+    static fromJS(data: any): EmbedMultiDownloadException {
+        data = typeof data === 'object' ? data : {};
+        let result = new EmbedMultiDownloadException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["token"] = this.token;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IEmbedMultiDownloadException extends IPictureparkValidationException {
     token?: string | undefined;
 }
 
@@ -74533,9 +74578,9 @@ export interface IShareUser {
 
 /** Detail of shared content */
 export class ShareContentDetail implements IShareContentDetail {
-    /** The id of the schema with schema type content. */
+    /** The ID of the schema with schema type content. */
     contentSchemaId!: string;
-    /** An optional id list of schemas with type layer. */
+    /** An optional ID list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
     /** The content data. It's an object of dynamic metadata whose structure is defined in the Content schema specified
 by the ContentSchemaId property. */
@@ -74638,9 +74683,9 @@ by the LayerSchemaIds property. */
 
 /** Detail of shared content */
 export interface IShareContentDetail {
-    /** The id of the schema with schema type content. */
+    /** The ID of the schema with schema type content. */
     contentSchemaId: string;
-    /** An optional id list of schemas with type layer. */
+    /** An optional ID list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
     /** The content data. It's an object of dynamic metadata whose structure is defined in the Content schema specified
 by the ContentSchemaId property. */
@@ -75462,6 +75507,126 @@ export class ShareContentDetailResult extends BaseResultOfShareContentDetail imp
 }
 
 export interface IShareContentDetailResult extends IBaseResultOfShareContentDetail {
+}
+
+export class ShareOutputsResult implements IShareOutputsResult {
+    outputs?: OutputResolveResult[] | undefined;
+    contentInfos?: ShareContentInfo[] | undefined;
+
+    constructor(data?: IShareOutputsResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.outputs) {
+                this.outputs = [];
+                for (let i = 0; i < data.outputs.length; i++) {
+                    let item = data.outputs[i];
+                    this.outputs[i] = item && !(<any>item).toJSON ? new OutputResolveResult(item) : <OutputResolveResult>item;
+                }
+            }
+            if (data.contentInfos) {
+                this.contentInfos = [];
+                for (let i = 0; i < data.contentInfos.length; i++) {
+                    let item = data.contentInfos[i];
+                    this.contentInfos[i] = item && !(<any>item).toJSON ? new ShareContentInfo(item) : <ShareContentInfo>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["outputs"])) {
+                this.outputs = [] as any;
+                for (let item of _data["outputs"])
+                    this.outputs!.push(OutputResolveResult.fromJS(item));
+            }
+            if (Array.isArray(_data["contentInfos"])) {
+                this.contentInfos = [] as any;
+                for (let item of _data["contentInfos"])
+                    this.contentInfos!.push(ShareContentInfo.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ShareOutputsResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareOutputsResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.outputs)) {
+            data["outputs"] = [];
+            for (let item of this.outputs)
+                data["outputs"].push(item.toJSON());
+        }
+        if (Array.isArray(this.contentInfos)) {
+            data["contentInfos"] = [];
+            for (let item of this.contentInfos)
+                data["contentInfos"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IShareOutputsResult {
+    outputs?: IOutputResolveResult[] | undefined;
+    contentInfos?: IShareContentInfo[] | undefined;
+}
+
+export class ShareContentInfo implements IShareContentInfo {
+    /** Content ID. */
+    id?: string | undefined;
+    /** The type of content */
+    contentType!: ContentType;
+    /** The ID of the schema with schema type content. */
+    contentSchemaId?: string | undefined;
+
+    constructor(data?: IShareContentInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.contentType = _data["contentType"];
+            this.contentSchemaId = _data["contentSchemaId"];
+        }
+    }
+
+    static fromJS(data: any): ShareContentInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareContentInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["contentType"] = this.contentType;
+        data["contentSchemaId"] = this.contentSchemaId;
+        return data; 
+    }
+}
+
+export interface IShareContentInfo {
+    /** Content ID. */
+    id?: string | undefined;
+    /** The type of content */
+    contentType: ContentType;
+    /** The ID of the schema with schema type content. */
+    contentSchemaId?: string | undefined;
 }
 
 /** Request specifying which part of a share should be downloaded */

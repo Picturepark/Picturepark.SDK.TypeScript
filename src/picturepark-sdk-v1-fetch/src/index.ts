@@ -15172,7 +15172,7 @@ export class ShareClient extends PictureparkClientBase {
      * @param token Share token
      * @return List of OutputResolveResult
      */
-    getOutputsInShare(token: string | null): Promise<OutputResolveResult[]> {
+    getOutputsInShare(token: string | null): Promise<ShareOutputsResult> {
         let url_ = this.baseUrl + "/v1/Shares/json/{token}/outputs";
         if (token === undefined || token === null)
             throw new Error("The parameter 'token' must be defined.");
@@ -15193,13 +15193,13 @@ export class ShareClient extends PictureparkClientBase {
         });
     }
 
-    protected processGetOutputsInShare(response: Response): Promise<OutputResolveResult[]> {
+    protected processGetOutputsInShare(response: Response): Promise<ShareOutputsResult> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <OutputResolveResult[]>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <ShareOutputsResult>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status === 400) {
@@ -15249,7 +15249,7 @@ export class ShareClient extends PictureparkClientBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<OutputResolveResult[]>(<any>null);
+        return Promise.resolve<ShareOutputsResult>(<any>null);
     }
 
     /**
@@ -22043,6 +22043,10 @@ export interface DownloadNotFoundException extends PictureparkNotFoundException 
     token?: string | undefined;
 }
 
+export interface EmbedMultiDownloadException extends PictureparkValidationException {
+    token?: string | undefined;
+}
+
 export interface LeaseNotAcquiredException extends PictureparkBusinessException {
     resourceId?: string | undefined;
 }
@@ -28544,9 +28548,9 @@ export interface ShareUser {
 
 /** Detail of shared content */
 export interface ShareContentDetail {
-    /** The id of the schema with schema type content. */
+    /** The ID of the schema with schema type content. */
     contentSchemaId: string;
-    /** An optional id list of schemas with type layer. */
+    /** An optional ID list of schemas with type layer. */
     layerSchemaIds?: string[] | undefined;
     /** The content data. It's an object of dynamic metadata whose structure is defined in the Content schema specified
 by the ContentSchemaId property. */
@@ -28697,6 +28701,20 @@ export interface BaseResultOfShareContentDetail {
 }
 
 export interface ShareContentDetailResult extends BaseResultOfShareContentDetail {
+}
+
+export interface ShareOutputsResult {
+    outputs?: OutputResolveResult[] | undefined;
+    contentInfos?: ShareContentInfo[] | undefined;
+}
+
+export interface ShareContentInfo {
+    /** Content ID. */
+    id?: string | undefined;
+    /** The type of content */
+    contentType: ContentType;
+    /** The ID of the schema with schema type content. */
+    contentSchemaId?: string | undefined;
 }
 
 /** Request specifying which part of a share should be downloaded */
