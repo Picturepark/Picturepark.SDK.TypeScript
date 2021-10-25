@@ -122,24 +122,28 @@ export class ShareDetailComponent implements OnInit {
   }
 
   download(): void {
-    this.shareAccessFacade.getOutputsInShare(this.shareToken).subscribe(res => this.contentDownloadDialogService.showDialog({
+    this.shareAccessFacade.getOutputsInShare(this.shareToken).subscribe((res) =>
+      this.contentDownloadDialogService.showDialog({
         mode: 'multi',
-        contents: res?.contentInfos?.map(c => ({
+        contents: res?.contentInfos?.map((c) => ({
           id: c.id,
           contentSchemaId: c.contentSchemaId,
           contentType: c.contentType,
-          outputs: res.outputs?.filter(o => o.contentId === c.id).map(o => ({
-            contentId: o.contentId,
-            outputFormatId: o.outputFormatId,
-            dynamicRendering: o.dynamicRendering,
-            fileSize: o.fileSize,
-            renderingState: o.renderingState,
-            id: o.id
-            }))
-          })) as any,
+          outputs: res.outputs
+            ?.filter((o) => o.contentId === c.id)
+            .map((o) => ({
+              contentId: o.contentId,
+              outputFormatId: o.outputFormatId,
+              dynamicRendering: o.dynamicRendering,
+              fileSize: o.fileSize,
+              renderingState: o.renderingState,
+              id: o.id,
+            })),
+        })) as any,
         shareToken: this.shareToken,
-        isShareViewer: true
-      }));
+        isShareViewer: true,
+      })
+    );
   }
 
   showDetail(item: ShareContentDetail): void {
