@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { environment } from '../environments/environment';
 import { getDevCdnUrl, PictureparkAppSetting } from 'src/config';
 import { ApplicationMenuModule } from './components/application-menu/application-menu.module';
+import { VIEW_MODE } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
 
 const translations = TRANSLATIONS;
 translations['ShareManager'] = {
@@ -87,6 +88,10 @@ function getCdnUrl(): string | null {
   return getAttribute('picturepark-cdn-url');
 }
 
+export function getViewModeFactory(): 'grid' | 'list' {
+  return getAttribute('view-mode') === 'list' ? 'list' : 'grid';
+}
+
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
@@ -103,6 +108,7 @@ function getCdnUrl(): string | null {
   ],
   providers: [
     { provide: PICTUREPARK_CDN_URL, useFactory: getCdnUrl },
+    { provide: VIEW_MODE, useFactory: getViewModeFactory },
   ],
   bootstrap: [AppComponent],
 })
