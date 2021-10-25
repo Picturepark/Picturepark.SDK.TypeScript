@@ -133,6 +133,8 @@ export class ShareDetailComponent implements OnInit {
             outputFormatId: o.outputFormatId,
             dynamicRendering: o.dynamicRendering,
             fileSize: o.fileSize,
+            renderingState: o.renderingState,
+            id: o.id
             }))
           })) as any,
         shareToken: this.shareToken,

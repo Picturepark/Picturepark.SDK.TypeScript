@@ -12,11 +12,11 @@
           <mat-spinner></mat-spinner>
         </div>
         <form *ngIf="!noOutputs && selection">
-          <div *ngFor="let filetype of selection.getFileFormats()">
-            <fieldset *ngIf="selection.hasOutputs(filetype)">
+          <div *ngFor="let filetype of selection.fileFormats">
+            <fieldset *ngIf="selection.outputs[filetype.id] && selection.outputs[filetype.id].length">
               <legend>{{ filetype.name }} ({{ filetype.contents.length }})</legend>
               <div *ngIf="data.mode === 'multi'">
-                <div *ngFor="let output of selection.getOutputs(filetype)">
+                <div *ngFor="let output of selection.outputs[filetype.id]">
                   <mat-checkbox
                     *ngIf="!output.hidden && output.values.length"
                     color="primary"
@@ -30,7 +30,7 @@
               </div>
               <div *ngIf="data.mode === 'single'">
                 <mat-radio-group>
-                  <div *ngFor="let output of selection.getOutputs(filetype)">
+                  <div *ngFor="let output of selection.outputs[filetype.id]">
                     <mat-radio-button
                       *ngIf="!output.hidden && output.values.length"
                       [value]="filetype.id + '-' + output.id"
