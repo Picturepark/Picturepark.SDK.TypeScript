@@ -11,6 +11,8 @@ import {
   ShareResolveBehavior,
   LanguageService,
   ShareAccessFacade,
+  ShareType,
+  EmbedContent,
 } from '@picturepark/sdk-v2-angular';
 import {
   ContentDetailsDialogComponent,
@@ -27,13 +29,14 @@ import { debounceTime, map } from 'rxjs/operators';
   styleUrls: ['./share-detail.component.scss'],
 })
 export class ShareDetailComponent implements OnInit {
-  public shareDetail: ShareDetail;
-  public mailRecipients: IMailRecipient[];
-  public logoUrl: string;
-  public isLoading = false;
-  public shareToken: string;
-  public itemsLoading = false;
-  public pageToken?: string;
+  shareDetail: ShareDetail;
+  mailRecipients: IMailRecipient[];
+  logoUrl: string;
+  isLoading = false;
+  shareToken: string;
+  itemsLoading = false;
+  pageToken?: string;
+  enableDownload = false;
 
   get language() {
     return this.languageService.currentLanguage.ietf;
@@ -98,12 +101,19 @@ export class ShareDetailComponent implements OnInit {
     ]);
 
     shareInfo.subscribe({
-      next: ([shareJson, info]) => {
+      next: ([share, info]) => {
         if (info.logosUrl) {
           this.logoUrl = info.logosUrl + 'full';
         }
-        if (shareJson) {
-          this.shareDetail = shareJson;
+        if (share) {
+          this.enableDownload =
+            share.shareType === ShareType.Basic ||
+            !share.contents
+              .filter((content) => content instanceof EmbedContent)
+              .map((content) => content as EmbedContent)
+              .some((content) => content.conversionPresets?.some((i) => i.conversion));
+
+          this.shareDetail = share;
           this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
         }
         this.isLoading = false;
@@ -116,7 +126,7 @@ export class ShareDetailComponent implements OnInit {
       mode: 'multi',
       contents: this.shareDetail.contentSelections,
       shareToken: this.shareToken,
-      isShareViewer: true
+      isShareViewer: true,
     });
   }
 
@@ -151,7 +161,7 @@ export class ShareDetailComponent implements OnInit {
             .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30)
             .pipe(map(() => this.shareDetail.contentSelections[index]));
         },
-        isShareViewer: true
+        isShareViewer: true,
       },
       autoFocus: false,
       width: '980px',
