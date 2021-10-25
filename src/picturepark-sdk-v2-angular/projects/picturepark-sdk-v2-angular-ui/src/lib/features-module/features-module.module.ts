@@ -20,6 +20,7 @@ import { ShareContentDialogModule } from './share-content-dialog/share-content-d
 import { ItemToolBarModule } from './item-tool-bar/item-tool-bar.module';
 import { ShareItemsPanelModule } from './share-items-panel/share-items-panel.module';
 import { ContentDownloadDialogModule } from './content-download-dialog/content-download-dialog.module';
+import { LandingDialogModule } from './landing-dialog/landing-dialog.module';
 import { AggregationListModule } from '../shared-module/components/aggregation-list/aggregation-list.module';
 import { ShareMailRecipientsPanelModule } from '../features-module/share-mail-recipients-panel/share-mail-recipients-panel.module';
 import { ShareOwnerPanelModule } from '../features-module/share-owner-panel/share-owner-panel.module';
@@ -48,6 +49,7 @@ import { LanguageSwitchModule } from './language-switch/language-switch.module';
     ItemToolBarModule,
     ShareItemsPanelModule,
     ContentDownloadDialogModule,
+    LandingDialogModule,
     ShareMailRecipientsPanelModule,
     ShareOwnerPanelModule,
     ShareSettingsPanelModule,
@@ -72,6 +74,7 @@ import { LanguageSwitchModule } from './language-switch/language-switch.module';
     ItemToolBarModule,
     ShareItemsPanelModule,
     ContentDownloadDialogModule,
+    LandingDialogModule,
     ShareMailRecipientsPanelModule,
     ShareOwnerPanelModule,
     ShareSettingsPanelModule,

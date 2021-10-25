@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 // LIBRARIES
-import { LocaleModule } from '@picturepark/sdk-v2-angular';
+import { LocaleModule, PICTUREPARK_CDN_URL } from '@picturepark/sdk-v2-angular';
 import { PictureparkOidcAuthConfiguration, PictureparkOidcModule } from '@picturepark/sdk-v2-angular-oidc';
 import { PictureparkUiModule, LayerPanelsModule, TRANSLATIONS } from '@picturepark/sdk-v2-angular-ui';
 
@@ -15,8 +15,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { environment } from '../environments/environment';
-import { PictureparkAppSetting } from 'src/config';
+import { getDevCdnUrl, PictureparkAppSetting } from 'src/config';
 import { ApplicationMenuModule } from './components/application-menu/application-menu.module';
+import { VIEW_MODE } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
 
 const translations = TRANSLATIONS;
 translations['ShareManager'] = {
@@ -74,6 +75,23 @@ export function oidcConfigFactory() {
   };
 }
 
+function getAttribute(attribute: string) {
+  const appRootTag = document.getElementsByTagName('app-root')[0];
+  return appRootTag.getAttribute(attribute);
+}
+
+function getCdnUrl(): string | null {
+  if (!environment.production) {
+    return getDevCdnUrl();
+  }
+
+  return getAttribute('picturepark-cdn-url');
+}
+
+export function getViewModeFactory(): 'grid' | 'list' {
+  return getAttribute('view-mode') === 'list' ? 'list' : 'grid';
+}
+
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
@@ -87,6 +105,10 @@ export function oidcConfigFactory() {
     HammerModule,
     ApplicationMenuModule,
     LocaleModule.forRoot('system'),
+  ],
+  providers: [
+    { provide: PICTUREPARK_CDN_URL, useFactory: getCdnUrl },
+    { provide: VIEW_MODE, useFactory: getViewModeFactory },
   ],
   bootstrap: [AppComponent],
 })

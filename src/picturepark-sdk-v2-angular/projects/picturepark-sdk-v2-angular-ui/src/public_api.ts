@@ -6,6 +6,7 @@ export { FieldDetailInfoDialogComponent } from './lib/features-module/layer-pane
 
 export { SearchSuggestBoxComponent } from './lib/features-module/search-suggest-box/search-suggest-box.component';
 export { ContentDownloadDialogComponent } from './lib/features-module/content-download-dialog/content-download-dialog.component';
+export { LandingDialogComponent } from './lib/features-module/landing-dialog/landing-dialog.component';
 export { ShareItemsPanelComponent } from './lib/features-module/share-items-panel/share-items-panel.component';
 export { ItemToolBarComponent } from './lib/features-module/item-tool-bar/item-tool-bar.component';
 export { ShareContentDialogComponent } from './lib/features-module/share-content-dialog/share-content-dialog.component';
@@ -25,7 +26,6 @@ export { ShareOwnerPanelComponent } from './lib/features-module/share-owner-pane
 export { ShareMailRecipientsPanelComponent } from './lib/features-module/share-mail-recipients-panel/share-mail-recipients-panel.component';
 export { ShareSettingsPanelComponent } from './lib/features-module/share-settings-panel/share-settings-panel.component';
 export { ConfirmDialogComponent } from './lib/shared-module/components/confirm-dialog/confirm-dialog.component';
-
 export { PanelComponent } from './lib/shared-module/components/panel/panel.component';
 export { ContentItemThumbnailComponent } from './lib/shared-module/components/content-item-thumbnail/content-item-thumbnail.component';
 export { AggregationComponent } from './lib/shared-module/components/aggregation/aggregation.component';
@@ -61,6 +61,7 @@ export { SharedModule } from './lib/shared-module/shared-module.module';
 export { ShareBrowserModule } from './lib/features-module/share-browser/share-browser.module';
 export { ShareContentDialogModule } from './lib/features-module/share-content-dialog/share-content-dialog.module';
 export { ContentDownloadDialogModule } from './lib/features-module/content-download-dialog/content-download-dialog.module';
+export { LandingDialogModule } from './lib/features-module/landing-dialog/landing-dialog.module';
 export { ShareItemsPanelModule } from './lib/features-module/share-items-panel/share-items-panel.module';
 export { AggregationListModule } from './lib/shared-module/components/aggregation-list/aggregation-list.module';
 export { FeaturesModule } from './lib/features-module/features-module.module';

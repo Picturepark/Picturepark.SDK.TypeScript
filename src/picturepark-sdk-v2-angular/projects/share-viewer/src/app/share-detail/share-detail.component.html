@@ -14,7 +14,7 @@
       <button
         mat-stroked-button
         aria-label="Download"
-        *ngIf="shareDetail.data!.url"
+        *ngIf="enableDownload"
         (click)="download()"
         [disabled]="!shareDetail.contentSelections.length"
       >
@@ -55,6 +55,11 @@
     *ngIf="mailRecipients && mailRecipients.length"
   ></pp-share-mail-recipients-panel>
 
-  <pp-share-items-panel *ngIf="!shareDetail.expired" [shareDetail]="shareDetail" [isShareViewer]="true" (showDetail)="showDetail($event)">
+  <pp-share-items-panel
+    *ngIf="!shareDetail.expired"
+    [shareDetail]="shareDetail"
+    [isShareViewer]="true"
+    (showDetail)="showDetail($event)"
+  >
   </pp-share-items-panel>
 </ng-container>

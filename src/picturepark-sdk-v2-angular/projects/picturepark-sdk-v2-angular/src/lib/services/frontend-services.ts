@@ -20,10 +20,11 @@ import {
   ShareResolveBehavior,
   ShareDetail,
   ShareContentDetailResult,
-  OutputResolveResult,
+  ShareOutputsResult,
   DownloadLink,
   ShareDownloadRequest,
 } from './api-services';
+import { TermsOfService, TermsOfServiceDetail, TermsOfServiceEditable } from './contracts-custom';
 
 export const PICTUREPARK_CDN_URL = new InjectionToken<string>('PICTUREPARK_CDN_URL');
 
@@ -452,7 +453,7 @@ export class ShareAccesService {
     return _observableOf<ShareContentDetailResult>(<any>null);
   }
 
-  getOutputsInShare(token: string | null): Observable<OutputResolveResult[]> {
+  getOutputsInShare(token: string | null): Observable<ShareOutputsResult> {
     let url_ = this.baseUrl + '/json/{token}/outputs';
     if (token === undefined || token === null) throw new Error("The parameter 'token' must be defined.");
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
@@ -479,14 +480,14 @@ export class ShareAccesService {
             try {
               return this.processGetOutputsInShare(<any>response_);
             } catch (e) {
-              return <Observable<OutputResolveResult[]>>(<any>_observableThrow(e));
+              return <Observable<ShareOutputsResult>>(<any>_observableThrow(e));
             }
-          } else return <Observable<OutputResolveResult[]>>(<any>_observableThrow(response_));
+          } else return <Observable<ShareOutputsResult>>(<any>_observableThrow(response_));
         })
       );
   }
 
-  protected processGetOutputsInShare(response: HttpResponseBase): Observable<OutputResolveResult[]> {
+  protected processGetOutputsInShare(response: HttpResponseBase): Observable<ShareOutputsResult> {
     const status = response.status;
     const responseBlob =
       response instanceof HttpResponse
@@ -506,10 +507,7 @@ export class ShareAccesService {
         _observableMergeMap((_responseText) => {
           let result200: any = null;
           let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
-          if (Array.isArray(resultData200)) {
-            result200 = [] as any;
-            for (let item of resultData200) result200!.push(OutputResolveResult.fromJS(item));
-          }
+          result200 = ShareOutputsResult.fromJS(resultData200);
           return _observableOf(result200);
         })
       );
@@ -583,7 +581,7 @@ export class ShareAccesService {
         })
       );
     }
-    return _observableOf<OutputResolveResult[]>(<any>null);
+    return _observableOf<ShareOutputsResult>(<any>null);
   }
 
   downloadShare(
@@ -1736,6 +1734,812 @@ export class ShareAccesService {
       );
     }
     return _observableOf<FileResponse>(<any>null);
+  }
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class TermsOfServiceService {
+  private http: HttpClient;
+  private baseUrl: string;
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+  constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_CDN_URL) baseUrl?: string) {
+    this.http = http;
+    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : '';
+  }
+
+  getAll(): Observable<TermsOfServiceDetail[]> {
+    let url_ = this.baseUrl + '/service/terms';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGetAll(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGetAll(<any>response_);
+            } catch (e) {
+              return <Observable<TermsOfServiceDetail[]>>(<any>_observableThrow(e));
+            }
+          } else return <Observable<TermsOfServiceDetail[]>>(<any>_observableThrow(response_));
+        })
+      );
+  }
+
+  protected processGetAll(response: HttpResponseBase): Observable<TermsOfServiceDetail[]> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          if (Array.isArray(resultData200)) {
+            result200 = [] as any;
+            for (let item of resultData200) result200!.push(TermsOfServiceDetail.fromJS(item));
+          }
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result400: any = null;
+          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result400 = PictureparkValidationException.fromJS(resultData400);
+          return throwException('Validation exception', status, _responseText, _headers, result400);
+        })
+      );
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Unauthorized', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 403) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result403: any = null;
+          let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result403 = PictureparkForbiddenException.fromJS(resultData403);
+          return throwException('Forbidden', status, _responseText, _headers, result403);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result404: any = null;
+          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result404 = PictureparkNotFoundException.fromJS(resultData404);
+          return throwException('Entity not found', status, _responseText, _headers, result404);
+        })
+      );
+    } else if (status === 405) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Method not allowed', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 409) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result409: any = null;
+          let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result409 = PictureparkConflictException.fromJS(resultData409);
+          return throwException('Version conflict', status, _responseText, _headers, result409);
+        })
+      );
+    } else if (status === 429) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Too many requests', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 500) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result500: any = null;
+          let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result500 = PictureparkException.fromJS(resultData500);
+          return throwException('Internal server error', status, _responseText, _headers, result500);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf<TermsOfServiceDetail[]>(<any>null);
+  }
+
+  /**
+   * @param request Request containing information needed to create new {{entity}}.
+   */
+  create(request: TermsOfServiceEditable): Observable<TermsOfServiceDetail> {
+    let url_ = this.baseUrl + '/service/terms';
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(request);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('post', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processCreate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processCreate(<any>response_);
+            } catch (e) {
+              return <Observable<TermsOfServiceDetail>>(<any>_observableThrow(e));
+            }
+          } else return <Observable<TermsOfServiceDetail>>(<any>_observableThrow(response_));
+        })
+      );
+  }
+
+  protected processCreate(response: HttpResponseBase): Observable<TermsOfServiceDetail> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result200 = TermsOfServiceDetail.fromJS(resultData200);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result400: any = null;
+          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result400 = PictureparkValidationException.fromJS(resultData400);
+          return throwException('Validation exception', status, _responseText, _headers, result400);
+        })
+      );
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Unauthorized', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 403) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result403: any = null;
+          let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result403 = PictureparkForbiddenException.fromJS(resultData403);
+          return throwException('Forbidden', status, _responseText, _headers, result403);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result404: any = null;
+          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result404 = PictureparkNotFoundException.fromJS(resultData404);
+          return throwException('Entity not found', status, _responseText, _headers, result404);
+        })
+      );
+    } else if (status === 405) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Method not allowed', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 409) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result409: any = null;
+          let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result409 = PictureparkConflictException.fromJS(resultData409);
+          return throwException('Version conflict', status, _responseText, _headers, result409);
+        })
+      );
+    } else if (status === 429) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Too many requests', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 500) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result500: any = null;
+          let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result500 = PictureparkException.fromJS(resultData500);
+          return throwException('Internal server error', status, _responseText, _headers, result500);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf<TermsOfServiceDetail>(<any>null);
+  }
+
+  newest(): Observable<TermsOfService> {
+    let url_ = this.baseUrl + '/service/terms/newest';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processNewest(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processNewest(<any>response_);
+            } catch (e) {
+              return <Observable<TermsOfService>>(<any>_observableThrow(e));
+            }
+          } else return <Observable<TermsOfService>>(<any>_observableThrow(response_));
+        })
+      );
+  }
+
+  protected processNewest(response: HttpResponseBase): Observable<TermsOfService> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result200 = TermsOfService.fromJS(resultData200);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result400: any = null;
+          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result400 = PictureparkValidationException.fromJS(resultData400);
+          return throwException('Validation exception', status, _responseText, _headers, result400);
+        })
+      );
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Unauthorized', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 403) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result403: any = null;
+          let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result403 = PictureparkForbiddenException.fromJS(resultData403);
+          return throwException('Forbidden', status, _responseText, _headers, result403);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result404: any = null;
+          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result404 = PictureparkNotFoundException.fromJS(resultData404);
+          return throwException('Entity not found', status, _responseText, _headers, result404);
+        })
+      );
+    } else if (status === 405) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Method not allowed', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 409) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result409: any = null;
+          let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result409 = PictureparkConflictException.fromJS(resultData409);
+          return throwException('Version conflict', status, _responseText, _headers, result409);
+        })
+      );
+    } else if (status === 429) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Too many requests', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 500) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result500: any = null;
+          let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result500 = PictureparkException.fromJS(resultData500);
+          return throwException('Internal server error', status, _responseText, _headers, result500);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf<TermsOfService>(<any>null);
+  }
+
+  get(id: string | null): Observable<TermsOfServiceDetail> {
+    let url_ = this.baseUrl + '/service/terms/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGet(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGet(<any>response_);
+            } catch (e) {
+              return <Observable<TermsOfServiceDetail>>(<any>_observableThrow(e));
+            }
+          } else return <Observable<TermsOfServiceDetail>>(<any>_observableThrow(response_));
+        })
+      );
+  }
+
+  protected processGet(response: HttpResponseBase): Observable<TermsOfServiceDetail> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result200 = TermsOfServiceDetail.fromJS(resultData200);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result400: any = null;
+          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result400 = PictureparkValidationException.fromJS(resultData400);
+          return throwException('Validation exception', status, _responseText, _headers, result400);
+        })
+      );
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Unauthorized', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 403) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result403: any = null;
+          let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result403 = PictureparkForbiddenException.fromJS(resultData403);
+          return throwException('Forbidden', status, _responseText, _headers, result403);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result404: any = null;
+          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result404 = PictureparkNotFoundException.fromJS(resultData404);
+          return throwException('Entity not found', status, _responseText, _headers, result404);
+        })
+      );
+    } else if (status === 405) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Method not allowed', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 409) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result409: any = null;
+          let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result409 = PictureparkConflictException.fromJS(resultData409);
+          return throwException('Version conflict', status, _responseText, _headers, result409);
+        })
+      );
+    } else if (status === 429) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Too many requests', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 500) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result500: any = null;
+          let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result500 = PictureparkException.fromJS(resultData500);
+          return throwException('Internal server error', status, _responseText, _headers, result500);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf<TermsOfServiceDetail>(<any>null);
+  }
+
+  /**
+   * @param request Request containing information needed to update the {{entity}}.
+   */
+  update(id: string | null, request: TermsOfServiceEditable): Observable<TermsOfServiceDetail> {
+    let url_ = this.baseUrl + '/service/terms/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    const content_ = JSON.stringify(request);
+
+    let options_: any = {
+      body: content_,
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('put', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processUpdate(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processUpdate(<any>response_);
+            } catch (e) {
+              return <Observable<TermsOfServiceDetail>>(<any>_observableThrow(e));
+            }
+          } else return <Observable<TermsOfServiceDetail>>(<any>_observableThrow(response_));
+        })
+      );
+  }
+
+  protected processUpdate(response: HttpResponseBase): Observable<TermsOfServiceDetail> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result200 = TermsOfServiceDetail.fromJS(resultData200);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result400: any = null;
+          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result400 = PictureparkValidationException.fromJS(resultData400);
+          return throwException('Validation exception', status, _responseText, _headers, result400);
+        })
+      );
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Unauthorized', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 403) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result403: any = null;
+          let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result403 = PictureparkForbiddenException.fromJS(resultData403);
+          return throwException('Forbidden', status, _responseText, _headers, result403);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result404: any = null;
+          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result404 = PictureparkNotFoundException.fromJS(resultData404);
+          return throwException('Entity not found', status, _responseText, _headers, result404);
+        })
+      );
+    } else if (status === 405) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Method not allowed', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 409) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result409: any = null;
+          let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result409 = PictureparkConflictException.fromJS(resultData409);
+          return throwException('Version conflict', status, _responseText, _headers, result409);
+        })
+      );
+    } else if (status === 429) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Too many requests', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 500) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result500: any = null;
+          let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result500 = PictureparkException.fromJS(resultData500);
+          return throwException('Internal server error', status, _responseText, _headers, result500);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf<TermsOfServiceDetail>(<any>null);
+  }
+
+  delete(id: string | null): Observable<void> {
+    let url_ = this.baseUrl + '/service/terms/{id}';
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace('{id}', encodeURIComponent('' + id));
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({}),
+    };
+
+    return this.http
+      .request('delete', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processDelete(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processDelete(<any>response_);
+            } catch (e) {
+              return <Observable<void>>(<any>_observableThrow(e));
+            }
+          } else return <Observable<void>>(<any>_observableThrow(response_));
+        })
+      );
+  }
+
+  protected processDelete(response: HttpResponseBase): Observable<void> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return _observableOf<void>(<any>null);
+        })
+      );
+    } else if (status === 400) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result400: any = null;
+          let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result400 = PictureparkValidationException.fromJS(resultData400);
+          return throwException('Validation exception', status, _responseText, _headers, result400);
+        })
+      );
+    } else if (status === 401) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Unauthorized', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 403) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result403: any = null;
+          let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result403 = PictureparkForbiddenException.fromJS(resultData403);
+          return throwException('Forbidden', status, _responseText, _headers, result403);
+        })
+      );
+    } else if (status === 404) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result404: any = null;
+          let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result404 = PictureparkNotFoundException.fromJS(resultData404);
+          return throwException('Entity not found', status, _responseText, _headers, result404);
+        })
+      );
+    } else if (status === 405) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Method not allowed', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 409) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result409: any = null;
+          let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result409 = PictureparkConflictException.fromJS(resultData409);
+          return throwException('Version conflict', status, _responseText, _headers, result409);
+        })
+      );
+    } else if (status === 429) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('Too many requests', status, _responseText, _headers);
+        })
+      );
+    } else if (status === 500) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result500: any = null;
+          let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result500 = PictureparkException.fromJS(resultData500);
+          return throwException('Internal server error', status, _responseText, _headers, result500);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf<void>(<any>null);
   }
 }
 

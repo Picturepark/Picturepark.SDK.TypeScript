@@ -1,10 +1,11 @@
-import { ContentType, OutputDataBase } from '@picturepark/sdk-v2-angular';
+import { ContentType, OutputDataBase, OutputRenderingState } from '@picturepark/sdk-v2-angular';
 
 export interface IContentDownloadOutput {
   contentId: string;
   outputFormatId: string;
   detail?: OutputDataBase | undefined;
   dynamicRendering: boolean;
+  renderingState?: OutputRenderingState;
   fileSize?: number;
 }
 

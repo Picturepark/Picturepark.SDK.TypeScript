@@ -57,7 +57,7 @@ export class LayerPanelsComponent implements OnInit {
 
     if (this.showReferenced ?? true) {
       this.schemaService
-        .getManyReferenced([this.content.contentSchemaId])
+        .getManyReferenced([this.content.contentSchemaId], false)
         .pipe(take(1))
         .subscribe((schemaDetails) => {
           this.allSchemas = [...this.schemas, ...schemaDetails];

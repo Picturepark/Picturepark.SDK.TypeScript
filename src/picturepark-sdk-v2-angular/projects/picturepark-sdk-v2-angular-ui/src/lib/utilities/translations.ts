@@ -848,6 +848,29 @@ export let TRANSLATIONS = {
       pt: 'A descarga não pode conter mais de 1000 itens de conteúdo!',
     },
   },
+  LandingDialog: {
+    title: {
+      en: 'Terms of service',
+      de: 'Nutzungsbedingungen',
+      fr: 'Conditions de service',
+      es: 'Condiciones de servicio',
+      pt: 'Termos de serviço',
+    },
+    message: {
+      en: 'Please review and accept the terms of service before use.',
+      de: 'Bitte lesen und akzeptieren Sie die Nutzungsbedingungen vor der Nutzung.',
+      fr: `Veuillez consulter et accepter les conditions d'utilisation du service avant de l'utiliser.`,
+      es: 'Por favor, revise y acepte las condiciones del servicio antes de utilizarlo.',
+      pt: 'Favor rever e aceitar os termos de serviço antes de utilizar o serviço.',
+    },
+    continue: {
+      en: 'Accept & Continue',
+      de: 'Akzeptieren & Fortfahren',
+      fr: 'Accepter & Continuer',
+      es: 'Aceptar y continuar',
+      pt: 'Aceitar & Continuar',
+    },
+  },
   SchemaBrowser: {
     Ascending: {
       en: 'Ascending',
