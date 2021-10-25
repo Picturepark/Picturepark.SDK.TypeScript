@@ -23,10 +23,8 @@ import {
     ShareOutputsResult,
     DownloadLink,
     ShareDownloadRequest,
-    TermsOfService,
-    TermsOfServiceEditable,
-    TermsOfServiceDetail,
   } from './api-services';
+import { TermsOfService, TermsOfServiceDetail, TermsOfServiceEditable } from './contracts-custom';
 
 export const PICTUREPARK_CDN_URL = new InjectionToken<string>('PICTUREPARK_CDN_URL');
 
