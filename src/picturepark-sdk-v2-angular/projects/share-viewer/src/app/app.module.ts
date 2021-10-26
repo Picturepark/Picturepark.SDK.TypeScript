@@ -17,7 +17,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShareDetailModule } from './share-detail/share-detail.module';
 import { environment } from '../environments/environment';
 import { TRANSLATIONS } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/utilities/translations';
-import { COOKIE_CONSENT, PICTUREPARK_UI_SCRIPTPATH, VIEW_MODE, TERMS } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
+import {
+  DISABLE_COOKIE_CONSENT,
+  PICTUREPARK_UI_SCRIPTPATH,
+  VIEW_MODE,
+  TERMS,
+} from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
 import { PictureparkCdnConfiguration } from '../models/cdn-config';
 import { shareTranslations } from './translations/share-translations';
 import { getDevCdnUrl, PictureparkAppSetting } from 'src/config';
@@ -69,8 +74,8 @@ export function getViewModeFactory(): 'grid' | 'list' {
   return getAttribute('view-mode') === 'list' ? 'list' : 'grid';
 }
 
-export function getCookieConsentFactory(): boolean {
-  return getAttribute('cookie-consent') === 'true';
+export function getDisableCookieConsentFactory(): boolean {
+  return getAttribute('disable-cookie-consent') === 'true';
 }
 
 export function getTermsFactory(): boolean {
@@ -98,7 +103,7 @@ export function getTermsFactory(): boolean {
     { provide: PICTUREPARK_UI_SCRIPTPATH, useFactory: PictureparkUIScriptPathFactory },
     { provide: PICTUREPARK_CDN_URL, useFactory: getCdnUrl },
     { provide: VIEW_MODE, useFactory: getViewModeFactory },
-    { provide: COOKIE_CONSENT, useFactory: getCookieConsentFactory },
+    { provide: DISABLE_COOKIE_CONSENT, useFactory: getDisableCookieConsentFactory },
     { provide: TERMS, useFactory: getTermsFactory },
   ],
   bootstrap: [AppComponent],
