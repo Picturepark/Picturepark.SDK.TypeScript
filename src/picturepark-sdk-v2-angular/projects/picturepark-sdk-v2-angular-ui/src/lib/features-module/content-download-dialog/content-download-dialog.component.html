@@ -11,7 +11,10 @@
         <div class="loader-wrapper" *ngIf="waitingDownload">
           <mat-spinner></mat-spinner>
         </div>
-        <form *ngIf="!noOutputs && selection">
+        <div *ngIf="missingOutputs.count > 0" class="message">
+          {{ 'ContentDownloadDialog.MissingOutputs' | pptranslate: missingOutputs.count }}
+        </div>
+        <form *ngIf="!missingOutputs.all && selection">
           <div *ngFor="let filetype of selection.fileFormats">
             <fieldset *ngIf="selection.outputs[filetype.id] && selection.outputs[filetype.id].length">
               <legend>{{ filetype.name }} ({{ filetype.contents.length }})</legend>
@@ -45,7 +48,6 @@
             </fieldset>
           </div>
         </form>
-        <div *ngIf="noOutputs">{{ 'ContentDownloadDialog.NoAccess' | pptranslate }}</div>
         <div class="filesize" *ngIf="fileSize || hasDynamicOutputs">
           <span *ngIf="!hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSize' | pptranslate }}</span>
           <span *ngIf="hasDynamicOutputs">{{ 'ContentDownloadDialog.FileSizeDynamicOutputs' | pptranslate }}</span>
@@ -77,7 +79,7 @@
     <button
       mat-flat-button
       color="primary"
-      *ngIf="!noOutputs"
+      *ngIf="!missingOutputs.all"
       (click)="download()"
       [disabled]="(fileSize === 0 && !hasDynamicOutputs) || waitingDownload"
     >
