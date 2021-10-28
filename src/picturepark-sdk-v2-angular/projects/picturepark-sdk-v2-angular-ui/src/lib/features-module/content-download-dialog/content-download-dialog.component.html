@@ -12,7 +12,8 @@
           <mat-spinner></mat-spinner>
         </div>
         <div *ngIf="missingOutputs.count > 0" class="message">
-          {{ 'ContentDownloadDialog.MissingOutputs' | pptranslate: missingOutputs.count }}
+          <span>{{ 'ContentDownloadDialog.MissingOutputs' | pptranslate: missingOutputs.count }}</span>
+          <span *ngIf="data.isShareViewer">{{ 'ContentDownloadDialog.ContactShareSender' | pptranslate }}</span>
         </div>
         <form *ngIf="!missingOutputs.all && selection">
           <div *ngFor="let filetype of selection.fileFormats">

@@ -28,8 +28,14 @@
   }
 }
 
-.message:not(:last-child) {
-  padding-bottom: 16px;
+.message {
+  &:not(:last-child) {
+    padding-bottom: 16px;
+  }
+
+  span {
+    padding-right: 4px;
+  }
 }
 
 fieldset {
