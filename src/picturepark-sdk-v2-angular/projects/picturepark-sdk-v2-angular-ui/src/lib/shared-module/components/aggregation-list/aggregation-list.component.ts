@@ -53,7 +53,9 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
 
     aggregationResults.forEach((aggregationResult) => {
       const nested = this.facade.expandAggregationResult(aggregationResult);
-      const aggregatorIndex = filteredAggregators.findIndex((aggregator) => nested.name.includes(aggregator.name));
+      const aggregatorIndex = filteredAggregators.findIndex(
+        (aggregator) => nested.name === aggregator.name || nested.name === aggregator.aggregators?.[0]?.name
+      );
 
       if (aggregatorIndex > -1) {
         aggregations[aggregatorIndex] = aggregationResult;
