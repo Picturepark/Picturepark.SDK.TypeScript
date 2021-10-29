@@ -54,7 +54,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   public enableAdvanced = false;
   public advancedMode = false;
   public filteredData: Content[];
-  public noOutputs = false;
+  missingOutputs = { all: false, count: 0 };
   public hasDynamicOutputs = false;
   public waitingDownload = false;
   public tooManyContents = false;
@@ -155,7 +155,12 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     });
 
     this.selection = selection;
-    this.noOutputs = !selection.fileFormats.some((i) => selection.outputs[i.id].length > 0);
+
+    this.missingOutputs.all = !selection.fileFormats.some((i) => selection.outputs[i.id].length > 0);
+    this.missingOutputs.count = selection.fileFormats
+      .filter((i) => selection.outputs[i.id].length === 0)
+      .map((f) => f.contents.length)
+      .reduce((a, b) => a + b, 0);
   }
 
   public download(): void {
