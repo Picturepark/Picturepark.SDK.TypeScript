@@ -4,6 +4,7 @@
     "enableIvy": false
   },
   "compilerOptions": {
+    "declarationMap": false,
     "paths": {
       "@picturepark/sdk-v2-angular": ["dist/picturepark-sdk-v2-angular"],
       "@picturepark/sdk-v2-angular-oidc": ["dist/picturepark-sdk-v2-angular-oidc"],

@@ -62,7 +62,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -141,7 +140,7 @@
       "prefix": "api",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/picturepark-sdk-v2-angular/tsconfig.lib.json",
             "project": "projects/picturepark-sdk-v2-angular/ng-package.json"
@@ -182,7 +181,7 @@
       "prefix": "oidc",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/picturepark-sdk-v2-angular-oidc/tsconfig.lib.json",
             "project": "projects/picturepark-sdk-v2-angular-oidc/ng-package.json"
@@ -223,7 +222,7 @@
       "prefix": "pp",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/picturepark-sdk-v2-angular-ui/tsconfig.lib.json",
             "project": "projects/picturepark-sdk-v2-angular-ui/ng-package.json"
@@ -292,7 +291,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
