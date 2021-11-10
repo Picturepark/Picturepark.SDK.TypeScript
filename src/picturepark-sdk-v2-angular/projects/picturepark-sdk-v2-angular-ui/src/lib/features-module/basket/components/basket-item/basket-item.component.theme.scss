@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
 // BASKET ITEM COMPONENT
@@ -10,7 +11,7 @@ $pp-basket-item: (
 
   pp-basket-item {
     .basket-item {
-      background: mat-color($primary, surface-light);
+      background: mat.get-color-from-palette($primary, surface-light);
     }
   }
 }

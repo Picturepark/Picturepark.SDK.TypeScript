@@ -1,13 +1,14 @@
+@use '~@angular/material' as mat;
 @import '../../theme.scss';
 
 .home-container {
   display: flex;
   height: 100vh;
-  background-color: mat-color($picturepark-app-primary, background-dark);
+  background-color: mat.get-color-from-palette($picturepark-app-primary, background-dark);
   .home-content {
     width: 100%;
     .header {
-      background-color: mat-color($picturepark-app-primary, primary);
+      background-color: mat.get-color-from-palette($picturepark-app-primary, primary);
       color: white;
     }
   }

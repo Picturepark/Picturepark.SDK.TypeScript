@@ -1,11 +1,12 @@
 // LIBRARY GLOBAL STYLES (keep on top)
+@use '~@angular/material' as mat;
 @import '../../picturepark-sdk-v2-angular-ui/src/lib/styles/styles_lib.scss';
 @import '../../picturepark-sdk-v2-angular-ui/src/lib/theming/_theming.scss';
 
 // CUSTOM THEME
 @import 'theme.scss';
 
-@include angular-material-theme($picturepark-app-theme);
+@include mat.all-component-themes($picturepark-app-theme);
 @include picturepark-theme($picturepark-app-theme);
 
 // GLOBAL STYLES (keep at bottom)

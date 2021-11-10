@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 .browser-item {
   $self: &;
@@ -9,7 +10,7 @@
   height: 100%;
   width: 100%;
   cursor: pointer;
-  @include mat-elevation-transition;
+  @include mat.elevation-transition;
   user-select: none;
 
   &--selected {

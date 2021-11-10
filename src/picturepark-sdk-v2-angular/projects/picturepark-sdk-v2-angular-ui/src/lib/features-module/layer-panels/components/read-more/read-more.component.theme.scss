@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
 @mixin pp-read-more-theme($theme) {
@@ -5,7 +6,7 @@
 
   pp-read-more {
     a {
-      color: mat-color($primary, primary);
+      color: mat.get-color-from-palette($primary, primary);
     }
 
     img {

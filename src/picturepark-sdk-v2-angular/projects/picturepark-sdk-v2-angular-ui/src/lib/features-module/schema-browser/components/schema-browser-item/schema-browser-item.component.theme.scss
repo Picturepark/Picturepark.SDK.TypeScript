@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
 // SCHEMA BROWSER ITEM BASE VARS
@@ -10,27 +11,27 @@ $pp-schema-browser-item: (
 
   pp-schema-browser-item {
     .schema-browser-item-container {
-      background-color: mat-color($primary, surface-light);
-      color: mat-color($primary, on-surface-light);
+      background-color: mat.get-color-from-palette($primary, surface-light);
+      color: mat.get-color-from-palette($primary, on-surface-light);
 
       .schema-content {
         border-color: transparent;
         &--selected {
-          border-color: mat-color($primary, primary);
+          border-color: mat.get-color-from-palette($primary, primary);
         }
       }
 
       .schema-icon {
         background-color: rgba(0, 0, 0, 0.03);
-        color: mat-color($primary, on-surface-mid);
+        color: mat.get-color-from-palette($primary, on-surface-mid);
       }
 
       .schema-menu {
-        background-color: mat-color($primary, surface-light);
+        background-color: mat.get-color-from-palette($primary, surface-light);
 
         .mat-button {
           mat-icon {
-            color: mat-color($primary, on-surface-light);
+            color: mat.get-color-from-palette($primary, on-surface-light);
           }
         }
       }

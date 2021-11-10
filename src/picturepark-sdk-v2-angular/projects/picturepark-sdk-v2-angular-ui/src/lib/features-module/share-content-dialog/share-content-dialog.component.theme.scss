@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
 // SHARE CONTENT DIALOG
@@ -12,28 +13,28 @@ $pp-share-content-dialog: (
 
   pp-share-content-dialog {
     #share-name.error-active {
-      border-color: mat-color($warn);
+      border-color: mat.get-color-from-palette($warn);
     }
 
     .share-name-error {
-      color: mat-color($warn);
-      font-size: mat-font-size($custom-typography, caption);
+      color: mat.get-color-from-palette($warn);
+      font-size: mat.font-size($custom-typography, caption);
     }
 
     .share-content-confirmation-container {
       .share-content-confirmation {
-        border-bottom-color: mat-color($primary, divider);
+        border-bottom-color: mat.get-color-from-palette($primary, divider);
 
         .user-info-container {
           ul {
             li {
               mat-icon {
-                font-size: mat-font-size($custom-typography, subheading-2);
-                color: mat-color($primary, on-background-dark);
+                font-size: mat.font-size($custom-typography, subheading-2);
+                color: mat.get-color-from-palette($primary, on-background-dark);
               }
 
               a {
-                color: mat-color($primary, on-background-dark);
+                color: mat.get-color-from-palette($primary, on-background-dark);
               }
             }
           }
@@ -44,16 +45,16 @@ $pp-share-content-dialog: (
 
   .selected-items-content {
     .selected-item-wrapper {
-      background-color: mat-color($primary, surface-light);
+      background-color: mat.get-color-from-palette($primary, surface-light);
     }
   }
 
   .mat-tab-header {
-    background-color: mat-color($primary, surface-mid);
+    background-color: mat.get-color-from-palette($primary, surface-mid);
   }
 
   .inputs-content mat-select {
-    background-color: mat-color($primary, surface-light);
-    color: mat-color($primary, on-surface-light);
+    background-color: mat.get-color-from-palette($primary, surface-light);
+    color: mat.get-color-from-palette($primary, on-surface-light);
   }
 }

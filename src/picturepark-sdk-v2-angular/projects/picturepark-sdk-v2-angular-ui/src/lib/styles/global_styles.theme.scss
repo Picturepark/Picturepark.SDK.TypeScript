@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
 @mixin pp-global-theme($theme) {
@@ -6,35 +7,35 @@
 
   // PROGRESS BAR
   .mat-progress-bar-buffer {
-    background-color: mat-color($primary, background-dark);
+    background-color: mat.get-color-from-palette($primary, background-dark);
   }
   .mat-progress-bar-fill::after {
-    background-color: mat-color($primary, primary);
+    background-color: mat.get-color-from-palette($primary, primary);
   }
 
   // FILTERS AGGREGATES
   .mat-ink-bar {
-    background-color: mat-color($primary, primary);
+    background-color: mat.get-color-from-palette($primary, primary);
   }
 
   .mat-badge-content {
-    background: mat-color($primary, primary);
-    color: mat-color($primary, on-primary);
+    background: mat.get-color-from-palette($primary, primary);
+    color: mat.get-color-from-palette($primary, on-primary);
   }
   // END FILTERS AGGREGATES
 
   // SPINNER
   .mat-progress-spinner circle,
   .mat-spinner circle {
-    stroke: mat-color($primary, primary) !important;
+    stroke: mat.get-color-from-palette($primary, primary) !important;
   }
 
   .app-root-container {
-    background-color: mat-color($primary, background-dark);
+    background-color: mat.get-color-from-palette($primary, background-dark);
     .app-root-content {
       svg {
         path {
-          fill: mat-color($primary, surface-light);
+          fill: mat.get-color-from-palette($primary, surface-light);
         }
       }
     }
@@ -48,21 +49,21 @@
   .mat-expansion-panel,
   .mat-expansion-panel-header.mat-expanded,
   .mat-expansion-panel-header.mat-expanded:hover {
-    background: mat-color($primary, background-dark);
+    background: mat.get-color-from-palette($primary, background-dark);
   }
 
   .mat-tab-header {
-    background: mat-color($primary, background-dark);
+    background: mat.get-color-from-palette($primary, background-dark);
   }
 
   .filters mat-tab-header .mat-tab-label-content {
-    color: mat-color($primary, on-background-dark);
+    color: mat.get-color-from-palette($primary, on-background-dark);
   }
 
   .aggregation-filter {
     pp-aggregation-item:last-child {
       mat-expansion-panel {
-        border-bottom: 1px solid mat-color($primary, divider);
+        border-bottom: 1px solid mat.get-color-from-palette($primary, divider);
       }
     }
   }
@@ -74,27 +75,27 @@
 
   // PANEL ITEMS BUTTON HOVER
   .panel-header .panel-buttons button .mat-button-focus-overlay {
-    background: mat-color($primary, background-dark);
+    background: mat.get-color-from-palette($primary, background-dark);
   }
 
   // SHARE ITEM MANAGE LOADER
   .share-preview-container mat-spinner circle {
-    stroke: mat-color($primary, primary);
+    stroke: mat.get-color-from-palette($primary, primary);
   }
 
   .mat-tab-body-wrapper {
-    background-color: mat-color($primary, background-dark);
+    background-color: mat.get-color-from-palette($primary, background-dark);
   }
 
   // Start Handle Angular Material Pannels Theming
 
   .mat-menu-content {
-    background-color: mat-color($primary, surface-light);
+    background-color: mat.get-color-from-palette($primary, surface-light);
 
     .mat-menu-item,
     .mat-menu-item .mat-icon,
     .menu-title {
-      color: mat-color($primary, on-surface-light);
+      color: mat.get-color-from-palette($primary, on-surface-light);
     }
 
     .mat-menu-item[disabled] {
@@ -106,26 +107,26 @@
   //SCROLL BAR
   /* Works on Firefox */
   .cp-scrollbar {
-    scrollbar-color: mat-color($primary, surface-mid) transparent;
+    scrollbar-color: mat.get-color-from-palette($primary, surface-mid) transparent;
   }
 
   /* Works on Chrome, Edge, and Safari */
   .cp-scrollbar::-webkit-scrollbar-thumb {
-    background-color: mat-color($primary, surface-mid);
+    background-color: mat.get-color-from-palette($primary, surface-mid);
   }
 
   // Extends the base mat-stroked-button styling
   .mat-stroked-button:not([disabled]) {
-    border-color: mat-color($accent, '200-contrast');
-    color: mat-color($accent, '200-contrast');
+    border-color: mat.get-color-from-palette($accent, '200-contrast');
+    color: mat.get-color-from-palette($accent, '200-contrast');
   }
 
   // Links
   a {
-    color: mat-color($primary);
+    color: mat.get-color-from-palette($primary);
 
     &.disabled {
-      color: mat-color($accent, '200-contrast');
+      color: mat.get-color-from-palette($accent, '200-contrast');
     }
   }
 }

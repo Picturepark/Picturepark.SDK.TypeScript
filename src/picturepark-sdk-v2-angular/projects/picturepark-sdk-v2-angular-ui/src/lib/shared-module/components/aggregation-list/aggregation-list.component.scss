@@ -1,6 +1,7 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 .aggregation-filter {
-  @include mat-elevation(1);
+  @include mat.elevation(1);
   position: relative;
   height: 100%;
   display: block;

@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
 @mixin pp-content-browser-theme($theme) {
@@ -5,7 +6,7 @@
 
   pp-content-browser {
     .browser__header .browser__empty-result {
-      color: mat-color($primary, on-background-dark);
+      color: mat.get-color-from-palette($primary, on-background-dark);
     }
   }
 }

@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
 .mat-card {
@@ -14,7 +15,7 @@
       visibility: visible;
     }
 
-    @include mat-elevation(8);
+    @include mat.elevation(8);
   }
 }
 

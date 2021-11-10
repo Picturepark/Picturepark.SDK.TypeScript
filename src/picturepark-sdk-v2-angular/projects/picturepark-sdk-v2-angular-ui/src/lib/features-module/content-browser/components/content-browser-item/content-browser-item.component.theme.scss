@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
 // CONTENT BROWSER ITEM
@@ -13,7 +14,7 @@ $pp-content-browser-item: (
   pp-content-browser-item {
     .browser-item {
       &__basket-icon {
-        color: mat-color($primary, on-opacity-light);
+        color: mat.get-color-from-palette($primary, on-opacity-light);
         font-size: 16px;
       }
     }

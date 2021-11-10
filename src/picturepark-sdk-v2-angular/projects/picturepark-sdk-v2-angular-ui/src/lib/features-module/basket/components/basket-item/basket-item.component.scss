@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 .basket-item {
   $self: &;
@@ -8,10 +9,10 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  @include mat-elevation-transition;
-  @include mat-elevation(2);
+  @include mat.elevation-transition;
+  @include mat.elevation(2);
   &:hover {
-    @include mat-elevation(8);
+    @include mat.elevation(8);
     #{ $self }__remove-button {
       display: initial;
     }
