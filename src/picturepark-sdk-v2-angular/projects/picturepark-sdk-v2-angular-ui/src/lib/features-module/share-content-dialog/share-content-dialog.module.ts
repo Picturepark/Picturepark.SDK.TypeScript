@@ -16,6 +16,5 @@ import { MatDividerModule } from '@angular/material/divider';
   declarations: [ShareContentDialogComponent, ShareContentDialogItemComponent, ShareContentRecipientsInputComponent],
   imports: [CommonModule, DatePickerModule, NotificationModule, SharedModule, MatDividerModule],
   exports: [ShareContentDialogComponent],
-  entryComponents: [ShareContentDialogComponent],
 })
 export class ShareContentDialogModule {}
