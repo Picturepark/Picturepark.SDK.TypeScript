@@ -34,7 +34,7 @@ export class LocaleModule {
     allowedLanguages: 'system' | 'share' | 'all',
     language?: string,
     cdnUrl?: string | null
-  ): ModuleWithProviders {
+  ): ModuleWithProviders<LocaleModule> {
     return {
       ngModule: LocaleModule,
       providers: [
