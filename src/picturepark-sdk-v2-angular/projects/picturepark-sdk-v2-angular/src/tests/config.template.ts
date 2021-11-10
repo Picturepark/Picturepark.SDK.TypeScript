@@ -16,16 +16,17 @@ export function configureTest() {
   TestBed.configureTestingModule({
     imports: [HttpClientModule],
     providers: [
-      { provide: AuthService, useClass: AccessTokenAuthService },
-      { provide: PICTUREPARK_API_URL, useValue: testUrl },
-      {
-        provide: PICTUREPARK_CONFIGURATION,
-        useValue: <PictureparkConfiguration>{
-          customerAlias: testCustomerAlias,
-          accessToken: testAccessToken,
+        { provide: AuthService, useClass: AccessTokenAuthService },
+        { provide: PICTUREPARK_API_URL, useValue: testUrl },
+        {
+            provide: PICTUREPARK_CONFIGURATION,
+            useValue: <PictureparkConfiguration>{
+                customerAlias: testCustomerAlias,
+                accessToken: testAccessToken,
+            },
         },
-      },
     ],
-  });
+    teardown: { destroyAfterEach: false }
+});
   TestBed.compileComponents();
 }

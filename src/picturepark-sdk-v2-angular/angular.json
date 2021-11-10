@@ -103,13 +103,6 @@
             "scripts": [],
             "assets": ["src/favicon.ico", "src/assets"]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -127,13 +120,6 @@
             "production": {
               "devServerTarget": "picturepark-sdk-v2-angular-app:serve:production"
             }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -166,16 +152,6 @@
             "tsConfig": "projects/picturepark-sdk-v2-angular/tsconfig.spec.json",
             "karmaConfig": "projects/picturepark-sdk-v2-angular/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/picturepark-sdk-v2-angular/tsconfig.lib.json",
-              "projects/picturepark-sdk-v2-angular/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -207,16 +183,6 @@
             "tsConfig": "projects/picturepark-sdk-v2-angular-oidc/tsconfig.spec.json",
             "karmaConfig": "projects/picturepark-sdk-v2-angular-oidc/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/picturepark-sdk-v2-angular-oidc/tsconfig.lib.json",
-              "projects/picturepark-sdk-v2-angular-oidc/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -247,16 +213,6 @@
             "main": "projects/picturepark-sdk-v2-angular-ui/src/test.ts",
             "tsConfig": "projects/picturepark-sdk-v2-angular-ui/tsconfig.spec.json",
             "karmaConfig": "projects/picturepark-sdk-v2-angular-ui/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/picturepark-sdk-v2-angular-ui/tsconfig.lib.json",
-              "projects/picturepark-sdk-v2-angular-ui/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -348,13 +304,6 @@
             "assets": ["projects/share-viewer/src/favicon.ico", "projects/share-viewer/src/assets"],
             "styles": ["projects/share-viewer/src/styles.scss"],
             "scripts": []
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["projects/share-viewer/tsconfig.app.json", "projects/share-viewer/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
           }
         }
       }

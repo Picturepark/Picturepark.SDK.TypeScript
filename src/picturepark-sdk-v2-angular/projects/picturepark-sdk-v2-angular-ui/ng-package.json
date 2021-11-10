@@ -2,14 +2,7 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/picturepark-sdk-v2-angular-ui",
   "lib": {
-    "entryFile": "src/public_api.ts",
-    "umdModuleIds": {
-      "lazy-get-decorator": "lazy-get-decorator",
-      "@picturepark/sdk-v2-angular": "@picturepark/sdk-v2-angular",
-      "moment": "moment",
-      "ts-md5": "ts-md5",
-      "markdown-it": "markdown-it"
-    }
+    "entryFile": "src/public_api.ts"
   },
   "whitelistedNonPeerDependencies":[
     "tslib",
