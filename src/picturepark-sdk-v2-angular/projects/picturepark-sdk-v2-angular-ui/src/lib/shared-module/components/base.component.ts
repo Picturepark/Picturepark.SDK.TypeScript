@@ -19,7 +19,7 @@ export abstract class BaseComponent implements OnDestroy {
 
   @LazyGetter()
   public get isTouchDevice(): boolean {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   }
 
   public set sub(value: Subscription) {
