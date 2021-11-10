@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@import '@angular/material/theming';
 
 @mixin pp-content-details-dialog-theme($theme) {
   $accent: map-get($theme, accent);
