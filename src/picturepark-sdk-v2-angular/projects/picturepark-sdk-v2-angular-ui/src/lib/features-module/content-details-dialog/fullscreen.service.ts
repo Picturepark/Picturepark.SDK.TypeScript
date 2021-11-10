@@ -232,7 +232,7 @@ export class FullscreenService {
         updatePlayers();
       }
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         photoSwipe.listen('close', () => {
           cleanupPlayers();
           for (const resizeCallback of resizeCallbacks) {
