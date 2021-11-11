@@ -1,4 +1,7 @@
-import './promise.min.js';
+export interface IContentPickerSize {
+  w: number;
+  h: number;
+}
 
 /** 
  * Opens a content picker window to select content items and create an embedded share. 
@@ -6,10 +9,11 @@ import './promise.min.js';
  * @param serverUrl The URL of the Picturepark server
  * @param completed Callback which is called when the window has been closed (share is undefined if the user cancelled)
  */
-export function showContentPicker(serverUrl: string) {
+export function showContentPicker(serverUrl: string, size?: IContentPickerSize ) {
   return new Promise<IShare>((resolve, reject) => {
-    var w = 1000;
-    var h = 660;
+
+    const w = size?.w ?? 1281;
+    const h = size?.h ?? 800;
 
     if (serverUrl.indexOf('http://localhost:4200') !== 0)
       serverUrl = serverUrl + '/elements';
