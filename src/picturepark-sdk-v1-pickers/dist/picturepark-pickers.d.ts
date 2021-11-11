@@ -10,7 +10,7 @@ declare module "pictureparkPickers" {
      * @param serverUrl The URL of the Picturepark server
      * @param completed Callback which is called when the window has been closed (share is undefined if the user cancelled)
      */
-    export function showContentPicker(serverUrl: string, { w, h }: IContentPickerSize): Promise<IShare>;
+    export function showContentPicker(serverUrl: string, size?: IContentPickerSize): Promise<IShare>;
     export interface IShare {
         shareId: string;
         items: {
