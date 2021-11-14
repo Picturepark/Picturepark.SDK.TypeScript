@@ -17,7 +17,7 @@ export class DialogService {
       data: confirmOptions,
       autoFocus: false,
       minWidth: '400px',
-      panelClass: ['pp-dialog'],
+      panelClass: ['pp-dialog', confirmOptions.isShareViewer ? 'cp-dialog' : ''],
       ...dialogOptions,
     });
 
