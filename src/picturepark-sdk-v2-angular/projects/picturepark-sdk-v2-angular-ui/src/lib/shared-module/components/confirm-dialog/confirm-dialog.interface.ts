@@ -5,6 +5,7 @@ export interface ConfirmOptions {
     okText: string;
     cancelText: string;
   };
+  isShareViewer?: boolean;
 }
 
 export interface ConfirmResult {
