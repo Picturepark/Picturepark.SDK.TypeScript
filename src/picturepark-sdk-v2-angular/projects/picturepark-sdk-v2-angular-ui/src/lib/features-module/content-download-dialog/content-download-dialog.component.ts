@@ -210,6 +210,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
                   okText: this.translationService.translate('ContentDownloadDialog.Download'),
                   cancelText: this.translationService.translate('ContentDownloadDialog.Cancel'),
                 },
+                isShareViewer: this.data.isShareViewer,
               },
               { disableClose: true }
             )
