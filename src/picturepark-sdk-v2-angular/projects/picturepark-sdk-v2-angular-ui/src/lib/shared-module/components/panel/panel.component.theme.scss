@@ -1,5 +1,4 @@
 @use '@angular/material' as mat;
-@import '@angular/material/theming';
 
 // PANEL BASE VARS
 $pp-panel: (
@@ -37,10 +36,10 @@ $pp-panel: (
       background-color: mat.get-color-from-palette($primary, surface-light);
       color: mat.get-color-from-palette($primary, on-surface-mid);
       @include mat.elevation(2, mat.get-color-from-palette($accent, A800), 0.7);
-    
+
       .panel-header {
         border-bottom-color: mat.get-color-from-palette($primary, surface-mid);
-  
+
         .panel-header-title {
           color: mat.get-color-from-palette($primary, on-surface-light);
         }

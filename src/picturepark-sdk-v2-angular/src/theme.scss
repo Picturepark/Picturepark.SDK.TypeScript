@@ -1,5 +1,4 @@
 @use '@angular/material' as mat;
-@import '@angular/material/theming';
 
 $custom-typography: mat.define-typography-config(
   $font-family: '"Roboto", "Helvetica Neue", sans-serif',
@@ -130,7 +129,11 @@ $mat-picturepark-primary: (
 $picturepark-app-primary: mat.define-palette($mat-picturepark-primary);
 $picturepark-app-accent: mat.define-palette($mat-picturepark-accent, 400, 200, 700);
 $picturepark-app-warn: mat.define-palette($mat-picturepark-warn);
-$picturepark-app-theme: mat.define-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);
+$picturepark-app-theme: mat.define-light-theme(
+  $picturepark-app-primary,
+  $picturepark-app-accent,
+  $picturepark-app-warn
+);
 
 $mat-picturepark-primary-dark: (
   primary: $base,

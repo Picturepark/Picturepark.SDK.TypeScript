@@ -1,8 +1,6 @@
 @use '@angular/material' as mat;
-@import '@angular/material/theming';
 
 // BROWSER ITEM BASE VARS
-
 @mixin pp-browser-item-base-theme($theme) {
   $primary: map-get($theme, primary);
 
