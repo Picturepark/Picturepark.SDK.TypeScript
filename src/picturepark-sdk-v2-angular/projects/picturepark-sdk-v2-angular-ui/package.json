@@ -6,7 +6,8 @@
     "@angular/core": "^9.0.0",
     "@picturepark/sdk-v2-angular": "^11.2.0-pre.0",
     "@angular/cdk": "^9.0.0",
-    "@angular/material": "^9.0.0"
+    "@angular/material": "^9.0.0",
+    "hammerjs": "^2.0.8"
   },
   "dependencies": {
     "lazy-get-decorator": "^2.2.0",
