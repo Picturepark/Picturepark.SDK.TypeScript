@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IBaseResultOfDocumentHistory | @picturepark/sdk-v1-angular API</title>
+	<title>IContentRepairRequestBase | @picturepark/sdk-v1-angular API</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,31 +56,27 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="ibaseresultofdocumenthistory.html">IBaseResultOfDocumentHistory</a>
+					<a href="icontentrepairrequestbase.html">IContentRepairRequestBase</a>
 				</li>
 			</ul>
-			<h1>Interface IBaseResultOfDocumentHistory</h1>
+			<h1>Interface IContentRepairRequestBase</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Base class for search results</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IBaseResultOfDocumentHistory</span>
+						<span class="target">IContentRepairRequestBase</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="idocumenthistorysearchresult.html" class="tsd-signature-type">IDocumentHistorySearchResult</a>
+								<a href="icontentrepairbyfilterrequest.html" class="tsd-signature-type">IContentRepairByFilterRequest</a>
+							</li>
+							<li>
+								<a href="icontentrepairbatchrequest.html" class="tsd-signature-type">IContentRepairBatchRequest</a>
 							</li>
 						</ul>
 					</li>
@@ -89,8 +85,9 @@
 			<section class="tsd-panel">
 				<h3>Implemented by</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../classes/baseresultofdocumenthistory.html" class="tsd-signature-type">BaseResultOfDocumentHistory</a></li>
-					<li><a href="../classes/documenthistorysearchresult.html" class="tsd-signature-type">DocumentHistorySearchResult</a></li>
+					<li><a href="../classes/contentrepairbatchrequest.html" class="tsd-signature-type">ContentRepairBatchRequest</a></li>
+					<li><a href="../classes/contentrepairbyfilterrequest.html" class="tsd-signature-type">ContentRepairByFilterRequest</a></li>
+					<li><a href="../classes/contentrepairrequestbase.html" class="tsd-signature-type">ContentRepairRequestBase</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -100,10 +97,7 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ibaseresultofdocumenthistory.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ibaseresultofdocumenthistory.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ibaseresultofdocumenthistory.html#results" class="tsd-kind-icon">results</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="ibaseresultofdocumenthistory.html#totalresults" class="tsd-kind-icon">total<wbr>Results</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="icontentrepairrequestbase.html#defaultsettings" class="tsd-kind-icon">default<wbr>Settings</a></li>
 							</ul>
 						</section>
 					</div>
@@ -112,62 +106,17 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="elapsedmilliseconds" class="tsd-anchor"></a>
-					<h3>elapsed<wbr>Milliseconds</h3>
-					<div class="tsd-signature tsd-kind-icon">elapsed<wbr>Milliseconds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="defaultsettings" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> default<wbr>Settings</h3>
+					<div class="tsd-signature tsd-kind-icon">default<wbr>Settings<span class="tsd-signature-symbol">:</span> <a href="icontentrepairsettings.html" class="tsd-signature-type">IContentRepairSettings</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/53ed3a38a/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L59287">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:59287</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8e693b2ec/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L59368">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:59368</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The search execution time in milliseconds.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="pagetoken" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> page<wbr>Token</h3>
-					<div class="tsd-signature tsd-kind-icon">page<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/53ed3a38a/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L59289">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:59289</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An optional token to access the next page of results for those endpoints that support backend scrolling logic.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="results" class="tsd-anchor"></a>
-					<h3>results</h3>
-					<div class="tsd-signature tsd-kind-icon">results<span class="tsd-signature-symbol">:</span> <a href="idocumenthistory.html" class="tsd-signature-type">IDocumentHistory</a><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/53ed3a38a/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L59285">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:59285</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The matched documents.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="totalresults" class="tsd-anchor"></a>
-					<h3>total<wbr>Results</h3>
-					<div class="tsd-signature tsd-kind-icon">total<wbr>Results<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/53ed3a38a/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L59283">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:59283</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The total number of matching documents.</p>
+							<p>Settings to use if no specific settings for a requested Content were specified</p>
 						</div>
 					</div>
 				</section>
@@ -186,19 +135,10 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="ibaseresultofdocumenthistory.html" class="tsd-kind-icon">IBase<wbr>Result<wbr>OfDocument<wbr>History</a>
+						<a href="icontentrepairrequestbase.html" class="tsd-kind-icon">IContent<wbr>Repair<wbr>Request<wbr>Base</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="ibaseresultofdocumenthistory.html#elapsedmilliseconds" class="tsd-kind-icon">elapsed<wbr>Milliseconds</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="ibaseresultofdocumenthistory.html#pagetoken" class="tsd-kind-icon">page<wbr>Token</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="ibaseresultofdocumenthistory.html#results" class="tsd-kind-icon">results</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="ibaseresultofdocumenthistory.html#totalresults" class="tsd-kind-icon">total<wbr>Results</a>
+								<a href="icontentrepairrequestbase.html#defaultsettings" class="tsd-kind-icon">default<wbr>Settings</a>
 							</li>
 						</ul>
 					</li>
