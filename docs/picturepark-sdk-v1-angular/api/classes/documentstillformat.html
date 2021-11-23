@@ -90,6 +90,7 @@
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
 					<li><a href="../interfaces/iformatbase.html" class="tsd-signature-type">IFormatBase</a></li>
+					<li><a href="../interfaces/iformatwithfixedextensionbase.html" class="tsd-signature-type">IFormatWithFixedExtensionBase</a></li>
 					<li><a href="../interfaces/idocumentformatbase.html" class="tsd-signature-type">IDocumentFormatBase</a></li>
 					<li><a href="../interfaces/idocumentstillformat.html" class="tsd-signature-type">IDocumentStillFormat</a></li>
 				</ul>
@@ -108,7 +109,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="documentstillformat.html#_discriminator" class="tsd-kind-icon">_discriminator</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="documentstillformat.html#extension" class="tsd-kind-icon">extension</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="documentstillformat.html#extension" class="tsd-kind-icon">extension</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="documentstillformat.html#resizeaction" class="tsd-kind-icon">resize<wbr>Action</a></li>
 							</ul>
 						</section>
@@ -136,7 +137,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="documentformatbase.html">DocumentFormatBase</a>.<a href="documentformatbase.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/53ed3a38a/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66194">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66194</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8e693b2ec/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L68764">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:68764</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -159,20 +160,26 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="formatbase.html">FormatBase</a>.<a href="formatbase.html#_discriminator">_discriminator</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/53ed3a38a/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L64954">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:64954</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8e693b2ec/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L67214">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:67214</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 					<a name="extension" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> extension</h3>
 					<div class="tsd-signature tsd-kind-icon">extension<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/idocumentstillformat.html">IDocumentStillFormat</a>.<a href="../interfaces/idocumentstillformat.html#extension">extension</a></p>
+						<p>Inherited from <a href="formatwithfixedextensionbase.html">FormatWithFixedExtensionBase</a>.<a href="formatwithfixedextensionbase.html#extension">extension</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/53ed3a38a/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66192">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66192</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8e693b2ec/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L67339">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:67339</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The filename extension of the file produced by this Format.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
 					<a name="resizeaction" class="tsd-anchor"></a>
@@ -181,7 +188,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/idocumentstillformat.html">IDocumentStillFormat</a>.<a href="../interfaces/idocumentstillformat.html#resizeaction">resizeAction</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/53ed3a38a/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66194">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66194</a></li>
+							<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8e693b2ec/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L68764">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:68764</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -204,7 +211,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="documentformatbase.html">DocumentFormatBase</a>.<a href="documentformatbase.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/53ed3a38a/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66204">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66204</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8e693b2ec/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L68774">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:68774</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -228,7 +235,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="documentformatbase.html">DocumentFormatBase</a>.<a href="documentformatbase.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/53ed3a38a/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66219">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66219</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8e693b2ec/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L68788">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:68788</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -252,7 +259,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="documentformatbase.html">DocumentFormatBase</a>.<a href="documentformatbase.html#fromjs">fromJS</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/53ed3a38a/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L66212">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:66212</a></li>
+									<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/8e693b2ec/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L68781">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:68781</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -288,7 +295,7 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 								<a href="documentstillformat.html#_discriminator" class="tsd-kind-icon">_discriminator</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="documentstillformat.html#extension" class="tsd-kind-icon">extension</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">

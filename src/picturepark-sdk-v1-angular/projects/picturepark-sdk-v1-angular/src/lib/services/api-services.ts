@@ -28059,6 +28059,36 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "AggregationNameInvalidException") {
+            let result = new AggregationNameInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationNameMissingException") {
+            let result = new AggregationNameMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationSizeInvalidException") {
+            let result = new AggregationSizeInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationFilterNotSupportedException") {
+            let result = new AggregationFilterNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationFieldMissingException") {
+            let result = new AggregationFieldMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationPathMissingException") {
+            let result = new AggregationPathMissingException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DocumentVersionConflictException") {
             let result = new DocumentVersionConflictException();
             result.init(data);
@@ -28261,21 +28291,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "RelationTypeTargetDocTypeMismatchException") {
             let result = new RelationTypeTargetDocTypeMismatchException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AggregationNameInvalidException") {
-            let result = new AggregationNameInvalidException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AggregationSizeInvalidException") {
-            let result = new AggregationSizeInvalidException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AggregationFilterNotSupportedException") {
-            let result = new AggregationFilterNotSupportedException();
             result.init(data);
             return result;
         }
@@ -29807,6 +29822,36 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "AggregationNameInvalidException") {
+            let result = new AggregationNameInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationNameMissingException") {
+            let result = new AggregationNameMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationSizeInvalidException") {
+            let result = new AggregationSizeInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationFilterNotSupportedException") {
+            let result = new AggregationFilterNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationFieldMissingException") {
+            let result = new AggregationFieldMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationPathMissingException") {
+            let result = new AggregationPathMissingException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DocumentVersionConflictException") {
             let result = new DocumentVersionConflictException();
             result.init(data);
@@ -30009,21 +30054,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "RelationTypeTargetDocTypeMismatchException") {
             let result = new RelationTypeTargetDocTypeMismatchException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AggregationNameInvalidException") {
-            let result = new AggregationNameInvalidException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AggregationSizeInvalidException") {
-            let result = new AggregationSizeInvalidException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AggregationFilterNotSupportedException") {
-            let result = new AggregationFilterNotSupportedException();
             result.init(data);
             return result;
         }
@@ -31312,6 +31342,36 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "AggregationNameInvalidException") {
+            let result = new AggregationNameInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationNameMissingException") {
+            let result = new AggregationNameMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationSizeInvalidException") {
+            let result = new AggregationSizeInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationFilterNotSupportedException") {
+            let result = new AggregationFilterNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationFieldMissingException") {
+            let result = new AggregationFieldMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationPathMissingException") {
+            let result = new AggregationPathMissingException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DuplicateDocumentException") {
             let result = new DuplicateDocumentException();
             result.init(data);
@@ -31439,21 +31499,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "InvalidMetadataException") {
             let result = new InvalidMetadataException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AggregationNameInvalidException") {
-            let result = new AggregationNameInvalidException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AggregationSizeInvalidException") {
-            let result = new AggregationSizeInvalidException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "AggregationFilterNotSupportedException") {
-            let result = new AggregationFilterNotSupportedException();
             result.init(data);
             return result;
         }
@@ -36664,6 +36709,234 @@ export interface ISearchStringTooLongException extends IPictureparkValidationExc
     limit?: number;
 }
 
+export class AggregationNameInvalidException extends PictureparkValidationException implements IAggregationNameInvalidException {
+    aggregationName?: string | undefined;
+    aggregationPrefix?: string | undefined;
+
+    constructor(data?: IAggregationNameInvalidException) {
+        super(data);
+        this._discriminator = "AggregationNameInvalidException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregationName = _data["aggregationName"];
+            this.aggregationPrefix = _data["aggregationPrefix"];
+        }
+    }
+
+    static fromJS(data: any): AggregationNameInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new AggregationNameInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        data["aggregationPrefix"] = this.aggregationPrefix;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IAggregationNameInvalidException extends IPictureparkValidationException {
+    aggregationName?: string | undefined;
+    aggregationPrefix?: string | undefined;
+}
+
+export class AggregationNameMissingException extends PictureparkValidationException implements IAggregationNameMissingException {
+
+    constructor(data?: IAggregationNameMissingException) {
+        super(data);
+        this._discriminator = "AggregationNameMissingException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): AggregationNameMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new AggregationNameMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IAggregationNameMissingException extends IPictureparkValidationException {
+}
+
+/** Size of the aggregation is invalid. */
+export class AggregationSizeInvalidException extends PictureparkValidationException implements IAggregationSizeInvalidException {
+    /** The name identifying the aggregation. */
+    aggregationName?: string | undefined;
+    /** The invalid size of the aggregation: size must be equal or greater than 1. */
+    aggregationSize?: number;
+
+    constructor(data?: IAggregationSizeInvalidException) {
+        super(data);
+        this._discriminator = "AggregationSizeInvalidException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregationName = _data["aggregationName"];
+            this.aggregationSize = _data["aggregationSize"];
+        }
+    }
+
+    static fromJS(data: any): AggregationSizeInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new AggregationSizeInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        data["aggregationSize"] = this.aggregationSize;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Size of the aggregation is invalid. */
+export interface IAggregationSizeInvalidException extends IPictureparkValidationException {
+    /** The name identifying the aggregation. */
+    aggregationName?: string | undefined;
+    /** The invalid size of the aggregation: size must be equal or greater than 1. */
+    aggregationSize?: number;
+}
+
+export class AggregationFilterNotSupportedException extends PictureparkValidationException implements IAggregationFilterNotSupportedException {
+    aggregationName?: string | undefined;
+    notSupportedFilterType?: string | undefined;
+    supportedFilterTypes?: string[] | undefined;
+
+    constructor(data?: IAggregationFilterNotSupportedException) {
+        super(data);
+        this._discriminator = "AggregationFilterNotSupportedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregationName = _data["aggregationName"];
+            this.notSupportedFilterType = _data["notSupportedFilterType"];
+            if (Array.isArray(_data["supportedFilterTypes"])) {
+                this.supportedFilterTypes = [] as any;
+                for (let item of _data["supportedFilterTypes"])
+                    this.supportedFilterTypes!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): AggregationFilterNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new AggregationFilterNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        data["notSupportedFilterType"] = this.notSupportedFilterType;
+        if (Array.isArray(this.supportedFilterTypes)) {
+            data["supportedFilterTypes"] = [];
+            for (let item of this.supportedFilterTypes)
+                data["supportedFilterTypes"].push(item);
+        }
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IAggregationFilterNotSupportedException extends IPictureparkValidationException {
+    aggregationName?: string | undefined;
+    notSupportedFilterType?: string | undefined;
+    supportedFilterTypes?: string[] | undefined;
+}
+
+export class AggregationFieldMissingException extends PictureparkValidationException implements IAggregationFieldMissingException {
+    aggregationName?: string | undefined;
+
+    constructor(data?: IAggregationFieldMissingException) {
+        super(data);
+        this._discriminator = "AggregationFieldMissingException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregationName = _data["aggregationName"];
+        }
+    }
+
+    static fromJS(data: any): AggregationFieldMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new AggregationFieldMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IAggregationFieldMissingException extends IPictureparkValidationException {
+    aggregationName?: string | undefined;
+}
+
+export class AggregationPathMissingException extends PictureparkValidationException implements IAggregationPathMissingException {
+    aggregationName?: string | undefined;
+
+    constructor(data?: IAggregationPathMissingException) {
+        super(data);
+        this._discriminator = "AggregationPathMissingException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregationName = _data["aggregationName"];
+        }
+    }
+
+    static fromJS(data: any): AggregationPathMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new AggregationPathMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IAggregationPathMissingException extends IPictureparkValidationException {
+    aggregationName?: string | undefined;
+}
+
 export class DocumentVersionConflictException extends PictureparkConflictException implements IDocumentVersionConflictException {
     documentId?: string | undefined;
     documentType?: string | undefined;
@@ -38513,138 +38786,6 @@ export interface IRelationTypeTargetDocTypeMismatchException extends IPicturepar
     relationType?: string | undefined;
     targetDocType?: string | undefined;
     expectedTargetDocType?: string | undefined;
-}
-
-export class AggregationNameInvalidException extends PictureparkValidationException implements IAggregationNameInvalidException {
-    aggregationName?: string | undefined;
-    aggregationPrefix?: string | undefined;
-
-    constructor(data?: IAggregationNameInvalidException) {
-        super(data);
-        this._discriminator = "AggregationNameInvalidException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.aggregationName = _data["aggregationName"];
-            this.aggregationPrefix = _data["aggregationPrefix"];
-        }
-    }
-
-    static fromJS(data: any): AggregationNameInvalidException {
-        data = typeof data === 'object' ? data : {};
-        let result = new AggregationNameInvalidException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["aggregationName"] = this.aggregationName;
-        data["aggregationPrefix"] = this.aggregationPrefix;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IAggregationNameInvalidException extends IPictureparkValidationException {
-    aggregationName?: string | undefined;
-    aggregationPrefix?: string | undefined;
-}
-
-/** Size of the aggregation is invalid. */
-export class AggregationSizeInvalidException extends PictureparkValidationException implements IAggregationSizeInvalidException {
-    /** The name identifying the aggregation. */
-    aggregationName?: string | undefined;
-    /** The invalid size of the aggregation: size must be equal or greater than 1. */
-    aggregationSize?: number;
-
-    constructor(data?: IAggregationSizeInvalidException) {
-        super(data);
-        this._discriminator = "AggregationSizeInvalidException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.aggregationName = _data["aggregationName"];
-            this.aggregationSize = _data["aggregationSize"];
-        }
-    }
-
-    static fromJS(data: any): AggregationSizeInvalidException {
-        data = typeof data === 'object' ? data : {};
-        let result = new AggregationSizeInvalidException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["aggregationName"] = this.aggregationName;
-        data["aggregationSize"] = this.aggregationSize;
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-/** Size of the aggregation is invalid. */
-export interface IAggregationSizeInvalidException extends IPictureparkValidationException {
-    /** The name identifying the aggregation. */
-    aggregationName?: string | undefined;
-    /** The invalid size of the aggregation: size must be equal or greater than 1. */
-    aggregationSize?: number;
-}
-
-export class AggregationFilterNotSupportedException extends PictureparkValidationException implements IAggregationFilterNotSupportedException {
-    aggregationName?: string | undefined;
-    notSupportedFilterType?: string | undefined;
-    supportedFilterTypes?: string[] | undefined;
-
-    constructor(data?: IAggregationFilterNotSupportedException) {
-        super(data);
-        this._discriminator = "AggregationFilterNotSupportedException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.aggregationName = _data["aggregationName"];
-            this.notSupportedFilterType = _data["notSupportedFilterType"];
-            if (Array.isArray(_data["supportedFilterTypes"])) {
-                this.supportedFilterTypes = [] as any;
-                for (let item of _data["supportedFilterTypes"])
-                    this.supportedFilterTypes!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): AggregationFilterNotSupportedException {
-        data = typeof data === 'object' ? data : {};
-        let result = new AggregationFilterNotSupportedException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["aggregationName"] = this.aggregationName;
-        data["notSupportedFilterType"] = this.notSupportedFilterType;
-        if (Array.isArray(this.supportedFilterTypes)) {
-            data["supportedFilterTypes"] = [];
-            for (let item of this.supportedFilterTypes)
-                data["supportedFilterTypes"].push(item);
-        }
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface IAggregationFilterNotSupportedException extends IPictureparkValidationException {
-    aggregationName?: string | undefined;
-    notSupportedFilterType?: string | undefined;
-    supportedFilterTypes?: string[] | undefined;
 }
 
 export class RelationTypeMissingException extends PictureparkBusinessException implements IRelationTypeMissingException {
