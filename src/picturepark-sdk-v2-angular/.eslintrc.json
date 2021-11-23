@@ -11,9 +11,7 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:prettier/recommended",
-        "prettier"
+        "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
         "@angular-eslint/component-selector": [
@@ -131,5 +129,5 @@
       }
     }
   ],
-  "plugins": ["@typescript-eslint", "@angular-eslint", "prettier"]
+  "plugins": ["@typescript-eslint", "@angular-eslint"]
 }
