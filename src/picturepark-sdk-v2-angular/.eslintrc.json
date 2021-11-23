@@ -20,7 +20,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "pp",
+            "prefix": ["pp", "app"],
             "style": "kebab-case"
           }
         ],
