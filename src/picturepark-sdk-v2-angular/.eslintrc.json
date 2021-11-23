@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "cp",
+            "prefix": "pp",
             "style": "kebab-case"
           }
         ],
@@ -29,7 +29,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "cp",
+            "prefix": "pp",
             "style": "camelCase"
           }
         ],
