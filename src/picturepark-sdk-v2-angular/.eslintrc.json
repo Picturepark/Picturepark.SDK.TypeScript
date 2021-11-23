@@ -5,12 +5,16 @@
     {
       "files": ["*.ts", "*.tsx"],
       "parserOptions": {
-        "project": "./tsconfig.*?.json"
+        "project": ["./tsconfig.json"]
       },
       "extends": [
         "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:prettier/recommended",
+        "prettier"
       ],
       "rules": {
         "@angular-eslint/component-selector": [
@@ -128,5 +132,5 @@
       }
     }
   ],
-  "plugins": ["@typescript-eslint", "@angular-eslint"]
+  "plugins": ["@typescript-eslint", "@angular-eslint", "prettier"]
 }
