@@ -5,6 +5,7 @@ export class HighlightPipe implements PipeTransform {
   transform(text: string, search: string): string {
     search = search ?? '';
     const pattern = search
+      // eslint-disable-next-line
       .replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
       .split(' ')
       .filter((t) => t.length > 0)

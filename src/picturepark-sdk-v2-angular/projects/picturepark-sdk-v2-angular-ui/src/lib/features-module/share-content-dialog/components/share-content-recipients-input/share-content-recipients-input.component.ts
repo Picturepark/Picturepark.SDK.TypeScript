@@ -24,6 +24,7 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
 
   // REGULAR EXPRESSION FOR EMAIL VALIDATION
   private reg =
+    // eslint-disable-next-line
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
   constructor(private shareService: ShareService, protected injector: Injector) {
