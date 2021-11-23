@@ -9,10 +9,7 @@ import { ConfirmOptions, ConfirmResult } from '../../components/confirm-dialog/c
 export class DialogService {
   constructor(private dialog: MatDialog) {}
 
-  confirm(
-    confirmOptions: ConfirmOptions,
-    dialogOptions?: MatDialogConfig
-  ): MatDialogRef<ConfirmDialogComponent, ConfirmResult> {
+  confirm(confirmOptions: ConfirmOptions, dialogOptions?: MatDialogConfig): MatDialogRef<ConfirmDialogComponent, ConfirmResult> {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: confirmOptions,
       autoFocus: false,

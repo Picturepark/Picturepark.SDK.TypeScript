@@ -19,16 +19,10 @@ export function storageFactory(): OAuthStorage {
   ],
 })
 export class PictureparkOidcModule {
-  static forRoot(
-    config: PictureparkOidcAuthConfiguration | Function
-  ): ModuleWithProviders<PictureparkOidcModule> {
+  static forRoot(config: PictureparkOidcAuthConfiguration | Function): ModuleWithProviders<PictureparkOidcModule> {
     return {
       ngModule: PictureparkOidcModule,
-      providers: [
-        typeof config === 'function'
-          ? { provide: PICTUREPARK_CONFIGURATION, useFactory: config }
-          : { provide: PICTUREPARK_CONFIGURATION, useValue: config },
-      ],
+      providers: [typeof config === 'function' ? { provide: PICTUREPARK_CONFIGURATION, useFactory: config } : { provide: PICTUREPARK_CONFIGURATION, useValue: config }],
     };
   }
 }

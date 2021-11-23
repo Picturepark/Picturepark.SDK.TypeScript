@@ -4,15 +4,7 @@ import { debounce, map, flatMap } from 'rxjs/operators';
 import { timer, Observable, from } from 'rxjs';
 
 // LIBRARIES
-import {
-  AggregationResult,
-  AggregatorBase,
-  AggregationResultItem,
-  TermsAggregator,
-  SearchFacade,
-  SearchInputState,
-  IEntityBase,
-} from '@picturepark/sdk-v2-angular';
+import { AggregationResult, AggregatorBase, AggregationResultItem, TermsAggregator, SearchFacade, SearchInputState, IEntityBase } from '@picturepark/sdk-v2-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../base.component';
@@ -59,15 +51,13 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     this.autoCompleteOptions = this.aggregationQuery.valueChanges.pipe(
       debounce(() => timer(500)),
       map((value: string | AggregationResultItem) => (typeof value === 'string' ? value : value.name || '')),
-      flatMap((value) => this.searchAggregator(value))
+      flatMap(value => this.searchAggregator(value))
     );
   }
 
   ngOnInit() {
-    this.sub = this.facade.searchRequest$.subscribe((request) => {
-      this.aggregationsFiltersCount = request.aggregationFilters.filter(
-        (item) => item.aggregationName === this.aggregator.name
-      ).length;
+    this.sub = this.facade.searchRequest$.subscribe(request => {
+      this.aggregationsFiltersCount = request.aggregationFilters.filter(item => item.aggregationName === this.aggregator.name).length;
 
       this.expanded = this.shouldExpand || this.expanded || this.aggregationsFiltersCount > 0;
     });
@@ -92,7 +82,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   loadMore(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) + this.pagingSize;
 
-    this.sub = this.facade.searchAggregations([this.aggregator])!.subscribe((result) => {
+    this.sub = this.facade.searchAggregations([this.aggregator])!.subscribe(result => {
       this.updateAggregationResult(result ? result[0] || null : null);
     });
   }
@@ -100,7 +90,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   loadLess(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) - this.pagingSize;
 
-    this.sub = this.facade.searchAggregations([this.aggregator])!.subscribe((result) => {
+    this.sub = this.facade.searchAggregations([this.aggregator])!.subscribe(result => {
       this.updateAggregationResult(result ? result[0] || null : null);
     });
   }
@@ -117,16 +107,15 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
 
     this.isLoading = true;
     const observableResult = this.facade.searchAggregations([this.aggregator])!.pipe(
-      map((result) => {
+      map(result => {
         this.hideLoader();
 
         if (result !== undefined) {
           const items = this.facade.expandAggregationResult(result[0]).aggregationResultItems || [];
 
-          const currentSelectedValues =
-            this.expandedAggregationResult?.aggregationResultItems?.filter((agr) => agr.active === true) ?? [];
+          const currentSelectedValues = this.expandedAggregationResult?.aggregationResultItems?.filter(agr => agr.active === true) ?? [];
 
-          return items.filter((item) => !currentSelectedValues.some((value) => value.name === item.name));
+          return items.filter(item => !currentSelectedValues.some(value => value.name === item.name));
         }
 
         return [];
@@ -156,7 +145,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     return (
       !!this.expandedAggregationResult &&
       !!this.expandedAggregationResult.aggregationResultItems &&
-      this.expandedAggregationResult.aggregationResultItems.filter((x) => x && !x.active).length > this.pagingSize
+      this.expandedAggregationResult.aggregationResultItems.filter(x => x && !x.active).length > this.pagingSize
     );
   }
 
@@ -165,9 +154,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   }
 
   clear() {
-    const aggregationFilters = this.facade.searchRequestState.aggregationFilters.filter(
-      (i) => i.aggregationName !== this.aggregator.name
-    );
+    const aggregationFilters = this.facade.searchRequestState.aggregationFilters.filter(i => i.aggregationName !== this.aggregator.name);
     this.facade.patchRequestState({ aggregationFilters });
   }
 
@@ -179,7 +166,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   private checkExpandedAggregationResult() {
     const aggregationResultItems = this.expandedAggregationResult?.aggregationResultItems;
     if (aggregationResultItems) {
-      if (aggregationResultItems.filter((item) => item.count > 0 || item.active).length >= 1) {
+      if (aggregationResultItems.filter(item => item.count > 0 || item.active).length >= 1) {
         this.active = true;
       } else {
         this.active = false;

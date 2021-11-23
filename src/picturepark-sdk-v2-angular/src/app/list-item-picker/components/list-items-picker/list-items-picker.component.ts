@@ -1,15 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import {
-  AndFilter,
-  ExistsFilter,
-  FilterBase,
-  NotFilter,
-  Schema,
-  SchemaSearchFacade,
-  SchemaService,
-  TermsFilter,
-} from '@picturepark/sdk-v2-angular';
+import { AndFilter, ExistsFilter, FilterBase, NotFilter, Schema, SchemaSearchFacade, SchemaService, TermsFilter } from '@picturepark/sdk-v2-angular';
 import { BaseComponent } from '@picturepark/sdk-v2-angular-ui';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
@@ -22,32 +13,26 @@ import { distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
 export class ListItemsPickerComponent extends BaseComponent implements OnInit {
   parentSchemaId$: Observable<string>;
 
-  constructor(
-    injector: Injector,
-    private route: ActivatedRoute,
-    private router: Router,
-    private schemaService: SchemaService,
-    private facade: SchemaSearchFacade
-  ) {
+  constructor(injector: Injector, private route: ActivatedRoute, private router: Router, private schemaService: SchemaService, private facade: SchemaSearchFacade) {
     super(injector);
   }
 
   ngOnInit(): void {
     this.facade.searchRequestState.baseFilter = this.createFilter();
-    this.parentSchemaId$ = this.route.queryParamMap.pipe(map((params) => params.get('parentSchemaId') || ''));
+    this.parentSchemaId$ = this.route.queryParamMap.pipe(map(params => params.get('parentSchemaId') || ''));
 
     // Load on page navigation and initial load
     this.sub = this.parentSchemaId$
       .pipe(
         distinctUntilChanged(),
-        mergeMap((i) => (i ? this.schemaService.get(i) : of(null))),
-        tap((i) => {
+        mergeMap(i => (i ? this.schemaService.get(i) : of(null))),
+        tap(i => {
           if (i) {
             (i as any).childCount = i.descendantSchemaIds?.length ?? 0;
           }
         })
       )
-      .subscribe((i) => {
+      .subscribe(i => {
         this.facade.patchRequestState({
           baseFilter: this.createFilter(),
           parentSchema: i ? Schema.fromJS(i) : undefined,

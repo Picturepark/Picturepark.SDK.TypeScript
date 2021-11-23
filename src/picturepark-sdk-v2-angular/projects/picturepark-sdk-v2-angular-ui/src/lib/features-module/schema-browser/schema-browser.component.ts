@@ -7,10 +7,7 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
 @Component({
   selector: 'pp-schema-browser',
   templateUrl: './schema-browser.component.html',
-  styleUrls: [
-    '../../shared-module/components/browser-base/browser-base.component.scss',
-    './schema-browser.component.scss',
-  ],
+  styleUrls: ['../../shared-module/components/browser-base/browser-base.component.scss', './schema-browser.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
@@ -65,7 +62,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
 
   checkContains(elementClassName: string): boolean {
     const containClasses = ['browser__items'];
-    return containClasses.some((iClass) => elementClassName.includes(iClass));
+    return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 
   setUpActiveSchema(schema: Schema): void {

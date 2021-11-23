@@ -1,12 +1,5 @@
 <div id="search-container">
-  <form
-    class="form"
-    autocomplete="off"
-    [formGroup]="form"
-    autocomplete="false"
-    matAutocompleteOrigin
-    #origin="matAutocompleteOrigin"
-  >
+  <form class="form" autocomplete="off" [formGroup]="form" autocomplete="false" matAutocompleteOrigin #origin="matAutocompleteOrigin">
     <button mat-icon-button (click)="search()">
       <mat-icon aria-label="Search">search</mat-icon>
     </button>
@@ -54,20 +47,10 @@
             [ngModelOptions]="{ standalone: true }"
             (change)="searchModeChange($event)"
           >
-            <mat-radio-button
-              class="radio-button"
-              value="and"
-              [matTooltipPosition]="'left'"
-              matTooltip="{{ 'SearchSuggestBox.SimpleAndSearchTooltip' | pptranslate }}"
-            >
+            <mat-radio-button class="radio-button" value="and" [matTooltipPosition]="'left'" matTooltip="{{ 'SearchSuggestBox.SimpleAndSearchTooltip' | pptranslate }}">
               {{ 'SearchSuggestBox.SimpleAndSearch' | pptranslate }}
             </mat-radio-button>
-            <mat-radio-button
-              class="radio-button"
-              value="or"
-              [matTooltipPosition]="'left'"
-              matTooltip="{{ 'SearchSuggestBox.SimpleOrSearchTooltip' | pptranslate }}"
-            >
+            <mat-radio-button class="radio-button" value="or" [matTooltipPosition]="'left'" matTooltip="{{ 'SearchSuggestBox.SimpleOrSearchTooltip' | pptranslate }}">
               {{ 'SearchSuggestBox.SimpleOrSearch' | pptranslate }}
             </mat-radio-button>
             <mat-radio-button

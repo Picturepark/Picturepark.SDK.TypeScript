@@ -2,12 +2,8 @@
   <div class="aggregation-filter__filters filters">
     <mat-toolbar class="filters__active-filters" *ngIf="facade.aggregationFilters$ | async as aggregationFilters">
       <span *ngIf="aggregationFilters.length === 0">{{ 'ContentAggregationList.NoActiveFilters' | pptranslate }}</span>
-      <span *ngIf="aggregationFilters.length === 1">{{
-        'ContentAggregationList.SingleActiveFilter' | pptranslate
-      }}</span>
-      <span *ngIf="aggregationFilters.length > 1">{{
-        'ContentAggregationList.MultipleActiveFilters' | pptranslate: aggregationFilters.length
-      }}</span>
+      <span *ngIf="aggregationFilters.length === 1">{{ 'ContentAggregationList.SingleActiveFilter' | pptranslate }}</span>
+      <span *ngIf="aggregationFilters.length > 1">{{ 'ContentAggregationList.MultipleActiveFilters' | pptranslate: aggregationFilters.length }}</span>
       <button
         [style.visibility]="aggregationFilters.length > 0 ? 'visible' : 'hidden'"
         [matTooltip]="'ContentAggregationList.ClearAllFilters' | pptranslate"

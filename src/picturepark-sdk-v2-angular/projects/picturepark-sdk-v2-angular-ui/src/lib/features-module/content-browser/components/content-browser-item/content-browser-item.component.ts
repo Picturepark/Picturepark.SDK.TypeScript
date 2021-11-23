@@ -1,13 +1,4 @@
-import {
-  Component,
-  OnChanges,
-  SecurityContext,
-  Injector,
-  ChangeDetectionStrategy,
-  OnInit,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, OnChanges, SecurityContext, Injector, ChangeDetectionStrategy, OnInit, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 // LIBRARIES
@@ -26,10 +17,7 @@ import { ItemBasketSelection } from './interfaces/content-browser-item.interface
 @Component({
   selector: 'pp-content-browser-item',
   templateUrl: './content-browser-item.component.html',
-  styleUrls: [
-    '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
-    './content-browser-item.component.scss',
-  ],
+  styleUrls: ['../../../../shared-module/components/browser-item-base/browser-item-base.component.scss', './content-browser-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
@@ -51,13 +39,11 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   }
 
   ngOnInit(): void {
-    this.isInBasket$ = this.basketService.basketChange.pipe(
-      map((items) => items.some((selectedItem) => selectedItem === this.itemModel.id))
-    );
+    this.isInBasket$ = this.basketService.basketChange.pipe(map(items => items.some(selectedItem => selectedItem === this.itemModel.id)));
 
     this.isSelected$ = this.browser.selectedItemsChange.pipe(
-      map((items) => items.some((selectedItem) => selectedItem.id === this.itemModel.id)),
-      tap((isSelected) => (this.isSelected = isSelected)),
+      map(items => items.some(selectedItem => selectedItem.id === this.itemModel.id)),
+      tap(isSelected => (this.isSelected = isSelected)),
       share()
     );
   }

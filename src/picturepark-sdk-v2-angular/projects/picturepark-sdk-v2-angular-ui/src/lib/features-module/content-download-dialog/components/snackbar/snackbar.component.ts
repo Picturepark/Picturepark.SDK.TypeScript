@@ -11,10 +11,7 @@ export class SnackbarComponent implements OnInit {
   displayText: string;
   showLoader: boolean;
 
-  constructor(
-    public snackBarRef: MatSnackBarRef<SnackbarComponent>,
-    @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarInput
-  ) {}
+  constructor(public snackBarRef: MatSnackBarRef<SnackbarComponent>, @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarInput) {}
 
   ngOnInit() {
     this.displayText = this.data.displayText;

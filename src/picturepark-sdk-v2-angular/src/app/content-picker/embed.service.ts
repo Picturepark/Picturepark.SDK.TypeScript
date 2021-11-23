@@ -1,12 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ShareService,
-  ShareEmbedCreateRequest,
-  OutputAccess,
-  ShareContent,
-  Content,
-  BusinessProcessService,
-} from '@picturepark/sdk-v2-angular';
+import { ShareService, ShareEmbedCreateRequest, OutputAccess, ShareContent, Content, BusinessProcessService } from '@picturepark/sdk-v2-angular';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +10,7 @@ export class EmbedService {
   async embed(selectedItems: Content[], postUrl: string) {
     if (selectedItems.length > 0) {
       const contentItems = selectedItems.map(
-        (i) =>
+        i =>
           new ShareContent({
             contentId: i.id,
             outputFormatIds: ['Original'],
@@ -44,9 +37,7 @@ export class EmbedService {
             window.opener.postMessage(postMessage, postUrl);
             return true;
           } else {
-            console.log(
-              'Post message (either no postUrl has been specified or window.opener is not defined): \n' + postMessage
-            );
+            console.log('Post message (either no postUrl has been specified or window.opener is not defined): \n' + postMessage);
           }
         }
       } catch (error) {

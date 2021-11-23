@@ -10,10 +10,7 @@ import { PICTUREPARK_CONFIGURATION } from './base.service';
   providedIn: 'root',
 })
 export class CustomerInfoService {
-  constructor(
-    @Inject(HttpClient) private http: HttpClient,
-    @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkConfiguration
-  ) {}
+  constructor(@Inject(HttpClient) private http: HttpClient, @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkConfiguration) {}
 
   getInfo(cdnUrl?: string): Observable<CustomerInfo> {
     let url_: string;

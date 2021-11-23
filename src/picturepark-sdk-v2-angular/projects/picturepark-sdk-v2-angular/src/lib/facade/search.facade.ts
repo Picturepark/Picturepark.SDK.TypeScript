@@ -1,13 +1,5 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  AggregationFilter,
-  FilterBase,
-  SearchBehavior,
-  AggregatorBase,
-  AggregationResult,
-  SortInfo,
-  AggregationResultItem,
-} from '../services/api-services';
+import { AggregationFilter, FilterBase, SearchBehavior, AggregatorBase, AggregationResult, SortInfo, AggregationResultItem } from '../services/api-services';
 import { map, distinctUntilChanged, filter } from 'rxjs/operators';
 import { SearchMode } from '../models/search-mode';
 
@@ -51,37 +43,37 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
 
   protected loading = new BehaviorSubject<LoadingState>({ loading: false });
 
-  searchResults$ = this.searchResults.pipe(filter((i) => !!i));
-  searchRequest$ = this.searchRequest.pipe(filter((i) => !!i));
+  searchResults$ = this.searchResults.pipe(filter(i => !!i));
+  searchRequest$ = this.searchRequest.pipe(filter(i => !!i));
   loading$ = this.loading.asObservable();
 
   totalResults$ = this.searchResults$.pipe(
-    map((i) => i.totalResults),
+    map(i => i.totalResults),
     distinctUntilChanged()
   );
 
   items$ = this.searchResults$.pipe(
-    map((i) => i.results),
+    map(i => i.results),
     distinctUntilChanged()
   );
 
   aggregationResults$ = this.searchResults$.pipe(
-    map((i) => i.aggregationResults),
+    map(i => i.aggregationResults),
     distinctUntilChanged()
   );
 
   aggregators$ = this.searchRequest$.pipe(
-    map((i) => i.aggregators),
+    map(i => i.aggregators),
     distinctUntilChanged()
   );
 
   aggregationFilters$ = this.searchRequest$.pipe(
-    map((i) => i.aggregationFilters),
+    map(i => i.aggregationFilters),
     distinctUntilChanged()
   );
 
   searchString$ = this.searchRequest$.pipe(
-    map((i) => i.searchString),
+    map(i => i.searchString),
     distinctUntilChanged()
   );
 
@@ -117,8 +109,8 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
   /** Returns the loading infos based on a specified state */
   getLoadingInfos(loadingState: 'all' | 'initial' | 'nextpage') {
     return this.loading$.pipe(
-      filter((i) => loadingState === 'all' || i.action === loadingState || !i.loading),
-      map((i) => i.loading)
+      filter(i => loadingState === 'all' || i.action === loadingState || !i.loading),
+      map(i => i.loading)
     );
   }
 
@@ -162,21 +154,19 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
       return;
     }
 
-    const expanded = this.searchResultState.aggregationResults.map((i) => this.expandAggregationResult(i));
-    const active = flatMap(expanded, (i) => i.aggregationResultItems ?? []).filter((i) => i && i.active);
+    const expanded = this.searchResultState.aggregationResults.map(i => this.expandAggregationResult(i));
+    const active = flatMap(expanded, i => i.aggregationResultItems ?? []).filter(i => i && i.active);
 
-    const toRemove = active.filter((i) =>
+    const toRemove = active.filter(i =>
       aggregationResultItems.find(
-        (aggregationResultItem) =>
-          i.filter?.aggregationName === aggregationResultItem.filter?.aggregationName &&
-          i.name === aggregationResultItem.name
+        aggregationResultItem => i.filter?.aggregationName === aggregationResultItem.filter?.aggregationName && i.name === aggregationResultItem.name
       )
     );
     if (toRemove) {
       const remaining = active
-        .map((i) => i.filter)
-        .map((i) => i)
-        .filter((i) => toRemove.every((tr) => i !== tr.filter));
+        .map(i => i.filter)
+        .map(i => i)
+        .filter(i => toRemove.every(tr => i !== tr.filter));
 
       this.patchRequestState({ aggregationFilters: remaining } as any);
     }

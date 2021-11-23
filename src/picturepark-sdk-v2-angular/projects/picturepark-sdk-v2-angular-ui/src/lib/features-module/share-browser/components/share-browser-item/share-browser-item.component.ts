@@ -13,10 +13,7 @@ import { debounceTime, map, share } from 'rxjs/operators';
 @Component({
   selector: 'pp-share-browser-item',
   templateUrl: './share-browser-item.component.html',
-  styleUrls: [
-    '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
-    './share-browser-item.component.scss',
-  ],
+  styleUrls: ['../../../../shared-module/components/browser-item-base/browser-item-base.component.scss', './share-browser-item.component.scss'],
 })
 export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> implements OnChanges, OnInit {
   // VARS
@@ -36,18 +33,13 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
     const contentIdsReq = contentIds.slice(0, 3);
 
     Promise.all(
-      contentIdsReq.map((contentId) => {
-        return this.contentService.downloadThumbnail(
-          contentId,
-          this.isListView ? ThumbnailSize.Small : this.thumbnailSize || ThumbnailSize.Medium,
-          null,
-          null
-        );
+      contentIdsReq.map(contentId => {
+        return this.contentService.downloadThumbnail(contentId, this.isListView ? ThumbnailSize.Small : this.thumbnailSize || ThumbnailSize.Medium, null, null);
       })
     )
-      .then((items) => {
-        items.map((item) => {
-          this.sub = item.subscribe((response) => {
+      .then(items => {
+        items.map(item => {
+          this.sub = item.subscribe(response => {
             if (response) {
               this.thumbnailUrls.push(this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response.data)));
             }
@@ -55,7 +47,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
         });
         this.isLoading = false;
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   }
@@ -65,7 +57,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
     this.isSelected$ = this.browser.selectedItemsChange.pipe(
       debounceTime(10),
-      map((items) => items.some((selectedItem) => selectedItem.id === this.itemModel.id)),
+      map(items => items.some(selectedItem => selectedItem.id === this.itemModel.id)),
       share()
     );
   }

@@ -34,10 +34,7 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
     const parentSchema = this.searchRequestState.parentSchema;
     if (parentSchema) {
       filter = new OrFilter({
-        filters: [
-          new PrefixFilter({ field: 'schemaNamespace', prefix: parentSchema.id }),
-          new TermFilter({ field: 'id', term: parentSchema.id }),
-        ],
+        filters: [new PrefixFilter({ field: 'schemaNamespace', prefix: parentSchema.id }), new TermFilter({ field: 'id', term: parentSchema.id })],
       });
 
       if (this.searchRequestState.baseFilter) {

@@ -1,14 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  EventEmitter,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, flatMap, map, take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -17,16 +7,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 // LIBRARIES
-import {
-  AggregationFilter,
-  AndFilter,
-  FilterBase,
-  OrFilter,
-  SchemaDetail,
-  SchemaService,
-  ListItem,
-  ListItemSearchFacade,
-} from '@picturepark/sdk-v2-angular';
+import { AggregationFilter, AndFilter, FilterBase, OrFilter, SchemaDetail, SchemaService, ListItem, ListItemSearchFacade } from '@picturepark/sdk-v2-angular';
 import { groupBy } from '../../../utilities/helper';
 import { ListBrowserComponent } from '../../list-browser/list-browser.component';
 
@@ -66,17 +47,17 @@ export class ListComponent implements OnInit, OnDestroy {
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
 
     this.schema = this.route.paramMap.pipe(
-      flatMap((paramMap) => {
+      flatMap(paramMap => {
         const schemaId = paramMap.get('id')!;
         return this.schemaService.get(schemaId);
       })
     );
 
     this.searchQuery = this.route.queryParamMap.pipe(
-      map((q) => q.get('listsearch')),
+      map(q => q.get('listsearch')),
       distinctUntilChanged(),
       tap(() => this.deselectSelectedItems()),
-      map((query) => query || '')
+      map(query => query || '')
     );
 
     const listSubscription = combineLatest([this.schema, this.route.paramMap, this.route.queryParamMap])
@@ -90,7 +71,7 @@ export class ListComponent implements OnInit, OnDestroy {
           if (typeof filterQuery === 'string') {
             this.aggregationFilters = [AggregationFilter.fromJS(JSON.parse(filterQuery))];
           } else {
-            this.aggregationFilters = filterQuery.map((fq) => AggregationFilter.fromJS(JSON.parse(fq)));
+            this.aggregationFilters = filterQuery.map(fq => AggregationFilter.fromJS(JSON.parse(fq)));
           }
           const createdFilter = this.createFilter(this.aggregationFilters);
           this.filter.next(createdFilter!);
@@ -126,7 +107,7 @@ export class ListComponent implements OnInit, OnDestroy {
   changeAggregationFilters(aggregationFilters: AggregationFilter[]): void {
     this.deselectSelectedItems();
     this.aggregationFilters = aggregationFilters;
-    const filtersQuery = this.aggregationFilters.map((filter) => JSON.stringify(filter.toJSON()));
+    const filtersQuery = this.aggregationFilters.map(filter => JSON.stringify(filter.toJSON()));
 
     const query = this.queryParams;
 
@@ -140,12 +121,10 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   private createFilter(aggregationFilters: AggregationFilter[]): FilterBase | null {
-    const flatten = groupBy(aggregationFilters, (i) => i.aggregationName);
+    const flatten = groupBy(aggregationFilters, i => i.aggregationName);
     const preparedFilters = Array.from(flatten)
-      .map((array) => {
-        const filtered = array[1]
-          .filter((aggregationFilter) => aggregationFilter.filter)
-          .map((aggregationFilter) => aggregationFilter.filter as FilterBase);
+      .map(array => {
+        const filtered = array[1].filter(aggregationFilter => aggregationFilter.filter).map(aggregationFilter => aggregationFilter.filter as FilterBase);
 
         switch (filtered.length) {
           case 0:
@@ -156,7 +135,7 @@ export class ListComponent implements OnInit, OnDestroy {
             return new OrFilter({ filters: filtered });
         }
       })
-      .filter((value) => value !== null);
+      .filter(value => value !== null);
 
     switch (preparedFilters.length) {
       case 0:

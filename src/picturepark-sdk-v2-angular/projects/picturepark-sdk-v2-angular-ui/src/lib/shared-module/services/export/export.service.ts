@@ -3,13 +3,7 @@ import { Observable, of, zip, EMPTY } from 'rxjs';
 import { expand, flatMap, map, reduce, switchMap } from 'rxjs/operators';
 
 // LIBRARIES
-import {
-  FieldMultiTagbox,
-  FieldSingleFieldset,
-  FieldSingleTagbox,
-  SchemaDetail,
-  SchemaService,
-} from '@picturepark/sdk-v2-angular';
+import { FieldMultiTagbox, FieldSingleFieldset, FieldSingleTagbox, SchemaDetail, SchemaService } from '@picturepark/sdk-v2-angular';
 
 // INTERFACES
 import FieldHelper from '../../components/field-helper';
@@ -23,20 +17,20 @@ export class ExportService {
 
   getReferencedData(referencedData: Observable<ReferencedData>): Observable<ReferencedData> {
     return referencedData.pipe(
-      flatMap((referenced) => {
+      flatMap(referenced => {
         return zip(of(referenced), this.schemaService.getMany(referenced.schemaIds));
       }),
-      map((data) => {
+      map(data => {
         const newReferencedData: ReferencedData = data[0];
         const schemas: SchemaDetail[] = data[1];
 
         newReferencedData.schemaDetails.push(...schemas);
         const schemaIds = new Set<string>();
 
-        schemas.forEach((s) => {
-          s.fields!.filter((f) => FieldHelper.isReferencedField(f))
+        schemas.forEach(s => {
+          s.fields!.filter(f => FieldHelper.isReferencedField(f))
             .filter((f: FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox) => {
-              return !newReferencedData.schemaDetails.some((x) => x.id === f.schemaId);
+              return !newReferencedData.schemaDetails.some(x => x.id === f.schemaId);
             })
             .forEach((f: FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox) => schemaIds.add(f.schemaId));
         });
@@ -48,9 +42,7 @@ export class ExportService {
       expand((referencedDataExp: ReferencedData) => {
         return of(null).pipe(
           switchMap(() => {
-            return referencedDataExp.schemaIds && referencedDataExp.schemaIds.length > 0
-              ? this.getReferencedData(of(referencedDataExp))
-              : EMPTY;
+            return referencedDataExp.schemaIds && referencedDataExp.schemaIds.length > 0 ? this.getReferencedData(of(referencedDataExp)) : EMPTY;
           })
         );
       }),

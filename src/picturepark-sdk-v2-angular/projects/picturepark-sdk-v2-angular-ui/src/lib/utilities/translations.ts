@@ -1263,9 +1263,5 @@ export function translate(key: any, locale: string) {
     translations = key;
   }
 
-  return translations && translations[language]
-    ? translations[language]
-    : language !== fallbackLanguage
-    ? translate(key, fallbackLanguage + '-')
-    : `[!${key}]`;
+  return translations && translations[language] ? translations[language] : language !== fallbackLanguage ? translate(key, fallbackLanguage + '-') : `[!${key}]`;
 }

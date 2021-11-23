@@ -14,11 +14,7 @@ import {
   ShareType,
   EmbedContent,
 } from '@picturepark/sdk-v2-angular';
-import {
-  ContentDetailsDialogComponent,
-  ContentDetailsDialogOptions,
-  ContentDownloadDialogService,
-} from '@picturepark/sdk-v2-angular-ui';
+import { ContentDetailsDialogComponent, ContentDetailsDialogOptions, ContentDownloadDialogService } from '@picturepark/sdk-v2-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
 import { forkJoin, fromEvent, of } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
@@ -54,7 +50,7 @@ export class ShareDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((paramMap) => {
+    this.route.paramMap.subscribe(paramMap => {
       const shareToken = paramMap.get('token')!;
       this.shareToken = shareToken;
       this.update(shareToken);
@@ -64,17 +60,13 @@ export class ShareDetailComponent implements OnInit {
     const elem = document.getElementsByClassName('share-viewer-item-container')[0];
     fromEvent(elem, 'scroll')
       .pipe(debounceTime(50))
-      .subscribe((scrollable) => {
+      .subscribe(scrollable => {
         if (!scrollable) {
           return;
         }
 
         const scrollCriteria = elem.scrollTop > elem.scrollHeight - 2 * elem.clientHeight;
-        if (
-          scrollCriteria &&
-          !this.itemsLoading &&
-          this.shareDetail.contentSelections.length !== this.shareDetail.contentCount
-        ) {
+        if (scrollCriteria && !this.itemsLoading && this.shareDetail.contentSelections.length !== this.shareDetail.contentCount) {
           this.ngZone.run(() => this.onScroll());
         }
       });
@@ -82,11 +74,9 @@ export class ShareDetailComponent implements OnInit {
 
   onScroll() {
     this.itemsLoading = true;
-    this.shareAccessFacade
-      .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30)
-      .subscribe((page) => {
-        this.itemsLoading = false;
-      });
+    this.shareAccessFacade.loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30).subscribe(page => {
+      this.itemsLoading = false;
+    });
   }
 
   update(searchString: string): void {
@@ -109,9 +99,9 @@ export class ShareDetailComponent implements OnInit {
           this.enableDownload =
             share.shareType === ShareType.Basic ||
             !share.contents
-              .filter((content) => content instanceof EmbedContent)
-              .map((content) => content as EmbedContent)
-              .some((content) => content.conversionPresets?.some((i) => i.conversion));
+              .filter(content => content instanceof EmbedContent)
+              .map(content => content as EmbedContent)
+              .some(content => content.conversionPresets?.some(i => i.conversion));
 
           this.shareDetail = share;
           this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
@@ -122,16 +112,16 @@ export class ShareDetailComponent implements OnInit {
   }
 
   download(): void {
-    this.shareAccessFacade.getOutputsInShare(this.shareToken).subscribe((res) =>
+    this.shareAccessFacade.getOutputsInShare(this.shareToken).subscribe(res =>
       this.contentDownloadDialogService.showDialog({
         mode: 'multi',
-        contents: res?.contentInfos?.map((c) => ({
+        contents: res?.contentInfos?.map(c => ({
           id: c.id,
           contentSchemaId: c.contentSchemaId,
           contentType: c.contentType,
           outputs: res.outputs
-            ?.filter((o) => o.contentId === c.id)
-            .map((o) => ({
+            ?.filter(o => o.contentId === c.id)
+            .map(o => ({
               contentId: o.contentId,
               outputFormatId: o.outputFormatId,
               dynamicRendering: o.dynamicRendering,

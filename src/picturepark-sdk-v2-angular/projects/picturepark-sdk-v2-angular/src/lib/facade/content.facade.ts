@@ -22,7 +22,7 @@ export class ContentFacade {
 
   removeOverlayElements(displayValue: string) {
     const elements = ['cp-overlay-box-bottom-left', 'cp-overlay-box-bottom-right', 'cp-overlay-box-top-left'];
-    elements.forEach((element) => {
+    elements.forEach(element => {
       if (displayValue.includes(`<${element}`)) {
         displayValue = this.removeElement(displayValue, element);
       }

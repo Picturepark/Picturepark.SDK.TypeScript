@@ -1,11 +1,6 @@
 <button mat-button [matMenuTriggerFor]="langMenu">{{ selectedLanguageCode | uppercase }}</button>
 <mat-menu #langMenu="matMenu">
-  <button
-    mat-menu-item
-    *ngFor="let language of languages"
-    (click)="changeLanguage(language.ietf)"
-    [class.active]="language.ietf === selectedLanguageCode"
-  >
+  <button mat-menu-item *ngFor="let language of languages" (click)="changeLanguage(language.ietf)" [class.active]="language.ietf === selectedLanguageCode">
     {{ language.name | pptranslate }}
   </button>
 </mat-menu>

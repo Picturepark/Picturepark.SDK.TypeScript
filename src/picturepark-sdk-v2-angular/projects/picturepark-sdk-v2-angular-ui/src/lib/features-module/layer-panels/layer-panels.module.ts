@@ -10,13 +10,7 @@ import { MarkdownDirective } from './directives/markdown-directive';
 import { ReadMoreComponent } from './components/read-more/read-more.component';
 
 @NgModule({
-  declarations: [
-    LayerPanelsComponent,
-    FieldDetailInfoDialogComponent,
-    LayerFieldsComponent,
-    MarkdownDirective,
-    ReadMoreComponent,
-  ],
+  declarations: [LayerPanelsComponent, FieldDetailInfoDialogComponent, LayerFieldsComponent, MarkdownDirective, ReadMoreComponent],
   imports: [CommonModule, SharedModule],
   exports: [LayerPanelsComponent, FieldDetailInfoDialogComponent, MarkdownDirective, ReadMoreComponent],
   providers: [TranslatePipe],

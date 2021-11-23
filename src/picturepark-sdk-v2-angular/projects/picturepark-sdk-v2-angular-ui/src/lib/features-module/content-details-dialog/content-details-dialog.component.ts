@@ -1,15 +1,7 @@
 import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import {
-  ContentDetail,
-  ContentFacade,
-  ContentResolveBehavior,
-  ContentService,
-  SchemaDetail,
-  SchemaService,
-  ShareContentDetail,
-} from '@picturepark/sdk-v2-angular';
+import { ContentDetail, ContentFacade, ContentResolveBehavior, ContentService, SchemaDetail, SchemaService, ShareContentDetail } from '@picturepark/sdk-v2-angular';
 
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
@@ -23,10 +15,7 @@ import { SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'pp-content-details-dialog',
   templateUrl: './content-details-dialog.component.html',
-  styleUrls: [
-    '../../shared-module/components/dialog-base/dialog-base.component.scss',
-    './content-details-dialog.component.scss',
-  ],
+  styleUrls: ['../../shared-module/components/dialog-base/dialog-base.component.scss', './content-details-dialog.component.scss'],
   providers: [TranslatePipe],
 })
 export class ContentDetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
@@ -63,17 +52,14 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   }
 
   loadSchemas(): void {
-    this.schemaService.getMany([this.content.contentSchemaId]).subscribe((schemas) => {
+    this.schemaService.getMany([this.content.contentSchemaId]).subscribe(schemas => {
       this.schemas = schemas;
     });
   }
 
   tabChange(event: MatTabChangeEvent): void {
     // Load schemas if we change to metadata tab and selected content schema does not exist
-    if (
-      event.index === 1 &&
-      (!this.schemas || !this.schemas.find((schema) => schema.id === this.content.contentSchemaId))
-    ) {
+    if (event.index === 1 && (!this.schemas || !this.schemas.find(schema => schema.id === this.content.contentSchemaId))) {
       this.loadSchemas();
     }
   }
@@ -82,7 +68,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
       contents: [this.content],
-      isShareViewer: this.data.isShareViewer
+      isShareViewer: this.data.isShareViewer,
     });
   }
 
@@ -104,7 +90,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
     // setTimeout required, otherwise the UI will not correctly refresh on prev/next
     setTimeout(() => {
-      this.sub = detail.subscribe((content) => {
+      this.sub = detail.subscribe(content => {
         if (typeof content === 'string') {
           this.loadContent(content);
         } else {
@@ -128,7 +114,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
         ContentResolveBehavior.OuterDisplayValueThumbnail,
         ContentResolveBehavior.Outputs,
       ])
-      .subscribe((content) => {
+      .subscribe(content => {
         if (content) {
           this.initContent(content);
         }

@@ -11,15 +11,15 @@ const routes: Routes = [
   },
   {
     path: 'content-picker',
-    loadChildren: () => import('./content-picker/content-picker.module').then((m) => m.ContentPickerModule),
+    loadChildren: () => import('./content-picker/content-picker.module').then(m => m.ContentPickerModule),
   },
   {
     path: 'list-item-browser',
-    loadChildren: () => import('./list-item-picker/list-item-picker.module').then((m) => m.ListItemPickerModule),
+    loadChildren: () => import('./list-item-picker/list-item-picker.module').then(m => m.ListItemPickerModule),
   },
   {
     path: 'share-manager',
-    loadChildren: () => import('./share-manager/share-manager.module').then((m) => m.ShareManagerModule),
+    loadChildren: () => import('./share-manager/share-manager.module').then(m => m.ShareManagerModule),
   },
   {
     path: '**',

@@ -7,15 +7,7 @@ import { LazyGetter } from 'lazy-get-decorator';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
-import {
-  IEntityBase,
-  ThumbnailSize,
-  SearchFacade,
-  SortInfo,
-  SortDirection,
-  SearchInputState,
-  AggregationResult,
-} from '@picturepark/sdk-v2-angular';
+import { IEntityBase, ThumbnailSize, SearchFacade, SortInfo, SortDirection, SearchInputState, AggregationResult } from '@picturepark/sdk-v2-angular';
 import { SelectionService } from '../../services/selection/selection.service';
 import { ISortItem } from './interfaces/sort-item';
 import { TranslationService } from '../../services/translations/translation.service';
@@ -80,11 +72,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   abstract onScroll(): void;
   abstract checkContains(elementClassName: string): boolean;
 
-  constructor(
-    protected componentName: string,
-    protected injector: Injector,
-    public facade: SearchFacade<TEntity, SearchInputState>
-  ) {
+  constructor(protected componentName: string, protected injector: Injector, public facade: SearchFacade<TEntity, SearchInputState>) {
     super(injector);
 
     this.self = this;
@@ -111,7 +99,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.sub = this.scrollDispatcher
       .scrolled()
       .pipe(debounceTime(this.scrollDebounceTime))
-      .subscribe((scrollable) => {
+      .subscribe(scrollable => {
         if (!scrollable) {
           return;
         }
@@ -125,7 +113,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
       });
 
     // Item selection
-    this.sub = this.selectionService.selectedItems.subscribe((items) => {
+    this.sub = this.selectionService.selectedItems.subscribe(items => {
       this.selectedItems = items;
     });
 
@@ -136,7 +124,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.sub = this.facade.searchRequest$.subscribe(() => this.update());
 
     // Subscribe to loading
-    this.sub = this.facade.getLoadingInfos('all').subscribe((i) => (this.isLoading = i));
+    this.sub = this.facade.getLoadingInfos('all').subscribe(i => (this.isLoading = i));
   }
 
   get selectedItems(): TEntity[] {
@@ -171,9 +159,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     }
 
     return request.pipe(
-      tap((searchResult) => {
+      tap(searchResult => {
         if (searchResult.results) {
-          const items = searchResult.results.map((i) => i);
+          const items = searchResult.results.map(i => i);
           this.items.push(...items);
           this.prepareData(items);
         }
@@ -221,11 +209,11 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         let itemsToRemove: TEntity[] = [];
 
         if (firstIndex === this.lastRangeSelection.lastIndex) {
-          itemsToRemove = this.items.slice(this.lastRangeSelection.firstIndex, firstIndex + 1).map((i) => i);
+          itemsToRemove = this.items.slice(this.lastRangeSelection.firstIndex, firstIndex + 1).map(i => i);
         } else if (firstIndex < this.lastRangeSelection.firstIndex) {
-          itemsToRemove = this.items.slice(lastIndex, this.lastRangeSelection.lastIndex + 1).map((i) => i);
+          itemsToRemove = this.items.slice(lastIndex, this.lastRangeSelection.lastIndex + 1).map(i => i);
         } else if (lastIndex < this.lastRangeSelection.lastIndex) {
-          itemsToRemove = this.items.slice(lastIndex, this.lastRangeSelection.lastIndex + 1).map((i) => i);
+          itemsToRemove = this.items.slice(lastIndex, this.lastRangeSelection.lastIndex + 1).map(i => i);
         }
 
         if (itemsToRemove.length) {
@@ -233,7 +221,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         }
       }
 
-      const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map((i) => i);
+      const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i);
 
       this.selectionService.addItems(itemsToAdd);
       this.lastRangeSelection = { firstIndex, lastIndex };
@@ -255,7 +243,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
   toggleItems(isSelected: boolean): void {
     if (isSelected === true) {
-      this.selectionService.addItems(this.items.map((model) => model));
+      this.selectionService.addItems(this.items.map(model => model));
     } else {
       this.selectionService.clear();
     }

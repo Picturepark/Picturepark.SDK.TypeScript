@@ -20,7 +20,7 @@ export class TranslationService {
     }
 
     const outputTranslations: { [outputFormatId: string]: string } = {};
-    this.customerInfo.outputFormats.forEach((i) => {
+    this.customerInfo.outputFormats.forEach(i => {
       outputTranslations[i.id] = i.names.translate(this.locale);
     });
 

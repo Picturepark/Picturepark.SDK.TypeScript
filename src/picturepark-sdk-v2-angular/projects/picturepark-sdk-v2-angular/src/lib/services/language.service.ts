@@ -15,13 +15,9 @@ export class LanguageService {
 
   constructor(private infoFacade: InfoFacade, private localStorageService: LocalStorageService) {}
 
-  loadLanguages(
-    allowedLanguages: 'system' | 'share' | 'all',
-    locale?: string,
-    cdnUrl?: string
-  ): Observable<boolean> {
+  loadLanguages(allowedLanguages: 'system' | 'share' | 'all', locale?: string, cdnUrl?: string): Observable<boolean> {
     return this.infoFacade.getInfo(cdnUrl).pipe(
-      map((info) => {
+      map(info => {
         this.languages = this.filterLanguages(
           info.languages,
           allowedLanguages === 'system'
@@ -46,11 +42,11 @@ export class LanguageService {
   }
 
   private filterLanguages(languages: Language[], systemLanguages?: string[]): Language[] {
-    return systemLanguages ? languages.filter((l) => systemLanguages.some((sl) => sl === l.ietf)) : languages;
+    return systemLanguages ? languages.filter(l => systemLanguages.some(sl => sl === l.ietf)) : languages;
   }
 
   private findLanguage(languageCode: string): Language | undefined {
-    return this.languages.find((l) => l.ietf === languageCode);
+    return this.languages.find(l => l.ietf === languageCode);
   }
 
   private getLanguage(languageCode: string): Language {

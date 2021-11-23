@@ -129,11 +129,7 @@ $mat-picturepark-primary: (
 $picturepark-app-primary: mat.define-palette($mat-picturepark-primary);
 $picturepark-app-accent: mat.define-palette($mat-picturepark-accent, 400, 200, 700);
 $picturepark-app-warn: mat.define-palette($mat-picturepark-warn);
-$picturepark-app-theme: mat.define-light-theme(
-  $picturepark-app-primary,
-  $picturepark-app-accent,
-  $picturepark-app-warn
-);
+$picturepark-app-theme: mat.define-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);
 
 $mat-picturepark-primary-dark: (
   primary: $base,
@@ -158,11 +154,7 @@ $mat-picturepark-primary-dark: (
 $picturepark-app-primary-dark: mat.define-palette($mat-picturepark-primary-dark);
 $picturepark-app-accent-dark: mat.define-palette($mat-picturepark-accent, 400, 200, 700);
 $picturepark-app-warn-dark: mat.define-palette($mat-picturepark-warn);
-$picturepark-app-theme-dark: mat.define-dark-theme(
-  $picturepark-app-primary-dark,
-  $picturepark-app-accent-dark,
-  $picturepark-app-warn-dark
-);
+$picturepark-app-theme-dark: mat.define-dark-theme($picturepark-app-primary-dark, $picturepark-app-accent-dark, $picturepark-app-warn-dark);
 
 // Apply custom components themes
 @import '../projects/picturepark-sdk-v2-angular-ui/src/lib/theming/_theming.scss';

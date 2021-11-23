@@ -1,9 +1,4 @@
-import {
-  ITranslatedStringDictionary,
-  IUserAuditDetail,
-  TranslatedStringDictionary,
-  UserAuditDetail,
-} from './api-services';
+import { ITranslatedStringDictionary, IUserAuditDetail, TranslatedStringDictionary, UserAuditDetail } from './api-services';
 
 export class TermsOfServiceEditable implements ITermsOfServiceEditable {
   content?: TranslatedStringDictionary | undefined;
@@ -14,10 +9,7 @@ export class TermsOfServiceEditable implements ITermsOfServiceEditable {
       for (const property in data) {
         if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
       }
-      this.content =
-        data.content && !(<any>data.content).toJSON
-          ? new TranslatedStringDictionary(data.content)
-          : <TranslatedStringDictionary>this.content;
+      this.content = data.content && !(<any>data.content).toJSON ? new TranslatedStringDictionary(data.content) : <TranslatedStringDictionary>this.content;
     }
   }
 
@@ -88,8 +80,7 @@ export class TermsOfServiceDetail extends TermsOfService implements ITermsOfServ
   constructor(data?: ITermsOfServiceDetail) {
     super(data);
     if (data) {
-      this.audit =
-        data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit;
+      this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit;
     }
   }
 

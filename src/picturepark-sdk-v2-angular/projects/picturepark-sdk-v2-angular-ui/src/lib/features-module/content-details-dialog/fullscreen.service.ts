@@ -15,7 +15,7 @@ export class FullscreenService {
   scriptsPath = '/assets/picturepark-sdk-v1-widgets/';
 
   showDetailById(shareItemId: string, shareItems: IShareItem[]) {
-    const shareItem = shareItems.filter((i) => i.id === shareItemId)[0];
+    const shareItem = shareItems.filter(i => i.id === shareItemId)[0];
     if (shareItem.isPdf && shareItems.length === 1) {
       this.showPdfJsItem(shareItem);
       this.loading = false;
@@ -39,9 +39,7 @@ export class FullscreenService {
       },
       sources: [
         {
-          type: item.isMovie
-            ? 'mp4'
-            : 'mp4' /* IndigoPlayer does not support mp3, but playback of mp3 defined as mp4 works */,
+          type: item.isMovie ? 'mp4' : 'mp4' /* IndigoPlayer does not support mp3, but playback of mp3 defined as mp4 works */,
           src: item.isMovie ? item.videoUrl : item.audioUrl,
         },
       ],
@@ -54,9 +52,7 @@ export class FullscreenService {
       return Promise.resolve((<any>window).IndigoPlayer);
     }
 
-    return Promise.all([
-      this.loadScript('https://cdn.jsdelivr.net/npm/indigo-player@1/lib/indigo-player.js', 'IndigoPlayer'),
-    ]).then(([IndigoPlayer]) => {
+    return Promise.all([this.loadScript('https://cdn.jsdelivr.net/npm/indigo-player@1/lib/indigo-player.js', 'IndigoPlayer')]).then(([IndigoPlayer]) => {
       return IndigoPlayer;
     });
   }
@@ -86,7 +82,7 @@ export class FullscreenService {
     };
 
     let pdfLoaded = false;
-    iframeElement.onload = (e) => {
+    iframeElement.onload = e => {
       document.body.style.overflow = 'hidden';
       if (pdfLoaded) {
         closeCallback();
@@ -100,12 +96,12 @@ export class FullscreenService {
   }
 
   showPhotoSwipeItem(shareItem: IShareItem, shareItems: IShareItem[]) {
-    return this.loadPhotoSwipe().then((result) => {
+    return this.loadPhotoSwipe().then(result => {
       if (!shareItems) {
         shareItems = [shareItem];
       }
 
-      const photoSwipeItems = shareItems.map((i) => {
+      const photoSwipeItems = shareItems.map(i => {
         if (i.isImage && i.detail) {
           return {
             src: i.previewUrl,
@@ -145,10 +141,7 @@ export class FullscreenService {
           };
         } else if (!i.isBinary) {
           return {
-            html:
-              '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' +
-              i.displayValues.detail +
-              '</div>',
+            html: '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' + i.displayValues.detail + '</div>',
             origin: i.originalUrl,
           };
         } else {
@@ -166,9 +159,7 @@ export class FullscreenService {
         index: shareItems.indexOf(shareItem),
       });
       photoSwipe.options.history = false;
-      photoSwipe.options.shareButtons = [
-        { id: 'download', label: 'Download', url: '{{raw_image_url}}', download: true },
-      ];
+      photoSwipe.options.shareButtons = [{ id: 'download', label: 'Download', url: '{{raw_image_url}}', download: true }];
       photoSwipe.options.getImageURLForShare = (shareButtonData: any) => {
         return photoSwipe.currItem.origin || photoSwipe.currItem.src || '';
       };
@@ -192,7 +183,7 @@ export class FullscreenService {
         });
       };
 
-      if (shareItems.filter((i) => i.isMovie || i.isAudio || i.isPdf).length > 0) {
+      if (shareItems.filter(i => i.isMovie || i.isAudio || i.isPdf).length > 0) {
         const updatePlayers = async () => {
           cleanupPlayers();
 
@@ -210,7 +201,7 @@ export class FullscreenService {
           }
 
           // Handle pdfjs iframe close event
-          for (const i of shareItems.filter((s) => s.isPdf)) {
+          for (const i of shareItems.filter(s => s.isPdf)) {
             const elementId = 'pdfjs_' + i.id;
             const element: any = document.getElementById(elementId);
             if (element) {
@@ -230,7 +221,7 @@ export class FullscreenService {
         updatePlayers();
       }
 
-      return new Promise<void>((resolve) => {
+      return new Promise<void>(resolve => {
         photoSwipe.listen('close', () => {
           cleanupPlayers();
           for (const resizeCallback of resizeCallbacks) {
@@ -254,10 +245,7 @@ export class FullscreenService {
         this.loadCss('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.css'),
         this.loadCss('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/default-skin/default-skin.css'),
         this.loadScript('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js', 'PhotoSwipe'),
-        this.loadScript(
-          'https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js',
-          'PhotoSwipeUI_Default'
-        ),
+        this.loadScript('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js', 'PhotoSwipeUI_Default'),
       ]).then(([css1, css2, photoSwipe, photoSwipeDefault]) => {
         return {
           element: this.getPhotoSwipeElement(),
@@ -321,14 +309,14 @@ export class FullscreenService {
   loadScript(url: string, globalName: string): Promise<any> {
     if ((<any>window).require) {
       log('Picturepark Widgets > Load external script via require(): ' + url);
-      return new Promise((resolve) => {
-        (<any>window).require([url], (module) => {
+      return new Promise(resolve => {
+        (<any>window).require([url], module => {
           resolve(module);
         });
       });
     } else {
       log('Picturepark Widgets > Load external script via tag: ' + url);
-      return new Promise<any>((resolve) => {
+      return new Promise<any>(resolve => {
         const scriptTag = document.createElement('script');
         scriptTag.src = url;
         scriptTag.async = true;
@@ -341,7 +329,7 @@ export class FullscreenService {
   }
 
   loadCss(url): Promise<void> {
-    return new Promise<void>((resolve) => {
+    return new Promise<void>(resolve => {
       const linkElement = document.createElement('link');
       linkElement.type = 'text/css';
       linkElement.rel = 'stylesheet';

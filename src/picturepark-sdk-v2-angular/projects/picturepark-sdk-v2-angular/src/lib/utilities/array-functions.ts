@@ -3,5 +3,5 @@ export function flatArray<T>(arr: T[][]): T[] {
 }
 
 export function chunkArray(arr: any[], chunkSize: number) {
-  return [...Array(Math.ceil(arr.length / chunkSize))].map((_) => arr.splice(0, chunkSize));
+  return [...Array(Math.ceil(arr.length / chunkSize))].map(_ => arr.splice(0, chunkSize));
 }

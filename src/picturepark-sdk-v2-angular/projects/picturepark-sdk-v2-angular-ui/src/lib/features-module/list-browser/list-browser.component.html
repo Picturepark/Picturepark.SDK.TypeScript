@@ -1,11 +1,6 @@
 <div class="browser">
   <div class="browser__header">
-    <pp-browser-toolbar
-      [selectionEnabled]="false"
-      [sortingEnabled]="false"
-      [browser]="self"
-      entityName="{{ 'ListBrowser.ListItemsLowercase' | pptranslate }}"
-    >
+    <pp-browser-toolbar [selectionEnabled]="false" [sortingEnabled]="false" [browser]="self" entityName="{{ 'ListBrowser.ListItemsLowercase' | pptranslate }}">
       <ng-container browser-buttons>
         <ng-content select="[content-buttons]"></ng-content>
       </ng-container>

@@ -18,13 +18,7 @@
           <mat-divider [vertical]="true"></mat-divider>
         </div>
         <div *ngIf="data.previous">
-          <button
-            mat-stroked-button
-            aria-label="previous"
-            class="navigation"
-            [disabled]="!data.hasPrevious()"
-            (click)="previous()"
-          >
+          <button mat-stroked-button aria-label="previous" class="navigation" [disabled]="!data.hasPrevious()" (click)="previous()">
             <mat-icon>keyboard_arrow_left</mat-icon>
           </button>
         </div>
@@ -40,13 +34,7 @@
             <div class="overview-wrap cp-scrollbar" *ngIf="content">
               <div class="content-preview">
                 <ng-container *ngIf="content.contentType !== 'Virtual'; else virtualItem">
-                  <pp-content-image-preview
-                    [content]="content"
-                    [shareDetail]="data.shareDetail"
-                    [width]="700"
-                    [height]="600"
-                    (playChange)="playing = $event"
-                  >
+                  <pp-content-image-preview [content]="content" [shareDetail]="data.shareDetail" [width]="700" [height]="600" (playChange)="playing = $event">
                   </pp-content-image-preview>
                 </ng-container>
                 <ng-template #virtualItem>

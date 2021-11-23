@@ -8,11 +8,7 @@ import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
   styleUrls: ['../dialog-base/dialog-base.component.scss', './confirm-dialog.component.scss'],
 })
 export class ConfirmDialogComponent extends DialogBaseComponent {
-  constructor(
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public options: ConfirmOptions,
-    injector: Injector
-  ) {
+  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>, @Inject(MAT_DIALOG_DATA) public options: ConfirmOptions, injector: Injector) {
     super(dialogRef, injector);
   }
 }

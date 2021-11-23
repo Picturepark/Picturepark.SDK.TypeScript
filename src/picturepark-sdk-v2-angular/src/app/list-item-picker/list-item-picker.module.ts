@@ -15,14 +15,6 @@ import { ApplicationHeaderModule } from '../components/application-header/applic
 
 @NgModule({
   declarations: [ListItemPickerComponent, ListItemsPickerComponent, ListItemBrowserComponent],
-  imports: [
-    CommonModule,
-    ListBrowserModule,
-    ListModule,
-    ListItemPickerRoutingModule,
-    SchemaBrowserModule,
-    SearchBoxModule,
-    ApplicationHeaderModule,
-  ],
+  imports: [CommonModule, ListBrowserModule, ListModule, ListItemPickerRoutingModule, SchemaBrowserModule, SearchBoxModule, ApplicationHeaderModule],
 })
 export class ListItemPickerModule {}

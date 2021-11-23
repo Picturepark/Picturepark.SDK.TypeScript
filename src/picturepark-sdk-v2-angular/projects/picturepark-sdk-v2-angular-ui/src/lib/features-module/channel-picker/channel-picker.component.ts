@@ -18,17 +18,13 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
 
   channels: Channel[] = [];
 
-  constructor(
-    private channelService: ChannelService,
-    private ref: ApplicationRef,
-    protected injector: Injector
-  ) {
+  constructor(private channelService: ChannelService, private ref: ApplicationRef, protected injector: Injector) {
     super(injector);
   }
 
   ngOnInit(): void {
     this.sub = this.channelService.getAll().subscribe(
-      (channels) => {
+      channels => {
         this.channels = channels;
 
         this.channelsChange.emit(this.channels);
