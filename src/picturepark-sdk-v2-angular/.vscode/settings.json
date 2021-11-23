@@ -1,6 +1,8 @@
 {
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
+  "html.format.wrapAttributes": "auto",
+  "html.format.wrapLineLength": 170,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.requireConfig": true
 }
