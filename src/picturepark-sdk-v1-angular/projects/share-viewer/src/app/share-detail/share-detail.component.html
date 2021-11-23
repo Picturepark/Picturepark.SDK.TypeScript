@@ -33,10 +33,10 @@
             mat-stroked-button
             aria-label="Download"
             *ngIf="shareDetail.data!.url"
-            (click)="downloadAll()"
+            (click)="download()"
             [disabled]="!shareDetail.contentSelections.length"
           >
-            {{ 'ShareViewer.DownloadAll' | pptranslate }}
+            {{ 'ShareViewer.Download' | pptranslate }}
           </button>
         </div>
       </div>

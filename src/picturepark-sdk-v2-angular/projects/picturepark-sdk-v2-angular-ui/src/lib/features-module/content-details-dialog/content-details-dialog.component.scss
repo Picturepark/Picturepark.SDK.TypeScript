@@ -1,0 +1,109 @@
+.dialog-container {
+  height: 100%;
+
+  .dialog-content {
+    overflow: hidden;
+    height: calc(100% - 62px);
+
+    mat-dialog-content {
+      position: relative;
+
+      .action-buttons {
+        @media (max-width: 725px) {
+          position: unset;
+          right: unset;
+          top: unset;
+          z-index: unset;
+          padding-right: 10px;
+        }
+
+        position: absolute;
+        right: 20px;
+        top: 0;
+        z-index: 100;
+        padding: 10px;
+        padding-right: 30px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        div {
+          padding-left: 8px;
+
+          .navigation {
+            min-width: 40px;
+            padding: 0 8px;
+          }
+
+          mat-divider {
+            height: 100%;
+            margin: 0 8px;
+          }
+        }
+      }
+
+      .overview-wrap {
+        display: flex;
+        flex-direction: row;
+        overflow: auto;
+
+        @media (max-width: 600px) {
+          flex-direction: column;
+        }
+      }
+
+      .mat-tab-header {
+        height: 50px;
+      }
+
+      .content-preview {
+        flex: 60;
+        padding: 24px;
+
+        @media (max-width: 535px) {
+          width: 100%;
+          padding: 0;
+        }
+      }
+
+      .content-info {
+        float: left;
+        flex: 30;
+        max-width: 30%;
+
+        @media (max-width: 535px) {
+          width: 100%;
+          max-width: 100%;
+        }
+
+        ul {
+          margin: 24px;
+          list-style: none;
+          padding: 0;
+
+          li {
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+
+          span {
+            font-weight: 500;
+            padding: 0px 0px 0px 5px;
+          }
+        }
+      }
+
+      .image-container {
+        width: 100%;
+      }
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.mat-dialog-content {
+  max-height: 100vh;
+}

@@ -7,13 +7,16 @@ import {
   InfoFacade,
   ShareDataBasic,
   ShareContentDetail,
-  ShareService,
   PICTUREPARK_CONFIGURATION,
   ShareResolveBehavior,
-  ShareFacade,
   LanguageService,
+  ShareAccessFacade,
 } from '@picturepark/sdk-v1-angular';
-import { ContentDetailsDialogComponent, ContentDetailsDialogOptions } from '@picturepark/sdk-v1-angular-ui';
+import {
+  ContentDetailsDialogComponent,
+  ContentDetailsDialogOptions,
+  ContentDownloadDialogService,
+} from '@picturepark/sdk-v1-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
 import { forkJoin, fromEvent, of } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
@@ -37,13 +40,13 @@ export class ShareDetailComponent implements OnInit {
   }
 
   constructor(
-    private shareService: ShareService,
-    private shareFacade: ShareFacade,
+    private shareAccessFacade: ShareAccessFacade,
     private infoFacade: InfoFacade,
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private ngZone: NgZone,
     public languageService: LanguageService,
+    public contentDownloadDialogService: ContentDownloadDialogService,
     @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkCdnConfiguration
   ) {}
 
@@ -76,8 +79,8 @@ export class ShareDetailComponent implements OnInit {
 
   onScroll() {
     this.itemsLoading = true;
-    this.shareFacade
-      .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30, this.config.cdnUrl)
+    this.shareAccessFacade
+      .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30)
       .subscribe((page) => {
         this.itemsLoading = false;
       });
@@ -90,13 +93,7 @@ export class ShareDetailComponent implements OnInit {
 
     this.isLoading = true;
     const shareInfo = forkJoin([
-      this.shareService.getShareByToken(
-        searchString,
-        this.language,
-        [ShareResolveBehavior.Schemas],
-        30,
-        this.config.cdnUrl
-      ),
+      this.shareAccessFacade.getShareByToken(searchString, this.language, [ShareResolveBehavior.Schemas], 30),
       this.infoFacade.getInfo(this.config.cdnUrl),
     ]);
 
@@ -114,8 +111,22 @@ export class ShareDetailComponent implements OnInit {
     });
   }
 
-  downloadAll(): void {
-    window.location.replace(this.shareDetail.data!.url);
+  download(): void {
+    this.shareAccessFacade.getOutputsInShare(this.shareToken).subscribe(res => this.contentDownloadDialogService.showDialog({
+      mode: 'multi',
+        contents: res?.contentInfos?.map(c => ({
+          id: c.id,
+          contentSchemaId: c.contentSchemaId,
+          contentType: c.contentType,
+          outputs: res.outputs?.filter(o => o.contentId === c.id).map(o => ({
+            contentId: o.contentId,
+            outputFormatId: o.outputFormatId,
+            dynamicRendering: o.dynamicRendering,
+            fileSize: o.fileSize,
+            }))
+          })) as any,
+        shareToken: this.shareToken
+      }));
   }
 
   showDetail(item: ShareContentDetail): void {
@@ -145,8 +156,8 @@ export class ShareDetailComponent implements OnInit {
             return of(content);
           }
 
-          return this.shareFacade
-            .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30, this.config.cdnUrl)
+          return this.shareAccessFacade
+            .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30)
             .pipe(map(() => this.shareDetail.contentSelections[index]));
         },
       },

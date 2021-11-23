@@ -71,6 +71,8 @@ Run the following commands to regenerate the clients based on the Swagger specif
 
 For more information, see [NSwag](http://nswag.org).
 
+After nswag was run, manually revert change for removed block: import { ... } from './api-services'; from auto generated file: src\picturepark-sdk-v1-angular\projects\picturepark-sdk-v1-angular\src\lib\services\frontend-services.ts
+
 ### Release new package versions
 
 1. Change package versions in the following projects and delete all `package-lock.json` files: 

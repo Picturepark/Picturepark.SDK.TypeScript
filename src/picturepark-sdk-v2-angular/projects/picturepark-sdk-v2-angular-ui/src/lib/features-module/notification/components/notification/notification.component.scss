@@ -1,0 +1,22 @@
+.notification-container {
+  height: 0px;
+  transition: 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &.active {
+    height: 50px;
+  }
+
+  .notification-message {
+    padding-left: 24px;
+  }
+
+  .notification-close {
+    height: 14px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+  }
+}

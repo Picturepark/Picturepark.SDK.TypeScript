@@ -1,0 +1,161 @@
+@import '~@angular/material/theming';
+
+$custom-typography: mat-typography-config(
+  $font-family: '"Roboto", "Helvetica Neue", sans-serif',
+  $display-4: mat-typography-level(16px, 25px, 300),
+  $display-3: mat-typography-level(16px, 25px, 400),
+  $display-2: mat-typography-level(16px, 25px, 500),
+  $display-1: mat-typography-level(16px, 25px, 600),
+  $headline: mat-typography-level(20px, 26px, 500),
+  $title: mat-typography-level(16px, 20px, 500),
+  $subheading-2: mat-typography-level(14px, 19px, 400),
+  $subheading-1: mat-typography-level(13px, 17px, 400),
+  $body-1: mat-typography-level(13px, 17px, 400),
+  $body-2: mat-typography-level(13px, 17px, 500),
+  $caption: mat-typography-level(12px, 20px, 400),
+  $button: mat-typography-level(12px, 21px, 500),
+  $input: mat-typography-level(13px, 1.54, 400),
+);
+
+@include mat-base-typography($custom-typography);
+@include mat-core($custom-typography);
+
+$mat-picturepark-accent: (
+  0: #eeeeee,
+  50: #e8f6f6,
+  100: #c5e8e8,
+  200: #9fd9d8,
+  300: #79cac8,
+  400: #5cbebd,
+  500: #3fb3b1,
+  600: #39acaa,
+  700: #31a3a1,
+  800: #299a98,
+  900: #1b8b88,
+  A100: #c3fffd,
+  A200: #90fffc,
+  A400: #5dfffb,
+  A700: #44fffa,
+  contrast: (
+    50: #444444,
+    100: #aaaaaa,
+    200: #444444,
+    300: #444444,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #444444,
+    A200: #444444,
+    A400: #444444,
+    A700: #444444,
+  ),
+);
+
+$mat-picturepark-warn: (
+  50: #ffebee,
+  100: #ffcdd2,
+  200: #ef9a9a,
+  300: #e57373,
+  400: #ef5350,
+  500: #f74931,
+  600: #e53935,
+  700: #d32f2f,
+  800: #c62828,
+  900: #b71c1c,
+  A100: #ff8a80,
+  A200: #ff5252,
+  A400: #ff1744,
+  A700: #d50000,
+  success: #50be3c,
+  warning: #f59220,
+  contrast: (
+    50: #727272,
+    100: #727272,
+    200: #727272,
+    300: #727272,
+    400: #727272,
+    500: #eee,
+    600: #eee,
+    700: #eee,
+    800: #eee,
+    900: #eee,
+    A100: #727272,
+    A200: #eee,
+    A400: #eee,
+    A700: #eee,
+    success: #eee,
+    warning: #eee,
+  ),
+);
+
+$cp-accent-light: (
+  100: #fff,
+  200: #fff,
+  300: #fff,
+  400: #f8f8f8,
+  450: #f8f8f8,
+  500: #eeeeee,
+  550: #eeeeee,
+  600: #d8d8d8,
+  650: #aaa,
+  680: #707070,
+  700: #444,
+  800: #444,
+  A400: #dcdcdc,
+  A500: #dcdcdc,
+  A800: #2f2f2f,
+  overlay: rgba(0, 0, 0, 0.4),
+  contrast: (
+    100: #aaaaaa,
+    200: #727272,
+    300: #444444,
+    400: #2f2f2f,
+    450: #727272,
+    500: #727272,
+    550: #2f2f2f,
+    600: #727272,
+    650: #fff,
+    680: #fff,
+    700: #aaaaaa,
+    800: #d8d8d8,
+    A400: #727272,
+    A500: #727272,
+    A800: #eee,
+    overlay: #eee,
+  ),
+);
+
+// GLOBAL COLORS
+$base: #39acaa;
+
+/*
+    Style guide documentation
+    https://material.io/design/color/the-color-system.html#color-theme-creation
+*/
+$mat-picturepark-primary: (
+  primary: $base,
+  background-light: #fff,
+  background-dark: #eee,
+  surface-light: #fff,
+  surface-mid: #dcdcdc,
+  surface-dark: #444,
+  opacity-light: rgba(0, 0, 0, 0.4),
+  on-primary: white,
+  on-background-light: #727272,
+  on-background-dark: #727272,
+  on-surface-light: #727272,
+  on-surface-mid: #444,
+  on-surface-dark: #fff,
+  on-opacity-light: #fff,
+  divider: #dcdcdc,
+  success: #4caf50,
+  contrast: (),
+);
+
+$picturepark-app-primary: mat-palette($mat-picturepark-accent, 600, 300, 800);
+$picturepark-app-accent: mat-palette($cp-accent-light, 500, 100, 700);
+$picturepark-app-warn: mat-palette($mat-picturepark-warn);
+$picturepark-app-theme: mat-light-theme($picturepark-app-primary, $picturepark-app-accent, $picturepark-app-warn);

@@ -1,0 +1,19 @@
+@import '~@angular/material/theming';
+
+@mixin pp-content-item-thumbnail-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $color: mat-color($accent, '650-contrast');
+
+  pp-content-item-thumbnail {
+    .content-item-thumbnail {
+      $self: &;
+
+      &__image-virtual-item-container {
+        background-color: mat-color($accent, 650);
+        color: $color;
+        fill: $color;
+      }
+    }
+  }
+}

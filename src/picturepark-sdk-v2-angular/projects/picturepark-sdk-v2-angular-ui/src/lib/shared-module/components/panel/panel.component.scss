@@ -1,0 +1,59 @@
+:host {
+  position: relative;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.panel-header {
+  position: relative;
+  padding: 0px 12px 0px 16px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header-title {
+  margin: 0px;
+  padding: 13px 0;
+}
+
+[pp-panel-buttons] {
+  button {
+    float: right;
+    font-size: 12px;
+    width: 100px;
+    border-radius: 0px;
+    line-height: 30px;
+    margin: 0px 0px 0px 15px;
+    border: 2px solid #fff;
+
+    & mat-icon {
+      font-size: 18px;
+    }
+  }
+}
+
+.panel-content {
+  padding: 0px 16px;
+  overflow: hidden;
+}
+
+[pp-panel-content] {
+  p {
+    font-weight: 400;
+    font-size: 13px;
+  }
+
+  a {
+    font-weight: 200;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

@@ -1,0 +1,78 @@
+@import '~@angular/material/theming';
+
+// DIALOG BASE VARS
+$pp-dialog-base: (
+  contrast: (),
+);
+
+@mixin pp-dialog-base-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  pp-content-details-dialog,
+  pp-content-download-dialog,
+  pp-confirmation-dialog,
+  pp-share-content-dialog {
+    .dialog,
+    .dialog-container {
+      .header {
+        color: mat-color($accent, '200-contrast');
+        border-color: mat-color($primary, divider);
+      }
+
+      mat-dialog-content {
+        background-color: mat-color($primary, background-dark);
+        color: mat-color($primary, on-background-dark);
+
+        .mat-tab-header {
+          background-color: mat-color($accent, 550);
+        }
+
+        .mat-checkbox-checked {
+          &.mat-primary {
+            .mat-checkbox-background {
+              background-color: mat-color($primary, primary);
+            }
+          }
+        }
+
+        .mat-tab-body-content {
+          background-color: mat-color($accent, 450);
+          color: mat-color($primary, on-surface-mid);
+        }
+      }
+
+      .loader-container {
+        background-color: mat-color($primary, surface-light);
+      }
+
+      mat-dialog-actions {
+        background-color: mat-color($primary, surface-light);
+        color: mat-color($primary, on-surface-light);
+      }
+    }
+  }
+
+  .cp-dialog {
+    .dialog-container {
+      mat-dialog-content {
+        background-color: mat-color($accent, 400);
+        color: mat-color($accent, '400-contrast');
+        fill: mat-color($accent, '200-contrast');
+
+        .mat-radio-button {
+          &.mat-accent {
+            &.mat-radio-checked {
+              .mat-radio-outer-circle {
+                border-color: mat-color($primary, 400);
+              }
+            }
+            .mat-radio-inner-circle {
+              background-color: mat-color($primary, 400);
+            }
+          }
+        }
+      }
+    }
+  }
+}

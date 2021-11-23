@@ -1,0 +1,51 @@
+#search-container {
+  display: flex;
+
+  .form {
+    width: 100%;
+    display: flex;
+    flex: 1;
+    border-radius: 4px;
+    transition: background 100ms ease-in;
+
+    input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      box-sizing: border-box;
+
+      flex-grow: 1;
+    }
+  }
+}
+
+.autocomplete-wrap {
+  display: flex;
+  flex-direction: row;
+}
+
+.autocomplete-options {
+  flex: 1;
+  border-right: 1px solid #eeeeee;
+  overflow: hidden;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+  padding-left: 12px;
+}
+
+.radio-button {
+  margin: 5px;
+}
+
+::ng-deep .mat-autocomplete-panel {
+  max-height: 800px !important;
+
+  .mat-option-text {
+    font-size: 16px;
+  }
+}

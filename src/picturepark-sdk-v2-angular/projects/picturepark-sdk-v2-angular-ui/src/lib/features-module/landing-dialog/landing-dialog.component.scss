@@ -1,0 +1,27 @@
+.dialog-container {
+
+  mat-dialog-content {
+    padding: 0;
+    margin: 0;
+
+    .content-wrapper {
+      padding: 24px;
+      position: relative;
+
+      .toggle-wrap {
+        padding-top: 12px;
+        display: flex;
+        flex-direction: row;
+      
+        .toggle-label {
+          padding-left: 14px;
+          line-height: 24px;
+        }
+      }
+    }
+  }
+
+  mat-dialog-actions {
+    justify-content: flex-start;
+  }
+}

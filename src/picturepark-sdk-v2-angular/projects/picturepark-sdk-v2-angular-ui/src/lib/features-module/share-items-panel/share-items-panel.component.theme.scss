@@ -1,0 +1,44 @@
+@import '~@angular/material/theming';
+
+// SHARE BROWSER ITEM VARS
+$pp-share-items-panel-theme: (
+  contrast: (),
+);
+
+@mixin pp-share-items-panel-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  pp-share-items-panel {
+    .grid {
+      > .item {
+        background-color: mat-color($accent, 550);
+        border: 1px solid mat-color($accent, 600);
+
+        &:hover {
+          border: 3px solid mat-color($accent, 680);
+          border-radius: 4px;
+          margin: -2px;
+        }
+      }
+    }
+
+    .list {
+      > .item {
+        background-color: mat-color($accent, 450);
+
+        &:hover {
+          background-color: mat-color($accent, 600);
+        }
+
+        .item-funcs {
+          color: mat-color($primary, on-surface-light);
+
+          i:hover {
+            color: initial;
+          }
+        }
+      }
+    }
+  }
+}
