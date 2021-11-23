@@ -291,7 +291,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
     this.playChange.emit(true);
     const url =
       this.scriptsPath +
-      '/assets/picturepark-sdk-v2-widgets/pdfjs/web/viewer.html?file=' +
+      '/assets/picturepark-sdk-v1-widgets/pdfjs/web/viewer.html?file=' +
       item.pdfUrl +
       '&closeButton=false';
     this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);

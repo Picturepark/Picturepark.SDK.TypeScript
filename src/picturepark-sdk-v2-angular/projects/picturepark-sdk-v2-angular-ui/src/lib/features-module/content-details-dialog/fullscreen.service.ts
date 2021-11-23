@@ -12,7 +12,7 @@ function log(message: string) {
 })
 export class FullscreenService {
   loading = false;
-  scriptsPath = '/assets/picturepark-sdk-v2-widgets/';
+  scriptsPath = '/assets/picturepark-sdk-v1-widgets/';
 
   showDetailById(shareItemId: string, shareItems: IShareItem[]) {
     const shareItem = shareItems.filter((i) => i.id === shareItemId)[0];

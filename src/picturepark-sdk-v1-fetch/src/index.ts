@@ -22264,6 +22264,36 @@ export interface SearchStringTooLongException extends PictureparkValidationExcep
     limit?: number;
 }
 
+export interface AggregationNameInvalidException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+    aggregationPrefix?: string | undefined;
+}
+
+export interface AggregationNameMissingException extends PictureparkValidationException {
+}
+
+/** Size of the aggregation is invalid. */
+export interface AggregationSizeInvalidException extends PictureparkValidationException {
+    /** The name identifying the aggregation. */
+    aggregationName?: string | undefined;
+    /** The invalid size of the aggregation: size must be equal or greater than 1. */
+    aggregationSize?: number;
+}
+
+export interface AggregationFilterNotSupportedException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+    notSupportedFilterType?: string | undefined;
+    supportedFilterTypes?: string[] | undefined;
+}
+
+export interface AggregationFieldMissingException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+}
+
+export interface AggregationPathMissingException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+}
+
 export interface DocumentVersionConflictException extends PictureparkConflictException {
     documentId?: string | undefined;
     documentType?: string | undefined;
@@ -22541,25 +22571,6 @@ export interface RelationTypeTargetDocTypeMismatchException extends PictureparkB
     relationType?: string | undefined;
     targetDocType?: string | undefined;
     expectedTargetDocType?: string | undefined;
-}
-
-export interface AggregationNameInvalidException extends PictureparkValidationException {
-    aggregationName?: string | undefined;
-    aggregationPrefix?: string | undefined;
-}
-
-/** Size of the aggregation is invalid. */
-export interface AggregationSizeInvalidException extends PictureparkValidationException {
-    /** The name identifying the aggregation. */
-    aggregationName?: string | undefined;
-    /** The invalid size of the aggregation: size must be equal or greater than 1. */
-    aggregationSize?: number;
-}
-
-export interface AggregationFilterNotSupportedException extends PictureparkValidationException {
-    aggregationName?: string | undefined;
-    notSupportedFilterType?: string | undefined;
-    supportedFilterTypes?: string[] | undefined;
 }
 
 export interface RelationTypeMissingException extends PictureparkBusinessException {

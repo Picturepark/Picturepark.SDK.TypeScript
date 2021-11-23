@@ -2,7 +2,7 @@ mkdir "%~dp0/../src/picturepark-sdk-v1-pickers/dist"
 
 REM # Compile global bundle
 
-cmd /c call "%~dp0/../node_modules/.bin/tsc-bundle" "%~dp0/../src/picturepark-sdk-v1-pickers/src/index.ts" "%~dp0/../src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.js" --globalNamespace pictureparkPickers --declaration --allowJs
+cmd /c call "%~dp0/../node_modules/.bin/tsc-bundle" "%~dp0/../src/picturepark-sdk-v1-pickers/src/index.ts" --outFile "%~dp0/../src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.js" --exportAs pictureparkPickers --importAsDefault pictureparkPickers=module
 
 cmd /c powershell "& {(Get-Content '%~dp0/../src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.js') | ForEach-Object { $_ -replace ', \"promise.min\"', '' } | Set-Content '%~dp0/../src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.js'}"
 
