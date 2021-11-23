@@ -41,14 +41,14 @@ export class ListComponent implements OnInit, OnDestroy {
   @Input() activeSchema: Subject<SchemaDetail | null>;
   @Output() queryChange = new EventEmitter<Params>();
 
-  public mobileQuery: MediaQueryList;
-  public aggregationFilters: AggregationFilter[] = [];
-  public searchQuery: Observable<string>;
-  public filter: BehaviorSubject<FilterBase | null>;
-  public schemaDetail: SchemaDetail | undefined;
-  public schema: Observable<SchemaDetail>;
-  public selectedItems: ListItem[];
-  public selectedItemsIds: string[];
+  mobileQuery: MediaQueryList;
+  aggregationFilters: AggregationFilter[] = [];
+  searchQuery: Observable<string>;
+  filter: BehaviorSubject<FilterBase | null>;
+  schemaDetail: SchemaDetail | undefined;
+  schema: Observable<SchemaDetail>;
+  selectedItems: ListItem[];
+  selectedItemsIds: string[];
 
   private subscription = new Subscription();
 
@@ -115,15 +115,15 @@ export class ListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public selectedItemsChange(selectedItems: ListItem[]) {
+  selectedItemsChange(selectedItems: ListItem[]) {
     this.selectedItems = selectedItems;
   }
 
-  public get queryParams(): Params {
+  get queryParams(): Params {
     return Object.assign({}, this.route.snapshot.queryParams);
   }
 
-  public changeAggregationFilters(aggregationFilters: AggregationFilter[]): void {
+  changeAggregationFilters(aggregationFilters: AggregationFilter[]): void {
     this.deselectSelectedItems();
     this.aggregationFilters = aggregationFilters;
     const filtersQuery = this.aggregationFilters.map((filter) => JSON.stringify(filter.toJSON()));

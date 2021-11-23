@@ -39,12 +39,12 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   @Input() shadow: boolean;
   @Input() cover: boolean;
 
-  public isLoading = false;
-  public thumbnailUrl$: Observable<SafeUrl> | null;
+  isLoading = false;
+  thumbnailUrl$: Observable<SafeUrl> | null;
 
-  public virtualItemHtml: SafeHtml | null;
+  virtualItemHtml: SafeHtml | null;
 
-  public constructor(
+  constructor(
     private contentService: ContentService,
     private contentFacade: ContentFacade,
     private sanitizer: DomSanitizer,

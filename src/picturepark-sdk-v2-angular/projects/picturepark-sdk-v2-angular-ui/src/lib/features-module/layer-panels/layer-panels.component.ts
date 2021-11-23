@@ -21,25 +21,25 @@ import { RelationFieldInfo } from './models/relation-field-info';
 })
 export class LayerPanelsComponent implements OnInit {
   @Input()
-  public schemas: SchemaDetail[];
+  schemas: SchemaDetail[];
 
   @Input()
-  public content: ContentDetail | ShareContentDetail;
+  content: ContentDetail | ShareContentDetail;
 
   @Input()
-  public showContentSchema = false;
+  showContentSchema = false;
 
   @Input()
-  public excludedLayerSchemaIds: string[] | undefined = [];
+  excludedLayerSchemaIds: string[] | undefined = [];
 
   @Input()
   showReferenced?: boolean;
 
   @Output()
-  public relationClick = new EventEmitter<RelationFieldInfo>();
+  relationClick = new EventEmitter<RelationFieldInfo>();
 
-  public layers: Layer[] = [];
-  public expandedSchemas: Set<string> = new Set<string>();
+  layers: Layer[] = [];
+  expandedSchemas: Set<string> = new Set<string>();
 
   private allSchemas: SchemaDetail[];
 
@@ -69,11 +69,11 @@ export class LayerPanelsComponent implements OnInit {
     }
   }
 
-  public relationClickHandler(relationInfo: RelationFieldInfo) {
+  relationClickHandler(relationInfo: RelationFieldInfo) {
     this.relationClick.emit(relationInfo);
   }
 
-  public layerExpansionHandler(layerId: string, opened: boolean) {
+  layerExpansionHandler(layerId: string, opened: boolean) {
     if (opened) {
       this.expandedSchemas.add(layerId);
     } else {

@@ -19,7 +19,7 @@ export function storageFactory(): OAuthStorage {
   ],
 })
 export class PictureparkOidcModule {
-  public static forRoot(
+  static forRoot(
     config: PictureparkOidcAuthConfiguration | Function
   ): ModuleWithProviders<PictureparkOidcModule> {
     return {

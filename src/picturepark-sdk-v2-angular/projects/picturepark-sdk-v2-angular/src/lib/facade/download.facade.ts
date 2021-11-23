@@ -15,7 +15,7 @@ import { map, mergeMap, retryWhen, tap } from 'rxjs/operators';
 export class DownloadFacade {
   constructor(private contentService: ContentService, private businessProcessService: BusinessProcessService) {}
 
-  public getDownloadLink(contents: IContentDownloadRequestItem[]) {
+  getDownloadLink(contents: IContentDownloadRequestItem[]) {
     const request = new ContentDownloadLinkCreateRequest({
       contents: contents,
       notifyProgress: false,

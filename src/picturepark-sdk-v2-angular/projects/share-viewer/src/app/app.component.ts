@@ -12,11 +12,11 @@ import { LandingDialogComponent } from '@picturepark/sdk-v2-angular-ui';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  public searchString: string;
-  public shareDetail: ShareDetail;
-  public mailRecipients: IMailRecipient[];
-  public showSearchBox = !environment.production;
-  public showConsent = true;
+  searchString: string;
+  shareDetail: ShareDetail;
+  mailRecipients: IMailRecipient[];
+  showSearchBox = !environment.production;
+  showConsent = true;
 
   constructor(
     private route: ActivatedRoute,

@@ -36,17 +36,17 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   });
 
   @Input()
-  public showSearchBehaviorPicker = false;
+  showSearchBehaviorPicker = false;
 
   @Input()
-  public minCharacters = 2;
+  minCharacters = 2;
 
   @Input()
   facade: SearchFacade<IEntityBase, SearchInputState>;
 
   suggestions$: Observable<{ name: string; results: AggregationResultItem[] }[]>;
 
-  public get suggestBox() {
+  get suggestBox() {
     return this.form.controls['suggestBox'];
   }
 
@@ -58,7 +58,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
     this.hasFocus = false;
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.sub = this.facade.searchString$
       .pipe(filter((searchString) => searchString !== this.suggestBox.value))
       .subscribe((searchString) => this.suggestBox.setValue(searchString));
@@ -97,7 +97,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
     );
   }
 
-  public optionSelected(event: MatAutocompleteSelectedEvent): void {
+  optionSelected(event: MatAutocompleteSelectedEvent): void {
     const element = event.option.value as AggregationResultItem;
     this.suggestBox.setValue('');
     if (element.filter) {
@@ -128,11 +128,11 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
     return aggs;
   }
 
-  public searchModeChange($event: MatRadioChange) {
+  searchModeChange($event: MatRadioChange) {
     this.facade.patchRequestState({ searchMode: $event.value });
   }
 
-  public clear() {
+  clear() {
     this.suggestBox.setValue('');
     this.facade.patchRequestState({ searchString: '' });
   }

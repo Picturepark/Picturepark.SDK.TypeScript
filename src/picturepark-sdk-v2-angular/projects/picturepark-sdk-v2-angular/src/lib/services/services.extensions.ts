@@ -118,7 +118,7 @@ class ContentService extends generated.ContentService {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  public create(
+  create(
     resolveBehaviors: ContentResolveBehavior[] | null | undefined,
     allowMissingDependencies: boolean | undefined,
     timeout: string | null | undefined,
@@ -139,7 +139,7 @@ class ContentService extends generated.ContentService {
     );
   }
 
-  public get(
+  get(
     contentId: string,
     resolveBehaviors: ContentResolveBehavior[] | null | undefined
   ): Observable<ContentDetail> {
@@ -151,7 +151,7 @@ class ContentService extends generated.ContentService {
     );
   }
 
-  public getMany(
+  getMany(
     ids: string[] | null,
     resolveBehaviors: ContentResolveBehavior[] | null | undefined
   ): Observable<ContentDetail[]> {
@@ -163,7 +163,7 @@ class ContentService extends generated.ContentService {
     );
   }
 
-  public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
+  search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
     return this.searchCore(contentSearchRequest).pipe(
       mergeMap(async (searchResult) => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
@@ -172,7 +172,7 @@ class ContentService extends generated.ContentService {
     );
   }
 
-  public updateMetadata(
+  updateMetadata(
     contentId: string,
     resolveBehaviors: ContentResolveBehavior[] | null | undefined,
     allowMissingDependencies: boolean | undefined,
@@ -195,7 +195,7 @@ class ContentService extends generated.ContentService {
     );
   }
 
-  public updatePermissions(
+  updatePermissions(
     contentId: string,
     resolveBehaviors: ContentResolveBehavior[] | null | undefined,
     timeout: string | null | undefined,
@@ -231,7 +231,7 @@ class ListItemService extends generated.ListItemService {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  public get(
+  get(
     listItemId: string,
     resolveBehaviors: ListItemResolveBehavior[] | null | undefined
   ): Observable<ListItemDetail> {
@@ -243,7 +243,7 @@ class ListItemService extends generated.ListItemService {
     );
   }
 
-  public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
+  search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
     return this.searchCore(listItemSearchRequest).pipe(
       mergeMap(async (searchResult) => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
@@ -273,7 +273,7 @@ class ShareService extends generated.ShareService {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  public get(
+  get(
     id: string | null,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
     contentResolveLimit: number | null | undefined
@@ -286,7 +286,7 @@ class ShareService extends generated.ShareService {
     );
   }
 
-  public getShareByToken(
+  getShareByToken(
     token: string,
     lang: string | null | undefined,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
@@ -474,7 +474,7 @@ class ShareService extends generated.ShareService {
       );
   }
 
-  public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
+  search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
     return this.searchCore(shareSearchRequest).pipe(
       mergeMap(async (searchResult) => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);

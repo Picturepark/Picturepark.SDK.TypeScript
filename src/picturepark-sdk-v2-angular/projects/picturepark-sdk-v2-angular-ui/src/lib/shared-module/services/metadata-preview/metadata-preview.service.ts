@@ -37,7 +37,7 @@ import { TranslationService } from '../translations/translation.service';
 export class MetaDataPreviewService {
   constructor(private localizationService: LocalizationService, private translationService: TranslationService) {}
 
-  public prepareTableColumns(allColumnNames: string[], tableData: any[]): string[] {
+  prepareTableColumns(allColumnNames: string[], tableData: any[]): string[] {
     const existedColumnsSet = new Set<string>();
 
     tableData.forEach((data) => {
@@ -52,7 +52,7 @@ export class MetaDataPreviewService {
     return intersections;
   }
 
-  public getContentTableData(
+  getContentTableData(
     metadataItems: any[],
     schemas: SchemaDetail[],
     info: CustomerInfo,
@@ -77,7 +77,7 @@ export class MetaDataPreviewService {
     return allData;
   }
 
-  public getListItemsTableData(
+  getListItemsTableData(
     metadataItems: any[],
     schema: SchemaDetail,
     info: CustomerInfo,

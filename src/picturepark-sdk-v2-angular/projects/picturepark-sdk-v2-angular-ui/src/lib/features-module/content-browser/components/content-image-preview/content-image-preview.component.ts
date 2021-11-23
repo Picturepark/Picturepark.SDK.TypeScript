@@ -52,13 +52,13 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
   thumbnailUrlSafe: SafeUrl;
   pdfUrl: SafeUrl;
 
-  @Input() public content: ContentDetail | ShareContentDetail;
-  @Input() public outputId = 'Preview';
-  @Input() public width?: number;
-  @Input() public height?: number;
-  @Input() public shareDetail?: ShareDetail;
+  @Input() content: ContentDetail | ShareContentDetail;
+  @Input() outputId = 'Preview';
+  @Input() width?: number;
+  @Input() height?: number;
+  @Input() shareDetail?: ShareDetail;
 
-  @Output() public playChange = new EventEmitter<boolean>();
+  @Output() playChange = new EventEmitter<boolean>();
 
   displayFullscreen = new Subject<FullScreenDisplayItems>();
 

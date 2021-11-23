@@ -18,7 +18,7 @@ import { BaseComponent } from '../../components/base.component';
 })
 export class AggregationListComponent extends BaseComponent implements OnInit {
   @Input()
-  public facade: SearchFacade<IEntityBase, SearchInputState>;
+  facade: SearchFacade<IEntityBase, SearchInputState>;
 
   aggregators$: Observable<AggregatorBase[]>;
   loading$: Observable<boolean>;
@@ -31,15 +31,15 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
     this.loading$ = this.facade.getLoadingInfos('initial').pipe(debounceTime(100));
 
     this.aggregationResults$ = this.facade.aggregationResults$.pipe(
-      map((aggregationResults) => (!!aggregationResults ? this.processAggregationResults(aggregationResults) : []))
+      map((aggregationResults) => (aggregationResults ? this.processAggregationResults(aggregationResults) : []))
     );
   }
 
-  public clearFilters(): void {
+  clearFilters(): void {
     this.facade.patchRequestState({ aggregationFilters: [] });
   }
 
-  public trackByName(_index, aggregator: AggregatorBase) {
+  trackByName(_index, aggregator: AggregatorBase) {
     return aggregator.name;
   }
 

@@ -5,17 +5,17 @@ import { Directive, Output, EventEmitter, ElementRef, AfterViewInit, OnDestroy, 
   selector: '[lazyload]',
 })
 export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
-  @Output() public lazyload: EventEmitter<any> = new EventEmitter();
+  @Output() lazyload: EventEmitter<any> = new EventEmitter();
   private intersectionObserver: IntersectionObserver;
   private element: Element;
 
   constructor(private elementRef: ElementRef) {}
 
-  public ngOnInit() {
+  ngOnInit() {
     this.element = this.elementRef.nativeElement;
   }
 
-  public ngAfterViewInit() {
+  ngAfterViewInit() {
     // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
     if ('IntersectionObserver' in window) {
       if (!this.intersectionObserver) {
@@ -31,7 +31,7 @@ export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  public ngOnDestroy() {
+  ngOnDestroy() {
     this.clear();
   }
 

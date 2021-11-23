@@ -13,23 +13,23 @@ import { BaseComponent } from '../base.component';
 })
 export abstract class BaseBrowserItemComponent<TEntity extends IEntityBase> extends BaseComponent {
   // INPUTS
-  @Input() public itemModel: TEntity;
+  @Input() itemModel: TEntity;
   @Input() thumbnailSize: ThumbnailSize = ThumbnailSize.Medium;
   @Input() isListView: boolean;
   @Input() browser: BaseBrowserComponent<TEntity>;
 
   // OUTPUTS
-  @Output() public previewItemChange = new EventEmitter<TEntity>();
+  @Output() previewItemChange = new EventEmitter<TEntity>();
 
   protected isVisible = false;
   protected loadItem = new Subject<void>();
 
-  public markAsVisible() {
+  markAsVisible() {
     this.isVisible = true;
     this.loadItem.next();
   }
 
-  public previewItem() {
+  previewItem() {
     this.previewItemChange.emit(this.itemModel);
   }
 }

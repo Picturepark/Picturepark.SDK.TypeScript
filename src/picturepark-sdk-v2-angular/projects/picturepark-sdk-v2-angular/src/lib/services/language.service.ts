@@ -8,14 +8,14 @@ import { LocalStorageService } from './local-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
-  public defaultLanguage: string;
-  public currentLanguage: Language;
-  public languages: Language[];
-  public shareLanguages: Language[];
+  defaultLanguage: string;
+  currentLanguage: Language;
+  languages: Language[];
+  shareLanguages: Language[];
 
   constructor(private infoFacade: InfoFacade, private localStorageService: LocalStorageService) {}
 
-  public loadLanguages(
+  loadLanguages(
     allowedLanguages: 'system' | 'share' | 'all',
     locale?: string,
     cdnUrl?: string
@@ -38,7 +38,7 @@ export class LanguageService {
     );
   }
 
-  public changeCurrentLanguage(languageCode: string, saveToStorage = true): void {
+  changeCurrentLanguage(languageCode: string, saveToStorage = true): void {
     this.currentLanguage = this.getLanguage(languageCode);
     if (saveToStorage) {
       this.localStorageService.set(StorageKey.LanguageCode, this.currentLanguage.ietf);

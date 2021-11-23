@@ -13,9 +13,9 @@ import { Notification } from '../../../features-module/notification/interfaces/n
 @Directive()
 export class DialogBaseComponent extends BaseComponent implements OnInit, OnDestroy {
   // VARS
-  public notification: Notification;
-  public title: string;
-  public notificationService: NotificationService;
+  notification: Notification;
+  title: string;
+  notificationService: NotificationService;
 
   constructor(protected dialogRef: MatDialogRef<any>, protected injector: Injector) {
     super(injector);

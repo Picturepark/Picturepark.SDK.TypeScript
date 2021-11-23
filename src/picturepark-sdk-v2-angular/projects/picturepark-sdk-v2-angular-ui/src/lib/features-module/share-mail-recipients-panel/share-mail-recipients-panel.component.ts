@@ -10,7 +10,7 @@ export class ShareMailRecipientsPanelComponent {
   @Input() mailRecipients: IMailRecipient[];
 
   // COPY TO CLIPBOARD
-  public copyToClipboard(event: MouseEvent, recipienturl: string): void {
+  copyToClipboard(event: MouseEvent, recipienturl: string): void {
     const copyBox = document.createElement('textarea');
     copyBox.value = recipienturl;
     document.body.appendChild(copyBox);

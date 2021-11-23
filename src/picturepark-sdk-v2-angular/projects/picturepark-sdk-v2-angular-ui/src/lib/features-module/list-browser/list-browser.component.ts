@@ -39,14 +39,14 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   @Input() enableSelection: boolean;
   @Input() sortInfo: SortInfo[];
 
-  public tableItems: any[] = [];
-  public dataSource = new MatTableDataSource<any>([]);
-  public displayedColumns: string[];
-  public displayedColumnNames: any[];
-  public activeSortColumn: string;
-  public activeSortDirection: MatSortDirection;
-  public customerInfo: CustomerInfo;
-  public isShiftPressed = false;
+  tableItems: any[] = [];
+  dataSource = new MatTableDataSource<any>([]);
+  displayedColumns: string[];
+  displayedColumnNames: any[];
+  activeSortColumn: string;
+  activeSortDirection: MatSortDirection;
+  customerInfo: CustomerInfo;
+  isShiftPressed = false;
 
   constructor(
     private metaDataPreviewService: MetaDataPreviewService,
@@ -133,12 +133,12 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.cdr.detectChanges();
   }
 
-  public update(): void {
+  update(): void {
     this.tableItems = [];
     super.update();
   }
 
-  public deselectAll() {
+  deselectAll() {
     this.selectionService.clear();
     this.cdr.detectChanges();
   }
@@ -153,20 +153,20 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
-  public isAllSelected() {
+  isAllSelected() {
     return this.selectedItems.length === this.items.length;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  public masterToggle() {
+  masterToggle() {
     this.isAllSelected() ? this.selectionService.clear() : this.selectionService.addItems(this.items.map((q) => q));
   }
 
-  public isRowSelected(row: any, test?): boolean {
+  isRowSelected(row: any, test?): boolean {
     return this.selectionService.getById(row._refId) ? true : false;
   }
 
-  public toggle(event: MatCheckboxChange | MouseEvent, row: any, presist = false) {
+  toggle(event: MatCheckboxChange | MouseEvent, row: any, presist = false) {
     if (this.enableSelection) {
       if (event instanceof MatCheckboxChange) {
         event = new MouseEvent('click', { shiftKey: this.isShiftPressed });
@@ -176,7 +176,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     }
   }
 
-  public onPress(event: MouseEvent, row: any, presist = false) {
+  onPress(event: MouseEvent, row: any, presist = false) {
     if (this.enableSelection) {
       const index = this.items.findIndex((item) => item.id === row._refId);
       this.itemPressed(event, index);
@@ -184,7 +184,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   /** The label for the checkbox on the passed row */
-  public checkboxLabel(row?: any): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }

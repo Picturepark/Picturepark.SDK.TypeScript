@@ -78,7 +78,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     }
   }
 
-  public downloadItem() {
+  downloadItem() {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
       contents: [this.content],
@@ -86,11 +86,11 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     });
   }
 
-  public next(): void {
+  next(): void {
     this.setContent(this.data.next());
   }
 
-  public previous(): void {
+  previous(): void {
     this.setContent(this.data.previous());
   }
 

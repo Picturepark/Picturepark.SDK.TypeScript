@@ -14,7 +14,7 @@ export class TranslationService {
 
   constructor(@Inject(LOCALE_ID) private locale: string, private infoFacade: InfoFacade) {}
 
-  public async getOutputFormatTranslations(): Promise<IOutputFormatTranslations> {
+  async getOutputFormatTranslations(): Promise<IOutputFormatTranslations> {
     if (!this.customerInfo) {
       this.customerInfo = await this.infoFacade.getInfo().toPromise();
     }
@@ -27,7 +27,7 @@ export class TranslationService {
     return outputTranslations;
   }
 
-  public translate(key: any) {
+  translate(key: any) {
     return translate(key, this.locale);
   }
 }

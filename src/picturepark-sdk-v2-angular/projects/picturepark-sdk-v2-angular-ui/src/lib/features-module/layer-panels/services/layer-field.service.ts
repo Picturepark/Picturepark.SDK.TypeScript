@@ -48,7 +48,7 @@ export class LayerFieldService {
     private translatePipe: TranslatePipe
   ) {}
 
-  public generate(
+  generate(
     field: FieldBase,
     schemaMetadata: any,
     allSchemas: SchemaDetail[],

@@ -49,17 +49,17 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   downloadContentSubscriber: Subscription;
 
   // VARS
-  public selection: OutputSelection;
-  public fileSize = 0;
-  public enableAdvanced = false;
-  public advancedMode = false;
-  public filteredData: Content[];
+  selection: OutputSelection;
+  fileSize = 0;
+  enableAdvanced = false;
+  advancedMode = false;
+  filteredData: Content[];
   missingOutputs = { all: false, count: 0 };
-  public hasDynamicOutputs = false;
-  public waitingDownload = false;
-  public tooManyContents = false;
+  hasDynamicOutputs = false;
+  waitingDownload = false;
+  tooManyContents = false;
 
-  public outputFormatFallback = [
+  outputFormatFallback = [
     { fileSchemaId: 'ImageMetadata', outputFormatId: 'Preview' },
     { fileSchemaId: 'VectorMetadata', outputFormatId: 'Pdf' },
     { fileSchemaId: 'DocumentMetadata', outputFormatId: 'Pdf' },
@@ -163,7 +163,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       .reduce((a, b) => a + b, 0);
   }
 
-  public download(): void {
+  download(): void {
     const data = this.selection.getSelectedOutputs();
 
     // Single share download
@@ -231,18 +231,18 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     );
   }
 
-  public toggleAdvanced(): void {
+  toggleAdvanced(): void {
     this.selection.toggleThumbnails();
     this.update();
   }
 
-  public radioChange(output: IOutputPerOutputFormatSelection, fileType: IOutputPerSchemaSelection): void {
+  radioChange(output: IOutputPerOutputFormatSelection, fileType: IOutputPerSchemaSelection): void {
     this.selection.getOutputs(fileType).forEach((i) => (i.selected = false));
     output.selected = true;
     this.update();
   }
 
-  public update(): void {
+  update(): void {
     this.enableAdvanced = this.selection.hasThumbnails;
     this.advancedMode = !this.selection.hasHiddenThumbnails;
     const outputs = this.selection.getSelectedOutputs();
@@ -258,7 +258,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     }
   }
 
-  public getOutput(content: IContentDownload, outputs: IContentDownloadOutput[]) {
+  getOutput(content: IContentDownload, outputs: IContentDownloadOutput[]) {
     // Try to use Original
     let output = outputs.find((i) => i.outputFormatId === 'Original');
     if (output) {

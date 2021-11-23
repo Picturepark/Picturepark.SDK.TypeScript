@@ -128,7 +128,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
             name: form.get('share_name')!.value,
             recipientEmails: recipientsEmails,
             contents: contentItems,
-            outputAccess: !!form.get('accessOriginal')?.value ? OutputAccess.Full : OutputAccess.Preview,
+            outputAccess: form.get('accessOriginal')?.value ? OutputAccess.Full : OutputAccess.Preview,
             languageCode: form.get('language')?.value ?? this.languageService.currentLanguage.ietf,
             suppressNotifications: false,
             expirationDate: isNaN(expDate.getTime()) ? undefined : expDate,

@@ -11,7 +11,7 @@ export class TermsOfServiceEditable implements ITermsOfServiceEditable {
 
   constructor(data?: ITermsOfServiceEditable) {
     if (data) {
-      for (var property in data) {
+      for (const property in data) {
         if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
       }
       this.content =
@@ -30,7 +30,7 @@ export class TermsOfServiceEditable implements ITermsOfServiceEditable {
 
   static fromJS(data: any): TermsOfServiceEditable {
     data = typeof data === 'object' ? data : {};
-    let result = new TermsOfServiceEditable();
+    const result = new TermsOfServiceEditable();
     result.init(data);
     return result;
   }
@@ -64,7 +64,7 @@ export class TermsOfService extends TermsOfServiceEditable implements ITermsOfSe
 
   static fromJS(data: any): TermsOfService {
     data = typeof data === 'object' ? data : {};
-    let result = new TermsOfService();
+    const result = new TermsOfService();
     result.init(data);
     return result;
   }
@@ -102,7 +102,7 @@ export class TermsOfServiceDetail extends TermsOfService implements ITermsOfServ
 
   static fromJS(data: any): TermsOfServiceDetail {
     data = typeof data === 'object' ? data : {};
-    let result = new TermsOfServiceDetail();
+    const result = new TermsOfServiceDetail();
     result.init(data);
     return result;
   }

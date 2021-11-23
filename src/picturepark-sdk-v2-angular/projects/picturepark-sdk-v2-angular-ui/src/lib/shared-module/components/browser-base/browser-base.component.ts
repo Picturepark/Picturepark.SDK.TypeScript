@@ -40,7 +40,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     return this.injector.get(TranslationService);
   }
   @LazyGetter()
-  public get selectionService(): SelectionService<TEntity> {
+  get selectionService(): SelectionService<TEntity> {
     return new SelectionService<TEntity>();
   }
   @LazyGetter()
@@ -48,24 +48,24 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     return this.injector.get(MatDialog);
   }
 
-  public self: BaseBrowserComponent<TEntity>;
+  self: BaseBrowserComponent<TEntity>;
 
   protected pictureParkUIConfig: PictureparkUIConfiguration;
 
-  public configActions: ConfigActions;
-  public isLoading = false;
-  public items: TEntity[] = [];
-  public isAscending: boolean | null = null;
-  public activeSortingType: ISortItem;
-  public sortingTypes: ISortItem[];
-  public views: IBrowserView[];
-  public activeView: IBrowserView;
-  public activeThumbnailSize: ThumbnailSize = ThumbnailSize.Medium;
+  configActions: ConfigActions;
+  isLoading = false;
+  items: TEntity[] = [];
+  isAscending: boolean | null = null;
+  activeSortingType: ISortItem;
+  sortingTypes: ISortItem[];
+  views: IBrowserView[];
+  activeView: IBrowserView;
+  activeThumbnailSize: ThumbnailSize = ThumbnailSize.Medium;
 
   protected scrollDebounceTime = 0;
 
-  @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
-  @Output() public previewItemChange = new EventEmitter<TEntity>();
+  @Output() selectedItemsChange = new EventEmitter<TEntity[]>();
+  @Output() previewItemChange = new EventEmitter<TEntity>();
 
   private _selectedItems: TEntity[] = [];
   private lastSelectedIndex = 0;
@@ -148,11 +148,11 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.selectedItemsChange.emit(items);
   }
 
-  public trackByItem(index: number, item: TEntity): string {
+  trackByItem(index: number, item: TEntity): string {
     return item.id;
   }
 
-  public update(): void {
+  update(): void {
     this.facade.searchResultState.nextPageToken = undefined;
     this.facade.searchResultState.results = [];
     this.items = [];
@@ -160,7 +160,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.loadData()?.subscribe();
   }
 
-  public loadData(): Observable<any> | undefined {
+  loadData(): Observable<any> | undefined {
     if (this.isLoading) {
       return;
     }
@@ -193,7 +193,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   /**
    * Click event to trigger selection (ctrl + shift click)
    */
-  public itemClicked(event: MouseEvent, index: number, presist = false): void {
+  itemClicked(event: MouseEvent, index: number, presist = false): void {
     const itemModel = this.items[index];
 
     if (this.isTouchDevice) {
@@ -245,7 +245,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.selectionService.toggle(itemModel);
   }
 
-  public itemPressed(event: Event, index: number): void {
+  itemPressed(event: Event, index: number): void {
     const itemModel = this.items[index];
 
     this.lastSelectedIndex = index;
@@ -253,7 +253,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.selectionService.addItem(itemModel);
   }
 
-  public toggleItems(isSelected: boolean): void {
+  toggleItems(isSelected: boolean): void {
     if (isSelected === true) {
       this.selectionService.addItems(this.items.map((model) => model));
     } else {
@@ -261,7 +261,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     }
   }
 
-  public previewItem(item: TEntity): void {
+  previewItem(item: TEntity): void {
     this.previewItemChange.emit(item);
   }
 

@@ -21,7 +21,7 @@ import ReferencedData from '../../components/export/reference-data';
 export class ExportService {
   constructor(private schemaService: SchemaService) {}
 
-  public getReferencedData(referencedData: Observable<ReferencedData>): Observable<ReferencedData> {
+  getReferencedData(referencedData: Observable<ReferencedData>): Observable<ReferencedData> {
     return referencedData.pipe(
       flatMap((referenced) => {
         return zip(of(referenced), this.schemaService.getMany(referenced.schemaIds));

@@ -56,43 +56,43 @@ export class BasketService {
     });
   }
 
-  public get basketChange(): Observable<string[]> {
+  get basketChange(): Observable<string[]> {
     return this.basketItemsIdsSubject.asObservable();
   }
 
-  public get basketItemsChanges(): Observable<Content[]> {
+  get basketItemsChanges(): Observable<Content[]> {
     return this.basketItemsSubject.asObservable();
   }
 
-  public getBasketItems(): string[] {
+  getBasketItems(): string[] {
     return Array.from(this.basketItemsIds);
   }
 
-  public addItem(itemId: string) {
+  addItem(itemId: string) {
     this.basketChanges.next({ operation: BasketOperation.added, itemsIds: [itemId] });
   }
 
-  public addItems(itemsIds: string[]) {
+  addItems(itemsIds: string[]) {
     this.basketChanges.next({ operation: BasketOperation.added, itemsIds: itemsIds });
   }
 
-  public removeItem(itemId: string) {
+  removeItem(itemId: string) {
     this.basketChanges.next({ operation: BasketOperation.removed, itemsIds: [itemId] });
   }
 
-  public removeItems(itemsIds: string[]) {
+  removeItems(itemsIds: string[]) {
     this.basketChanges.next({ operation: BasketOperation.removed, itemsIds: itemsIds });
   }
 
-  public clearBasket() {
+  clearBasket() {
     this.basketChanges.next({ operation: BasketOperation.cleared, itemsIds: [] });
   }
 
-  public contains(itemId: string) {
+  contains(itemId: string) {
     return this.basketItemsIds.has(itemId);
   }
 
-  public toggle(itemId: string) {
+  toggle(itemId: string) {
     if (this.contains(itemId)) {
       this.removeItem(itemId);
     } else {

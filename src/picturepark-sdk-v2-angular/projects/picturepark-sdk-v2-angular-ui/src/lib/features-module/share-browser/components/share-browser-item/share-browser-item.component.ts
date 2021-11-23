@@ -20,11 +20,11 @@ import { debounceTime, map, share } from 'rxjs/operators';
 })
 export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> implements OnChanges, OnInit {
   // VARS
-  public thumbnailSizes = ThumbnailSize;
+  thumbnailSizes = ThumbnailSize;
 
-  public isLoading = true;
+  isLoading = true;
 
-  public thumbnailUrls: SafeUrl[] = [];
+  thumbnailUrls: SafeUrl[] = [];
 
   isSelected$: Observable<boolean> | undefined;
 
@@ -32,7 +32,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
     super(injector);
   }
 
-  public getThumbnails(contentIds: string[]): void {
+  getThumbnails(contentIds: string[]): void {
     const contentIdsReq = contentIds.slice(0, 3);
 
     Promise.all(
@@ -60,7 +60,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
       });
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.getThumbnails(this.itemModel.contentIds);
 
     this.isSelected$ = this.browser.selectedItemsChange.pipe(
@@ -70,11 +70,11 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
     );
   }
 
-  public updateUrl(event) {
+  updateUrl(event) {
     event.path[0].src = BROKEN_IMAGE_URL;
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes['thumbnailSize'] && this.isVisible) {
       const updateImage =
         changes['thumbnailSize'].firstChange ||

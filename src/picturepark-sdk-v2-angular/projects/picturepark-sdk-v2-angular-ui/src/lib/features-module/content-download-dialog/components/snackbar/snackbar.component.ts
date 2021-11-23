@@ -8,8 +8,8 @@ import { SnackBarInput } from '../../interfaces/snackbar.interfaces';
   styleUrls: ['./snackbar.component.scss'],
 })
 export class SnackbarComponent implements OnInit {
-  public displayText: string;
-  public showLoader: boolean;
+  displayText: string;
+  showLoader: boolean;
 
   constructor(
     public snackBarRef: MatSnackBarRef<SnackbarComponent>,

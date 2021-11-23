@@ -8,9 +8,9 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./field-detail-info-dialog.component.scss'],
 })
 export class FieldDetailInfoDialogComponent implements OnInit {
-  public title: string;
-  public message: string;
-  public displayMessage: string | null;
+  title: string;
+  message: string;
+  displayMessage: string | null;
 
   constructor(public dialogRef: MatDialogRef<FieldDetailInfoDialogComponent>, private sanitizer: DomSanitizer) {}
 

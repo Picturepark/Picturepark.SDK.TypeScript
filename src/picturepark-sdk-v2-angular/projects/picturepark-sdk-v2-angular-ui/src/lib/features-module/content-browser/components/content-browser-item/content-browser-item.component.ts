@@ -34,8 +34,8 @@ import { ItemBasketSelection } from './interfaces/content-browser-item.interface
 })
 export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
   @Output() changeInBasket = new EventEmitter<ItemBasketSelection>();
-  public listItemHtml: SafeHtml | null = null;
-  public thumbnailSizes = ThumbnailSize;
+  listItemHtml: SafeHtml | null = null;
+  thumbnailSizes = ThumbnailSize;
 
   isSelected$: Observable<boolean> | undefined;
   isInBasket$: Observable<boolean> | undefined;
@@ -62,13 +62,13 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     );
   }
 
-  public ngOnChanges(): void {
+  ngOnChanges(): void {
     if (this.itemModel.displayValues && this.itemModel.displayValues['list']) {
       this.listItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.itemModel.displayValues['list']);
     }
   }
 
-  public downloadItem() {
+  downloadItem() {
     if (!this.isSelected) {
       this.browser.selectedItems = [this.itemModel];
     }
@@ -79,7 +79,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     });
   }
 
-  public handleChangeInBasket(addItem: boolean) {
+  handleChangeInBasket(addItem: boolean) {
     this.changeInBasket.emit({ addItem, itemId: this.itemModel.id });
   }
 }
