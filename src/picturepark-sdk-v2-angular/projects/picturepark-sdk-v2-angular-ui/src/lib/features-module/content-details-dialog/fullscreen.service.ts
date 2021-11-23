@@ -74,12 +74,10 @@ export class FullscreenService {
     const closeCallback = () => {
       document.body.removeChild(iframeElement);
       document.body.style.overflow = savedOverflow;
-      // tslint:disable-next-line: no-use-before-declare
       document.removeEventListener('keydown', keydownCallback, true);
     };
 
     const keydownCallback = (e: KeyboardEvent) => {
-      // tslint:disable-next-line: deprecation
       const event = e || <KeyboardEvent>window.event;
       const isEscape = 'key' in event ? event.key === 'Escape' || event.key === 'Esc' : (<any>event).keyCode === 27;
       if (isEscape) {

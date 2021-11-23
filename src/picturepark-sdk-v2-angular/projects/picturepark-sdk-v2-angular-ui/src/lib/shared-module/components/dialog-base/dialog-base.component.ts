@@ -10,7 +10,6 @@ import { NotificationService } from '../../services/notification/notification.se
 // INTERFACES
 import { Notification } from '../../../features-module/notification/interfaces/notification.interface';
 
-/* tslint:disable:directive-class-suffix */
 @Directive()
 export class DialogBaseComponent extends BaseComponent implements OnInit, OnDestroy {
   // VARS
