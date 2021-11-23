@@ -1,7 +1,8 @@
-import { Inject, Optional } from '@angular/core'; // ignore
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Inject, Injector, Optional } from '@angular/core'; // ignore
 import { HttpClient, HttpHeaders, HttpResponseBase } from '@angular/common/http'; // ignore
-import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs'; // ignore
-import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators'; // ignore
+import { Observable, from as _observableFrom, throwError as _observableThrow } from 'rxjs'; // ignore
+import { mergeMap, catchError as _observableCatch } from 'rxjs/operators'; // ignore
 // prettier-ignore
 import { // ignore
   PICTUREPARK_API_URL, // ignore
@@ -22,22 +23,12 @@ import { // ignore
   ShareContentDetailResult, // ignore
 } from './api-services'; // ignore
 
-import { Injector } from '@angular/core';
-import { mergeMap } from 'rxjs/operators';
 import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
-import { PictureparkServiceBase } from './base.service';
 import * as generated from './api-services';
 
-export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
-  'AudioMetadata',
-  'DocumentMetadata',
-  'FileMetadata',
-  'ImageMetadata',
-  'VideoMetadata',
-  'VectorMetadata',
-];
+export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = ['AudioMetadata', 'DocumentMetadata', 'FileMetadata', 'ImageMetadata', 'VideoMetadata', 'VectorMetadata'];
 
 export const SYSTEM_LAYER_SCHEMA_IDS = ['XmpMetadata', 'ExifMetadata'];
 
@@ -85,10 +76,7 @@ class AggregationResultItem extends generated.AggregationResultItem {
     // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
     if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
       displayName = this.name.split('/').pop() || null;
-    } else if (
-      this.filter &&
-      ((this.filter.filter as any).term === 'false' || (this.filter.filter as any).term === 'true')
-    ) {
+    } else if (this.filter && ((this.filter.filter as any).term === 'false' || (this.filter.filter as any).term === 'true')) {
       displayName = (this.filter.filter as any).term;
     } else {
       displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
@@ -125,39 +113,27 @@ class ContentService extends generated.ContentService {
     waitSearchDocCreation: boolean | undefined,
     contentCreateRequest: ContentCreateRequest
   ): Observable<ContentDetail> {
-    return this.createCore(
-      resolveBehaviors,
-      allowMissingDependencies,
-      timeout,
-      waitSearchDocCreation,
-      contentCreateRequest
-    ).pipe(
-      mergeMap(async (content) => {
+    return this.createCore(resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, contentCreateRequest).pipe(
+      mergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
     );
   }
 
-  get(
-    contentId: string,
-    resolveBehaviors: ContentResolveBehavior[] | null | undefined
-  ): Observable<ContentDetail> {
+  get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
     return this.getCore(contentId, resolveBehaviors).pipe(
-      mergeMap(async (content) => {
+      mergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
     );
   }
 
-  getMany(
-    ids: string[] | null,
-    resolveBehaviors: ContentResolveBehavior[] | null | undefined
-  ): Observable<ContentDetail[]> {
+  getMany(ids: string[] | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail[]> {
     return this.getManyCore(ids, resolveBehaviors).pipe(
-      mergeMap(async (contents) => {
-        contents.forEach(async (content) => await this.liquidRenderingService.renderNestedDisplayValues(content));
+      mergeMap(async contents => {
+        contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
         return contents;
       })
     );
@@ -165,7 +141,7 @@ class ContentService extends generated.ContentService {
 
   search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
     return this.searchCore(contentSearchRequest).pipe(
-      mergeMap(async (searchResult) => {
+      mergeMap(async searchResult => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })
@@ -180,15 +156,8 @@ class ContentService extends generated.ContentService {
     waitSearchDocCreation: boolean | undefined,
     updateRequest: ContentMetadataUpdateRequest
   ): Observable<ContentDetail> {
-    return this.updateMetadataCore(
-      contentId,
-      resolveBehaviors,
-      allowMissingDependencies,
-      timeout,
-      waitSearchDocCreation,
-      updateRequest
-    ).pipe(
-      mergeMap(async (content) => {
+    return this.updateMetadataCore(contentId, resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, updateRequest).pipe(
+      mergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
@@ -203,7 +172,7 @@ class ContentService extends generated.ContentService {
     updateRequest: ContentPermissionsUpdateRequest
   ): Observable<ContentDetail> {
     return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
-      mergeMap(async (content) => {
+      mergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
@@ -231,12 +200,9 @@ class ListItemService extends generated.ListItemService {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  get(
-    listItemId: string,
-    resolveBehaviors: ListItemResolveBehavior[] | null | undefined
-  ): Observable<ListItemDetail> {
+  get(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
     return this.getCore(listItemId, resolveBehaviors).pipe(
-      mergeMap(async (listItem) => {
+      mergeMap(async listItem => {
         await this.liquidRenderingService.renderNestedDisplayValues(listItem);
         return listItem;
       })
@@ -245,7 +211,7 @@ class ListItemService extends generated.ListItemService {
 
   search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
     return this.searchCore(listItemSearchRequest).pipe(
-      mergeMap(async (searchResult) => {
+      mergeMap(async searchResult => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })
@@ -273,13 +239,9 @@ class ShareService extends generated.ShareService {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  get(
-    id: string | null,
-    resolveBehaviors: ShareResolveBehavior[] | null | undefined,
-    contentResolveLimit: number | null | undefined
-  ): Observable<ShareDetail> {
+  get(id: string | null, resolveBehaviors: ShareResolveBehavior[] | null | undefined, contentResolveLimit: number | null | undefined): Observable<ShareDetail> {
     return this.getCore(id, resolveBehaviors, contentResolveLimit).pipe(
-      mergeMap(async (shareDetail) => {
+      mergeMap(async shareDetail => {
         await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
         return shareDetail;
       })
@@ -294,21 +256,15 @@ class ShareService extends generated.ShareService {
     cdnUrl?: string
   ): Observable<ShareDetail> {
     if (cdnUrl) {
-      return this.getShareByTokenFromUrl(
-        token,
-        lang,
-        resolveBehaviors,
-        contentResolveLimit,
-        cdnUrl + '/json/{token}?'
-      ).pipe(
-        mergeMap(async (shareJson) => {
+      return this.getShareByTokenFromUrl(token, lang, resolveBehaviors, contentResolveLimit, cdnUrl + '/json/{token}?').pipe(
+        mergeMap(async shareJson => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
       );
     } else {
       return this.getShareJsonCore(token, lang, resolveBehaviors, contentResolveLimit).pipe(
-        mergeMap(async (shareJson) => {
+        mergeMap(async shareJson => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
@@ -325,14 +281,14 @@ class ShareService extends generated.ShareService {
   ): Observable<ShareContentDetailResult> {
     if (cdnUrl) {
       return this.getShareContentsCoreFromUrl(token, lang, limit, pageToken, cdnUrl + 'json/{token}/contents?').pipe(
-        mergeMap(async (shareJson) => {
+        mergeMap(async shareJson => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
       );
     } else {
       return this.getShareContentsCore(token, lang, limit, pageToken).pipe(
-        mergeMap(async (shareJson) => {
+        mergeMap(async shareJson => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
@@ -383,13 +339,13 @@ class ShareService extends generated.ShareService {
 
     return _observableFrom(this.transformOptions(options_))
       .pipe(
-        _observableMergeMap((transformedOptions_) => {
+        mergeMap(transformedOptions_ => {
           // @ts-ignore: the purpose of this reference is to be copied to the api-services via NSwag // ignore
           return this.http.request('get', url_, transformedOptions_);
         })
       )
       .pipe(
-        _observableMergeMap((response_: any) => {
+        mergeMap((response_: any) => {
           return this.processGetShareContents(response_);
         })
       )
@@ -430,7 +386,7 @@ class ShareService extends generated.ShareService {
       url_ += 'lang=' + encodeURIComponent('' + lang) + '&';
     }
     if (resolveBehaviors !== undefined && resolveBehaviors !== null) {
-      resolveBehaviors.forEach((item) => {
+      resolveBehaviors.forEach(item => {
         url_ += 'resolveBehaviors=' + encodeURIComponent('' + item) + '&';
       });
     }
@@ -449,13 +405,13 @@ class ShareService extends generated.ShareService {
 
     return _observableFrom(this.transformOptions(options_))
       .pipe(
-        _observableMergeMap((transformedOptions_) => {
+        mergeMap(transformedOptions_ => {
           // @ts-ignore: the purpose of this reference is to be copied to the api-services via NSwag // ignore
           return this.http.request('get', url_, transformedOptions_);
         })
       )
       .pipe(
-        _observableMergeMap((response_: any) => {
+        mergeMap((response_: any) => {
           return this.processGetShareJson(response_);
         })
       )
@@ -476,7 +432,7 @@ class ShareService extends generated.ShareService {
 
   search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
     return this.searchCore(shareSearchRequest).pipe(
-      mergeMap(async (searchResult) => {
+      mergeMap(async searchResult => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })

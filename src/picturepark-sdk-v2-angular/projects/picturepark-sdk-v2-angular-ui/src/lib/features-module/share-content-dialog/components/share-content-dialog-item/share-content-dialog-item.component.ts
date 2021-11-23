@@ -1,6 +1,4 @@
-import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, SecurityContext, Injector } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, EventEmitter, Input, Output, OnDestroy, Injector } from '@angular/core';
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
