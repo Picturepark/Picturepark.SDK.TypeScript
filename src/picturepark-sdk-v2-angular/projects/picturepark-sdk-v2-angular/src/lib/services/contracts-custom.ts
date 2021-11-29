@@ -13,18 +13,18 @@ export class TermsOfServiceEditable implements ITermsOfServiceEditable {
     }
   }
 
-  init(_data?: any) {
-    if (_data) {
-      this.content = _data['content'] ? TranslatedStringDictionary.fromJS(_data['content']) : <any>undefined;
-      this.validFrom = _data['validFrom'] ? new Date(_data['validFrom'].toString()) : <any>undefined;
-    }
-  }
-
   static fromJS(data: any): TermsOfServiceEditable {
     data = typeof data === 'object' ? data : {};
     const result = new TermsOfServiceEditable();
     result.init(data);
     return result;
+  }
+
+  init(_data?: any) {
+    if (_data) {
+      this.content = _data['content'] ? TranslatedStringDictionary.fromJS(_data['content']) : <any>undefined;
+      this.validFrom = _data['validFrom'] ? new Date(_data['validFrom'].toString()) : <any>undefined;
+    }
   }
 
   toJSON(data?: any) {
@@ -47,18 +47,18 @@ export class TermsOfService extends TermsOfServiceEditable implements ITermsOfSe
     super(data);
   }
 
-  init(_data?: any) {
-    super.init(_data);
-    if (_data) {
-      this.id = _data['id'];
-    }
-  }
-
   static fromJS(data: any): TermsOfService {
     data = typeof data === 'object' ? data : {};
     const result = new TermsOfService();
     result.init(data);
     return result;
+  }
+
+  init(_data?: any) {
+    super.init(_data);
+    if (_data) {
+      this.id = _data['id'];
+    }
   }
 
   toJSON(data?: any) {
@@ -84,18 +84,18 @@ export class TermsOfServiceDetail extends TermsOfService implements ITermsOfServ
     }
   }
 
-  init(_data?: any) {
-    super.init(_data);
-    if (_data) {
-      this.audit = _data['audit'] ? UserAuditDetail.fromJS(_data['audit']) : <any>undefined;
-    }
-  }
-
   static fromJS(data: any): TermsOfServiceDetail {
     data = typeof data === 'object' ? data : {};
     const result = new TermsOfServiceDetail();
     result.init(data);
     return result;
+  }
+
+  init(_data?: any) {
+    super.init(_data);
+    if (_data) {
+      this.audit = _data['audit'] ? UserAuditDetail.fromJS(_data['audit']) : <any>undefined;
+    }
   }
 
   toJSON(data?: any) {

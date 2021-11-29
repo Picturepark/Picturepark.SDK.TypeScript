@@ -44,7 +44,7 @@
           }
         ],
         "@typescript-eslint/member-ordering": [
-          "warn",
+          "error",
           {
             "default": ["static-field", "instance-field", "static-method", "instance-method"]
           }
