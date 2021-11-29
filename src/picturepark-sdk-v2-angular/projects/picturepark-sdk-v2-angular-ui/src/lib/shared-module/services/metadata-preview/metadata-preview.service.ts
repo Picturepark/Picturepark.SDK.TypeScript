@@ -160,9 +160,9 @@ export class MetaDataPreviewService {
           fields[fieldId] = value.map((f: any) => (f._displayValues ? f._displayValues.name : '')).join(', ');
         }
       } else if (fieldType === FieldSingleRelation) {
-        // Get rid of the linting error. This function needs refactoring, though
+        console.log('Unsupported field type [' + fieldType + '] encountered.');
       } else if (fieldType === FieldMultiRelation) {
-        // Get rid of the linting error. This function needs refactoring, though
+        console.log('Unsupported field type [' + fieldType + '] encountered.');
       } else {
         console.log('Unsupported field type [' + fieldType + '] encountered.');
       }

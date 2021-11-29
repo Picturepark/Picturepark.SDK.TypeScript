@@ -159,8 +159,8 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    /*eslint no-unused-expressions: [2, { allowTernary: true }]*/
-    this.isAllSelected() ? this.selectionService.clear() : this.selectionService.addItems(this.items.map(q => q));
+    if (this.isAllSelected()) this.selectionService.clear();
+    else this.selectionService.addItems(this.items.map(q => q));
   }
 
   isRowSelected(row: any, test?): boolean {
