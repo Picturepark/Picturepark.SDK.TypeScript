@@ -18,7 +18,11 @@ describe('ShareService', () => {
   it('should create embed share', async(
     inject(
       [ContentService, ShareService, BusinessProcessService],
-      async (contentService: ContentService, shareService: ShareService, businessProcessService: BusinessProcessService) => {
+      async (
+        contentService: ContentService,
+        shareService: ShareService,
+        businessProcessService: BusinessProcessService
+      ) => {
         // arrange
         const request = new ContentSearchRequest();
         request.searchString = 'm';

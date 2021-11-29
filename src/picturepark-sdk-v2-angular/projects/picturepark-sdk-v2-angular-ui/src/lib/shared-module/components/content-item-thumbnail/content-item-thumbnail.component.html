@@ -4,7 +4,11 @@
   </div>
 </ng-container>
 <ng-template #thumbnailDisplay>
-  <div class="content-item-thumbnail__image-container" [class.content-item-thumbnail--list-view]="isListView" (lazyload)="markAsVisible()">
+  <div
+    class="content-item-thumbnail__image-container"
+    [class.content-item-thumbnail--list-view]="isListView"
+    (lazyload)="markAsVisible()"
+  >
     <mat-spinner *ngIf="isLoading" [diameter]="40"></mat-spinner>
     <ng-container *ngIf="thumbnailUrl$ | async as url">
       <img

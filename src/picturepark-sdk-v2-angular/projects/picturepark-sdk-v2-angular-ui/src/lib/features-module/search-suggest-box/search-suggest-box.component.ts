@@ -1,7 +1,14 @@
 import { Component, Input, OnInit, Injector, ChangeDetectionStrategy, Inject, LOCALE_ID } from '@angular/core';
 
 // LIBRARIES
-import { AggregatorBase, TermsAggregator, AggregationResultItem, SearchFacade, SearchInputState, IEntityBase } from '@picturepark/sdk-v2-angular';
+import {
+  AggregatorBase,
+  TermsAggregator,
+  AggregationResultItem,
+  SearchFacade,
+  SearchInputState,
+  IEntityBase,
+} from '@picturepark/sdk-v2-angular';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FormControl, FormBuilder } from '@angular/forms';
 import { debounceTime, tap, switchMap, map, catchError, distinctUntilChanged, filter } from 'rxjs/operators';

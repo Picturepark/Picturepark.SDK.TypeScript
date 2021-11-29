@@ -1,5 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ContentDetail, SchemaDetail, SchemaService, SchemaType, LocalStorageService, StorageKey, ShareContentDetail } from '@picturepark/sdk-v2-angular';
+import {
+  ContentDetail,
+  SchemaDetail,
+  SchemaService,
+  SchemaType,
+  LocalStorageService,
+  StorageKey,
+  ShareContentDetail,
+} from '@picturepark/sdk-v2-angular';
 import { take } from 'rxjs/operators';
 
 import { Layer } from './models/layer';
@@ -35,7 +43,11 @@ export class LayerPanelsComponent implements OnInit {
 
   private allSchemas: SchemaDetail[];
 
-  constructor(private schemaService: SchemaService, private layerFieldService: LayerFieldService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private schemaService: SchemaService,
+    private layerFieldService: LayerFieldService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit() {
     const expandedSchemasString = this.localStorageService.get(StorageKey.SchemaExpansionState);
@@ -99,7 +111,9 @@ export class LayerPanelsComponent implements OnInit {
       }
 
       const schemaMetadata =
-        schema.id === this.content.contentSchemaId ? this.content.content : this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
+        schema.id === this.content.contentSchemaId
+          ? this.content.content
+          : this.content.metadata && this.content.metadata[this.toLowerCamel(schema.id)];
 
       if (!schemaMetadata || !schema.fields) {
         return;
@@ -114,7 +128,12 @@ export class LayerPanelsComponent implements OnInit {
 
       schema.fields.forEach(schemaField => {
         if (schemaMetadata[schemaField.id]) {
-          const layerField = this.layerFieldService.generate(schemaField, schemaMetadata, this.allSchemas, this.showReferenced ?? true);
+          const layerField = this.layerFieldService.generate(
+            schemaField,
+            schemaMetadata,
+            this.allSchemas,
+            this.showReferenced ?? true
+          );
 
           if (layerField) {
             layer.fields.push(layerField);

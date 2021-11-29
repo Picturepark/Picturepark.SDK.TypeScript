@@ -3,7 +3,13 @@ import { Observable, of, zip, EMPTY } from 'rxjs';
 import { expand, flatMap, map, reduce, switchMap } from 'rxjs/operators';
 
 // LIBRARIES
-import { FieldMultiTagbox, FieldSingleFieldset, FieldSingleTagbox, SchemaDetail, SchemaService } from '@picturepark/sdk-v2-angular';
+import {
+  FieldMultiTagbox,
+  FieldSingleFieldset,
+  FieldSingleTagbox,
+  SchemaDetail,
+  SchemaService,
+} from '@picturepark/sdk-v2-angular';
 
 // INTERFACES
 import FieldHelper from '../../components/field-helper';
@@ -42,7 +48,9 @@ export class ExportService {
       expand((referencedDataExp: ReferencedData) => {
         return of(null).pipe(
           switchMap(() => {
-            return referencedDataExp.schemaIds && referencedDataExp.schemaIds.length > 0 ? this.getReferencedData(of(referencedDataExp)) : EMPTY;
+            return referencedDataExp.schemaIds && referencedDataExp.schemaIds.length > 0
+              ? this.getReferencedData(of(referencedDataExp))
+              : EMPTY;
           })
         );
       }),

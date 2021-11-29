@@ -1,5 +1,13 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AggregationFilter, FilterBase, SearchBehavior, AggregatorBase, AggregationResult, SortInfo, AggregationResultItem } from '../services/api-services';
+import {
+  AggregationFilter,
+  FilterBase,
+  SearchBehavior,
+  AggregatorBase,
+  AggregationResult,
+  SortInfo,
+  AggregationResultItem,
+} from '../services/api-services';
 import { map, distinctUntilChanged, filter } from 'rxjs/operators';
 import { SearchMode } from '../models/search-mode';
 
@@ -159,7 +167,9 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
 
     const toRemove = active.filter(i =>
       aggregationResultItems.find(
-        aggregationResultItem => i.filter?.aggregationName === aggregationResultItem.filter?.aggregationName && i.name === aggregationResultItem.name
+        aggregationResultItem =>
+          i.filter?.aggregationName === aggregationResultItem.filter?.aggregationName &&
+          i.name === aggregationResultItem.name
       )
     );
     if (toRemove) {

@@ -10,10 +10,18 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
 @Component({
   selector: 'pp-share-browser',
   templateUrl: './share-browser.component.html',
-  styleUrls: ['../../shared-module/components/browser-base/browser-base.component.scss', './share-browser.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/browser-base/browser-base.component.scss',
+    './share-browser.component.scss',
+  ],
 })
 export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
-  constructor(private activatedRoute: ActivatedRoute, injector: Injector, private router: Router, public facade: ShareSearchFacade) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    injector: Injector,
+    private router: Router,
+    public facade: ShareSearchFacade
+  ) {
     super('ShareBrowserComponent', injector, facade);
   }
 

@@ -30,7 +30,11 @@ export function updateUrlFromSearchState(searchState: SearchInputState, query: P
   router.navigate([], { queryParams: query });
 }
 
-export function getSearchState(searchInfo: { searchString: string; searchMode: string; filter: AggregationFilter[] }): Partial<SearchInputState> {
+export function getSearchState(searchInfo: {
+  searchString: string;
+  searchMode: string;
+  filter: AggregationFilter[];
+}): Partial<SearchInputState> {
   const patchState: Partial<SearchInputState> = {};
 
   patchState.searchString = searchInfo.searchString;

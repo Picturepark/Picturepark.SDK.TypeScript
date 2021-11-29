@@ -6,7 +6,12 @@
     }"
   >
     <mat-chip-list #chipList aria-label="Share name">
-      <mat-chip *ngFor="let recipient of recipients.controls" [selectable]="true" [removable]="true" (removed)="remove(recipient.value)">
+      <mat-chip
+        *ngFor="let recipient of recipients.controls"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="remove(recipient.value)"
+      >
         {{ recipient.value }} <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
       <input

@@ -17,7 +17,12 @@ export class ListItemBrowserComponent extends BaseComponent implements OnInit {
   activeSchema = new Subject<SchemaDetail>();
   schema = new Observable<SchemaDetail>();
 
-  constructor(injector: Injector, private route: ActivatedRoute, private router: Router, @Inject(AuthService) public authService: OidcAuthService) {
+  constructor(
+    injector: Injector,
+    private route: ActivatedRoute,
+    private router: Router,
+    @Inject(AuthService) public authService: OidcAuthService
+  ) {
     super(injector);
   }
 

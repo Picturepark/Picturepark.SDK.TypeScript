@@ -4,13 +4,25 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchBoxModule, SharedModule } from '@picturepark/sdk-v2-angular-ui';
-import { AuthService, AccessTokenAuthService, PICTUREPARK_CONFIGURATION, StorageKey, LocaleModule, PICTUREPARK_CDN_URL } from '@picturepark/sdk-v2-angular';
+import {
+  AuthService,
+  AccessTokenAuthService,
+  PICTUREPARK_CONFIGURATION,
+  StorageKey,
+  LocaleModule,
+  PICTUREPARK_CDN_URL,
+} from '@picturepark/sdk-v2-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShareDetailModule } from './share-detail/share-detail.module';
 import { environment } from '../environments/environment';
 import { TRANSLATIONS } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/utilities/translations';
-import { DISABLE_COOKIE_CONSENT, PICTUREPARK_UI_SCRIPTPATH, VIEW_MODE, TERMS } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
+import {
+  DISABLE_COOKIE_CONSENT,
+  PICTUREPARK_UI_SCRIPTPATH,
+  VIEW_MODE,
+  TERMS,
+} from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
 import { PictureparkCdnConfiguration } from '../models/cdn-config';
 import { shareTranslations } from './translations/share-translations';
 import { getDevCdnUrl, PictureparkAppSetting } from 'src/config';

@@ -3,7 +3,15 @@ import { Sort, SortDirection as MatSortDirection } from '@angular/material/sort'
 import { MatTableDataSource } from '@angular/material/table';
 
 // LIBRARIES
-import { SchemaDetail, SortInfo, ListItem, CustomerInfo, SortDirection, ListItemSearchFacade, InfoFacade } from '@picturepark/sdk-v2-angular';
+import {
+  SchemaDetail,
+  SortInfo,
+  ListItem,
+  CustomerInfo,
+  SortDirection,
+  ListItemSearchFacade,
+  InfoFacade,
+} from '@picturepark/sdk-v2-angular';
 
 // SERVICES
 import { MetaDataPreviewService } from '../../shared-module/services/metadata-preview/metadata-preview.service';
@@ -17,7 +25,11 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 @Component({
   selector: 'pp-list-browser',
   templateUrl: './list-browser.component.html',
-  styleUrls: ['../../shared-module/components/browser-base/browser-base.component.scss', './list-browser.component.scss', './list-browser.component.theme.scss'],
+  styleUrls: [
+    '../../shared-module/components/browser-base/browser-base.component.scss',
+    './list-browser.component.scss',
+    './list-browser.component.theme.scss',
+  ],
   providers: [TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -113,7 +125,9 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.tableItems.push(...tableItems);
 
     this.dataSource.data = this.tableItems;
-    const selected = this.items.filter(listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.id) !== -1);
+    const selected = this.items.filter(
+      listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.id) !== -1
+    );
     this.selectionService.addItems(selected.map(q => q));
 
     this.cdr.detectChanges();

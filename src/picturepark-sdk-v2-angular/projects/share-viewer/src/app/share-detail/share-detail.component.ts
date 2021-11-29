@@ -14,7 +14,11 @@ import {
   ShareType,
   EmbedContent,
 } from '@picturepark/sdk-v2-angular';
-import { ContentDetailsDialogComponent, ContentDetailsDialogOptions, ContentDownloadDialogService } from '@picturepark/sdk-v2-angular-ui';
+import {
+  ContentDetailsDialogComponent,
+  ContentDetailsDialogOptions,
+  ContentDownloadDialogService,
+} from '@picturepark/sdk-v2-angular-ui';
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
 import { forkJoin, fromEvent, of } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
@@ -66,7 +70,11 @@ export class ShareDetailComponent implements OnInit {
         }
 
         const scrollCriteria = elem.scrollTop > elem.scrollHeight - 2 * elem.clientHeight;
-        if (scrollCriteria && !this.itemsLoading && this.shareDetail.contentSelections.length !== this.shareDetail.contentCount) {
+        if (
+          scrollCriteria &&
+          !this.itemsLoading &&
+          this.shareDetail.contentSelections.length !== this.shareDetail.contentCount
+        ) {
           this.ngZone.run(() => this.onScroll());
         }
       });
@@ -74,9 +82,11 @@ export class ShareDetailComponent implements OnInit {
 
   onScroll() {
     this.itemsLoading = true;
-    this.shareAccessFacade.loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30).subscribe(page => {
-      this.itemsLoading = false;
-    });
+    this.shareAccessFacade
+      .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30)
+      .subscribe(page => {
+        this.itemsLoading = false;
+      });
   }
 
   update(searchString: string): void {

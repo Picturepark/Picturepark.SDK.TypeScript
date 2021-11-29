@@ -11,7 +11,12 @@
         </li>
         <li *ngIf="mailRecipient.url as url" class="recipient-url">
           <div class="copy-icon-wrapper">
-            <i class="material-icons" [matTooltip]="'ShareMailRecipientsPanel.CopyToClipboard' | pptranslate" (click)="copyToClipboard($event, url)">content_copy</i>
+            <i
+              class="material-icons"
+              [matTooltip]="'ShareMailRecipientsPanel.CopyToClipboard' | pptranslate"
+              (click)="copyToClipboard($event, url)"
+              >content_copy</i
+            >
           </div>
           <a [href]="url">{{ url }}</a>
         </li>

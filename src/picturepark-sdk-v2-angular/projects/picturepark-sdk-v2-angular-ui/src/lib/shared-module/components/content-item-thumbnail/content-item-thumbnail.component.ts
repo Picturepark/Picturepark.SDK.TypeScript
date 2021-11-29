@@ -3,7 +3,15 @@ import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap, map, tap, finalize } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
-import { ThumbnailSize, Content, ShareDetail, ShareContentDetail, ContentFacade, PICTUREPARK_CDN_URL, ShareDataEmbed } from '@picturepark/sdk-v2-angular';
+import {
+  ThumbnailSize,
+  Content,
+  ShareDetail,
+  ShareContentDetail,
+  ContentFacade,
+  PICTUREPARK_CDN_URL,
+  ShareDataEmbed,
+} from '@picturepark/sdk-v2-angular';
 import { ContentService } from '@picturepark/sdk-v2-angular';
 import { Observable } from 'rxjs';
 
@@ -57,7 +65,13 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
             const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
             this.isLoading = true;
             this.thumbnailUrl$ = this.loadItem.pipe(
-              map(() => this.trust(output?.viewUrl || content.iconUrl || `${this.cdnUrl}/icon/${(this.shareItem?.data as ShareDataEmbed).token}/${content.id}`)),
+              map(() =>
+                this.trust(
+                  output?.viewUrl ||
+                    content.iconUrl ||
+                    `${this.cdnUrl}/icon/${(this.shareItem?.data as ShareDataEmbed).token}/${content.id}`
+                )
+              ),
               tap(() => (this.isLoading = false)),
               finalize(() => (this.isLoading = false))
             );

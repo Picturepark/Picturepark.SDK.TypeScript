@@ -18,7 +18,11 @@ import { ISortItem } from '../../shared-module/components/browser-base/interface
 @Component({
   selector: 'pp-content-browser',
   templateUrl: './content-browser.component.html',
-  styleUrls: ['../../shared-module/components/browser-base/browser-base.component.scss', './content-browser.component.scss', './content-browser-resp.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/browser-base/browser-base.component.scss',
+    './content-browser.component.scss',
+    './content-browser-resp.component.scss',
+  ],
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
   @Input()

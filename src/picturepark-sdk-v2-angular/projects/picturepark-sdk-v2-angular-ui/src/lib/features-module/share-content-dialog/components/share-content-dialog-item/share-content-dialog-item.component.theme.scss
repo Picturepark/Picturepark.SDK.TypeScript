@@ -8,7 +8,8 @@
   pp-share-content-dialog-item {
     .share-content-item {
       &__image {
-        box-shadow: 0 3px 1px -2px mat.get-color-from-palette($primary, opacity-light), 0 2px 2px 0 mat.get-color-from-palette($primary, opacity-light),
+        box-shadow: 0 3px 1px -2px mat.get-color-from-palette($primary, opacity-light),
+          0 2px 2px 0 mat.get-color-from-palette($primary, opacity-light),
           0 1px 5px 0 mat.get-color-from-palette($primary, opacity-light);
       }
     }

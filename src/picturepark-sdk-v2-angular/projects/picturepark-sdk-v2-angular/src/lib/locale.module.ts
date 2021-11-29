@@ -30,7 +30,11 @@ export function getCurrentLanguageCode(languageService: LanguageService) {
 
 @NgModule({})
 export class LocaleModule {
-  static forRoot(allowedLanguages: 'system' | 'share' | 'all', language?: string, cdnUrl?: string | null): ModuleWithProviders<LocaleModule> {
+  static forRoot(
+    allowedLanguages: 'system' | 'share' | 'all',
+    language?: string,
+    cdnUrl?: string | null
+  ): ModuleWithProviders<LocaleModule> {
     return {
       ngModule: LocaleModule,
       providers: [

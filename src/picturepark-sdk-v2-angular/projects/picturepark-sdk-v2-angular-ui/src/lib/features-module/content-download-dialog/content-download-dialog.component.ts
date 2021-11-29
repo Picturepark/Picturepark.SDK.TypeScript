@@ -15,20 +15,31 @@ import {
 
 // COMPONENTS
 import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
-import { OutputSelection, IOutputPerOutputFormatSelection, IOutputPerSchemaSelection } from './components/output-selection';
+import {
+  OutputSelection,
+  IOutputPerOutputFormatSelection,
+  IOutputPerSchemaSelection,
+} from './components/output-selection';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
 import { groupBy, flatMap } from '../../utilities/helper';
-import { ContentDownloadDialogOptions, IContentDownload, IContentDownloadOutput } from './interfaces/content-download-dialog.interfaces';
+import {
+  ContentDownloadDialogOptions,
+  IContentDownload,
+  IContentDownloadOutput,
+} from './interfaces/content-download-dialog.interfaces';
 import { DialogService } from '../../shared-module/services/dialog/dialog.service';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 
 @Component({
   selector: 'pp-content-download-dialog',
   templateUrl: './content-download-dialog.component.html',
-  styleUrls: ['../../shared-module/components/dialog-base/dialog-base.component.scss', './content-download-dialog.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/dialog-base/dialog-base.component.scss',
+    './content-download-dialog.component.scss',
+  ],
 })
 export class ContentDownloadDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
   @ViewChild('contentContainer', { static: true }) contentContainer: ElementRef;
@@ -83,7 +94,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
         return;
       }
 
-      this.sub = this.contentService.getOutputs(this.data.contents[0].id).subscribe(output => this.setSelection(output));
+      this.sub = this.contentService
+        .getOutputs(this.data.contents[0].id)
+        .subscribe(output => this.setSelection(output));
     } else {
       if (this.data.contents.every(content => content.outputs)) {
         const outputs = flatMap(this.data.contents, content => content.outputs!);
@@ -100,7 +113,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     const ignoreStates = [OutputRenderingState.Failed, OutputRenderingState.Skipped];
     const selection = new OutputSelection(
       outputs.filter(
-        o => (o.dynamicRendering && (o.renderingState !== OutputRenderingState.Failed || contents.length > 1)) || !ignoreStates.includes(o.renderingState as any)
+        o =>
+          (o.dynamicRendering && (o.renderingState !== OutputRenderingState.Failed || contents.length > 1)) ||
+          !ignoreStates.includes(o.renderingState as any)
       ),
       contents,
       translations,

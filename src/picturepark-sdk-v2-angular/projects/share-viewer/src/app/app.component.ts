@@ -38,7 +38,8 @@ export class AppComponent implements OnInit {
         panelClass: ['pp-dialog', 'cp-dialog'],
       });
     }
-    const getShowConsent = () => !this.disableCookieConsent && !this.localStorageService.get(StorageKey.ShareCookieConsent);
+    const getShowConsent = () =>
+      !this.disableCookieConsent && !this.localStorageService.get(StorageKey.ShareCookieConsent);
     // Needed because changes to the local storage [edge] are not updated on soft refresh in a tab [PP9-9217]
     this.showConsent = getShowConsent();
     window.addEventListener('storage', e => {

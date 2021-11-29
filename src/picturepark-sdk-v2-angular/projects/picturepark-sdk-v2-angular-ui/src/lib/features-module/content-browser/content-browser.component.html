@@ -2,7 +2,11 @@
   <div class="browser__header">
     <pp-browser-toolbar [browser]="self" entityName="{{ 'ContentBrowser.ContentsLowercase' | pptranslate }}">
       <ng-container browser-buttons>
-        <button mat-icon-button *ngIf="selectedItems.length === 1 && configActions['preview']" [matTooltip]="'ContentBrowser.Preview' | pptranslate">
+        <button
+          mat-icon-button
+          *ngIf="selectedItems.length === 1 && configActions['preview']"
+          [matTooltip]="'ContentBrowser.Preview' | pptranslate"
+        >
           <mat-icon aria-label="Preview item" (click)="previewSelectedItem()">open_in_new</mat-icon>
         </button>
         <button
@@ -36,7 +40,11 @@
     [class.browser__items--mobile]="deviceBreakpoint"
     cdkScrollable
   >
-    <div class="browser__item-container" [class.browser__item-container--mobile]="deviceBreakpoint" *ngFor="let itemModel of items; let i = index; trackBy: trackByItem">
+    <div
+      class="browser__item-container"
+      [class.browser__item-container--mobile]="deviceBreakpoint"
+      *ngFor="let itemModel of items; let i = index; trackBy: trackByItem"
+    >
       <pp-content-browser-item
         class="browser__item"
         [browser]="self"

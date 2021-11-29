@@ -1,6 +1,12 @@
 <div class="wrap">
   <mat-toolbar class="navbar" *ngIf="deviceBreakpoint">
-    <button mat-icon-button class="menu" (click)="snav.toggle()" [matBadge]="itemsInBasket" [matBadgeHidden]="itemsInBasket === '0'">
+    <button
+      mat-icon-button
+      class="menu"
+      (click)="snav.toggle()"
+      [matBadge]="itemsInBasket"
+      [matBadgeHidden]="itemsInBasket === '0'"
+    >
       <mat-icon>menu</mat-icon>
     </button>
   </mat-toolbar>
@@ -9,7 +15,13 @@
 
     <span class="spacer"></span>
 
-    <pp-search-suggest-box class="search-suggest-box-desktop" *ngIf="selectedChannel" [showSearchBehaviorPicker]="true" [facade]="facade"> </pp-search-suggest-box>
+    <pp-search-suggest-box
+      class="search-suggest-box-desktop"
+      *ngIf="selectedChannel"
+      [showSearchBehaviorPicker]="true"
+      [facade]="facade"
+    >
+    </pp-search-suggest-box>
 
     <pp-language-switch *ngIf="languageService.languages.length > 1"></pp-language-switch>
     <!--
@@ -31,10 +43,17 @@
         style="width: 375px"
       >
         <mat-toolbar-row *ngIf="deviceBreakpoint">
-          <pp-channel-picker style="width: 100%" [channel]="selectedChannel" (channelChange)="changeChannel($event)"> </pp-channel-picker>
+          <pp-channel-picker style="width: 100%" [channel]="selectedChannel" (channelChange)="changeChannel($event)">
+          </pp-channel-picker>
         </mat-toolbar-row>
         <mat-toolbar-row *ngIf="deviceBreakpoint">
-          <pp-search-suggest-box class="search-suggest-box-mobile" *ngIf="selectedChannel" [showSearchBehaviorPicker]="true" [facade]="facade"> </pp-search-suggest-box>
+          <pp-search-suggest-box
+            class="search-suggest-box-mobile"
+            *ngIf="selectedChannel"
+            [showSearchBehaviorPicker]="true"
+            [facade]="facade"
+          >
+          </pp-search-suggest-box>
         </mat-toolbar-row>
         <mat-tab-group class="right-panel filters">
           <mat-tab label="{{ 'ContentAggregationList.FiltersLabel' | pptranslate }}">
@@ -42,7 +61,9 @@
           </mat-tab>
           <mat-tab label="{{ 'Basket.BasketLabel' | pptranslate }}">
             <ng-template mat-tab-label>
-              <span [matBadge]="itemsInBasket" matBadgeOverlap="false" [matBadgeHidden]="itemsInBasket === '0'">{{ 'Basket.BasketLabel' | pptranslate }}</span>
+              <span [matBadge]="itemsInBasket" matBadgeOverlap="false" [matBadgeHidden]="itemsInBasket === '0'">{{
+                'Basket.BasketLabel' | pptranslate
+              }}</span>
             </ng-template>
             <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>
           </mat-tab>
@@ -52,7 +73,12 @@
         </div>
       </mat-sidenav>
       <mat-sidenav-content class="content">
-        <pp-content-browser #contentBrowser [channel]="selectedChannel" (previewItemChange)="openDetails($event)" (selectedItemsChange)="selectionChange($event)">
+        <pp-content-browser
+          #contentBrowser
+          [channel]="selectedChannel"
+          (previewItemChange)="openDetails($event)"
+          (selectedItemsChange)="selectionChange($event)"
+        >
         </pp-content-browser>
         <div class="expand-browser" *ngIf="!snav.opened && !deviceBreakpoint" (click)="snav.toggle()">
           <i class="material-icons">keyboard_arrow_left</i>

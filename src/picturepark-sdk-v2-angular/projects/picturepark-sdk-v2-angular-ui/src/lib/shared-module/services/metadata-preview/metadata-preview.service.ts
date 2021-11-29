@@ -52,7 +52,12 @@ export class MetaDataPreviewService {
     return intersections;
   }
 
-  getContentTableData(metadataItems: any[], schemas: SchemaDetail[], info: CustomerInfo, withId: boolean = true): any[] {
+  getContentTableData(
+    metadataItems: any[],
+    schemas: SchemaDetail[],
+    info: CustomerInfo,
+    withId: boolean = true
+  ): any[] {
     const allData: any[] = [];
 
     metadataItems.map(item => {
@@ -73,7 +78,9 @@ export class MetaDataPreviewService {
   }
 
   getListItemsTableData(metadataItems: any[], schema: SchemaDetail, info: CustomerInfo, withId: boolean = true): any[] {
-    return metadataItems.map(data => this.getPreviewData(schema, data, info, withId)).filter(x => Object.keys(x).length > 0);
+    return metadataItems
+      .map(data => this.getPreviewData(schema, data, info, withId))
+      .filter(x => Object.keys(x).length > 0);
   }
 
   private getPreviewData(schema: SchemaDetail, metadata: any, customerInfo: CustomerInfo, withId: boolean = true): any {
@@ -99,7 +106,9 @@ export class MetaDataPreviewService {
       } else {
         const propertyName = fieldId.split('.').pop();
         if (propertyName && typeof propertyName === 'string') {
-          value = metadata[lowerFirst(schema.id)] ? metadata[lowerFirst(schema.id)][propertyName] : metadata[propertyName];
+          value = metadata[lowerFirst(schema.id)]
+            ? metadata[lowerFirst(schema.id)][propertyName]
+            : metadata[propertyName];
         }
       }
 
@@ -124,7 +133,9 @@ export class MetaDataPreviewService {
           .join(', ');
         console.log(fields[fieldId]);
       } else if (fieldType === FieldDateTimeArray) {
-        fields[fieldId] = value.map((v: any) => (v ? moment(v).format((field as FieldDate).format || 'LLL') : '')).join(', ');
+        fields[fieldId] = value
+          .map((v: any) => (v ? moment(v).format((field as FieldDate).format || 'LLL') : ''))
+          .join(', ');
       } else if (fieldType === FieldLongArray || fieldType === FieldStringArray) {
         fields[fieldId] = value.join(', ');
       } else if (fieldType === FieldSingleFieldset) {

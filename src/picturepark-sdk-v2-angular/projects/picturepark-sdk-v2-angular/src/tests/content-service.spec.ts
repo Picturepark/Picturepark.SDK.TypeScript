@@ -41,7 +41,9 @@ describe('ContentService', () => {
       request.searchBehaviors = [SearchBehavior.WildcardOnSingleTerm];
 
       const response = await contentService.search(request).toPromise();
-      const result = await contentService.downloadThumbnail(response.results[0].id, ThumbnailSize.Medium, null, null).toPromise();
+      const result = await contentService
+        .downloadThumbnail(response.results[0].id, ThumbnailSize.Medium, null, null)
+        .toPromise();
 
       // assert
       expect(result.data.size).toBeGreaterThan(0);
@@ -78,7 +80,9 @@ describe('ContentService', () => {
       request.searchBehaviors = [SearchBehavior.WildcardOnSingleTerm];
 
       const response = await contentService.search(request).toPromise();
-      const result = await contentService.download(response!.results![0].id!, 'Original', null, null, 'bytes=500-999').toPromise();
+      const result = await contentService
+        .download(response!.results![0].id!, 'Original', null, null, 'bytes=500-999')
+        .toPromise();
 
       // assert
       expect(result.data.size).toBeGreaterThan(0);

@@ -13,7 +13,10 @@ import { debounceTime, map, share } from 'rxjs/operators';
 @Component({
   selector: 'pp-share-browser-item',
   templateUrl: './share-browser-item.component.html',
-  styleUrls: ['../../../../shared-module/components/browser-item-base/browser-item-base.component.scss', './share-browser-item.component.scss'],
+  styleUrls: [
+    '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
+    './share-browser-item.component.scss',
+  ],
 })
 export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> implements OnChanges, OnInit {
   // VARS
@@ -34,7 +37,12 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
     Promise.all(
       contentIdsReq.map(contentId => {
-        return this.contentService.downloadThumbnail(contentId, this.isListView ? ThumbnailSize.Small : this.thumbnailSize || ThumbnailSize.Medium, null, null);
+        return this.contentService.downloadThumbnail(
+          contentId,
+          this.isListView ? ThumbnailSize.Small : this.thumbnailSize || ThumbnailSize.Medium,
+          null,
+          null
+        );
       })
     )
       .then(items => {

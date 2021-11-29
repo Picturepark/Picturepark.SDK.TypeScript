@@ -1,6 +1,14 @@
 import { Observable, EMPTY } from 'rxjs';
 import { expand, reduce, map } from 'rxjs/operators';
-import { Content, ContentSearchRequest, LifeCycleFilter, BrokenDependenciesFilter, ContentSearchType, TermsFilter, ContentService } from '../services/api-services';
+import {
+  Content,
+  ContentSearchRequest,
+  LifeCycleFilter,
+  BrokenDependenciesFilter,
+  ContentSearchType,
+  TermsFilter,
+  ContentService,
+} from '../services/api-services';
 
 export interface ISearchRequest {
   pageToken?: string | undefined;
@@ -12,7 +20,10 @@ export interface ISearchResult<T> {
 }
 
 /** Fetches all items until there is no page token anymore */
-export function fetchAll<T, U extends ISearchRequest>(searchDelegate: (request: U) => Observable<ISearchResult<T>>, request: U): Observable<ISearchResult<T>> {
+export function fetchAll<T, U extends ISearchRequest>(
+  searchDelegate: (request: U) => Observable<ISearchResult<T>>,
+  request: U
+): Observable<ISearchResult<T>> {
   return searchDelegate(request).pipe(
     expand(firstResult => {
       if (!firstResult.pageToken) {

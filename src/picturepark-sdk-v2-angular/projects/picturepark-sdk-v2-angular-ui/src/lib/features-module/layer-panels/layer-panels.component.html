@@ -1,5 +1,9 @@
 <div class="custom-shadow" *ngFor="let layer of layers; let i = index">
-  <mat-expansion-panel [expanded]="layer.expanded" (closed)="layerExpansionHandler(layer.id, false)" (opened)="layerExpansionHandler(layer.id, true)">
+  <mat-expansion-panel
+    [expanded]="layer.expanded"
+    (closed)="layerExpansionHandler(layer.id, false)"
+    (opened)="layerExpansionHandler(layer.id, true)"
+  >
     <mat-expansion-panel-header>
       <mat-panel-description>
         {{ layer.names | pptranslate }}

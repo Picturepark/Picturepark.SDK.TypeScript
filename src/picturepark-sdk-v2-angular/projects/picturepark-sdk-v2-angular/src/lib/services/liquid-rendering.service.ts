@@ -40,7 +40,11 @@ export class LiquidRenderingService {
 
     for (const displayValueObject of displayValues) {
       for (const key in displayValueObject) {
-        if (displayValueObject.hasOwnProperty(key) && displayValueObject[key] !== null && displayValueObject[key] !== undefined) {
+        if (
+          displayValueObject.hasOwnProperty(key) &&
+          displayValueObject[key] !== null &&
+          displayValueObject[key] !== undefined
+        ) {
           displayValueObject[key] = await this.liquidEngine.parseAndRender(displayValueObject[key]);
         }
       }
@@ -57,7 +61,11 @@ export class LiquidRenderingService {
 
     for (const displayValueObject of displayValues) {
       for (const key in displayValueObject) {
-        if (displayValueObject.hasOwnProperty(key) && displayValueObject[key] !== null && displayValueObject[key] !== undefined) {
+        if (
+          displayValueObject.hasOwnProperty(key) &&
+          displayValueObject[key] !== null &&
+          displayValueObject[key] !== undefined
+        ) {
           displayValueObject[key] = this.liquidEngine.parseAndRenderSync(displayValueObject[key]);
         }
       }

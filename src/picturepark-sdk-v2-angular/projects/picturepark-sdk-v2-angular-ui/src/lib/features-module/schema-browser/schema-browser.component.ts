@@ -7,7 +7,10 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
 @Component({
   selector: 'pp-schema-browser',
   templateUrl: './schema-browser.component.html',
-  styleUrls: ['../../shared-module/components/browser-base/browser-base.component.scss', './schema-browser.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/browser-base/browser-base.component.scss',
+    './schema-browser.component.scss',
+  ],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {

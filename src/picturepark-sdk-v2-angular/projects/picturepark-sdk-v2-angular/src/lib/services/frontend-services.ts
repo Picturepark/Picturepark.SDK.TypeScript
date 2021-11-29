@@ -78,7 +78,12 @@ export class ShareAccesService {
 
   protected processGetSharePage(response: HttpResponseBase): Observable<FileResponse> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -179,7 +184,8 @@ export class ShareAccesService {
         resolveBehaviors.forEach(item => {
           url_ += 'resolveBehaviors=' + encodeURIComponent('' + item) + '&';
         });
-    if (contentResolveLimit !== undefined && contentResolveLimit !== null) url_ += 'contentResolveLimit=' + encodeURIComponent('' + contentResolveLimit) + '&';
+    if (contentResolveLimit !== undefined && contentResolveLimit !== null)
+      url_ += 'contentResolveLimit=' + encodeURIComponent('' + contentResolveLimit) + '&';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
@@ -212,7 +218,12 @@ export class ShareAccesService {
 
   protected processGetJson(response: HttpResponseBase): Observable<ShareDetail> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -347,7 +358,12 @@ export class ShareAccesService {
 
   protected processGetContentsInShare(response: HttpResponseBase): Observable<ShareContentDetailResult> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -473,7 +489,12 @@ export class ShareAccesService {
 
   protected processGetOutputsInShare(response: HttpResponseBase): Observable<ShareOutputsResult> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -576,11 +597,13 @@ export class ShareAccesService {
     let url_ = this.baseUrl + '/d/{token}?';
     if (token === undefined || token === null) throw new Error("The parameter 'token' must be defined.");
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
-    if (conversionPreset === undefined || conversionPreset === null) throw new Error("The parameter 'conversionPreset' must be defined.");
+    if (conversionPreset === undefined || conversionPreset === null)
+      throw new Error("The parameter 'conversionPreset' must be defined.");
     url_ = url_.replace('{conversionPreset}', encodeURIComponent('' + conversionPreset));
     if (contentId === undefined || contentId === null) throw new Error("The parameter 'contentId' must be defined.");
     url_ = url_.replace('{contentId}', encodeURIComponent('' + contentId));
-    if (outputFormatId === undefined || outputFormatId === null) throw new Error("The parameter 'outputFormatId' must be defined.");
+    if (outputFormatId === undefined || outputFormatId === null)
+      throw new Error("The parameter 'outputFormatId' must be defined.");
     url_ = url_.replace('{outputFormatId}', encodeURIComponent('' + outputFormatId));
     if (w !== undefined && w !== null) url_ += 'w=' + encodeURIComponent('' + w) + '&';
     if (h !== undefined && h !== null) url_ += 'h=' + encodeURIComponent('' + h) + '&';
@@ -618,7 +641,12 @@ export class ShareAccesService {
 
   protected processDownloadShare(response: HttpResponseBase): Observable<FileResponse> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -744,7 +772,12 @@ export class ShareAccesService {
 
   protected processCreateShareSelectionDownloadLink(response: HttpResponseBase): Observable<DownloadLink> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -847,11 +880,13 @@ export class ShareAccesService {
     let url_ = this.baseUrl + '/d/{token}/{contentId}/{outputFormatId}?';
     if (token === undefined || token === null) throw new Error("The parameter 'token' must be defined.");
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
-    if (conversionPreset === undefined || conversionPreset === null) throw new Error("The parameter 'conversionPreset' must be defined.");
+    if (conversionPreset === undefined || conversionPreset === null)
+      throw new Error("The parameter 'conversionPreset' must be defined.");
     url_ = url_.replace('{conversionPreset}', encodeURIComponent('' + conversionPreset));
     if (contentId === undefined || contentId === null) throw new Error("The parameter 'contentId' must be defined.");
     url_ = url_.replace('{contentId}', encodeURIComponent('' + contentId));
-    if (outputFormatId === undefined || outputFormatId === null) throw new Error("The parameter 'outputFormatId' must be defined.");
+    if (outputFormatId === undefined || outputFormatId === null)
+      throw new Error("The parameter 'outputFormatId' must be defined.");
     url_ = url_.replace('{outputFormatId}', encodeURIComponent('' + outputFormatId));
     if (w !== undefined && w !== null) url_ += 'w=' + encodeURIComponent('' + w) + '&';
     if (h !== undefined && h !== null) url_ += 'h=' + encodeURIComponent('' + h) + '&';
@@ -889,7 +924,12 @@ export class ShareAccesService {
 
   protected processDownloadShare2(response: HttpResponseBase): Observable<FileResponse> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -988,11 +1028,13 @@ export class ShareAccesService {
     let url_ = this.baseUrl + '/d/{token}/{conversionPreset}?';
     if (token === undefined || token === null) throw new Error("The parameter 'token' must be defined.");
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
-    if (conversionPreset === undefined || conversionPreset === null) throw new Error("The parameter 'conversionPreset' must be defined.");
+    if (conversionPreset === undefined || conversionPreset === null)
+      throw new Error("The parameter 'conversionPreset' must be defined.");
     url_ = url_.replace('{conversionPreset}', encodeURIComponent('' + conversionPreset));
     if (contentId === undefined || contentId === null) throw new Error("The parameter 'contentId' must be defined.");
     url_ = url_.replace('{contentId}', encodeURIComponent('' + contentId));
-    if (outputFormatId === undefined || outputFormatId === null) throw new Error("The parameter 'outputFormatId' must be defined.");
+    if (outputFormatId === undefined || outputFormatId === null)
+      throw new Error("The parameter 'outputFormatId' must be defined.");
     url_ = url_.replace('{outputFormatId}', encodeURIComponent('' + outputFormatId));
     if (w !== undefined && w !== null) url_ += 'w=' + encodeURIComponent('' + w) + '&';
     if (h !== undefined && h !== null) url_ += 'h=' + encodeURIComponent('' + h) + '&';
@@ -1030,7 +1072,12 @@ export class ShareAccesService {
 
   protected processDownloadShare3(response: HttpResponseBase): Observable<FileResponse> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1129,11 +1176,13 @@ export class ShareAccesService {
     let url_ = this.baseUrl + '/v/{token}?';
     if (token === undefined || token === null) throw new Error("The parameter 'token' must be defined.");
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
-    if (conversionPreset === undefined || conversionPreset === null) throw new Error("The parameter 'conversionPreset' must be defined.");
+    if (conversionPreset === undefined || conversionPreset === null)
+      throw new Error("The parameter 'conversionPreset' must be defined.");
     url_ = url_.replace('{conversionPreset}', encodeURIComponent('' + conversionPreset));
     if (contentId === undefined || contentId === null) throw new Error("The parameter 'contentId' must be defined.");
     url_ = url_.replace('{contentId}', encodeURIComponent('' + contentId));
-    if (outputFormatId === undefined || outputFormatId === null) throw new Error("The parameter 'outputFormatId' must be defined.");
+    if (outputFormatId === undefined || outputFormatId === null)
+      throw new Error("The parameter 'outputFormatId' must be defined.");
     url_ = url_.replace('{outputFormatId}', encodeURIComponent('' + outputFormatId));
     if (w !== undefined && w !== null) url_ += 'w=' + encodeURIComponent('' + w) + '&';
     if (h !== undefined && h !== null) url_ += 'h=' + encodeURIComponent('' + h) + '&';
@@ -1171,7 +1220,12 @@ export class ShareAccesService {
 
   protected processDownloadShareInline(response: HttpResponseBase): Observable<FileResponse> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1270,11 +1324,13 @@ export class ShareAccesService {
     let url_ = this.baseUrl + '/v/{token}/{contentId}/{outputFormatId}?';
     if (token === undefined || token === null) throw new Error("The parameter 'token' must be defined.");
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
-    if (conversionPreset === undefined || conversionPreset === null) throw new Error("The parameter 'conversionPreset' must be defined.");
+    if (conversionPreset === undefined || conversionPreset === null)
+      throw new Error("The parameter 'conversionPreset' must be defined.");
     url_ = url_.replace('{conversionPreset}', encodeURIComponent('' + conversionPreset));
     if (contentId === undefined || contentId === null) throw new Error("The parameter 'contentId' must be defined.");
     url_ = url_.replace('{contentId}', encodeURIComponent('' + contentId));
-    if (outputFormatId === undefined || outputFormatId === null) throw new Error("The parameter 'outputFormatId' must be defined.");
+    if (outputFormatId === undefined || outputFormatId === null)
+      throw new Error("The parameter 'outputFormatId' must be defined.");
     url_ = url_.replace('{outputFormatId}', encodeURIComponent('' + outputFormatId));
     if (w !== undefined && w !== null) url_ += 'w=' + encodeURIComponent('' + w) + '&';
     if (h !== undefined && h !== null) url_ += 'h=' + encodeURIComponent('' + h) + '&';
@@ -1312,7 +1368,12 @@ export class ShareAccesService {
 
   protected processDownloadShareInline2(response: HttpResponseBase): Observable<FileResponse> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1411,11 +1472,13 @@ export class ShareAccesService {
     let url_ = this.baseUrl + '/v/{token}/{conversionPreset}?';
     if (token === undefined || token === null) throw new Error("The parameter 'token' must be defined.");
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
-    if (conversionPreset === undefined || conversionPreset === null) throw new Error("The parameter 'conversionPreset' must be defined.");
+    if (conversionPreset === undefined || conversionPreset === null)
+      throw new Error("The parameter 'conversionPreset' must be defined.");
     url_ = url_.replace('{conversionPreset}', encodeURIComponent('' + conversionPreset));
     if (contentId === undefined || contentId === null) throw new Error("The parameter 'contentId' must be defined.");
     url_ = url_.replace('{contentId}', encodeURIComponent('' + contentId));
-    if (outputFormatId === undefined || outputFormatId === null) throw new Error("The parameter 'outputFormatId' must be defined.");
+    if (outputFormatId === undefined || outputFormatId === null)
+      throw new Error("The parameter 'outputFormatId' must be defined.");
     url_ = url_.replace('{outputFormatId}', encodeURIComponent('' + outputFormatId));
     if (w !== undefined && w !== null) url_ += 'w=' + encodeURIComponent('' + w) + '&';
     if (h !== undefined && h !== null) url_ += 'h=' + encodeURIComponent('' + h) + '&';
@@ -1453,7 +1516,12 @@ export class ShareAccesService {
 
   protected processDownloadShareInline3(response: HttpResponseBase): Observable<FileResponse> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1577,7 +1645,12 @@ export class ShareAccesService {
 
   protected processGetContentIcon(response: HttpResponseBase): Observable<FileResponse> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1711,7 +1784,12 @@ export class TermsOfServiceService {
 
   protected processGetAll(response: HttpResponseBase): Observable<TermsOfServiceDetail[]> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1845,7 +1923,12 @@ export class TermsOfServiceService {
 
   protected processCreate(response: HttpResponseBase): Observable<TermsOfServiceDetail> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -1969,7 +2052,12 @@ export class TermsOfServiceService {
 
   protected processNewest(response: HttpResponseBase): Observable<TermsOfService> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2095,7 +2183,12 @@ export class TermsOfServiceService {
 
   protected processGet(response: HttpResponseBase): Observable<TermsOfServiceDetail> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2228,7 +2321,12 @@ export class TermsOfServiceService {
 
   protected processUpdate(response: HttpResponseBase): Observable<TermsOfServiceDetail> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2352,7 +2450,12 @@ export class TermsOfServiceService {
 
   protected processDelete(response: HttpResponseBase): Observable<void> {
     const status = response.status;
-    const responseBlob = response instanceof HttpResponse ? response.body : (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
 
     let _headers: any = {};
     if (response.headers) {
@@ -2471,7 +2574,13 @@ export class SwaggerException extends Error {
   }
 }
 
-function throwException(message: string, status: number, response: string, headers: { [key: string]: any }, result?: any): Observable<any> {
+function throwException(
+  message: string,
+  status: number,
+  response: string,
+  headers: { [key: string]: any },
+  result?: any
+): Observable<any> {
   if (result !== null && result !== undefined) return _observableThrow(result);
   else return _observableThrow(new SwaggerException(message, status, response, headers, null));
 }

@@ -28,7 +28,14 @@ import { AuthService } from './auth.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
 import * as generated from './api-services';
 
-export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = ['AudioMetadata', 'DocumentMetadata', 'FileMetadata', 'ImageMetadata', 'VideoMetadata', 'VectorMetadata'];
+export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
+  'AudioMetadata',
+  'DocumentMetadata',
+  'FileMetadata',
+  'ImageMetadata',
+  'VideoMetadata',
+  'VectorMetadata',
+];
 
 export const SYSTEM_LAYER_SCHEMA_IDS = ['XmpMetadata', 'ExifMetadata'];
 
@@ -76,7 +83,10 @@ class AggregationResultItem extends generated.AggregationResultItem {
     // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
     if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
       displayName = this.name.split('/').pop() || null;
-    } else if (this.filter && ((this.filter.filter as any).term === 'false' || (this.filter.filter as any).term === 'true')) {
+    } else if (
+      this.filter &&
+      ((this.filter.filter as any).term === 'false' || (this.filter.filter as any).term === 'true')
+    ) {
       displayName = (this.filter.filter as any).term;
     } else {
       displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
@@ -113,7 +123,13 @@ class ContentService extends generated.ContentService {
     waitSearchDocCreation: boolean | undefined,
     contentCreateRequest: ContentCreateRequest
   ): Observable<ContentDetail> {
-    return this.createCore(resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, contentCreateRequest).pipe(
+    return this.createCore(
+      resolveBehaviors,
+      allowMissingDependencies,
+      timeout,
+      waitSearchDocCreation,
+      contentCreateRequest
+    ).pipe(
       mergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
@@ -130,7 +146,10 @@ class ContentService extends generated.ContentService {
     );
   }
 
-  getMany(ids: string[] | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail[]> {
+  getMany(
+    ids: string[] | null,
+    resolveBehaviors: ContentResolveBehavior[] | null | undefined
+  ): Observable<ContentDetail[]> {
     return this.getManyCore(ids, resolveBehaviors).pipe(
       mergeMap(async contents => {
         contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
@@ -156,7 +175,14 @@ class ContentService extends generated.ContentService {
     waitSearchDocCreation: boolean | undefined,
     updateRequest: ContentMetadataUpdateRequest
   ): Observable<ContentDetail> {
-    return this.updateMetadataCore(contentId, resolveBehaviors, allowMissingDependencies, timeout, waitSearchDocCreation, updateRequest).pipe(
+    return this.updateMetadataCore(
+      contentId,
+      resolveBehaviors,
+      allowMissingDependencies,
+      timeout,
+      waitSearchDocCreation,
+      updateRequest
+    ).pipe(
       mergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
@@ -239,7 +265,11 @@ class ShareService extends generated.ShareService {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  get(id: string | null, resolveBehaviors: ShareResolveBehavior[] | null | undefined, contentResolveLimit: number | null | undefined): Observable<ShareDetail> {
+  get(
+    id: string | null,
+    resolveBehaviors: ShareResolveBehavior[] | null | undefined,
+    contentResolveLimit: number | null | undefined
+  ): Observable<ShareDetail> {
     return this.getCore(id, resolveBehaviors, contentResolveLimit).pipe(
       mergeMap(async shareDetail => {
         await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
@@ -256,7 +286,13 @@ class ShareService extends generated.ShareService {
     cdnUrl?: string
   ): Observable<ShareDetail> {
     if (cdnUrl) {
-      return this.getShareByTokenFromUrl(token, lang, resolveBehaviors, contentResolveLimit, cdnUrl + '/json/{token}?').pipe(
+      return this.getShareByTokenFromUrl(
+        token,
+        lang,
+        resolveBehaviors,
+        contentResolveLimit,
+        cdnUrl + '/json/{token}?'
+      ).pipe(
         mergeMap(async shareJson => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;

@@ -4,7 +4,15 @@ import { debounce, map, flatMap } from 'rxjs/operators';
 import { timer, Observable, from } from 'rxjs';
 
 // LIBRARIES
-import { AggregationResult, AggregatorBase, AggregationResultItem, TermsAggregator, SearchFacade, SearchInputState, IEntityBase } from '@picturepark/sdk-v2-angular';
+import {
+  AggregationResult,
+  AggregatorBase,
+  AggregationResultItem,
+  TermsAggregator,
+  SearchFacade,
+  SearchInputState,
+  IEntityBase,
+} from '@picturepark/sdk-v2-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../base.component';
@@ -57,7 +65,9 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
 
   ngOnInit() {
     this.sub = this.facade.searchRequest$.subscribe(request => {
-      this.aggregationsFiltersCount = request.aggregationFilters.filter(item => item.aggregationName === this.aggregator.name).length;
+      this.aggregationsFiltersCount = request.aggregationFilters.filter(
+        item => item.aggregationName === this.aggregator.name
+      ).length;
 
       this.expanded = this.shouldExpand || this.expanded || this.aggregationsFiltersCount > 0;
     });
@@ -113,7 +123,8 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
         if (result !== undefined) {
           const items = this.facade.expandAggregationResult(result[0]).aggregationResultItems || [];
 
-          const currentSelectedValues = this.expandedAggregationResult?.aggregationResultItems?.filter(agr => agr.active === true) ?? [];
+          const currentSelectedValues =
+            this.expandedAggregationResult?.aggregationResultItems?.filter(agr => agr.active === true) ?? [];
 
           return items.filter(item => !currentSelectedValues.some(value => value.name === item.name));
         }
@@ -154,7 +165,9 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   }
 
   clear() {
-    const aggregationFilters = this.facade.searchRequestState.aggregationFilters.filter(i => i.aggregationName !== this.aggregator.name);
+    const aggregationFilters = this.facade.searchRequestState.aggregationFilters.filter(
+      i => i.aggregationName !== this.aggregator.name
+    );
     this.facade.patchRequestState({ aggregationFilters });
   }
 

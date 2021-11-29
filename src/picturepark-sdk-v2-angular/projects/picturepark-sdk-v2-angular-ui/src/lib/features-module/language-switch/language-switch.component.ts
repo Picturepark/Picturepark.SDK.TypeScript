@@ -15,7 +15,9 @@ export class LanguageSwitchComponent {
   }
 
   constructor(private languageService: LanguageService, translatePipe: TranslatePipe) {
-    this.languages = this.languageService.languages.sort((a, b) => (translatePipe.transform(a.name) < translatePipe.transform(b.name) ? -1 : 1));
+    this.languages = this.languageService.languages.sort((a, b) =>
+      translatePipe.transform(a.name) < translatePipe.transform(b.name) ? -1 : 1
+    );
   }
 
   changeLanguage(languageCode: string) {

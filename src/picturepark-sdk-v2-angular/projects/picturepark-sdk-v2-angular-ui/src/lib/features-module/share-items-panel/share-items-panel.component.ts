@@ -17,7 +17,11 @@ export class ShareItemsPanelComponent extends BaseComponent {
 
   thumbnailSize = ThumbnailSize;
 
-  constructor(injector: Injector, private contentDownloadDialogService: ContentDownloadDialogService, @Optional() @Inject(VIEW_MODE) public viewMode: 'grid' | 'list') {
+  constructor(
+    injector: Injector,
+    private contentDownloadDialogService: ContentDownloadDialogService,
+    @Optional() @Inject(VIEW_MODE) public viewMode: 'grid' | 'list'
+  ) {
     super(injector);
   }
 

@@ -1,6 +1,9 @@
 import { ContentType, OutputDataBase } from '@picturepark/sdk-v2-angular';
 import { IContentDownload, IContentDownloadOutput } from '../interfaces/content-download-dialog.interfaces';
-import { TranslationService, IOutputFormatTranslations } from '../../../shared-module/services/translations/translation.service';
+import {
+  TranslationService,
+  IOutputFormatTranslations,
+} from '../../../shared-module/services/translations/translation.service';
 import { flatMap } from '../../../utilities/helper';
 
 export interface IOutputPerOutputFormatSelection {
@@ -32,13 +35,20 @@ export class OutputSelection {
 
   private selection: { [fileSchemaId: string]: IOutputPerSchemaSelection } = {};
 
-  constructor(outputs: IContentDownloadOutput[], contents: IContentDownload[], outputTranslations: IOutputFormatTranslations, translationService: TranslationService) {
+  constructor(
+    outputs: IContentDownloadOutput[],
+    contents: IContentDownload[],
+    outputTranslations: IOutputFormatTranslations,
+    translationService: TranslationService
+  ) {
     contents.forEach(content => {
       const isBinary = content.contentType !== ContentType.Virtual;
       const schemaId = isBinary ? content.contentSchemaId : ContentType.Virtual.toString();
       const schemaItems = (this.selection[schemaId] = this.selection[schemaId] || {
         id: schemaId,
-        contents: isBinary ? contents.filter(i => i.contentSchemaId === schemaId) : contents.filter(i => i.contentType === ContentType.Virtual),
+        contents: isBinary
+          ? contents.filter(i => i.contentSchemaId === schemaId)
+          : contents.filter(i => i.contentType === ContentType.Virtual),
         outputs: {},
         name: translationService.translate(`ContentDownloadDialog.${schemaId}`),
       });
@@ -62,7 +72,9 @@ export class OutputSelection {
       }
 
       contentOutputs.forEach(output => {
-        const outputFormatItems = (schemaItems.outputs[output.outputFormatId] = schemaItems.outputs[output.outputFormatId] || {
+        const outputFormatItems = (schemaItems.outputs[output.outputFormatId] = schemaItems.outputs[
+          output.outputFormatId
+        ] || {
           id: output.outputFormatId,
           hidden: output.outputFormatId.indexOf('Thumbnail') === 0, // Hide thumbnails by default
           selected: false,
@@ -103,7 +115,10 @@ export class OutputSelection {
 
   getOutputs(fileFormat: IOutputPerSchemaSelection): IOutputPerOutputFormatSelection[] {
     const outputs = Object.keys(fileFormat.outputs).map(outputFormat => fileFormat.outputs[outputFormat]);
-    return [...outputs.filter(o => o.id === 'Original'), ...outputs.filter(o => o.id !== 'Original').sort((x, y) => x.name.localeCompare(y.name))];
+    return [
+      ...outputs.filter(o => o.id === 'Original'),
+      ...outputs.filter(o => o.id !== 'Original').sort((x, y) => x.name.localeCompare(y.name)),
+    ];
   }
 
   private getAllOutputs(): IOutputPerOutputFormatSelection[] {

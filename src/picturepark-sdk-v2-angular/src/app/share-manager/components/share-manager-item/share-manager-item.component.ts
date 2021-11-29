@@ -13,7 +13,12 @@ import {
   ShareDetail,
   BusinessProcessService,
 } from '@picturepark/sdk-v2-angular';
-import { ContentDownloadDialogService, DialogService, TranslationService, ContentDetailsDialogComponent } from '@picturepark/sdk-v2-angular-ui';
+import {
+  ContentDownloadDialogService,
+  DialogService,
+  TranslationService,
+  ContentDetailsDialogComponent,
+} from '@picturepark/sdk-v2-angular-ui';
 
 @Component({
   selector: 'app-share-manager-item',
@@ -72,10 +77,12 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
             .afterClosed()
             .subscribe(result => {
               if (result) {
-                this.shareService.deleteMany(new ShareDeleteManyRequest({ ids: [this.share.id] })).subscribe(async i => {
-                  await this.businessProcessService.waitForCompletion(i.id, '02:00:00', true).toPromise();
-                  this.router.navigate(['./share-manager']);
-                });
+                this.shareService
+                  .deleteMany(new ShareDeleteManyRequest({ ids: [this.share.id] }))
+                  .subscribe(async i => {
+                    await this.businessProcessService.waitForCompletion(i.id, '02:00:00', true).toPromise();
+                    this.router.navigate(['./share-manager']);
+                  });
               }
             });
         },

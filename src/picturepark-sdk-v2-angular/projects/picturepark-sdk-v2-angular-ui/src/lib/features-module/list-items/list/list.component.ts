@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  EventEmitter,
+  ViewChild,
+} from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, flatMap, map, take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -7,7 +17,16 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 // LIBRARIES
-import { AggregationFilter, AndFilter, FilterBase, OrFilter, SchemaDetail, SchemaService, ListItem, ListItemSearchFacade } from '@picturepark/sdk-v2-angular';
+import {
+  AggregationFilter,
+  AndFilter,
+  FilterBase,
+  OrFilter,
+  SchemaDetail,
+  SchemaService,
+  ListItem,
+  ListItemSearchFacade,
+} from '@picturepark/sdk-v2-angular';
 import { groupBy } from '../../../utilities/helper';
 import { ListBrowserComponent } from '../../list-browser/list-browser.component';
 
@@ -124,7 +143,9 @@ export class ListComponent implements OnInit, OnDestroy {
     const flatten = groupBy(aggregationFilters, i => i.aggregationName);
     const preparedFilters = Array.from(flatten)
       .map(array => {
-        const filtered = array[1].filter(aggregationFilter => aggregationFilter.filter).map(aggregationFilter => aggregationFilter.filter as FilterBase);
+        const filtered = array[1]
+          .filter(aggregationFilter => aggregationFilter.filter)
+          .map(aggregationFilter => aggregationFilter.filter as FilterBase);
 
         switch (filtered.length) {
           case 0:

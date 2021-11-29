@@ -31,7 +31,10 @@
             />
             <div
               class="share-name-error active"
-              *ngIf="sharedContentForm.controls['share_name'].touched && sharedContentForm.controls['share_name'].hasError('required')"
+              *ngIf="
+                sharedContentForm.controls['share_name'].touched &&
+                sharedContentForm.controls['share_name'].hasError('required')
+              "
             >
               {{ 'ShareContentDialog.AddShareNameError' | pptranslate }}
             </div>
@@ -104,7 +107,8 @@
                 <span>{{ recipient.email }}</span>
               </li>
               <li>
-                <mat-icon (click)="copyToClipboard(recipient.url)">file_copy</mat-icon><a href="{{ recipient.url }}" target="_blank">{{ recipient.url }}</a>
+                <mat-icon (click)="copyToClipboard(recipient.url)">file_copy</mat-icon
+                ><a href="{{ recipient.url }}" target="_blank">{{ recipient.url }}</a>
               </li>
             </ul>
           </div>
@@ -126,7 +130,14 @@
     <button mat-button color="primary" (click)="closeDialog()" *ngIf="recipients.length > 0" [disabled]="loader">
       {{ 'ShareContentDialog.CloseDialog' | pptranslate }}
     </button>
-    <button mat-flat-button color="primary" [ngClass]="{ active: sharedContentForm.valid }" (click)="onFormSubmit()" *ngIf="recipients.length === 0" [disabled]="loader">
+    <button
+      mat-flat-button
+      color="primary"
+      [ngClass]="{ active: sharedContentForm.valid }"
+      (click)="onFormSubmit()"
+      *ngIf="recipients.length === 0"
+      [disabled]="loader"
+    >
       {{ 'ShareContentDialog.ShareContent' | pptranslate }}
     </button>
   </mat-dialog-actions>

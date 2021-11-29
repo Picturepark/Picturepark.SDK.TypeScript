@@ -14,21 +14,35 @@ export class AccessTokenAuthService extends AuthService {
     @Inject(PICTUREPARK_CONFIGURATION)
     private pictureparkConfiguration?: PictureparkAccessTokenAuthConfiguration
   ) {
-    super(pictureparkConfiguration && pictureparkConfiguration.apiServer ? pictureparkConfiguration.apiServer : pictureparkApiUrl!);
+    super(
+      pictureparkConfiguration && pictureparkConfiguration.apiServer
+        ? pictureparkConfiguration.apiServer
+        : pictureparkApiUrl!
+    );
   }
 
   get isAuthenticated(): boolean {
-    return this.pictureparkConfiguration && this.pictureparkConfiguration.accessToken && this.pictureparkConfiguration.accessToken !== '' ? true : false;
+    return this.pictureparkConfiguration &&
+      this.pictureparkConfiguration.accessToken &&
+      this.pictureparkConfiguration.accessToken !== ''
+      ? true
+      : false;
   }
 
   transformHttpRequestOptions(options: any) {
     if (options.headers) {
       if (this.pictureparkConfiguration && this.pictureparkConfiguration.accessToken) {
-        options.headers = options.headers.append('Authorization', 'Bearer ' + this.pictureparkConfiguration.accessToken);
+        options.headers = options.headers.append(
+          'Authorization',
+          'Bearer ' + this.pictureparkConfiguration.accessToken
+        );
       }
 
       if (this.pictureparkConfiguration && this.pictureparkConfiguration.customerAlias) {
-        options.headers = options.headers.append('Picturepark-CustomerAlias', this.pictureparkConfiguration.customerAlias);
+        options.headers = options.headers.append(
+          'Picturepark-CustomerAlias',
+          this.pictureparkConfiguration.customerAlias
+        );
       }
 
       if (this.locale) {

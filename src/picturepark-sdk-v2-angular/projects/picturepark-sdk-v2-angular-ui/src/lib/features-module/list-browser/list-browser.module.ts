@@ -13,6 +13,8 @@ import { MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
   declarations: [ListBrowserComponent],
   imports: [CommonModule, SharedModule, BrowserToolbarModule],
   exports: [ListBrowserComponent],
-  providers: [{ provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: { showDelay: 250, hideDelay: 0, touchGestures: 'off' } }],
+  providers: [
+    { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: { showDelay: 250, hideDelay: 0, touchGestures: 'off' } },
+  ],
 })
 export class ListBrowserModule {}

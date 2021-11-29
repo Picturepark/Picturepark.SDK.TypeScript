@@ -11,12 +11,22 @@
       [modificationDate]="share.audit.modificationDate"
     >
     </pp-share-settings-panel>
-    <pp-share-mail-recipients-panel [mailRecipients]="mailRecipients" *ngIf="mailRecipients && mailRecipients.length"></pp-share-mail-recipients-panel>
+    <pp-share-mail-recipients-panel
+      [mailRecipients]="mailRecipients"
+      *ngIf="mailRecipients && mailRecipients.length"
+    ></pp-share-mail-recipients-panel>
     <pp-share-items-panel [shareDetail]="share" (showDetail)="showDetail($event)"></pp-share-items-panel>
     <pp-share-owner-panel [userId]="userId" id="owner" *ngIf="userId"></pp-share-owner-panel>
   </div>
   <div class="background-image" *ngIf="isLoading">
-    <svg _ngcontent-odu-c1="" height="36" id="graphic" viewBox="0 0 27 36" width="27" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      _ngcontent-odu-c1=""
+      height="36"
+      id="graphic"
+      viewBox="0 0 27 36"
+      width="27"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         _ngcontent-odu-c1=""
         class="picturepark-logo"

@@ -1,4 +1,16 @@
-import { Input, Component, OnChanges, SimpleChanges, Output, EventEmitter, ChangeDetectorRef, Inject, Optional, Injector, OnInit } from '@angular/core';
+import {
+  Input,
+  Component,
+  OnChanges,
+  SimpleChanges,
+  Output,
+  EventEmitter,
+  ChangeDetectorRef,
+  Inject,
+  Optional,
+  Injector,
+  OnInit,
+} from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { LazyGetter } from 'lazy-get-decorator';
 import { throttleTime } from 'rxjs/operators';
@@ -122,13 +134,24 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
           this.setPreviewUrl(this.content.iconUrl, true);
           return;
         } else {
-          this.setPreviewUrl(`${this.cdnUrl}/icon/${(this.shareDetail?.data as ShareDataEmbed).token}/${this.content.id}`, true);
+          this.setPreviewUrl(
+            `${this.cdnUrl}/icon/${(this.shareDetail?.data as ShareDataEmbed).token}/${this.content.id}`,
+            true
+          );
         }
       } else {
         // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
-        const output = this.content.outputs!.find(i => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed);
+        const output = this.content.outputs!.find(
+          i => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed
+        );
         const request = output
-          ? this.contentService.download(this.content.id, output.outputFormatId, this.width || 800, this.height || 650, null)
+          ? this.contentService.download(
+              this.content.id,
+              output.outputFormatId,
+              this.width || 800,
+              this.height || 650,
+              null
+            )
           : this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
 
         this.sub = request.subscribe(response => {
@@ -234,7 +257,11 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
             isBinary: s.contentType !== ContentType.Virtual,
             isIcon: this.isIcon,
 
-            previewUrl: previewOutput ? previewOutput.viewUrl : originalOutput && s.contentSchemaId === 'ImageMetadata' ? originalOutput.viewUrl : s.iconUrl,
+            previewUrl: previewOutput
+              ? previewOutput.viewUrl
+              : originalOutput && s.contentSchemaId === 'ImageMetadata'
+              ? originalOutput.viewUrl
+              : s.iconUrl,
 
             originalUrl: originalOutput ? originalOutput.downloadUrl : null,
             pdfUrl: pdfOutput ? pdfOutput.downloadUrl : null,
@@ -243,7 +270,9 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
               : s.outputs.find(i => i.outputFormatId === 'VideoSmall')
               ? s.outputs.find(i => i.outputFormatId === 'VideoSmall')!.downloadUrl
               : null,
-            audioUrl: s.outputs.find(i => i.outputFormatId === 'AudioSmall') ? s.outputs.find(i => i.outputFormatId === 'AudioSmall')!.viewUrl : null,
+            audioUrl: s.outputs.find(i => i.outputFormatId === 'AudioSmall')
+              ? s.outputs.find(i => i.outputFormatId === 'AudioSmall')!.viewUrl
+              : null,
             outputs: s.outputs,
           };
         }),
@@ -258,7 +287,11 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
 
   showPdf(item: IShareItem): void {
     this.playChange.emit(true);
-    const url = this.scriptsPath + '/assets/picturepark-sdk-v1-widgets/pdfjs/web/viewer.html?file=' + item.pdfUrl + '&closeButton=false';
+    const url =
+      this.scriptsPath +
+      '/assets/picturepark-sdk-v1-widgets/pdfjs/web/viewer.html?file=' +
+      item.pdfUrl +
+      '&closeButton=false';
     this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 

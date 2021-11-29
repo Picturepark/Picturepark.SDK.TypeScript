@@ -62,7 +62,14 @@
   </mat-dialog-content>
   <mat-divider></mat-divider>
   <mat-dialog-actions align="end">
-    <button mat-button color="primary" class="option" [disabled]="waitingDownload" (click)="toggleAdvanced()" *ngIf="enableAdvanced">
+    <button
+      mat-button
+      color="primary"
+      class="option"
+      [disabled]="waitingDownload"
+      (click)="toggleAdvanced()"
+      *ngIf="enableAdvanced"
+    >
       <span *ngIf="!advancedMode">{{ 'ContentDownloadDialog.Advanced' | pptranslate }}</span>
       <span *ngIf="advancedMode">{{ 'ContentDownloadDialog.Simple' | pptranslate }}</span>
     </button>
@@ -70,7 +77,13 @@
     <button mat-button color="primary" mat-dialog-close [disabled]="waitingDownload">
       {{ 'ContentDownloadDialog.Cancel' | pptranslate }}
     </button>
-    <button mat-flat-button color="primary" *ngIf="!missingOutputs.all" (click)="download()" [disabled]="(fileSize === 0 && !hasDynamicOutputs) || waitingDownload">
+    <button
+      mat-flat-button
+      color="primary"
+      *ngIf="!missingOutputs.all"
+      (click)="download()"
+      [disabled]="(fileSize === 0 && !hasDynamicOutputs) || waitingDownload"
+    >
       {{ 'ContentDownloadDialog.Download' | pptranslate }}
     </button>
   </mat-dialog-actions>

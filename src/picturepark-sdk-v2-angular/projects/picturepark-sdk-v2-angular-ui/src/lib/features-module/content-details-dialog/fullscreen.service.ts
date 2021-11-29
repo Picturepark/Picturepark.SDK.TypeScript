@@ -39,7 +39,9 @@ export class FullscreenService {
       },
       sources: [
         {
-          type: item.isMovie ? 'mp4' : 'mp4' /* IndigoPlayer does not support mp3, but playback of mp3 defined as mp4 works */,
+          type: item.isMovie
+            ? 'mp4'
+            : 'mp4' /* IndigoPlayer does not support mp3, but playback of mp3 defined as mp4 works */,
           src: item.isMovie ? item.videoUrl : item.audioUrl,
         },
       ],
@@ -52,7 +54,9 @@ export class FullscreenService {
       return Promise.resolve((<any>window).IndigoPlayer);
     }
 
-    return Promise.all([this.loadScript('https://cdn.jsdelivr.net/npm/indigo-player@1/lib/indigo-player.js', 'IndigoPlayer')]).then(([IndigoPlayer]) => {
+    return Promise.all([
+      this.loadScript('https://cdn.jsdelivr.net/npm/indigo-player@1/lib/indigo-player.js', 'IndigoPlayer'),
+    ]).then(([IndigoPlayer]) => {
       return IndigoPlayer;
     });
   }
@@ -141,7 +145,10 @@ export class FullscreenService {
           };
         } else if (!i.isBinary) {
           return {
-            html: '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' + i.displayValues.detail + '</div>',
+            html:
+              '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' +
+              i.displayValues.detail +
+              '</div>',
             origin: i.originalUrl,
           };
         } else {
@@ -159,7 +166,9 @@ export class FullscreenService {
         index: shareItems.indexOf(shareItem),
       });
       photoSwipe.options.history = false;
-      photoSwipe.options.shareButtons = [{ id: 'download', label: 'Download', url: '{{raw_image_url}}', download: true }];
+      photoSwipe.options.shareButtons = [
+        { id: 'download', label: 'Download', url: '{{raw_image_url}}', download: true },
+      ];
       photoSwipe.options.getImageURLForShare = (shareButtonData: any) => {
         return photoSwipe.currItem.origin || photoSwipe.currItem.src || '';
       };
@@ -245,7 +254,10 @@ export class FullscreenService {
         this.loadCss('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.css'),
         this.loadCss('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/default-skin/default-skin.css'),
         this.loadScript('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js', 'PhotoSwipe'),
-        this.loadScript('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js', 'PhotoSwipeUI_Default'),
+        this.loadScript(
+          'https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js',
+          'PhotoSwipeUI_Default'
+        ),
       ]).then(([css1, css2, photoSwipe, photoSwipeDefault]) => {
         return {
           element: this.getPhotoSwipeElement(),

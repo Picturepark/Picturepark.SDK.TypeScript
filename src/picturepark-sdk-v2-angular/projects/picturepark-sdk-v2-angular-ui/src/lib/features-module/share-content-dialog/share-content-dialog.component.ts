@@ -1,4 +1,16 @@
-import { Component, OnInit, OnDestroy, Inject, ViewChild, ElementRef, Output, EventEmitter, Renderer2, AfterViewInit, Injector } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Inject,
+  ViewChild,
+  ElementRef,
+  Output,
+  EventEmitter,
+  Renderer2,
+  AfterViewInit,
+  Injector,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
 
@@ -40,7 +52,10 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'pp-share-content-dialog',
   templateUrl: './share-content-dialog.component.html',
-  styleUrls: ['../../shared-module/components/dialog-base/dialog-base.component.scss', './share-content-dialog.component.scss'],
+  styleUrls: [
+    '../../shared-module/components/dialog-base/dialog-base.component.scss',
+    './share-content-dialog.component.scss',
+  ],
   providers: [TranslatePipe],
 })
 export class ShareContentDialogComponent extends DialogBaseComponent implements AfterViewInit, OnInit, OnDestroy {
@@ -217,7 +232,10 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
         // GENERATE SHARE NAME
         const shareName =
           data.totalResults - 1 > 0
-            ? this.translatePipe.transform('ShareContentDialog.ItemsMore', [data.results[0].displayValues.name, data.totalResults - 1])
+            ? this.translatePipe.transform('ShareContentDialog.ItemsMore', [
+                data.results[0].displayValues.name,
+                data.totalResults - 1,
+              ])
             : data.results[0].displayValues.name;
 
         setTimeout(() => {
@@ -235,7 +253,8 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     this.notificationService.clearNotification();
     this.selectedContent = [...this.data];
     this.languageFormControl = new FormControl(
-      this.languageService.shareLanguages.find(lang => lang.ietf === this.languageService.currentLanguage.ietf)?.ietf ?? this.languageService.shareLanguages[0].ietf,
+      this.languageService.shareLanguages.find(lang => lang.ietf === this.languageService.currentLanguage.ietf)?.ietf ??
+        this.languageService.shareLanguages[0].ietf,
       [Validators.required]
     );
 
@@ -255,6 +274,8 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   }
 
   private hasAccessOriginalRights() {
-    return this.shareFacade.getContentRights(this.selectedContent.map(c => c.id)).pipe(map(cr => cr?.some(i => i === ContentRight.AccessOriginal) ?? false));
+    return this.shareFacade
+      .getContentRights(this.selectedContent.map(c => c.id))
+      .pipe(map(cr => cr?.some(i => i === ContentRight.AccessOriginal) ?? false));
   }
 }

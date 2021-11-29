@@ -1,6 +1,15 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { AndFilter, ExistsFilter, FilterBase, NotFilter, Schema, SchemaSearchFacade, SchemaService, TermsFilter } from '@picturepark/sdk-v2-angular';
+import {
+  AndFilter,
+  ExistsFilter,
+  FilterBase,
+  NotFilter,
+  Schema,
+  SchemaSearchFacade,
+  SchemaService,
+  TermsFilter,
+} from '@picturepark/sdk-v2-angular';
 import { BaseComponent } from '@picturepark/sdk-v2-angular-ui';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
@@ -13,7 +22,13 @@ import { distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
 export class ListItemsPickerComponent extends BaseComponent implements OnInit {
   parentSchemaId$: Observable<string>;
 
-  constructor(injector: Injector, private route: ActivatedRoute, private router: Router, private schemaService: SchemaService, private facade: SchemaSearchFacade) {
+  constructor(
+    injector: Injector,
+    private route: ActivatedRoute,
+    private router: Router,
+    private schemaService: SchemaService,
+    private facade: SchemaSearchFacade
+  ) {
     super(injector);
   }
 

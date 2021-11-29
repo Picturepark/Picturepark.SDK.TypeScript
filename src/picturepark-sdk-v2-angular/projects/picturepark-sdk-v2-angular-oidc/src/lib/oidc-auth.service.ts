@@ -1,7 +1,12 @@
 import { Output, EventEmitter, Injectable, Inject, Optional, LOCALE_ID } from '@angular/core';
 import { OAuthService, AuthConfig } from 'angular-oauth2-oidc';
 
-import { PICTUREPARK_CONFIGURATION, PICTUREPARK_API_URL, AuthService, PictureparkConfiguration } from '@picturepark/sdk-v2-angular';
+import {
+  PICTUREPARK_CONFIGURATION,
+  PICTUREPARK_API_URL,
+  AuthService,
+  PictureparkConfiguration,
+} from '@picturepark/sdk-v2-angular';
 import { HttpParams } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
@@ -17,9 +22,15 @@ export class OidcAuthService extends AuthService {
     public oauthService: OAuthService,
     @Inject(LOCALE_ID) private locale: string
   ) {
-    super(pictureparkConfiguration && pictureparkConfiguration.apiServer ? pictureparkConfiguration.apiServer : pictureparkApiUrl);
+    super(
+      pictureparkConfiguration && pictureparkConfiguration.apiServer
+        ? pictureparkConfiguration.apiServer
+        : pictureparkApiUrl
+    );
 
-    const redirect = this.pictureparkConfiguration.redirectServer ? this.pictureparkConfiguration.redirectServer : window.location.href;
+    const redirect = this.pictureparkConfiguration.redirectServer
+      ? this.pictureparkConfiguration.redirectServer
+      : window.location.href;
 
     const base = (document.querySelector('base') || {}).href;
 
@@ -28,13 +39,20 @@ export class OidcAuthService extends AuthService {
       redirectUri: redirect,
       clientId: this.pictureparkConfiguration.clientId,
       responseType: 'code',
-      scope: this.pictureparkConfiguration.scope ? this.pictureparkConfiguration.scope : 'profile picturepark_api picturepark_account openid',
+      scope: this.pictureparkConfiguration.scope
+        ? this.pictureparkConfiguration.scope
+        : 'profile picturepark_api picturepark_account openid',
       silentRefreshRedirectUri: base + 'assets/silent-refresh.html',
       useSilentRefresh: true,
       sessionChecksEnabled: false,
       clearHashAfterLogin: true,
       customQueryParams: {
-        acr_values: 'tenant:{"id":"' + this.pictureparkConfiguration.customerId + '","alias":"' + this.pictureparkConfiguration.customerAlias + '"}',
+        acr_values:
+          'tenant:{"id":"' +
+          this.pictureparkConfiguration.customerId +
+          '","alias":"' +
+          this.pictureparkConfiguration.customerAlias +
+          '"}',
       },
     };
 
@@ -60,7 +78,10 @@ export class OidcAuthService extends AuthService {
       if (redirectRoute && redirectRoute?.indexOf('?') > 0) {
         const routeSplit = redirectRoute.split('?');
         const params = routeSplit[1].split('&');
-        const filteredParams = params.filter(p => !p.startsWith('code') && !p.startsWith('scope') && !p.startsWith('state') && !p.startsWith('session_state'));
+        const filteredParams = params.filter(
+          p =>
+            !p.startsWith('code') && !p.startsWith('scope') && !p.startsWith('state') && !p.startsWith('session_state')
+        );
         const httpParams = new HttpParams({ fromString: filteredParams.join('&') });
         route = httpParams.keys().length > 0 ? `${routeSplit[0]}?${httpParams.toString()}` : routeSplit[0];
       }
@@ -114,7 +135,10 @@ export class OidcAuthService extends AuthService {
       }
 
       if (this.pictureparkConfiguration && this.pictureparkConfiguration.customerAlias) {
-        options.headers = options.headers.append('Picturepark-CustomerAlias', this.pictureparkConfiguration.customerAlias);
+        options.headers = options.headers.append(
+          'Picturepark-CustomerAlias',
+          this.pictureparkConfiguration.customerAlias
+        );
       }
 
       if (this.locale) {
