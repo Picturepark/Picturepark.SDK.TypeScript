@@ -160,9 +160,9 @@ export class MetaDataPreviewService {
           fields[fieldId] = value.map((f: any) => (f._displayValues ? f._displayValues.name : '')).join(', ');
         }
       } else if (fieldType === FieldSingleRelation) {
-        console.log('Unsupported field type [' + fieldType + '] encountered.');
+        // Unsupported
       } else if (fieldType === FieldMultiRelation) {
-        console.log('Unsupported field type [' + fieldType + '] encountered.');
+        // Unsupported
       } else {
         console.log('Unsupported field type [' + fieldType + '] encountered.');
       }
