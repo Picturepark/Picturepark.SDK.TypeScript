@@ -36,17 +36,17 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   });
 
   @Input()
-  public showSearchBehaviorPicker = false;
+  showSearchBehaviorPicker = false;
 
   @Input()
-  public minCharacters = 2;
+  minCharacters = 2;
 
   @Input()
   facade: SearchFacade<IEntityBase, SearchInputState>;
 
   suggestions$: Observable<{ name: string; results: AggregationResultItem[] }[]>;
 
-  public get suggestBox() {
+  get suggestBox() {
     return this.form.controls['suggestBox'];
   }
 
@@ -58,10 +58,10 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
     this.hasFocus = false;
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.sub = this.facade.searchString$
-      .pipe(filter((searchString) => searchString !== this.suggestBox.value))
-      .subscribe((searchString) => this.suggestBox.setValue(searchString));
+      .pipe(filter(searchString => searchString !== this.suggestBox.value))
+      .subscribe(searchString => this.suggestBox.setValue(searchString));
 
     this.suggestions$ = this.suggestBox.valueChanges.pipe(
       debounceTime(300),
@@ -70,25 +70,25 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
         this.isLoading = true;
         this.typed = true;
       }),
-      switchMap((searchString) => {
+      switchMap(searchString => {
         // Don't call the backend if we have an empty search string or less than the requested minCharacters
         if (!searchString || searchString.length < this.minCharacters) {
           return of(null);
         }
 
         const aggs = this.setSearchString(searchString);
-        return this.facade.searchAggregations(aggs)!.pipe(catchError((error) => of(null)));
+        return this.facade.searchAggregations(aggs)!.pipe(catchError(error => of(null)));
       }),
-      map((aggregationResult) => {
+      map(aggregationResult => {
         if (!aggregationResult) {
           return [];
         }
-        const results = aggregationResult.map((i) => {
-          const expanded = this.facade.expandAggregationResult(i).aggregationResultItems?.filter((j) => !j.active);
-          const name = this.facade.searchRequestState.aggregators.find((j) => j.name === i.name);
+        const results = aggregationResult.map(i => {
+          const expanded = this.facade.expandAggregationResult(i).aggregationResultItems?.filter(j => !j.active);
+          const name = this.facade.searchRequestState.aggregators.find(j => j.name === i.name);
           return { name: name?.names?.translate(this.locale) ?? i.name, results: expanded ?? [] };
         });
-        return results.filter((i) => i.results.length > 0);
+        return results.filter(i => i.results.length > 0);
       }),
       tap(() => {
         this.isLoading = false;
@@ -97,7 +97,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
     );
   }
 
-  public optionSelected(event: MatAutocompleteSelectedEvent): void {
+  optionSelected(event: MatAutocompleteSelectedEvent): void {
     const element = event.option.value as AggregationResultItem;
     this.suggestBox.setValue('');
     if (element.filter) {
@@ -113,7 +113,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
 
   setSearchString(searchString: string | undefined) {
     const aggs: AggregatorBase[] = [];
-    this.facade.searchRequestState.aggregators.forEach((aggregation) => {
+    this.facade.searchRequestState.aggregators.forEach(aggregation => {
       if (!aggregation.uiBehavior?.enableSuggestions) {
         return;
       }
@@ -128,11 +128,11 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
     return aggs;
   }
 
-  public searchModeChange($event: MatRadioChange) {
+  searchModeChange($event: MatRadioChange) {
     this.facade.patchRequestState({ searchMode: $event.value });
   }
 
-  public clear() {
+  clear() {
     this.suggestBox.setValue('');
     this.facade.patchRequestState({ searchString: '' });
   }

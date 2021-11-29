@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 // LIST BROWSER MODULE
 
@@ -9,11 +9,11 @@
   pp-share-mail-recipients-panel {
     .panel-content {
       .recipient {
-        border-bottom-color: mat-color($primary, divider);
+        border-bottom-color: mat.get-color-from-palette($primary, divider);
 
         .recipient-url {
           a {
-            color: mat-color($primary, on-surface-mid);
+            color: mat.get-color-from-palette($primary, on-surface-mid);
             text-decoration: none;
           }
         }
@@ -22,11 +22,11 @@
       ul {
         li {
           span {
-            color: mat-color($primary, on-surface-light);
+            color: mat.get-color-from-palette($primary, on-surface-light);
           }
 
           a {
-            color: mat-color($accent, '200-contrast');
+            color: mat.get-color-from-palette($accent, '200-contrast');
           }
         }
       }

@@ -13,13 +13,13 @@ import { Content } from '@picturepark/sdk-v2-angular';
   styleUrls: ['./basket-item.component.scss'],
 })
 export class BasketItemComponent extends BaseComponent {
-  @Input() public item: Content;
+  @Input() item: Content;
 
   constructor(private basketService: BasketService, protected injector: Injector) {
     super(injector);
   }
 
-  public remove() {
+  remove() {
     this.basketService.removeItem(this.item.id);
   }
 }

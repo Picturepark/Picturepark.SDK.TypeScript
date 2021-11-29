@@ -1,31 +1,31 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 @mixin pp-aggregation-theme($theme) {
   $primary: map-get($theme, primary);
 
   pp-aggregation-item {
     .aggregation {
-      border-color: mat-color($primary, divider);
+      border-color: mat.get-color-from-palette($primary, divider);
 
       &__option-title {
-        color: mat-color($primary, on-background-dark);
+        color: mat.get-color-from-palette($primary, on-background-dark);
       }
 
       .mat-expansion-panel-header {
-        font-size: mat-font-size($custom-typography, display-1);
+        font-size: mat.font-size($custom-typography, display-1);
 
         .mat-content {
-          border-bottom: 1px solid mat-color($primary, divider);
+          border-bottom: 1px solid mat.get-color-from-palette($primary, divider);
         }
 
         mat-panel-title {
           &.mat-expansion-panel-header-title {
-            color: mat-color($primary, on-background-dark);
+            color: mat.get-color-from-palette($primary, on-background-dark);
           }
         }
 
         &:hover {
-          background-color: mat-color($primary, opacity-light);
+          background-color: mat.get-color-from-palette($primary, opacity-light);
         }
       }
 
@@ -33,23 +33,23 @@
         .mat-list-item,
         .mat-list-option,
         .mat-subheader {
-          font-size: mat-font-size($custom-typography, display-1);
+          font-size: mat.font-size($custom-typography, display-1);
         }
       }
 
       .mat-list-item.mat-list-option .mat-list-item-content {
         .mat-pseudo-checkbox {
-          color: mat-color($primary, on-background-dark);
+          color: mat.get-color-from-palette($primary, on-background-dark);
 
           &.mat-pseudo-checkbox-checked {
-            color: mat-color($primary, primary);
+            color: mat.get-color-from-palette($primary, primary);
           }
         }
       }
 
       .expand-filters {
         button {
-          color: mat-color($primary, primary);
+          color: mat.get-color-from-palette($primary, primary);
         }
       }
     }
@@ -66,10 +66,10 @@
     }
 
     mat-form-field.search {
-      background-color: mat-color($primary, surface-light);
+      background-color: mat.get-color-from-palette($primary, surface-light);
 
       .search-icon {
-        color: mat-color($primary, on-surface-light);
+        color: mat.get-color-from-palette($primary, on-surface-light);
       }
     }
   }

@@ -1,4 +1,4 @@
-export let TRANSLATIONS = {
+export const TRANSLATIONS = {
   ApplicationTitle: {
     demoApp: {
       en: 'Picturepark Demo App',

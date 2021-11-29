@@ -128,7 +128,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
             name: form.get('share_name')!.value,
             recipientEmails: recipientsEmails,
             contents: contentItems,
-            outputAccess: !!form.get('accessOriginal')?.value ? OutputAccess.Full : OutputAccess.Preview,
+            outputAccess: form.get('accessOriginal')?.value ? OutputAccess.Full : OutputAccess.Preview,
             languageCode: form.get('language')?.value ?? this.languageService.currentLanguage.ietf,
             suppressNotifications: false,
             expirationDate: isNaN(expDate.getTime()) ? undefined : expDate,
@@ -140,7 +140,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       const share = await this.shareService.get(response.referenceId!, null, 0).toPromise();
 
-      (share.data as ShareDataBasic).internalRecipients.forEach((recipient) =>
+      (share.data as ShareDataBasic).internalRecipients.forEach(recipient =>
         this.recipients.push({
           email: recipient.recipient.emailAddress,
           url: recipient.url ?? '',
@@ -148,7 +148,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
         })
       );
 
-      (share.data as ShareDataBasic).mailRecipients.forEach((recipient) =>
+      (share.data as ShareDataBasic).mailRecipients.forEach(recipient =>
         this.recipients.push({
           email: recipient.userEmail.emailAddress,
           url: recipient.url ?? '',
@@ -183,7 +183,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       // CONTENT ITEMS
       const contentItems = this.selectedContent.map(
-        (item) =>
+        item =>
           new ShareContent({
             contentId: item.id,
             outputFormatIds: ['Original'],
@@ -191,7 +191,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       );
 
       // RECIPIENTS EMAILS
-      const recipientsEmails = this.sharedContentForm$.value.get('recipients')!.value.map((recipientEmail) => {
+      const recipientsEmails = this.sharedContentForm$.value.get('recipients')!.value.map(recipientEmail => {
         return { emailAddress: recipientEmail };
       });
 
@@ -224,11 +224,11 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
           debugMode: false,
           filter: new TermsFilter({
             field: 'id',
-            terms: selectedContent.map((i) => i.id),
+            terms: selectedContent.map(i => i.id),
           }),
         })
       )
-      .subscribe((data) => {
+      .subscribe(data => {
         // GENERATE SHARE NAME
         const shareName =
           data.totalResults - 1 > 0
@@ -253,12 +253,12 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     this.notificationService.clearNotification();
     this.selectedContent = [...this.data];
     this.languageFormControl = new FormControl(
-      this.languageService.shareLanguages.find((lang) => lang.ietf === this.languageService.currentLanguage.ietf)
-        ?.ietf ?? this.languageService.shareLanguages[0].ietf,
+      this.languageService.shareLanguages.find(lang => lang.ietf === this.languageService.currentLanguage.ietf)?.ietf ??
+        this.languageService.shareLanguages[0].ietf,
       [Validators.required]
     );
 
-    this.sub = this.hasAccessOriginalRights().subscribe((accessOriginal) => {
+    this.sub = this.hasAccessOriginalRights().subscribe(accessOriginal => {
       this.sharedContentForm$.next(
         this.formBuilder.group({
           share_name: new FormControl('', [Validators.required]),
@@ -275,7 +275,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
   private hasAccessOriginalRights() {
     return this.shareFacade
-      .getContentRights(this.selectedContent.map((c) => c.id))
-      .pipe(map((cr) => cr?.some((i) => i === ContentRight.AccessOriginal) ?? false));
+      .getContentRights(this.selectedContent.map(c => c.id))
+      .pipe(map(cr => cr?.some(i => i === ContentRight.AccessOriginal) ?? false));
   }
 }

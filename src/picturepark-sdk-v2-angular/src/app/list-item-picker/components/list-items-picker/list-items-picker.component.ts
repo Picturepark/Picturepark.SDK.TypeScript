@@ -20,7 +20,7 @@ import { distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
   styleUrls: ['./list-items-picker.component.scss'],
 })
 export class ListItemsPickerComponent extends BaseComponent implements OnInit {
-  public parentSchemaId$: Observable<string>;
+  parentSchemaId$: Observable<string>;
 
   constructor(
     injector: Injector,
@@ -32,22 +32,22 @@ export class ListItemsPickerComponent extends BaseComponent implements OnInit {
     super(injector);
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.facade.searchRequestState.baseFilter = this.createFilter();
-    this.parentSchemaId$ = this.route.queryParamMap.pipe(map((params) => params.get('parentSchemaId') || ''));
+    this.parentSchemaId$ = this.route.queryParamMap.pipe(map(params => params.get('parentSchemaId') || ''));
 
     // Load on page navigation and initial load
     this.sub = this.parentSchemaId$
       .pipe(
         distinctUntilChanged(),
-        mergeMap((i) => (i ? this.schemaService.get(i) : of(null))),
-        tap((i) => {
+        mergeMap(i => (i ? this.schemaService.get(i) : of(null))),
+        tap(i => {
           if (i) {
             (i as any).childCount = i.descendantSchemaIds?.length ?? 0;
           }
         })
       )
-      .subscribe((i) => {
+      .subscribe(i => {
         this.facade.patchRequestState({
           baseFilter: this.createFilter(),
           parentSchema: i ? Schema.fromJS(i) : undefined,
@@ -55,19 +55,19 @@ export class ListItemsPickerComponent extends BaseComponent implements OnInit {
       });
   }
 
-  public get queryParams(): Params {
+  get queryParams(): Params {
     return Object.assign({}, this.route.snapshot.queryParams);
   }
 
-  public get request() {
+  get request() {
     return this.facade.searchRequestState;
   }
 
-  public setUpActiveSchema(schema: Schema): void {
+  setUpActiveSchema(schema: Schema): void {
     this.updateRoute([schema.id]);
   }
 
-  public setParent(schema: Schema) {
+  setParent(schema: Schema) {
     this.updateRoute(['/list-item-browser'], { ...this.queryParams, parentSchemaId: schema.id });
   }
 

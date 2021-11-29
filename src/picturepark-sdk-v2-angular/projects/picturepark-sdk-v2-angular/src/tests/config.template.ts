@@ -26,6 +26,7 @@ export function configureTest() {
         },
       },
     ],
+    teardown: { destroyAfterEach: false },
   });
   TestBed.compileComponents();
 }

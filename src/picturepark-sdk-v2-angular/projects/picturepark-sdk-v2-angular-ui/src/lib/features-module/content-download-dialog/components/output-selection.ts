@@ -41,23 +41,23 @@ export class OutputSelection {
     outputTranslations: IOutputFormatTranslations,
     translationService: TranslationService
   ) {
-    contents.forEach((content) => {
+    contents.forEach(content => {
       const isBinary = content.contentType !== ContentType.Virtual;
       const schemaId = isBinary ? content.contentSchemaId : ContentType.Virtual.toString();
       const schemaItems = (this.selection[schemaId] = this.selection[schemaId] || {
         id: schemaId,
         contents: isBinary
-          ? contents.filter((i) => i.contentSchemaId === schemaId)
-          : contents.filter((i) => i.contentType === ContentType.Virtual),
+          ? contents.filter(i => i.contentSchemaId === schemaId)
+          : contents.filter(i => i.contentType === ContentType.Virtual),
         outputs: {},
         name: translationService.translate(`ContentDownloadDialog.${schemaId}`),
       });
 
       let contentOutputs: IContentDownloadOutput[];
       if (isBinary) {
-        contentOutputs = outputs.filter((i) => i.contentId === content.id);
+        contentOutputs = outputs.filter(i => i.contentId === content.id);
       } else {
-        let output = outputs.find((i) => i.contentId === content.id);
+        let output = outputs.find(i => i.contentId === content.id);
         if (!output) {
           output = {
             outputFormatId: 'Original',
@@ -71,7 +71,7 @@ export class OutputSelection {
         contentOutputs = [output];
       }
 
-      contentOutputs.forEach((output) => {
+      contentOutputs.forEach(output => {
         const outputFormatItems = (schemaItems.outputs[output.outputFormatId] = schemaItems.outputs[
           output.outputFormatId
         ] || {
@@ -90,49 +90,49 @@ export class OutputSelection {
     });
 
     this.fileFormats = this.getFileFormats();
-    this.fileFormats.forEach((fileFormat) => (this.outputs[fileFormat.id] = this.getOutputs(fileFormat)));
+    this.fileFormats.forEach(fileFormat => (this.outputs[fileFormat.id] = this.getOutputs(fileFormat)));
     this.hasThumbnails = this.getThumbnailOutputs().length > 0;
   }
 
   getSelectedOutputs(): IContentDownloadOutput[] {
     const selectedOutputs = this.getAllOutputs();
     const outputs = flatMap(
-      selectedOutputs.filter((i) => i.selected),
-      (i) => i.values
-    ).map((i) => i.output);
+      selectedOutputs.filter(i => i.selected),
+      i => i.values
+    ).map(i => i.output);
     return outputs;
   }
 
   toggleThumbnails(): void {
     const thumbnails = this.getThumbnailOutputs();
-    const hasHidden = thumbnails.some((i) => i.hidden);
-    thumbnails.forEach((i) => (i.hidden = !hasHidden));
+    const hasHidden = thumbnails.some(i => i.hidden);
+    thumbnails.forEach(i => (i.hidden = !hasHidden));
   }
 
   private getFileFormats(): IOutputPerSchemaSelection[] {
-    return Object.keys(this.selection).map((fileFormat) => this.selection[fileFormat]);
+    return Object.keys(this.selection).map(fileFormat => this.selection[fileFormat]);
   }
 
   getOutputs(fileFormat: IOutputPerSchemaSelection): IOutputPerOutputFormatSelection[] {
-    const outputs = Object.keys(fileFormat.outputs).map((outputFormat) => fileFormat.outputs[outputFormat]);
+    const outputs = Object.keys(fileFormat.outputs).map(outputFormat => fileFormat.outputs[outputFormat]);
     return [
-      ...outputs.filter((o) => o.id === 'Original'),
-      ...outputs.filter((o) => o.id !== 'Original').sort((x, y) => x.name.localeCompare(y.name)),
+      ...outputs.filter(o => o.id === 'Original'),
+      ...outputs.filter(o => o.id !== 'Original').sort((x, y) => x.name.localeCompare(y.name)),
     ];
   }
 
   private getAllOutputs(): IOutputPerOutputFormatSelection[] {
     return flatMap(
-      this.getFileFormats().map((fileFormat) => this.outputs[fileFormat.id] ?? this.getOutputs(fileFormat)),
-      (i) => i
+      this.getFileFormats().map(fileFormat => this.outputs[fileFormat.id] ?? this.getOutputs(fileFormat)),
+      i => i
     );
   }
 
   private getThumbnailOutputs(): IOutputPerOutputFormatSelection[] {
-    return this.getAllOutputs().filter((output) => output.id.indexOf('Thumbnail') === 0);
+    return this.getAllOutputs().filter(output => output.id.indexOf('Thumbnail') === 0);
   }
 
   get hasHiddenThumbnails(): boolean {
-    return this.getThumbnailOutputs().some((i) => i.hidden);
+    return this.getThumbnailOutputs().some(i => i.hidden);
   }
 }

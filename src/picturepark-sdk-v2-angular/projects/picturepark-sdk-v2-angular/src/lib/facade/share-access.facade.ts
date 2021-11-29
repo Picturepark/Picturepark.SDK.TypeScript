@@ -22,7 +22,7 @@ export class ShareAccessFacade {
     contentResolveLimit: number | null | undefined
   ) {
     return this.shareAccessService.getJson(token, lang, resolveBehaviors, contentResolveLimit).pipe(
-      map((result) => {
+      map(result => {
         this.liquidRenderingService.renderNestedDisplayValuesSync(result);
         return result;
       })
@@ -31,7 +31,7 @@ export class ShareAccessFacade {
 
   loadNextPageOfContents(shareDetail: ShareDetail, shareToken: string, language: string, limit: number) {
     return this.shareAccessService.getContentsInShare(shareToken, language, limit, shareDetail.pageToken).pipe(
-      tap((contents) => {
+      tap(contents => {
         this.liquidRenderingService.renderNestedDisplayValuesSync(contents);
         shareDetail.pageToken = contents.pageToken;
         shareDetail.contentSelections = [...shareDetail.contentSelections, ...contents.results];

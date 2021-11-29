@@ -11,7 +11,7 @@ export class TermsOfServiceEditable implements ITermsOfServiceEditable {
 
   constructor(data?: ITermsOfServiceEditable) {
     if (data) {
-      for (var property in data) {
+      for (const property in data) {
         if (data.hasOwnProperty(property)) (<any>this)[property] = (<any>data)[property];
       }
       this.content =
@@ -21,18 +21,18 @@ export class TermsOfServiceEditable implements ITermsOfServiceEditable {
     }
   }
 
+  static fromJS(data: any): TermsOfServiceEditable {
+    data = typeof data === 'object' ? data : {};
+    const result = new TermsOfServiceEditable();
+    result.init(data);
+    return result;
+  }
+
   init(_data?: any) {
     if (_data) {
       this.content = _data['content'] ? TranslatedStringDictionary.fromJS(_data['content']) : <any>undefined;
       this.validFrom = _data['validFrom'] ? new Date(_data['validFrom'].toString()) : <any>undefined;
     }
-  }
-
-  static fromJS(data: any): TermsOfServiceEditable {
-    data = typeof data === 'object' ? data : {};
-    let result = new TermsOfServiceEditable();
-    result.init(data);
-    return result;
   }
 
   toJSON(data?: any) {
@@ -55,18 +55,18 @@ export class TermsOfService extends TermsOfServiceEditable implements ITermsOfSe
     super(data);
   }
 
+  static fromJS(data: any): TermsOfService {
+    data = typeof data === 'object' ? data : {};
+    const result = new TermsOfService();
+    result.init(data);
+    return result;
+  }
+
   init(_data?: any) {
     super.init(_data);
     if (_data) {
       this.id = _data['id'];
     }
-  }
-
-  static fromJS(data: any): TermsOfService {
-    data = typeof data === 'object' ? data : {};
-    let result = new TermsOfService();
-    result.init(data);
-    return result;
   }
 
   toJSON(data?: any) {
@@ -93,18 +93,18 @@ export class TermsOfServiceDetail extends TermsOfService implements ITermsOfServ
     }
   }
 
+  static fromJS(data: any): TermsOfServiceDetail {
+    data = typeof data === 'object' ? data : {};
+    const result = new TermsOfServiceDetail();
+    result.init(data);
+    return result;
+  }
+
   init(_data?: any) {
     super.init(_data);
     if (_data) {
       this.audit = _data['audit'] ? UserAuditDetail.fromJS(_data['audit']) : <any>undefined;
     }
-  }
-
-  static fromJS(data: any): TermsOfServiceDetail {
-    data = typeof data === 'object' ? data : {};
-    let result = new TermsOfServiceDetail();
-    result.init(data);
-    return result;
   }
 
   toJSON(data?: any) {

@@ -31,7 +31,7 @@ describe('ShareService', () => {
 
         // act
         const contents = response.results.map(
-          (i) =>
+          i =>
             new ShareContent({
               contentId: i.id,
               outputFormatIds: ['Original'],

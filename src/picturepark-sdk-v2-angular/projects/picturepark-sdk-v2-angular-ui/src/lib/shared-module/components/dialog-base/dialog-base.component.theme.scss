@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 // DIALOG BASE VARS
 $pp-dialog-base: (
@@ -16,39 +16,39 @@ $pp-dialog-base: (
     .dialog,
     .dialog-container {
       .header {
-        color: mat-color($accent, '200-contrast');
-        border-color: mat-color($primary, divider);
+        color: mat.get-color-from-palette($accent, '200-contrast');
+        border-color: mat.get-color-from-palette($primary, divider);
       }
 
       mat-dialog-content {
-        background-color: mat-color($primary, background-dark);
-        color: mat-color($primary, on-background-dark);
+        background-color: mat.get-color-from-palette($primary, background-dark);
+        color: mat.get-color-from-palette($primary, on-background-dark);
 
         .mat-tab-header {
-          background-color: mat-color($accent, 550);
+          background-color: mat.get-color-from-palette($accent, 550);
         }
 
         .mat-checkbox-checked {
           &.mat-primary {
             .mat-checkbox-background {
-              background-color: mat-color($primary, primary);
+              background-color: mat.get-color-from-palette($primary, primary);
             }
           }
         }
 
         .mat-tab-body-content {
-          background-color: mat-color($accent, 450);
-          color: mat-color($primary, on-surface-mid);
+          background-color: mat.get-color-from-palette($accent, 450);
+          color: mat.get-color-from-palette($primary, on-surface-mid);
         }
       }
 
       .loader-container {
-        background-color: mat-color($primary, surface-light);
+        background-color: mat.get-color-from-palette($primary, surface-light);
       }
 
       mat-dialog-actions {
-        background-color: mat-color($primary, surface-light);
-        color: mat-color($primary, on-surface-light);
+        background-color: mat.get-color-from-palette($primary, surface-light);
+        color: mat.get-color-from-palette($primary, on-surface-light);
       }
     }
   }
@@ -56,19 +56,19 @@ $pp-dialog-base: (
   .cp-dialog {
     .dialog-container {
       mat-dialog-content {
-        background-color: mat-color($accent, 400);
-        color: mat-color($accent, '400-contrast');
-        fill: mat-color($accent, '200-contrast');
+        background-color: mat.get-color-from-palette($accent, 400);
+        color: mat.get-color-from-palette($accent, '400-contrast');
+        fill: mat.get-color-from-palette($accent, '200-contrast');
 
         .mat-radio-button {
           &.mat-accent {
             &.mat-radio-checked {
               .mat-radio-outer-circle {
-                border-color: mat-color($primary, 400);
+                border-color: mat.get-color-from-palette($primary, 400);
               }
             }
             .mat-radio-inner-circle {
-              background-color: mat-color($primary, 400);
+              background-color: mat.get-color-from-palette($primary, 400);
             }
           }
         }

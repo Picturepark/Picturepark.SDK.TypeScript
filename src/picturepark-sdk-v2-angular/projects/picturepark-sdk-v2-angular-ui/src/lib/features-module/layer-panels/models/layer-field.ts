@@ -4,19 +4,19 @@ import { Observable } from 'rxjs';
 import { RelationFieldInfo } from './relation-field-info';
 
 export class LayerField {
-  public name: string;
-  public title: string;
-  public isOpened: boolean;
-  public value?: string;
-  public relatedField: FieldBase;
-  public markdown: boolean;
+  name: string;
+  title: string;
+  isOpened: boolean;
+  value?: string;
+  relatedField: FieldBase;
+  markdown: boolean;
 
-  public tagboxFields: {
+  tagboxFields: {
     value: string;
     tooltip: string;
   }[];
-  public fieldsetFields: LayerField[];
-  public relationFields: {
+  fieldsetFields: LayerField[];
+  relationFields: {
     info: Observable<RelationFieldInfo>;
     fields: LayerField[];
   }[];

@@ -92,7 +92,7 @@
           <ng-container *ngIf="selectedItems.length === 1">
             {{ 'ContentPicker.SelectedItem' | pptranslate: selectedItems.length }}
           </ng-container>
-          <ng-container *ngIf="selectedItems.length != 1">
+          <ng-container *ngIf="selectedItems.length !== 1">
             {{ 'ContentPicker.SelectedItems' | pptranslate: selectedItems.length }}
           </ng-container>
         </ng-container>
@@ -101,7 +101,7 @@
           <ng-container *ngIf="selectedItems.length === 1">
             {{ 'ContentPicker.TextSelectedSingle' | pptranslate: selectedItems.length }}
           </ng-container>
-          <ng-container *ngIf="selectedItems.length != 1">
+          <ng-container *ngIf="selectedItems.length !== 1">
             {{ 'ContentPicker.TextSelectedMultiple' | pptranslate: selectedItems.length }}
           </ng-container>
         </ng-template>

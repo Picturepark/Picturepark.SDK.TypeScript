@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 // BROWSER TOOLBAR CONTAINER
 $pp-item-tool-bar: (
@@ -10,32 +10,32 @@ $pp-item-tool-bar: (
 
   pp-item-tool-bar {
     .tool-bar-container {
-      background: mat-color($primary, surface-dark);
+      background: mat.get-color-from-palette($primary, surface-dark);
 
       .to-top {
-        background-color: mat-color($primary, surface-light);
-        color: mat-color($primary, on-surface-light);
+        background-color: mat.get-color-from-palette($primary, surface-light);
+        color: mat.get-color-from-palette($primary, on-surface-light);
       }
 
       ul {
         li {
           button {
-            color: mat-color($primary, on-surface-dark);
+            color: mat.get-color-from-palette($primary, on-surface-dark);
             &:hover {
               i {
-                color: mat-color($primary, on-surface-dark);
+                color: mat.get-color-from-palette($primary, on-surface-dark);
               }
             }
 
             i {
-              color: mat-color($primary, on-surface-dark);
-              font-size: mat-font-size($custom-typography, headline);
+              color: mat.get-color-from-palette($primary, on-surface-dark);
+              font-size: mat.font-size($custom-typography, headline);
             }
 
             span {
-              font-size: mat-font-size($custom-typography, button);
-              background-color: mat-color($primary, opacity-light);
-              color: mat-color($primary, on-opacity-light);
+              font-size: mat.font-size($custom-typography, button);
+              background-color: mat.get-color-from-palette($primary, opacity-light);
+              color: mat.get-color-from-palette($primary, on-opacity-light);
             }
           }
         }

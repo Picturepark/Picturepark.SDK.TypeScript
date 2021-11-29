@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 // LIST BROWSER MODULE
 
@@ -7,24 +7,24 @@
 
   pp-list-browser {
     .browser__header .browser__empty-result {
-      color: mat-color($primary, on-background-light);
+      color: mat.get-color-from-palette($primary, on-background-light);
     }
     .table-container {
-      background: mat-color($primary, background-light);
+      background: mat.get-color-from-palette($primary, background-light);
 
       .mat-header-cell,
       .mat-cell,
       .mat-footer-cell {
-        background: mat-color($primary, background-light);
-        color: mat-color($primary, on-background-light);
+        background: mat.get-color-from-palette($primary, background-light);
+        color: mat.get-color-from-palette($primary, on-background-light);
       }
 
       tr.selected {
         .mat-header-cell,
         .mat-cell,
         .mat-footer-cell {
-          background: mat-color($primary, background-dark);
-          color: mat-color($primary, on-background-dark);
+          background: mat.get-color-from-palette($primary, background-dark);
+          color: mat.get-color-from-palette($primary, on-background-dark);
         }
       }
 
@@ -32,8 +32,8 @@
         .mat-header-cell,
         .mat-cell,
         .mat-footer-cell {
-          background: mat-color($primary, background-dark);
-          color: mat-color($primary, on-background-dark);
+          background: mat.get-color-from-palette($primary, background-dark);
+          color: mat.get-color-from-palette($primary, on-background-dark);
         }
       }
     }

@@ -10,6 +10,5 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
   declarations: [ContentDownloadDialogComponent, SnackbarComponent],
   imports: [CommonModule, NotificationModule, SharedModule, MatSnackBarModule],
   exports: [ContentDownloadDialogComponent],
-  entryComponents: [ContentDownloadDialogComponent, SnackbarComponent],
 })
 export class ContentDownloadDialogModule {}

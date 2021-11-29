@@ -39,12 +39,12 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   @Input() shadow: boolean;
   @Input() cover: boolean;
 
-  public isLoading = false;
-  public thumbnailUrl$: Observable<SafeUrl> | null;
+  isLoading = false;
+  thumbnailUrl$: Observable<SafeUrl> | null;
 
-  public virtualItemHtml: SafeHtml | null;
+  virtualItemHtml: SafeHtml | null;
 
-  public constructor(
+  constructor(
     private contentService: ContentService,
     private contentFacade: ContentFacade,
     private sanitizer: DomSanitizer,
@@ -62,7 +62,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
         } else {
           const content = this.item as ShareContentDetail;
           if (content) {
-            const output = content.outputs.find((i) => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
+            const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
             this.isLoading = true;
             this.thumbnailUrl$ = this.loadItem.pipe(
               map(() =>
@@ -90,7 +90,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
                 .downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
                 .pipe(finalize(() => (this.isLoading = false)));
             }),
-            map((response) => this.trust(URL.createObjectURL(response.data)))
+            map(response => this.trust(URL.createObjectURL(response.data)))
           );
         }
       }

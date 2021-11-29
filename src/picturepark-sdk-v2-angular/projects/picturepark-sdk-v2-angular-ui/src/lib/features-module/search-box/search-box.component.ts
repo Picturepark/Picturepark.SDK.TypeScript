@@ -10,28 +10,28 @@ import { SearchParameters } from '../../shared-module/search-utils';
   styleUrls: ['./search-box.component.scss'],
 })
 export class SearchBoxComponent implements OnChanges, OnInit {
-  public result: ContentSearchResult | null = null;
+  result: ContentSearchResult | null = null;
 
   @Input()
-  public searchString = '';
+  searchString = '';
 
   @Input()
-  public searchMode: SearchMode = SearchMode.And;
+  searchMode: SearchMode = SearchMode.And;
 
   @Input()
-  public showSearchBehaviorPicker = false;
+  showSearchBehaviorPicker = false;
 
   @Output()
-  public searchStringChange = new EventEmitter<string>();
+  searchStringChange = new EventEmitter<string>();
 
   @Output()
-  public searchParametersChange = new EventEmitter<SearchParameters>();
+  searchParametersChange = new EventEmitter<SearchParameters>();
 
   ngOnInit(): void {
     this.emitValues();
   }
 
-  public ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
+  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
     if (changes['searchString']) {
       this.search();
     }
@@ -43,21 +43,21 @@ export class SearchBoxComponent implements OnChanges, OnInit {
     }
   }
 
-  public search() {
+  search() {
     this.emitValues();
   }
 
-  public clear() {
+  clear() {
     this.searchString = '';
     this.emitValues();
   }
 
-  public setSearchMode(searchMode: any) {
+  setSearchMode(searchMode: any) {
     this.searchMode = searchMode;
     this.emitValues();
   }
 
-  public emitValues() {
+  emitValues() {
     this.searchParametersChange.emit({
       searchString: this.searchString,
       searchMode: this.searchMode,

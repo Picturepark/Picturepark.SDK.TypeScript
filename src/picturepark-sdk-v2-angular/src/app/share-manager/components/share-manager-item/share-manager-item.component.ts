@@ -75,11 +75,11 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
               },
             })
             .afterClosed()
-            .subscribe((result) => {
+            .subscribe(result => {
               if (result) {
                 this.shareService
                   .deleteMany(new ShareDeleteManyRequest({ ids: [this.share.id] }))
-                  .subscribe(async (i) => {
+                  .subscribe(async i => {
                     await this.businessProcessService.waitForCompletion(i.id, '02:00:00', true).toPromise();
                     this.router.navigate(['./share-manager']);
                   });
@@ -92,7 +92,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
   // GET SHARE INFO
   loadShare(shareId: string): void {
-    this.shareService.get(shareId, null, null).subscribe((data) => {
+    this.shareService.get(shareId, null, null).subscribe(data => {
       this.share = data;
 
       this.items = data.contentSelections;
@@ -123,7 +123,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // ROUTE SUBSCRIBER
-    const activatedRoute = this.activatedRoute.params.subscribe((params) => {
+    const activatedRoute = this.activatedRoute.params.subscribe(params => {
       this.loadShare(params.shareId);
     });
 

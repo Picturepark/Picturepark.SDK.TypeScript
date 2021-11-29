@@ -24,6 +24,7 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
 
   // REGULAR EXPRESSION FOR EMAIL VALIDATION
   private reg =
+    // eslint-disable-next-line
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
   constructor(private shareService: ShareService, protected injector: Injector) {
@@ -38,7 +39,7 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
       .pipe(
         debounceTime(300),
         tap(() => (this.isLoading = true)),
-        switchMap((value) =>
+        switchMap(value =>
           this.shareService
             .aggregate(
               new ShareAggregationRequest({
@@ -62,10 +63,10 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
             .pipe(finalize(() => (this.isLoading = false)))
         )
       )
-      .subscribe((users) => {
+      .subscribe(users => {
         this.recipientsAutocomplete =
           users.aggregationResults[0].aggregationResultItems![0].aggregationResults![0].aggregationResultItems!.map(
-            (i) => i.name
+            i => i.name
           );
       });
   }
@@ -86,7 +87,7 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
     if (!this.recipientSearch.errors) {
       const value = this.recipientSearch.value;
 
-      if (!value.length || this.recipients.controls.findIndex((control) => control.value === value) !== -1) {
+      if (!value.length || this.recipients.controls.findIndex(control => control.value === value) !== -1) {
         return;
       }
 

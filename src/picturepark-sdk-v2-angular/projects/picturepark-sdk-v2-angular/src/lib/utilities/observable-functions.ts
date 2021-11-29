@@ -6,5 +6,5 @@ export function createArrayOfObservablesByChunks<T, U>(
   chunkLimit: number,
   callback: (chunk: T[]) => Observable<U[]>
 ) {
-  return [...chunkArray(arrToChunk, chunkLimit).map((x) => callback(x))];
+  return [...chunkArray(arrToChunk, chunkLimit).map(x => callback(x))];
 }

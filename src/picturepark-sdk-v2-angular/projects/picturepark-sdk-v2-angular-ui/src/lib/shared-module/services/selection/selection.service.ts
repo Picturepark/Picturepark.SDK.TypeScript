@@ -10,21 +10,21 @@ export class SelectionService<TEntity extends IEntityBase> {
 
   private items: Set<TEntity> = new Set();
 
-  public get selectedItems(): Observable<TEntity[]> {
+  get selectedItems(): Observable<TEntity[]> {
     return this.selectedItemsSubject.asObservable();
   }
 
-  public addItem(itemId: TEntity) {
+  addItem(itemId: TEntity) {
     this.items.add(itemId);
     this.updateSubject();
   }
 
-  public addItems(items: TEntity[]) {
-    items.forEach((item) => this.items.add(item));
+  addItems(items: TEntity[]) {
+    items.forEach(item => this.items.add(item));
     this.updateSubject();
   }
 
-  public removeItem(value: TEntity | string) {
+  removeItem(value: TEntity | string) {
     if (typeof value === 'string') {
       const item = this.getById(value);
       this.items.delete(item!);
@@ -35,8 +35,8 @@ export class SelectionService<TEntity extends IEntityBase> {
     this.updateSubject();
   }
 
-  public removeItems(values: TEntity[] | string[]) {
-    values.forEach((value) => {
+  removeItems(values: TEntity[] | string[]) {
+    values.forEach(value => {
       if (typeof value === 'string') {
         const item = this.getById(value);
         this.items.delete(item!);
@@ -48,7 +48,7 @@ export class SelectionService<TEntity extends IEntityBase> {
     this.updateSubject();
   }
 
-  public toggle(item: TEntity) {
+  toggle(item: TEntity) {
     if (this.items.has(item)) {
       this.removeItem(item);
     } else {
@@ -56,16 +56,16 @@ export class SelectionService<TEntity extends IEntityBase> {
     }
   }
 
-  public getById(value: string): TEntity | undefined {
-    return Array.from(this.items.values()).find((i) => i.id === value);
+  getById(value: string): TEntity | undefined {
+    return Array.from(this.items.values()).find(i => i.id === value);
   }
 
-  public clear() {
+  clear() {
     this.items.clear();
     this.updateSubject();
   }
 
-  public isEmpty(): boolean {
+  isEmpty(): boolean {
     return Array.from(this.items.values()).length === 0;
   }
 

@@ -19,7 +19,6 @@ import { ReadMoreComponent } from './components/read-more/read-more.component';
   ],
   imports: [CommonModule, SharedModule],
   exports: [LayerPanelsComponent, FieldDetailInfoDialogComponent, MarkdownDirective, ReadMoreComponent],
-  entryComponents: [FieldDetailInfoDialogComponent],
   providers: [TranslatePipe],
 })
 export class LayerPanelsModule {}

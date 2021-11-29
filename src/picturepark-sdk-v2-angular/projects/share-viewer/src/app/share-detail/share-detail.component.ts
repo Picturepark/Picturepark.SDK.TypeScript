@@ -54,7 +54,7 @@ export class ShareDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((paramMap) => {
+    this.route.paramMap.subscribe(paramMap => {
       const shareToken = paramMap.get('token')!;
       this.shareToken = shareToken;
       this.update(shareToken);
@@ -64,7 +64,7 @@ export class ShareDetailComponent implements OnInit {
     const elem = document.getElementsByClassName('share-viewer-item-container')[0];
     fromEvent(elem, 'scroll')
       .pipe(debounceTime(50))
-      .subscribe((scrollable) => {
+      .subscribe(scrollable => {
         if (!scrollable) {
           return;
         }
@@ -84,7 +84,7 @@ export class ShareDetailComponent implements OnInit {
     this.itemsLoading = true;
     this.shareAccessFacade
       .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30)
-      .subscribe((page) => {
+      .subscribe(page => {
         this.itemsLoading = false;
       });
   }
@@ -109,9 +109,9 @@ export class ShareDetailComponent implements OnInit {
           this.enableDownload =
             share.shareType === ShareType.Basic ||
             !share.contents
-              .filter((content) => content instanceof EmbedContent)
-              .map((content) => content as EmbedContent)
-              .some((content) => content.conversionPresets?.some((i) => i.conversion));
+              .filter(content => content instanceof EmbedContent)
+              .map(content => content as EmbedContent)
+              .some(content => content.conversionPresets?.some(i => i.conversion));
 
           this.shareDetail = share;
           this.mailRecipients = (this.shareDetail.data as ShareDataBasic).mailRecipients;
@@ -122,16 +122,16 @@ export class ShareDetailComponent implements OnInit {
   }
 
   download(): void {
-    this.shareAccessFacade.getOutputsInShare(this.shareToken).subscribe((res) =>
+    this.shareAccessFacade.getOutputsInShare(this.shareToken).subscribe(res =>
       this.contentDownloadDialogService.showDialog({
         mode: 'multi',
-        contents: res?.contentInfos?.map((c) => ({
+        contents: res?.contentInfos?.map(c => ({
           id: c.id,
           contentSchemaId: c.contentSchemaId,
           contentType: c.contentType,
           outputs: res.outputs
-            ?.filter((o) => o.contentId === c.id)
-            .map((o) => ({
+            ?.filter(o => o.contentId === c.id)
+            .map(o => ({
               contentId: o.contentId,
               outputFormatId: o.outputFormatId,
               dynamicRendering: o.dynamicRendering,

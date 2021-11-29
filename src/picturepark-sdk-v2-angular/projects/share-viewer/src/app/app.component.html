@@ -1,6 +1,10 @@
 <div class="share-viewer-item-container">
   <div class="share-viewer-item-content-container">
-    <pp-search-box *ngIf="showSearchBox" [searchString]="searchString" (searchStringChange)="updateRoute($event)"></pp-search-box>
+    <pp-search-box
+      *ngIf="showSearchBox"
+      [searchString]="searchString"
+      (searchStringChange)="updateRoute($event)"
+    ></pp-search-box>
 
     <div *ngIf="showConsent">
       <pp-panel [showHeader]="false">

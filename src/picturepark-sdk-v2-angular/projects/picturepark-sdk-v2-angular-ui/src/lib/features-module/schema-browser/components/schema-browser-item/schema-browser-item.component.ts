@@ -9,16 +9,16 @@ import { Schema } from '@picturepark/sdk-v2-angular';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SchemaBrowserItemComponent {
-  @Input() public schema: Schema;
-  @Input() public selected: boolean;
-  @Output() public activeSchemaChange = new EventEmitter<Schema>();
-  @Output() public itemSelected = new EventEmitter<string>();
+  @Input() schema: Schema;
+  @Input() selected: boolean;
+  @Output() activeSchemaChange = new EventEmitter<Schema>();
+  @Output() itemSelected = new EventEmitter<string>();
 
-  public setUpActiveSchema() {
+  setUpActiveSchema() {
     this.activeSchemaChange.emit(this.schema);
   }
 
-  public emitItemSelected() {
+  emitItemSelected() {
     this.itemSelected.emit(this.schema.id);
   }
 }

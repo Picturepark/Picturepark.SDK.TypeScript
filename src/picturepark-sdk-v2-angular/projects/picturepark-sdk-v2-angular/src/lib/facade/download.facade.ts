@@ -6,8 +6,8 @@ import {
   BusinessProcessService,
   BusinessProcessLifeCycleNotHitException,
 } from '../services/api-services';
-import { throwError, merge } from 'rxjs';
-import { map, mergeMap, retryWhen, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { mergeMap, retryWhen, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -15,14 +15,14 @@ import { map, mergeMap, retryWhen, tap } from 'rxjs/operators';
 export class DownloadFacade {
   constructor(private contentService: ContentService, private businessProcessService: BusinessProcessService) {}
 
-  public getDownloadLink(contents: IContentDownloadRequestItem[]) {
+  getDownloadLink(contents: IContentDownloadRequestItem[]) {
     const request = new ContentDownloadLinkCreateRequest({
       contents: contents,
       notifyProgress: false,
     });
 
     return this.contentService.createDownloadLink(request).pipe(
-      mergeMap((businessProcess) => {
+      mergeMap(businessProcess => {
         return this.businessProcessService.waitForCompletion(businessProcess.id, undefined, false).pipe(
           mergeMap(() => {
             if (!businessProcess.referenceId) {
@@ -30,9 +30,9 @@ export class DownloadFacade {
             }
             return this.contentService.getDownloadLink(businessProcess.referenceId);
           }),
-          retryWhen((errors) =>
+          retryWhen(errors =>
             errors.pipe(
-              tap((error) => {
+              tap(error => {
                 if (!(error instanceof BusinessProcessLifeCycleNotHitException)) {
                   throw error;
                 }

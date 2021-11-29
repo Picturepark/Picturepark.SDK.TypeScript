@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Injector } from '@angular/core';
+import { Component, Input, Injector } from '@angular/core';
 
 // LIBRARIES
 import { IEntityBase } from '@picturepark/sdk-v2-angular';

@@ -5,13 +5,13 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class ProgressBarService {
-  public isVisible = new BehaviorSubject<boolean>(false);
+  isVisible = new BehaviorSubject<boolean>(false);
 
-  public show() {
+  show() {
     this.isVisible.next(true);
   }
 
-  public hide() {
+  hide() {
     this.isVisible.next(false);
   }
 }

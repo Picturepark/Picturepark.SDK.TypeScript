@@ -21,25 +21,25 @@ import { RelationFieldInfo } from './models/relation-field-info';
 })
 export class LayerPanelsComponent implements OnInit {
   @Input()
-  public schemas: SchemaDetail[];
+  schemas: SchemaDetail[];
 
   @Input()
-  public content: ContentDetail | ShareContentDetail;
+  content: ContentDetail | ShareContentDetail;
 
   @Input()
-  public showContentSchema = false;
+  showContentSchema = false;
 
   @Input()
-  public excludedLayerSchemaIds: string[] | undefined = [];
+  excludedLayerSchemaIds: string[] | undefined = [];
 
   @Input()
   showReferenced?: boolean;
 
   @Output()
-  public relationClick = new EventEmitter<RelationFieldInfo>();
+  relationClick = new EventEmitter<RelationFieldInfo>();
 
-  public layers: Layer[] = [];
-  public expandedSchemas: Set<string> = new Set<string>();
+  layers: Layer[] = [];
+  expandedSchemas: Set<string> = new Set<string>();
 
   private allSchemas: SchemaDetail[];
 
@@ -59,7 +59,7 @@ export class LayerPanelsComponent implements OnInit {
       this.schemaService
         .getManyReferenced([this.content.contentSchemaId], false)
         .pipe(take(1))
-        .subscribe((schemaDetails) => {
+        .subscribe(schemaDetails => {
           this.allSchemas = [...this.schemas, ...schemaDetails];
           this.setLayers();
         });
@@ -69,11 +69,11 @@ export class LayerPanelsComponent implements OnInit {
     }
   }
 
-  public relationClickHandler(relationInfo: RelationFieldInfo) {
+  relationClickHandler(relationInfo: RelationFieldInfo) {
     this.relationClick.emit(relationInfo);
   }
 
-  public layerExpansionHandler(layerId: string, opened: boolean) {
+  layerExpansionHandler(layerId: string, opened: boolean) {
     if (opened) {
       this.expandedSchemas.add(layerId);
     } else {
@@ -87,7 +87,7 @@ export class LayerPanelsComponent implements OnInit {
   }
 
   private setLayers() {
-    const contentSchema = this.schemas.find((i) => i.id === this.content.contentSchemaId);
+    const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
     if (!contentSchema) {
       return;
     }
@@ -96,7 +96,7 @@ export class LayerPanelsComponent implements OnInit {
     const schemas = this.showContentSchema && isVirtualContent ? [this.content.contentSchemaId] : [];
 
     if (contentSchema.layerSchemaIds) {
-      schemas.push(...contentSchema.layerSchemaIds.filter((lsi) => !this.excludedLayerSchemaIds?.includes(lsi)));
+      schemas.push(...contentSchema.layerSchemaIds.filter(lsi => !this.excludedLayerSchemaIds?.includes(lsi)));
     }
 
     if (this.showContentSchema && !isVirtualContent) {
@@ -104,8 +104,8 @@ export class LayerPanelsComponent implements OnInit {
     }
 
     const bottomLayers: Layer[] = [];
-    schemas.forEach((layerSchemaId) => {
-      const schema: SchemaDetail | undefined = this.allSchemas.find((i) => i.id === layerSchemaId);
+    schemas.forEach(layerSchemaId => {
+      const schema: SchemaDetail | undefined = this.allSchemas.find(i => i.id === layerSchemaId);
       if (!schema) {
         return;
       }
@@ -126,7 +126,7 @@ export class LayerPanelsComponent implements OnInit {
         expanded: this.expandedSchemas.has(schema.id),
       };
 
-      schema.fields.forEach((schemaField) => {
+      schema.fields.forEach(schemaField => {
         if (schemaMetadata[schemaField.id]) {
           const layerField = this.layerFieldService.generate(
             schemaField,
@@ -147,6 +147,6 @@ export class LayerPanelsComponent implements OnInit {
         this.layers.push(layer);
       }
     });
-    bottomLayers.forEach((bottomLayer) => this.layers.push(bottomLayer));
+    bottomLayers.forEach(bottomLayer => this.layers.push(bottomLayer));
   }
 }

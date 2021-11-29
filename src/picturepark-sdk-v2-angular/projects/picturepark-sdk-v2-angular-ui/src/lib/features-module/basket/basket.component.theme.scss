@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 // BASKET VARS
 $pp-basket: (
@@ -10,25 +10,25 @@ $pp-basket: (
 
   pp-basket {
     .basket {
-      background-color: mat-color($primary, background-dark);
+      background-color: mat.get-color-from-palette($primary, background-dark);
       .mat-toolbar {
-        background: mat-color($primary, background-dark);
-        border-bottom-color: mat-color($primary, divider);
+        background: mat.get-color-from-palette($primary, background-dark);
+        border-bottom-color: mat.get-color-from-palette($primary, divider);
         button {
           &:hover {
             mat-icon {
-              color: mat-color($primary, primary);
+              color: mat.get-color-from-palette($primary, primary);
             }
           }
           mat-icon {
-            font-size: mat-font-size($custom-typography, display-3);
-            color: mat-color($primary, on-background-dark);
+            font-size: mat.font-size($custom-typography, display-3);
+            color: mat.get-color-from-palette($primary, on-background-dark);
           }
         }
       }
 
       .basket__empty {
-        color: mat-color($primary, on-background-dark);
+        color: mat.get-color-from-palette($primary, on-background-dark);
       }
     }
   }

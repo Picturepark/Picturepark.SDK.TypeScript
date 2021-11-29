@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 @mixin pp-browser-base-theme($theme) {
   $primary: map-get($theme, primary);
@@ -10,21 +10,21 @@
     .browser {
       $self: &;
 
-      background: mat-color($primary, background-dark);
+      background: mat.get-color-from-palette($primary, background-dark);
 
       &__header {
         & mat-toolbar {
-          border-bottom: 1px solid mat-color($primary, divider);
+          border-bottom: 1px solid mat.get-color-from-palette($primary, divider);
         }
 
         button {
           mat-icon {
-            font-size: mat-font-size($custom-typography, display-3);
-            color: mat-color($primary, on-background-dark);
+            font-size: mat.font-size($custom-typography, display-3);
+            color: mat.get-color-from-palette($primary, on-background-dark);
           }
           &:hover {
             mat-icon {
-              color: mat-color($primary, opacity-light);
+              color: mat.get-color-from-palette($primary, opacity-light);
             }
           }
         }
@@ -32,7 +32,7 @@
 
       .browser__items--list {
         .browser__item-container {
-          border-color: mat-color($primary, divider);
+          border-color: mat.get-color-from-palette($primary, divider);
         }
       }
     }

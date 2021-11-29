@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 export const PICTUREPARK_CONFIGURATION = new InjectionToken<string>('PICTUREPARK_CONFIGURATION');
 
 export abstract class PictureparkServiceBase {
-  public constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   getBaseUrl(defaultUrl: string) {
     return this.authService.apiServer;

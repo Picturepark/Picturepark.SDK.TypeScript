@@ -43,7 +43,7 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
 
     const params = { ...this.getRequest(), aggregators: aggregators, pageToken: undefined, limit: 0 };
     const request = new ContentSearchRequest(params);
-    return this.contentService.search(request).pipe(map((i) => i.aggregationResults!)); // TODO BRO: Exception handling
+    return this.contentService.search(request).pipe(map(i => i.aggregationResults!)); // TODO BRO: Exception handling
   }
 
   private getRequest() {
