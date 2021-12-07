@@ -19,7 +19,7 @@ REM # Compile AMD bundle
 
 cmd /c call "%~dp0/../node_modules/.bin/tsc" "%~dp0/../src/picturepark-sdk-v1-pickers/src/index.ts" --outFile "%~dp0/../src/picturepark-sdk-v1-pickers/dist/amd/picturepark-pickers.js" --module amd --target "ES5" --lib "DOM,ES5,ScriptHost,ES2015.Promise" --declaration
 
-cmd /c powershell "& { [System.IO.File]::ReadAllText('%~dp0/../src/picturepark-sdk-v1-pickers/dist/amd/picturepark-pickers.js') -replace 'define\(\"index\", \[\"require\", \"exports\", \"./promise.min.js\"\]', 'define([\"require\", \"exports\"]' | Set-Content '%~dp0/../src/picturepark-sdk-v1-pickers/dist/amd/picturepark-pickers.js'}"
+cmd /c powershell "& { [System.IO.File]::ReadAllText('%~dp0/../src/picturepark-sdk-v1-pickers/dist/amd/picturepark-pickers.js') -replace 'define\(\"index\", \[\"require\", \"exports\"]', 'define([\"require\", \"exports\"]' | Set-Content '%~dp0/../src/picturepark-sdk-v1-pickers/dist/amd/picturepark-pickers.js'}"
 
 cmd /c call "%~dp0/../node_modules/.bin/uglifyjs" --compress --mangle -o "%~dp0/../src/picturepark-sdk-v1-pickers/dist/amd/picturepark-pickers.js" -- "%~dp0/../src/picturepark-sdk-v1-pickers/dist/amd/picturepark-pickers.js"
 
