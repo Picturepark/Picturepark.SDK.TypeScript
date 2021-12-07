@@ -1,0 +1,36 @@
+/* roboto-300 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/assets/fonts/roboto/roboto-v27-300.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/assets/fonts/roboto/roboto-v27-300.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/assets/fonts/roboto/roboto-v27-300.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/assets/fonts/roboto/roboto-v27-300.woff') format('woff'),
+    /* Modern Browsers */ url('/assets/fonts/roboto/roboto-v27-300.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/assets/fonts/roboto/roboto-v27-300.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+/* roboto-regular - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/roboto/roboto-v27-regular.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/assets/fonts/roboto/roboto-v27-regular.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/assets/fonts/roboto/roboto-v27-regular.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/assets/fonts/roboto/roboto-v27-regular.woff') format('woff'),
+    /* Modern Browsers */ url('/assets/fonts/roboto/roboto-v27-regular.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/assets/fonts/roboto/roboto-v27-regular.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+/* roboto-500 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/assets/fonts/roboto/roboto-v27-500.eot'); /* IE9 Compat Modes */
+  src: local(''), url('/assets/fonts/roboto/roboto-v27-500.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('/assets/fonts/roboto/roboto-v27-500.woff2') format('woff2'),
+    /* Super Modern Browsers */ url('/assets/fonts/roboto/roboto-v27-500.woff') format('woff'),
+    /* Modern Browsers */ url('/assets/fonts/roboto/roboto-v27-500.ttf') format('truetype'),
+    /* Safari, Android, iOS */ url('/assets/fonts/roboto/roboto-v27-500.svg#Roboto') format('svg'); /* Legacy iOS */
+}
