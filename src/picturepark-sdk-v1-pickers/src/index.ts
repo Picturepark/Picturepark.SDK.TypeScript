@@ -9,14 +9,11 @@ export interface IContentPickerSize {
  * @param serverUrl The URL of the Picturepark server
  * @param completed Callback which is called when the window has been closed (share is undefined if the user cancelled)
  */
-export function showContentPicker(serverUrl: string, size?: IContentPickerSize ) {
+export function showContentPicker(serverUrl: string, size?: IContentPickerSize, debug?: boolean) {
   return new Promise<IShare>((resolve, reject) => {
 
     const w = size?.w ?? 1281;
     const h = size?.h ?? 800;
-
-    if (serverUrl.indexOf('http://localhost:4200') !== 0)
-      serverUrl = serverUrl + '/elements';
 
     var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : (<any>screen).left;
     var dualScreenTop = window.screenTop != undefined ? window.screenTop : (<any>screen).top;
@@ -27,13 +24,14 @@ export function showContentPicker(serverUrl: string, size?: IContentPickerSize )
     var left = ((width / 2) - (w / 2)) + dualScreenLeft;
     var top = ((height / 2) - (h / 2)) + dualScreenTop;
 
-    var popup: Window = window.open(serverUrl + '/content-picker?postUrl=' + encodeURIComponent(window.location.origin),
+    const url = serverUrl + (serverUrl.includes('?') ? '&' : '?') + 'postUrl=' + encodeURIComponent(window.location.origin)
+    var popup: Window = window.open(url,
       '_blank', 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ',status=no,location=no,toolbar=no');
 
     var callbackCalled = false;
     let messageReceived = (event: any) => {
-      if (console) {
-        console.log("PCP Message received:");
+      if (debug && console) {
+        console.log("CP Message received:");
         console.log(event);
       }
 
@@ -48,14 +46,14 @@ export function showContentPicker(serverUrl: string, size?: IContentPickerSize )
           });
         }
       }
-    };
 
-    popup.onbeforeunload = () => {
-      window.removeEventListener("message", messageReceived);
-      if (!callbackCalled) {
-        callbackCalled = true;
-        resolve(undefined);
-      }
+      if (popup.closed) {
+        window.removeEventListener("message", messageReceived);
+        if (!callbackCalled) {
+          callbackCalled = true;
+          resolve(undefined);
+        }
+      }  
     };
 
     window.addEventListener("message", messageReceived);

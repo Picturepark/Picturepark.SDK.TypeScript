@@ -26,13 +26,12 @@
     </p>
     <h3>Open content picker (localhost): </h3>
     <p>
-      Opens the content picker from <strong>http://localhost:4200</strong><br />
-      Just <strong>cd picturepark-sdk-v1-angular-app</strong> and <strong>npm start</strong> before clicking on the button.
+      Opens the content picker from <strong>http://localhost:4500</strong><br />
     </p>
   </div>
 
   <script>
-  function openContentPicker(pickerUrl, dataUrl) {
+  function openContentPicker(pickerUrl) {
       pictureparkPickers.showContentPicker(pickerUrl).then(function (share) {
         if (share)
           document.getElementById('receivedJson').innerHTML = JSON.stringify(share, null, 2);
@@ -41,8 +40,9 @@
       });
     };
 
-    document.getElementById("openContentPicker").onclick = openContentPicker.bind(null, "https://localtest.08.qa-picturepark.com", "https://localtest.08.qa-picturepark.com");
-    document.getElementById("openContentPickerLocalhost").onclick = openContentPicker.bind(null, "http://localhost:4200", "https://qanext04.preview-picturepark.com");
+    document.getElementById("openContentPicker").onclick = openContentPicker.bind(null, "https://localtest.08.qa-picturepark.com");
+    const channelId = "channelId"; // TODO BRO: Fix
+    document.getElementById("openContentPickerLocalhost").onclick = openContentPicker.bind(null, "http://localhost:4500/contentPicker/" + channelId);
   </script>
 </body>
 </html>
