@@ -21,7 +21,7 @@
           mat-icon-button
           (click)="openShareContentDialog()"
           [matTooltip]="'ContentBrowser.ShareImages' | pptranslate"
-          *ngIf="selectedItems.length >= 1 && configActions['share']"
+          *ngIf="selectedItems.length >= 1 && configActions['share'] && hasManageSharingsRight"
         >
           <mat-icon aria-label="Share selected items">share</mat-icon>
         </button>

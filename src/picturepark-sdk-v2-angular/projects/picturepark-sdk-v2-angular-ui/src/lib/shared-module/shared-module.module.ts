@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialsModule } from '../materials-module/materials-module.module';
 
 // Services
+import { SessionService } from './services/session/session.service';
 import { BasketService } from './services/basket/basket.service';
 import { SelectionService } from './services/selection/selection.service';
 import { MetaDataPreviewService } from './services/metadata-preview/metadata-preview.service';
@@ -90,6 +91,7 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
+        SessionService,
         BasketService,
         SelectionService,
         MetaDataPreviewService,

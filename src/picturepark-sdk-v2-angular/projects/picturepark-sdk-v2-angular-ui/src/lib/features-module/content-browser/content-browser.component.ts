@@ -1,7 +1,14 @@
 import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
 
 // LIBRARIES
-import { ThumbnailSize, Channel, Content, ContentSearchFacade, SortDirection } from '@picturepark/sdk-v2-angular';
+import {
+  ThumbnailSize,
+  Channel,
+  Content,
+  ContentSearchFacade,
+  SortDirection,
+  UserRight,
+} from '@picturepark/sdk-v2-angular';
 
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
@@ -14,6 +21,7 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 import { ItemBasketSelection } from './components/content-browser-item/interfaces/content-browser-item.interface';
 import { ISortItem } from '../../shared-module/components/browser-base/interfaces/sort-item';
+import { SessionService } from '@picturepark/sdk-v2-angular-ui';
 
 @Component({
   selector: 'pp-content-browser',
@@ -27,8 +35,10 @@ import { ISortItem } from '../../shared-module/components/browser-base/interface
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
   @Input()
   channel: Channel | null = null;
+  hasManageSharingsRight = this.sessionService.hasRight(UserRight.ManageSharings);
 
   constructor(
+    private sessionService: SessionService,
     private basketService: BasketService,
     public facade: ContentSearchFacade,
     private contentDownloadDialogService: ContentDownloadDialogService,
