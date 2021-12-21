@@ -2,6 +2,7 @@ export interface IContentPickerSettings {
   width?: number;
   height?: number;
   debug?: boolean;
+  returnType: 'embed' | 'content';
   embedName?: string;
 }
 
@@ -12,7 +13,7 @@ export interface IContentPickerSettings {
  * @param completed Callback which is called when the window has been closed (share is undefined if the user cancelled)
  */
 export function showContentPicker(serverUrl: string, settings?: IContentPickerSettings) {
-  return new Promise<IShare>((resolve, reject) => {
+  return new Promise<IContentPickerResult>((resolve, reject) => {
 
     const w = settings?.width ?? 1281;
     const h = settings?.height ?? 800;
@@ -27,13 +28,14 @@ export function showContentPicker(serverUrl: string, settings?: IContentPickerSe
     var top = ((height / 2) - (h / 2)) + dualScreenTop;
 
     let url = serverUrl + (serverUrl.includes('?') ? '&' : '?') + 'postUrl=' + encodeURIComponent(window.location.origin);
+    url += `&returnType=${encodeURIComponent(settings?.returnType ?? 'embed')}`;
     if(settings?.embedName) url += `&embedName=${encodeURIComponent(settings.embedName)}`;
 
     var popup: Window = window.open(url,
       '_blank', 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ',status=no,location=no,toolbar=no');
 
     var callbackCalled = false;
-    let messageReceived = (event: any) => {
+    const messageReceived = (event: any) => {
       if (settings?.debug && console) {
         console.log("CP Message received:");
         console.log(event);
@@ -50,21 +52,29 @@ export function showContentPicker(serverUrl: string, settings?: IContentPickerSe
           });
         }
       }
+    };
 
+    const checkClosed = () => {
       if (popup.closed) {
         window.removeEventListener("message", messageReceived);
         if (!callbackCalled) {
           callbackCalled = true;
           resolve(undefined);
         }
-      }  
-    };
+      } else {
+        setTimeout(() => checkClosed())
+      }
+    }
 
     window.addEventListener("message", messageReceived);
+    checkClosed();
   });
 }
 
-export interface IShare {
-  shareId: string;
-  items: { token: string, url: string }[];
+export interface IContentPickerResult {
+  share?: {
+    shareId: string;
+    items: { token: string, url: string }[];
+  }
+  contents?: [{id: string}]
 }

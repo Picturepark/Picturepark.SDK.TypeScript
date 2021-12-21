@@ -32,9 +32,10 @@
 
   <script>
   function openContentPicker(pickerUrl, settings) {
-      pictureparkPickers.showContentPicker(pickerUrl, settings).then(function (share) {
-        if (share)
-          document.getElementById('receivedJson').innerHTML = JSON.stringify(share, null, 2);
+      pictureparkPickers.showContentPicker(pickerUrl, settings).then(function (returnValue) {
+        console.log(returnValue)
+        if (returnValue)
+          document.getElementById('receivedJson').innerHTML = JSON.stringify(returnValue, null, 2);
         else
           document.getElementById('receivedJson').innerHTML = "No content items selected.";
       });
@@ -43,10 +44,11 @@
     document.getElementById("openContentPicker").onclick = openContentPicker.bind(null, "https://localtest.08.qa-picturepark.com");
     const channelId = "channelId"; // TODO BRO: Fix
     document.getElementById("openContentPickerLocalhost").onclick = openContentPicker.bind(null, "http://localhost:4500/contentPicker/" + channelId, {
-      debug: false,
-      width: 1100,
+      debug: true,
+      width: 1400,
       height: 800,
-      embedName: 'Caller defined embed name'
+      embedName: 'Caller defined embed name',
+      returnType: 'embed'
     });
   </script>
 </body>
