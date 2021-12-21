@@ -31,8 +31,8 @@
   </div>
 
   <script>
-  function openContentPicker(pickerUrl) {
-      pictureparkPickers.showContentPicker(pickerUrl).then(function (share) {
+  function openContentPicker(pickerUrl, settings) {
+      pictureparkPickers.showContentPicker(pickerUrl, settings).then(function (share) {
         if (share)
           document.getElementById('receivedJson').innerHTML = JSON.stringify(share, null, 2);
         else
@@ -42,7 +42,12 @@
 
     document.getElementById("openContentPicker").onclick = openContentPicker.bind(null, "https://localtest.08.qa-picturepark.com");
     const channelId = "channelId"; // TODO BRO: Fix
-    document.getElementById("openContentPickerLocalhost").onclick = openContentPicker.bind(null, "http://localhost:4500/contentPicker/" + channelId);
+    document.getElementById("openContentPickerLocalhost").onclick = openContentPicker.bind(null, "http://localhost:4500/contentPicker/" + channelId, {
+      debug: false,
+      width: 1100,
+      height: 800,
+      embedName: 'Caller defined embed name'
+    });
   </script>
 </body>
 </html>

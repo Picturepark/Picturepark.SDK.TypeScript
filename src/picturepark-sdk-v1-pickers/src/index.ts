@@ -1,6 +1,8 @@
-export interface IContentPickerSize {
-  w: number;
-  h: number;
+export interface IContentPickerSettings {
+  width?: number;
+  height?: number;
+  debug?: boolean;
+  embedName?: string;
 }
 
 /** 
@@ -9,11 +11,11 @@ export interface IContentPickerSize {
  * @param serverUrl The URL of the Picturepark server
  * @param completed Callback which is called when the window has been closed (share is undefined if the user cancelled)
  */
-export function showContentPicker(serverUrl: string, size?: IContentPickerSize, debug?: boolean) {
+export function showContentPicker(serverUrl: string, settings?: IContentPickerSettings) {
   return new Promise<IShare>((resolve, reject) => {
 
-    const w = size?.w ?? 1281;
-    const h = size?.h ?? 800;
+    const w = settings?.width ?? 1281;
+    const h = settings?.height ?? 800;
 
     var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : (<any>screen).left;
     var dualScreenTop = window.screenTop != undefined ? window.screenTop : (<any>screen).top;
@@ -24,13 +26,15 @@ export function showContentPicker(serverUrl: string, size?: IContentPickerSize, 
     var left = ((width / 2) - (w / 2)) + dualScreenLeft;
     var top = ((height / 2) - (h / 2)) + dualScreenTop;
 
-    const url = serverUrl + (serverUrl.includes('?') ? '&' : '?') + 'postUrl=' + encodeURIComponent(window.location.origin)
+    let url = serverUrl + (serverUrl.includes('?') ? '&' : '?') + 'postUrl=' + encodeURIComponent(window.location.origin);
+    if(settings?.embedName) url += `&embedName=${encodeURIComponent(settings.embedName)}`;
+
     var popup: Window = window.open(url,
       '_blank', 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ',status=no,location=no,toolbar=no');
 
     var callbackCalled = false;
     let messageReceived = (event: any) => {
-      if (debug && console) {
+      if (settings?.debug && console) {
         console.log("CP Message received:");
         console.log(event);
       }
