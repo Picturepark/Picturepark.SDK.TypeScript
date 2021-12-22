@@ -5,6 +5,7 @@
         debug?: boolean;
         returnType: 'embed' | 'content';
         embedName?: string;
+        enableMediaEditor?: boolean;
     }
     /**
      * Opens a content picker window to select content items and create an embedded share.
@@ -14,7 +15,7 @@
      */
     export function showContentPicker(serverUrl: string, settings?: IContentPickerSettings): Promise<IContentPickerResult>;
     export interface IContentPickerResult {
-        share?: {
+        embed?: {
             shareId: string;
             items: {
                 token: string;

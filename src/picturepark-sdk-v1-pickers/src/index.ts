@@ -4,6 +4,7 @@ export interface IContentPickerSettings {
   debug?: boolean;
   returnType: 'embed' | 'content';
   embedName?: string;
+  enableMediaEditor?: boolean;
 }
 
 /** 
@@ -30,6 +31,7 @@ export function showContentPicker(serverUrl: string, settings?: IContentPickerSe
     let url = serverUrl + (serverUrl.includes('?') ? '&' : '?') + 'postUrl=' + encodeURIComponent(window.location.origin);
     url += `&returnType=${encodeURIComponent(settings?.returnType ?? 'embed')}`;
     if(settings?.embedName) url += `&embedName=${encodeURIComponent(settings.embedName)}`;
+    if(settings?.enableMediaEditor) url += `&enableMediaEditor=true`;
 
     var popup: Window = window.open(url,
       '_blank', 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ',status=no,location=no,toolbar=no');
@@ -43,12 +45,12 @@ export function showContentPicker(serverUrl: string, settings?: IContentPickerSe
 
       if (serverUrl.startsWith(event.origin)) {
         window.removeEventListener("message", messageReceived);
-        var share = event.data && event.data !== 'undefined' ? JSON.parse(event.data) : undefined;
+        var result = event.data && event.data !== 'undefined' ? JSON.parse(event.data) : undefined;
         if (!callbackCalled) {
           callbackCalled = true;
           setTimeout(() => {
             popup.close();
-            resolve(share);
+            resolve(result);
           });
         }
       }
@@ -72,7 +74,7 @@ export function showContentPicker(serverUrl: string, settings?: IContentPickerSe
 }
 
 export interface IContentPickerResult {
-  share?: {
+  embed?: {
     shareId: string;
     items: { token: string, url: string }[];
   }
