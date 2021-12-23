@@ -40,14 +40,14 @@
       });
     };
 
-    document.getElementById("openContentPicker").onclick = openContentPicker.bind(null, "https://localtest.08.qa-picturepark.com");
+    document.getElementById("openContentPicker").onclick = openContentPicker.bind(null, "https://localtest.08.qa-picturepark.com/contentPicker");
     document.getElementById("openContentPickerLocalhost").onclick = openContentPicker.bind(null, "http://localhost:4500/contentPicker", {
       debug: true,
       width: 1400,
       height: 800,
       embedName: 'Caller defined embed name',
       returnType: 'embed',
-      enableMediaEditor: true
+      enableMediaEditor: false
     });
   </script>
 </body>
