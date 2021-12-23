@@ -64,7 +64,7 @@ export function showContentPicker(serverUrl: string, settings?: IContentPickerSe
           resolve(undefined);
         }
       } else {
-        setTimeout(() => checkClosed())
+        setTimeout(() => checkClosed(), 100)
       }
     }
 
