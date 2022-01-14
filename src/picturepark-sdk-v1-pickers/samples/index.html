@@ -40,14 +40,24 @@
       });
     };
 
-    document.getElementById("openContentPicker").onclick = openContentPicker.bind(null, "https://localtest.08.qa-picturepark.com/contentPicker");
-    document.getElementById("openContentPickerLocalhost").onclick = openContentPicker.bind(null, "http://localhost:4500/contentPicker", {
-      debug: true,
+    document.getElementById("openContentPicker").onclick = openContentPicker.bind(null, "https://pictureparkurl/contentPicker", {
+      debug: false,
       width: 1400,
       height: 800,
       embedName: 'Caller defined embed name',
       returnType: 'embed',
-      enableMediaEditor: false
+      enableMediaEditor: true,
+      mediaEditorUnlockPreset: false
+    });
+
+    document.getElementById("openContentPickerLocalhost").onclick = openContentPicker.bind(null, "http://localhost:4500/contentPicker", {
+      debug: false,
+      width: 1400,
+      height: 800,
+      embedName: 'Caller defined embed name',
+      returnType: 'embed',
+      enableMediaEditor: true,
+      mediaEditorUnlockPreset: false
     });
   </script>
 </body>

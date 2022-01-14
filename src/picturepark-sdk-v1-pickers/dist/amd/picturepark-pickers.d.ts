@@ -6,6 +6,7 @@
         returnType: 'embed' | 'content';
         embedName?: string;
         enableMediaEditor?: boolean;
+        mediaEditorUnlockPreset?: boolean;
     }
     /**
      * Opens a content picker window to select content items and create an embedded share.
@@ -15,16 +16,21 @@
      */
     export function showContentPicker(serverUrl: string, settings?: IContentPickerSettings): Promise<IContentPickerResult>;
     export interface IContentPickerResult {
-        embed?: {
-            shareId: string;
-            items: {
-                token: string;
-                url: string;
-            }[];
+        /** Embed selected without media editor */
+        embed?: any;
+        /** Embed selected with media editor */
+        editedEmbed: {
+            embed: any;
+            output: any;
         };
-        contents?: [{
-            id: string;
-        }];
+        /** Content selected without media editor */
+        contents?: any[];
+        /** Content selected with media editor */
+        editedContent?: {
+            conversionPreset: string;
+            outputFormatId: string;
+            content: any;
+        };
     }
 
 

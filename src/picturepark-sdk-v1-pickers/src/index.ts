@@ -5,6 +5,7 @@ export interface IContentPickerSettings {
   returnType: 'embed' | 'content';
   embedName?: string;
   enableMediaEditor?: boolean;
+  mediaEditorUnlockPreset?: boolean;
 }
 
 /** 
@@ -32,6 +33,7 @@ export function showContentPicker(serverUrl: string, settings?: IContentPickerSe
     url += `&returnType=${encodeURIComponent(settings?.returnType ?? 'embed')}`;
     if(settings?.embedName) url += `&embedName=${encodeURIComponent(settings.embedName)}`;
     if(settings?.enableMediaEditor) url += `&enableMediaEditor=true`;
+    if(settings?.mediaEditorUnlockPreset) url += `&mediaEditorUnlockPreset=true`;
 
     var popup: Window = window.open(url,
       '_blank', 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ',status=no,location=no,toolbar=no');
@@ -74,9 +76,19 @@ export function showContentPicker(serverUrl: string, settings?: IContentPickerSe
 }
 
 export interface IContentPickerResult {
-  embed?: {
-    shareId: string;
-    items: { token: string, url: string }[];
-  }
-  contents?: [{id: string}]
+  /** Embed selected without media editor */
+  embed?: any;
+  /** Embed selected with media editor */
+  editedEmbed: {
+    embed: any;
+    output: any;
+  };
+  /** Content selected without media editor */
+  contents?: any[];
+  /** Content selected with media editor */
+  editedContent?: {
+    conversionPreset: string;
+    outputFormatId: string;
+    content: any
+  };
 }
