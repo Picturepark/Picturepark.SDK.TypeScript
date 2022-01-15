@@ -18,7 +18,7 @@
   "devDependencies": {
     "@types/node": "^13.9.1",
     "http-server": "^0.12.3",
-    "marked": "^0.7.0",
+    "marked": "^4.0.10",
     "nswag": "^13.8.1",
     "typedoc": "^0.19.2",
     "typescript": "3.9.9",
