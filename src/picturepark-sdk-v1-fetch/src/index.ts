@@ -22550,6 +22550,10 @@ export interface InvalidChangeCommandSchemaChangeInvalidException extends Pictur
     schemaId?: string | undefined;
 }
 
+export interface InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
 export interface InvalidMetadataException extends PictureparkValidationException {
     metadataErrors?: MetadataError[] | undefined;
     validationErrors?: PictureparkBusinessException[] | undefined;

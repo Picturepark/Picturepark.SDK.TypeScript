@@ -28281,6 +28281,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException") {
+            let result = new InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "InvalidMetadataException") {
             let result = new InvalidMetadataException();
             result.init(data);
@@ -30079,6 +30084,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException") {
+            let result = new InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "InvalidMetadataException") {
             let result = new InvalidMetadataException();
             result.init(data);
@@ -31561,6 +31571,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "InvalidChangeCommandSchemaChangeInvalidException") {
             let result = new InvalidChangeCommandSchemaChangeInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException") {
+            let result = new InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException();
             result.init(data);
             return result;
         }
@@ -38696,6 +38711,40 @@ export class InvalidChangeCommandSchemaChangeInvalidException extends Picturepar
 
 export interface IInvalidChangeCommandSchemaChangeInvalidException extends IPictureparkValidationException {
     commandTypeName?: string | undefined;
+    schemaId?: string | undefined;
+}
+
+export class InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException extends PictureparkValidationException implements IInvalidContentSchemaForMetadataValuesSchemaRemoveCommandException {
+    schemaId?: string | undefined;
+
+    constructor(data?: IInvalidContentSchemaForMetadataValuesSchemaRemoveCommandException) {
+        super(data);
+        this._discriminator = "InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IInvalidContentSchemaForMetadataValuesSchemaRemoveCommandException extends IPictureparkValidationException {
     schemaId?: string | undefined;
 }
 
