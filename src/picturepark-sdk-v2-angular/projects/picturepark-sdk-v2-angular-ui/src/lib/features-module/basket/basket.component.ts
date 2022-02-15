@@ -19,12 +19,12 @@ import { Content } from '@picturepark/sdk-v2-angular';
   styleUrls: ['./basket.component.scss'],
 })
 export class BasketComponent extends BaseComponent implements OnInit {
-  public basketItems: Content[] = [];
+  basketItems: Content[] = [];
 
-  public configActions: ConfigActions;
+  configActions: ConfigActions;
 
   @Output()
-  public previewItemChange = new EventEmitter<Content>();
+  previewItemChange = new EventEmitter<Content>();
 
   constructor(
     @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
@@ -35,21 +35,21 @@ export class BasketComponent extends BaseComponent implements OnInit {
   ) {
     super(injector);
 
-    this.sub = this.basketService.basketItemsChanges.subscribe((items) => (this.basketItems = items));
+    this.sub = this.basketService.basketItemsChanges.subscribe(items => (this.basketItems = items));
   }
 
-  public previewItem(item: Content): void {
+  previewItem(item: Content): void {
     this.previewItemChange.emit(item);
   }
 
-  public downloadItems(): void {
+  downloadItems(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
       contents: [...this.basketItems],
     });
   }
 
-  public openShareContentDialog(): void {
+  openShareContentDialog(): void {
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
       data: [...this.basketItems],
       autoFocus: false,
@@ -65,7 +65,7 @@ export class BasketComponent extends BaseComponent implements OnInit {
     return item.id;
   }
 
-  public clearBasket(): void {
+  clearBasket(): void {
     this.basketService.clearBasket();
   }
 

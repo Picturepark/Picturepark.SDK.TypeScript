@@ -1,6 +1,4 @@
-import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, SecurityContext, Injector } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, EventEmitter, Input, Output, OnDestroy, Injector } from '@angular/core';
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
@@ -15,7 +13,7 @@ import { Content } from '@picturepark/sdk-v2-angular';
 })
 export class ShareContentDialogItemComponent extends BaseComponent implements OnDestroy {
   @Input()
-  public item: Content;
+  item: Content;
 
   @Output() removeDialogContent = new EventEmitter<Content>();
 
@@ -23,7 +21,7 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
     super(injector);
   }
 
-  public remove() {
+  remove() {
     this.removeDialogContent.emit(this.item);
   }
 }

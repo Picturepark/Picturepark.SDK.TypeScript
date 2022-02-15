@@ -26,7 +26,7 @@ import { ISortItem } from '../../shared-module/components/browser-base/interface
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
   @Input()
-  public channel: Channel | null = null;
+  channel: Channel | null = null;
 
   constructor(
     private basketService: BasketService,
@@ -73,7 +73,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   private setSortFields() {
     if (this.channel?.sortFields?.length) {
-      this.sortingTypes = this.channel.sortFields.map((s) => ({
+      this.sortingTypes = this.channel.sortFields.map(s => ({
         name: this.translationService.translate(s.names),
         field: s.path,
       }));
@@ -82,7 +82,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       let sortDirection: SortDirection | undefined;
 
       if (this.channel?.sort?.length) {
-        sortField = this.sortingTypes.find((f) => f.field === this.channel?.sort[0].field);
+        sortField = this.sortingTypes.find(f => f.field === this.channel?.sort[0].field);
         sortDirection = this.channel.sort[0].direction;
       }
 
@@ -109,14 +109,14 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     }
   }
 
-  public previewSelectedItem(): void {
-    const content = this.items.find((i) => i === this.selectedItems[0]);
+  previewSelectedItem(): void {
+    const content = this.items.find(i => i === this.selectedItems[0]);
     if (content) {
       this.previewItem(content);
     }
   }
 
-  public trackByThumbnailSize(index: number, thumbnailSize: string): string {
+  trackByThumbnailSize(index: number, thumbnailSize: string): string {
     return thumbnailSize;
   }
 
@@ -144,7 +144,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   handleBasketChanges(basketSelection: ItemBasketSelection) {
-    const selectedItemsIds = this.selectedItems.map((i) => i.id);
+    const selectedItemsIds = this.selectedItems.map(i => i.id);
     if (selectedItemsIds.includes(basketSelection.itemId)) {
       if (basketSelection.addItem) {
         this.basketService.addItems(selectedItemsIds);
@@ -163,7 +163,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   // CHECK IF ELEMENT CONTAINS CLASS NAME
   checkContains(elementClassName: string): boolean {
     const containClasses = ['browser__items'];
-    return containClasses.some((iClass) => elementClassName.includes(iClass));
+    return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 
   // CLEAR SELECTION

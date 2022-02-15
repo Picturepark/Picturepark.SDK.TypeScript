@@ -1,10 +1,10 @@
 {
   "name": "@picturepark/sdk-v2-angular-oidc",
-  "version": "11.1.0",
+  "version": "11.2.0",
   "peerDependencies": {
     "@angular/common": "^9.0.0",
     "@angular/core": "^9.0.0",
     "angular-oauth2-oidc": "^9.1.0",
-    "@picturepark/sdk-v2-angular": "^11.1.0"
+    "@picturepark/sdk-v2-angular": "^11.2.0"
   }
 }

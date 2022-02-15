@@ -63,7 +63,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
   }
 
   loadSchemas(): void {
-    this.schemaService.getMany([this.content.contentSchemaId]).subscribe((schemas) => {
+    this.schemaService.getMany([this.content.contentSchemaId]).subscribe(schemas => {
       this.schemas = schemas;
     });
   }
@@ -72,25 +72,25 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     // Load schemas if we change to metadata tab and selected content schema does not exist
     if (
       event.index === 1 &&
-      (!this.schemas || !this.schemas.find((schema) => schema.id === this.content.contentSchemaId))
+      (!this.schemas || !this.schemas.find(schema => schema.id === this.content.contentSchemaId))
     ) {
       this.loadSchemas();
     }
   }
 
-  public downloadItem() {
+  downloadItem() {
     this.contentDownloadDialogService.showDialog({
       mode: 'single',
       contents: [this.content],
-      isShareViewer: this.data.isShareViewer
+      isShareViewer: this.data.isShareViewer,
     });
   }
 
-  public next(): void {
+  next(): void {
     this.setContent(this.data.next());
   }
 
-  public previous(): void {
+  previous(): void {
     this.setContent(this.data.previous());
   }
 
@@ -104,7 +104,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
 
     // setTimeout required, otherwise the UI will not correctly refresh on prev/next
     setTimeout(() => {
-      this.sub = detail.subscribe((content) => {
+      this.sub = detail.subscribe(content => {
         if (typeof content === 'string') {
           this.loadContent(content);
         } else {
@@ -128,7 +128,7 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
         ContentResolveBehavior.OuterDisplayValueThumbnail,
         ContentResolveBehavior.Outputs,
       ])
-      .subscribe((content) => {
+      .subscribe(content => {
         if (content) {
           this.initContent(content);
         }

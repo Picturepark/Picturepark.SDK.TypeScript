@@ -1,12 +1,13 @@
+@use '@angular/material' as mat;
 @import '../theme.scss';
 
 body {
-  background-color: mat-color($picturepark-app-primary, background-dark);
+  background-color: mat.get-color-from-palette($picturepark-app-primary, background-dark);
 }
 
 .authorization-container {
   position: relative;
-  background-color: mat-color($picturepark-app-primary, background-dark);
+  background-color: mat.get-color-from-palette($picturepark-app-primary, background-dark);
   height: 100vh;
   mat-progress-bar {
     position: absolute;

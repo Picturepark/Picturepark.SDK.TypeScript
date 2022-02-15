@@ -1,18 +1,18 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 @mixin pp-notification($theme) {
   $primary: map-get($theme, primary);
   $warn: map-get($theme, warn);
 
   .notification-container {
-    color: mat-color($primary, on-primary);
+    color: mat.get-color-from-palette($primary, on-primary);
 
     &.error {
-      background-color: mat-color($warn);
+      background-color: mat.get-color-from-palette($warn);
     }
 
     &.success {
-      background-color: mat-color($primary, success);
+      background-color: mat.get-color-from-palette($primary, success);
     }
   }
 }

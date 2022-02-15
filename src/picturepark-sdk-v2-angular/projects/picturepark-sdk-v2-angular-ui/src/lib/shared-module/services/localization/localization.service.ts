@@ -7,7 +7,7 @@ import { CustomerInfo } from '@picturepark/sdk-v2-angular';
 export class LocalizationService {
   constructor(@Inject(LOCALE_ID) private locale: string) {}
 
-  public localize(langObj: Object, customerInfo: CustomerInfo): string {
+  localize(langObj: Object, customerInfo: CustomerInfo): string {
     if (!langObj) {
       // language object not defined,
       // return empty string.

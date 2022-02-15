@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 @mixin pp-share-content-dialog-item-theme($theme) {
   $primary: map-get($theme, primary);
@@ -8,8 +8,9 @@
   pp-share-content-dialog-item {
     .share-content-item {
       &__image {
-        box-shadow: 0 3px 1px -2px mat-color($primary, opacity-light), 0 2px 2px 0 mat-color($primary, opacity-light),
-          0 1px 5px 0 mat-color($primary, opacity-light);
+        box-shadow: 0 3px 1px -2px mat.get-color-from-palette($primary, opacity-light),
+          0 2px 2px 0 mat.get-color-from-palette($primary, opacity-light),
+          0 1px 5px 0 mat.get-color-from-palette($primary, opacity-light);
       }
     }
   }

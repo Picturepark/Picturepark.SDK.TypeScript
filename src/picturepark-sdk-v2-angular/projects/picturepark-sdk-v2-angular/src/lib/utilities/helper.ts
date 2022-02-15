@@ -25,14 +25,14 @@ export function fetchAll<T, U extends ISearchRequest>(
   request: U
 ): Observable<ISearchResult<T>> {
   return searchDelegate(request).pipe(
-    expand((firstResult) => {
+    expand(firstResult => {
       if (!firstResult.pageToken) {
         return EMPTY;
       }
       request.pageToken = firstResult.pageToken;
 
       return searchDelegate(request).pipe(
-        map((searchResult) => {
+        map(searchResult => {
           firstResult.pageToken = searchResult.pageToken;
           firstResult.results.push(...searchResult.results);
           return firstResult;
@@ -40,13 +40,13 @@ export function fetchAll<T, U extends ISearchRequest>(
       );
     }),
 
-    reduce((data) => data)
+    reduce(data => data)
   );
 }
 
 export function fetchContents(contentService: ContentService, ids: string[]): Observable<ISearchResult<Content>> {
   return fetchAll(
-    (req) => contentService.search(req),
+    req => contentService.search(req),
     new ContentSearchRequest({
       limit: 1000,
       lifeCycleFilter: LifeCycleFilter.ActiveOnly,
@@ -63,7 +63,7 @@ export function fetchContents(contentService: ContentService, ids: string[]): Ob
 
 export function fetchContentById(contentService: ContentService, id: string): Observable<Content | undefined> {
   return fetchContents(contentService, [id]).pipe(
-    map((result) => {
+    map(result => {
       return result.results[0];
     })
   );

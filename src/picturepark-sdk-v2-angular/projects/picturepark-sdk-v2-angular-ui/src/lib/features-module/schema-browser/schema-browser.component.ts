@@ -14,10 +14,10 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
-  @Output() public activeSchemaChange = new EventEmitter<Schema>();
-  @Output() public parentSchemaChange = new EventEmitter<Schema>();
+  @Output() activeSchemaChange = new EventEmitter<Schema>();
+  @Output() parentSchemaChange = new EventEmitter<Schema>();
 
-  public selectedSchemaId: string;
+  selectedSchemaId: string;
 
   constructor(public facade: SchemaSearchFacade, injector: Injector) {
     super('SchemaBrowserComponent', injector, facade);
@@ -65,10 +65,10 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
 
   checkContains(elementClassName: string): boolean {
     const containClasses = ['browser__items'];
-    return containClasses.some((iClass) => elementClassName.includes(iClass));
+    return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 
-  public setUpActiveSchema(schema: Schema): void {
+  setUpActiveSchema(schema: Schema): void {
     if (schema.childCount > 0 && schema.id !== this.facade.searchRequestState.parentSchema?.id) {
       this.parentSchemaChange.emit(schema);
     } else {
@@ -76,7 +76,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
     }
   }
 
-  public onItemSelected(schemaId: string): void {
+  onItemSelected(schemaId: string): void {
     this.selectedSchemaId = schemaId;
   }
 }

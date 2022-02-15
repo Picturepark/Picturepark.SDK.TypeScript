@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 // PANEL BASE VARS
 $pp-panel: (
@@ -10,38 +10,38 @@ $pp-panel: (
   $accent: map-get($theme, accent);
 
   pp-panel {
-    background-color: mat-color($accent, 300);
-    color: mat-color($accent, '300-contrast');
-    @include mat-elevation(2, mat-color($accent, A800), 0.7);
+    background-color: mat.get-color-from-palette($accent, 300);
+    color: mat.get-color-from-palette($accent, '300-contrast');
+    @include mat.elevation(2, mat.get-color-from-palette($accent, A800), 0.7);
 
     .panel-header {
-      border-bottom-color: mat-color($accent, A500);
+      border-bottom-color: mat.get-color-from-palette($accent, A500);
 
       .panel-header-title {
         font-size: 14px;
         font-weight: 500;
-        color: mat-color($accent, '200-contrast');
+        color: mat.get-color-from-palette($accent, '200-contrast');
       }
     }
 
     .panel-content {
       a {
-        color: mat-color($primary, on-surface-mid);
+        color: mat.get-color-from-palette($primary, on-surface-mid);
       }
     }
   }
 
   .share-manager-item-container {
     pp-panel {
-      background-color: mat-color($primary, surface-light);
-      color: mat-color($primary, on-surface-mid);
-      @include mat-elevation(2, mat-color($accent, A800), 0.7);
-    
+      background-color: mat.get-color-from-palette($primary, surface-light);
+      color: mat.get-color-from-palette($primary, on-surface-mid);
+      @include mat.elevation(2, mat.get-color-from-palette($accent, A800), 0.7);
+
       .panel-header {
-        border-bottom-color: mat-color($primary, surface-mid);
-  
+        border-bottom-color: mat.get-color-from-palette($primary, surface-mid);
+
         .panel-header-title {
-          color: mat-color($primary, on-surface-light);
+          color: mat.get-color-from-palette($primary, on-surface-light);
         }
       }
     }

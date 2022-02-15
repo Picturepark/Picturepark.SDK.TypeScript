@@ -28,19 +28,19 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./content-picker.component.scss'],
 })
 export class ContentPickerComponent extends BaseComponent implements OnInit, OnDestroy {
-  public itemsInBasket = '0';
+  itemsInBasket = '0';
 
-  public selectedItems: Content[] = [];
+  selectedItems: Content[] = [];
 
-  public selectedChannel: Channel | null = null;
+  selectedChannel: Channel | null = null;
 
-  public aggregations: AggregationResult[] = [];
+  aggregations: AggregationResult[] = [];
 
-  public detailsItemId: string | undefined = undefined;
+  detailsItemId: string | undefined = undefined;
 
-  public loading = false;
-  public messagePosted = false;
-  public postUrl = '';
+  loading = false;
+  messagePosted = false;
+  postUrl = '';
 
   @ViewChild(ContentBrowserComponent) contentBrowserComponent: ContentBrowserComponent;
 
@@ -59,8 +59,8 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     super(injector);
   }
 
-  public openDetails(item: Content) {
-    let index = this.contentBrowserComponent.items.findIndex((q) => q.id === item.id);
+  openDetails(item: Content) {
+    let index = this.contentBrowserComponent.items.findIndex(q => q.id === item.id);
 
     this.dialog.open(ContentDetailsDialogComponent, {
       data: <ContentDetailsDialogOptions>{
@@ -94,21 +94,21 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     });
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     // Set application Title
     this.titleService.setTitle(this.translationService.translate('ApplicationTitle.contentPicker'));
 
-    this.sub = this.basketService.basketChange.subscribe((items) => (this.itemsInBasket = items.length.toString()));
+    this.sub = this.basketService.basketChange.subscribe(items => (this.itemsInBasket = items.length.toString()));
     if (this.route.snapshot.queryParams['postUrl']) {
       this.postUrl = this.route.snapshot.queryParams['postUrl'];
     }
   }
 
-  public selectionChange(items: Content[]): void {
+  selectionChange(items: Content[]): void {
     this.selectedItems = items;
   }
 
-  public async embed() {
+  async embed() {
     try {
       this.loading = true;
       this.messagePosted = await this.embedService.embed(this.selectedItems, this.postUrl);
@@ -117,14 +117,14 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     }
   }
 
-  public changeSearchParameters(searchParameters: SearchParameters) {
+  changeSearchParameters(searchParameters: SearchParameters) {
     this.facade.patchRequestState({
       searchString: searchParameters.searchString,
       searchMode: searchParameters.searchMode,
     });
   }
 
-  public changeChannel(channel: Channel) {
+  changeChannel(channel: Channel) {
     this.selectedChannel = channel;
   }
 

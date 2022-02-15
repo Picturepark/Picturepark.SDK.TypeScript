@@ -12,11 +12,11 @@ import { LandingDialogComponent } from '@picturepark/sdk-v2-angular-ui';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  public searchString: string;
-  public shareDetail: ShareDetail;
-  public mailRecipients: IMailRecipient[];
-  public showSearchBox = !environment.production;
-  public showConsent = true;
+  searchString: string;
+  shareDetail: ShareDetail;
+  mailRecipients: IMailRecipient[];
+  showSearchBox = !environment.production;
+  showConsent = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
       !this.disableCookieConsent && !this.localStorageService.get(StorageKey.ShareCookieConsent);
     // Needed because changes to the local storage [edge] are not updated on soft refresh in a tab [PP9-9217]
     this.showConsent = getShowConsent();
-    window.addEventListener('storage', (e) => {
+    window.addEventListener('storage', e => {
       if (e.key && e.newValue) {
         this.localStorageService.set(e.key as StorageKey, e.newValue);
         this.showConsent = getShowConsent();

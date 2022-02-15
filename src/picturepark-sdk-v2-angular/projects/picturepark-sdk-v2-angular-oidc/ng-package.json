@@ -2,11 +2,7 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/picturepark-sdk-v2-angular-oidc",
   "lib": {
-    "entryFile": "src/public_api.ts",
-    "umdModuleIds": {
-      "angular-oauth2-oidc": "angular-oauth2-oidc",
-      "@picturepark/sdk-v2-angular": "@picturepark/sdk-v2-angular"
-    }
+    "entryFile": "src/public_api.ts"
   },
   "assets": [
     "./assets/**/*"

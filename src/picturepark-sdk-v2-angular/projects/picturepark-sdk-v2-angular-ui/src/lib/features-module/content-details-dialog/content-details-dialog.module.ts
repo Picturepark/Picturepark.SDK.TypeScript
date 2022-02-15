@@ -13,6 +13,5 @@ import { ContentDetailsDialogComponent } from './content-details-dialog.componen
   declarations: [ContentDetailsDialogComponent],
   imports: [CommonModule, ContentBrowserModule, LayerPanelsModule, SharedModule],
   exports: [ContentDetailsDialogComponent],
-  entryComponents: [ContentDetailsDialogComponent],
 })
 export class ContentDetailsDialogModule {}

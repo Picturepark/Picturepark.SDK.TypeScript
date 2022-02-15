@@ -1,6 +1,11 @@
-export interface IContentPickerSize {
-  w: number;
-  h: number;
+export interface IContentPickerSettings {
+  width?: number;
+  height?: number;
+  debug?: boolean;
+  returnType: 'embed' | 'content';
+  embedName?: string;
+  enableMediaEditor?: boolean;
+  mediaEditorUnlockPreset?: boolean;
 }
 
 /** 
@@ -9,14 +14,11 @@ export interface IContentPickerSize {
  * @param serverUrl The URL of the Picturepark server
  * @param completed Callback which is called when the window has been closed (share is undefined if the user cancelled)
  */
-export function showContentPicker(serverUrl: string, size?: IContentPickerSize ) {
-  return new Promise<IShare>((resolve, reject) => {
+export function showContentPicker(serverUrl: string, settings?: IContentPickerSettings) {
+  return new Promise<IContentPickerResult>((resolve, reject) => {
 
-    const w = size?.w ?? 1281;
-    const h = size?.h ?? 800;
-
-    if (serverUrl.indexOf('http://localhost:4200') !== 0)
-      serverUrl = serverUrl + '/elements';
+    const w = settings?.width ?? 1281;
+    const h = settings?.height ?? 800;
 
     var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : (<any>screen).left;
     var dualScreenTop = window.screenTop != undefined ? window.screenTop : (<any>screen).top;
@@ -27,42 +29,66 @@ export function showContentPicker(serverUrl: string, size?: IContentPickerSize )
     var left = ((width / 2) - (w / 2)) + dualScreenLeft;
     var top = ((height / 2) - (h / 2)) + dualScreenTop;
 
-    var popup: Window = window.open(serverUrl + '/content-picker?postUrl=' + encodeURIComponent(window.location.origin),
+    let url = serverUrl + (serverUrl.includes('?') ? '&' : '?') + 'postUrl=' + encodeURIComponent(window.location.origin);
+    url += `&returnType=${encodeURIComponent(settings?.returnType ?? 'embed')}`;
+    if(settings?.embedName) url += `&embedName=${encodeURIComponent(settings.embedName)}`;
+    if(settings?.enableMediaEditor) url += `&enableMediaEditor=true`;
+    if(settings?.mediaEditorUnlockPreset) url += `&mediaEditorUnlockPreset=true`;
+
+    var popup: Window = window.open(url,
       '_blank', 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ',status=no,location=no,toolbar=no');
 
     var callbackCalled = false;
-    let messageReceived = (event: any) => {
-      if (console) {
-        console.log("PCP Message received:");
+    const messageReceived = (event: any) => {
+      if (settings?.debug && console) {
+        console.log("CP Message received:");
         console.log(event);
       }
 
       if (serverUrl.startsWith(event.origin)) {
         window.removeEventListener("message", messageReceived);
-        var share = event.data && event.data !== 'undefined' ? JSON.parse(event.data) : undefined;
+        var result = event.data && event.data !== 'undefined' ? JSON.parse(event.data) : undefined;
         if (!callbackCalled) {
           callbackCalled = true;
           setTimeout(() => {
             popup.close();
-            resolve(share);
+            resolve(result);
           });
         }
       }
     };
 
-    popup.onbeforeunload = () => {
-      window.removeEventListener("message", messageReceived);
-      if (!callbackCalled) {
-        callbackCalled = true;
-        resolve(undefined);
+    const checkClosed = () => {
+      if (popup.closed) {
+        window.removeEventListener("message", messageReceived);
+        if (!callbackCalled) {
+          callbackCalled = true;
+          resolve(undefined);
+        }
+      } else {
+        setTimeout(() => checkClosed(), 100)
       }
-    };
+    }
 
     window.addEventListener("message", messageReceived);
+    checkClosed();
   });
 }
 
-export interface IShare {
-  shareId: string;
-  items: { token: string, url: string }[];
+export interface IContentPickerResult {
+  /** Embed selected without media editor */
+  embed?: any;
+  /** Embed selected with media editor */
+  editedEmbed: {
+    embed: any;
+    output: any;
+  };
+  /** Content selected without media editor */
+  contents?: any[];
+  /** Content selected with media editor */
+  editedContent?: {
+    conversionPreset: string;
+    outputFormatId: string;
+    content: any
+  };
 }

@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 @mixin pp-content-download-dialog-theme($theme) {
   $accent: map-get($theme, accent);
@@ -8,12 +8,12 @@
     mat-dialog-content {
       .content-wrapper {
         .loader-wrapper {
-          background-color: mat-color($primary, opacity-light);
+          background-color: mat.get-color-from-palette($primary, opacity-light);
         }
       }
     }
     fieldset {
-      border-color: mat-color($primary, on-background-dark);
+      border-color: mat.get-color-from-palette($primary, on-background-dark);
     }
   }
 }

@@ -39,14 +39,14 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   @Input() enableSelection: boolean;
   @Input() sortInfo: SortInfo[];
 
-  public tableItems: any[] = [];
-  public dataSource = new MatTableDataSource<any>([]);
-  public displayedColumns: string[];
-  public displayedColumnNames: any[];
-  public activeSortColumn: string;
-  public activeSortDirection: MatSortDirection;
-  public customerInfo: CustomerInfo;
-  public isShiftPressed = false;
+  tableItems: any[] = [];
+  dataSource = new MatTableDataSource<any>([]);
+  displayedColumns: string[];
+  displayedColumnNames: any[];
+  activeSortColumn: string;
+  activeSortDirection: MatSortDirection;
+  customerInfo: CustomerInfo;
+  isShiftPressed = false;
 
   constructor(
     private metaDataPreviewService: MetaDataPreviewService,
@@ -63,13 +63,13 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.customerInfo = await this.infoFacade.getInfo().toPromise();
 
     // need to show column names
-    this.displayedColumnNames = this.schema.fields!.map((field) => {
+    this.displayedColumnNames = this.schema.fields!.map(field => {
       const id = field.id.split('.').pop();
       const names = field.names;
       return { id, names, field };
     });
 
-    this.displayedColumns = this.schema.fields!.map((field) => {
+    this.displayedColumns = this.schema.fields!.map(field => {
       const id = field.id.split('.').pop();
       return id!;
     });
@@ -86,7 +86,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
         this.activeSortDirection = this.schema.sort[0].direction.toLowerCase() as MatSortDirection;
         this.activeSortColumn = name!;
 
-        this.sortInfo = this.schema.sort.map((s) => {
+        this.sortInfo = this.schema.sort.map(s => {
           return new SortInfo({
             field: lowerFirst(this.schema.id) + '.' + s.field,
             direction: s.direction.toLowerCase() === 'asc' ? SortDirection.Asc : SortDirection.Desc,
@@ -120,25 +120,25 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   prepareData(items: ListItem[]): void {
-    const metadataItems = items.map((m) => m.content);
+    const metadataItems = items.map(m => m.content);
     const tableItems = this.metaDataPreviewService.getListItemsTableData(metadataItems, this.schema, this.customerInfo);
     this.tableItems.push(...tableItems);
 
     this.dataSource.data = this.tableItems;
     const selected = this.items.filter(
-      (listItem) => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.id) !== -1
+      listItem => this.selectedItemIds && this.selectedItemIds.indexOf(listItem.id) !== -1
     );
-    this.selectionService.addItems(selected.map((q) => q));
+    this.selectionService.addItems(selected.map(q => q));
 
     this.cdr.detectChanges();
   }
 
-  public update(): void {
+  update(): void {
     this.tableItems = [];
     super.update();
   }
 
-  public deselectAll() {
+  deselectAll() {
     this.selectionService.clear();
     this.cdr.detectChanges();
   }
@@ -153,38 +153,39 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
-  public isAllSelected() {
+  isAllSelected() {
     return this.selectedItems.length === this.items.length;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  public masterToggle() {
-    this.isAllSelected() ? this.selectionService.clear() : this.selectionService.addItems(this.items.map((q) => q));
+  masterToggle() {
+    if (this.isAllSelected()) this.selectionService.clear();
+    else this.selectionService.addItems(this.items.map(q => q));
   }
 
-  public isRowSelected(row: any, test?): boolean {
+  isRowSelected(row: any, test?): boolean {
     return this.selectionService.getById(row._refId) ? true : false;
   }
 
-  public toggle(event: MatCheckboxChange | MouseEvent, row: any, presist = false) {
+  toggle(event: MatCheckboxChange | MouseEvent, row: any, presist = false) {
     if (this.enableSelection) {
       if (event instanceof MatCheckboxChange) {
         event = new MouseEvent('click', { shiftKey: this.isShiftPressed });
       }
-      const index = this.items.findIndex((item) => item.id === row._refId);
+      const index = this.items.findIndex(item => item.id === row._refId);
       this.itemClicked(event, index, presist);
     }
   }
 
-  public onPress(event: MouseEvent, row: any, presist = false) {
+  onPress(event: MouseEvent, row: any, presist = false) {
     if (this.enableSelection) {
-      const index = this.items.findIndex((item) => item.id === row._refId);
+      const index = this.items.findIndex(item => item.id === row._refId);
       this.itemPressed(event, index);
     }
   }
 
   /** The label for the checkbox on the passed row */
-  public checkboxLabel(row?: any): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }

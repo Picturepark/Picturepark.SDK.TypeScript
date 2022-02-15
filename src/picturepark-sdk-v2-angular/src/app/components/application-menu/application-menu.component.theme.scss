@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 // APPLICATION MENU STYLES VARS
 $pp-application-menu: (
@@ -11,44 +11,44 @@ $pp-application-menu: (
   app-application-menu {
     // APPLICATION MENU MODULE
     div {
-      background-color: mat-color($primary, surface-dark);
-      color: mat-color($primary, on-surface-dark);
+      background-color: mat.get-color-from-palette($primary, surface-dark);
+      color: mat.get-color-from-palette($primary, on-surface-dark);
 
       .application-menu-logo {
-        border-bottom-color: mat-color($primary, divider);
+        border-bottom-color: mat.get-color-from-palette($primary, divider);
         svg {
           & path {
-            fill: mat-color($primary, on-surface-dark);
+            fill: mat.get-color-from-palette($primary, on-surface-dark);
           }
         }
       }
       ul {
         li {
-          color: mat-color($primary, on-surface-dark);
+          color: mat.get-color-from-palette($primary, on-surface-dark);
           &:hover {
-            background-color: mat-color($primary, opacity-light);
-            color: mat-color($primary, on-opacity-light);
+            background-color: mat.get-color-from-palette($primary, opacity-light);
+            color: mat.get-color-from-palette($primary, on-opacity-light);
           }
           &.active {
-            background-color: mat-color($primary, opacity-light);
-            color: mat-color($primary, on-opacity-light);
+            background-color: mat.get-color-from-palette($primary, opacity-light);
+            color: mat.get-color-from-palette($primary, on-opacity-light);
           }
           & i {
-            font-size: mat-font-size($custom-typography, display-3) !important;
+            font-size: mat.font-size($custom-typography, display-3) !important;
           }
           & span {
-            font-size: mat-font-size($custom-typography, display-1) !important;
+            font-size: mat.font-size($custom-typography, display-1) !important;
           }
         }
       }
     }
     div.theme-selector {
-      color: mat-color($primary, primary);
+      color: mat.get-color-from-palette($primary, primary);
     }
     span.label {
-      background-color: mat-color($primary, opacity-light);
-      color: mat-color($primary, on-opacity-light);
-      font-size: mat-font-size($custom-typography, caption);
+      background-color: mat.get-color-from-palette($primary, opacity-light);
+      color: mat.get-color-from-palette($primary, on-opacity-light);
+      font-size: mat.font-size($custom-typography, caption);
       &.active {
         display: inherit;
       }

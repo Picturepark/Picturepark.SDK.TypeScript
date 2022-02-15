@@ -6,7 +6,7 @@ import { AggregationFilter } from '../services/api-services';
 export function updateUrlFromSearchState(searchState: SearchInputState, query: Params, router: Router) {
   delete query['filter'];
 
-  Object.keys(searchState).forEach((key) => {
+  Object.keys(searchState).forEach(key => {
     const value = (searchState as any)[key];
     if (key === 'aggregators' || key === 'pageSize' || key === 'channelId' || key === 'schemaIds') {
       return;

@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 // SHARE BROWSER ITEM VARS
 $pp-share-browser-item: (
@@ -13,15 +13,15 @@ $pp-share-browser-item: (
   pp-share-browser-item {
     .browser-item {
       &__items-num-container {
-        color: mat-color($primary, on-opacity-light);
+        color: mat.get-color-from-palette($primary, on-opacity-light);
       }
 
       &__title {
-        font-size: mat-font-size($custom-typography, display-1);
-        color: mat-color($primary, on-background-dark);
+        font-size: mat.font-size($custom-typography, display-1);
+        color: mat.get-color-from-palette($primary, on-background-dark);
 
         i {
-          font-size: mat-font-size($custom-typography, display-1);
+          font-size: mat.font-size($custom-typography, display-1);
         }
       }
     }

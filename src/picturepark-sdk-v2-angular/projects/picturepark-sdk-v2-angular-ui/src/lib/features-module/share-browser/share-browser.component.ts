@@ -76,7 +76,7 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
   // CHECK IF ELEMENT CONTAINS CLASS NAME
   checkContains(elementClassName: string): boolean {
     const containClasses = ['browser__items'];
-    return containClasses.some((iClass) => elementClassName.includes(iClass));
+    return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 
   itemDetails(item: Share): void {

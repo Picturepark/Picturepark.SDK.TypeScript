@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 })
 export class LandingDialogComponent {
   termsAccepted = false;
-  terms$ = this.termsOfServiceFacade.newest().pipe(map((t) => t.content));
+  terms$ = this.termsOfServiceFacade.newest().pipe(map(t => t.content));
 
   constructor(
     private matDialogRef: MatDialogRef<any>,

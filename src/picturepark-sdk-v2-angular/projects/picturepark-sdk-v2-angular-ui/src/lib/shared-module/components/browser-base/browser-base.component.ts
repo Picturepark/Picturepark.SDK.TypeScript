@@ -1,5 +1,5 @@
 import { BaseComponent } from '../base.component';
-import { Injector, OnInit, NgZone, Output, EventEmitter, HostListener } from '@angular/core';
+import { Injector, OnInit, NgZone, Output, EventEmitter, HostListener, Directive } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LazyGetter } from 'lazy-get-decorator';
 
@@ -24,6 +24,7 @@ import { debounceTime, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { RangeSelection } from './interfaces/range-selection';
 
+@Directive()
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
   // Services
   @LazyGetter()
@@ -39,7 +40,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     return this.injector.get(TranslationService);
   }
   @LazyGetter()
-  public get selectionService(): SelectionService<TEntity> {
+  get selectionService(): SelectionService<TEntity> {
     return new SelectionService<TEntity>();
   }
   @LazyGetter()
@@ -47,24 +48,24 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     return this.injector.get(MatDialog);
   }
 
-  public self: BaseBrowserComponent<TEntity>;
+  self: BaseBrowserComponent<TEntity>;
 
   protected pictureParkUIConfig: PictureparkUIConfiguration;
 
-  public configActions: ConfigActions;
-  public isLoading = false;
-  public items: TEntity[] = [];
-  public isAscending: boolean | null = null;
-  public activeSortingType: ISortItem;
-  public sortingTypes: ISortItem[];
-  public views: IBrowserView[];
-  public activeView: IBrowserView;
-  public activeThumbnailSize: ThumbnailSize = ThumbnailSize.Medium;
+  configActions: ConfigActions;
+  isLoading = false;
+  items: TEntity[] = [];
+  isAscending: boolean | null = null;
+  activeSortingType: ISortItem;
+  sortingTypes: ISortItem[];
+  views: IBrowserView[];
+  activeView: IBrowserView;
+  activeThumbnailSize: ThumbnailSize = ThumbnailSize.Medium;
 
   protected scrollDebounceTime = 0;
 
-  @Output() public selectedItemsChange = new EventEmitter<TEntity[]>();
-  @Output() public previewItemChange = new EventEmitter<TEntity>();
+  @Output() selectedItemsChange = new EventEmitter<TEntity[]>();
+  @Output() previewItemChange = new EventEmitter<TEntity>();
 
   private _selectedItems: TEntity[] = [];
   private lastSelectedIndex = 0;
@@ -110,7 +111,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.sub = this.scrollDispatcher
       .scrolled()
       .pipe(debounceTime(this.scrollDebounceTime))
-      .subscribe((scrollable) => {
+      .subscribe(scrollable => {
         if (!scrollable) {
           return;
         }
@@ -124,7 +125,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
       });
 
     // Item selection
-    this.sub = this.selectionService.selectedItems.subscribe((items) => {
+    this.sub = this.selectionService.selectedItems.subscribe(items => {
       this.selectedItems = items;
     });
 
@@ -135,7 +136,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.sub = this.facade.searchRequest$.subscribe(() => this.update());
 
     // Subscribe to loading
-    this.sub = this.facade.getLoadingInfos('all').subscribe((i) => (this.isLoading = i));
+    this.sub = this.facade.getLoadingInfos('all').subscribe(i => (this.isLoading = i));
   }
 
   get selectedItems(): TEntity[] {
@@ -147,11 +148,11 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.selectedItemsChange.emit(items);
   }
 
-  public trackByItem(index: number, item: TEntity): string {
+  trackByItem(index: number, item: TEntity): string {
     return item.id;
   }
 
-  public update(): void {
+  update(): void {
     this.facade.searchResultState.nextPageToken = undefined;
     this.facade.searchResultState.results = [];
     this.items = [];
@@ -159,7 +160,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.loadData()?.subscribe();
   }
 
-  public loadData(): Observable<any> | undefined {
+  loadData(): Observable<any> | undefined {
     if (this.isLoading) {
       return;
     }
@@ -170,9 +171,9 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     }
 
     return request.pipe(
-      tap((searchResult) => {
+      tap(searchResult => {
         if (searchResult.results) {
-          const items = searchResult.results.map((i) => i);
+          const items = searchResult.results.map(i => i);
           this.items.push(...items);
           this.prepareData(items);
         }
@@ -192,7 +193,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   /**
    * Click event to trigger selection (ctrl + shift click)
    */
-  public itemClicked(event: MouseEvent, index: number, presist = false): void {
+  itemClicked(event: MouseEvent, index: number, presist = false): void {
     const itemModel = this.items[index];
 
     if (this.isTouchDevice) {
@@ -220,11 +221,11 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         let itemsToRemove: TEntity[] = [];
 
         if (firstIndex === this.lastRangeSelection.lastIndex) {
-          itemsToRemove = this.items.slice(this.lastRangeSelection.firstIndex, firstIndex + 1).map((i) => i);
+          itemsToRemove = this.items.slice(this.lastRangeSelection.firstIndex, firstIndex + 1).map(i => i);
         } else if (firstIndex < this.lastRangeSelection.firstIndex) {
-          itemsToRemove = this.items.slice(lastIndex, this.lastRangeSelection.lastIndex + 1).map((i) => i);
+          itemsToRemove = this.items.slice(lastIndex, this.lastRangeSelection.lastIndex + 1).map(i => i);
         } else if (lastIndex < this.lastRangeSelection.lastIndex) {
-          itemsToRemove = this.items.slice(lastIndex, this.lastRangeSelection.lastIndex + 1).map((i) => i);
+          itemsToRemove = this.items.slice(lastIndex, this.lastRangeSelection.lastIndex + 1).map(i => i);
         }
 
         if (itemsToRemove.length) {
@@ -232,7 +233,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
         }
       }
 
-      const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map((i) => i);
+      const itemsToAdd = this.items.slice(firstIndex, lastIndex + 1).map(i => i);
 
       this.selectionService.addItems(itemsToAdd);
       this.lastRangeSelection = { firstIndex, lastIndex };
@@ -244,7 +245,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.selectionService.toggle(itemModel);
   }
 
-  public itemPressed(event: Event, index: number): void {
+  itemPressed(event: Event, index: number): void {
     const itemModel = this.items[index];
 
     this.lastSelectedIndex = index;
@@ -252,15 +253,15 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.selectionService.addItem(itemModel);
   }
 
-  public toggleItems(isSelected: boolean): void {
+  toggleItems(isSelected: boolean): void {
     if (isSelected === true) {
-      this.selectionService.addItems(this.items.map((model) => model));
+      this.selectionService.addItems(this.items.map(model => model));
     } else {
       this.selectionService.clear();
     }
   }
 
-  public previewItem(item: TEntity): void {
+  previewItem(item: TEntity): void {
     this.previewItemChange.emit(item);
   }
 

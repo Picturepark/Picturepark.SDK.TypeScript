@@ -78,7 +78,7 @@
             (click)="handleChangeInBasket(true); $event.stopPropagation()"
             class="add"
             aria-label="Add item to basket"
-            *ngIf="!(isInBasket$ | async)"
+            *ngIf="(isInBasket$ | async) === false"
             >add</mat-icon
           >
           <mat-icon
@@ -113,7 +113,7 @@
       (click)="handleChangeInBasket(true); $event.stopPropagation()"
       class="add"
       aria-label="Add item to basket"
-      *ngIf="!(isInBasket$ | async)"
+      *ngIf="(isInBasket$ | async) === false"
       >add</mat-icon
     >
     <mat-icon

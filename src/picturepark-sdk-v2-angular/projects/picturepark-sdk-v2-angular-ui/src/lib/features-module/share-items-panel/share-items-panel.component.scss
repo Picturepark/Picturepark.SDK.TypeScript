@@ -1,6 +1,6 @@
 .list {
   padding: 16px 0;
-  
+
   .item {
     display: flex;
     align-items: center;
@@ -33,14 +33,14 @@
 
       ul {
         padding-left: 8px;
-  
+
         li {
           font-size: 13px;
           line-height: 21px;
           text-overflow: ellipsis;
           overflow: hidden;
         }
-  
+
         .title {
           font-size: 14px;
         }

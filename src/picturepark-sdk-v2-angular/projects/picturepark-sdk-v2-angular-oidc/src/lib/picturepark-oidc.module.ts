@@ -19,7 +19,7 @@ export function storageFactory(): OAuthStorage {
   ],
 })
 export class PictureparkOidcModule {
-  public static forRoot(config: PictureparkOidcAuthConfiguration | Function): ModuleWithProviders {
+  static forRoot(config: PictureparkOidcAuthConfiguration | Function): ModuleWithProviders<PictureparkOidcModule> {
     return {
       ngModule: PictureparkOidcModule,
       providers: [

@@ -1,4 +1,4 @@
-export let TRANSLATIONS = {
+export const TRANSLATIONS = {
   ApplicationTitle: {
     demoApp: {
       en: 'Picturepark Demo App',
@@ -805,12 +805,19 @@ export let TRANSLATIONS = {
       es: 'Cancelar',
       pt: 'Cancelar',
     },
-    NoAccess: {
-      en: 'No access to any format!',
-      de: 'Kein Zugriff zu Formaten!',
-      fr: 'Aucun accès à aucun format!',
-      es: 'Sin acceso a ningún formato!',
-      pt: 'Sem acesso a qualquer formato!',
+    MissingOutputs: {
+      en: '{0} item(s) do not have formats that you are permitted to download.',
+      de: '{0} Items haben keine Formate, welche Sie herunterladen dürfen.',
+      fr: `{0} items n'ont pas de formats que vous êtes autorisé à télécharger.`,
+      es: '{0} ítems no tienen formatos que usted pueda descargar.',
+      pt: '{0} item(s) não têm formatos que lhe seja permitido descarregar.',
+    },
+    ContactShareSender: {
+      en: 'Contact the person who sent you this share.',
+      de: 'Wenden Sie sich an die Person, die Ihnen dieses Share geschickt hat.',
+      fr: 'Contactez la personne qui vous a envoyé ce partage.',
+      es: 'Póngase en contacto con la persona que le envió esta acción.',
+      pt: 'Contacte a pessoa que lhe enviou esta partilha.',
     },
     ConfirmDownloadTitle: {
       en: 'Download ready',

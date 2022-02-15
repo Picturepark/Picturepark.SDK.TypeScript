@@ -22,26 +22,26 @@ export class BasketService {
     this.basketItemsSubject = new BehaviorSubject([]);
     this.basketChanges = new BehaviorSubject({ operation: BasketOperation.added, itemsIds: itemsIdsArray });
 
-    this.basketChanges.subscribe((change) => {
+    this.basketChanges.subscribe(change => {
       if (change.operation === BasketOperation.added) {
         // Clear duplicates
-        const itemsToAdd = change.itemsIds.filter((itemId) => !Array.from(this.basketItemsIds).includes(itemId));
+        const itemsToAdd = change.itemsIds.filter(itemId => !Array.from(this.basketItemsIds).includes(itemId));
 
         // Handle basketItemsIds
-        itemsToAdd.forEach((itemId) => this.basketItemsIds.add(itemId));
+        itemsToAdd.forEach(itemId => this.basketItemsIds.add(itemId));
 
         // Handle basketItems
-        const sub = fetchContents(this.contentService, itemsToAdd).subscribe((response) => {
+        const sub = fetchContents(this.contentService, itemsToAdd).subscribe(response => {
           this.basketItems = this.basketItems.concat(response.results);
           this.basketItemsSubject.next(this.basketItems);
           sub.unsubscribe();
         });
       } else if (change.operation === BasketOperation.removed) {
         // Handle basketItemsIds
-        change.itemsIds.forEach((itemId) => this.basketItemsIds.delete(itemId));
+        change.itemsIds.forEach(itemId => this.basketItemsIds.delete(itemId));
 
         // Handle basketItems
-        this.basketItems = this.basketItems.filter((item) => !change.itemsIds.includes(item.id));
+        this.basketItems = this.basketItems.filter(item => !change.itemsIds.includes(item.id));
         this.basketItemsSubject.next(this.basketItems);
       } else if (change.operation === BasketOperation.cleared) {
         // Handle basketItemsIds
@@ -56,43 +56,43 @@ export class BasketService {
     });
   }
 
-  public get basketChange(): Observable<string[]> {
+  get basketChange(): Observable<string[]> {
     return this.basketItemsIdsSubject.asObservable();
   }
 
-  public get basketItemsChanges(): Observable<Content[]> {
+  get basketItemsChanges(): Observable<Content[]> {
     return this.basketItemsSubject.asObservable();
   }
 
-  public getBasketItems(): string[] {
+  getBasketItems(): string[] {
     return Array.from(this.basketItemsIds);
   }
 
-  public addItem(itemId: string) {
+  addItem(itemId: string) {
     this.basketChanges.next({ operation: BasketOperation.added, itemsIds: [itemId] });
   }
 
-  public addItems(itemsIds: string[]) {
+  addItems(itemsIds: string[]) {
     this.basketChanges.next({ operation: BasketOperation.added, itemsIds: itemsIds });
   }
 
-  public removeItem(itemId: string) {
+  removeItem(itemId: string) {
     this.basketChanges.next({ operation: BasketOperation.removed, itemsIds: [itemId] });
   }
 
-  public removeItems(itemsIds: string[]) {
+  removeItems(itemsIds: string[]) {
     this.basketChanges.next({ operation: BasketOperation.removed, itemsIds: itemsIds });
   }
 
-  public clearBasket() {
+  clearBasket() {
     this.basketChanges.next({ operation: BasketOperation.cleared, itemsIds: [] });
   }
 
-  public contains(itemId: string) {
+  contains(itemId: string) {
     return this.basketItemsIds.has(itemId);
   }
 
-  public toggle(itemId: string) {
+  toggle(itemId: string) {
     if (this.contains(itemId)) {
       this.removeItem(itemId);
     } else {

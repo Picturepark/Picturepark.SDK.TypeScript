@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 $pp-search-box: (
   contrast: (),
@@ -12,42 +12,42 @@ $pp-search-box: (
   pp-search-suggest-box {
     #search-container {
       .form {
-        background-color: mat-color($accent, lighter);
-        color: mat-color($accent, '200-contrast');
+        background-color: mat.get-color-from-palette($accent, lighter);
+        color: mat.get-color-from-palette($accent, '200-contrast');
 
         input {
-          color: mat-color($primary, on-surface-mid);
+          color: mat.get-color-from-palette($primary, on-surface-mid);
 
           &::placeholder {
-            color: mat-color($primary, on-surface-mid);
+            color: mat.get-color-from-palette($primary, on-surface-mid);
           }
         }
       }
 
       #search-options-container {
-        color: mat-color($primary, surface-mid);
+        color: mat.get-color-from-palette($primary, surface-mid);
       }
     }
 
     #search-container:focus-within {
-      border-color: mat-color($primary, opacity-light);
+      border-color: mat.get-color-from-palette($primary, opacity-light);
 
       .form {
-        background-color: mat-color($primary, opacity-light);
+        background-color: mat.get-color-from-palette($primary, opacity-light);
 
-        color: mat-color($primary, on-surface-dark);
+        color: mat.get-color-from-palette($primary, on-surface-dark);
 
         input {
-          color: mat-color($primary, on-surface-dark);
+          color: mat.get-color-from-palette($primary, on-surface-dark);
 
           &::placeholder {
-            color: mat-color($primary, on-surface-dark);
+            color: mat.get-color-from-palette($primary, on-surface-dark);
           }
         }
       }
 
       #search-options-container {
-        color: mat-color($primary, opacity-light);
+        color: mat.get-color-from-palette($primary, opacity-light);
       }
     }
   }
@@ -55,7 +55,7 @@ $pp-search-box: (
   pp-search-box {
     #search-container {
       .form {
-        @include mat-elevation(2, mat-color($accent, A800), 0.7);
+        @include mat.elevation(2, mat.get-color-from-palette($accent, A800), 0.7);
       }
     }
   }
@@ -63,7 +63,7 @@ $pp-search-box: (
   pp-search-suggest-box {
     #search-container {
       .form {
-        background-color: mat-color($primary, surface-mid);
+        background-color: mat.get-color-from-palette($primary, surface-mid);
       }
     }
   }

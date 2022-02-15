@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 // SHARE CONTENT DIALOG
 $pp-share-content-recipients-input-theme: (
@@ -13,29 +13,29 @@ $pp-share-content-recipients-input-theme: (
     .chip-list-container {
       .chip-list-content {
         &.error-active {
-          border-color: mat-color($warn);
+          border-color: mat.get-color-from-palette($warn);
         }
       }
     }
 
     .share-content-dialog-container ul li input {
-      background-color: mat-color($primary, surface-light);
-      color: mat-color($primary, on-surface-light);
+      background-color: mat.get-color-from-palette($primary, surface-light);
+      color: mat.get-color-from-palette($primary, on-surface-light);
     }
 
     .mat-chip {
       &.mat-standard-chip {
-        background-color: mat-color($primary, primary);
-        color: mat-color($primary, on-primary);
+        background-color: mat.get-color-from-palette($primary, primary);
+        color: mat.get-color-from-palette($primary, on-primary);
 
         .mat-chip-remove {
-          color: mat-color($primary, on-primary);
+          color: mat.get-color-from-palette($primary, on-primary);
         }
       }
     }
 
     .chip-input-error {
-      color: mat-color($warn);
+      color: mat.get-color-from-palette($warn);
     }
   }
 }

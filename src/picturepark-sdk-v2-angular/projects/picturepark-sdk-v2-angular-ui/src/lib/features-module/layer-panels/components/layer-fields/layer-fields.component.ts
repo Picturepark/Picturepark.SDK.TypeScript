@@ -15,7 +15,7 @@ export class LayerFieldsComponent {
   @Input() noname = false;
 
   @Output()
-  public relationClick = new EventEmitter<RelationFieldInfo>();
+  relationClick = new EventEmitter<RelationFieldInfo>();
 
   constructor(private dialog: MatDialog) {}
 

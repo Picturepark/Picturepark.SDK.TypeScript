@@ -15,7 +15,7 @@ export class CustomerInfoService {
     @Inject(PICTUREPARK_CONFIGURATION) private config: PictureparkConfiguration
   ) {}
 
-  public getInfo(cdnUrl?: string): Observable<CustomerInfo> {
+  getInfo(cdnUrl?: string): Observable<CustomerInfo> {
     let url_: string;
     if (cdnUrl) {
       url_ = cdnUrl + '/service/Info/customer';

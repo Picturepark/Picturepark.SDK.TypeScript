@@ -10,13 +10,12 @@ import { NotificationService } from '../../services/notification/notification.se
 // INTERFACES
 import { Notification } from '../../../features-module/notification/interfaces/notification.interface';
 
-/* tslint:disable:directive-class-suffix */
 @Directive()
 export class DialogBaseComponent extends BaseComponent implements OnInit, OnDestroy {
   // VARS
-  public notification: Notification;
-  public title: string;
-  public notificationService: NotificationService;
+  notification: Notification;
+  title: string;
+  notificationService: NotificationService;
 
   constructor(protected dialogRef: MatDialogRef<any>, protected injector: Injector) {
     super(injector);
@@ -34,7 +33,7 @@ export class DialogBaseComponent extends BaseComponent implements OnInit, OnDest
 
   init() {
     // NOTIFICATION SUBSCRIBER
-    this.sub = this.notificationService.notification$.subscribe((notification) => {
+    this.sub = this.notificationService.notification$.subscribe(notification => {
       this.notification = notification;
     });
   }

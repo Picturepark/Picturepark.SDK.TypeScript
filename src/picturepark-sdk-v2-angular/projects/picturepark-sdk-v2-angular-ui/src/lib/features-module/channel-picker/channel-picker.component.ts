@@ -12,23 +12,19 @@ import { BaseComponent } from '../../shared-module/components/base.component';
   styleUrls: ['./channel-picker.component.scss'],
 })
 export class ChannelPickerComponent extends BaseComponent implements OnInit {
-  @Input() public channel: Channel | null = null;
-  @Output() public channelChange = new EventEmitter<Channel>();
-  @Output() public channelsChange = new EventEmitter<Channel[]>();
+  @Input() channel: Channel | null = null;
+  @Output() channelChange = new EventEmitter<Channel>();
+  @Output() channelsChange = new EventEmitter<Channel[]>();
 
-  public channels: Channel[] = [];
+  channels: Channel[] = [];
 
-  public constructor(
-    private channelService: ChannelService,
-    private ref: ApplicationRef,
-    protected injector: Injector
-  ) {
+  constructor(private channelService: ChannelService, private ref: ApplicationRef, protected injector: Injector) {
     super(injector);
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.sub = this.channelService.getAll().subscribe(
-      (channels) => {
+      channels => {
         this.channels = channels;
 
         this.channelsChange.emit(this.channels);
@@ -47,12 +43,12 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
     );
   }
 
-  public changeChannel(channel: Channel): void {
+  changeChannel(channel: Channel): void {
     this.channel = channel;
     this.channelChange.emit(this.channel);
   }
 
-  public trackByChannel(index, channel: Channel) {
+  trackByChannel(index, channel: Channel) {
     return channel.id;
   }
 }

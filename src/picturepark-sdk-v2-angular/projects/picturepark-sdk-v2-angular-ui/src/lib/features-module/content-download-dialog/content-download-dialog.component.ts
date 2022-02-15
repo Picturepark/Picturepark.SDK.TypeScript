@@ -20,7 +20,7 @@ import {
   IOutputPerOutputFormatSelection,
   IOutputPerSchemaSelection,
 } from './components/output-selection';
-import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
@@ -49,17 +49,17 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   downloadContentSubscriber: Subscription;
 
   // VARS
-  public selection: OutputSelection;
-  public fileSize = 0;
-  public enableAdvanced = false;
-  public advancedMode = false;
-  public filteredData: Content[];
-  public noOutputs = false;
-  public hasDynamicOutputs = false;
-  public waitingDownload = false;
-  public tooManyContents = false;
+  selection: OutputSelection;
+  fileSize = 0;
+  enableAdvanced = false;
+  advancedMode = false;
+  filteredData: Content[];
+  missingOutputs = { all: false, count: 0 };
+  hasDynamicOutputs = false;
+  waitingDownload = false;
+  tooManyContents = false;
 
-  public outputFormatFallback = [
+  outputFormatFallback = [
     { fileSchemaId: 'ImageMetadata', outputFormatId: 'Preview' },
     { fileSchemaId: 'VectorMetadata', outputFormatId: 'Pdf' },
     { fileSchemaId: 'DocumentMetadata', outputFormatId: 'Pdf' },
@@ -96,10 +96,10 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
       this.sub = this.contentService
         .getOutputs(this.data.contents[0].id)
-        .subscribe((output) => this.setSelection(output));
+        .subscribe(output => this.setSelection(output));
     } else {
-      if (this.data.contents.every((content) => content.outputs)) {
-        const outputs = flatMap(this.data.contents, (content) => content.outputs!);
+      if (this.data.contents.every(content => content.outputs)) {
+        const outputs = flatMap(this.data.contents, content => content.outputs!);
         await this.setSelection(outputs);
         return;
       }
@@ -113,7 +113,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     const ignoreStates = [OutputRenderingState.Failed, OutputRenderingState.Skipped];
     const selection = new OutputSelection(
       outputs.filter(
-        (o) =>
+        o =>
           (o.dynamicRendering && (o.renderingState !== OutputRenderingState.Failed || contents.length > 1)) ||
           !ignoreStates.includes(o.renderingState as any)
       ),
@@ -122,28 +122,28 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       this.translationService
     );
 
-    selection.fileFormats.forEach((fileFormat) => {
+    selection.fileFormats.forEach(fileFormat => {
       const fileFormatOutputs = selection.outputs[fileFormat.id];
-      const fileFormatContents = flatMap(fileFormatOutputs, (i) => i.values);
+      const fileFormatContents = flatMap(fileFormatOutputs, i => i.values);
       if (fileFormat.contents.length === 0) {
         return;
       }
 
       const fallbackOutputs = fileFormat.contents
-        .map((content) =>
+        .map(content =>
           this.getOutput(
             content,
-            fileFormatContents.filter((j) => j.content.id === content.id).map((i) => i.output)
+            fileFormatContents.filter(j => j.content.id === content.id).map(i => i.output)
           )
         )
-        .filter((i) => i);
+        .filter(i => i);
 
       if (fallbackOutputs.length === 0) {
         return;
       }
 
-      const grouped = groupBy(fallbackOutputs, (i) => i?.outputFormatId);
-      fileFormatOutputs.forEach((output) => {
+      const grouped = groupBy(fallbackOutputs, i => i?.outputFormatId);
+      fileFormatOutputs.forEach(output => {
         const fallback = grouped.get(output.id);
         if (!fallback) {
           return;
@@ -155,10 +155,15 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     });
 
     this.selection = selection;
-    this.noOutputs = !selection.fileFormats.some((i) => selection.outputs[i.id].length > 0);
+
+    this.missingOutputs.all = !selection.fileFormats.some(i => selection.outputs[i.id].length > 0);
+    this.missingOutputs.count = selection.fileFormats
+      .filter(i => selection.outputs[i.id].length === 0)
+      .map(f => f.contents.length)
+      .reduce((a, b) => a + b, 0);
   }
 
-  public download(): void {
+  download(): void {
     const data = this.selection.getSelectedOutputs();
 
     // Single share download
@@ -184,12 +189,12 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       });
     }, 8000);
 
-    const contents = data.map((i) => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }));
+    const contents = data.map(i => ({ contentId: i.contentId, outputFormatId: i.outputFormatId }));
     (this.data.shareToken
       ? this.shareAccessFacade.createShareSelectionDownloadLink(this.data.shareToken, contents)
       : this.downloadFacade.getDownloadLink(contents)
     ).subscribe(
-      (downloadLink) => {
+      downloadLink => {
         clearTimeout(downloadTimmer);
         if (this.waitingDownload) {
           window.location.replace(downloadLink.downloadUrl);
@@ -210,7 +215,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
               { disableClose: true }
             )
             .afterClosed()
-            .subscribe((confirmDialogResult) => {
+            .subscribe(confirmDialogResult => {
               if (confirmDialogResult) {
                 window.location.replace(downloadLink.downloadUrl);
               }
@@ -227,25 +232,25 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     );
   }
 
-  public toggleAdvanced(): void {
+  toggleAdvanced(): void {
     this.selection.toggleThumbnails();
     this.update();
   }
 
-  public radioChange(output: IOutputPerOutputFormatSelection, fileType: IOutputPerSchemaSelection): void {
-    this.selection.getOutputs(fileType).forEach((i) => (i.selected = false));
+  radioChange(output: IOutputPerOutputFormatSelection, fileType: IOutputPerSchemaSelection): void {
+    this.selection.getOutputs(fileType).forEach(i => (i.selected = false));
     output.selected = true;
     this.update();
   }
 
-  public update(): void {
+  update(): void {
     this.enableAdvanced = this.selection.hasThumbnails;
     this.advancedMode = !this.selection.hasHiddenThumbnails;
     const outputs = this.selection.getSelectedOutputs();
-    this.hasDynamicOutputs = outputs.some((i) => i.dynamicRendering);
+    this.hasDynamicOutputs = outputs.some(i => i.dynamicRendering);
     if (outputs.length > 0) {
       this.fileSize = outputs
-        .map((i) => {
+        .map(i => {
           return i.detail?.fileSizeInBytes || i.fileSize || 0;
         })
         .reduce((total, value) => total + value);
@@ -254,23 +259,23 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     }
   }
 
-  public getOutput(content: IContentDownload, outputs: IContentDownloadOutput[]) {
+  getOutput(content: IContentDownload, outputs: IContentDownloadOutput[]) {
     // Try to use Original
-    let output = outputs.find((i) => i.outputFormatId === 'Original');
+    let output = outputs.find(i => i.outputFormatId === 'Original');
     if (output) {
       return output;
     }
 
     // Fallback to configured output formats
     this.outputFormatFallback
-      .filter((i) => i.fileSchemaId === content.contentSchemaId)
-      .forEach((fallback) => {
-        output = outputs.find((i) => i.outputFormatId === fallback.outputFormatId);
+      .filter(i => i.fileSchemaId === content.contentSchemaId)
+      .forEach(fallback => {
+        output = outputs.find(i => i.outputFormatId === fallback.outputFormatId);
       });
 
     // If still no output, fallback to Preview
     if (!output) {
-      output = outputs.find((i) => i.outputFormatId === 'Preview');
+      output = outputs.find(i => i.outputFormatId === 'Preview');
     }
 
     return output;
@@ -284,9 +289,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   private fetchOutputs(): void {
     this.sub =
       this.data.contents.length === 1
-        ? this.contentService.getOutputs(this.data.contents[0].id).subscribe((result) => this.setSelection(result))
+        ? this.contentService.getOutputs(this.data.contents[0].id).subscribe(result => this.setSelection(result))
         : this.contentService
-            .getOutputsMany(new OutputResolveManyRequest({ contentIds: this.data.contents.map((i) => i.id) }))
-            .subscribe((outputs) => this.setSelection(outputs));
+            .getOutputsMany(new OutputResolveManyRequest({ contentIds: this.data.contents.map(i => i.id) }))
+            .subscribe(outputs => this.setSelection(outputs));
   }
 }

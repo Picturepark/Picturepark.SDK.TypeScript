@@ -18,28 +18,28 @@ import { BaseComponent } from '../../components/base.component';
 })
 export class AggregationListComponent extends BaseComponent implements OnInit {
   @Input()
-  public facade: SearchFacade<IEntityBase, SearchInputState>;
+  facade: SearchFacade<IEntityBase, SearchInputState>;
 
   aggregators$: Observable<AggregatorBase[]>;
   loading$: Observable<boolean>;
   aggregationResults$: Observable<AggregationResult[]>;
 
   ngOnInit(): void {
-    this.aggregators$ = this.facade.aggregators$.pipe(map((items) => this.filterDisabledAggregators(items)));
+    this.aggregators$ = this.facade.aggregators$.pipe(map(items => this.filterDisabledAggregators(items)));
 
     // Show loading if it takes more than 100ms
     this.loading$ = this.facade.getLoadingInfos('initial').pipe(debounceTime(100));
 
     this.aggregationResults$ = this.facade.aggregationResults$.pipe(
-      map((aggregationResults) => (!!aggregationResults ? this.processAggregationResults(aggregationResults) : []))
+      map(aggregationResults => (aggregationResults ? this.processAggregationResults(aggregationResults) : []))
     );
   }
 
-  public clearFilters(): void {
+  clearFilters(): void {
     this.facade.patchRequestState({ aggregationFilters: [] });
   }
 
-  public trackByName(_index, aggregator: AggregatorBase) {
+  trackByName(_index, aggregator: AggregatorBase) {
     return aggregator.name;
   }
 
@@ -48,12 +48,14 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
     const aggregationResultItemsToRemove: AggregationResultItem[] = [];
     const filteredAggregators = this.filterDisabledAggregators(this.facade.searchRequestState.aggregators);
     const disabledAggregators = this.facade.searchRequestState.aggregators.filter(
-      (item) => !item.uiBehavior?.enableFilter
+      item => !item.uiBehavior?.enableFilter
     );
 
-    aggregationResults.forEach((aggregationResult) => {
+    aggregationResults.forEach(aggregationResult => {
       const nested = this.facade.expandAggregationResult(aggregationResult);
-      const aggregatorIndex = filteredAggregators.findIndex((aggregator) => nested.name.includes(aggregator.name));
+      const aggregatorIndex = filteredAggregators.findIndex(
+        aggregator => nested.name === aggregator.name || nested.name === aggregator.aggregators?.[0]?.name
+      );
 
       if (aggregatorIndex > -1) {
         aggregations[aggregatorIndex] = aggregationResult;
@@ -61,7 +63,7 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
 
       if (nested.aggregationResultItems) {
         const nestedToRemove = nested.aggregationResultItems.filter(
-          (item) => item.active && disabledAggregators.find((da) => item.filter?.aggregationName === da.name)
+          item => item.active && disabledAggregators.find(da => item.filter?.aggregationName === da.name)
         );
 
         aggregationResultItemsToRemove.push(...nestedToRemove);
@@ -76,6 +78,6 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
   }
 
   private filterDisabledAggregators(items: AggregatorBase[]) {
-    return items.filter((item) => item.uiBehavior?.enableFilter);
+    return items.filter(item => item.uiBehavior?.enableFilter);
   }
 }
