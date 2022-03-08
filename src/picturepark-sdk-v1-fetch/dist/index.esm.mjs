@@ -3762,13 +3762,6 @@ class ContentClient extends PictureparkClientBase {
                 return;
             });
         }
-        else if (status === 400) {
-            return response.text().then((_responseText) => {
-                let result400 = null;
-                result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
-        }
         else if (status === 401) {
             return response.text().then((_responseText) => {
                 return throwException("Unauthorized", status, _responseText, _headers);
@@ -3810,6 +3803,13 @@ class ContentClient extends PictureparkClientBase {
                 let result500 = null;
                 result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
                 return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        }
+        else if (status === 400) {
+            return response.text().then((_responseText) => {
+                let result400 = null;
+                result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             });
         }
         else if (status !== 200 && status !== 204) {
@@ -8877,13 +8877,6 @@ class ListItemClient extends PictureparkClientBase {
                 return;
             });
         }
-        else if (status === 400) {
-            return response.text().then((_responseText) => {
-                let result400 = null;
-                result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
-        }
         else if (status === 401) {
             return response.text().then((_responseText) => {
                 return throwException("Unauthorized", status, _responseText, _headers);
@@ -8925,6 +8918,13 @@ class ListItemClient extends PictureparkClientBase {
                 let result500 = null;
                 result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
                 return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        }
+        else if (status === 400) {
+            return response.text().then((_responseText) => {
+                let result400 = null;
+                result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             });
         }
         else if (status !== 200 && status !== 204) {
@@ -23536,6 +23536,12 @@ var BusinessRuleExecutionScope;
     BusinessRuleExecutionScope[BusinessRuleExecutionScope["MainDoc"] = "MainDoc"] = "MainDoc";
     BusinessRuleExecutionScope[BusinessRuleExecutionScope["SearchDoc"] = "SearchDoc"] = "SearchDoc";
 })(BusinessRuleExecutionScope || (BusinessRuleExecutionScope = {}));
+/** How a list of values in the condition should be matched during the comparison. */
+var ConditionMatchMode;
+(function (ConditionMatchMode) {
+    ConditionMatchMode[ConditionMatchMode["All"] = "All"] = "All";
+    ConditionMatchMode[ConditionMatchMode["Any"] = "Any"] = "Any";
+})(ConditionMatchMode || (ConditionMatchMode = {}));
 var BusinessRuleNumberCompareConditionMode;
 (function (BusinessRuleNumberCompareConditionMode) {
     BusinessRuleNumberCompareConditionMode[BusinessRuleNumberCompareConditionMode["LessThan"] = "LessThan"] = "LessThan";
@@ -23544,6 +23550,13 @@ var BusinessRuleNumberCompareConditionMode;
     BusinessRuleNumberCompareConditionMode[BusinessRuleNumberCompareConditionMode["GreaterThanEqual"] = "GreaterThanEqual"] = "GreaterThanEqual";
     BusinessRuleNumberCompareConditionMode[BusinessRuleNumberCompareConditionMode["GreaterThan"] = "GreaterThan"] = "GreaterThan";
 })(BusinessRuleNumberCompareConditionMode || (BusinessRuleNumberCompareConditionMode = {}));
+/** How should happen the match on a lookup cache */
+var LookupItemsMatch;
+(function (LookupItemsMatch) {
+    LookupItemsMatch[LookupItemsMatch["Found"] = "Found"] = "Found";
+    LookupItemsMatch[LookupItemsMatch["NotFound"] = "NotFound"] = "NotFound";
+    LookupItemsMatch[LookupItemsMatch["All"] = "All"] = "All";
+})(LookupItemsMatch || (LookupItemsMatch = {}));
 /** The sort direction */
 var SortDirection;
 (function (SortDirection) {
@@ -23909,6 +23922,12 @@ var EmailNotificationsInterval;
     EmailNotificationsInterval[EmailNotificationsInterval["QuarterHourly"] = "QuarterHourly"] = "QuarterHourly";
     EmailNotificationsInterval[EmailNotificationsInterval["Off"] = "Off"] = "Off";
 })(EmailNotificationsInterval || (EmailNotificationsInterval = {}));
+/** Defines how data from XmpMappings interacts with unaltered Xmp data */
+var XmpWritebackMergeMode;
+(function (XmpWritebackMergeMode) {
+    XmpWritebackMergeMode[XmpWritebackMergeMode["MappingOnly"] = "MappingOnly"] = "MappingOnly";
+    XmpWritebackMergeMode[XmpWritebackMergeMode["MergeWithOriginal"] = "MergeWithOriginal"] = "MergeWithOriginal";
+})(XmpWritebackMergeMode || (XmpWritebackMergeMode = {}));
 /** Available color profiles */
 var ColorProfile;
 (function (ColorProfile) {
@@ -23976,6 +23995,7 @@ var CropGravity;
     CropGravity[CropGravity["South"] = "South"] = "South";
     CropGravity[CropGravity["SouthWest"] = "SouthWest"] = "SouthWest";
     CropGravity[CropGravity["West"] = "West"] = "West";
+    CropGravity[CropGravity["Center"] = "Center"] = "Center";
 })(CropGravity || (CropGravity = {}));
 var RotateDirection;
 (function (RotateDirection) {
@@ -24199,4 +24219,4 @@ class AccessTokenAuthClient extends AuthClient {
     }
 }
 
-export { AccessTokenAuthClient, AlphaHandling, Analyzer, AuthClient, AuthorizationState, BrokenDependenciesFilter, BusinessProcessClient, BusinessProcessLifeCycle, BusinessProcessScope, BusinessRuleClient, BusinessRuleExecutionScope, BusinessRuleNumberCompareConditionMode, BusinessRuleTriggerAction, BusinessRuleTriggerDocType, ChannelClient, Coder, ColorProfile, ColorTransformationIntent, CompressionType, ContentClient, ContentDisposition, ContentPermissionSetClient, ContentResolveBehavior, ContentRight, ContentSearchResolveBehavior, ContentSearchType, ContentType, CropGravity, DisplayPatternType, DisplayValueClient, DisplayValuesState, DocumentChangeAction, DocumentHistoryClient, EmailNotificationsInterval, EnvironmentProcessType, FileTransferState, HistoricVersioningState, IdentityProviderClient, IndexState, InfoClient, JsonSchemaClient, LeaseResourceType, LifeCycle, LifeCycleFilter, ListItemClient, ListItemResolveBehavior, LiveStreamClient, MappingDirection, MessageCode, MetadataClient, MetadataFieldDataType, MetadataRight, MetadataState, NotificationClient, NotificationEventType, NotificationState, OidcClientSettings, OutputAccess, OutputClient, OutputFormatClient, OutputRenderingState, OutputSource, PermissionSetRight, PictureparkClientBase, Preset, Profile, ProfileClient, RenderingCategory, ResizeMode, RotateDirection, SchemaClient, SchemaPermissionSetClient, SchemaTransferClient, SchemaType, SearchBehavior, SearchIndexState, SearchIndexType, ShareClient, ShareResolveBehavior, ShareType, SortDirection, StatisticClient, StringRenderingType, SwaggerException, SystemUserRole, TemplateClient, TemplateEngine, TemplateType, TermsRelationAggregatorDocumentType, ThumbnailSize, TitleCode, TraceLevel, TransferClient, TransferState, TransferType, UpdateOption, UserClient, UserRight, UserRoleAssignmentOperationType, UserRoleClient, XmpFieldDataType, XmpMappingClient };
+export { AccessTokenAuthClient, AlphaHandling, Analyzer, AuthClient, AuthorizationState, BrokenDependenciesFilter, BusinessProcessClient, BusinessProcessLifeCycle, BusinessProcessScope, BusinessRuleClient, BusinessRuleExecutionScope, BusinessRuleNumberCompareConditionMode, BusinessRuleTriggerAction, BusinessRuleTriggerDocType, ChannelClient, Coder, ColorProfile, ColorTransformationIntent, CompressionType, ConditionMatchMode, ContentClient, ContentDisposition, ContentPermissionSetClient, ContentResolveBehavior, ContentRight, ContentSearchResolveBehavior, ContentSearchType, ContentType, CropGravity, DisplayPatternType, DisplayValueClient, DisplayValuesState, DocumentChangeAction, DocumentHistoryClient, EmailNotificationsInterval, EnvironmentProcessType, FileTransferState, HistoricVersioningState, IdentityProviderClient, IndexState, InfoClient, JsonSchemaClient, LeaseResourceType, LifeCycle, LifeCycleFilter, ListItemClient, ListItemResolveBehavior, LiveStreamClient, LookupItemsMatch, MappingDirection, MessageCode, MetadataClient, MetadataFieldDataType, MetadataRight, MetadataState, NotificationClient, NotificationEventType, NotificationState, OidcClientSettings, OutputAccess, OutputClient, OutputFormatClient, OutputRenderingState, OutputSource, PermissionSetRight, PictureparkClientBase, Preset, Profile, ProfileClient, RenderingCategory, ResizeMode, RotateDirection, SchemaClient, SchemaPermissionSetClient, SchemaTransferClient, SchemaType, SearchBehavior, SearchIndexState, SearchIndexType, ShareClient, ShareResolveBehavior, ShareType, SortDirection, StatisticClient, StringRenderingType, SwaggerException, SystemUserRole, TemplateClient, TemplateEngine, TemplateType, TermsRelationAggregatorDocumentType, ThumbnailSize, TitleCode, TraceLevel, TransferClient, TransferState, TransferType, UpdateOption, UserClient, UserRight, UserRoleAssignmentOperationType, UserRoleClient, XmpFieldDataType, XmpMappingClient, XmpWritebackMergeMode };

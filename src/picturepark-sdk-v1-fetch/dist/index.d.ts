@@ -2274,6 +2274,10 @@ export declare enum RenderingCategory {
     Audio,
     Vector
 }
+export interface FocalPointCropSizeMissingException extends PictureparkValidationException {
+    contentId?: string | undefined;
+    focalPointId?: string | undefined;
+}
 export interface ServiceProviderDeleteException extends PictureparkException {
     serviceProviderId?: string | undefined;
     detailedErrorMessage?: string | undefined;
@@ -2781,6 +2785,9 @@ export interface InvalidChangeCommandSchemaChangeInvalidException extends Pictur
     commandTypeName?: string | undefined;
     schemaId?: string | undefined;
 }
+export interface InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
 export interface InvalidMetadataException extends PictureparkValidationException {
     metadataErrors?: MetadataError[] | undefined;
     validationErrors?: PictureparkBusinessException[] | undefined;
@@ -2832,6 +2839,10 @@ export interface OutdatedMetadataUpdateInProgressException extends PictureparkVa
 }
 export interface SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException extends PictureparkValidationException {
     aggregationName?: string | undefined;
+}
+export interface SchemasMetadataProtectionException extends PictureparkValidationException {
+    schemaIds?: string[] | undefined;
+    operation?: string | undefined;
 }
 export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
     schemaId?: string | undefined;
@@ -2998,6 +3009,12 @@ export declare enum SchemaType {
     Struct
 }
 export interface SchemaPermissionConfigurationException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+export interface SchemaMetadataProtectionSettingsNotSupportedForStructsException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+}
+export interface SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException extends PictureparkValidationException {
     schemaId?: string | undefined;
 }
 export interface SchemaNoLayerException extends PictureparkValidationException {
@@ -3248,8 +3265,6 @@ export interface SnapshotTimeoutException extends PictureparkTimeoutException {
 }
 export interface SnapshotFailedException extends PictureparkBusinessException {
 }
-export interface SnapshotSkippedException extends PictureparkBusinessException {
-}
 export interface AddMetadataLanguageTimeoutException extends PictureparkTimeoutException {
     environmentProcessId?: string | undefined;
 }
@@ -3409,6 +3424,13 @@ export interface BusinessRuleScheduleFilterMissingException extends PictureparkV
 }
 export interface BusinessRuleScheduleRulesMissingException extends PictureparkValidationException {
 }
+export interface BusinessRuleStringContainsConditionValuesToMatchMissingException extends PictureparkValidationException {
+}
+export interface BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException extends PictureparkValidationException {
+}
+export interface BusinessRuleDateMathTransformationTimeSpanInvalidException extends PictureparkValidationException {
+    timeSpan?: string | undefined;
+}
 export interface NamedCacheConfigurationException extends PictureparkValidationException {
     innerExceptions?: PictureparkValidationException[] | undefined;
 }
@@ -3510,6 +3532,9 @@ export interface XmpMappingSchemaNotAvailableForFileContentSchemaException exten
     schemaId?: string | undefined;
 }
 export interface XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException extends PictureparkValidationException {
+    layerId?: string | undefined;
+}
+export interface XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException extends PictureparkValidationException {
     layerId?: string | undefined;
 }
 export interface XmpMappingFieldInUseException extends PictureparkValidationException {
@@ -3969,6 +3994,10 @@ export interface BusinessRuleConfigurable extends BusinessRule {
 export interface BusinessRuleCondition {
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific condition names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific condition description. */
+    description?: TranslatedStringDictionary | undefined;
     kind: string;
 }
 /** Links multiple conditions with a boolean operator */
@@ -4017,6 +4046,33 @@ export interface MatchRegexCondition extends BusinessRuleCondition {
     regex?: string | undefined;
     /** Optional variable name to store the matched regex groups in */
     storeIn?: string | undefined;
+}
+/** Matches when a field matching the field path string (JSON Path) changes and matches one of the specified values in ValuesToMatch */
+export interface StringContainsCondition extends BusinessRuleCondition {
+    /** JSON path to the field. */
+    fieldPath?: string | undefined;
+    /** A list of string value that will checked if at least one of them is contained in the string value identified by the FieldPath. */
+    valuesToMatch?: string[] | undefined;
+    /** Optional value to be stored in the variable identified by StoreIn. It can be simple value or a complex object. */
+    valueToStore?: any | undefined;
+    /** Decide if the StringContains condition should be processed case sensitive. */
+    caseSensitive?: boolean;
+    /** Optional variable name to store the ValueToStore in */
+    storeIn?: string | undefined;
+}
+/** Matches when one or all the user roles specified in UserRoleIds are assigned to the user retrieved from the path UserIdPath */
+export interface UserInUserRolesCondition extends BusinessRuleCondition {
+    /** JSON path to the field containing the id of the user that needs to be checked. */
+    userIdPath?: string | undefined;
+    /** A static list of user role ids that will checked: depending on MatchMode all the user roles or only one of them must be assigned to the user. */
+    userRoleIds?: string[] | undefined;
+    /** Decide if all the user roles must be assigned to the user or only one of them. */
+    matchMode?: ConditionMatchMode;
+}
+/** How a list of values in the condition should be matched during the comparison. */
+export declare enum ConditionMatchMode {
+    All,
+    Any
 }
 /** Matches when a tag in a tagbox matching the field path string (JSON path) is newly assigned. */
 export interface TagboxItemAssignedCondition extends BusinessRuleCondition {
@@ -4091,6 +4147,10 @@ export interface ContentRelationItemsChangedCondition extends BusinessRuleCondit
 }
 /** Matches whenever the assigned layers of a content changed. */
 export interface LayersChangedCondition extends BusinessRuleCondition {
+    /** Optional list of layer schema ids that must be added during the current content update operation in order for the condition to match. */
+    addedLayerIds?: string[] | undefined;
+    /** Optional list of layer schema ids that must be removed during the current content update operation in order for the condition to match. */
+    removedLayerIds?: string[] | undefined;
 }
 /** Matches whenever the assigned item(s) in a tagbox changed. */
 export interface TagboxItemsChangedCondition extends BusinessRuleCondition {
@@ -4117,11 +4177,19 @@ export interface BusinessRuleTransformationGroup {
     storeIn?: string | undefined;
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific transformation group names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific transformation group description. */
+    description?: TranslatedStringDictionary | undefined;
 }
 /** Business rule transformation */
 export interface BusinessRuleTransformation {
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific transformation names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific transformation description. */
+    description?: TranslatedStringDictionary | undefined;
     kind: string;
 }
 /** Takes an item from a dictionary by its key. */
@@ -4143,6 +4211,17 @@ export interface JoinByTransformation extends BusinessRuleTransformation {
 export interface LookupCacheTransformation extends BusinessRuleTransformation {
     /** Name of the cache to use. */
     namedCache?: string | undefined;
+    /** Choose what should be returned.
+Found: return the value of the found item in the lookup cache, null if not found.
+NotFound: return the input key value of the not found item, null if found.
+All: return the value of the found item in the lookup cache or the input key value of the not found item. */
+    lookupReturnedItems?: LookupItemsMatch;
+}
+/** How should happen the match on a lookup cache */
+export declare enum LookupItemsMatch {
+    Found,
+    NotFound,
+    All
 }
 /** Produces N-grams based on splitting a text on whitespace characters. Removes punctuation as well. */
 export interface NGramTransformation extends BusinessRuleTransformation {
@@ -4168,10 +4247,19 @@ export interface SplitTransformation extends BusinessRuleTransformation {
     /** Trims each entry for punctuation and white space. */
     trim?: boolean;
 }
+/** Add / remove a time span to a date time */
+export interface DateMathTransformation extends BusinessRuleTransformation {
+    /** String representation of a time span. */
+    timeSpan?: string | undefined;
+}
 /** Action to be performed by a business rule */
 export interface BusinessRuleAction {
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific action names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific action description. */
+    description?: TranslatedStringDictionary | undefined;
     kind: string;
 }
 /** Assigns a layer, adding the default values to the data dictionary */
@@ -5273,7 +5361,7 @@ export declare enum UpdateOption {
 export interface ContentPermissionsUpdateRequest {
     /** A list of content permission set IDs which control content permissions that will be updated on the content.
 These permissions control content accessibility for the users that do not own the content. */
-    contentPermissionSetIds?: string[] | undefined;
+    contentPermissionSetIds: string[];
 }
 /** Request to transfer the content ownership */
 export interface ContentOwnershipTransferRequest {
@@ -5989,6 +6077,8 @@ export interface CustomerInfo {
     logosUrl: string;
     /** License options and states */
     licenseInformation: LicenseInfo;
+    /** Customer settings */
+    settings: CustomerInfoSettings;
 }
 export interface LanguageConfiguration {
     /** A list of languages serving as system languages. */
@@ -6047,6 +6137,13 @@ export interface StatisticsLicenseState {
     write: boolean;
     /** Allows or prevents export of the respective statistics */
     export: boolean;
+}
+/** Customer settings within customer information */
+export interface CustomerInfoSettings {
+    /** Default expiration time span as number of milliseconds that will be applied as default by the UI when creating a new Share */
+    uiDefaultShareExpirationTime?: number | undefined;
+    /** Prefix to be used for the zip file created when downloading multiple contents */
+    downloadPrefixName: string;
 }
 export interface SystemStatus {
     /** The status of the search indices. */
@@ -6789,9 +6886,19 @@ export interface OutputFormatDownloadFileNamePatternUpdateRequestItem {
 The customer's default language is required. */
     patterns?: TranslatedStringDictionary | undefined;
 }
-export interface OutputFormatSetXmpWritebackStateRequest {
+/** Defines additional settings for XmpWriteback */
+export interface XmpWritebackOptions {
+    /** Defines how data from XmpMappings interacts with unaltered Xmp data contained in originally uploaded file */
+    mergeMode: XmpWritebackMergeMode;
+}
+export interface OutputFormatSetXmpWritebackStateRequest extends XmpWritebackOptions {
     /** Indicates if XMP writeback shall be enabled for the format. */
-    enabled: boolean;
+    enabled?: boolean;
+}
+/** Defines how data from XmpMappings interacts with unaltered Xmp data */
+export declare enum XmpWritebackMergeMode {
+    MappingOnly,
+    MergeWithOriginal
 }
 /** Used to change the state of XMP writeback for multiple output formats at once. */
 export interface OutputFormatSetXmpWritebackStateManyRequest {
@@ -6932,22 +7039,30 @@ export declare enum AlphaHandling {
     ReplaceAlpha,
     ReplaceInvertedAlpha
 }
-/** Base parameters for cropping actions. */
-export interface CropActionBase extends ImageActionBase {
-    /** Width of the cropping rectangle. */
-    width?: number;
-    /** Height of the cropping rectangle. */
-    height?: number;
+/** Parameters for cropping actions. */
+export interface CropActionGeneric extends ImageActionBase {
+    /** Defines position of cropping rectangle. */
+    position?: CropPositionBase | undefined;
+    /** Defines size of cropping rectangle. */
+    size?: CropSizeBase | undefined;
 }
-/** An ImageAction that allows cropping an image. */
-export interface CropAction extends CropActionBase {
+/** Defines position of cropping rectangle. */
+export interface CropPositionBase {
+    kind: string;
+}
+export interface CropOriginAbsolute extends CropPositionBase {
     /** X-Coordinate of top left point of the cropping rectangle. */
     x?: number;
     /** Y-Coordinate of top left point of the cropping rectangle. */
     y?: number;
 }
-/** An ImageAction that allows cropping an image, weighing the cropping rectangle on a gravity. */
-export interface GravityBasedCropAction extends CropActionBase {
+export interface CropCenterRelative extends CropPositionBase {
+    /** Relative horizontal position of center for crop. 0.5 designates the center of the image. */
+    x?: number;
+    /** Relative vertical position of center for crop. 0.5 designates the center of the image. */
+    y?: number;
+}
+export interface CropPositionGravity extends CropPositionBase {
     /** Gravity of the cropping rectangle. */
     gravity?: CropGravity;
 }
@@ -6959,13 +7074,41 @@ export declare enum CropGravity {
     SouthEast,
     South,
     SouthWest,
-    West
+    West,
+    Center
+}
+/** Defines size of cropping rectangle. */
+export interface CropSizeBase {
+    kind: string;
+}
+export interface CropSizeAbsolute extends CropSizeBase {
+    /** Width of the cropping rectangle. */
+    width?: number;
+    /** Height of the cropping rectangle. */
+    height?: number;
+}
+export interface CropSizeRelative extends CropSizeBase {
+    /** Width of the cropping rectangle in range [0, 1]. */
+    width?: number;
+    /** Height of the cropping rectangle in range [0, 1]. */
+    height?: number;
+}
+export interface CropActionAbsoluteSizeBase extends CropActionGeneric {
+    height?: number;
+    width?: number;
+}
+/** An ImageAction that allows cropping an image. */
+export interface CropAction extends CropActionAbsoluteSizeBase {
+    x?: number;
+    y?: number;
+}
+/** An ImageAction that allows cropping an image, weighing the cropping rectangle on a gravity. */
+export interface GravityBasedCropAction extends CropActionAbsoluteSizeBase {
+    gravity?: CropGravity;
 }
 /** An ImageAction that allows cropping an image, positioning the cropping rectangle relative to the width/height of the image. */
-export interface RelativeCropAction extends CropActionBase {
-    /** Relative position of origin point from the left of the image. 0.5 designates the center of the image. */
+export interface RelativeCropAction extends CropActionAbsoluteSizeBase {
     x?: number;
-    /** Relative position of origin point from the top of the image. 0.5 designates the center of the image. */
     y?: number;
 }
 /** Increases sharpness of an image by using the unsharp mask technique. */
@@ -7144,10 +7287,12 @@ export interface OutputFormatEditable extends OutputFormatRenderingSpecification
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
 If set, the customer's default language is required. */
     downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
-    /** Indicates if outputs derived from original output format should be accessible also for users not having AccessOriginal permission on the content. */
+    /** Indicates if outputs of this or derived formats should be accessible also for users not having AccessOriginal permission on the content. */
     viewForAll?: boolean;
     /** Indicates if metadata should be written into XMP header of outputs where applicable and configured. */
     enableXmpWriteback?: boolean;
+    /** Defines additional settings for XmpWriteback */
+    xmpWritebackOptions?: XmpWritebackOptions | undefined;
 }
 /** Represents an output format. */
 export interface OutputFormat extends OutputFormatEditable {
@@ -7424,6 +7569,8 @@ that reference the layer. */
     audit?: UserAuditDetail | undefined;
     /** The number of fields generated by the schema in the search index for filtering, searching and sorting. */
     searchFieldCount?: SearchFieldCount | undefined;
+    /** Metadata protection options. */
+    metadataProtection?: MetadataProtection | undefined;
 }
 /** Represent the template whose value will be resolved based on the actual content. */
 export interface DisplayPattern {
@@ -7811,6 +7958,15 @@ export interface SearchFieldCount {
     /** The number of fields created in the search index to store sorting information for a schema. */
     sortableField: number;
 }
+/** Metadata protection options */
+export interface MetadataProtection {
+    /** Prevent creation of items in ContentSchemas/Lists or assignments of Layers. */
+    preventCreate: boolean;
+    /** Prevent updating metadata associated with schema. */
+    preventUpdate: boolean;
+    /** Prevent deletion of items in ContentSchemas/Lists or unassignments of Layers. */
+    preventDelete: boolean;
+}
 /** Exists response */
 export interface SchemaExistsResponse {
     /** It indicates if it exists. */
@@ -7861,6 +8017,8 @@ must be set to true. Multiple sorting is supported: they are applied in the spec
     /** If the schema if of type Layer, the list contains the schemas with type Content
 that reference the layer. */
     referencedInContentSchemaIds?: string[] | undefined;
+    /** Metadata protection options. */
+    metadataProtection?: MetadataProtection | undefined;
 }
 /** Result of a schema delete operation */
 export interface SchemaDeleteResult {
@@ -7908,6 +8066,8 @@ must be set to true. Multiple sorting is supported: they are applied in the spec
     /** If the schema if of type Layer, the list contains the schemas with type Content
 that reference the layer. */
     referencedInContentSchemaIds?: string[] | undefined;
+    /** Metadata protection options. */
+    metadataProtection?: MetadataProtection | undefined;
 }
 /** Request to create multiple schemas */
 export interface SchemaCreateManyRequest {
@@ -8127,6 +8287,8 @@ export interface ShareOutputBase {
     detail?: OutputDataBase | undefined;
     /** Whether this Output belongs to a dynamic OutputFormat */
     dynamicRendering: boolean;
+    /** The rendering state of the output file. */
+    renderingState: OutputRenderingState;
     kind: string;
 }
 /** Shared output for basic share */
@@ -9217,6 +9379,7 @@ export interface DataDictionary {
 export interface Message {
     id?: string | undefined;
     retries: number;
+    retriesPerformed: number;
     priority: number;
     deduplicate: boolean;
     kind: string;
@@ -9292,6 +9455,11 @@ export interface ApiStatisticsEvent extends ApplicationEvent {
     requestsPerClient?: {
         [key: string]: number;
     } | undefined;
+}
+export interface TrafficStatisticsEvent extends ApplicationEvent {
+    service?: string | undefined;
+    requestSize?: number;
+    responseSize?: number;
 }
 export interface OutputRenderedEvent extends ApplicationEvent {
     outputId?: string | undefined;

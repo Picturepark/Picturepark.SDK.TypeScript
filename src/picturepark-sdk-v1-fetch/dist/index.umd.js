@@ -3768,13 +3768,6 @@
                     return;
                 });
             }
-            else if (status === 400) {
-                return response.text().then((_responseText) => {
-                    let result400 = null;
-                    result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                    return throwException("Validation exception", status, _responseText, _headers, result400);
-                });
-            }
             else if (status === 401) {
                 return response.text().then((_responseText) => {
                     return throwException("Unauthorized", status, _responseText, _headers);
@@ -3816,6 +3809,13 @@
                     let result500 = null;
                     result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
                     return throwException("Internal server error", status, _responseText, _headers, result500);
+                });
+            }
+            else if (status === 400) {
+                return response.text().then((_responseText) => {
+                    let result400 = null;
+                    result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                    return throwException("A server side error occurred.", status, _responseText, _headers, result400);
                 });
             }
             else if (status !== 200 && status !== 204) {
@@ -8883,13 +8883,6 @@
                     return;
                 });
             }
-            else if (status === 400) {
-                return response.text().then((_responseText) => {
-                    let result400 = null;
-                    result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                    return throwException("Validation exception", status, _responseText, _headers, result400);
-                });
-            }
             else if (status === 401) {
                 return response.text().then((_responseText) => {
                     return throwException("Unauthorized", status, _responseText, _headers);
@@ -8931,6 +8924,13 @@
                     let result500 = null;
                     result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
                     return throwException("Internal server error", status, _responseText, _headers, result500);
+                });
+            }
+            else if (status === 400) {
+                return response.text().then((_responseText) => {
+                    let result400 = null;
+                    result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                    return throwException("A server side error occurred.", status, _responseText, _headers, result400);
                 });
             }
             else if (status !== 200 && status !== 204) {
@@ -23542,6 +23542,12 @@
         BusinessRuleExecutionScope[BusinessRuleExecutionScope["MainDoc"] = "MainDoc"] = "MainDoc";
         BusinessRuleExecutionScope[BusinessRuleExecutionScope["SearchDoc"] = "SearchDoc"] = "SearchDoc";
     })(exports.BusinessRuleExecutionScope || (exports.BusinessRuleExecutionScope = {}));
+    /** How a list of values in the condition should be matched during the comparison. */
+    exports.ConditionMatchMode = void 0;
+    (function (ConditionMatchMode) {
+        ConditionMatchMode[ConditionMatchMode["All"] = "All"] = "All";
+        ConditionMatchMode[ConditionMatchMode["Any"] = "Any"] = "Any";
+    })(exports.ConditionMatchMode || (exports.ConditionMatchMode = {}));
     exports.BusinessRuleNumberCompareConditionMode = void 0;
     (function (BusinessRuleNumberCompareConditionMode) {
         BusinessRuleNumberCompareConditionMode[BusinessRuleNumberCompareConditionMode["LessThan"] = "LessThan"] = "LessThan";
@@ -23550,6 +23556,13 @@
         BusinessRuleNumberCompareConditionMode[BusinessRuleNumberCompareConditionMode["GreaterThanEqual"] = "GreaterThanEqual"] = "GreaterThanEqual";
         BusinessRuleNumberCompareConditionMode[BusinessRuleNumberCompareConditionMode["GreaterThan"] = "GreaterThan"] = "GreaterThan";
     })(exports.BusinessRuleNumberCompareConditionMode || (exports.BusinessRuleNumberCompareConditionMode = {}));
+    /** How should happen the match on a lookup cache */
+    exports.LookupItemsMatch = void 0;
+    (function (LookupItemsMatch) {
+        LookupItemsMatch[LookupItemsMatch["Found"] = "Found"] = "Found";
+        LookupItemsMatch[LookupItemsMatch["NotFound"] = "NotFound"] = "NotFound";
+        LookupItemsMatch[LookupItemsMatch["All"] = "All"] = "All";
+    })(exports.LookupItemsMatch || (exports.LookupItemsMatch = {}));
     /** The sort direction */
     exports.SortDirection = void 0;
     (function (SortDirection) {
@@ -23915,6 +23928,12 @@
         EmailNotificationsInterval[EmailNotificationsInterval["QuarterHourly"] = "QuarterHourly"] = "QuarterHourly";
         EmailNotificationsInterval[EmailNotificationsInterval["Off"] = "Off"] = "Off";
     })(exports.EmailNotificationsInterval || (exports.EmailNotificationsInterval = {}));
+    /** Defines how data from XmpMappings interacts with unaltered Xmp data */
+    exports.XmpWritebackMergeMode = void 0;
+    (function (XmpWritebackMergeMode) {
+        XmpWritebackMergeMode[XmpWritebackMergeMode["MappingOnly"] = "MappingOnly"] = "MappingOnly";
+        XmpWritebackMergeMode[XmpWritebackMergeMode["MergeWithOriginal"] = "MergeWithOriginal"] = "MergeWithOriginal";
+    })(exports.XmpWritebackMergeMode || (exports.XmpWritebackMergeMode = {}));
     /** Available color profiles */
     exports.ColorProfile = void 0;
     (function (ColorProfile) {
@@ -23982,6 +24001,7 @@
         CropGravity[CropGravity["South"] = "South"] = "South";
         CropGravity[CropGravity["SouthWest"] = "SouthWest"] = "SouthWest";
         CropGravity[CropGravity["West"] = "West"] = "West";
+        CropGravity[CropGravity["Center"] = "Center"] = "Center";
     })(exports.CropGravity || (exports.CropGravity = {}));
     exports.RotateDirection = void 0;
     (function (RotateDirection) {
