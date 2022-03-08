@@ -1,6 +1,6 @@
 {
-  "name": "@picturepark/sdk",
-  "version": "11.2.0-pre.0",
+  "name": "@picturepark/typescript-sdk",
+  "version": "11.3.0-pre.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Picturepark/Picturepark.SDK.TypeScript.git"

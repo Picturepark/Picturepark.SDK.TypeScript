@@ -7,16 +7,14 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-import { Injector } from '@angular/core';
-import { mergeMap } from 'rxjs/operators';
 import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
-import { PictureparkServiceBase } from './base.service';
-import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
+import { mergeMap as _observableMergeMap, catchError as _observableCatch, mergeMap } from 'rxjs/operators';
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
-import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
+import { Injectable, Inject, Optional, InjectionToken, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import { PictureparkServiceBase } from './base.service';
 
 export const PICTUREPARK_API_URL = new InjectionToken<string>('PICTUREPARK_API_URL');
 
@@ -4151,7 +4149,7 @@ export class ContentService extends PictureparkServiceBase {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  public create(
+  create(
     resolveBehaviors: ContentResolveBehavior[] | null | undefined,
     allowMissingDependencies: boolean | undefined,
     timeout: string | null | undefined,
@@ -4165,47 +4163,44 @@ export class ContentService extends PictureparkServiceBase {
       waitSearchDocCreation,
       contentCreateRequest
     ).pipe(
-      mergeMap(async (content) => {
+      mergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
     );
   }
 
-  public get(
-    contentId: string,
-    resolveBehaviors: ContentResolveBehavior[] | null | undefined
-  ): Observable<ContentDetail> {
+  get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
     return this.getCore(contentId, resolveBehaviors).pipe(
-      mergeMap(async (content) => {
+      mergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
     );
   }
 
-  public getMany(
+  getMany(
     ids: string[] | null,
     resolveBehaviors: ContentResolveBehavior[] | null | undefined
   ): Observable<ContentDetail[]> {
     return this.getManyCore(ids, resolveBehaviors).pipe(
-      mergeMap(async (contents) => {
-        contents.forEach(async (content) => await this.liquidRenderingService.renderNestedDisplayValues(content));
+      mergeMap(async contents => {
+        contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
         return contents;
       })
     );
   }
 
-  public search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
+  search(contentSearchRequest: ContentSearchRequest): Observable<ContentSearchResult> {
     return this.searchCore(contentSearchRequest).pipe(
-      mergeMap(async (searchResult) => {
+      mergeMap(async searchResult => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })
     );
   }
 
-  public updateMetadata(
+  updateMetadata(
     contentId: string,
     resolveBehaviors: ContentResolveBehavior[] | null | undefined,
     allowMissingDependencies: boolean | undefined,
@@ -4221,14 +4216,14 @@ export class ContentService extends PictureparkServiceBase {
       waitSearchDocCreation,
       updateRequest
     ).pipe(
-      mergeMap(async (content) => {
+      mergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
     );
   }
 
-  public updatePermissions(
+  updatePermissions(
     contentId: string,
     resolveBehaviors: ContentResolveBehavior[] | null | undefined,
     timeout: string | null | undefined,
@@ -4236,7 +4231,7 @@ export class ContentService extends PictureparkServiceBase {
     updateRequest: ContentPermissionsUpdateRequest
   ): Observable<ContentDetail> {
     return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
-      mergeMap(async (content) => {
+      mergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
       })
@@ -4412,13 +4407,6 @@ export class ContentService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return _observableOf<void>(<any>null);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -4458,6 +4446,13 @@ export class ContentService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkBusinessException.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -9984,21 +9979,18 @@ export class ListItemService extends PictureparkServiceBase {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  public get(
-    listItemId: string,
-    resolveBehaviors: ListItemResolveBehavior[] | null | undefined
-  ): Observable<ListItemDetail> {
+  get(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
     return this.getCore(listItemId, resolveBehaviors).pipe(
-      mergeMap(async (listItem) => {
+      mergeMap(async listItem => {
         await this.liquidRenderingService.renderNestedDisplayValues(listItem);
         return listItem;
       })
     );
   }
 
-  public search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
+  search(listItemSearchRequest: ListItemSearchRequest): Observable<ListItemSearchResult> {
     return this.searchCore(listItemSearchRequest).pipe(
-      mergeMap(async (searchResult) => {
+      mergeMap(async searchResult => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })
@@ -10302,13 +10294,6 @@ export class ListItemService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return _observableOf<void>(<any>null);
             }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("Unauthorized", status, _responseText, _headers);
@@ -10348,6 +10333,13 @@ export class ListItemService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkBusinessException.fromJS(resultData400);
+            return throwException("A server side error occurred.", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -18635,20 +18627,20 @@ export class ShareService extends PictureparkServiceBase {
     this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
   }
 
-  public get(
+  get(
     id: string | null,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
     contentResolveLimit: number | null | undefined
   ): Observable<ShareDetail> {
     return this.getCore(id, resolveBehaviors, contentResolveLimit).pipe(
-      mergeMap(async (shareDetail) => {
+      mergeMap(async shareDetail => {
         await this.liquidRenderingService.renderNestedDisplayValues(shareDetail);
         return shareDetail;
       })
     );
   }
 
-  public getShareByToken(
+  getShareByToken(
     token: string,
     lang: string | null | undefined,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
@@ -18663,14 +18655,14 @@ export class ShareService extends PictureparkServiceBase {
         contentResolveLimit,
         cdnUrl + '/json/{token}?'
       ).pipe(
-        mergeMap(async (shareJson) => {
+        mergeMap(async shareJson => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
       );
     } else {
       return this.getShareJsonCore(token, lang, resolveBehaviors, contentResolveLimit).pipe(
-        mergeMap(async (shareJson) => {
+        mergeMap(async shareJson => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
@@ -18687,14 +18679,14 @@ export class ShareService extends PictureparkServiceBase {
   ): Observable<ShareContentDetailResult> {
     if (cdnUrl) {
       return this.getShareContentsCoreFromUrl(token, lang, limit, pageToken, cdnUrl + 'json/{token}/contents?').pipe(
-        mergeMap(async (shareJson) => {
+        mergeMap(async shareJson => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
       );
     } else {
       return this.getShareContentsCore(token, lang, limit, pageToken).pipe(
-        mergeMap(async (shareJson) => {
+        mergeMap(async shareJson => {
           await this.liquidRenderingService.renderNestedDisplayValues(shareJson);
           return shareJson;
         })
@@ -18745,12 +18737,12 @@ export class ShareService extends PictureparkServiceBase {
 
     return _observableFrom(this.transformOptions(options_))
       .pipe(
-        _observableMergeMap((transformedOptions_) => {
+        mergeMap(transformedOptions_ => {
           return this.http.request('get', url_, transformedOptions_);
         })
       )
       .pipe(
-        _observableMergeMap((response_: any) => {
+        mergeMap((response_: any) => {
           return this.processGetShareContents(response_);
         })
       )
@@ -18791,7 +18783,7 @@ export class ShareService extends PictureparkServiceBase {
       url_ += 'lang=' + encodeURIComponent('' + lang) + '&';
     }
     if (resolveBehaviors !== undefined && resolveBehaviors !== null) {
-      resolveBehaviors.forEach((item) => {
+      resolveBehaviors.forEach(item => {
         url_ += 'resolveBehaviors=' + encodeURIComponent('' + item) + '&';
       });
     }
@@ -18810,12 +18802,12 @@ export class ShareService extends PictureparkServiceBase {
 
     return _observableFrom(this.transformOptions(options_))
       .pipe(
-        _observableMergeMap((transformedOptions_) => {
+        mergeMap(transformedOptions_ => {
           return this.http.request('get', url_, transformedOptions_);
         })
       )
       .pipe(
-        _observableMergeMap((response_: any) => {
+        mergeMap((response_: any) => {
           return this.processGetShareJson(response_);
         })
       )
@@ -18834,9 +18826,9 @@ export class ShareService extends PictureparkServiceBase {
       );
   }
 
-  public search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
+  search(shareSearchRequest: ShareSearchRequest): Observable<ShareSearchResult> {
     return this.searchCore(shareSearchRequest).pipe(
-      mergeMap(async (searchResult) => {
+      mergeMap(async searchResult => {
         await this.liquidRenderingService.renderNestedDisplayValues(searchResult);
         return searchResult;
       })
@@ -27511,6 +27503,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ReferencesUpdateException") {
+            let result = new ReferencesUpdateException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReferenceUpdateException") {
+            let result = new ReferenceUpdateException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
             let result = new BusinessProcessLifeCycleNotHitException();
             result.init(data);
@@ -27708,6 +27710,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "FormatNotApplicableForRenderingException") {
             let result = new FormatNotApplicableForRenderingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FocalPointCropSizeMissingException") {
+            let result = new FocalPointCropSizeMissingException();
             result.init(data);
             return result;
         }
@@ -28274,6 +28281,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException") {
+            let result = new InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "InvalidMetadataException") {
             let result = new InvalidMetadataException();
             result.init(data);
@@ -28299,16 +28311,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "ReferencesUpdateException") {
-            let result = new ReferencesUpdateException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ReferenceUpdateException") {
-            let result = new ReferenceUpdateException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "DuplicatedItemAssignedException") {
             let result = new DuplicatedItemAssignedException();
             result.init(data);
@@ -28331,6 +28333,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException") {
             let result = new SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemasMetadataProtectionException") {
+            let result = new SchemasMetadataProtectionException();
             result.init(data);
             return result;
         }
@@ -28511,6 +28518,16 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SchemaPermissionConfigurationException") {
             let result = new SchemaPermissionConfigurationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaMetadataProtectionSettingsNotSupportedForStructsException") {
+            let result = new SchemaMetadataProtectionSettingsNotSupportedForStructsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException") {
+            let result = new SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException();
             result.init(data);
             return result;
         }
@@ -28741,11 +28758,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SnapshotFailedException") {
             let result = new SnapshotFailedException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SnapshotSkippedException") {
-            let result = new SnapshotSkippedException();
             result.init(data);
             return result;
         }
@@ -28994,6 +29006,21 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleStringContainsConditionValuesToMatchMissingException") {
+            let result = new BusinessRuleStringContainsConditionValuesToMatchMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException") {
+            let result = new BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleDateMathTransformationTimeSpanInvalidException") {
+            let result = new BusinessRuleDateMathTransformationTimeSpanInvalidException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "NamedCacheConfigurationException") {
             let result = new NamedCacheConfigurationException();
             result.init(data);
@@ -29166,6 +29193,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException") {
             let result = new XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException") {
+            let result = new XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException();
             result.init(data);
             return result;
         }
@@ -29274,6 +29306,16 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ReferencesUpdateException") {
+            let result = new ReferencesUpdateException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ReferenceUpdateException") {
+            let result = new ReferenceUpdateException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "BusinessProcessLifeCycleNotHitException") {
             let result = new BusinessProcessLifeCycleNotHitException();
             result.init(data);
@@ -29471,6 +29513,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "FormatNotApplicableForRenderingException") {
             let result = new FormatNotApplicableForRenderingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FocalPointCropSizeMissingException") {
+            let result = new FocalPointCropSizeMissingException();
             result.init(data);
             return result;
         }
@@ -30037,6 +30084,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException") {
+            let result = new InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "InvalidMetadataException") {
             let result = new InvalidMetadataException();
             result.init(data);
@@ -30062,16 +30114,6 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "ReferencesUpdateException") {
-            let result = new ReferencesUpdateException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "ReferenceUpdateException") {
-            let result = new ReferenceUpdateException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "DuplicatedItemAssignedException") {
             let result = new DuplicatedItemAssignedException();
             result.init(data);
@@ -30094,6 +30136,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException") {
             let result = new SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemasMetadataProtectionException") {
+            let result = new SchemasMetadataProtectionException();
             result.init(data);
             return result;
         }
@@ -30274,6 +30321,16 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SchemaPermissionConfigurationException") {
             let result = new SchemaPermissionConfigurationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaMetadataProtectionSettingsNotSupportedForStructsException") {
+            let result = new SchemaMetadataProtectionSettingsNotSupportedForStructsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException") {
+            let result = new SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException();
             result.init(data);
             return result;
         }
@@ -30504,11 +30561,6 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SnapshotFailedException") {
             let result = new SnapshotFailedException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "SnapshotSkippedException") {
-            let result = new SnapshotSkippedException();
             result.init(data);
             return result;
         }
@@ -30757,6 +30809,21 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleStringContainsConditionValuesToMatchMissingException") {
+            let result = new BusinessRuleStringContainsConditionValuesToMatchMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException") {
+            let result = new BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleDateMathTransformationTimeSpanInvalidException") {
+            let result = new BusinessRuleDateMathTransformationTimeSpanInvalidException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "NamedCacheConfigurationException") {
             let result = new NamedCacheConfigurationException();
             result.init(data);
@@ -30929,6 +30996,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException") {
             let result = new XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException") {
+            let result = new XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException();
             result.init(data);
             return result;
         }
@@ -31129,6 +31201,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "FocalPointCropSizeMissingException") {
+            let result = new FocalPointCropSizeMissingException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DefaultChannelDeleteException") {
             let result = new DefaultChannelDeleteException();
             result.init(data);
@@ -31497,6 +31574,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException") {
+            let result = new InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "InvalidMetadataException") {
             let result = new InvalidMetadataException();
             result.init(data);
@@ -31524,6 +31606,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException") {
             let result = new SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemasMetadataProtectionException") {
+            let result = new SchemasMetadataProtectionException();
             result.init(data);
             return result;
         }
@@ -31694,6 +31781,16 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaPermissionConfigurationException") {
             let result = new SchemaPermissionConfigurationException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaMetadataProtectionSettingsNotSupportedForStructsException") {
+            let result = new SchemaMetadataProtectionSettingsNotSupportedForStructsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException") {
+            let result = new SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException();
             result.init(data);
             return result;
         }
@@ -32097,6 +32194,21 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleStringContainsConditionValuesToMatchMissingException") {
+            let result = new BusinessRuleStringContainsConditionValuesToMatchMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException") {
+            let result = new BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleDateMathTransformationTimeSpanInvalidException") {
+            let result = new BusinessRuleDateMathTransformationTimeSpanInvalidException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "NamedCacheConfigurationException") {
             let result = new NamedCacheConfigurationException();
             result.init(data);
@@ -32234,6 +32346,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException") {
             let result = new XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException") {
+            let result = new XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException();
             result.init(data);
             return result;
         }
@@ -33621,6 +33738,44 @@ export enum RenderingCategory {
     Video = "Video",
     Audio = "Audio",
     Vector = "Vector",
+}
+
+export class FocalPointCropSizeMissingException extends PictureparkValidationException implements IFocalPointCropSizeMissingException {
+    contentId?: string | undefined;
+    focalPointId?: string | undefined;
+
+    constructor(data?: IFocalPointCropSizeMissingException) {
+        super(data);
+        this._discriminator = "FocalPointCropSizeMissingException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.contentId = _data["contentId"];
+            this.focalPointId = _data["focalPointId"];
+        }
+    }
+
+    static fromJS(data: any): FocalPointCropSizeMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new FocalPointCropSizeMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        data["focalPointId"] = this.focalPointId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IFocalPointCropSizeMissingException extends IPictureparkValidationException {
+    contentId?: string | undefined;
+    focalPointId?: string | undefined;
 }
 
 export class ServiceProviderDeleteException extends PictureparkException implements IServiceProviderDeleteException {
@@ -38559,6 +38714,40 @@ export interface IInvalidChangeCommandSchemaChangeInvalidException extends IPict
     schemaId?: string | undefined;
 }
 
+export class InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException extends PictureparkValidationException implements IInvalidContentSchemaForMetadataValuesSchemaRemoveCommandException {
+    schemaId?: string | undefined;
+
+    constructor(data?: IInvalidContentSchemaForMetadataValuesSchemaRemoveCommandException) {
+        super(data);
+        this._discriminator = "InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IInvalidContentSchemaForMetadataValuesSchemaRemoveCommandException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
 export class InvalidMetadataException extends PictureparkValidationException implements IInvalidMetadataException {
     metadataErrors?: MetadataError[] | undefined;
     validationErrors?: PictureparkBusinessException[] | undefined;
@@ -39084,6 +39273,52 @@ export class SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException ext
 
 export interface ISortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException extends IPictureparkValidationException {
     aggregationName?: string | undefined;
+}
+
+export class SchemasMetadataProtectionException extends PictureparkValidationException implements ISchemasMetadataProtectionException {
+    schemaIds?: string[] | undefined;
+    operation?: string | undefined;
+
+    constructor(data?: ISchemasMetadataProtectionException) {
+        super(data);
+        this._discriminator = "SchemasMetadataProtectionException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["schemaIds"])) {
+                this.schemaIds = [] as any;
+                for (let item of _data["schemaIds"])
+                    this.schemaIds!.push(item);
+            }
+            this.operation = _data["operation"];
+        }
+    }
+
+    static fromJS(data: any): SchemasMetadataProtectionException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemasMetadataProtectionException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.schemaIds)) {
+            data["schemaIds"] = [];
+            for (let item of this.schemaIds)
+                data["schemaIds"].push(item);
+        }
+        data["operation"] = this.operation;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemasMetadataProtectionException extends IPictureparkValidationException {
+    schemaIds?: string[] | undefined;
+    operation?: string | undefined;
 }
 
 export class SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException implements ISchemaFieldOverwriteTypeMismatchException {
@@ -40637,6 +40872,74 @@ export class SchemaPermissionConfigurationException extends PictureparkValidatio
 }
 
 export interface ISchemaPermissionConfigurationException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export class SchemaMetadataProtectionSettingsNotSupportedForStructsException extends PictureparkValidationException implements ISchemaMetadataProtectionSettingsNotSupportedForStructsException {
+    schemaId?: string | undefined;
+
+    constructor(data?: ISchemaMetadataProtectionSettingsNotSupportedForStructsException) {
+        super(data);
+        this._discriminator = "SchemaMetadataProtectionSettingsNotSupportedForStructsException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaMetadataProtectionSettingsNotSupportedForStructsException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaMetadataProtectionSettingsNotSupportedForStructsException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaMetadataProtectionSettingsNotSupportedForStructsException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+}
+
+export class SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException extends PictureparkValidationException implements ISchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException {
+    schemaId?: string | undefined;
+
+    constructor(data?: ISchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException) {
+        super(data);
+        this._discriminator = "SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+        }
+    }
+
+    static fromJS(data: any): SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException extends IPictureparkValidationException {
     schemaId?: string | undefined;
 }
 
@@ -42721,34 +43024,6 @@ export class SnapshotFailedException extends PictureparkBusinessException implem
 export interface ISnapshotFailedException extends IPictureparkBusinessException {
 }
 
-export class SnapshotSkippedException extends PictureparkBusinessException implements ISnapshotSkippedException {
-
-    constructor(data?: ISnapshotSkippedException) {
-        super(data);
-        this._discriminator = "SnapshotSkippedException";
-    }
-
-    init(_data?: any) {
-        super.init(_data);
-    }
-
-    static fromJS(data: any): SnapshotSkippedException {
-        data = typeof data === 'object' ? data : {};
-        let result = new SnapshotSkippedException();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data; 
-    }
-}
-
-export interface ISnapshotSkippedException extends IPictureparkBusinessException {
-}
-
 export class AddMetadataLanguageTimeoutException extends PictureparkTimeoutException implements IAddMetadataLanguageTimeoutException {
     environmentProcessId?: string | undefined;
 
@@ -44491,6 +44766,96 @@ export class BusinessRuleScheduleRulesMissingException extends PictureparkValida
 export interface IBusinessRuleScheduleRulesMissingException extends IPictureparkValidationException {
 }
 
+export class BusinessRuleStringContainsConditionValuesToMatchMissingException extends PictureparkValidationException implements IBusinessRuleStringContainsConditionValuesToMatchMissingException {
+
+    constructor(data?: IBusinessRuleStringContainsConditionValuesToMatchMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleStringContainsConditionValuesToMatchMissingException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): BusinessRuleStringContainsConditionValuesToMatchMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleStringContainsConditionValuesToMatchMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleStringContainsConditionValuesToMatchMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException extends PictureparkValidationException implements IBusinessRuleUserInUserRolesConditionUserRoleIdsMissingException {
+
+    constructor(data?: IBusinessRuleUserInUserRolesConditionUserRoleIdsMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+    }
+
+    static fromJS(data: any): BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleUserInUserRolesConditionUserRoleIdsMissingException extends IPictureparkValidationException {
+}
+
+export class BusinessRuleDateMathTransformationTimeSpanInvalidException extends PictureparkValidationException implements IBusinessRuleDateMathTransformationTimeSpanInvalidException {
+    timeSpan?: string | undefined;
+
+    constructor(data?: IBusinessRuleDateMathTransformationTimeSpanInvalidException) {
+        super(data);
+        this._discriminator = "BusinessRuleDateMathTransformationTimeSpanInvalidException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.timeSpan = _data["timeSpan"];
+        }
+    }
+
+    static fromJS(data: any): BusinessRuleDateMathTransformationTimeSpanInvalidException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleDateMathTransformationTimeSpanInvalidException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["timeSpan"] = this.timeSpan;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IBusinessRuleDateMathTransformationTimeSpanInvalidException extends IPictureparkValidationException {
+    timeSpan?: string | undefined;
+}
+
 export class NamedCacheConfigurationException extends PictureparkValidationException implements INamedCacheConfigurationException {
     innerExceptions?: PictureparkValidationException[] | undefined;
 
@@ -45713,6 +46078,40 @@ export class XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException extends
 }
 
 export interface IXmpMappingFieldToLayerWithRequiredFieldsNotAllowedException extends IPictureparkValidationException {
+    layerId?: string | undefined;
+}
+
+export class XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException extends PictureparkValidationException implements IXmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException {
+    layerId?: string | undefined;
+
+    constructor(data?: IXmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException) {
+        super(data);
+        this._discriminator = "XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.layerId = _data["layerId"];
+        }
+    }
+
+    static fromJS(data: any): XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["layerId"] = this.layerId;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IXmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException extends IPictureparkValidationException {
     layerId?: string | undefined;
 }
 
@@ -48977,6 +49376,10 @@ export interface IBusinessRuleConfigurable extends IBusinessRule {
 export abstract class BusinessRuleCondition implements IBusinessRuleCondition {
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific condition names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific condition description. */
+    description?: TranslatedStringDictionary | undefined;
 
     protected _discriminator: string;
 
@@ -48986,6 +49389,8 @@ export abstract class BusinessRuleCondition implements IBusinessRuleCondition {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.description = data.description && !(<any>data.description).toJSON ? new TranslatedStringDictionary(data.description) : <TranslatedStringDictionary>this.description; 
         }
         this._discriminator = "BusinessRuleCondition";
     }
@@ -48993,6 +49398,8 @@ export abstract class BusinessRuleCondition implements IBusinessRuleCondition {
     init(_data?: any) {
         if (_data) {
             this.traceRefId = _data["traceRefId"];
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
+            this.description = _data["description"] ? TranslatedStringDictionary.fromJS(_data["description"]) : <any>undefined;
         }
     }
 
@@ -49038,6 +49445,16 @@ export abstract class BusinessRuleCondition implements IBusinessRuleCondition {
         }
         if (data["kind"] === "MatchRegexCondition") {
             let result = new MatchRegexCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "StringContainsCondition") {
+            let result = new StringContainsCondition();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserInUserRolesCondition") {
+            let result = new UserInUserRolesCondition();
             result.init(data);
             return result;
         }
@@ -49113,6 +49530,8 @@ export abstract class BusinessRuleCondition implements IBusinessRuleCondition {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
         data["traceRefId"] = this.traceRefId;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["description"] = this.description ? this.description.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -49121,6 +49540,10 @@ export abstract class BusinessRuleCondition implements IBusinessRuleCondition {
 export interface IBusinessRuleCondition {
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific condition names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Language specific condition description. */
+    description?: ITranslatedStringDictionary | undefined;
 }
 
 /** Links multiple conditions with a boolean operator */
@@ -49481,6 +49904,140 @@ export interface IMatchRegexCondition extends IBusinessRuleCondition {
     regex?: string | undefined;
     /** Optional variable name to store the matched regex groups in */
     storeIn?: string | undefined;
+}
+
+/** Matches when a field matching the field path string (JSON Path) changes and matches one of the specified values in ValuesToMatch */
+export class StringContainsCondition extends BusinessRuleCondition implements IStringContainsCondition {
+    /** JSON path to the field. */
+    fieldPath?: string | undefined;
+    /** A list of string value that will checked if at least one of them is contained in the string value identified by the FieldPath. */
+    valuesToMatch?: string[] | undefined;
+    /** Optional value to be stored in the variable identified by StoreIn. It can be simple value or a complex object. */
+    valueToStore?: any | undefined;
+    /** Decide if the StringContains condition should be processed case sensitive. */
+    caseSensitive?: boolean;
+    /** Optional variable name to store the ValueToStore in */
+    storeIn?: string | undefined;
+
+    constructor(data?: IStringContainsCondition) {
+        super(data);
+        this._discriminator = "StringContainsCondition";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fieldPath = _data["fieldPath"];
+            if (Array.isArray(_data["valuesToMatch"])) {
+                this.valuesToMatch = [] as any;
+                for (let item of _data["valuesToMatch"])
+                    this.valuesToMatch!.push(item);
+            }
+            this.valueToStore = _data["valueToStore"];
+            this.caseSensitive = _data["caseSensitive"];
+            this.storeIn = _data["storeIn"];
+        }
+    }
+
+    static fromJS(data: any): StringContainsCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new StringContainsCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldPath"] = this.fieldPath;
+        if (Array.isArray(this.valuesToMatch)) {
+            data["valuesToMatch"] = [];
+            for (let item of this.valuesToMatch)
+                data["valuesToMatch"].push(item);
+        }
+        data["valueToStore"] = this.valueToStore;
+        data["caseSensitive"] = this.caseSensitive;
+        data["storeIn"] = this.storeIn;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Matches when a field matching the field path string (JSON Path) changes and matches one of the specified values in ValuesToMatch */
+export interface IStringContainsCondition extends IBusinessRuleCondition {
+    /** JSON path to the field. */
+    fieldPath?: string | undefined;
+    /** A list of string value that will checked if at least one of them is contained in the string value identified by the FieldPath. */
+    valuesToMatch?: string[] | undefined;
+    /** Optional value to be stored in the variable identified by StoreIn. It can be simple value or a complex object. */
+    valueToStore?: any | undefined;
+    /** Decide if the StringContains condition should be processed case sensitive. */
+    caseSensitive?: boolean;
+    /** Optional variable name to store the ValueToStore in */
+    storeIn?: string | undefined;
+}
+
+/** Matches when one or all the user roles specified in UserRoleIds are assigned to the user retrieved from the path UserIdPath */
+export class UserInUserRolesCondition extends BusinessRuleCondition implements IUserInUserRolesCondition {
+    /** JSON path to the field containing the id of the user that needs to be checked. */
+    userIdPath?: string | undefined;
+    /** A static list of user role ids that will checked: depending on MatchMode all the user roles or only one of them must be assigned to the user. */
+    userRoleIds?: string[] | undefined;
+    /** Decide if all the user roles must be assigned to the user or only one of them. */
+    matchMode?: ConditionMatchMode;
+
+    constructor(data?: IUserInUserRolesCondition) {
+        super(data);
+        this._discriminator = "UserInUserRolesCondition";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.userIdPath = _data["userIdPath"];
+            if (Array.isArray(_data["userRoleIds"])) {
+                this.userRoleIds = [] as any;
+                for (let item of _data["userRoleIds"])
+                    this.userRoleIds!.push(item);
+            }
+            this.matchMode = _data["matchMode"];
+        }
+    }
+
+    static fromJS(data: any): UserInUserRolesCondition {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserInUserRolesCondition();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userIdPath"] = this.userIdPath;
+        if (Array.isArray(this.userRoleIds)) {
+            data["userRoleIds"] = [];
+            for (let item of this.userRoleIds)
+                data["userRoleIds"].push(item);
+        }
+        data["matchMode"] = this.matchMode;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Matches when one or all the user roles specified in UserRoleIds are assigned to the user retrieved from the path UserIdPath */
+export interface IUserInUserRolesCondition extends IBusinessRuleCondition {
+    /** JSON path to the field containing the id of the user that needs to be checked. */
+    userIdPath?: string | undefined;
+    /** A static list of user role ids that will checked: depending on MatchMode all the user roles or only one of them must be assigned to the user. */
+    userRoleIds?: string[] | undefined;
+    /** Decide if all the user roles must be assigned to the user or only one of them. */
+    matchMode?: ConditionMatchMode;
+}
+
+/** How a list of values in the condition should be matched during the comparison. */
+export enum ConditionMatchMode {
+    All = "All",
+    Any = "Any",
 }
 
 /** Matches when a tag in a tagbox matching the field path string (JSON path) is newly assigned. */
@@ -49932,6 +50489,10 @@ export interface IContentRelationItemsChangedCondition extends IBusinessRuleCond
 
 /** Matches whenever the assigned layers of a content changed. */
 export class LayersChangedCondition extends BusinessRuleCondition implements ILayersChangedCondition {
+    /** Optional list of layer schema ids that must be added during the current content update operation in order for the condition to match. */
+    addedLayerIds?: string[] | undefined;
+    /** Optional list of layer schema ids that must be removed during the current content update operation in order for the condition to match. */
+    removedLayerIds?: string[] | undefined;
 
     constructor(data?: ILayersChangedCondition) {
         super(data);
@@ -49940,6 +50501,18 @@ export class LayersChangedCondition extends BusinessRuleCondition implements ILa
 
     init(_data?: any) {
         super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["addedLayerIds"])) {
+                this.addedLayerIds = [] as any;
+                for (let item of _data["addedLayerIds"])
+                    this.addedLayerIds!.push(item);
+            }
+            if (Array.isArray(_data["removedLayerIds"])) {
+                this.removedLayerIds = [] as any;
+                for (let item of _data["removedLayerIds"])
+                    this.removedLayerIds!.push(item);
+            }
+        }
     }
 
     static fromJS(data: any): LayersChangedCondition {
@@ -49951,6 +50524,16 @@ export class LayersChangedCondition extends BusinessRuleCondition implements ILa
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.addedLayerIds)) {
+            data["addedLayerIds"] = [];
+            for (let item of this.addedLayerIds)
+                data["addedLayerIds"].push(item);
+        }
+        if (Array.isArray(this.removedLayerIds)) {
+            data["removedLayerIds"] = [];
+            for (let item of this.removedLayerIds)
+                data["removedLayerIds"].push(item);
+        }
         super.toJSON(data);
         return data; 
     }
@@ -49958,6 +50541,10 @@ export class LayersChangedCondition extends BusinessRuleCondition implements ILa
 
 /** Matches whenever the assigned layers of a content changed. */
 export interface ILayersChangedCondition extends IBusinessRuleCondition {
+    /** Optional list of layer schema ids that must be added during the current content update operation in order for the condition to match. */
+    addedLayerIds?: string[] | undefined;
+    /** Optional list of layer schema ids that must be removed during the current content update operation in order for the condition to match. */
+    removedLayerIds?: string[] | undefined;
 }
 
 /** Matches whenever the assigned item(s) in a tagbox changed. */
@@ -50084,6 +50671,10 @@ export class BusinessRuleTransformationGroup implements IBusinessRuleTransformat
     storeIn?: string | undefined;
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific transformation group names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific transformation group description. */
+    description?: TranslatedStringDictionary | undefined;
 
     constructor(data?: IBusinessRuleTransformationGroup) {
         if (data) {
@@ -50091,6 +50682,8 @@ export class BusinessRuleTransformationGroup implements IBusinessRuleTransformat
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.description = data.description && !(<any>data.description).toJSON ? new TranslatedStringDictionary(data.description) : <TranslatedStringDictionary>this.description; 
         }
     }
 
@@ -50108,6 +50701,8 @@ export class BusinessRuleTransformationGroup implements IBusinessRuleTransformat
             }
             this.storeIn = _data["storeIn"];
             this.traceRefId = _data["traceRefId"];
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
+            this.description = _data["description"] ? TranslatedStringDictionary.fromJS(_data["description"]) : <any>undefined;
         }
     }
 
@@ -50132,6 +50727,8 @@ export class BusinessRuleTransformationGroup implements IBusinessRuleTransformat
         }
         data["storeIn"] = this.storeIn;
         data["traceRefId"] = this.traceRefId;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["description"] = this.description ? this.description.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -50146,12 +50743,20 @@ export interface IBusinessRuleTransformationGroup {
     storeIn?: string | undefined;
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific transformation group names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Language specific transformation group description. */
+    description?: ITranslatedStringDictionary | undefined;
 }
 
 /** Business rule transformation */
 export abstract class BusinessRuleTransformation implements IBusinessRuleTransformation {
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific transformation names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific transformation description. */
+    description?: TranslatedStringDictionary | undefined;
 
     protected _discriminator: string;
 
@@ -50161,6 +50766,8 @@ export abstract class BusinessRuleTransformation implements IBusinessRuleTransfo
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.description = data.description && !(<any>data.description).toJSON ? new TranslatedStringDictionary(data.description) : <TranslatedStringDictionary>this.description; 
         }
         this._discriminator = "BusinessRuleTransformation";
     }
@@ -50168,6 +50775,8 @@ export abstract class BusinessRuleTransformation implements IBusinessRuleTransfo
     init(_data?: any) {
         if (_data) {
             this.traceRefId = _data["traceRefId"];
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
+            this.description = _data["description"] ? TranslatedStringDictionary.fromJS(_data["description"]) : <any>undefined;
         }
     }
 
@@ -50208,6 +50817,11 @@ export abstract class BusinessRuleTransformation implements IBusinessRuleTransfo
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DateMathTransformation") {
+            let result = new DateMathTransformation();
+            result.init(data);
+            return result;
+        }
         throw new Error("The abstract class 'BusinessRuleTransformation' cannot be instantiated.");
     }
 
@@ -50215,6 +50829,8 @@ export abstract class BusinessRuleTransformation implements IBusinessRuleTransfo
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
         data["traceRefId"] = this.traceRefId;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["description"] = this.description ? this.description.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -50223,6 +50839,10 @@ export abstract class BusinessRuleTransformation implements IBusinessRuleTransfo
 export interface IBusinessRuleTransformation {
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific transformation names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Language specific transformation description. */
+    description?: ITranslatedStringDictionary | undefined;
 }
 
 /** Takes an item from a dictionary by its key. */
@@ -50343,6 +50963,11 @@ export interface IJoinByTransformation extends IBusinessRuleTransformation {
 export class LookupCacheTransformation extends BusinessRuleTransformation implements ILookupCacheTransformation {
     /** Name of the cache to use. */
     namedCache?: string | undefined;
+    /** Choose what should be returned.
+Found: return the value of the found item in the lookup cache, null if not found.
+NotFound: return the input key value of the not found item, null if found.
+All: return the value of the found item in the lookup cache or the input key value of the not found item. */
+    lookupReturnedItems?: LookupItemsMatch;
 
     constructor(data?: ILookupCacheTransformation) {
         super(data);
@@ -50353,6 +50978,7 @@ export class LookupCacheTransformation extends BusinessRuleTransformation implem
         super.init(_data);
         if (_data) {
             this.namedCache = _data["namedCache"];
+            this.lookupReturnedItems = _data["lookupReturnedItems"];
         }
     }
 
@@ -50366,6 +50992,7 @@ export class LookupCacheTransformation extends BusinessRuleTransformation implem
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["namedCache"] = this.namedCache;
+        data["lookupReturnedItems"] = this.lookupReturnedItems;
         super.toJSON(data);
         return data; 
     }
@@ -50375,6 +51002,18 @@ export class LookupCacheTransformation extends BusinessRuleTransformation implem
 export interface ILookupCacheTransformation extends IBusinessRuleTransformation {
     /** Name of the cache to use. */
     namedCache?: string | undefined;
+    /** Choose what should be returned.
+Found: return the value of the found item in the lookup cache, null if not found.
+NotFound: return the input key value of the not found item, null if found.
+All: return the value of the found item in the lookup cache or the input key value of the not found item. */
+    lookupReturnedItems?: LookupItemsMatch;
+}
+
+/** How should happen the match on a lookup cache */
+export enum LookupItemsMatch {
+    Found = "Found",
+    NotFound = "NotFound",
+    All = "All",
 }
 
 /** Produces N-grams based on splitting a text on whitespace characters. Removes punctuation as well. */
@@ -50525,10 +51164,52 @@ export interface ISplitTransformation extends IBusinessRuleTransformation {
     trim?: boolean;
 }
 
+/** Add / remove a time span to a date time */
+export class DateMathTransformation extends BusinessRuleTransformation implements IDateMathTransformation {
+    /** String representation of a time span. */
+    timeSpan?: string | undefined;
+
+    constructor(data?: IDateMathTransformation) {
+        super(data);
+        this._discriminator = "DateMathTransformation";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.timeSpan = _data["timeSpan"];
+        }
+    }
+
+    static fromJS(data: any): DateMathTransformation {
+        data = typeof data === 'object' ? data : {};
+        let result = new DateMathTransformation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["timeSpan"] = this.timeSpan;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Add / remove a time span to a date time */
+export interface IDateMathTransformation extends IBusinessRuleTransformation {
+    /** String representation of a time span. */
+    timeSpan?: string | undefined;
+}
+
 /** Action to be performed by a business rule */
 export abstract class BusinessRuleAction implements IBusinessRuleAction {
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific action names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** Language specific action description. */
+    description?: TranslatedStringDictionary | undefined;
 
     protected _discriminator: string;
 
@@ -50538,6 +51219,8 @@ export abstract class BusinessRuleAction implements IBusinessRuleAction {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
+            this.description = data.description && !(<any>data.description).toJSON ? new TranslatedStringDictionary(data.description) : <TranslatedStringDictionary>this.description; 
         }
         this._discriminator = "BusinessRuleAction";
     }
@@ -50545,6 +51228,8 @@ export abstract class BusinessRuleAction implements IBusinessRuleAction {
     init(_data?: any) {
         if (_data) {
             this.traceRefId = _data["traceRefId"];
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
+            this.description = _data["description"] ? TranslatedStringDictionary.fromJS(_data["description"]) : <any>undefined;
         }
     }
 
@@ -50617,6 +51302,8 @@ export abstract class BusinessRuleAction implements IBusinessRuleAction {
         data = typeof data === 'object' ? data : {};
         data["kind"] = this._discriminator; 
         data["traceRefId"] = this.traceRefId;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["description"] = this.description ? this.description.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -50625,6 +51312,10 @@ export abstract class BusinessRuleAction implements IBusinessRuleAction {
 export interface IBusinessRuleAction {
     /** Optional trace log reference ID set by the system when EnableTracing is set to true on the associated rule. */
     traceRefId?: string | undefined;
+    /** Language specific action names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** Language specific action description. */
+    description?: ITranslatedStringDictionary | undefined;
 }
 
 /** Assigns a layer, adding the default values to the data dictionary */
@@ -57387,7 +58078,7 @@ export enum UpdateOption {
 export class ContentPermissionsUpdateRequest implements IContentPermissionsUpdateRequest {
     /** A list of content permission set IDs which control content permissions that will be updated on the content.
 These permissions control content accessibility for the users that do not own the content. */
-    contentPermissionSetIds?: string[] | undefined;
+    contentPermissionSetIds!: string[];
 
     constructor(data?: IContentPermissionsUpdateRequest) {
         if (data) {
@@ -57395,6 +58086,9 @@ These permissions control content accessibility for the users that do not own th
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+        }
+        if (!data) {
+            this.contentPermissionSetIds = [];
         }
     }
 
@@ -57430,7 +58124,7 @@ These permissions control content accessibility for the users that do not own th
 export interface IContentPermissionsUpdateRequest {
     /** A list of content permission set IDs which control content permissions that will be updated on the content.
 These permissions control content accessibility for the users that do not own the content. */
-    contentPermissionSetIds?: string[] | undefined;
+    contentPermissionSetIds: string[];
 }
 
 /** Request to transfer the content ownership */
@@ -62029,6 +62723,8 @@ export class CustomerInfo implements ICustomerInfo {
     logosUrl!: string;
     /** License options and states */
     licenseInformation!: LicenseInfo;
+    /** Customer settings */
+    settings!: CustomerInfoSettings;
 
     constructor(data?: ICustomerInfo) {
         if (data) {
@@ -62059,6 +62755,7 @@ export class CustomerInfo implements ICustomerInfo {
                 }
             }
             this.licenseInformation = data.licenseInformation && !(<any>data.licenseInformation).toJSON ? new LicenseInfo(data.licenseInformation) : <LicenseInfo>this.licenseInformation; 
+            this.settings = data.settings && !(<any>data.settings).toJSON ? new CustomerInfoSettings(data.settings) : <CustomerInfoSettings>this.settings; 
         }
         if (!data) {
             this.languageConfiguration = new LanguageConfigurationInfo();
@@ -62066,6 +62763,7 @@ export class CustomerInfo implements ICustomerInfo {
             this.outputFormats = [];
             this.boostValues = [];
             this.licenseInformation = new LicenseInfo();
+            this.settings = new CustomerInfoSettings();
         }
     }
 
@@ -62102,6 +62800,7 @@ export class CustomerInfo implements ICustomerInfo {
             this.baseUrl = _data["baseUrl"];
             this.logosUrl = _data["logosUrl"];
             this.licenseInformation = _data["licenseInformation"] ? LicenseInfo.fromJS(_data["licenseInformation"]) : new LicenseInfo();
+            this.settings = _data["settings"] ? CustomerInfoSettings.fromJS(_data["settings"]) : new CustomerInfoSettings();
         }
     }
 
@@ -62145,6 +62844,7 @@ export class CustomerInfo implements ICustomerInfo {
         data["baseUrl"] = this.baseUrl;
         data["logosUrl"] = this.logosUrl;
         data["licenseInformation"] = this.licenseInformation ? this.licenseInformation.toJSON() : <any>undefined;
+        data["settings"] = this.settings ? this.settings.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -62180,6 +62880,8 @@ export interface ICustomerInfo {
     logosUrl: string;
     /** License options and states */
     licenseInformation: ILicenseInfo;
+    /** Customer settings */
+    settings: ICustomerInfoSettings;
 }
 
 export class LanguageConfiguration implements ILanguageConfiguration {
@@ -62572,6 +63274,52 @@ export interface IStatisticsLicenseState {
     write: boolean;
     /** Allows or prevents export of the respective statistics */
     export: boolean;
+}
+
+/** Customer settings within customer information */
+export class CustomerInfoSettings implements ICustomerInfoSettings {
+    /** Default expiration time span as number of milliseconds that will be applied as default by the UI when creating a new Share */
+    uiDefaultShareExpirationTime?: number | undefined;
+    /** Prefix to be used for the zip file created when downloading multiple contents */
+    downloadPrefixName!: string;
+
+    constructor(data?: ICustomerInfoSettings) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.uiDefaultShareExpirationTime = _data["uiDefaultShareExpirationTime"];
+            this.downloadPrefixName = _data["downloadPrefixName"];
+        }
+    }
+
+    static fromJS(data: any): CustomerInfoSettings {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerInfoSettings();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["uiDefaultShareExpirationTime"] = this.uiDefaultShareExpirationTime;
+        data["downloadPrefixName"] = this.downloadPrefixName;
+        return data; 
+    }
+}
+
+/** Customer settings within customer information */
+export interface ICustomerInfoSettings {
+    /** Default expiration time span as number of milliseconds that will be applied as default by the UI when creating a new Share */
+    uiDefaultShareExpirationTime?: number | undefined;
+    /** Prefix to be used for the zip file created when downloading multiple contents */
+    downloadPrefixName: string;
 }
 
 export class SystemStatus implements ISystemStatus {
@@ -66928,11 +67676,12 @@ The customer's default language is required. */
     patterns?: ITranslatedStringDictionary | undefined;
 }
 
-export class OutputFormatSetXmpWritebackStateRequest implements IOutputFormatSetXmpWritebackStateRequest {
-    /** Indicates if XMP writeback shall be enabled for the format. */
-    enabled!: boolean;
+/** Defines additional settings for XmpWriteback */
+export class XmpWritebackOptions implements IXmpWritebackOptions {
+    /** Defines how data from XmpMappings interacts with unaltered Xmp data contained in originally uploaded file */
+    mergeMode!: XmpWritebackMergeMode;
 
-    constructor(data?: IOutputFormatSetXmpWritebackStateRequest) {
+    constructor(data?: IXmpWritebackOptions) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -66942,6 +67691,41 @@ export class OutputFormatSetXmpWritebackStateRequest implements IOutputFormatSet
     }
 
     init(_data?: any) {
+        if (_data) {
+            this.mergeMode = _data["mergeMode"];
+        }
+    }
+
+    static fromJS(data: any): XmpWritebackOptions {
+        data = typeof data === 'object' ? data : {};
+        let result = new XmpWritebackOptions();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["mergeMode"] = this.mergeMode;
+        return data; 
+    }
+}
+
+/** Defines additional settings for XmpWriteback */
+export interface IXmpWritebackOptions {
+    /** Defines how data from XmpMappings interacts with unaltered Xmp data contained in originally uploaded file */
+    mergeMode: XmpWritebackMergeMode;
+}
+
+export class OutputFormatSetXmpWritebackStateRequest extends XmpWritebackOptions implements IOutputFormatSetXmpWritebackStateRequest {
+    /** Indicates if XMP writeback shall be enabled for the format. */
+    enabled?: boolean;
+
+    constructor(data?: IOutputFormatSetXmpWritebackStateRequest) {
+        super(data);
+    }
+
+    init(_data?: any) {
+        super.init(_data);
         if (_data) {
             this.enabled = _data["enabled"];
         }
@@ -66957,13 +67741,20 @@ export class OutputFormatSetXmpWritebackStateRequest implements IOutputFormatSet
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["enabled"] = this.enabled;
+        super.toJSON(data);
         return data; 
     }
 }
 
-export interface IOutputFormatSetXmpWritebackStateRequest {
+export interface IOutputFormatSetXmpWritebackStateRequest extends IXmpWritebackOptions {
     /** Indicates if XMP writeback shall be enabled for the format. */
-    enabled: boolean;
+    enabled?: boolean;
+}
+
+/** Defines how data from XmpMappings interacts with unaltered Xmp data */
+export enum XmpWritebackMergeMode {
+    MappingOnly = "MappingOnly",
+    MergeWithOriginal = "MergeWithOriginal",
 }
 
 /** Used to change the state of XMP writeback for multiple output formats at once. */
@@ -67732,8 +68523,13 @@ export abstract class ImageActionBase implements IImageActionBase {
             result.init(data);
             return result;
         }
-        if (data["kind"] === "CropActionBase") {
-            throw new Error("The abstract class 'CropActionBase' cannot be instantiated.");
+        if (data["kind"] === "CropActionGeneric") {
+            let result = new CropActionGeneric();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "CropActionAbsoluteSizeBase") {
+            throw new Error("The abstract class 'CropActionAbsoluteSizeBase' cannot be instantiated.");
         }
         if (data["kind"] === "CropAction") {
             let result = new CropAction();
@@ -67829,16 +68625,302 @@ export enum AlphaHandling {
     ReplaceInvertedAlpha = "ReplaceInvertedAlpha",
 }
 
-/** Base parameters for cropping actions. */
-export abstract class CropActionBase extends ImageActionBase implements ICropActionBase {
+/** Parameters for cropping actions. */
+export class CropActionGeneric extends ImageActionBase implements ICropActionGeneric {
+    /** Defines position of cropping rectangle. */
+    position?: CropPositionBase | undefined;
+    /** Defines size of cropping rectangle. */
+    size?: CropSizeBase | undefined;
+
+    constructor(data?: ICropActionGeneric) {
+        super(data);
+        this._discriminator = "CropActionGeneric";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.position = _data["position"] ? CropPositionBase.fromJS(_data["position"]) : <any>undefined;
+            this.size = _data["size"] ? CropSizeBase.fromJS(_data["size"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): CropActionGeneric {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "CropActionAbsoluteSizeBase") {
+            throw new Error("The abstract class 'CropActionAbsoluteSizeBase' cannot be instantiated.");
+        }
+        if (data["kind"] === "CropAction") {
+            let result = new CropAction();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "GravityBasedCropAction") {
+            let result = new GravityBasedCropAction();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "RelativeCropAction") {
+            let result = new RelativeCropAction();
+            result.init(data);
+            return result;
+        }
+        let result = new CropActionGeneric();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["position"] = this.position ? this.position.toJSON() : <any>undefined;
+        data["size"] = this.size ? this.size.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+/** Parameters for cropping actions. */
+export interface ICropActionGeneric extends IImageActionBase {
+    /** Defines position of cropping rectangle. */
+    position?: CropPositionBase | undefined;
+    /** Defines size of cropping rectangle. */
+    size?: CropSizeBase | undefined;
+}
+
+/** Defines position of cropping rectangle. */
+export abstract class CropPositionBase implements ICropPositionBase {
+
+    protected _discriminator: string;
+
+    constructor(data?: ICropPositionBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "CropPositionBase";
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): CropPositionBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "CropOriginAbsolute") {
+            let result = new CropOriginAbsolute();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "CropCenterRelative") {
+            let result = new CropCenterRelative();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "CropPositionGravity") {
+            let result = new CropPositionGravity();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'CropPositionBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+/** Defines position of cropping rectangle. */
+export interface ICropPositionBase {
+}
+
+export class CropOriginAbsolute extends CropPositionBase implements ICropOriginAbsolute {
+    /** X-Coordinate of top left point of the cropping rectangle. */
+    x?: number;
+    /** Y-Coordinate of top left point of the cropping rectangle. */
+    y?: number;
+
+    constructor(data?: ICropOriginAbsolute) {
+        super(data);
+        this._discriminator = "CropOriginAbsolute";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.x = _data["x"];
+            this.y = _data["y"];
+        }
+    }
+
+    static fromJS(data: any): CropOriginAbsolute {
+        data = typeof data === 'object' ? data : {};
+        let result = new CropOriginAbsolute();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["x"] = this.x;
+        data["y"] = this.y;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ICropOriginAbsolute extends ICropPositionBase {
+    /** X-Coordinate of top left point of the cropping rectangle. */
+    x?: number;
+    /** Y-Coordinate of top left point of the cropping rectangle. */
+    y?: number;
+}
+
+export class CropCenterRelative extends CropPositionBase implements ICropCenterRelative {
+    /** Relative horizontal position of center for crop. 0.5 designates the center of the image. */
+    x?: number;
+    /** Relative vertical position of center for crop. 0.5 designates the center of the image. */
+    y?: number;
+
+    constructor(data?: ICropCenterRelative) {
+        super(data);
+        this._discriminator = "CropCenterRelative";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.x = _data["x"];
+            this.y = _data["y"];
+        }
+    }
+
+    static fromJS(data: any): CropCenterRelative {
+        data = typeof data === 'object' ? data : {};
+        let result = new CropCenterRelative();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["x"] = this.x;
+        data["y"] = this.y;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ICropCenterRelative extends ICropPositionBase {
+    /** Relative horizontal position of center for crop. 0.5 designates the center of the image. */
+    x?: number;
+    /** Relative vertical position of center for crop. 0.5 designates the center of the image. */
+    y?: number;
+}
+
+export class CropPositionGravity extends CropPositionBase implements ICropPositionGravity {
+    /** Gravity of the cropping rectangle. */
+    gravity?: CropGravity;
+
+    constructor(data?: ICropPositionGravity) {
+        super(data);
+        this._discriminator = "CropPositionGravity";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.gravity = _data["gravity"];
+        }
+    }
+
+    static fromJS(data: any): CropPositionGravity {
+        data = typeof data === 'object' ? data : {};
+        let result = new CropPositionGravity();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["gravity"] = this.gravity;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ICropPositionGravity extends ICropPositionBase {
+    /** Gravity of the cropping rectangle. */
+    gravity?: CropGravity;
+}
+
+export enum CropGravity {
+    NorthWest = "NorthWest",
+    North = "North",
+    NorthEast = "NorthEast",
+    East = "East",
+    SouthEast = "SouthEast",
+    South = "South",
+    SouthWest = "SouthWest",
+    West = "West",
+    Center = "Center",
+}
+
+/** Defines size of cropping rectangle. */
+export abstract class CropSizeBase implements ICropSizeBase {
+
+    protected _discriminator: string;
+
+    constructor(data?: ICropSizeBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "CropSizeBase";
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): CropSizeBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "CropSizeAbsolute") {
+            let result = new CropSizeAbsolute();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "CropSizeRelative") {
+            let result = new CropSizeRelative();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'CropSizeBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator; 
+        return data; 
+    }
+}
+
+/** Defines size of cropping rectangle. */
+export interface ICropSizeBase {
+}
+
+export class CropSizeAbsolute extends CropSizeBase implements ICropSizeAbsolute {
     /** Width of the cropping rectangle. */
     width?: number;
     /** Height of the cropping rectangle. */
     height?: number;
 
-    constructor(data?: ICropActionBase) {
+    constructor(data?: ICropSizeAbsolute) {
         super(data);
-        this._discriminator = "CropActionBase";
+        this._discriminator = "CropSizeAbsolute";
     }
 
     init(_data?: any) {
@@ -67849,7 +68931,89 @@ export abstract class CropActionBase extends ImageActionBase implements ICropAct
         }
     }
 
-    static fromJS(data: any): CropActionBase {
+    static fromJS(data: any): CropSizeAbsolute {
+        data = typeof data === 'object' ? data : {};
+        let result = new CropSizeAbsolute();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["width"] = this.width;
+        data["height"] = this.height;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ICropSizeAbsolute extends ICropSizeBase {
+    /** Width of the cropping rectangle. */
+    width?: number;
+    /** Height of the cropping rectangle. */
+    height?: number;
+}
+
+export class CropSizeRelative extends CropSizeBase implements ICropSizeRelative {
+    /** Width of the cropping rectangle in range [0, 1]. */
+    width?: number;
+    /** Height of the cropping rectangle in range [0, 1]. */
+    height?: number;
+
+    constructor(data?: ICropSizeRelative) {
+        super(data);
+        this._discriminator = "CropSizeRelative";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.width = _data["width"];
+            this.height = _data["height"];
+        }
+    }
+
+    static fromJS(data: any): CropSizeRelative {
+        data = typeof data === 'object' ? data : {};
+        let result = new CropSizeRelative();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["width"] = this.width;
+        data["height"] = this.height;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ICropSizeRelative extends ICropSizeBase {
+    /** Width of the cropping rectangle in range [0, 1]. */
+    width?: number;
+    /** Height of the cropping rectangle in range [0, 1]. */
+    height?: number;
+}
+
+export abstract class CropActionAbsoluteSizeBase extends CropActionGeneric implements ICropActionAbsoluteSizeBase {
+    height?: number;
+    width?: number;
+
+    constructor(data?: ICropActionAbsoluteSizeBase) {
+        super(data);
+        this._discriminator = "CropActionAbsoluteSizeBase";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.height = _data["height"];
+            this.width = _data["width"];
+        }
+    }
+
+    static fromJS(data: any): CropActionAbsoluteSizeBase {
         data = typeof data === 'object' ? data : {};
         if (data["kind"] === "CropAction") {
             let result = new CropAction();
@@ -67866,31 +69030,26 @@ export abstract class CropActionBase extends ImageActionBase implements ICropAct
             result.init(data);
             return result;
         }
-        throw new Error("The abstract class 'CropActionBase' cannot be instantiated.");
+        throw new Error("The abstract class 'CropActionAbsoluteSizeBase' cannot be instantiated.");
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["width"] = this.width;
         data["height"] = this.height;
+        data["width"] = this.width;
         super.toJSON(data);
         return data; 
     }
 }
 
-/** Base parameters for cropping actions. */
-export interface ICropActionBase extends IImageActionBase {
-    /** Width of the cropping rectangle. */
-    width?: number;
-    /** Height of the cropping rectangle. */
+export interface ICropActionAbsoluteSizeBase extends ICropActionGeneric {
     height?: number;
+    width?: number;
 }
 
 /** An ImageAction that allows cropping an image. */
-export class CropAction extends CropActionBase implements ICropAction {
-    /** X-Coordinate of top left point of the cropping rectangle. */
+export class CropAction extends CropActionAbsoluteSizeBase implements ICropAction {
     x?: number;
-    /** Y-Coordinate of top left point of the cropping rectangle. */
     y?: number;
 
     constructor(data?: ICropAction) {
@@ -67923,16 +69082,13 @@ export class CropAction extends CropActionBase implements ICropAction {
 }
 
 /** An ImageAction that allows cropping an image. */
-export interface ICropAction extends ICropActionBase {
-    /** X-Coordinate of top left point of the cropping rectangle. */
+export interface ICropAction extends ICropActionAbsoluteSizeBase {
     x?: number;
-    /** Y-Coordinate of top left point of the cropping rectangle. */
     y?: number;
 }
 
 /** An ImageAction that allows cropping an image, weighing the cropping rectangle on a gravity. */
-export class GravityBasedCropAction extends CropActionBase implements IGravityBasedCropAction {
-    /** Gravity of the cropping rectangle. */
+export class GravityBasedCropAction extends CropActionAbsoluteSizeBase implements IGravityBasedCropAction {
     gravity?: CropGravity;
 
     constructor(data?: IGravityBasedCropAction) {
@@ -67963,27 +69119,13 @@ export class GravityBasedCropAction extends CropActionBase implements IGravityBa
 }
 
 /** An ImageAction that allows cropping an image, weighing the cropping rectangle on a gravity. */
-export interface IGravityBasedCropAction extends ICropActionBase {
-    /** Gravity of the cropping rectangle. */
+export interface IGravityBasedCropAction extends ICropActionAbsoluteSizeBase {
     gravity?: CropGravity;
 }
 
-export enum CropGravity {
-    NorthWest = "NorthWest",
-    North = "North",
-    NorthEast = "NorthEast",
-    East = "East",
-    SouthEast = "SouthEast",
-    South = "South",
-    SouthWest = "SouthWest",
-    West = "West",
-}
-
 /** An ImageAction that allows cropping an image, positioning the cropping rectangle relative to the width/height of the image. */
-export class RelativeCropAction extends CropActionBase implements IRelativeCropAction {
-    /** Relative position of origin point from the left of the image. 0.5 designates the center of the image. */
+export class RelativeCropAction extends CropActionAbsoluteSizeBase implements IRelativeCropAction {
     x?: number;
-    /** Relative position of origin point from the top of the image. 0.5 designates the center of the image. */
     y?: number;
 
     constructor(data?: IRelativeCropAction) {
@@ -68016,10 +69158,8 @@ export class RelativeCropAction extends CropActionBase implements IRelativeCropA
 }
 
 /** An ImageAction that allows cropping an image, positioning the cropping rectangle relative to the width/height of the image. */
-export interface IRelativeCropAction extends ICropActionBase {
-    /** Relative position of origin point from the left of the image. 0.5 designates the center of the image. */
+export interface IRelativeCropAction extends ICropActionAbsoluteSizeBase {
     x?: number;
-    /** Relative position of origin point from the top of the image. 0.5 designates the center of the image. */
     y?: number;
 }
 
@@ -68971,16 +70111,19 @@ export class OutputFormatEditable extends OutputFormatRenderingSpecification imp
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
 If set, the customer's default language is required. */
     downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
-    /** Indicates if outputs derived from original output format should be accessible also for users not having AccessOriginal permission on the content. */
+    /** Indicates if outputs of this or derived formats should be accessible also for users not having AccessOriginal permission on the content. */
     viewForAll?: boolean;
     /** Indicates if metadata should be written into XMP header of outputs where applicable and configured. */
     enableXmpWriteback?: boolean;
+    /** Defines additional settings for XmpWriteback */
+    xmpWritebackOptions?: XmpWritebackOptions | undefined;
 
     constructor(data?: IOutputFormatEditable) {
         super(data);
         if (data) {
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names; 
             this.downloadFileNamePatterns = data.downloadFileNamePatterns && !(<any>data.downloadFileNamePatterns).toJSON ? new TranslatedStringDictionary(data.downloadFileNamePatterns) : <TranslatedStringDictionary>this.downloadFileNamePatterns; 
+            this.xmpWritebackOptions = data.xmpWritebackOptions && !(<any>data.xmpWritebackOptions).toJSON ? new XmpWritebackOptions(data.xmpWritebackOptions) : <XmpWritebackOptions>this.xmpWritebackOptions; 
         }
         if (!data) {
             this.names = new TranslatedStringDictionary();
@@ -68995,6 +70138,7 @@ If set, the customer's default language is required. */
             this.downloadFileNamePatterns = _data["downloadFileNamePatterns"] ? TranslatedStringDictionary.fromJS(_data["downloadFileNamePatterns"]) : <any>undefined;
             this.viewForAll = _data["viewForAll"];
             this.enableXmpWriteback = _data["enableXmpWriteback"];
+            this.xmpWritebackOptions = _data["xmpWritebackOptions"] ? XmpWritebackOptions.fromJS(_data["xmpWritebackOptions"]) : <any>undefined;
         }
     }
 
@@ -69012,6 +70156,7 @@ If set, the customer's default language is required. */
         data["downloadFileNamePatterns"] = this.downloadFileNamePatterns ? this.downloadFileNamePatterns.toJSON() : <any>undefined;
         data["viewForAll"] = this.viewForAll;
         data["enableXmpWriteback"] = this.enableXmpWriteback;
+        data["xmpWritebackOptions"] = this.xmpWritebackOptions ? this.xmpWritebackOptions.toJSON() : <any>undefined;
         super.toJSON(data);
         return data; 
     }
@@ -69026,10 +70171,12 @@ export interface IOutputFormatEditable extends IOutputFormatRenderingSpecificati
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
 If set, the customer's default language is required. */
     downloadFileNamePatterns?: ITranslatedStringDictionary | undefined;
-    /** Indicates if outputs derived from original output format should be accessible also for users not having AccessOriginal permission on the content. */
+    /** Indicates if outputs of this or derived formats should be accessible also for users not having AccessOriginal permission on the content. */
     viewForAll?: boolean;
     /** Indicates if metadata should be written into XMP header of outputs where applicable and configured. */
     enableXmpWriteback?: boolean;
+    /** Defines additional settings for XmpWriteback */
+    xmpWritebackOptions?: IXmpWritebackOptions | undefined;
 }
 
 /** Represents an output format. */
@@ -70604,6 +71751,8 @@ that reference the layer. */
     audit?: UserAuditDetail | undefined;
     /** The number of fields generated by the schema in the search index for filtering, searching and sorting. */
     searchFieldCount?: SearchFieldCount | undefined;
+    /** Metadata protection options. */
+    metadataProtection?: MetadataProtection | undefined;
 
     constructor(data?: ISchemaDetail) {
         if (data) {
@@ -70629,6 +71778,7 @@ that reference the layer. */
             }
             this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit; 
             this.searchFieldCount = data.searchFieldCount && !(<any>data.searchFieldCount).toJSON ? new SearchFieldCount(data.searchFieldCount) : <SearchFieldCount>this.searchFieldCount; 
+            this.metadataProtection = data.metadataProtection && !(<any>data.metadataProtection).toJSON ? new MetadataProtection(data.metadataProtection) : <MetadataProtection>this.metadataProtection; 
         }
         if (!data) {
             this.types = [];
@@ -70698,6 +71848,7 @@ that reference the layer. */
             }
             this.audit = _data["audit"] ? UserAuditDetail.fromJS(_data["audit"]) : <any>undefined;
             this.searchFieldCount = _data["searchFieldCount"] ? SearchFieldCount.fromJS(_data["searchFieldCount"]) : <any>undefined;
+            this.metadataProtection = _data["metadataProtection"] ? MetadataProtection.fromJS(_data["metadataProtection"]) : <any>undefined;
         }
     }
 
@@ -70770,6 +71921,7 @@ that reference the layer. */
         }
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         data["searchFieldCount"] = this.searchFieldCount ? this.searchFieldCount.toJSON() : <any>undefined;
+        data["metadataProtection"] = this.metadataProtection ? this.metadataProtection.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -70820,6 +71972,8 @@ that reference the layer. */
     audit?: IUserAuditDetail | undefined;
     /** The number of fields generated by the schema in the search index for filtering, searching and sorting. */
     searchFieldCount?: ISearchFieldCount | undefined;
+    /** Metadata protection options. */
+    metadataProtection?: IMetadataProtection | undefined;
 }
 
 /** Represent the template whose value will be resolved based on the actual content. */
@@ -73069,6 +74223,58 @@ export interface ISearchFieldCount {
     sortableField: number;
 }
 
+/** Metadata protection options */
+export class MetadataProtection implements IMetadataProtection {
+    /** Prevent creation of items in ContentSchemas/Lists or assignments of Layers. */
+    preventCreate!: boolean;
+    /** Prevent updating metadata associated with schema. */
+    preventUpdate!: boolean;
+    /** Prevent deletion of items in ContentSchemas/Lists or unassignments of Layers. */
+    preventDelete!: boolean;
+
+    constructor(data?: IMetadataProtection) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.preventCreate = _data["preventCreate"];
+            this.preventUpdate = _data["preventUpdate"];
+            this.preventDelete = _data["preventDelete"];
+        }
+    }
+
+    static fromJS(data: any): MetadataProtection {
+        data = typeof data === 'object' ? data : {};
+        let result = new MetadataProtection();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["preventCreate"] = this.preventCreate;
+        data["preventUpdate"] = this.preventUpdate;
+        data["preventDelete"] = this.preventDelete;
+        return data; 
+    }
+}
+
+/** Metadata protection options */
+export interface IMetadataProtection {
+    /** Prevent creation of items in ContentSchemas/Lists or assignments of Layers. */
+    preventCreate: boolean;
+    /** Prevent updating metadata associated with schema. */
+    preventUpdate: boolean;
+    /** Prevent deletion of items in ContentSchemas/Lists or unassignments of Layers. */
+    preventDelete: boolean;
+}
+
 /** Exists response */
 export class SchemaExistsResponse implements ISchemaExistsResponse {
     /** It indicates if it exists. */
@@ -73236,6 +74442,8 @@ must be set to true. Multiple sorting is supported: they are applied in the spec
     /** If the schema if of type Layer, the list contains the schemas with type Content
 that reference the layer. */
     referencedInContentSchemaIds?: string[] | undefined;
+    /** Metadata protection options. */
+    metadataProtection?: MetadataProtection | undefined;
 
     constructor(data?: ISchemaUpdateRequest) {
         if (data) {
@@ -73259,6 +74467,7 @@ that reference the layer. */
                     this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
                 }
             }
+            this.metadataProtection = data.metadataProtection && !(<any>data.metadataProtection).toJSON ? new MetadataProtection(data.metadataProtection) : <MetadataProtection>this.metadataProtection; 
         }
     }
 
@@ -73307,6 +74516,7 @@ that reference the layer. */
                 for (let item of _data["referencedInContentSchemaIds"])
                     this.referencedInContentSchemaIds!.push(item);
             }
+            this.metadataProtection = _data["metadataProtection"] ? MetadataProtection.fromJS(_data["metadataProtection"]) : <any>undefined;
         }
     }
 
@@ -73362,6 +74572,7 @@ that reference the layer. */
             for (let item of this.referencedInContentSchemaIds)
                 data["referencedInContentSchemaIds"].push(item);
         }
+        data["metadataProtection"] = this.metadataProtection ? this.metadataProtection.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -73394,6 +74605,8 @@ must be set to true. Multiple sorting is supported: they are applied in the spec
     /** If the schema if of type Layer, the list contains the schemas with type Content
 that reference the layer. */
     referencedInContentSchemaIds?: string[] | undefined;
+    /** Metadata protection options. */
+    metadataProtection?: IMetadataProtection | undefined;
 }
 
 /** Result of a schema delete operation */
@@ -73541,6 +74754,8 @@ must be set to true. Multiple sorting is supported: they are applied in the spec
     /** If the schema if of type Layer, the list contains the schemas with type Content
 that reference the layer. */
     referencedInContentSchemaIds?: string[] | undefined;
+    /** Metadata protection options. */
+    metadataProtection?: MetadataProtection | undefined;
 
     constructor(data?: ISchemaCreateRequest) {
         if (data) {
@@ -73564,6 +74779,7 @@ that reference the layer. */
                     this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
                 }
             }
+            this.metadataProtection = data.metadataProtection && !(<any>data.metadataProtection).toJSON ? new MetadataProtection(data.metadataProtection) : <MetadataProtection>this.metadataProtection; 
         }
         if (!data) {
             this.displayPatterns = [];
@@ -73622,6 +74838,7 @@ that reference the layer. */
                 for (let item of _data["referencedInContentSchemaIds"])
                     this.referencedInContentSchemaIds!.push(item);
             }
+            this.metadataProtection = _data["metadataProtection"] ? MetadataProtection.fromJS(_data["metadataProtection"]) : <any>undefined;
         }
     }
 
@@ -73684,6 +74901,7 @@ that reference the layer. */
             for (let item of this.referencedInContentSchemaIds)
                 data["referencedInContentSchemaIds"].push(item);
         }
+        data["metadataProtection"] = this.metadataProtection ? this.metadataProtection.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -73722,6 +74940,8 @@ must be set to true. Multiple sorting is supported: they are applied in the spec
     /** If the schema if of type Layer, the list contains the schemas with type Content
 that reference the layer. */
     referencedInContentSchemaIds?: string[] | undefined;
+    /** Metadata protection options. */
+    metadataProtection?: IMetadataProtection | undefined;
 }
 
 /** Request to create multiple schemas */
@@ -74860,6 +76080,8 @@ export abstract class ShareOutputBase implements IShareOutputBase {
     detail?: OutputDataBase | undefined;
     /** Whether this Output belongs to a dynamic OutputFormat */
     dynamicRendering!: boolean;
+    /** The rendering state of the output file. */
+    renderingState!: OutputRenderingState;
 
     protected _discriminator: string;
 
@@ -74881,6 +76103,7 @@ export abstract class ShareOutputBase implements IShareOutputBase {
             this.downloadUrl = _data["downloadUrl"];
             this.detail = _data["detail"] ? OutputDataBase.fromJS(_data["detail"]) : <any>undefined;
             this.dynamicRendering = _data["dynamicRendering"];
+            this.renderingState = _data["renderingState"];
         }
     }
 
@@ -74908,6 +76131,7 @@ export abstract class ShareOutputBase implements IShareOutputBase {
         data["downloadUrl"] = this.downloadUrl;
         data["detail"] = this.detail ? this.detail.toJSON() : <any>undefined;
         data["dynamicRendering"] = this.dynamicRendering;
+        data["renderingState"] = this.renderingState;
         return data; 
     }
 }
@@ -74926,6 +76150,8 @@ export interface IShareOutputBase {
     detail?: OutputDataBase | undefined;
     /** Whether this Output belongs to a dynamic OutputFormat */
     dynamicRendering: boolean;
+    /** The rendering state of the output file. */
+    renderingState: OutputRenderingState;
 }
 
 /** Shared output for basic share */
@@ -82057,6 +83283,7 @@ export interface IDataDictionary {
 export abstract class Message implements IMessage {
     id?: string | undefined;
     retries!: number;
+    retriesPerformed!: number;
     priority!: number;
     deduplicate!: boolean;
 
@@ -82076,6 +83303,7 @@ export abstract class Message implements IMessage {
         if (_data) {
             this.id = _data["id"];
             this.retries = _data["retries"];
+            this.retriesPerformed = _data["retriesPerformed"];
             this.priority = _data["priority"];
             this.deduplicate = _data["deduplicate"];
         }
@@ -82106,6 +83334,7 @@ export abstract class Message implements IMessage {
         data["kind"] = this._discriminator; 
         data["id"] = this.id;
         data["retries"] = this.retries;
+        data["retriesPerformed"] = this.retriesPerformed;
         data["priority"] = this.priority;
         data["deduplicate"] = this.deduplicate;
         return data; 
@@ -82115,6 +83344,7 @@ export abstract class Message implements IMessage {
 export interface IMessage {
     id?: string | undefined;
     retries: number;
+    retriesPerformed: number;
     priority: number;
     deduplicate: boolean;
 }
@@ -82288,6 +83518,11 @@ export class ApplicationEvent implements IApplicationEvent {
         }
         if (data["kind"] === "ApiStatisticsEvent") {
             let result = new ApiStatisticsEvent();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TrafficStatisticsEvent") {
+            let result = new TrafficStatisticsEvent();
             result.init(data);
             return result;
         }
@@ -82753,6 +83988,48 @@ export class ApiStatisticsEvent extends ApplicationEvent implements IApiStatisti
 
 export interface IApiStatisticsEvent extends IApplicationEvent {
     requestsPerClient?: { [key: string]: number; } | undefined;
+}
+
+export class TrafficStatisticsEvent extends ApplicationEvent implements ITrafficStatisticsEvent {
+    service?: string | undefined;
+    requestSize?: number;
+    responseSize?: number;
+
+    constructor(data?: ITrafficStatisticsEvent) {
+        super(data);
+        this._discriminator = "TrafficStatisticsEvent";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.service = _data["service"];
+            this.requestSize = _data["requestSize"];
+            this.responseSize = _data["responseSize"];
+        }
+    }
+
+    static fromJS(data: any): TrafficStatisticsEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new TrafficStatisticsEvent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["service"] = this.service;
+        data["requestSize"] = this.requestSize;
+        data["responseSize"] = this.responseSize;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ITrafficStatisticsEvent extends IApplicationEvent {
+    service?: string | undefined;
+    requestSize?: number;
+    responseSize?: number;
 }
 
 export class OutputRenderedEvent extends ApplicationEvent implements IOutputRenderedEvent {
@@ -83979,6 +85256,7 @@ function blobToText(blob: any): Observable<string> {
     });
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // prettier-ignore
 
 export const NON_VIRTUAL_CONTENT_SCHEMAS_IDS = [
