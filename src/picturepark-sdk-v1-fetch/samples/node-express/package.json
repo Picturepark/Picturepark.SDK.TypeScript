@@ -1,0 +1,16 @@
+{
+  "name": "express-fetch-sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@picturepark/sdk-v1-fetch": "file:picturepark-sdk-v1-fetch-11.3.0-pre.0.tgz",
+    "express": "^4.17.3",
+    "node-fetch": "^3.2.2"
+  }
+}
