@@ -4,7 +4,7 @@
 
 **NPM Package:** [@picturepark/sdk-v1-fetch](https://www.npmjs.com/package/@picturepark/sdk-v1-fetch)
 
-The `@picturepark/sdk-v1-fetch` NPM package or `picturepark.js` library provides client classes to access the Picturepark API by using the `window.fetch` APIs. These are common APIs which are present in modern browsers (use polyfills for older browsers). The library is suitable for all web applications (e.g. React/Redux, JQuery, Vanilla.JS, etc.) but offers only the service clients and no controls/components. 
+The `@picturepark/sdk-v1-fetch` NPM package provides client classes to access the Picturepark API by using the `window.fetch` APIs. These are common APIs which are present in modern browsers. The library is suitable for all web applications (e.g. React/Redux, JQuery, Vanilla.JS, etc.) but offers only the service clients and no controls/components. 
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-fetch/api/index.html)
 
@@ -21,25 +21,20 @@ NPM Package:
 
 Latest version from master branch (use for development only): 
 
-- [picturepark.js](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-fetch/dist/picturepark.js)
-- [picturepark.d.ts](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-fetch/dist/picturepark.d.ts)
-
-### Polyfills
-
-In order to use the library in older browsers you need the polyfills for `window.fetch` and `Promise`: 
-
-- Polyfills: 
-    - [window.fetch polyfill](https://github.com/github/fetch) ([CDN](https://cdnjs.com/libraries/fetch))
-    - [ES6 Promise polyfill](https://github.com/es-shims/es6-shim/) ([CDN](https://cdnjs.com/libraries/es6-shim))
-- Typings: 
-    - [whatwg-fetch.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/whatwg-fetch/index.d.ts)
-    - [es6-promise.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/es6-promise/index.d.ts)
+- [index.umd.js](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-fetch/dist/index.umd.js)
+- [index.d.ts](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-fetch/dist/index.d.ts)
 
 ### Samples
 
 To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/src/picturepark-sdk-v1-fetch/samples) navigate to the root of the repository and run: 
 
     npm run start:fetch
+
+To run the [node express sample](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/src/picturepark-sdk-v1-fetch/samples/node-express) navigate to the repository and run: 
+
+    npm install
+
+    node index.mjs
 
 ## Usage
 
@@ -48,7 +43,7 @@ To run the [samples](https://github.com/Picturepark/Picturepark.SDK.TypeScript/t
 Load the script in your website: 
 
 ```html
-<script src="picturepark.js"></script>
+<script src="dist/index.umd.js"></script>
 ```
 
 The available classes are now available in the global namespace `picturepark`: 
@@ -63,7 +58,7 @@ client.getShare('4rgTsG52').then(function(result) {
 });
 ```
 
-### AMD module
+### ESM module
 
 Install the NPM package: 
 
@@ -153,9 +148,3 @@ contentClient.get('myContentId', true).then(content => {
   ...
 });
 ```
-
-This implementation can also be found in the [picturepark-sdk-v1-sample-reactredux/src/index.tsx](https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/master/samples/picturepark-sdk-v1-sample-reactredux/src/index.tsx) sample.
-
-## Sample application
-
-- [picturepark-sdk-v1-sample-reactredux](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master/samples/picturepark-sdk-v1-sample-reactredux)
