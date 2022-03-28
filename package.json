@@ -17,13 +17,6 @@
   },
   "devDependencies": {
     "@types/node": "^13.9.1",
-<<<<<<< Updated upstream
-    "http-server": "^0.12.3",
-    "marked": "^0.7.0",
-    "nswag": "^13.8.1",
-    "typedoc": "^0.19.2",
-    "typescript": "3.9.9",
-=======
     "http-server": "^14.1.0",
     "marked": "^4.0.12",
     "nswag": "~13.15.10",
@@ -31,7 +24,6 @@
     "terser": "^5.12.0",
     "typedoc": "^0.22.11",
     "typescript": "^4.6.2",
->>>>>>> Stashed changes
     "typescript-bundle": "1.0.17",
     "uglify-js": "3.0.28",
     "watch": "^1.0.2"
