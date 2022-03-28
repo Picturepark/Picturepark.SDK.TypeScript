@@ -17,7 +17,7 @@ export function loadLanguagesFactory(
   allowedLanguages: 'system' | 'share' | 'all',
   language?: string,
   cdnUrl?: string
-): () => Promise<boolean> {
+): () => Promise<boolean | undefined> {
   const languageToSelect = language || getLocaleFactory(localStorageService);
   return () => {
     return languageService.loadLanguages(allowedLanguages, languageToSelect, cdnUrl).toPromise();

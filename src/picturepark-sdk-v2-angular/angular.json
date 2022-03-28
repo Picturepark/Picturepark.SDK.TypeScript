@@ -140,7 +140,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/picturepark-sdk-v2-angular/tsconfig.lib.json",
             "project": "projects/picturepark-sdk-v2-angular/ng-package.json"
           },
           "configurations": {

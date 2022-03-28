@@ -244,7 +244,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
           const detail = originalOutput ? originalOutput.detail : previewOutput ? previewOutput.detail : null;
 
           const pdfOutput = s.outputs.find(i => i.outputFormatId === 'Pdf');
-          return <IShareItem>{
+          return {
             id: s.id,
             index: index++,
             displayValues: s.displayValues,
@@ -274,7 +274,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
               ? s.outputs.find(i => i.outputFormatId === 'AudioSmall')!.viewUrl
               : null,
             outputs: s.outputs,
-          };
+          } as any;
         }),
       };
 
