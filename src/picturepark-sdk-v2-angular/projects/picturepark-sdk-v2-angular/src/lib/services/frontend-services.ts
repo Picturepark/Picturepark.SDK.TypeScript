@@ -100,7 +100,7 @@ export class ShareAccesService {
       return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -109,13 +109,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -124,7 +124,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -133,13 +133,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -148,13 +148,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -163,12 +163,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<FileResponse>(null as any);
+    return _observableOf(null as any);
   }
 
   getJson(
@@ -236,7 +236,7 @@ export class ShareAccesService {
     }
     if (status === 200) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result200: any = null;
           let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result200 = ShareDetail.fromJS(resultData200);
@@ -245,7 +245,7 @@ export class ShareAccesService {
       );
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -254,13 +254,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -269,7 +269,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -278,13 +278,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -293,13 +293,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -308,12 +308,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<ShareDetail>(null as any);
+    return _observableOf(null as any);
   }
 
   getContentsInShare(
@@ -377,7 +377,7 @@ export class ShareAccesService {
     }
     if (status === 200) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result200: any = null;
           let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result200 = ShareContentDetailResult.fromJS(resultData200);
@@ -386,7 +386,7 @@ export class ShareAccesService {
       );
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -395,13 +395,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -410,7 +410,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -419,13 +419,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -434,13 +434,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -449,12 +449,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<ShareContentDetailResult>(null as any);
+    return _observableOf(null as any);
   }
 
   getOutputsInShare(token: string | null): Observable<ShareOutputsResult> {
@@ -508,7 +508,7 @@ export class ShareAccesService {
     }
     if (status === 200) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result200: any = null;
           let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result200 = ShareOutputsResult.fromJS(resultData200);
@@ -517,7 +517,7 @@ export class ShareAccesService {
       );
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -526,13 +526,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -541,7 +541,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -550,13 +550,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -565,13 +565,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -580,12 +580,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<ShareOutputsResult>(null as any);
+    return _observableOf(null as any);
   }
 
   downloadShare(
@@ -665,7 +665,7 @@ export class ShareAccesService {
       return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -674,13 +674,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -689,7 +689,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -698,13 +698,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -713,13 +713,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -728,12 +728,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<FileResponse>(null as any);
+    return _observableOf(null as any);
   }
 
   createShareSelectionDownloadLink(token: string | null, request: ShareDownloadRequest): Observable<DownloadLink> {
@@ -791,7 +791,7 @@ export class ShareAccesService {
     }
     if (status === 200) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result200: any = null;
           let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result200 = DownloadLink.fromJS(resultData200);
@@ -800,7 +800,7 @@ export class ShareAccesService {
       );
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -809,13 +809,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -824,7 +824,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -833,13 +833,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -848,13 +848,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -863,12 +863,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<DownloadLink>(null as any);
+    return _observableOf(null as any);
   }
 
   downloadShare2(
@@ -948,7 +948,7 @@ export class ShareAccesService {
       return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -957,13 +957,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -972,7 +972,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -981,13 +981,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -996,13 +996,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -1011,12 +1011,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<FileResponse>(null as any);
+    return _observableOf(null as any);
   }
 
   downloadShare3(
@@ -1096,7 +1096,7 @@ export class ShareAccesService {
       return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -1105,13 +1105,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -1120,7 +1120,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -1129,13 +1129,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -1144,13 +1144,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -1159,12 +1159,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<FileResponse>(null as any);
+    return _observableOf(null as any);
   }
 
   downloadShareInline(
@@ -1244,7 +1244,7 @@ export class ShareAccesService {
       return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -1253,13 +1253,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -1268,7 +1268,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -1277,13 +1277,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -1292,13 +1292,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -1307,12 +1307,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<FileResponse>(null as any);
+    return _observableOf(null as any);
   }
 
   downloadShareInline2(
@@ -1392,7 +1392,7 @@ export class ShareAccesService {
       return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -1401,13 +1401,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -1416,7 +1416,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -1425,13 +1425,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -1440,13 +1440,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -1455,12 +1455,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<FileResponse>(null as any);
+    return _observableOf(null as any);
   }
 
   downloadShareInline3(
@@ -1540,7 +1540,7 @@ export class ShareAccesService {
       return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -1549,13 +1549,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -1564,7 +1564,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -1573,13 +1573,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -1588,13 +1588,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -1603,12 +1603,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<FileResponse>(null as any);
+    return _observableOf(null as any);
   }
 
   getContentIcon(token: string | null, contentId: string | null): Observable<FileResponse> {
@@ -1669,7 +1669,7 @@ export class ShareAccesService {
       return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -1678,13 +1678,13 @@ export class ShareAccesService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -1693,7 +1693,7 @@ export class ShareAccesService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -1702,13 +1702,13 @@ export class ShareAccesService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -1717,13 +1717,13 @@ export class ShareAccesService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -1732,12 +1732,12 @@ export class ShareAccesService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<FileResponse>(null as any);
+    return _observableOf(null as any);
   }
 }
 
@@ -1803,7 +1803,7 @@ export class TermsOfServiceService {
     }
     if (status === 200) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result200: any = null;
           let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           if (Array.isArray(resultData200)) {
@@ -1817,7 +1817,7 @@ export class TermsOfServiceService {
       );
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -1826,13 +1826,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -1841,7 +1841,7 @@ export class TermsOfServiceService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -1850,13 +1850,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -1865,13 +1865,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -1880,7 +1880,7 @@ export class TermsOfServiceService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
@@ -1944,7 +1944,7 @@ export class TermsOfServiceService {
     }
     if (status === 200) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result200: any = null;
           let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result200 = TermsOfServiceDetail.fromJS(resultData200);
@@ -1953,7 +1953,7 @@ export class TermsOfServiceService {
       );
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -1962,13 +1962,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -1977,7 +1977,7 @@ export class TermsOfServiceService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -1986,13 +1986,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -2001,13 +2001,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -2016,12 +2016,12 @@ export class TermsOfServiceService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<TermsOfServiceDetail>(null as any);
+    return _observableOf(null as any);
   }
 
   newest(): Observable<TermsOfService> {
@@ -2073,7 +2073,7 @@ export class TermsOfServiceService {
     }
     if (status === 200) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result200: any = null;
           let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result200 = TermsOfService.fromJS(resultData200);
@@ -2082,7 +2082,7 @@ export class TermsOfServiceService {
       );
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -2091,13 +2091,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -2106,7 +2106,7 @@ export class TermsOfServiceService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -2115,13 +2115,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -2130,13 +2130,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -2145,12 +2145,12 @@ export class TermsOfServiceService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<TermsOfService>(null as any);
+    return _observableOf(null as any);
   }
 
   get(id: string | null): Observable<TermsOfServiceDetail> {
@@ -2204,7 +2204,7 @@ export class TermsOfServiceService {
     }
     if (status === 200) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result200: any = null;
           let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result200 = TermsOfServiceDetail.fromJS(resultData200);
@@ -2213,7 +2213,7 @@ export class TermsOfServiceService {
       );
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -2222,13 +2222,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -2237,7 +2237,7 @@ export class TermsOfServiceService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -2246,13 +2246,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -2261,13 +2261,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -2276,12 +2276,12 @@ export class TermsOfServiceService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<TermsOfServiceDetail>(null as any);
+    return _observableOf(null as any);
   }
 
   /**
@@ -2342,7 +2342,7 @@ export class TermsOfServiceService {
     }
     if (status === 200) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result200: any = null;
           let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result200 = TermsOfServiceDetail.fromJS(resultData200);
@@ -2351,7 +2351,7 @@ export class TermsOfServiceService {
       );
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -2360,13 +2360,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -2375,7 +2375,7 @@ export class TermsOfServiceService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -2384,13 +2384,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -2399,13 +2399,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -2414,12 +2414,12 @@ export class TermsOfServiceService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<TermsOfServiceDetail>(null as any);
+    return _observableOf(null as any);
   }
 
   delete(id: string | null): Observable<void> {
@@ -2471,13 +2471,13 @@ export class TermsOfServiceService {
     }
     if (status === 200) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
-          return _observableOf<void>(null as any);
+        _observableMergeMap((_responseText: string) => {
+          return _observableOf(null as any);
         })
       );
     } else if (status === 400) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result400: any = null;
           let resultData400 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result400 = PictureparkValidationException.fromJS(resultData400);
@@ -2486,13 +2486,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 401) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Unauthorized', status, _responseText, _headers);
         })
       );
     } else if (status === 403) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result403: any = null;
           let resultData403 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result403 = PictureparkForbiddenException.fromJS(resultData403);
@@ -2501,7 +2501,7 @@ export class TermsOfServiceService {
       );
     } else if (status === 404) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result404: any = null;
           let resultData404 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result404 = PictureparkNotFoundException.fromJS(resultData404);
@@ -2510,13 +2510,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 405) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Method not allowed', status, _responseText, _headers);
         })
       );
     } else if (status === 409) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result409: any = null;
           let resultData409 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result409 = PictureparkConflictException.fromJS(resultData409);
@@ -2525,13 +2525,13 @@ export class TermsOfServiceService {
       );
     } else if (status === 429) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('Too many requests', status, _responseText, _headers);
         })
       );
     } else if (status === 500) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           let result500: any = null;
           let resultData500 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
           result500 = PictureparkException.fromJS(resultData500);
@@ -2540,12 +2540,12 @@ export class TermsOfServiceService {
       );
     } else if (status !== 200 && status !== 204) {
       return blobToText(responseBlob).pipe(
-        _observableMergeMap(_responseText => {
+        _observableMergeMap((_responseText: string) => {
           return throwException('An unexpected server error occurred.', status, _responseText, _headers);
         })
       );
     }
-    return _observableOf<void>(null as any);
+    return _observableOf(null as any);
   }
 }
 

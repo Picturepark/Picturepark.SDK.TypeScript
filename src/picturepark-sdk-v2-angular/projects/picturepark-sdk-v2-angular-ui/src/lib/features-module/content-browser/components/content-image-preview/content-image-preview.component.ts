@@ -274,7 +274,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
               ? s.outputs.find(i => i.outputFormatId === 'AudioSmall')!.viewUrl
               : null,
             outputs: s.outputs,
-          } as any;
+          } as IShareItem;
         }),
       };
 
