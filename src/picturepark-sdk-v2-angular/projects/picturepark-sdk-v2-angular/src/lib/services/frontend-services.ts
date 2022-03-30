@@ -22,10 +22,10 @@ import {
   ShareDetail,
   ShareContentDetailResult,
   ShareOutputsResult,
-  DownloadLink,
   ShareDownloadRequest,
+  DownloadLink,
 } from './api-services';
-import { TermsOfService, TermsOfServiceDetail, TermsOfServiceEditable } from './contracts-custom';
+import { TermsOfServiceDetail, TermsOfServiceEditable, TermsOfService } from './contracts-custom';
 
 export const PICTUREPARK_CDN_URL = new InjectionToken<string>('PICTUREPARK_CDN_URL');
 
@@ -42,11 +42,12 @@ export class ShareAccesService {
     this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : '';
   }
 
-  getSharePage(token: string | null, lang: string | null | undefined): Observable<FileResponse> {
+  getSharePage(token: string | null, languageCode: string | null | undefined): Observable<FileResponse> {
     let url_ = this.baseUrl + '/s/{token}?';
     if (token === undefined || token === null) throw new Error("The parameter 'token' must be defined.");
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
-    if (lang !== undefined && lang !== null) url_ += 'lang=' + encodeURIComponent('' + lang) + '&';
+    if (languageCode !== undefined && languageCode !== null)
+      url_ += 'lang=' + encodeURIComponent('' + languageCode) + '&';
     url_ = url_.replace(/[?&]$/, '');
 
     let options_: any = {
@@ -172,14 +173,15 @@ export class ShareAccesService {
 
   getJson(
     token: string | null,
-    lang: string | null | undefined,
+    languageCode: string | null | undefined,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
     contentResolveLimit: number | null | undefined
   ): Observable<ShareDetail> {
     let url_ = this.baseUrl + '/json/{token}?';
     if (token === undefined || token === null) throw new Error("The parameter 'token' must be defined.");
     url_ = url_.replace('{token}', encodeURIComponent('' + token));
-    if (lang !== undefined && lang !== null) url_ += 'lang=' + encodeURIComponent('' + lang) + '&';
+    if (languageCode !== undefined && languageCode !== null)
+      url_ += 'lang=' + encodeURIComponent('' + languageCode) + '&';
     if (resolveBehaviors !== undefined && resolveBehaviors !== null)
       resolveBehaviors &&
         resolveBehaviors.forEach(item => {
