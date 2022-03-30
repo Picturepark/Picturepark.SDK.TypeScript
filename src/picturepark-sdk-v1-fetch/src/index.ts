@@ -18091,18 +18091,18 @@ export class TransferClient extends PictureparkClientBase {
         return Promise.resolve<Blacklist>(null as any);
     }
 
-    /**
+     /**
      * Upload file
-     * @param upload Information about chunk.
-     * @param upload Information about chunk.
-     * @param upload Information about chunk.
-     * @param upload Information about chunk.
+     * @param chunkNumber Information about chunk.
+     * @param currentChunkSize Information about chunk.
+     * @param totalSize Information about chunk.
+     * @param totalChunks Information about chunk.
      * @param transferId ID of transfer.
      * @param requestId Identifier of file.
      * @param body (optional) Body
      * @return OK
      */
-    uploadFile(upload: number, upload: number, upload: number, upload: number, transferId: string | null, requestId: string | null, body?: Blob | undefined): Promise<void> {
+      uploadFile(chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string | null, requestId: string | null, body?: Blob | undefined): Promise<void> {
         let url_ = this.baseUrl + "/v1/Transfers/{transferId}/files/{requestId}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
@@ -18110,22 +18110,22 @@ export class TransferClient extends PictureparkClientBase {
         if (requestId === undefined || requestId === null)
             throw new Error("The parameter 'requestId' must be defined.");
         url_ = url_.replace("{requestId}", encodeURIComponent("" + requestId));
-        if (upload === undefined || upload === null)
-            throw new Error("The parameter 'upload' must be defined and cannot be null.");
+        if (chunkNumber === undefined || chunkNumber === null)
+            throw new Error("The parameter 'chunkNumber' must be defined and cannot be null.");
         else
-            url_ += "ChunkNumber=" + encodeURIComponent("" + upload) + "&";
-        if (upload === undefined || upload === null)
-            throw new Error("The parameter 'upload' must be defined and cannot be null.");
+            url_ += "ChunkNumber=" + encodeURIComponent("" + chunkNumber) + "&";
+        if (currentChunkSize === undefined || currentChunkSize === null)
+            throw new Error("The parameter 'currentChunkSize' must be defined and cannot be null.");
         else
-            url_ += "CurrentChunkSize=" + encodeURIComponent("" + upload) + "&";
-        if (upload === undefined || upload === null)
-            throw new Error("The parameter 'upload' must be defined and cannot be null.");
+            url_ += "CurrentChunkSize=" + encodeURIComponent("" + currentChunkSize) + "&";
+        if (totalSize === undefined || totalSize === null)
+            throw new Error("The parameter 'totalSize' must be defined and cannot be null.");
         else
-            url_ += "TotalSize=" + encodeURIComponent("" + upload) + "&";
-        if (upload === undefined || upload === null)
-            throw new Error("The parameter 'upload' must be defined and cannot be null.");
+            url_ += "TotalSize=" + encodeURIComponent("" + totalSize) + "&";
+        if (totalChunks === undefined || totalChunks === null)
+            throw new Error("The parameter 'totalChunks' must be defined and cannot be null.");
         else
-            url_ += "TotalChunks=" + encodeURIComponent("" + upload) + "&";
+            url_ += "TotalChunks=" + encodeURIComponent("" + totalChunks) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = body;
