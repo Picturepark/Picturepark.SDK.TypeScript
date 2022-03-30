@@ -1,5 +1,6 @@
 import { Injectable, Inject, LOCALE_ID } from '@angular/core';
 import { InfoFacade, CustomerInfo } from '@picturepark/sdk-v2-angular';
+import { firstValueFrom } from 'rxjs';
 import { translate } from '../../../utilities/translations';
 
 export interface IOutputFormatTranslations {
@@ -16,7 +17,7 @@ export class TranslationService {
 
   async getOutputFormatTranslations(): Promise<IOutputFormatTranslations> {
     if (!this.customerInfo) {
-      this.customerInfo = await this.infoFacade.getInfo().toPromise();
+      this.customerInfo = await firstValueFrom(this.infoFacade.getInfo());
     }
 
     const outputTranslations: { [outputFormatId: string]: string } = {};

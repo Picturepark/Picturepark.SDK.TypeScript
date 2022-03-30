@@ -22748,10 +22748,10 @@ export class TransferService extends PictureparkServiceBase {
 
     /**
      * Upload file
-     * @param upload Information about chunk.
-     * @param upload Information about chunk.
-     * @param upload Information about chunk.
-     * @param upload Information about chunk.
+     * @param chunkNumber Information about chunk.
+     * @param currentChunkSize Information about chunk.
+     * @param totalSize Information about chunk.
+     * @param totalChunks Information about chunk.
      * @param transferId ID of transfer.
      * @param requestId Identifier of file.
      * @param body (optional) Body

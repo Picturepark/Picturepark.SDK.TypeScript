@@ -175,7 +175,7 @@ export class ShareDetailComponent implements OnInit {
 
           return this.shareAccessFacade
             .loadNextPageOfContents(this.shareDetail, this.shareToken, this.language, 30)
-            .pipe(map(() => this.shareDetail.contentSelections[index] as any));
+            .pipe(map(() => this.shareDetail.contentSelections[index]));
         },
         isShareViewer: true,
       },
