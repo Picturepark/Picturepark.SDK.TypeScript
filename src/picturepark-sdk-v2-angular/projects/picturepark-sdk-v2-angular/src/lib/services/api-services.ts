@@ -11,8 +11,8 @@
 import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
-import { mergeMap as _observableMergeMap, catchError as _observableCatch, mergeMap } from 'rxjs/operators';
-import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
+import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf, mergeMap } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import { PictureparkServiceBase } from './base.service';
@@ -8356,6 +8356,986 @@ export class ContentService extends PictureparkServiceBase {
 @Injectable({
     providedIn: 'root'
 })
+export class ConversionPresetTemplateService extends PictureparkServiceBase {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("");
+    }
+
+    /**
+     * Search conversion preset templates
+     * @param request Conversion preset templates search request.
+     * @return Result of the conversion preset templates search
+     */
+    search(request: ConversionPresetTemplateSearchRequest): Observable<ConversionPresetTemplateSearchResult> {
+        let url_ = this.baseUrl + "/v1/ConversionPresetTemplates/search";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processSearch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearch(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ConversionPresetTemplateSearchResult>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ConversionPresetTemplateSearchResult>;
+        }));
+    }
+
+    protected processSearch(response: HttpResponseBase): Observable<ConversionPresetTemplateSearchResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ConversionPresetTemplateSearchResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Create conversion preset template
+     * @param timeout (optional) Timeout
+     * @param request Request containing information needed to create new conversion preset template.
+     * @return Represents the detail of a conversion preset template
+     */
+    create(timeout: string | null | undefined, request: ConversionPresetTemplateCreateRequest): Observable<ConversionPresetTemplateDetail> {
+        let url_ = this.baseUrl + "/v1/ConversionPresetTemplates?";
+        if (timeout !== undefined && timeout !== null)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ConversionPresetTemplateDetail>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ConversionPresetTemplateDetail>;
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<ConversionPresetTemplateDetail> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ConversionPresetTemplateDetail.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Get multiple conversion preset templates
+     * @param ids (optional) Conversion preset template IDs to get information about.
+     * @return Array of Represents the detail of a conversion preset template
+     */
+    getMany(ids: string[] | null | undefined): Observable<ConversionPresetTemplateDetail[]> {
+        let url_ = this.baseUrl + "/v1/ConversionPresetTemplates?";
+        if (ids !== undefined && ids !== null)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMany(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ConversionPresetTemplateDetail[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ConversionPresetTemplateDetail[]>;
+        }));
+    }
+
+    protected processGetMany(response: HttpResponseBase): Observable<ConversionPresetTemplateDetail[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ConversionPresetTemplateDetail.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Update conversion preset template
+     * @param id Conversion preset template ID.
+     * @param timeout (optional) Timeout
+     * @param request Request containing information needed to update the conversion preset template.
+     * @return Represents the detail of a conversion preset template
+     */
+    update(id: string | null, timeout: string | null | undefined, request: ConversionPresetTemplateUpdateRequest): Observable<ConversionPresetTemplateDetail> {
+        let url_ = this.baseUrl + "/v1/ConversionPresetTemplates/{id}?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (timeout !== undefined && timeout !== null)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ConversionPresetTemplateDetail>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ConversionPresetTemplateDetail>;
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<ConversionPresetTemplateDetail> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ConversionPresetTemplateDetail.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Delete conversion preset template
+     * @param id Conversion preset template ID.
+     * @param timeout (optional) Timeout
+     */
+    delete(id: string | null, timeout: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/v1/ConversionPresetTemplates/{id}?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (timeout !== undefined && timeout !== null)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("delete", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Get conversion preset template
+     * @param id Conversion preset template ID.
+     * @return Represents the detail of a conversion preset template
+     */
+    get(id: string | null): Observable<ConversionPresetTemplateDetail> {
+        let url_ = this.baseUrl + "/v1/ConversionPresetTemplates/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ConversionPresetTemplateDetail>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ConversionPresetTemplateDetail>;
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<ConversionPresetTemplateDetail> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ConversionPresetTemplateDetail.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Create multiple conversion preset templates
+     * @param request Request containing information needed to create new conversion preset template.
+     * @return Business process
+     */
+    createMany(request: ConversionPresetTemplateCreateManyRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/ConversionPresetTemplates/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processCreateMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateMany(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BusinessProcess>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BusinessProcess>;
+        }));
+    }
+
+    protected processCreateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Update multiple conversion preset templates
+     * @param request Request containing information needed to update the conversion preset template.
+     * @return Business process
+     */
+    updateMany(request: ConversionPresetTemplateUpdateManyRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/ConversionPresetTemplates/many";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdateMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateMany(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BusinessProcess>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BusinessProcess>;
+        }));
+    }
+
+    protected processUpdateMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Delete multiple conversion preset templates
+     * @param request The request with conversion preset template IDs to delete.
+     * @return Business process
+     */
+    deleteMany(request: ConversionPresetTemplateDeleteManyRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/ConversionPresetTemplates/many/delete";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDeleteMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteMany(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BusinessProcess>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BusinessProcess>;
+        }));
+    }
+
+    protected processDeleteMany(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class DisplayValueService extends PictureparkServiceBase {
     private http: HttpClient;
     private baseUrl: string;
@@ -13882,111 +14862,6 @@ export class OutputFormatService extends PictureparkServiceBase {
     }
 
     /**
-     * Get output format
-     * @param id Output format ID.
-     * @return Represents an output format.
-     */
-    get(id: string | null): Observable<OutputFormatDetail> {
-        let url_ = this.baseUrl + "/v1/OutputFormats/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGet(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGet(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<OutputFormatDetail>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<OutputFormatDetail>;
-        }));
-    }
-
-    protected processGet(response: HttpResponseBase): Observable<OutputFormatDetail> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = OutputFormatDetail.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Unauthorized", status, _responseText, _headers);
-            }));
-        } else if (status === 403) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result403: any = null;
-            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result403 = PictureparkForbiddenException.fromJS(resultData403);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Method not allowed", status, _responseText, _headers);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = PictureparkConflictException.fromJS(resultData409);
-            return throwException("Version conflict", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = PictureparkException.fromJS(resultData500);
-            return throwException("Internal server error", status, _responseText, _headers, result500);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
      * Update output format
      * @param id Output format ID.
      * @param request Request containing information needed to update the output format.
@@ -14144,6 +15019,111 @@ export class OutputFormatService extends PictureparkServiceBase {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Get output format
+     * @param id Output format ID.
+     * @return Represents an output format.
+     */
+    get(id: string | null): Observable<OutputFormatDetail> {
+        let url_ = this.baseUrl + "/v1/OutputFormats/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<OutputFormatDetail>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<OutputFormatDetail>;
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<OutputFormatDetail> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = OutputFormatDetail.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 400) {
@@ -21570,6 +22550,112 @@ export class TemplateService extends PictureparkServiceBase {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * Search templates
+     * @param searchRequest The template search request.
+     * @return Template search result
+     */
+    search(searchRequest: TemplateSearchRequest): Observable<TemplateSearchResult> {
+        let url_ = this.baseUrl + "/v1/Templates/search";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(searchRequest);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processSearch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearch(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<TemplateSearchResult>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<TemplateSearchResult>;
+        }));
+    }
+
+    protected processSearch(response: HttpResponseBase): Observable<TemplateSearchResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = TemplateSearchResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 @Injectable({
@@ -22749,8 +23835,8 @@ export class TransferService extends PictureparkServiceBase {
      * @param body (optional) Body
      * @return OK
      */
-    uploadFile(chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string | null, requestId: string | null, body: Blob | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/v1/Transfers/{transferId}/files/{requestId}/upload?";
+     uploadFile(chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string | null, requestId: string | null, body: Blob | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/v2/Transfers/{transferId}/files/{requestId}/upload?";
         if (transferId === undefined || transferId === null)
             throw new Error("The parameter 'transferId' must be defined.");
         url_ = url_.replace("{transferId}", encodeURIComponent("" + transferId));
@@ -22768,7 +23854,7 @@ export class TransferService extends PictureparkServiceBase {
         if (totalSize === undefined || totalSize === null)
             throw new Error("The parameter 'totalSize' must be defined and cannot be null.");
         else
-            url_ += "TotalSize=" + encodeURIComponent("" + totalChunks) + "&";
+            url_ += "TotalSize=" + encodeURIComponent("" + totalSize) + "&";
         if (totalChunks === undefined || totalChunks === null)
             throw new Error("The parameter 'totalChunks' must be defined and cannot be null.");
         else
@@ -22793,12 +23879,12 @@ export class TransferService extends PictureparkServiceBase {
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUploadFile(response_ as any);
+                    return this.processUploadFile(<any>response_);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return _observableThrow(response_) as any as Observable<void>;
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
@@ -26285,42 +27371,43 @@ export class XmpMappingService extends PictureparkServiceBase {
     }
 
     /**
-     * Get xmp mapping
-     * @param id Xmp mapping ID.
-     * @return XMP mapping entry
+     * Create xmp mapping
+     * @param request Request containing information needed to create new xmp mapping.
+     * @return Business process
      */
-    get(id: string | null): Observable<XmpMappingEntry> {
-        let url_ = this.baseUrl + "/v1/XmpMappings/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+    create(request: XmpMappingEntryCreateRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/XmpMappings";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(request);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
+            return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGet(response_);
+            return this.processCreate(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGet(response_ as any);
+                    return this.processCreate(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<XmpMappingEntry>;
+                    return _observableThrow(e) as any as Observable<BusinessProcess>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<XmpMappingEntry>;
+                return _observableThrow(response_) as any as Observable<BusinessProcess>;
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<XmpMappingEntry> {
+    protected processCreate(response: HttpResponseBase): Observable<BusinessProcess> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -26331,7 +27418,7 @@ export class XmpMappingService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = XmpMappingEntry.fromJS(resultData200);
+            result200 = BusinessProcess.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 400) {
@@ -26380,6 +27467,117 @@ export class XmpMappingService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Get multiple xmp mappings
+     * @param ids (optional) Xmp mapping IDs to get information about.
+     * @return Array of XMP mapping entry
+     */
+    getMany(ids: string[] | null | undefined): Observable<XmpMappingEntry[]> {
+        let url_ = this.baseUrl + "/v1/XmpMappings?";
+        if (ids !== undefined && ids !== null)
+            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetMany(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMany(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<XmpMappingEntry[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<XmpMappingEntry[]>;
+        }));
+    }
+
+    protected processGetMany(response: HttpResponseBase): Observable<XmpMappingEntry[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(XmpMappingEntry.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Too many requests", status, _responseText, _headers);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26605,120 +27803,15 @@ export class XmpMappingService extends PictureparkServiceBase {
     }
 
     /**
-     * Create xmp mapping
-     * @param request Request containing information needed to create new xmp mapping.
-     * @return Business process
+     * Get xmp mapping
+     * @param id Xmp mapping ID.
+     * @return XMP mapping entry
      */
-    create(request: XmpMappingEntryCreateRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v1/XmpMappings";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("post", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<BusinessProcess>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<BusinessProcess>;
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<BusinessProcess> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BusinessProcess.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            }));
-        } else if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Unauthorized", status, _responseText, _headers);
-            }));
-        } else if (status === 403) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result403: any = null;
-            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result403 = PictureparkForbiddenException.fromJS(resultData403);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            }));
-        } else if (status === 405) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Method not allowed", status, _responseText, _headers);
-            }));
-        } else if (status === 409) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result409: any = null;
-            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result409 = PictureparkConflictException.fromJS(resultData409);
-            return throwException("Version conflict", status, _responseText, _headers, result409);
-            }));
-        } else if (status === 429) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
-            }));
-        } else if (status === 500) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result500: any = null;
-            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result500 = PictureparkException.fromJS(resultData500);
-            return throwException("Internal server error", status, _responseText, _headers, result500);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
-     * Get multiple xmp mappings
-     * @param ids (optional) Xmp mapping IDs to get information about.
-     * @return Array of XMP mapping entry
-     */
-    getMany(ids: string[] | null | undefined): Observable<XmpMappingEntry[]> {
-        let url_ = this.baseUrl + "/v1/XmpMappings?";
-        if (ids !== undefined && ids !== null)
-            ids && ids.forEach(item => { url_ += "ids=" + encodeURIComponent("" + item) + "&"; });
+    get(id: string | null): Observable<XmpMappingEntry> {
+        let url_ = this.baseUrl + "/v1/XmpMappings/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -26732,20 +27825,20 @@ export class XmpMappingService extends PictureparkServiceBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("get", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processGetMany(response_);
+            return this.processGet(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetMany(response_ as any);
+                    return this.processGet(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<XmpMappingEntry[]>;
+                    return _observableThrow(e) as any as Observable<XmpMappingEntry>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<XmpMappingEntry[]>;
+                return _observableThrow(response_) as any as Observable<XmpMappingEntry>;
         }));
     }
 
-    protected processGetMany(response: HttpResponseBase): Observable<XmpMappingEntry[]> {
+    protected processGet(response: HttpResponseBase): Observable<XmpMappingEntry> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -26756,15 +27849,15 @@ export class XmpMappingService extends PictureparkServiceBase {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(XmpMappingEntry.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = XmpMappingEntry.fromJS(resultData200);
             return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status === 401) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26805,13 +27898,6 @@ export class XmpMappingService extends PictureparkServiceBase {
             let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result500 = PictureparkException.fromJS(resultData500);
             return throwException("Internal server error", status, _responseText, _headers, result500);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -27921,6 +29007,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputOperationInProgressException") {
+            let result = new OutputOperationInProgressException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DownloadLinkExpiredException") {
             let result = new DownloadLinkExpiredException();
             result.init(data);
@@ -29114,6 +30205,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleTransferOwnershipTransferUserIdMissingException") {
+            let result = new BusinessRuleTransferOwnershipTransferUserIdMissingException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "NamedCacheConfigurationException") {
             let result = new NamedCacheConfigurationException();
             result.init(data);
@@ -29324,6 +30420,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "StatisticsWriteNotEnabledException") {
             let result = new StatisticsWriteNotEnabledException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ConversionPresetTemplateNotFoundException") {
+            let result = new ConversionPresetTemplateNotFoundException();
             result.init(data);
             return result;
         }
@@ -29724,6 +30825,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "OutputOperationInProgressException") {
+            let result = new OutputOperationInProgressException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DownloadLinkExpiredException") {
             let result = new DownloadLinkExpiredException();
             result.init(data);
@@ -30917,6 +32023,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleTransferOwnershipTransferUserIdMissingException") {
+            let result = new BusinessRuleTransferOwnershipTransferUserIdMissingException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "NamedCacheConfigurationException") {
             let result = new NamedCacheConfigurationException();
             result.init(data);
@@ -31127,6 +32238,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "StatisticsWriteNotEnabledException") {
             let result = new StatisticsWriteNotEnabledException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ConversionPresetTemplateNotFoundException") {
+            let result = new ConversionPresetTemplateNotFoundException();
             result.init(data);
             return result;
         }
@@ -32302,6 +33418,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleTransferOwnershipTransferUserIdMissingException") {
+            let result = new BusinessRuleTransferOwnershipTransferUserIdMissingException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "NamedCacheConfigurationException") {
             let result = new NamedCacheConfigurationException();
             result.init(data);
@@ -33179,6 +34300,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "TemplateNotFoundException") {
             let result = new TemplateNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ConversionPresetTemplateNotFoundException") {
+            let result = new ConversionPresetTemplateNotFoundException();
             result.init(data);
             return result;
         }
@@ -34940,6 +36066,34 @@ export class OutputBackupHashMismatchException extends PictureparkValidationExce
 export interface IOutputBackupHashMismatchException extends IPictureparkValidationException {
     requestedHash?: string | undefined;
     documentHash?: string | undefined;
+}
+
+export class OutputOperationInProgressException extends PictureparkBusinessException implements IOutputOperationInProgressException {
+
+    constructor(data?: IOutputOperationInProgressException) {
+        super(data);
+        this._discriminator = "OutputOperationInProgressException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): OutputOperationInProgressException {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputOperationInProgressException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IOutputOperationInProgressException extends IPictureparkBusinessException {
 }
 
 export class DownloadLinkExpiredException extends PictureparkBusinessException implements IDownloadLinkExpiredException {
@@ -37489,6 +38643,7 @@ export enum UserRight {
     WriteStatistics = "WriteStatistics",
     ExportStatistics = "ExportStatistics",
     EditImages = "EditImages",
+    ManageConversionPresetTemplates = "ManageConversionPresetTemplates",
 }
 
 export class PermissionSetNotFoundException extends PictureparkNotFoundException implements IPermissionSetNotFoundException {
@@ -44949,6 +46104,34 @@ export interface IBusinessRuleDateMathTransformationTimeSpanInvalidException ext
     timeSpan?: string | undefined;
 }
 
+export class BusinessRuleTransferOwnershipTransferUserIdMissingException extends PictureparkValidationException implements IBusinessRuleTransferOwnershipTransferUserIdMissingException {
+
+    constructor(data?: IBusinessRuleTransferOwnershipTransferUserIdMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleTransferOwnershipTransferUserIdMissingException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): BusinessRuleTransferOwnershipTransferUserIdMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleTransferOwnershipTransferUserIdMissingException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IBusinessRuleTransferOwnershipTransferUserIdMissingException extends IPictureparkValidationException {
+}
+
 export class NamedCacheConfigurationException extends PictureparkValidationException implements INamedCacheConfigurationException {
     innerExceptions?: PictureparkValidationException[] | undefined;
 
@@ -46447,6 +47630,40 @@ export class StatisticsWriteNotEnabledException extends StatisticsFeatureNotEnab
 }
 
 export interface IStatisticsWriteNotEnabledException extends IStatisticsFeatureNotEnabledException {
+}
+
+export class ConversionPresetTemplateNotFoundException extends PictureparkNotFoundException implements IConversionPresetTemplateNotFoundException {
+    conversionPresetTemplateId?: string | undefined;
+
+    constructor(data?: IConversionPresetTemplateNotFoundException) {
+        super(data);
+        this._discriminator = "ConversionPresetTemplateNotFoundException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.conversionPresetTemplateId = _data["conversionPresetTemplateId"];
+        }
+    }
+
+    static override fromJS(data: any): ConversionPresetTemplateNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversionPresetTemplateNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["conversionPresetTemplateId"] = this.conversionPresetTemplateId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IConversionPresetTemplateNotFoundException extends IPictureparkNotFoundException {
+    conversionPresetTemplateId?: string | undefined;
 }
 
 export class ProblemDetails implements IProblemDetails {
@@ -51388,6 +52605,11 @@ export abstract class BusinessRuleAction implements IBusinessRuleAction {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "EnqueueTransferOwnershipAction") {
+            let result = new EnqueueTransferOwnershipAction();
+            result.init(data);
+            return result;
+        }
         throw new Error("The abstract class 'BusinessRuleAction' cannot be instantiated.");
     }
 
@@ -52310,6 +53532,44 @@ export interface IGetNumberFromNumberSequenceAction extends IBusinessRuleAction 
     numberSequenceId?: string | undefined;
     /** Variable name to store number in. */
     storeIn?: string | undefined;
+}
+
+/** Enqueue content for transfer ownership */
+export class EnqueueTransferOwnershipAction extends BusinessRuleAction implements IEnqueueTransferOwnershipAction {
+    /** Id of the user to whom the ownership should be transferred. */
+    transferUserId?: string | undefined;
+
+    constructor(data?: IEnqueueTransferOwnershipAction) {
+        super(data);
+        this._discriminator = "EnqueueTransferOwnershipAction";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.transferUserId = _data["transferUserId"];
+        }
+    }
+
+    static override fromJS(data: any): EnqueueTransferOwnershipAction {
+        data = typeof data === 'object' ? data : {};
+        let result = new EnqueueTransferOwnershipAction();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["transferUserId"] = this.transferUserId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Enqueue content for transfer ownership */
+export interface IEnqueueTransferOwnershipAction extends IBusinessRuleAction {
+    /** Id of the user to whom the ownership should be transferred. */
+    transferUserId?: string | undefined;
 }
 
 /** A business rule expressed as a script */
@@ -62040,6 +63300,653 @@ Warning! It severely affects performance. */
     debugMode: boolean;
 }
 
+/** Base class for search results */
+export class BaseResultOfConversionPresetTemplate implements IBaseResultOfConversionPresetTemplate {
+    /** The total number of matching documents. */
+    totalResults!: number;
+    /** The matched documents. */
+    results!: ConversionPresetTemplate[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+
+    constructor(data?: IBaseResultOfConversionPresetTemplate) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.results = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalResults = _data["totalResults"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(ConversionPresetTemplate.fromJS(item));
+            }
+            this.elapsedMilliseconds = _data["elapsedMilliseconds"];
+            this.pageToken = _data["pageToken"];
+        }
+    }
+
+    static fromJS(data: any): BaseResultOfConversionPresetTemplate {
+        data = typeof data === 'object' ? data : {};
+        let result = new BaseResultOfConversionPresetTemplate();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
+        return data;
+    }
+}
+
+/** Base class for search results */
+export interface IBaseResultOfConversionPresetTemplate {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: ConversionPresetTemplate[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export class SearchBehaviorBaseResultOfConversionPresetTemplate extends BaseResultOfConversionPresetTemplate implements ISearchBehaviorBaseResultOfConversionPresetTemplate {
+    /** The search string used to query the data. */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
+    isSearchStringRewritten?: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
+
+    constructor(data?: ISearchBehaviorBaseResultOfConversionPresetTemplate) {
+        super(data);
+        if (data) {
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
+        }
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.searchString = _data["searchString"];
+            this.isSearchStringRewritten = _data["isSearchStringRewritten"];
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
+        }
+    }
+
+    static override fromJS(data: any): SearchBehaviorBaseResultOfConversionPresetTemplate {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorBaseResultOfConversionPresetTemplate();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export interface ISearchBehaviorBaseResultOfConversionPresetTemplate extends IBaseResultOfConversionPresetTemplate {
+    /** The search string used to query the data. */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
+    isSearchStringRewritten?: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
+}
+
+/** Holds results of the conversion preset template search */
+export class ConversionPresetTemplateSearchResult extends SearchBehaviorBaseResultOfConversionPresetTemplate implements IConversionPresetTemplateSearchResult {
+
+    constructor(data?: IConversionPresetTemplateSearchResult) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): ConversionPresetTemplateSearchResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversionPresetTemplateSearchResult();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Holds results of the conversion preset template search */
+export interface IConversionPresetTemplateSearchResult extends ISearchBehaviorBaseResultOfConversionPresetTemplate {
+}
+
+/** Holds information needed for conversion preset template update. */
+export class ConversionPresetTemplateUpdateRequest implements IConversionPresetTemplateUpdateRequest {
+    /** Language specific names. */
+    names!: TranslatedStringDictionary;
+    /** Language specific descriptions. */
+    descriptions?: TranslatedStringDictionary | undefined;
+    /** The template for the conversion. */
+    template?: string | undefined;
+
+    constructor(data?: IConversionPresetTemplateUpdateRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names;
+            this.descriptions = data.descriptions && !(<any>data.descriptions).toJSON ? new TranslatedStringDictionary(data.descriptions) : <TranslatedStringDictionary>this.descriptions;
+        }
+        if (!data) {
+            this.names = new TranslatedStringDictionary();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : new TranslatedStringDictionary();
+            this.descriptions = _data["descriptions"] ? TranslatedStringDictionary.fromJS(_data["descriptions"]) : <any>undefined;
+            this.template = _data["template"];
+        }
+    }
+
+    static fromJS(data: any): ConversionPresetTemplateUpdateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversionPresetTemplateUpdateRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["descriptions"] = this.descriptions ? this.descriptions.toJSON() : <any>undefined;
+        data["template"] = this.template;
+        return data;
+    }
+}
+
+/** Holds information needed for conversion preset template update. */
+export interface IConversionPresetTemplateUpdateRequest {
+    /** Language specific names. */
+    names: ITranslatedStringDictionary;
+    /** Language specific descriptions. */
+    descriptions?: ITranslatedStringDictionary | undefined;
+    /** The template for the conversion. */
+    template?: string | undefined;
+}
+
+/** Represents a conversion preset template */
+export class ConversionPresetTemplate extends ConversionPresetTemplateUpdateRequest implements IConversionPresetTemplate {
+    /** Conversion preset template ID. */
+    id!: string;
+    /** The output format ID to which the conversion preset template is associated */
+    outputFormatId!: string;
+
+    constructor(data?: IConversionPresetTemplate) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.id = _data["id"];
+            this.outputFormatId = _data["outputFormatId"];
+        }
+    }
+
+    static override fromJS(data: any): ConversionPresetTemplate {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversionPresetTemplate();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["outputFormatId"] = this.outputFormatId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Represents a conversion preset template */
+export interface IConversionPresetTemplate extends IConversionPresetTemplateUpdateRequest {
+    /** Conversion preset template ID. */
+    id: string;
+    /** The output format ID to which the conversion preset template is associated */
+    outputFormatId: string;
+}
+
+/** Conversion preset templates search request */
+export class ConversionPresetTemplateSearchRequest implements IConversionPresetTemplateSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit!: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+    debugMode!: boolean;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+
+    constructor(data?: IConversionPresetTemplateSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.searchString = _data["searchString"];
+            if (Array.isArray(_data["searchBehaviors"])) {
+                this.searchBehaviors = [] as any;
+                for (let item of _data["searchBehaviors"])
+                    this.searchBehaviors!.push(item);
+            }
+            if (Array.isArray(_data["sort"])) {
+                this.sort = [] as any;
+                for (let item of _data["sort"])
+                    this.sort!.push(SortInfo.fromJS(item));
+            }
+            this.limit = _data["limit"];
+            this.pageToken = _data["pageToken"];
+            this.filter = _data["filter"] ? FilterBase.fromJS(_data["filter"]) : <any>undefined;
+            this.debugMode = _data["debugMode"];
+            if (Array.isArray(_data["searchLanguages"])) {
+                this.searchLanguages = [] as any;
+                for (let item of _data["searchLanguages"])
+                    this.searchLanguages!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ConversionPresetTemplateSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversionPresetTemplateSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        if (Array.isArray(this.searchBehaviors)) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        if (Array.isArray(this.sort)) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["debugMode"] = this.debugMode;
+        if (Array.isArray(this.searchLanguages)) {
+            data["searchLanguages"] = [];
+            for (let item of this.searchLanguages)
+                data["searchLanguages"].push(item);
+        }
+        return data;
+    }
+}
+
+/** Conversion preset templates search request */
+export interface IConversionPresetTemplateSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: ISortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+}
+
+/** Represents the detail of a conversion preset template */
+export class ConversionPresetTemplateDetail extends ConversionPresetTemplate implements IConversionPresetTemplateDetail {
+    /** Audit information. */
+    audit?: UserAuditDetail | undefined;
+
+    constructor(data?: IConversionPresetTemplateDetail) {
+        super(data);
+        if (data) {
+            this.audit = data.audit && !(<any>data.audit).toJSON ? new UserAuditDetail(data.audit) : <UserAuditDetail>this.audit;
+        }
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.audit = _data["audit"] ? UserAuditDetail.fromJS(_data["audit"]) : <any>undefined;
+        }
+    }
+
+    static override fromJS(data: any): ConversionPresetTemplateDetail {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversionPresetTemplateDetail();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Represents the detail of a conversion preset template */
+export interface IConversionPresetTemplateDetail extends IConversionPresetTemplate {
+    /** Audit information. */
+    audit?: IUserAuditDetail | undefined;
+}
+
+/** Holds information needed for conversion preset template creation */
+export class ConversionPresetTemplateCreateRequest extends ConversionPresetTemplateUpdateRequest implements IConversionPresetTemplateCreateRequest {
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
+    requestId?: string | undefined;
+    /** The output format ID to which the conversion preset template is associated */
+    outputFormatId!: string;
+
+    constructor(data?: IConversionPresetTemplateCreateRequest) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.requestId = _data["requestId"];
+            this.outputFormatId = _data["outputFormatId"];
+        }
+    }
+
+    static override fromJS(data: any): ConversionPresetTemplateCreateRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversionPresetTemplateCreateRequest();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["requestId"] = this.requestId;
+        data["outputFormatId"] = this.outputFormatId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Holds information needed for conversion preset template creation */
+export interface IConversionPresetTemplateCreateRequest extends IConversionPresetTemplateUpdateRequest {
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
+    requestId?: string | undefined;
+    /** The output format ID to which the conversion preset template is associated */
+    outputFormatId: string;
+}
+
+/** Used to create multiple new conversion preset templates at once. */
+export class ConversionPresetTemplateCreateManyRequest implements IConversionPresetTemplateCreateManyRequest {
+    /** Conversion preset templates items to be created. */
+    items?: ConversionPresetTemplateCreateRequest[] | undefined;
+
+    constructor(data?: IConversionPresetTemplateCreateManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ConversionPresetTemplateCreateRequest.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ConversionPresetTemplateCreateManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversionPresetTemplateCreateManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+/** Used to create multiple new conversion preset templates at once. */
+export interface IConversionPresetTemplateCreateManyRequest {
+    /** Conversion preset templates items to be created. */
+    items?: ConversionPresetTemplateCreateRequest[] | undefined;
+}
+
+/** Used to modify multiple conversion preset templates at once. */
+export class ConversionPresetTemplateUpdateManyRequest implements IConversionPresetTemplateUpdateManyRequest {
+    /** Conversion preset templates items to be modified. */
+    items?: ConversionPresetTemplateUpdateManyRequestItem[] | undefined;
+
+    constructor(data?: IConversionPresetTemplateUpdateManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ConversionPresetTemplateUpdateManyRequestItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ConversionPresetTemplateUpdateManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversionPresetTemplateUpdateManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+/** Used to modify multiple conversion preset templates at once. */
+export interface IConversionPresetTemplateUpdateManyRequest {
+    /** Conversion preset templates items to be modified. */
+    items?: ConversionPresetTemplateUpdateManyRequestItem[] | undefined;
+}
+
+/** Represents one item to be modified in a bulk update operation on conversion preset templates. */
+export class ConversionPresetTemplateUpdateManyRequestItem extends ConversionPresetTemplateUpdateRequest implements IConversionPresetTemplateUpdateManyRequestItem {
+    /** ID of the conversion preset templates to modify. */
+    id?: string | undefined;
+
+    constructor(data?: IConversionPresetTemplateUpdateManyRequestItem) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.id = _data["id"];
+        }
+    }
+
+    static override fromJS(data: any): ConversionPresetTemplateUpdateManyRequestItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversionPresetTemplateUpdateManyRequestItem();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Represents one item to be modified in a bulk update operation on conversion preset templates. */
+export interface IConversionPresetTemplateUpdateManyRequestItem extends IConversionPresetTemplateUpdateRequest {
+    /** ID of the conversion preset templates to modify. */
+    id?: string | undefined;
+}
+
+/** Used to remove multiple conversion preset templates at once. */
+export class ConversionPresetTemplateDeleteManyRequest implements IConversionPresetTemplateDeleteManyRequest {
+    /** List of IDs of conversion preset templates to remove. */
+    ids?: string[] | undefined;
+
+    constructor(data?: IConversionPresetTemplateDeleteManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["ids"])) {
+                this.ids = [] as any;
+                for (let item of _data["ids"])
+                    this.ids!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ConversionPresetTemplateDeleteManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversionPresetTemplateDeleteManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.ids)) {
+            data["ids"] = [];
+            for (let item of this.ids)
+                data["ids"].push(item);
+        }
+        return data;
+    }
+}
+
+/** Used to remove multiple conversion preset templates at once. */
+export interface IConversionPresetTemplateDeleteManyRequest {
+    /** List of IDs of conversion preset templates to remove. */
+    ids?: string[] | undefined;
+}
+
 export class DisplayValueStatus implements IDisplayValueStatus {
     /** The schema ids (of type Content or Layer) for which the re-rendering of the display values is needed. */
     contentOrLayerSchemaIds?: string[] | undefined;
@@ -62818,6 +64725,8 @@ export class CustomerInfo implements ICustomerInfo {
     licenseInformation!: LicenseInfo;
     /** Customer settings */
     settings!: CustomerInfoSettings;
+    /** True if a dashboard overview template is available. */
+    hasDashboard!: boolean;
 
     constructor(data?: ICustomerInfo) {
         if (data) {
@@ -62894,6 +64803,7 @@ export class CustomerInfo implements ICustomerInfo {
             this.logosUrl = _data["logosUrl"];
             this.licenseInformation = _data["licenseInformation"] ? LicenseInfo.fromJS(_data["licenseInformation"]) : new LicenseInfo();
             this.settings = _data["settings"] ? CustomerInfoSettings.fromJS(_data["settings"]) : new CustomerInfoSettings();
+            this.hasDashboard = _data["hasDashboard"];
         }
     }
 
@@ -62938,6 +64848,7 @@ export class CustomerInfo implements ICustomerInfo {
         data["logosUrl"] = this.logosUrl;
         data["licenseInformation"] = this.licenseInformation ? this.licenseInformation.toJSON() : <any>undefined;
         data["settings"] = this.settings ? this.settings.toJSON() : <any>undefined;
+        data["hasDashboard"] = this.hasDashboard;
         return data;
     }
 }
@@ -62975,6 +64886,8 @@ export interface ICustomerInfo {
     licenseInformation: ILicenseInfo;
     /** Customer settings */
     settings: ICustomerInfoSettings;
+    /** True if a dashboard overview template is available. */
+    hasDashboard: boolean;
 }
 
 export class LanguageConfiguration implements ILanguageConfiguration {
@@ -68143,6 +70056,16 @@ export abstract class FormatBase implements IFormatBase {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "WebPFormat") {
+            let result = new WebPFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AvifFormat") {
+            let result = new AvifFormat();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "VideoFormatBase") {
             throw new Error("The abstract class 'VideoFormatBase' cannot be instantiated.");
         }
@@ -68251,6 +70174,16 @@ export abstract class FormatWithFixedExtensionBase extends FormatBase implements
         }
         if (data["kind"] === "TiffFormat") {
             let result = new TiffFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "WebPFormat") {
+            let result = new WebPFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AvifFormat") {
+            let result = new AvifFormat();
             result.init(data);
             return result;
         }
@@ -68448,6 +70381,16 @@ export abstract class ImageFormatBase extends FormatWithFixedExtensionBase imple
         }
         if (data["kind"] === "TiffFormat") {
             let result = new TiffFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "WebPFormat") {
+            let result = new WebPFormat();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AvifFormat") {
+            let result = new AvifFormat();
             result.init(data);
             return result;
         }
@@ -69565,6 +71508,82 @@ export enum CompressionType {
     Lzw = "Lzw",
     Rle = "Rle",
     Zip = "Zip",
+}
+
+/** Renders a WebP image. */
+export class WebPFormat extends ImageFormatBase implements IWebPFormat {
+    /** Compression quality. Must be in range [0,100] and defaults to 90. */
+    quality?: number;
+
+    constructor(data?: IWebPFormat) {
+        super(data);
+        this._discriminator = "WebPFormat";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.quality = _data["quality"];
+        }
+    }
+
+    static override fromJS(data: any): WebPFormat {
+        data = typeof data === 'object' ? data : {};
+        let result = new WebPFormat();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["quality"] = this.quality;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Renders a WebP image. */
+export interface IWebPFormat extends IImageFormatBase {
+    /** Compression quality. Must be in range [0,100] and defaults to 90. */
+    quality?: number;
+}
+
+/** Renders an AVIF image. */
+export class AvifFormat extends ImageFormatBase implements IAvifFormat {
+    /** Compression quality. Must be in range [0,100] and defaults to 90. */
+    quality?: number;
+
+    constructor(data?: IAvifFormat) {
+        super(data);
+        this._discriminator = "AvifFormat";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.quality = _data["quality"];
+        }
+    }
+
+    static override fromJS(data: any): AvifFormat {
+        data = typeof data === 'object' ? data : {};
+        let result = new AvifFormat();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["quality"] = this.quality;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Renders an AVIF image. */
+export interface IAvifFormat extends IImageFormatBase {
+    /** Compression quality. Must be in range [0,100] and defaults to 90. */
+    quality?: number;
 }
 
 /** Base class for rendering video. */
@@ -73845,6 +75864,8 @@ export class FieldSingleRelation extends FieldBase implements IFieldSingleRelati
     schemaIndexingInfo?: SchemaIndexingInfo | undefined;
     /** Defines the allowed elation types. */
     relationTypes!: RelationType[];
+    /** Settings for displaying purposes in the UI */
+    uiSettings?: RelationUiSettings | undefined;
 
     constructor(data?: IFieldSingleRelation) {
         super(data);
@@ -73857,6 +75878,7 @@ export class FieldSingleRelation extends FieldBase implements IFieldSingleRelati
                     this.relationTypes[i] = item && !(<any>item).toJSON ? new RelationType(item) : <RelationType>item;
                 }
             }
+            this.uiSettings = data.uiSettings && !(<any>data.uiSettings).toJSON ? new RelationUiSettings(data.uiSettings) : <RelationUiSettings>this.uiSettings;
         }
         if (!data) {
             this.relationTypes = [];
@@ -73874,6 +75896,7 @@ export class FieldSingleRelation extends FieldBase implements IFieldSingleRelati
                 for (let item of _data["relationTypes"])
                     this.relationTypes!.push(RelationType.fromJS(item));
             }
+            this.uiSettings = _data["uiSettings"] ? RelationUiSettings.fromJS(_data["uiSettings"]) : <any>undefined;
         }
     }
 
@@ -73893,6 +75916,7 @@ export class FieldSingleRelation extends FieldBase implements IFieldSingleRelati
             for (let item of this.relationTypes)
                 data["relationTypes"].push(item.toJSON());
         }
+        data["uiSettings"] = this.uiSettings ? this.uiSettings.toJSON() : <any>undefined;
         super.toJSON(data);
         return data;
     }
@@ -73906,6 +75930,8 @@ export interface IFieldSingleRelation extends IFieldBase {
     schemaIndexingInfo?: ISchemaIndexingInfo | undefined;
     /** Defines the allowed elation types. */
     relationTypes: IRelationType[];
+    /** Settings for displaying purposes in the UI */
+    uiSettings?: IRelationUiSettings | undefined;
 }
 
 /** Defines a relation */
@@ -73967,6 +75993,65 @@ export interface IRelationType {
     filter?: FilterBase | undefined;
 }
 
+/** Ui settings for the single and multi relationship fields */
+export class RelationUiSettings implements IRelationUiSettings {
+    /** Maximum number of rows to be displayed in the List view. */
+    maxListRows?: number | undefined;
+    /** Maximum number of rows to be displayed in the Thumbnail views. */
+    maxThumbRows?: number | undefined;
+    /** The view to be used when rendering the field. */
+    view!: RelationView;
+
+    constructor(data?: IRelationUiSettings) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.maxListRows = _data["maxListRows"];
+            this.maxThumbRows = _data["maxThumbRows"];
+            this.view = _data["view"];
+        }
+    }
+
+    static fromJS(data: any): RelationUiSettings {
+        data = typeof data === 'object' ? data : {};
+        let result = new RelationUiSettings();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["maxListRows"] = this.maxListRows;
+        data["maxThumbRows"] = this.maxThumbRows;
+        data["view"] = this.view;
+        return data;
+    }
+}
+
+/** Ui settings for the single and multi relationship fields */
+export interface IRelationUiSettings {
+    /** Maximum number of rows to be displayed in the List view. */
+    maxListRows?: number | undefined;
+    /** Maximum number of rows to be displayed in the Thumbnail views. */
+    maxThumbRows?: number | undefined;
+    /** The view to be used when rendering the field. */
+    view: RelationView;
+}
+
+/** The view for the single and multi relationship field */
+export enum RelationView {
+    List = "List",
+    ThumbSmall = "ThumbSmall",
+    ThumbMedium = "ThumbMedium",
+}
+
 /** The field used to store multiple relations */
 export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation {
     /** The ID of the schema used for relation metadata (it must be of type Struct, and it cannot be a system schema). */
@@ -73979,6 +76064,8 @@ export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation
     maximumItems?: number | undefined;
     /** The minimum number of items that must be stored. */
     minimumItems?: number | undefined;
+    /** Settings for displaying purposes in the UI */
+    uiSettings?: RelationUiSettings | undefined;
 
     constructor(data?: IFieldMultiRelation) {
         super(data);
@@ -73991,6 +76078,7 @@ export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation
                     this.relationTypes[i] = item && !(<any>item).toJSON ? new RelationType(item) : <RelationType>item;
                 }
             }
+            this.uiSettings = data.uiSettings && !(<any>data.uiSettings).toJSON ? new RelationUiSettings(data.uiSettings) : <RelationUiSettings>this.uiSettings;
         }
         if (!data) {
             this.relationTypes = [];
@@ -74010,6 +76098,7 @@ export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation
             }
             this.maximumItems = _data["maximumItems"];
             this.minimumItems = _data["minimumItems"];
+            this.uiSettings = _data["uiSettings"] ? RelationUiSettings.fromJS(_data["uiSettings"]) : <any>undefined;
         }
     }
 
@@ -74031,6 +76120,7 @@ export class FieldMultiRelation extends FieldBase implements IFieldMultiRelation
         }
         data["maximumItems"] = this.maximumItems;
         data["minimumItems"] = this.minimumItems;
+        data["uiSettings"] = this.uiSettings ? this.uiSettings.toJSON() : <any>undefined;
         super.toJSON(data);
         return data;
     }
@@ -74048,6 +76138,8 @@ export interface IFieldMultiRelation extends IFieldBase {
     maximumItems?: number | undefined;
     /** The minimum number of items that must be stored. */
     minimumItems?: number | undefined;
+    /** Settings for displaying purposes in the UI */
+    uiSettings?: IRelationUiSettings | undefined;
 }
 
 /** Base class to overwrite field's information */
@@ -78788,7 +80880,7 @@ export interface ITemplateCreateRequest extends ITemplateUpdateRequest {
 /** Template */
 export class Template extends TemplateCreateRequest implements ITemplate {
     /** ID of template. */
-    id?: string | undefined;
+    id!: string;
     /** Indicates if this is a read-only system template. */
     system?: boolean;
     /** Audit information. */
@@ -78830,7 +80922,7 @@ export class Template extends TemplateCreateRequest implements ITemplate {
 /** Template */
 export interface ITemplate extends ITemplateCreateRequest {
     /** ID of template. */
-    id?: string | undefined;
+    id: string;
     /** Indicates if this is a read-only system template. */
     system?: boolean;
     /** Audit information. */
@@ -78850,6 +80942,7 @@ export enum TemplateType {
     UserEmailConflictSolvedMail = "UserEmailConflictSolvedMail",
     NotificationMail = "NotificationMail",
     NotificationMailItem = "NotificationMailItem",
+    DashboardPage = "DashboardPage",
 }
 
 /** Media type specific value for a template */
@@ -78896,6 +80989,109 @@ export interface ITemplateValue {
     mediaType: string;
     /** Text. */
     text: string;
+}
+
+/** Result for template search operation */
+export class TemplateSearchResult implements ITemplateSearchResult {
+    /** The total number of matching documents. */
+    totalResults!: number;
+    /** The matched documents. */
+    results!: Template[];
+
+    constructor(data?: ITemplateSearchResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.results = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalResults = _data["totalResults"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(Template.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): TemplateSearchResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new TemplateSearchResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+/** Result for template search operation */
+export interface ITemplateSearchResult {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: Template[];
+}
+
+/** Request to search for templates */
+export class TemplateSearchRequest implements ITemplateSearchRequest {
+    /** Language code of the template. */
+    languageCode?: string | undefined;
+    /** Type of the template. */
+    templateType?: TemplateType | undefined;
+
+    constructor(data?: ITemplateSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.languageCode = _data["languageCode"];
+            this.templateType = _data["templateType"];
+        }
+    }
+
+    static fromJS(data: any): TemplateSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new TemplateSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["languageCode"] = this.languageCode;
+        data["templateType"] = this.templateType;
+        return data;
+    }
+}
+
+/** Request to search for templates */
+export interface ITemplateSearchRequest {
+    /** Language code of the template. */
+    languageCode?: string | undefined;
+    /** Type of the template. */
+    templateType?: TemplateType | undefined;
 }
 
 /** Creates a transfer. */
