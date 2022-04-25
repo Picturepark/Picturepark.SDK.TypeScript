@@ -14,7 +14,7 @@ import {
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { LazyGetter } from 'lazy-get-decorator';
 import { throttleTime } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 
 // LIBRARIES
 import {
@@ -141,7 +141,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         }
       } else {
         // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
-        const output = this.content.outputs!.find(
+        const output = this.content.outputs?.find(
           i => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed
         );
         const request = output
@@ -195,14 +195,14 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         ? outputs.filter(o => o.outputFormatId === 'Original')[0]
         : outputs.filter(o => o.outputFormatId === 'Preview')[0];
 
-      const downloadLink = await this.downloadFacade
-        .getDownloadLink([
+      const downloadLink = await firstValueFrom(
+        this.downloadFacade.getDownloadLink([
           new ContentDownloadRequestItem({
             contentId: this.content.id,
             outputFormatId: previewOutput.outputFormatId,
           }),
         ])
-        .toPromise();
+      );
 
       item = {
         id: this.content.id,
@@ -221,7 +221,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         previewUrl: isImage ? downloadLink.downloadUrl : this.thumbnailUrl,
 
         originalUrl: downloadLink.downloadUrl,
-        outputs: this.content.outputs! as any[],
+        outputs: this.content.outputs as any[],
 
         detail: {
           width: (<any>previewOutput.detail).width,
@@ -244,7 +244,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
           const detail = originalOutput ? originalOutput.detail : previewOutput ? previewOutput.detail : null;
 
           const pdfOutput = s.outputs.find(i => i.outputFormatId === 'Pdf');
-          return <IShareItem>{
+          return {
             id: s.id,
             index: index++,
             displayValues: s.displayValues,
@@ -274,7 +274,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
               ? s.outputs.find(i => i.outputFormatId === 'AudioSmall')!.viewUrl
               : null,
             outputs: s.outputs,
-          };
+          } as IShareItem;
         }),
       };
 

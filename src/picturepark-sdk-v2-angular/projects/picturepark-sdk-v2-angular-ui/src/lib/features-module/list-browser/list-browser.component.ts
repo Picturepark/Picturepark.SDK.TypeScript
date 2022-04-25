@@ -21,6 +21,7 @@ import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import { lowerFirst } from '../../utilities/helper';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'pp-list-browser',
@@ -60,7 +61,7 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
   async init(): Promise<void> {
     this.scrollDebounceTime = 100;
-    this.customerInfo = await this.infoFacade.getInfo().toPromise();
+    this.customerInfo = await firstValueFrom(this.infoFacade.getInfo());
 
     // need to show column names
     this.displayedColumnNames = this.schema.fields!.map(field => {

@@ -1468,22 +1468,22 @@ export declare class ShareClient extends PictureparkClientBase {
     /**
      * Get share json
      * @param token Share token
-     * @param lang (optional) Language code
+     * @param languageCode (optional) Language code
      * @param resolveBehaviors (optional) List of enums that control which parts of the share are resolved and returned.
      * @param contentResolveLimit (optional) Optional limit the number of contents to resolve. Use a lower value for higher performance. If nothing is specified, everything is resolved.
      * @return ShareDetail
      */
-    getShareJson(token: string | null, lang?: string | null | undefined, resolveBehaviors?: ShareResolveBehavior[] | null | undefined, contentResolveLimit?: number | null | undefined): Promise<ShareDetail>;
+    getShareJson(token: string | null, languageCode?: string | null | undefined, resolveBehaviors?: ShareResolveBehavior[] | null | undefined, contentResolveLimit?: number | null | undefined): Promise<ShareDetail>;
     protected processGetShareJson(response: Response): Promise<ShareDetail>;
     /**
      * Get share contents
      * @param token Share token
-     * @param lang (optional) Language code
+     * @param languageCode (optional) Language code
      * @param limit (optional) Number of contents to return
      * @param pageToken (optional) PageToken to page over contents
      * @return ShareContentDetailResult
      */
-    getShareContents(token: string | null, lang?: string | null | undefined, limit?: number | undefined, pageToken?: string | null | undefined): Promise<ShareContentDetailResult>;
+    getShareContents(token: string | null, languageCode?: string | null | undefined, limit?: number | undefined, pageToken?: string | null | undefined): Promise<ShareContentDetailResult>;
     protected processGetShareContents(response: Response): Promise<ShareContentDetailResult>;
     /**
      * Get shared outputs
@@ -1753,16 +1753,16 @@ export declare class TransferClient extends PictureparkClientBase {
     getBlacklist(): Promise<Blacklist>;
     protected processGetBlacklist(response: Response): Promise<Blacklist>;
     /**
-     * Upload file
-     * @param chunkNumber Information about chunk.
-     * @param currentChunkSize Information about chunk.
-     * @param totalSize Information about chunk.
-     * @param totalChunks Information about chunk.
-     * @param transferId ID of transfer.
-     * @param requestId Identifier of file.
-     * @param body (optional) Body
-     * @return OK
-     */
+    * Upload file
+    * @param chunkNumber Information about chunk.
+    * @param currentChunkSize Information about chunk.
+    * @param totalSize Information about chunk.
+    * @param totalChunks Information about chunk.
+    * @param transferId ID of transfer.
+    * @param requestId Identifier of file.
+    * @param body (optional) Body
+    * @return OK
+    */
     uploadFile(chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string | null, requestId: string | null, body?: Blob | undefined): Promise<void>;
     protected processUploadFile(response: Response): Promise<void>;
 }

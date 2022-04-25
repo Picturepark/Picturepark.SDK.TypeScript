@@ -46,7 +46,7 @@ import { ConfirmRecipients } from './interfaces/confirm-recipients.interface';
 
 // PIPES
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -122,8 +122,8 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
         return;
       }
       const expDate = new Date(form.get('expire_date')?.value);
-      const response = await this.shareService
-        .create(
+      const response = await firstValueFrom(
+        this.shareService.create(
           new ShareBasicCreateRequest({
             name: form.get('share_name')!.value,
             recipientEmails: recipientsEmails,
@@ -134,11 +134,11 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
             expirationDate: isNaN(expDate.getTime()) ? undefined : expDate,
           })
         )
-        .toPromise();
+      );
 
-      await this.businessProcessService.waitForCompletion(response.id, '02:00:00', true).toPromise();
+      await firstValueFrom(this.businessProcessService.waitForCompletion(response.id, '02:00:00', true));
 
-      const share = await this.shareService.get(response.referenceId!, null, 0).toPromise();
+      const share = await firstValueFrom(this.shareService.get(response.referenceId!, null, 0));
 
       (share.data as ShareDataBasic).internalRecipients.forEach(recipient =>
         this.recipients.push({
