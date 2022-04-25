@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { ShareOutputBase } from '@picturepark/sdk-v2-angular';
+import { PICTUREPARK_UI_SCRIPTPATH } from '../../configuration';
 
 function log(message: string) {
   if (console) {
@@ -11,8 +12,13 @@ function log(message: string) {
   providedIn: 'root',
 })
 export class FullscreenService {
+  constructor(@Optional() @Inject(PICTUREPARK_UI_SCRIPTPATH) private uiScriptPath: string) {}
+
   loading = false;
-  scriptsPath = '/assets/picturepark-sdk-v1-widgets/';
+
+  protected get scriptsPath() {
+    return `${this.uiScriptPath ?? ''}/assets/picturepark-sdk-v1-widgets/`;
+  }
 
   showDetailById(shareItemId: string, shareItems: IShareItem[]) {
     const shareItem = shareItems.filter(i => i.id === shareItemId)[0];
