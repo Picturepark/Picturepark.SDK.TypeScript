@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 // LIBRARIES
 import { TermsAggregator, InfoFacade, NestedAggregator, ShareSearchFacade } from '@picturepark/sdk-v2-angular';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-shares-manager',
@@ -13,7 +14,7 @@ export class SharesManagerComponent implements OnInit {
 
   constructor(public facade: ShareSearchFacade, private infoFacade: InfoFacade) {}
   async ngOnInit() {
-    const customerInfo = await this.infoFacade.getInfo().toPromise();
+    const customerInfo = await firstValueFrom(this.infoFacade.getInfo());
     const recipientsAggregator = [
       new NestedAggregator({
         name: 'email',

@@ -253,11 +253,11 @@ export class FullscreenService {
       });
     } else {
       return Promise.all([
-        this.loadCss('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.css'),
-        this.loadCss('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/default-skin/default-skin.css'),
-        this.loadScript('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js', 'PhotoSwipe'),
+        this.loadCss('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/4.1.3/dist/photoswipe.css'),
+        this.loadCss('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/4.1.3/dist/default-skin/default-skin.css'),
+        this.loadScript('https://cdn.rawgit.com/dimsemenov/PhotoSwipe/4.1.3/dist/photoswipe.min.js', 'PhotoSwipe'),
         this.loadScript(
-          'https://cdn.rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js',
+          'https://cdn.rawgit.com/dimsemenov/PhotoSwipe/4.1.3/dist/photoswipe-ui-default.min.js',
           'PhotoSwipeUI_Default'
         ),
       ]).then(([css1, css2, photoSwipe, photoSwipeDefault]) => {

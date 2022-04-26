@@ -2,8 +2,5 @@
   "extends": "./tsconfig.lib.prod.json",
   "compilerOptions": {
     "declarationMap": false
-  },
-  "angularCompilerOptions": {
-    "enableIvy": true
   }
 }

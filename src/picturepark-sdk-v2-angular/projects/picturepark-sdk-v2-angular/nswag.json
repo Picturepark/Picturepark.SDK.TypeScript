@@ -1,11 +1,12 @@
-﻿{
+{
   "runtime": "Default",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
       "json": "",
       "url": "../../../../swagger/PictureparkSwagger.json",
-      "output": null
+      "output": null,
+      "newLineBehavior": "Auto"
     }
   },
   "codeGenerators": {
@@ -13,13 +14,14 @@
       "className": "{controller}Service",
       "moduleName": "",
       "namespace": "",
-      "typeScriptVersion": 3.7,
+      "typeScriptVersion": 4.3,
       "template": "Angular",
       "promiseType": "Promise",
       "httpClass": "HttpClient",
+      "withCredentials": false,
       "useSingletonProvider": true,
       "injectionTokenType": "InjectionToken",
-      "rxJsVersion": 6.5,
+      "rxJsVersion": 7.0,
       "dateTimeType": "Date",
       "nullValue": "Undefined",
       "generateClientClasses": true,
@@ -56,6 +58,8 @@
       "markOptionalProperties": true,
       "generateCloneMethod": false,
       "typeStyle": "Class",
+      "enumStyle": "Enum",
+      "useLeafType": false,
       "classTypes": [],
       "extendedClasses": [
         "TranslatedStringDictionary",
@@ -80,15 +84,18 @@
       "useGetBaseUrlMethod": true,
       "baseUrlTokenName": "PICTUREPARK_API_URL",
       "queryNullValue": "",
+      "useAbortSignal": false,
       "inlineNamedDictionaries": false,
       "inlineNamedAny": false,
+      "includeHttpContext": false,
       "templateDirectory": null,
       "typeNameGeneratorType": null,
       "propertyNameGeneratorType": null,
       "enumNameGeneratorType": null,
       "serviceHost": ".",
       "serviceSchemes": null,
-      "output": "src/lib/services/api-services.ts"
+      "output": "src/lib/services/api-services.ts",
+      "newLineBehavior": "Auto"
     }
   }
 }

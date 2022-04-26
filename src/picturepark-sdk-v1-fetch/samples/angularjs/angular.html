@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="picturepark-share">
+
+<head lang="en">
+	<meta charset="utf-8">
+	<title>PCP HTML5 Fetch example</title>
+	<script src="../../dist/index.umd.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular.min.js"></script>
+	<script src="../config.js"></script>
+	<script src="angular-share.js"></script>
+</head>
+
+<body>
+	<h1>PCP HTML5 Fetch example</h1>
+
+	<script type="text/ng-template" id="message.html">
+		<h3>{{$ctrl.share.name}} blash</h3>
+	</script>
+
+	<script type="text/ng-template" id="card.html">
+	  <hr />
+		<img ng-src="{{$ctrl.getThumbnail(record, 'ThumbnailLarge')}}" /> {{record.id}} ({{record.contentSchemaId}})
+	</script>
+
+	<div>
+		<picturepark-share></picturepark-share>
+	</div>
+</body>
+
+</html>
