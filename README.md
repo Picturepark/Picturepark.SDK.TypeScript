@@ -54,6 +54,7 @@ Contains widgets to embed Picturepark content into other websites.
 | `11.0.x`    | `11.0.x`               |
 | `11.1.x`    | `11.1.x`               |
 | `11.2.x`    | `11.2.x`               |
+| `11.3.x`    | `11.3.x`               |
 	
 SDK Development
 
