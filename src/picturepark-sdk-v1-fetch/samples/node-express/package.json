@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@picturepark/sdk-v1-fetch": "file:picturepark-sdk-v1-fetch-11.3.0-pre.0.tgz",
+    "@picturepark/sdk-v1-fetch": "file:picturepark-sdk-v1-fetch-11.4.0-pre.0.tgz",
     "express": "^4.17.3",
     "node-fetch": "^3.2.2"
   }
