@@ -21,7 +21,7 @@ import { BasketService } from '../../shared-module/services/basket/basket.servic
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 import { ItemBasketSelection } from './components/content-browser-item/interfaces/content-browser-item.interface';
 import { ISortItem } from '../../shared-module/components/browser-base/interfaces/sort-item';
-import { SessionService } from '@picturepark/sdk-v2-angular-ui';
+import { SessionService } from '../../shared-module/services/session/session.service';
 
 @Component({
   selector: 'pp-content-browser',
