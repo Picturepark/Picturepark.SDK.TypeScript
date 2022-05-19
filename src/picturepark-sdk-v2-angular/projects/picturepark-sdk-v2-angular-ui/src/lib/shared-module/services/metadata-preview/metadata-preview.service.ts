@@ -24,8 +24,7 @@ import {
   FieldTrigger,
 } from '@picturepark/sdk-v2-angular';
 
-import * as moment_ from 'moment';
-const moment = moment_;
+import moment from 'moment';
 
 import { LocalizationService } from '../localization/localization.service';
 import { lowerFirst, isNil } from '../../../utilities/helper';

@@ -27,7 +27,7 @@ import {
   ContentResolveBehavior,
   TranslatedStringDictionary,
 } from '@picturepark/sdk-v2-angular';
-import * as moment_ from 'moment';
+import moment from 'moment';
 import { map } from 'rxjs/operators';
 
 import { LayerField } from '../models/layer-field';
@@ -35,8 +35,6 @@ import { RelationFieldInfo } from '../models/relation-field-info';
 import { forkJoin } from 'rxjs';
 import { TranslatePipe } from '../../../shared-module/pipes/translate.pipe';
 import { TRANSLATIONS } from '../../../utilities/translations';
-
-const moment = moment_;
 
 @Injectable({
   providedIn: 'root',

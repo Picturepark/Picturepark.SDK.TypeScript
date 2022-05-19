@@ -107,6 +107,9 @@ $base: #39acaa;
     https://material.io/design/color/the-color-system.html#color-theme-creation
 */
 $mat-picturepark-primary: (
+  100: #c5e8e8,
+  500: #31a3a1,
+  700: #31a3a1,
   primary: $base,
   background-light: #fff,
   background-dark: #eee,
@@ -136,6 +139,9 @@ $picturepark-app-theme: mat.define-light-theme(
 );
 
 $mat-picturepark-primary-dark: (
+  100: #c5e8e8,
+  500: #eeeeee,
+  700: #31a3a1,
   primary: $base,
   background-light: #727272,
   background-dark: #444,

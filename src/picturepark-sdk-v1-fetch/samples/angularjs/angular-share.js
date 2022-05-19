@@ -22,7 +22,6 @@ function TestController($scope) {
         $scope.$apply(() => {
             this.share = result;
             this.records = result.contentSelections;
-            this.token = result.data.mailRecipients[0].token;
         });
     });
 
