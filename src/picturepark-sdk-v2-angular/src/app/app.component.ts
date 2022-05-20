@@ -1,10 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-
-// LIBRARIES
-import { AuthService } from '@picturepark/sdk-v2-angular';
-import { OidcAuthService } from '@picturepark/sdk-v2-angular-oidc';
-import { TranslationService } from '@picturepark/sdk-v2-angular-ui';
+import { SessionService, TranslationService } from '@picturepark/sdk-v2-angular-ui';
 
 @Component({
   selector: 'app-root',
@@ -13,13 +9,12 @@ import { TranslationService } from '@picturepark/sdk-v2-angular-ui';
 })
 export class AppComponent implements OnInit {
   constructor(
-    @Inject(AuthService) public authService: OidcAuthService,
+    public sessionService: SessionService,
     private translationService: TranslationService,
     private titleService: Title
   ) {}
 
   ngOnInit() {
     this.titleService.setTitle(this.translationService.translate('ApplicationTitle.demoApp'));
-    this.authService.requireLogin(`${location.pathname}${location.search}`);
   }
 }

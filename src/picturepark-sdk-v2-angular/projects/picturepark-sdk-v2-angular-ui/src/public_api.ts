@@ -84,6 +84,7 @@ export { MarkdownDirective } from './lib/features-module/layer-panels/directives
 export { UserInteractionDirective } from './lib/shared-module/directives/user-interaction.directive';
 
 // Services
+export { SessionService } from './lib/shared-module/services/session/session.service';
 export { SelectionService } from './lib/shared-module/services/selection/selection.service';
 export { BasketService } from './lib/shared-module/services/basket/basket.service';
 export { TranslationService } from './lib/shared-module/services/translations/translation.service';

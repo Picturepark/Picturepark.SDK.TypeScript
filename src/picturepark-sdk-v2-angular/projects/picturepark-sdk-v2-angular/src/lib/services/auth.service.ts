@@ -8,4 +8,5 @@ export abstract class AuthService {
   }
   abstract get isAuthenticated(): boolean;
   abstract transformHttpRequestOptions(options: any): Promise<any>;
+  abstract requireLogin(redirectRoute?: string): Promise<any>;
 }
