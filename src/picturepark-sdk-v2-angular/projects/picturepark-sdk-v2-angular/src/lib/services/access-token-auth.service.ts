@@ -53,7 +53,7 @@ export class AccessTokenAuthService extends AuthService {
   }
 
   async requireLogin(redirectRoute?: string) {
-    return await Promise.resolve(true);
+    await Promise.resolve();
   }
 }
 

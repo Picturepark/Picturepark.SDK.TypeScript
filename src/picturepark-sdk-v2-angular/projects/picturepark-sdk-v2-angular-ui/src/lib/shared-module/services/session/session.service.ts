@@ -7,7 +7,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 export class SessionService {
   private userRights: UserRight[] | undefined;
   initialized$ = from(this.authService.requireLogin(`${location.pathname}${location.search}`)).pipe(
-    filter(r => r || this.authService.isAuthenticated),
+    filter(() => this.authService.isAuthenticated),
     switchMap(() => this.profileService.get()),
     map(p => {
       this.userRights = p.userRights;
