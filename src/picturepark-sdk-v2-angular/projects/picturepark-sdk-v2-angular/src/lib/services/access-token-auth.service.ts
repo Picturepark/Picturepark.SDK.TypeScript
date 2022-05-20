@@ -51,6 +51,10 @@ export class AccessTokenAuthService extends AuthService {
     }
     return Promise.resolve(options);
   }
+
+  async requireLogin(redirectRoute?: string) {
+    return await Promise.resolve(true);
+  }
 }
 
 export interface PictureparkAccessTokenAuthConfiguration extends PictureparkConfiguration {
