@@ -43,5 +43,6 @@ jobs:
 
       - name: Lint Angular SDK V2
         working-directory: ./src/picturepark-sdk-v2-angular
-      - run: npm ci
-      - run: npm run lint
+        run: |
+          npm ci
+          npm run lint
