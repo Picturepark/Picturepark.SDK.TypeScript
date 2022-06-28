@@ -23,8 +23,9 @@ jobs:
 
       - name: Lint Angular SDK V1
         working-directory: ./src/picturepark-sdk-v1-angular
-      - run: npm ci
-      - run: npm run lint
+        run: |
+          npm ci
+          npm run lint
 
   lint-v2:
     runs-on: [ubuntu-latest]
