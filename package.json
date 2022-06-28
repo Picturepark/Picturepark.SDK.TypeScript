@@ -12,7 +12,7 @@
     "test": "PowerShell -File \"build/02_RunTests.ps1\"",
     "build:fetch": "npm run build --prefix src/picturepark-sdk-v1-fetch",
     "build:pickers": "npm run build --prefix src/picturepark-sdk-v1-pickers",
-    "build:widgets": "call \"build/05_RebuildWidgetsBundle.bat\"",
+    "build:widgets": "npm run build --prefix src/picturepark-sdk-v1-widgets",
     "build:ng": "call \"build/06_BuildProduction.bat\"",
     "docs": "call \"build/07_BuildDocs.bat\"",
     "build": "npm run build:fetch && npm run build:pickers && npm run build:widgets && npm run build:ng",
