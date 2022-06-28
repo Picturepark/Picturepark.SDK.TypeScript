@@ -1,6 +1,27 @@
 {
   "name": "@picturepark/sdk-v1-pickers",
   "version": "11.4.0-pre.0",
-  "main": "dist/amd/picturepark-pickers.js",
-  "types": "dist/amd/picturepark-pickers.d.ts"
+  "main": "dist/index.umd.min.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.esm.min.mjs",
+  "scripts": {
+    "prepare": "npm run build",
+    "build:types": "tsc -d --emitDeclarationOnly",
+    "build:js": "rollup -c",
+    "build:min:esm": "terser dist/index.esm.mjs --compress --mangle > dist/index.esm.min.mjs",
+    "build:min:cjs": "terser dist/index.cjs.js --compress --mangle > dist/index.cjs.min.js",
+    "build:min:umd": "terser dist/index.umd.js --compress --mangle > dist/index.umd.min.js",
+    "build:min": "npm run build:min:esm -s && npm run build:min:cjs -s && npm run build:min:umd -s",
+    "build": "npm run build:types -s && npm run build:js -s && npm run build:min -s",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.min.mjs",
+      "require": "./dist/index.umd.min.js"
+    }
+  }
 }
