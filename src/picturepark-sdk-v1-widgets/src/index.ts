@@ -1,11 +1,8 @@
-/// <reference path="typings/es6-promise.d.ts" />
-/// <reference path="../../picturepark-sdk-v1-fetch/dist/picturepark.d.ts" />
+/// <reference path="../../picturepark-sdk-v1-fetch/dist/index.d.ts" />
 
-import './libraries/promise.min.js';
 import './libraries/liquid.min.js';
-import './libraries/fetch.min.js';
 
-import * as picturepark from 'picturepark';
+import * as picturepark from '../../picturepark-sdk-v1-fetch/dist/index';
 
 import { PictureparkTemplates } from './templates';
 import { PictureparkPlayers } from './players';
@@ -55,26 +52,19 @@ export function processScriptTag(scriptTag: HTMLElement): Promise<boolean> {
     return response.json();
   }).then((shareDetail: picturepark.ShareDetail) => {
     // Merge config with config from server
-    let config = shareDetail.template as any || {};
-    switch (config.kind) {
-      case "BasicTemplate":
-        config.template = "gallery";
-        break;
-      case "CardTemplate":
-        config.template = "card";
-        break;
-      case "ListTemplate":
-        config.template = "list";
-        break;
-    }
-
+    let config = {
+      template: 'gallery',
+      token: '',
+      width: undefined,
+      height: undefined
+    };
     Object.keys(initialConfig).forEach(key => {
       config[key] = initialConfig[key];
     });
     
     // Fallback to card templates
     if (contentTemplate === '') {
-      contentTemplate = PictureparkTemplates.getTemplate(config.template || "card");
+      contentTemplate = PictureparkTemplates.getTemplate("card");
     }
 
     let index = 0;

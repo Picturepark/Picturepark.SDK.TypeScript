@@ -12,11 +12,10 @@ export interface IContentPickerSettings {
  * Opens a content picker window to select content items and create an embedded share. 
  * 
  * @param serverUrl The URL of the Picturepark server
- * @param completed Callback which is called when the window has been closed (share is undefined if the user cancelled)
+ * @param settings Settings on how to open the content picker
  */
 export function showContentPicker(serverUrl: string, settings?: IContentPickerSettings) {
   return new Promise<IContentPickerResult>((resolve, reject) => {
-
     const w = settings?.width ?? 1281;
     const h = settings?.height ?? 800;
 

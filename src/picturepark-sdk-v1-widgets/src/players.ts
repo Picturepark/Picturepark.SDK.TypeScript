@@ -1,7 +1,7 @@
 /// <reference path="./typings/pdfjs.d.ts" />
-/// <reference path="../../picturepark-sdk-v1-fetch/dist/picturepark.d.ts" />
+/// <reference path="../../picturepark-sdk-v1-fetch/dist/index.d.ts" />
 
-import * as picturepark from 'picturepark';
+import * as picturepark from '../../picturepark-sdk-v1-fetch/dist/index';
 
 function log(message: string) {
   if (console) {
@@ -321,7 +321,7 @@ export class PictureparkPlayers {
         updatePlayers();
       }
 
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         photoSwipe.listen('close', () => {
           for (let player of loadedPlayers) {
             this.disposeVideoPlayer(player);
