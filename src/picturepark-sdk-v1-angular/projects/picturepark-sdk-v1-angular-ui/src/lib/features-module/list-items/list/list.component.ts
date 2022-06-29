@@ -10,7 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
-import { distinctUntilChanged, flatMap, map, take, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
 
 // ANGULAR CDK
@@ -66,7 +66,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
 
     this.schema = this.route.paramMap.pipe(
-      flatMap((paramMap) => {
+      mergeMap((paramMap) => {
         const schemaId = paramMap.get('id')!;
         return this.schemaService.get(schemaId);
       })
