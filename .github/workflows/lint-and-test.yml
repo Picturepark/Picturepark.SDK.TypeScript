@@ -67,7 +67,7 @@ jobs:
       - name: Create test config
         working-directory: ./build
         shell: pwsh
-        run: ./02_RunTests.ps1
+        run: ./create-test-config.ps1
         env:
           TestApiServer: ${{ secrets.TESTAPISERVER }}
           TestCustomerAlias: ${{ secrets.TESTCUSTOMERALIAS }}
