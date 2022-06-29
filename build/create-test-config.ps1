@@ -1,14 +1,10 @@
 try { 
-	$AllProtocols = [System.Net.SecurityProtocolType]'Ssl3,Tls,Tls11,Tls12'
-	[System.Net.ServicePointManager]::SecurityProtocol = $AllProtocols
-
 	$customerInfo = Invoke-WebRequest "${Env:TestInstanceUrl}/service/info/customer" -Method Get -Headers @{ "Accept" = "application/json" } | ConvertFrom-Json
 	
 	${Env:TestCustomerId} = $customerInfo.CustomerId
 	${Env:TestCustomerAlias} = $customerInfo.CustomerAlias
 
 	$acr_values = "tenant:{""id"":""${Env:TestCustomerId}"",""alias"":""${Env:TestCustomerAlias}""}"
-
 
 	$tokenParams = @{
 		client_id     = ${Env:TestIdentityClientId};
@@ -33,11 +29,16 @@ try {
             ForEach-Object { $_ -replace "{CustomerAlias}", "$env:TestCustomerAlias" } | 
             Set-Content "$PSScriptRoot/../src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/tests/config.ts"
     }
-    
-    cmd /c "$PSScriptRoot/02_RunTests.bat"
-    if ($lastexitcode -ne 0) {
-        throw "Failed to run unit tests"
-    }    
+		
+    if (!(Test-Path "$PSScriptRoot/../src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/src/tests/config.ts")) { 
+        (Get-Content "$PSScriptRoot/../src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/src/tests/config.template.ts") | 
+            ForEach-Object { $_ -replace "{Server}", "$env:TestApiServer" } | 
+            ForEach-Object { $_ -replace "{Username}", "$env:TestUsername" } | 
+            ForEach-Object { $_ -replace "{Password}", "$env:TestPassword" } | 
+            ForEach-Object { $_ -replace "{AccessToken}", "$env:TestAccessToken" } | 
+            ForEach-Object { $_ -replace "{CustomerAlias}", "$env:TestCustomerAlias" } | 
+            Set-Content "$PSScriptRoot/../src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/src/tests/config.ts"
+    }
 } 
 catch [Exception] { 
     "Failed to run unit tests: $_.Exception.Message" 
