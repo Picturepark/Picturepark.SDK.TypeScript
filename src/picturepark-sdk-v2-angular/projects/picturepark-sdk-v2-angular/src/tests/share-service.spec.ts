@@ -30,7 +30,7 @@ describe('ShareService', () => {
         const response = await contentService.search(request).toPromise();
 
         // act
-        const contents = response.results.map(
+        const contents = response?.results.map(
           i =>
             new ShareContent({
               contentId: i.id,
@@ -43,19 +43,19 @@ describe('ShareService', () => {
             new ShareBasicCreateRequest({
               name: 'Share',
               languageCode: 'en',
-              contents: contents,
+              contents: contents ?? [],
               outputAccess: OutputAccess.Full,
               suppressNotifications: false,
             })
           )
           .toPromise();
 
-        await businessProcessService.waitForCompletion(result.id, '02:00:00', true).toPromise();
-        const share = await shareService.get(result.referenceId!, null, 20).toPromise();
+        await businessProcessService.waitForCompletion(result?.id ?? '', '02:00:00', true).toPromise();
+        const share = await shareService.get(result?.referenceId ?? '', null, 20).toPromise();
 
         // assert
-        expect(result.referenceId).not.toBeNull();
-        expect(share.id).toEqual(result.referenceId!);
+        expect(result?.referenceId).not.toBeNull();
+        expect(share?.id).toEqual(result?.referenceId);
       }
     )
   ));
