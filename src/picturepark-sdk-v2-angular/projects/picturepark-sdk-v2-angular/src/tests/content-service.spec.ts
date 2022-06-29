@@ -1,5 +1,5 @@
 import {} from 'jasmine';
-import { async, inject, waitForAsync } from '@angular/core/testing';
+import { inject, waitForAsync } from '@angular/core/testing';
 
 import { configureTest } from './config';
 import {
