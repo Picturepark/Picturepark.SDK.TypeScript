@@ -1,14 +1,10 @@
 try { 
-	$AllProtocols = [System.Net.SecurityProtocolType]'Ssl3,Tls,Tls11,Tls12'
-	[System.Net.ServicePointManager]::SecurityProtocol = $AllProtocols
-
 	$customerInfo = Invoke-WebRequest "${Env:TestInstanceUrl}/service/info/customer" -Method Get -Headers @{ "Accept" = "application/json" } | ConvertFrom-Json
 	
 	${Env:TestCustomerId} = $customerInfo.CustomerId
 	${Env:TestCustomerAlias} = $customerInfo.CustomerAlias
 
 	$acr_values = "tenant:{""id"":""${Env:TestCustomerId}"",""alias"":""${Env:TestCustomerAlias}""}"
-
 
 	$tokenParams = @{
 		client_id     = ${Env:TestIdentityClientId};
@@ -33,11 +29,6 @@ try {
             ForEach-Object { $_ -replace "{CustomerAlias}", "$env:TestCustomerAlias" } | 
             Set-Content "$PSScriptRoot/../src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/tests/config.ts"
     }
-    
-    cmd /c "$PSScriptRoot/02_RunTests.bat"
-    if ($lastexitcode -ne 0) {
-        throw "Failed to run unit tests"
-    }    
 } 
 catch [Exception] { 
     "Failed to run unit tests: $_.Exception.Message" 
