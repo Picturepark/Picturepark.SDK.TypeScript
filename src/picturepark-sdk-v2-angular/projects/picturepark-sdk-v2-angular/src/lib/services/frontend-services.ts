@@ -33,13 +33,13 @@ export const PICTUREPARK_CDN_URL = new InjectionToken<string>('PICTUREPARK_CDN_U
   providedIn: 'root',
 })
 export class ShareAccesService {
-  private http: HttpClient;
-  private baseUrl: string;
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-  constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_CDN_URL) baseUrl?: string) {
-    this.http = http;
-    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : '';
+  constructor(
+    @Inject(HttpClient) private http: HttpClient,
+    @Optional() @Inject(PICTUREPARK_CDN_URL) private baseUrl?: string
+  ) {
+    this.baseUrl = this.baseUrl || '';
   }
 
   getSharePage(token: string | null, languageCode: string | null | undefined): Observable<FileResponse> {
@@ -1745,13 +1745,13 @@ export class ShareAccesService {
   providedIn: 'root',
 })
 export class TermsOfServiceService {
-  private http: HttpClient;
-  private baseUrl: string;
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-  constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_CDN_URL) baseUrl?: string) {
-    this.http = http;
-    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : '';
+  constructor(
+    @Inject(HttpClient) private http: HttpClient,
+    @Optional() @Inject(PICTUREPARK_CDN_URL) private baseUrl?: string
+  ) {
+    this.baseUrl = this.baseUrl || '';
   }
 
   getAll(): Observable<TermsOfServiceDetail[]> {
