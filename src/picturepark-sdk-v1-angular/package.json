@@ -49,7 +49,7 @@
     "lazy-get-decorator": "^2.2.0",
     "liquidjs": "^9.11.11",
     "markdown-it": "^12.3.2",
-    "moment": "2.29.2",
+    "moment": "2.29.4",
     "rxjs": "^6.5.5",
     "ts-md5": "^1.2.7",
     "tslib": "^1.10.0",
