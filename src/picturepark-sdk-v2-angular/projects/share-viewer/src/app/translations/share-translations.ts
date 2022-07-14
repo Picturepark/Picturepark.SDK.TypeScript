@@ -48,7 +48,7 @@ export const shareTranslations = {
   },
   Download: {
     en: 'Download',
-    de: 'Herunterladen',
+    de: 'Download',
     fr: 'Télécharger',
     es: 'Descargar',
     pt: 'Descarregar',
