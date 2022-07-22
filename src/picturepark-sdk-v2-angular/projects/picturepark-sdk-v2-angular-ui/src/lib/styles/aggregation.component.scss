@@ -7,13 +7,19 @@ pp-aggregation-item {
       .mat-content {
         position: relative;
       }
+
+      .mat-expansion-indicator {
+        display: flex;
+        align-items: center;
+        padding: 0 0 3px 0;
+      }
+
       mat-panel-title {
         font-weight: 500;
         font-size: 13px;
         text-overflow: ellipsis;
         overflow: hidden;
         button {
-          top: 8px;
           mat-icon {
             font-size: 21px !important;
           }
