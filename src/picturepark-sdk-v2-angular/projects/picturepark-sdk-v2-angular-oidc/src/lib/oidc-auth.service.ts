@@ -80,7 +80,11 @@ export class OidcAuthService extends AuthService {
         const params = routeSplit[1].split('&');
         const filteredParams = params.filter(
           p =>
-            !p.startsWith('code') && !p.startsWith('scope') && !p.startsWith('state') && !p.startsWith('session_state')
+            !p.startsWith('code') &&
+            !p.startsWith('scope') &&
+            !p.startsWith('state') &&
+            !p.startsWith('session_state') &&
+            !p.startsWith('iss')
         );
         const httpParams = new HttpParams({ fromString: filteredParams.join('&') });
         route = httpParams.keys().length > 0 ? `${routeSplit[0]}?${httpParams.toString()}` : routeSplit[0];
