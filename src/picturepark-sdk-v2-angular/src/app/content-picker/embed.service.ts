@@ -7,12 +7,17 @@ import {
   Content,
   BusinessProcessService,
 } from '@picturepark/sdk-v2-angular';
+import { LoggerService } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/shared-module/services/logging/logger.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmbedService {
-  constructor(private shareService: ShareService, private businessProcessService: BusinessProcessService) {}
+  constructor(
+    private shareService: ShareService,
+    private businessProcessService: BusinessProcessService,
+    private logger: LoggerService
+  ) {}
 
   async embed(selectedItems: Content[], postUrl: string) {
     if (selectedItems.length > 0) {
@@ -44,13 +49,13 @@ export class EmbedService {
             window.opener.postMessage(postMessage, postUrl);
             return true;
           } else {
-            console.log(
+            this.logger.warn(
               'Post message (either no postUrl has been specified or window.opener is not defined): \n' + postMessage
             );
           }
         }
       } catch (error) {
-        console.error(error);
+        this.logger.error(error);
       }
     }
     return false;

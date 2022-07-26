@@ -127,8 +127,4 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   changeChannel(channel: Channel) {
     this.selectedChannel = channel;
   }
-
-  log(data: any) {
-    console.log(data);
-  }
 }

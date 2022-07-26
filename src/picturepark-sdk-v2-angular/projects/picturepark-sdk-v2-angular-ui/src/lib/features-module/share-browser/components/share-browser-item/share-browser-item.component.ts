@@ -9,6 +9,7 @@ import { BaseBrowserItemComponent } from '../../../../shared-module/components/b
 import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 import { Observable } from 'rxjs';
 import { debounceTime, map, share } from 'rxjs/operators';
+import { LoggerService } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/shared-module/services/logging/logger.service';
 
 @Component({
   selector: 'pp-share-browser-item',
@@ -28,7 +29,12 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
   isSelected$: Observable<boolean> | undefined;
 
-  constructor(private contentService: ContentService, private sanitizer: DomSanitizer, protected injector: Injector) {
+  constructor(
+    private contentService: ContentService,
+    private sanitizer: DomSanitizer,
+    protected injector: Injector,
+    private logger: LoggerService
+  ) {
     super(injector);
   }
 
@@ -56,7 +62,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
         this.isLoading = false;
       })
       .catch(err => {
-        console.log(err);
+        this.logger.error(err);
       });
   }
 

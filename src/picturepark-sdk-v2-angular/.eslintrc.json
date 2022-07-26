@@ -51,7 +51,7 @@
         ],
         "no-caller": "error",
         "no-bitwise": "error",
-        "no-console": "warn",
+        "no-console": "error",
         "no-debugger": "error",
         "constructor-super": "error",
         "no-empty": "error",

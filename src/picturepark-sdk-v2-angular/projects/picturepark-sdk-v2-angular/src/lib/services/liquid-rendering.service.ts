@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Liquid } from 'liquidjs';
+import { LoggerService } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/shared-module/services/logging/logger.service';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +8,7 @@ import { Liquid } from 'liquidjs';
 export class LiquidRenderingService {
   private liquidEngine: Liquid = new Liquid();
 
-  constructor() {}
+  constructor(private logger: LoggerService) {}
 
   traverseObject(obj: Object, callback: (key: string, value: any, obj: any) => void): void {
     for (const property in obj) {
@@ -24,7 +25,7 @@ export class LiquidRenderingService {
             callback(property, obj[property], obj);
           }
         } catch (ex) {
-          console.error(ex);
+          this.logger.error(ex);
         }
       }
     }

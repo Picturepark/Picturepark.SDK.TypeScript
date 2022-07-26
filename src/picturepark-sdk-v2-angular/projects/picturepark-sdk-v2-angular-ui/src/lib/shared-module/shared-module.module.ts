@@ -28,6 +28,7 @@ import { ContentItemThumbnailComponent } from './components/content-item-thumbna
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { AggregationItemTranslatePipe } from './pipes/aggregation-item-translate';
 import { UserInteractionDirective } from './directives/user-interaction.directive';
+import { LoggerService } from './services/logging/logger.service';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -98,6 +99,7 @@ export class SharedModule {
         NotificationService,
         TranslationService,
         { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
+        LoggerService,
       ],
     };
   }

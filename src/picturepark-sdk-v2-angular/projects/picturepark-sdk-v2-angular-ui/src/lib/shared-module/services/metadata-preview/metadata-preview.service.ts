@@ -29,12 +29,17 @@ import moment from 'moment';
 import { LocalizationService } from '../localization/localization.service';
 import { lowerFirst, isNil } from '../../../utilities/helper';
 import { TranslationService } from '../translations/translation.service';
+import { LoggerService } from '../logging/logger.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MetaDataPreviewService {
-  constructor(private localizationService: LocalizationService, private translationService: TranslationService) {}
+  constructor(
+    private localizationService: LocalizationService,
+    private translationService: TranslationService,
+    private logger: LoggerService
+  ) {}
 
   prepareTableColumns(allColumnNames: string[], tableData: any[]): string[] {
     const existedColumnsSet = new Set<string>();
@@ -130,7 +135,7 @@ export class MetaDataPreviewService {
             return v.join(', ');
           })
           .join(', ');
-        console.log(fields[fieldId]);
+        this.logger.debug(fields[fieldId]);
       } else if (fieldType === FieldDateTimeArray) {
         fields[fieldId] = value
           .map((v: any) => (v ? moment(v).format((field as FieldDate).format || 'LLL') : ''))
@@ -163,7 +168,7 @@ export class MetaDataPreviewService {
       } else if (fieldType === FieldMultiRelation) {
         // Unsupported
       } else {
-        console.log('Unsupported field type [' + fieldType + '] encountered.');
+        this.logger.debug('Unsupported field type [' + fieldType + '] encountered.');
       }
     }
     return fields;
