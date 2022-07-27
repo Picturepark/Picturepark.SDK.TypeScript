@@ -94,7 +94,8 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
       }>
     | undefined;
 
-  abstract searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined;
+  // TODO WIM (PP9-14855): ensure that this change (remove undefined return type) still works in any case
+  abstract searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]>;
 
   constructor(private initialPartialState: Partial<TState>) {
     this.resetRequestState();

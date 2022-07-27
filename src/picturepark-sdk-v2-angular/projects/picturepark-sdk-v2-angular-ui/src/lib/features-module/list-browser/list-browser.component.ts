@@ -64,16 +64,17 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.customerInfo = await firstValueFrom(this.infoFacade.getInfo());
 
     // need to show column names
-    this.displayedColumnNames = this.schema.fields!.map(field => {
-      const id = field.id.split('.').pop();
-      const names = field.names;
-      return { id, names, field };
-    });
+    this.displayedColumnNames =
+      this.schema.fields?.map(field => {
+        return { id: field.id.split('.').pop(), names: field.names, field };
+      }) ?? [];
 
-    this.displayedColumns = this.schema.fields!.map(field => {
-      const id = field.id.split('.').pop();
-      return id!;
-    });
+    this.displayedColumns =
+      this.schema.fields
+        ?.map(field => {
+          return field.id.split('.').pop() as string;
+        })
+        .filter(i => !!i) ?? [];
 
     if (this.enableSelection) {
       this.displayedColumns.unshift('select');
@@ -81,18 +82,19 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
 
     // Init default schema sort
     if (!this.sortInfo) {
-      if (this.schema.sort && this.schema.sort.length > 0) {
+      const firstSortInfo = this.schema.sort?.[0];
+      if (firstSortInfo) {
         // get first as mat table does not support multiple sorting
-        const name = this.schema.sort[0].field;
-        this.activeSortDirection = this.schema.sort[0].direction.toLowerCase() as MatSortDirection;
-        this.activeSortColumn = name!;
+        this.activeSortDirection = firstSortInfo.direction.toLowerCase() as MatSortDirection;
+        this.activeSortColumn = firstSortInfo.field as string;
 
-        this.sortInfo = this.schema.sort.map(s => {
-          return new SortInfo({
-            field: lowerFirst(this.schema.id) + '.' + s.field,
-            direction: s.direction.toLowerCase() === 'asc' ? SortDirection.Asc : SortDirection.Desc,
-          });
-        });
+        this.sortInfo =
+          this.schema?.sort?.map(s => {
+            return new SortInfo({
+              field: lowerFirst(this.schema.id) + '.' + s.field,
+              direction: s.direction.toLowerCase() === 'asc' ? SortDirection.Asc : SortDirection.Desc,
+            });
+          }) ?? [];
       }
     }
 

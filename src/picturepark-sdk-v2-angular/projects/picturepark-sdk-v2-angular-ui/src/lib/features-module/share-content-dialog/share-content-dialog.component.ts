@@ -125,7 +125,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       const response = await firstValueFrom(
         this.shareService.create(
           new ShareBasicCreateRequest({
-            name: form.get('share_name')!.value,
+            name: form.get('share_name')?.value,
             recipientEmails: recipientsEmails,
             contents: contentItems,
             outputAccess: form.get('accessOriginal')?.value ? OutputAccess.Full : OutputAccess.Preview,
@@ -138,7 +138,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       await firstValueFrom(this.businessProcessService.waitForCompletion(response.id, '02:00:00', true));
 
-      const share = await firstValueFrom(this.shareService.get(response.referenceId!, null, 0));
+      const share = await firstValueFrom(this.shareService.get(response.referenceId ?? null, null, 0));
 
       (share.data as ShareDataBasic).internalRecipients.forEach(recipient =>
         this.recipients.push({
@@ -164,7 +164,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     } catch (err) {
       this.loader = false;
       const error = {
-        message: err.exceptionMessage || this.translatePipe.transform('ShareContentDialog.ErrorNotification')!,
+        message: err.exceptionMessage || this.translatePipe.transform('ShareContentDialog.ErrorNotification'),
         type: 'error',
         status: true,
         displayTime: -1,
@@ -191,7 +191,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       );
 
       // RECIPIENTS EMAILS
-      const recipientsEmails = this.sharedContentForm$.value.get('recipients')!.value.map(recipientEmail => {
+      const recipientsEmails = this.sharedContentForm$.value.get('recipients')?.value.map(recipientEmail => {
         return { emailAddress: recipientEmail };
       });
 
@@ -208,7 +208,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
       return;
     }
 
-    form.get('share_name')!.setValue('');
+    form.get('share_name')?.setValue('');
     this.sharedContentForm$.next(form);
 
     // SHOW SHARE NAME LOADER
@@ -243,7 +243,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
           this.spinnerLoader = false;
 
           // SET SHARE NAME FORM FIELD VALUE
-          form.get('share_name')!.setValue(shareName);
+          form.get('share_name')?.setValue(shareName);
           this.sharedContentForm$.next(form);
         }, 200);
       });

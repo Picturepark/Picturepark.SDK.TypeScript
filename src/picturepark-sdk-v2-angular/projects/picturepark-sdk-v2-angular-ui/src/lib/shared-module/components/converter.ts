@@ -54,7 +54,8 @@ export function InputConverter(converter?: (value: any) => any) {
       Object.defineProperty(target, key, {
         get: definition.get,
         set: newValue => {
-          definition!.set!(converter!(newValue));
+          if (!definition?.set || !converter) return;
+          definition.set(converter(newValue));
         },
         enumerable: true,
         configurable: true,
@@ -65,7 +66,8 @@ export function InputConverter(converter?: (value: any) => any) {
           return this['__' + key];
         },
         set: function (newValue) {
-          this['__' + key] = converter!(newValue);
+          if(!converter) return;
+          this['__' + key] = converter(newValue);
         },
         enumerable: true,
         configurable: true,

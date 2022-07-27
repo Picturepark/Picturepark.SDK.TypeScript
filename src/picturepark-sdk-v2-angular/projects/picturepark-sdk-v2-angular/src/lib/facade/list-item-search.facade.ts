@@ -33,10 +33,10 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
     return this.listItemService.search(request).pipe(tap(() => this.setLoading(false)));
   }
 
-  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> {
     const params = { ...this.getRequest(), aggregators: aggregators, pageToken: undefined, limit: 0 };
     const request = new ListItemSearchRequest(params);
-    return this.listItemService.search(request).pipe(map(i => i.aggregationResults!)); // TODO BRO: Exception handling
+    return this.listItemService.search(request).pipe(map(i => i.aggregationResults ?? [])); // TODO BRO: Exception handling
   }
 
   private getRequest() {

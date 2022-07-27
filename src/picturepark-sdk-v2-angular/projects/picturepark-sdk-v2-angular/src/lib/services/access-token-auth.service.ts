@@ -9,16 +9,12 @@ import { AuthService } from './auth.service';
 export class AccessTokenAuthService extends AuthService {
   constructor(
     @Inject(LOCALE_ID) private locale: string,
-    @Optional() @Inject(PICTUREPARK_API_URL) pictureparkApiUrl?: string,
+    @Optional() @Inject(PICTUREPARK_API_URL) pictureparkApiUrl: string,
     @Optional()
     @Inject(PICTUREPARK_CONFIGURATION)
     private pictureparkConfiguration?: PictureparkAccessTokenAuthConfiguration
   ) {
-    super(
-      pictureparkConfiguration && pictureparkConfiguration.apiServer
-        ? pictureparkConfiguration.apiServer
-        : pictureparkApiUrl!
-    );
+    super(pictureparkConfiguration?.apiServer ?? pictureparkApiUrl);
   }
 
   get isAuthenticated(): boolean {

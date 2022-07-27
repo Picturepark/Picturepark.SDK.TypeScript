@@ -26,10 +26,10 @@ export class ShareSearchFacade extends SearchFacade<Share, SearchInputState> {
     return this.shareService.search(request).pipe(tap(() => this.setLoading(false)));
   }
 
-  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> {
     const params = { ...this.getRequest(), aggregators: aggregators, pageToken: undefined, limit: 0 };
     const request = new ShareSearchRequest(params);
-    return this.shareService.search(request).pipe(map(i => i.aggregationResults!)); // TODO BRO: Exception handling
+    return this.shareService.search(request).pipe(map(i => i.aggregationResults ?? [])); // TODO BRO: Exception handling
   }
 
   private getRequest() {

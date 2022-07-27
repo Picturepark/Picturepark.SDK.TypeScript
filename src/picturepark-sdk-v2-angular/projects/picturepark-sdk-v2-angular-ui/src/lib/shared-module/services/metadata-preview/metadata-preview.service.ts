@@ -103,7 +103,7 @@ export class MetaDataPreviewService {
       }
 
       let value;
-      const fieldType = field!.constructor;
+      const fieldType = field?.constructor;
 
       if (fieldId.lastIndexOf('.') === -1) {
         value = metadata[fieldId];

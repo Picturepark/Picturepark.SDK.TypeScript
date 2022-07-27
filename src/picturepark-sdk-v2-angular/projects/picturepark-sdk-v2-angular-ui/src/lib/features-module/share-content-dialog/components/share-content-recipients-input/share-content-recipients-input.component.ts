@@ -65,9 +65,9 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
       )
       .subscribe(users => {
         this.recipientsAutocomplete =
-          users.aggregationResults[0].aggregationResultItems![0].aggregationResults![0].aggregationResultItems!.map(
+          users.aggregationResults?.[0]?.aggregationResultItems?.[0]?.aggregationResults?.[0]?.aggregationResultItems?.map(
             i => i.name
-          );
+          ) ?? [];
       });
   }
 

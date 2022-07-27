@@ -260,13 +260,13 @@ export class LayerFieldService {
       ContentResolveBehavior.OuterDisplayValueList,
     ]);
 
-    const relationFieldInfo = forkJoin([thumbnailDownload, contentDetail]).pipe(
-      map(response => {
+    const relationFieldInfo = forkJoin({ download: thumbnailDownload, content: contentDetail }).pipe(
+      map(joined => {
         return new RelationFieldInfo(
           targetId,
-          response[1].displayValues!['name'],
-          response[1].displayValues!['list'],
-          this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response[0].data))
+          joined.content?.displayValues?.name,
+          joined.content?.displayValues?.list,
+          this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(joined.download.data))
         );
       })
     );

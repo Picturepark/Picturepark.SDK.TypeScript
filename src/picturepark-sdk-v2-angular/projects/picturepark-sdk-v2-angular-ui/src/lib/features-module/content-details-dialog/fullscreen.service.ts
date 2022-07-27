@@ -33,7 +33,7 @@ export class FullscreenService {
     }
   }
 
-  async renderVideoPlayer(element: Element, item, width, height) {
+  async renderVideoPlayer(element: Element, item: IShareItem, width?: number, height?: number) {
     const IndigoPlayer = await this.loadVideoPlayerLibraries();
     const player = IndigoPlayer.init(element, {
       autoplay: true,

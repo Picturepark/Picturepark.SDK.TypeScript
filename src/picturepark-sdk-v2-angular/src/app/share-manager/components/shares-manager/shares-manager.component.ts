@@ -20,7 +20,7 @@ export class SharesManagerComponent implements OnInit {
         name: 'email',
         names: {
           'x-default': 'Recipients',
-          [customerInfo.languageConfiguration.defaultLanguage!]: 'Recipients',
+          [customerInfo.languageConfiguration.defaultLanguage]: 'Recipients',
         },
         path: 'data.mailRecipients',
         aggregators: [
@@ -29,7 +29,7 @@ export class SharesManagerComponent implements OnInit {
             name: 'email',
             names: {
               'x-default': 'Recipients',
-              [customerInfo.languageConfiguration.defaultLanguage!]: 'Recipients',
+              [customerInfo.languageConfiguration.defaultLanguage]: 'Recipients',
             },
             size: 10,
           }),

@@ -12,7 +12,7 @@ import {
   AggregationResult,
   AggregatorBase,
 } from '../services/api-services';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, finalize } from 'rxjs/operators';
 
 export interface ContentSearchInputState extends SearchInputState {
@@ -36,14 +36,14 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
     return this.contentService.search(request).pipe(finalize(() => this.setLoading(false)));
   }
 
-  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> {
     if (!this.searchRequestState.channelId) {
-      return;
+      return of([]);
     }
 
     const params = { ...this.getRequest(), aggregators: aggregators, pageToken: undefined, limit: 0 };
     const request = new ContentSearchRequest(params);
-    return this.contentService.search(request).pipe(map(i => i.aggregationResults!)); // TODO BRO: Exception handling
+    return this.contentService.search(request).pipe(map(i => i.aggregationResults ?? [])); // TODO BRO: Exception handling
   }
 
   private getRequest() {

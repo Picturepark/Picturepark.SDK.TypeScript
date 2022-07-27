@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import {
   ShareService,
   ShareContentDetail,
-  IShareDataBasic,
   IMailRecipient,
   ShareDeleteManyRequest,
   ShareDetail,
@@ -19,6 +18,7 @@ import {
   TranslationService,
   ContentDetailsDialogComponent,
 } from '@picturepark/sdk-v2-angular-ui';
+import { ShareDataBasic } from 'dist/picturepark-sdk-v2-angular/lib/services/api-services';
 
 @Component({
   selector: 'app-share-manager-item',
@@ -98,9 +98,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       this.items = data.contentSelections;
       this.userId = data.audit.createdByUser;
 
-      const shareDataBasic = <IShareDataBasic | undefined>data.data;
-
-      this.mailRecipients = shareDataBasic!.mailRecipients;
+      if (data?.data instanceof ShareDataBasic) this.mailRecipients = data?.data?.mailRecipients ?? [];
 
       this.subject = data.name;
       this.accessOriginal = data.outputAccess;
