@@ -14,7 +14,7 @@ import {
   AndFilter,
 } from '../services/api-services';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 export interface SchemaSearchInputState extends SearchInputState {
@@ -61,7 +61,7 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
     return this.schemaService.search(request).pipe(tap(() => this.setLoading(false)));
   }
 
-  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
-    throw new Error('Method not implemented.');
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> {
+    return of([]);
   }
 }
