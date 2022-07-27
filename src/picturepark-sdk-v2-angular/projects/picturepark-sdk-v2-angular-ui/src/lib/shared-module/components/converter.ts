@@ -27,6 +27,7 @@ export const NumberConverter = (value: any) => {
 };
 
 export function InputConverter(converter?: (value: any) => any) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   return (target: Object, key: string) => {
     if (converter === undefined) {
       if (!Reflect) {
@@ -66,7 +67,7 @@ export function InputConverter(converter?: (value: any) => any) {
           return this['__' + key];
         },
         set: function (newValue) {
-          if(!converter) return;
+          if (!converter) return;
           this['__' + key] = converter(newValue);
         },
         enumerable: true,
