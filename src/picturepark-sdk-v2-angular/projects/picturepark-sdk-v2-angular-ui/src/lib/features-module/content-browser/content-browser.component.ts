@@ -81,7 +81,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   private setSortFields() {
-    if (this.channel.sortFields?.length) {
+    if (this.channel?.sortFields?.length) {
       this.sortingTypes = this.channel.sortFields.map(s => ({
         name: this.translationService.translate(s.names),
         field: s.path,
