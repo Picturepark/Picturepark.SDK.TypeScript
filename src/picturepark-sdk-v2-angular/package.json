@@ -3,7 +3,7 @@
   "version": "11.5.0-pre.0",
   "license": "MIT",
   "scripts": {
-    "init": "npm install",
+    "init": "npm ci",
     "ng": "ng",
     "start": "ng serve --port 4300 -o",
     "start-share-viewer": "ng serve share-viewer --port 4400 -o",
