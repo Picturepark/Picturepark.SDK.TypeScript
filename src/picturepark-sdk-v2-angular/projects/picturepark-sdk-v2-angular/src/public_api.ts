@@ -17,6 +17,7 @@ export { CustomerInfoService } from './lib/services/customer-info.service';
 export { LanguageService } from './lib/services/language.service';
 export { LiquidRenderingService } from './lib/services/liquid-rendering.service';
 export { LocalStorageService } from './lib/services/local-storage.service';
+export { LoggerService } from './lib/services/logger.service';
 
 // functions
 export * from './lib/utilities/helper';

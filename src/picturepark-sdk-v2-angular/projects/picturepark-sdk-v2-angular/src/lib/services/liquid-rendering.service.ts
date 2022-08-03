@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Injectable } from '@angular/core';
 import { Liquid } from 'liquidjs';
-import { LoggerService } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/shared-module/services/logging/logger.service';
+import { LoggerService } from './logger.service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,6 @@
 import { Inject, Injectable, Optional } from '@angular/core';
-import { ShareOutputBase } from '@picturepark/sdk-v2-angular';
+import { LoggerService, ShareOutputBase } from '@picturepark/sdk-v2-angular';
 import { PICTUREPARK_UI_SCRIPTPATH } from '../../configuration';
-import { LoggerService } from '../../shared-module/services/logging/logger.service';
 
 @Injectable({
   providedIn: 'root',

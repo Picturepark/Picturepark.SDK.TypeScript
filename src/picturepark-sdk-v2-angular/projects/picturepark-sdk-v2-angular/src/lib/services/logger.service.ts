@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
-import { LogLevel } from './log-level';
 import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
+
+enum LogLevel {
+  Debug = 0,
+  Info = 1,
+  Warn = 2,
+  Error = 3,
+}
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +19,7 @@ export class LoggerService {
 
   constructor(private route: ActivatedRoute) {
     this.logLevel = LoggerService.defaultLogLevel;
-    route.queryParams.pipe(filter(params => params.logLevel)).subscribe(params => {
+    this.route.queryParams.pipe(filter(params => params.logLevel)).subscribe(params => {
       const level: LogLevel | undefined = (<any>LogLevel)[params.logLevel];
       if (level !== undefined) this.logLevel = level;
     });

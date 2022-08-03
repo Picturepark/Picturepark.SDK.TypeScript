@@ -6,8 +6,8 @@ import {
   ShareContent,
   Content,
   BusinessProcessService,
+  LoggerService,
 } from '@picturepark/sdk-v2-angular';
-import { LoggerService } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/shared-module/services/logging/logger.service';
 
 @Injectable({
   providedIn: 'root',

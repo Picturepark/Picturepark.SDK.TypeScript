@@ -28,7 +28,7 @@ import { ContentItemThumbnailComponent } from './components/content-item-thumbna
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { AggregationItemTranslatePipe } from './pipes/aggregation-item-translate';
 import { UserInteractionDirective } from './directives/user-interaction.directive';
-import { LoggerService } from './services/logging/logger.service';
+import { LoggerService } from '@picturepark/sdk-v2-angular';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {

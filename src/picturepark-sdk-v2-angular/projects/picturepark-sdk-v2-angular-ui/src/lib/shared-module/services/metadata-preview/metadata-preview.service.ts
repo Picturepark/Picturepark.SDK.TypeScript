@@ -22,6 +22,7 @@ import {
   FieldTranslatedString,
   SchemaDetail,
   FieldTrigger,
+  LoggerService,
 } from '@picturepark/sdk-v2-angular';
 
 import moment from 'moment';
@@ -29,7 +30,6 @@ import moment from 'moment';
 import { LocalizationService } from '../localization/localization.service';
 import { lowerFirst, isNil } from '../../../utilities/helper';
 import { TranslationService } from '../translations/translation.service';
-import { LoggerService } from '../logging/logger.service';
 
 @Injectable({
   providedIn: 'root',

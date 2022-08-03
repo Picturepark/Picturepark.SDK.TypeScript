@@ -2,14 +2,13 @@ import { Component, OnChanges, SimpleChanges, OnInit, Injector } from '@angular/
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
-import { ThumbnailSize, Share, ContentService } from '@picturepark/sdk-v2-angular';
+import { ThumbnailSize, Share, ContentService, LoggerService } from '@picturepark/sdk-v2-angular';
 
 // COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
 import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 import { Observable } from 'rxjs';
 import { debounceTime, map, share } from 'rxjs/operators';
-import { LoggerService } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/shared-module/services/logging/logger.service';
 
 @Component({
   selector: 'pp-share-browser-item',
