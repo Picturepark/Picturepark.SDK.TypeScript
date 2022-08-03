@@ -66,7 +66,9 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     // need to show column names
     this.displayedColumnNames =
       this.schema.fields?.map(field => {
-        return { id: field.id.split('.').pop(), names: field.names, field };
+        const id = field.id.split('.').pop();
+        const names = field.names;
+        return { id, names, field };
       }) ?? [];
 
     this.displayedColumns =

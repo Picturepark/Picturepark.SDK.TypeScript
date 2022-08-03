@@ -33,7 +33,7 @@ import { SessionService } from '../../shared-module/services/session/session.ser
   ],
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
-  @Input() channel: Channel;
+  @Input() channel: Channel | null = null;
   hasManageSharingsRight = this.sessionService.hasRight(UserRight.ManageSharings);
 
   constructor(
@@ -91,7 +91,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       let sortDirection: SortDirection | undefined;
 
       if (this.channel.sort?.length) {
-        sortField = this.sortingTypes.find(f => f.field === this.channel.sort[0].field);
+        sortField = this.sortingTypes.find(f => f.field === this.channel?.sort?.[0]?.field);
         sortDirection = this.channel.sort[0].direction;
       }
 
@@ -111,7 +111,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
       this.facade.searchRequestState.channelId = channel.id;
       // Trigger load
-      this.facade.patchRequestState({ aggregators: channel.aggregations });
+      this.facade.patchRequestState(channel.aggregations ? { aggregators: channel.aggregations } : {});
     }
   }
 

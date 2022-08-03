@@ -279,7 +279,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         }),
       };
 
-      item = share.items.find(i => i.id === this.content.id) ?? ({} as IShareItem);
+      item = share.items.find(i => i.id === this.content.id) as IShareItem;
       items = share.items;
     }
 

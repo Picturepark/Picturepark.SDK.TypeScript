@@ -9,7 +9,7 @@ import {
   EventEmitter,
   ViewChild,
 } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, mergeMap, map, take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -66,12 +66,11 @@ export class ListComponent implements OnInit, OnDestroy {
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
 
     this.schema = this.route.paramMap.pipe(
+      filter(p => !!p.get('id')),
       mergeMap(paramMap => {
         const schemaId = paramMap.get('id');
-        if (!schemaId) return of(undefined);
         return this.schemaService.get(schemaId);
-      }),
-      filter(s => !!s)
+      })
     );
 
     this.searchQuery = this.route.queryParamMap.pipe(
