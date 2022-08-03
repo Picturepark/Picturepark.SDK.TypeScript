@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
 
 // LIBRARIES
 import {
@@ -80,7 +80,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
                 this.shareService
                   .deleteMany(new ShareDeleteManyRequest({ ids: [this.share.id] }))
                   .subscribe(async i => {
-                    await this.businessProcessService.waitForCompletion(i.id, '02:00:00', true).toPromise();
+                    await lastValueFrom(this.businessProcessService.waitForCompletion(i.id, '02:00:00', true));
                     this.router.navigate(['./share-manager']);
                   });
               }

@@ -8,6 +8,7 @@ import {
   BusinessProcessService,
   LoggerService,
 } from '@picturepark/sdk-v2-angular';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -30,19 +31,19 @@ export class EmbedService {
       );
 
       try {
-        const result = await this.shareService
-          .create(
+        const result = await lastValueFrom(
+          this.shareService.create(
             new ShareEmbedCreateRequest({
               name: 'Embed',
               contents: contentItems,
               outputAccess: OutputAccess.Full,
             })
           )
-          .toPromise();
+        );
 
         if (result?.referenceId) {
-          await this.businessProcessService.waitForCompletion(result.id, '02:00:00', true).toPromise();
-          const share = await this.shareService.get(result.referenceId, null, null).toPromise();
+          await lastValueFrom(this.businessProcessService.waitForCompletion(result.id, '02:00:00', true));
+          const share = await lastValueFrom(this.shareService.get(result.referenceId, null, null));
           const postMessage = JSON.stringify(share);
 
           if (window.opener) {
