@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LogLevel } from './logLevel';
+import { LogLevel } from './log-level';
 import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
