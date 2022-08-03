@@ -27,8 +27,7 @@ export const NumberConverter = (value: any) => {
 };
 
 export function InputConverter(converter?: (value: any) => any) {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  return (target: Object, key: string) => {
+  return (target: any, key: string) => {
     if (converter === undefined) {
       if (!Reflect) {
         throw new Error('The Reflect API is not available.');
