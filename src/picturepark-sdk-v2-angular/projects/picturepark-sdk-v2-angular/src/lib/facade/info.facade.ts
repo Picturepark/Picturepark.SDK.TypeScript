@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
-import { CustomerInfo } from '../services/api-services';
 import { CustomerInfoService } from '../services/customer-info.service';
 
 @Injectable({
@@ -10,7 +8,7 @@ import { CustomerInfoService } from '../services/customer-info.service';
 export class InfoFacade {
   constructor(private infoService: CustomerInfoService) {}
 
-  getInfo(cdnUrl?: string): Observable<CustomerInfo> {
+  getInfo(cdnUrl?: string) {
     return this.infoService.getInfo(cdnUrl).pipe(shareReplay(1));
   }
 }

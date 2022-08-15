@@ -3,16 +3,13 @@ import { Injectable } from '@angular/core';
 import {
   ListItem,
   ListItemService,
-  ListItemSearchResult,
   ListItemSearchRequest,
   SearchBehavior,
   BrokenDependenciesFilter,
   LifeCycleFilter,
   ListItemResolveBehavior,
   AggregatorBase,
-  AggregationResult,
 } from '../services/api-services';
-import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 export interface ListItemSearchInputState extends SearchInputState {
@@ -27,13 +24,13 @@ export class ListItemSearchFacade extends SearchFacade<ListItem, ListItemSearchI
     super({ schemaIds: [] });
   }
 
-  search(): Observable<ListItemSearchResult> | undefined {
+  search() {
     const request = new ListItemSearchRequest(this.getRequest());
     this.setLoading(true, request.pageToken);
     return this.listItemService.search(request).pipe(tap(() => this.setLoading(false)));
   }
 
-  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> {
+  searchAggregations(aggregators: AggregatorBase[]) {
     const params = { ...this.getRequest(), aggregators: aggregators, pageToken: undefined, limit: 0 };
     const request = new ListItemSearchRequest(params);
     return this.listItemService.search(request).pipe(map(i => i.aggregationResults ?? [])); // TODO BRO: Exception handling
