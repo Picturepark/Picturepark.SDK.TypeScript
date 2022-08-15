@@ -30,7 +30,7 @@ import { Title } from '@angular/platform-browser';
 export class ContentPickerComponent extends BaseComponent implements OnInit, OnDestroy {
   itemsInBasket = '0';
   selectedItems: Content[] = [];
-  selectedChannel: Channel;
+  selectedChannel: Channel | null = null;
   aggregations: AggregationResult[] = [];
   detailsItemId: string | undefined = undefined;
   loading = false;
