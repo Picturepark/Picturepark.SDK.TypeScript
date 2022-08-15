@@ -78,6 +78,6 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
   }
 
   private filterDisabledAggregators(items: AggregatorBase[]) {
-    return items?.filter(item => item.uiBehavior?.enableFilter) ?? [];
+    return items.filter(item => item.uiBehavior?.enableFilter) ?? [];
   }
 }

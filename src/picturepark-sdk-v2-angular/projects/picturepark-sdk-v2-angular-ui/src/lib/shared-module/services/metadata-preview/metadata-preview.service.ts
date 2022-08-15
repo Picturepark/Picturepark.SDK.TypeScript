@@ -135,7 +135,6 @@ export class MetaDataPreviewService {
             return v.join(', ');
           })
           .join(', ');
-        this.logger.debug(fields[fieldId]);
       } else if (fieldType === FieldDateTimeArray) {
         fields[fieldId] = value
           .map((v: any) => (v ? moment(v).format((field as FieldDate).format || 'LLL') : ''))
@@ -168,7 +167,7 @@ export class MetaDataPreviewService {
       } else if (fieldType === FieldMultiRelation) {
         // Unsupported
       } else {
-        this.logger.debug('Unsupported field type [' + fieldType + '] encountered.');
+        this.logger.error('Unsupported field type [' + fieldType + '] encountered.');
       }
     }
     return fields;

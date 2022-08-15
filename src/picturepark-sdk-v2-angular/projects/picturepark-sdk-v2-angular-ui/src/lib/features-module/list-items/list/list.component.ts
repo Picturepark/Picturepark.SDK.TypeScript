@@ -46,7 +46,7 @@ export class ListComponent implements OnInit, OnDestroy {
   searchQuery: Observable<string>;
   filter: BehaviorSubject<FilterBase | null>;
   schemaDetail: SchemaDetail | undefined;
-  schema: Observable<SchemaDetail | undefined>;
+  schema: Observable<SchemaDetail>;
   selectedItems: ListItem[];
   selectedItemsIds: string[];
 
@@ -83,8 +83,6 @@ export class ListComponent implements OnInit, OnDestroy {
     const listSubscription = combineLatest([this.schema, this.route.paramMap, this.route.queryParamMap])
       .pipe(take(1))
       .subscribe(([schemaDetail, paramMap, queryParamMap]) => {
-        if (!schemaDetail) return;
-
         this.activeSchema.next(schemaDetail);
         this.schemaDetail = schemaDetail;
 
@@ -122,11 +120,11 @@ export class ListComponent implements OnInit, OnDestroy {
     this.selectedItems = selectedItems;
   }
 
-  get queryParams(): Params {
+  get queryParams() {
     return Object.assign({}, this.route.snapshot.queryParams);
   }
 
-  changeAggregationFilters(aggregationFilters: AggregationFilter[]): void {
+  changeAggregationFilters(aggregationFilters: AggregationFilter[]) {
     this.deselectSelectedItems();
     this.aggregationFilters = aggregationFilters;
     const filtersQuery = this.aggregationFilters.map(f => JSON.stringify(f.toJSON()));

@@ -54,7 +54,7 @@ export function InputConverter(converter?: (value: any) => any) {
       Object.defineProperty(target, key, {
         get: definition.get,
         set: newValue => {
-          if (!definition?.set || !converter) return;
+          if (!definition.set || !converter) return;
           definition.set(converter(newValue));
         },
         enumerable: true,
