@@ -4,7 +4,7 @@ import { inject, waitForAsync } from '@angular/core/testing';
 import { configureTest } from './config';
 import { AuthService } from '../lib/services/auth.service';
 import { ChannelService } from '../lib/services/api-services';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, take } from 'rxjs';
 
 describe('ChannelService', () => {
   beforeEach(configureTest);
@@ -14,7 +14,7 @@ describe('ChannelService', () => {
       // arrange
 
       // act
-      const channels = await lastValueFrom(channelService.getAll());
+      const channels = await lastValueFrom(channelService.getAll().pipe(take(1)));
 
       // assert
       expect(channels?.length).toBeGreaterThanOrEqual(1);
@@ -26,7 +26,7 @@ describe('ChannelService', () => {
       // arrange
 
       // act
-      const channels = await lastValueFrom(channelService.getAll());
+      const channels = await lastValueFrom(channelService.getAll().pipe(take(1)));
       const channel = channels?.find(i => i.id === 'rootChannel');
 
       // assert

@@ -11,7 +11,7 @@ import {
   OutputAccess,
   BusinessProcessService,
 } from '../lib/services/api-services';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, take } from 'rxjs';
 
 describe('ShareService', () => {
   beforeEach(configureTest);
@@ -28,7 +28,7 @@ describe('ShareService', () => {
         const request = new ContentSearchRequest();
         request.searchString = 'm';
 
-        const response = await lastValueFrom(contentService.search(request));
+        const response = await lastValueFrom(contentService.search(request).pipe(take(1)));
 
         // act
         const contents = response?.results.map(
@@ -40,19 +40,21 @@ describe('ShareService', () => {
         );
 
         const result = await lastValueFrom(
-          shareService.create(
-            new ShareBasicCreateRequest({
-              name: 'Share',
-              languageCode: 'en',
-              contents: contents ?? [],
-              outputAccess: OutputAccess.Full,
-              suppressNotifications: false,
-            })
-          )
+          shareService
+            .create(
+              new ShareBasicCreateRequest({
+                name: 'Share',
+                languageCode: 'en',
+                contents: contents ?? [],
+                outputAccess: OutputAccess.Full,
+                suppressNotifications: false,
+              })
+            )
+            .pipe(take(1))
         );
 
-        await lastValueFrom(businessProcessService.waitForCompletion(result?.id ?? '', '02:00:00', true));
-        const share = await lastValueFrom(shareService.get(result?.referenceId ?? '', null, 20));
+        await lastValueFrom(businessProcessService.waitForCompletion(result?.id ?? '', '02:00:00', true).pipe(take(1)));
+        const share = await lastValueFrom(shareService.get(result?.referenceId ?? '', null, 20).pipe(take(1)));
 
         // assert
         expect(result?.referenceId).not.toBeNull();

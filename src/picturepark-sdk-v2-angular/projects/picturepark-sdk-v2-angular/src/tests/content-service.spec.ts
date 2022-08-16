@@ -11,7 +11,7 @@ import {
   ContentAggregationRequest,
   TermsAggregator,
 } from '../lib/services/api-services';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, take } from 'rxjs';
 
 describe('ContentService', () => {
   beforeEach(configureTest);
@@ -25,7 +25,7 @@ describe('ContentService', () => {
       request.searchString = 'm';
       request.searchBehaviors = [SearchBehavior.WildcardOnSingleTerm];
 
-      const response = await lastValueFrom(contentService.search(request));
+      const response = await lastValueFrom(contentService.search(request).pipe(take(1)));
 
       // assert
       expect(response?.totalResults).toBeGreaterThan(0);
@@ -41,9 +41,9 @@ describe('ContentService', () => {
       request.searchString = 'm';
       request.searchBehaviors = [SearchBehavior.WildcardOnSingleTerm];
 
-      const response = await lastValueFrom(contentService.search(request));
+      const response = await lastValueFrom(contentService.search(request).pipe(take(1)));
       const result = await lastValueFrom(
-        contentService.downloadThumbnail(response?.results[0].id ?? '', ThumbnailSize.Medium, null, null)
+        contentService.downloadThumbnail(response?.results[0].id ?? '', ThumbnailSize.Medium, null, null).pipe(take(1))
       );
 
       // assert
@@ -63,9 +63,9 @@ describe('ContentService', () => {
         term: 'Bitmap',
       });
 
-      const response = await lastValueFrom(contentService.search(request));
+      const response = await lastValueFrom(contentService.search(request).pipe(take(1)));
       const result = await lastValueFrom(
-        contentService.download(response?.results[0].id ?? '', 'Original', 100, 100, null)
+        contentService.download(response?.results[0].id ?? '', 'Original', 100, 100, null).pipe(take(1))
       );
 
       // assert
@@ -82,11 +82,11 @@ describe('ContentService', () => {
       request.searchString = 'm';
       request.searchBehaviors = [SearchBehavior.WildcardOnSingleTerm];
 
-      const response = await lastValueFrom(contentService.search(request));
+      const response = await lastValueFrom(contentService.search(request).pipe(take(1)));
       if (!response?.results?.[0]?.id) return;
 
       const result = await lastValueFrom(
-        contentService.download(response.results[0].id, 'Original', null, null, 'bytes=500-999')
+        contentService.download(response.results[0].id, 'Original', null, null, 'bytes=500-999').pipe(take(1))
       );
 
       // assert
@@ -127,7 +127,7 @@ describe('ContentService', () => {
         }),
       ];
 
-      const response = await lastValueFrom(contentService.aggregate(request));
+      const response = await lastValueFrom(contentService.aggregate(request).pipe(take(1)));
 
       // assert
       expect(response?.aggregationResults.length).toBeGreaterThan(0);
