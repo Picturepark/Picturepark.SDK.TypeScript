@@ -1,8 +1,8 @@
 mkdir "%~dp0\..\docs\temp\"
  
-copy /b/v/y "%~dp0\..\src\picturepark-sdk-v1-fetch\dist\picturepark.d.ts" "%~dp0\..\docs\temp\picturepark.d.ts"
-copy /b/v/y "%~dp0\..\src\picturepark-sdk-v1-widgets\dist\picturepark-widgets.d.ts" "%~dp0\..\docs\temp\picturepark-widgets.d.ts"
-copy /b/v/y "%~dp0\..\src\picturepark-sdk-v1-pickers\dist\picturepark-pickers.d.ts" "%~dp0\..\docs\temp\picturepark-pickers.d.ts"
+copy /b/v/y "%~dp0\..\src\picturepark-sdk-v1-fetch\dist\index.d.ts" "%~dp0\..\docs\temp\picturepark.d.ts"
+copy /b/v/y "%~dp0\..\src\picturepark-sdk-v1-widgets\dist\index.d.ts" "%~dp0\..\docs\temp\picturepark-widgets.d.ts"
+copy /b/v/y "%~dp0\..\src\picturepark-sdk-v1-pickers\dist\index.d.ts" "%~dp0\..\docs\temp\picturepark-pickers.d.ts"
 
 REM Remove protected process*() methods
 cmd /c powershell "& { [System.IO.File]::ReadAllText('%~dp0/../docs/temp/picturepark.d.ts') -replace 'protected process(.*?);', '' | Set-Content '%~dp0/../docs/temp/picturepark.d.ts'}"
