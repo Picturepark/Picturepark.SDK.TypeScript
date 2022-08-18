@@ -6,7 +6,7 @@ on:
       - release
 
 jobs:
-  picturepark-sdk-v1-angular:
+  npm-publish:
     runs-on: [ubuntu-latest]
     strategy:
       matrix:
