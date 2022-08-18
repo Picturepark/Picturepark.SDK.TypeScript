@@ -1,7 +1,6 @@
 mkdir "%~dp0\..\docs\temp\"
  
 copy /b/v/y "%~dp0\..\src\picturepark-sdk-v1-fetch\dist\index.d.ts" "%~dp0\..\docs\temp\picturepark.d.ts"
-copy /b/v/y "%~dp0\..\src\picturepark-sdk-v1-widgets\dist\index.d.ts" "%~dp0\..\docs\temp\picturepark-widgets.d.ts"
 copy /b/v/y "%~dp0\..\src\picturepark-sdk-v1-pickers\dist\index.d.ts" "%~dp0\..\docs\temp\picturepark-pickers.d.ts"
 
 REM Remove protected process*() methods
@@ -10,8 +9,6 @@ cmd /c powershell "& { [System.IO.File]::ReadAllText('%~dp0/../docs/temp/picture
 cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\docs\temp\picturepark.d.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-fetch\api" --includeDeclarations --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-fetch\API.md" --theme default --name "picturepark-sdk-v1-fetch API"
 
 cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\docs\temp\picturepark-pickers.d.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-pickers\api" --includeDeclarations --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-pickers\API.md" --theme default --name "picturepark-sdk-v1-pickers API"
-
-cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\docs\temp\picturepark-widgets.d.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-widgets\api" --includeDeclarations --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-widgets\API.md" --theme default --name "picturepark-sdk-v1-widgets API"
 
 pushd "%~dp0/../src/picturepark-sdk-v1-angular"
 popd

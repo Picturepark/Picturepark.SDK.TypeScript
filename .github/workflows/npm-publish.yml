@@ -32,7 +32,7 @@ jobs:
           npm run lint
           npm run build-libraries
 
-      - name: Publish Angular V1 packages
+      - name: Publish npm packages
         working-directory: ./src/
         run: |
           npm publish 'picturepark-sdk-v1-fetch/dist' --access=public
