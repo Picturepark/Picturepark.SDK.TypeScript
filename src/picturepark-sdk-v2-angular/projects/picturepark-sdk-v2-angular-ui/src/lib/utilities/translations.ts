@@ -46,7 +46,7 @@ export const TRANSLATIONS = {
     },
     Download: {
       en: 'Download',
-      de: 'Herunterladen',
+      de: 'Download',
       fr: 'Télécharger',
       es: 'Descargar',
       pt: 'Descarregar',
@@ -201,7 +201,7 @@ export const TRANSLATIONS = {
     },
     DownloadItem: {
       en: 'Download',
-      de: 'Herunterladen',
+      de: 'Download',
       fr: 'Télécharger',
       es: 'Descargar',
       pt: 'Descarregar',
@@ -271,7 +271,7 @@ export const TRANSLATIONS = {
     },
     Download: {
       en: 'Download',
-      de: 'Herunterladen',
+      de: 'Download',
       fr: 'Télécharger',
       es: 'Descargar',
       pt: 'Descarregar',
@@ -793,7 +793,7 @@ export const TRANSLATIONS = {
     },
     Download: {
       en: 'Download',
-      de: 'Herunterladen',
+      de: 'Download',
       fr: 'Télécharger',
       es: 'Descargar',
       pt: 'Descarregar',
@@ -1088,7 +1088,7 @@ export const TRANSLATIONS = {
   ContentDetailsDialog: {
     Download: {
       en: 'Download',
-      de: 'Herunterladen',
+      de: 'Download',
       fr: 'Télécharger',
       es: 'Descargar',
       pt: 'Descarregar',
@@ -1195,7 +1195,7 @@ export const TRANSLATIONS = {
     },
     Download: {
       en: 'Download',
-      de: 'Herunterladen',
+      de: 'Download',
       fr: 'Télécharger',
       es: 'Descargar',
       pt: 'Descarregar',

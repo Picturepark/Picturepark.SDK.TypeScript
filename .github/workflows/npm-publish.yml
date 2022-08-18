@@ -1,0 +1,44 @@
+name: NPM packages publish
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  picturepark-sdk-v1-angular:
+    runs-on: [ubuntu-latest]
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish NPM packages - Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/
+
+      - name: Build
+        run: |
+          npm install
+          npm run build:fetch
+          npm run build:pickers
+
+      - name: Build Angular V1 libraries
+        working-directory: ./src/picturepark-sdk-v1-angular
+        run: |
+          npm run init
+          npm run lint
+          npm run build-libraries
+
+      - name: Publish npm packages
+        working-directory: ./src/
+        run: |
+          npm publish 'picturepark-sdk-v1-fetch/dist' --access=public
+          npm publish 'picturepark-sdk-v1-pickers/dist' --access=public
+          npm publish 'picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular' --access=public
+          npm publish 'picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular-oidc' --access=public
+          npm publish 'picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular-ui' --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  

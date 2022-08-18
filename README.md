@@ -1,9 +1,7 @@
 # Picturepark Content Platform TypeScript/JavaScript SDK
 ## Picturepark.Sdk.TypeScript
 
-[![Build status](https://img.shields.io/appveyor/ci/Picturepark/picturepark-sdk-typescript.svg?label=build)](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript)
 [![npm](https://img.shields.io/npm/v/@picturepark/sdk-v1-angular.svg)](https://www.npmjs.com/~picturepark)
-[![Build status](https://img.shields.io/appveyor/ci/Picturepark/picturepark-sdk-typescript-hgo7c.svg?label=CI+build)](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript-hgo7c)
 
 Links:
 
@@ -54,6 +52,7 @@ Contains widgets to embed Picturepark content into other websites.
 | `11.0.x`    | `11.0.x`               |
 | `11.1.x`    | `11.1.x`               |
 | `11.2.x`    | `11.2.x`               |
+| `11.3.x`    | `11.3.x`               |
 	
 SDK Development
 

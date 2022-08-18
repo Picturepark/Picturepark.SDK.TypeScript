@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import {
   ITranslatedStringDictionary,
   IUserAuditDetail,

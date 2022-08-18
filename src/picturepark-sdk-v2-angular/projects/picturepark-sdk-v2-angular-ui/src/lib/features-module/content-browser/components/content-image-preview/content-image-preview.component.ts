@@ -74,9 +74,10 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
     private cdr: ChangeDetectorRef,
     protected injector: Injector,
     private downloadFacade: DownloadFacade,
-    @Inject(PICTUREPARK_CDN_URL) private cdnUrl: string
+    @Optional() @Inject(PICTUREPARK_CDN_URL) private cdnUrl?: string
   ) {
     super(injector);
+    this.cdnUrl = this.cdnUrl || '';
   }
 
   /** Gets the script path from either configured PICTUREPARK_UI_SCRIPTPATH or fallback to the configured base href */
