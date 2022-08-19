@@ -1,4 +1,4 @@
-name: Angular SDK V2 - Github Package publish
+name: Angular SDK V1 - Github Package publish
 
 on:
   push:
