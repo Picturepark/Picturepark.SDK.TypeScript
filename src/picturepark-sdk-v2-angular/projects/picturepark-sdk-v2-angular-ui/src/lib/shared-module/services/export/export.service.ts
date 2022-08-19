@@ -34,7 +34,7 @@ export class ExportService {
         const schemaIds = new Set<string>();
 
         schemas.forEach(s => {
-          s.fields!.filter(f => FieldHelper.isReferencedField(f))
+          s.fields?.filter(f => FieldHelper.isReferencedField(f))
             .filter((f: FieldSingleFieldset | FieldMultiTagbox | FieldSingleTagbox) => {
               return !newReferencedData.schemaDetails.some(x => x.id === f.schemaId);
             })

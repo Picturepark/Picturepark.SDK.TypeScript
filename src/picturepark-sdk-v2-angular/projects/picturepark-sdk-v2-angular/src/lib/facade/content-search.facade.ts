@@ -3,16 +3,13 @@ import { SearchFacade, SearchInputState } from './search.facade';
 import {
   Content,
   ContentService,
-  ContentSearchResult,
   SearchBehavior,
   ContentSearchRequest,
   BrokenDependenciesFilter,
   LifeCycleFilter,
   ContentSearchType,
-  AggregationResult,
   AggregatorBase,
 } from '../services/api-services';
-import { Observable } from 'rxjs';
 import { map, finalize } from 'rxjs/operators';
 
 export interface ContentSearchInputState extends SearchInputState {
@@ -27,7 +24,7 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
     super({});
   }
 
-  search(): Observable<ContentSearchResult> | undefined {
+  search() {
     if (!this.searchRequestState.channelId) {
       return;
     }
@@ -36,14 +33,14 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
     return this.contentService.search(request).pipe(finalize(() => this.setLoading(false)));
   }
 
-  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+  searchAggregations(aggregators: AggregatorBase[]) {
     if (!this.searchRequestState.channelId) {
       return;
     }
 
     const params = { ...this.getRequest(), aggregators: aggregators, pageToken: undefined, limit: 0 };
     const request = new ContentSearchRequest(params);
-    return this.contentService.search(request).pipe(map(i => i.aggregationResults!)); // TODO BRO: Exception handling
+    return this.contentService.search(request).pipe(map(i => i.aggregationResults ?? [])); // TODO BRO: Exception handling
   }
 
   private getRequest() {

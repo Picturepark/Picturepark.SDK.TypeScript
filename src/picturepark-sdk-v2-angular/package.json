@@ -3,7 +3,7 @@
   "version": "11.5.0-pre.0",
   "license": "MIT",
   "scripts": {
-    "init": "npm install",
+    "init": "npm ci",
     "ng": "ng",
     "start": "ng serve --port 4300 -o",
     "start-share-viewer": "ng serve share-viewer --port 4400 -o",
@@ -44,17 +44,17 @@
     "@angular/platform-browser": "13.2.4",
     "@angular/platform-browser-dynamic": "13.2.4",
     "@angular/router": "13.2.4",
-    "rxjs": "7.5.5",
-    "tslib": "^2.0.0",
-    "zone.js": "0.11.4",
     "angular-oauth2-oidc": "13.0.1",
     "hammerjs": "^2.0.8",
     "lazy-get-decorator": "^2.2.0",
     "liquidjs": "^9.11.11",
     "markdown-it": "12.3.2",
     "moment": "2.29.4",
+    "rxjs": "7.5.5",
     "sass": "^1.43.4",
-    "ts-md5": "^1.2.7"
+    "ts-md5": "^1.2.7",
+    "tslib": "^2.0.0",
+    "zone.js": "0.11.8"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "13.2.5",

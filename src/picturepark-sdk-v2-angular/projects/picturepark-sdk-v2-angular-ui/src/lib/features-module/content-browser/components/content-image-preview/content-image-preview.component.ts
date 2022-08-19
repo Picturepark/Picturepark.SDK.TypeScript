@@ -181,7 +181,9 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
     let items: IShareItem[] = [];
 
     if (this.content instanceof ContentDetail) {
-      const outputs = this.content.outputs!;
+      if (!this.content.outputs) return;
+
+      const outputs = this.content.outputs;
 
       const pdfOutput = outputs.find(i => i.outputFormatId === 'Pdf');
       isPdf = pdfOutput !== undefined;
@@ -232,14 +234,16 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
 
       items = [item];
     } else {
+      if (!this.shareDetail) return;
+
       let index = 0;
       const share = {
-        id: this.shareDetail!.id,
-        url: this.shareDetail!.data!.url,
-        name: this.shareDetail!.name,
-        creator: this.shareDetail!.creator,
-        description: this.shareDetail!.description,
-        items: this.shareDetail!.contentSelections.map(s => {
+        id: this.shareDetail.id,
+        url: this.shareDetail.data?.url,
+        name: this.shareDetail.name,
+        creator: this.shareDetail.creator,
+        description: this.shareDetail.description,
+        items: this.shareDetail.contentSelections.map(s => {
           const previewOutput = s.outputs.find(o => o.outputFormatId === 'Preview');
           const originalOutput = s.outputs.find(o => o.outputFormatId === 'Original');
           const detail = originalOutput ? originalOutput.detail : previewOutput ? previewOutput.detail : null;
@@ -266,20 +270,16 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
 
             originalUrl: originalOutput ? originalOutput.downloadUrl : null,
             pdfUrl: pdfOutput ? pdfOutput.downloadUrl : null,
-            videoUrl: s.outputs.find(i => i.outputFormatId === 'VideoLarge')
-              ? s.outputs.find(i => i.outputFormatId === 'VideoLarge')!.downloadUrl
-              : s.outputs.find(i => i.outputFormatId === 'VideoSmall')
-              ? s.outputs.find(i => i.outputFormatId === 'VideoSmall')!.downloadUrl
-              : null,
-            audioUrl: s.outputs.find(i => i.outputFormatId === 'AudioSmall')
-              ? s.outputs.find(i => i.outputFormatId === 'AudioSmall')!.viewUrl
-              : null,
+            videoUrl:
+              s.outputs.find(i => i.outputFormatId === 'VideoLarge')?.downloadUrl ??
+              s.outputs.find(i => i.outputFormatId === 'VideoSmall')?.downloadUrl,
+            audioUrl: s.outputs.find(i => i.outputFormatId === 'AudioSmall')?.viewUrl,
             outputs: s.outputs,
           } as IShareItem;
         }),
       };
 
-      item = share.items.find(i => i.id === this.content.id)!;
+      item = share.items.find(i => i.id === this.content.id) as IShareItem;
       items = share.items;
     }
 
@@ -297,11 +297,13 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
   }
 
   playMedia(playing: boolean, item: IShareItem): void {
+    if (!item?.detail) return;
+
     this.playing = playing;
     this.playChange.emit(playing);
     this.cdr.detectChanges();
 
     const element = document.getElementsByClassName('video-player')[0];
-    this.fullscreenService.renderVideoPlayer(element, item, item.detail!.width, item.detail!.height);
+    this.fullscreenService.renderVideoPlayer(element, item, item.detail.width, item.detail.height);
   }
 }

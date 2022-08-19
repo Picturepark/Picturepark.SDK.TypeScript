@@ -19,6 +19,7 @@ export function storageFactory(): OAuthStorage {
   ],
 })
 export class PictureparkOidcModule {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   static forRoot(config: PictureparkOidcAuthConfiguration | Function): ModuleWithProviders<PictureparkOidcModule> {
     return {
       ngModule: PictureparkOidcModule,

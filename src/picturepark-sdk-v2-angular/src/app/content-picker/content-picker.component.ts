@@ -29,15 +29,10 @@ import { Title } from '@angular/platform-browser';
 })
 export class ContentPickerComponent extends BaseComponent implements OnInit, OnDestroy {
   itemsInBasket = '0';
-
   selectedItems: Content[] = [];
-
   selectedChannel: Channel | null = null;
-
   aggregations: AggregationResult[] = [];
-
   detailsItemId: string | undefined = undefined;
-
   loading = false;
   messagePosted = false;
   postUrl = '';
@@ -126,9 +121,5 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
 
   changeChannel(channel: Channel) {
     this.selectedChannel = channel;
-  }
-
-  log(data: any) {
-    console.log(data);
   }
 }

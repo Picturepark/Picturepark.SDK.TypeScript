@@ -1,17 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { lastValueFrom, Subscription, take } from 'rxjs';
 
 // LIBRARIES
 import {
   ShareService,
   ShareContentDetail,
-  IShareDataBasic,
   IMailRecipient,
   ShareDeleteManyRequest,
   ShareDetail,
   BusinessProcessService,
+  ShareDataBasic,
 } from '@picturepark/sdk-v2-angular';
 import {
   ContentDownloadDialogService,
@@ -80,7 +80,9 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
                 this.shareService
                   .deleteMany(new ShareDeleteManyRequest({ ids: [this.share.id] }))
                   .subscribe(async i => {
-                    await this.businessProcessService.waitForCompletion(i.id, '02:00:00', true).toPromise();
+                    await lastValueFrom(
+                      this.businessProcessService.waitForCompletion(i.id, '02:00:00', true).pipe(take(1))
+                    );
                     this.router.navigate(['./share-manager']);
                   });
               }
@@ -98,9 +100,7 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
       this.items = data.contentSelections;
       this.userId = data.audit.createdByUser;
 
-      const shareDataBasic = <IShareDataBasic | undefined>data.data;
-
-      this.mailRecipients = shareDataBasic!.mailRecipients;
+      if (data?.data instanceof ShareDataBasic) this.mailRecipients = data?.data?.mailRecipients ?? [];
 
       this.subject = data.name;
       this.accessOriginal = data.outputAccess;

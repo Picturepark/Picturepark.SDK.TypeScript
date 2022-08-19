@@ -10,7 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
-import { distinctUntilChanged, flatMap, map, take, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, mergeMap, map, take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
 
 // ANGULAR CDK
@@ -66,8 +66,9 @@ export class ListComponent implements OnInit, OnDestroy {
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
 
     this.schema = this.route.paramMap.pipe(
-      flatMap(paramMap => {
-        const schemaId = paramMap.get('id')!;
+      filter(p => !!p.get('id')),
+      mergeMap(paramMap => {
+        const schemaId = paramMap.get('id');
         return this.schemaService.get(schemaId);
       })
     );
@@ -93,7 +94,7 @@ export class ListComponent implements OnInit, OnDestroy {
             this.aggregationFilters = filterQuery.map(fq => AggregationFilter.fromJS(JSON.parse(fq)));
           }
           const createdFilter = this.createFilter(this.aggregationFilters);
-          this.filter.next(createdFilter!);
+          this.filter.next(createdFilter);
         }
 
         // Get selected from url
@@ -119,14 +120,14 @@ export class ListComponent implements OnInit, OnDestroy {
     this.selectedItems = selectedItems;
   }
 
-  get queryParams(): Params {
+  get queryParams() {
     return Object.assign({}, this.route.snapshot.queryParams);
   }
 
-  changeAggregationFilters(aggregationFilters: AggregationFilter[]): void {
+  changeAggregationFilters(aggregationFilters: AggregationFilter[]) {
     this.deselectSelectedItems();
     this.aggregationFilters = aggregationFilters;
-    const filtersQuery = this.aggregationFilters.map(filter => JSON.stringify(filter.toJSON()));
+    const filtersQuery = this.aggregationFilters.map(f => JSON.stringify(f.toJSON()));
 
     const query = this.queryParams;
 
@@ -139,7 +140,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.queryChange.emit(query);
   }
 
-  private createFilter(aggregationFilters: AggregationFilter[]): FilterBase | null {
+  private createFilter(aggregationFilters: AggregationFilter[]) {
     const flatten = groupBy(aggregationFilters, i => i.aggregationName);
     const preparedFilters = Array.from(flatten)
       .map(array => {
@@ -162,7 +163,7 @@ export class ListComponent implements OnInit, OnDestroy {
       case 0:
         return null;
       case 1:
-        return preparedFilters[0]!;
+        return preparedFilters[0];
       default:
         return new AndFilter({ filters: preparedFilters as FilterBase[] });
     }

@@ -77,7 +77,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
         }
 
         const aggs = this.setSearchString(searchString);
-        return this.facade.searchAggregations(aggs)!.pipe(catchError(error => of(null)));
+        return this.facade.searchAggregations(aggs)?.pipe(catchError(error => of(null)));
       }),
       map(aggregationResult => {
         if (!aggregationResult) {

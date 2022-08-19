@@ -22,6 +22,7 @@ import {
   FieldTranslatedString,
   SchemaDetail,
   FieldTrigger,
+  LoggerService,
 } from '@picturepark/sdk-v2-angular';
 
 import moment from 'moment';
@@ -34,7 +35,11 @@ import { TranslationService } from '../translations/translation.service';
   providedIn: 'root',
 })
 export class MetaDataPreviewService {
-  constructor(private localizationService: LocalizationService, private translationService: TranslationService) {}
+  constructor(
+    private localizationService: LocalizationService,
+    private translationService: TranslationService,
+    private logger: LoggerService
+  ) {}
 
   prepareTableColumns(allColumnNames: string[], tableData: any[]): string[] {
     const existedColumnsSet = new Set<string>();
@@ -98,7 +103,7 @@ export class MetaDataPreviewService {
       }
 
       let value;
-      const fieldType = field!.constructor;
+      const fieldType = field?.constructor;
 
       if (fieldId.lastIndexOf('.') === -1) {
         value = metadata[fieldId];
@@ -130,7 +135,6 @@ export class MetaDataPreviewService {
             return v.join(', ');
           })
           .join(', ');
-        console.log(fields[fieldId]);
       } else if (fieldType === FieldDateTimeArray) {
         fields[fieldId] = value
           .map((v: any) => (v ? moment(v).format((field as FieldDate).format || 'LLL') : ''))
@@ -163,7 +167,7 @@ export class MetaDataPreviewService {
       } else if (fieldType === FieldMultiRelation) {
         // Unsupported
       } else {
-        console.log('Unsupported field type [' + fieldType + '] encountered.');
+        this.logger.error('Unsupported field type [' + fieldType + '] encountered.');
       }
     }
     return fields;

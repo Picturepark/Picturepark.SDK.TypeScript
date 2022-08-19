@@ -2,7 +2,7 @@ import { Component, OnChanges, SimpleChanges, OnInit, Injector } from '@angular/
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
-import { ThumbnailSize, Share, ContentService } from '@picturepark/sdk-v2-angular';
+import { ThumbnailSize, Share, ContentService, LoggerService } from '@picturepark/sdk-v2-angular';
 
 // COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
@@ -28,7 +28,12 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
   isSelected$: Observable<boolean> | undefined;
 
-  constructor(private contentService: ContentService, private sanitizer: DomSanitizer, protected injector: Injector) {
+  constructor(
+    private contentService: ContentService,
+    private sanitizer: DomSanitizer,
+    protected injector: Injector,
+    private logger: LoggerService
+  ) {
     super(injector);
   }
 
@@ -56,7 +61,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
         this.isLoading = false;
       })
       .catch(err => {
-        console.log(err);
+        this.logger.error(err);
       });
   }
 

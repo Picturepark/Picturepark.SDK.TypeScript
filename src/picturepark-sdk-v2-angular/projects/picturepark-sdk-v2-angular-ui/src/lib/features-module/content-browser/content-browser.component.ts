@@ -33,8 +33,7 @@ import { SessionService } from '../../shared-module/services/session/session.ser
   ],
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
-  @Input()
-  channel: Channel | null = null;
+  @Input() channel: Channel | null = null;
   hasManageSharingsRight = this.sessionService.hasRight(UserRight.ManageSharings);
 
   constructor(
@@ -91,8 +90,8 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
       let sortField: ISortItem | undefined;
       let sortDirection: SortDirection | undefined;
 
-      if (this.channel?.sort?.length) {
-        sortField = this.sortingTypes.find(f => f.field === this.channel?.sort[0].field);
+      if (this.channel.sort?.length) {
+        sortField = this.sortingTypes.find(f => f.field === this.channel?.sort?.[0]?.field);
         sortDirection = this.channel.sort[0].direction;
       }
 
@@ -106,16 +105,13 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['channel'] && changes['channel'].currentValue) {
+    const channel = changes?.channel?.currentValue as Channel;
+    if (channel) {
       this.setSortFields();
 
-      this.facade.searchRequestState.channelId = this.channel!.id;
+      this.facade.searchRequestState.channelId = channel.id;
       // Trigger load
-      if (this.channel?.aggregations) {
-        this.facade.patchRequestState({ aggregators: this.channel.aggregations });
-      } else {
-        this.facade.patchRequestState({});
-      }
+      this.facade.patchRequestState(channel.aggregations ? { aggregators: channel.aggregations } : {});
     }
   }
 

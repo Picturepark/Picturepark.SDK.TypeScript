@@ -2,7 +2,6 @@ import { SearchInputState, SearchFacade } from './search.facade';
 import {
   Schema,
   SchemaService,
-  SchemaSearchResult,
   FilterBase,
   OrFilter,
   PrefixFilter,
@@ -29,7 +28,7 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
     super({});
   }
 
-  search(): Observable<SchemaSearchResult> | undefined {
+  search() {
     let filter: FilterBase | undefined;
     const parentSchema = this.searchRequestState.parentSchema;
     if (parentSchema) {

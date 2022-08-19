@@ -1,18 +1,15 @@
 import { Inject, Injectable, Optional } from '@angular/core';
-import { ShareOutputBase } from '@picturepark/sdk-v2-angular';
+import { LoggerService, ShareOutputBase } from '@picturepark/sdk-v2-angular';
 import { PICTUREPARK_UI_SCRIPTPATH } from '../../configuration';
-
-function log(message: string) {
-  if (console) {
-    console.log(message);
-  }
-}
 
 @Injectable({
   providedIn: 'root',
 })
 export class FullscreenService {
-  constructor(@Optional() @Inject(PICTUREPARK_UI_SCRIPTPATH) private uiScriptPath: string) {}
+  constructor(
+    @Optional() @Inject(PICTUREPARK_UI_SCRIPTPATH) private uiScriptPath: string,
+    private logger: LoggerService
+  ) {}
 
   loading = false;
 
@@ -35,7 +32,7 @@ export class FullscreenService {
     }
   }
 
-  async renderVideoPlayer(element: Element, item, width, height) {
+  async renderVideoPlayer(element: Element, item: IShareItem, width?: number, height?: number) {
     const IndigoPlayer = await this.loadVideoPlayerLibraries();
     const player = IndigoPlayer.init(element, {
       autoplay: true,
@@ -193,7 +190,7 @@ export class FullscreenService {
             loadedPlayer.destroy();
             loadedPlayers.splice(index, 1);
           } catch (ex) {
-            console.log(ex);
+            this.logger.error(ex);
           }
         });
       };
@@ -326,14 +323,14 @@ export class FullscreenService {
 
   loadScript(url: string, globalName: string): Promise<any> {
     if ((<any>window).require) {
-      log('Picturepark Widgets > Load external script via require(): ' + url);
+      this.logger.debug('Picturepark Widgets > Load external script via require(): ' + url);
       return new Promise(resolve => {
         (<any>window).require([url], module => {
           resolve(module);
         });
       });
     } else {
-      log('Picturepark Widgets > Load external script via tag: ' + url);
+      this.logger.debug('Picturepark Widgets > Load external script via tag: ' + url);
       return new Promise<any>(resolve => {
         const scriptTag = document.createElement('script');
         scriptTag.src = url;

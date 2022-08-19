@@ -6,6 +6,7 @@ import { AccessTokenAuthService } from '../lib/services/access-token-auth.servic
 import { PICTUREPARK_CONFIGURATION } from '../lib/services/base.service';
 import { PictureparkConfiguration } from '../lib/models/configuration';
 import { PICTUREPARK_API_URL } from '../lib/services/api-services';
+import { RouterTestingModule } from '@angular/router/testing';
 
 export const testUrl = '{Server}';
 export const testAccessToken = '{AccessToken}';
@@ -14,7 +15,7 @@ export const testCustomerAlias = '{CustomerAlias}';
 export function configureTest() {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 25000;
   TestBed.configureTestingModule({
-    imports: [HttpClientModule],
+    imports: [HttpClientModule, RouterTestingModule],
     providers: [
       { provide: AuthService, useClass: AccessTokenAuthService },
       { provide: PICTUREPARK_API_URL, useValue: testUrl },

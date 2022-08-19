@@ -92,7 +92,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   loadMore(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) + this.pagingSize;
 
-    this.sub = this.facade.searchAggregations([this.aggregator])!.subscribe(result => {
+    this.sub = this.facade.searchAggregations([this.aggregator]).subscribe(result => {
       this.updateAggregationResult(result ? result[0] || null : null);
     });
   }
@@ -100,7 +100,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
   loadLess(): void {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) - this.pagingSize;
 
-    this.sub = this.facade.searchAggregations([this.aggregator])!.subscribe(result => {
+    this.sub = this.facade.searchAggregations([this.aggregator]).subscribe(result => {
       this.updateAggregationResult(result ? result[0] || null : null);
     });
   }
@@ -116,7 +116,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     this.expandedAggregator.size = this.pagingSize;
 
     this.isLoading = true;
-    const observableResult = this.facade.searchAggregations([this.aggregator])!.pipe(
+    const observableResult = this.facade.searchAggregations([this.aggregator]).pipe(
       map(result => {
         this.hideLoader();
 
