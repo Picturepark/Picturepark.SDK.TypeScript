@@ -1,0 +1,388 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>PictureparkValidationException | picturepark-sdk-v1-fetch API</title><meta name="description" content="Documentation for picturepark-sdk-v1-fetch API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script async src="../assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container">
+<div class="table-cell" id="tsd-search" data-base="..">
+<div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
+<ul class="results">
+<li class="state loading">Preparing search index...</li>
+<li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">picturepark-sdk-v1-fetch API</a></div>
+<div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
+<div class="container container-main">
+<div class="col-8 col-content">
+<div class="tsd-page-title">
+<ul class="tsd-breadcrumb">
+<li><a href="../modules.html">picturepark-sdk-v1-fetch API</a></li>
+<li><a href="PictureparkValidationException.html">PictureparkValidationException</a></li></ul>
+<h1>Interface PictureparkValidationException</h1></div>
+<section class="tsd-panel tsd-hierarchy">
+<h4>Hierarchy</h4>
+<ul class="tsd-hierarchy">
+<li><a href="PictureparkBusinessException.html" class="tsd-signature-type" data-tsd-kind="Interface">PictureparkBusinessException</a>
+<ul class="tsd-hierarchy">
+<li><span class="target">PictureparkValidationException</span>
+<ul class="tsd-hierarchy">
+<li><a href="PictureparkTimeoutException.html" class="tsd-signature-type" data-tsd-kind="Interface">PictureparkTimeoutException</a></li>
+<li><a href="UserEmailAlreadyExistsException.html" class="tsd-signature-type" data-tsd-kind="Interface">UserEmailAlreadyExistsException</a></li>
+<li><a href="UnableToDeleteUserRoleException.html" class="tsd-signature-type" data-tsd-kind="Interface">UnableToDeleteUserRoleException</a></li>
+<li><a href="UserNotDeactivatedException.html" class="tsd-signature-type" data-tsd-kind="Interface">UserNotDeactivatedException</a></li>
+<li><a href="UserWithOwnerTokensArchiveException.html" class="tsd-signature-type" data-tsd-kind="Interface">UserWithOwnerTokensArchiveException</a></li>
+<li><a href="UserInactiveOrDeletedException.html" class="tsd-signature-type" data-tsd-kind="Interface">UserInactiveOrDeletedException</a></li>
+<li><a href="IllegalAuthorizationStateTransitionException.html" class="tsd-signature-type" data-tsd-kind="Interface">IllegalAuthorizationStateTransitionException</a></li>
+<li><a href="UserUnlockDisallowedException.html" class="tsd-signature-type" data-tsd-kind="Interface">UserUnlockDisallowedException</a></li>
+<li><a href="IdentityProviderNotFoundException.html" class="tsd-signature-type" data-tsd-kind="Interface">IdentityProviderNotFoundException</a></li>
+<li><a href="UserDoesNotSupportLocalLoginException.html" class="tsd-signature-type" data-tsd-kind="Interface">UserDoesNotSupportLocalLoginException</a></li>
+<li><a href="UserAttributeNotSynchronizableException.html" class="tsd-signature-type" data-tsd-kind="Interface">UserAttributeNotSynchronizableException</a></li>
+<li><a href="UnableToMapMultipleClaimTypesIntoSameAttributeException.html" class="tsd-signature-type" data-tsd-kind="Interface">UnableToMapMultipleClaimTypesIntoSameAttributeException</a></li>
+<li><a href="UnableToChangeMappedUserRolesForFederatedUserException.html" class="tsd-signature-type" data-tsd-kind="Interface">UnableToChangeMappedUserRolesForFederatedUserException</a></li>
+<li><a href="UserPropertyChangeNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">UserPropertyChangeNotSupportedException</a></li>
+<li><a href="LanguageCodeNotExistingException.html" class="tsd-signature-type" data-tsd-kind="Interface">LanguageCodeNotExistingException</a></li>
+<li><a href="FocalPointCropSizeMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">FocalPointCropSizeMissingException</a></li>
+<li><a href="DefaultChannelDeleteException.html" class="tsd-signature-type" data-tsd-kind="Interface">DefaultChannelDeleteException</a></li>
+<li><a href="SuperAdminRolesNotAssignableToChannelException.html" class="tsd-signature-type" data-tsd-kind="Interface">SuperAdminRolesNotAssignableToChannelException</a></li>
+<li><a href="CustomerClonesNotAcceptedException.html" class="tsd-signature-type" data-tsd-kind="Interface">CustomerClonesNotAcceptedException</a></li>
+<li><a href="ShareSizeLimitExceededException.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareSizeLimitExceededException</a></li>
+<li><a href="DuplicateSharedOutputException.html" class="tsd-signature-type" data-tsd-kind="Interface">DuplicateSharedOutputException</a></li>
+<li><a href="DuplicateEmbedConversionPresetException.html" class="tsd-signature-type" data-tsd-kind="Interface">DuplicateEmbedConversionPresetException</a></li>
+<li><a href="UnableToCreateOrModifyStaticOutputFormatException.html" class="tsd-signature-type" data-tsd-kind="Interface">UnableToCreateOrModifyStaticOutputFormatException</a></li>
+<li><a href="NotSupportedFileMappingException.html" class="tsd-signature-type" data-tsd-kind="Interface">NotSupportedFileMappingException</a></li>
+<li><a href="NotSupportedFileExtensionException.html" class="tsd-signature-type" data-tsd-kind="Interface">NotSupportedFileExtensionException</a></li>
+<li><a href="DuplicateOutputFormatIdException.html" class="tsd-signature-type" data-tsd-kind="Interface">DuplicateOutputFormatIdException</a></li>
+<li><a href="OutputEditingNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">OutputEditingNotSupportedException</a></li>
+<li><a href="OutputBackupNotRequestedException.html" class="tsd-signature-type" data-tsd-kind="Interface">OutputBackupNotRequestedException</a></li>
+<li><a href="OutputBackupHashMismatchException.html" class="tsd-signature-type" data-tsd-kind="Interface">OutputBackupHashMismatchException</a></li>
+<li><a href="DuplicateContentDownloadRequestException.html" class="tsd-signature-type" data-tsd-kind="Interface">DuplicateContentDownloadRequestException</a></li>
+<li><a href="InvalidContentDownloadRequestException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidContentDownloadRequestException</a></li>
+<li><a href="EmbedMultiDownloadException.html" class="tsd-signature-type" data-tsd-kind="Interface">EmbedMultiDownloadException</a></li>
+<li><a href="ImageOptimizationLicensingException.html" class="tsd-signature-type" data-tsd-kind="Interface">ImageOptimizationLicensingException</a></li>
+<li><a href="InvalidStateException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidStateException</a></li>
+<li><a href="PictureparkArgumentNullException.html" class="tsd-signature-type" data-tsd-kind="Interface">PictureparkArgumentNullException</a></li>
+<li><a href="MissingCustomerDefaultLanguageException.html" class="tsd-signature-type" data-tsd-kind="Interface">MissingCustomerDefaultLanguageException</a></li>
+<li><a href="PartialOperationNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">PartialOperationNotSupportedException</a></li>
+<li><a href="ContractMismatchException.html" class="tsd-signature-type" data-tsd-kind="Interface">ContractMismatchException</a></li>
+<li><a href="InvalidArgumentException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidArgumentException</a></li>
+<li><a href="OwnerTokenInUseException.html" class="tsd-signature-type" data-tsd-kind="Interface">OwnerTokenInUseException</a></li>
+<li><a href="ItemIdDuplicatedException.html" class="tsd-signature-type" data-tsd-kind="Interface">ItemIdDuplicatedException</a></li>
+<li><a href="RequestSizeLimitExceededException.html" class="tsd-signature-type" data-tsd-kind="Interface">RequestSizeLimitExceededException</a></li>
+<li><a href="CustomerAliasInUseException.html" class="tsd-signature-type" data-tsd-kind="Interface">CustomerAliasInUseException</a></li>
+<li><a href="CustomerBoostValuesInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">CustomerBoostValuesInvalidException</a></li>
+<li><a href="SnapshotRetentionTimeTooShortException.html" class="tsd-signature-type" data-tsd-kind="Interface">SnapshotRetentionTimeTooShortException</a></li>
+<li><a href="ReshardIndexNotAllowedException.html" class="tsd-signature-type" data-tsd-kind="Interface">ReshardIndexNotAllowedException</a></li>
+<li><a href="ReshardNumberOfShardsInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">ReshardNumberOfShardsInvalidException</a></li>
+<li><a href="DuplicatedSearchBehaviorException.html" class="tsd-signature-type" data-tsd-kind="Interface">DuplicatedSearchBehaviorException</a></li>
+<li><a href="SearchStringLeadingWildcardException.html" class="tsd-signature-type" data-tsd-kind="Interface">SearchStringLeadingWildcardException</a></li>
+<li><a href="DuplicateAggregatorException.html" class="tsd-signature-type" data-tsd-kind="Interface">DuplicateAggregatorException</a></li>
+<li><a href="InvalidDateTimeFormatException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidDateTimeFormatException</a></li>
+<li><a href="InvalidSortFieldException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidSortFieldException</a></li>
+<li><a href="InvalidUiBehaviorInNonRootAggregatorException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidUiBehaviorInNonRootAggregatorException</a></li>
+<li><a href="InvalidUiBehaviorConfigurationException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidUiBehaviorConfigurationException</a></li>
+<li><a href="InvalidSearchFieldInAggregatorException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidSearchFieldInAggregatorException</a></li>
+<li><a href="SearchStringTooLongException.html" class="tsd-signature-type" data-tsd-kind="Interface">SearchStringTooLongException</a></li>
+<li><a href="AggregationNameInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">AggregationNameInvalidException</a></li>
+<li><a href="AggregationNameMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">AggregationNameMissingException</a></li>
+<li><a href="AggregationSizeInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">AggregationSizeInvalidException</a></li>
+<li><a href="AggregationFilterNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">AggregationFilterNotSupportedException</a></li>
+<li><a href="AggregationFieldMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">AggregationFieldMissingException</a></li>
+<li><a href="AggregationPathMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">AggregationPathMissingException</a></li>
+<li><a href="DuplicateDocumentException.html" class="tsd-signature-type" data-tsd-kind="Interface">DuplicateDocumentException</a></li>
+<li><a href="PermissionOwnershipTransferException.html" class="tsd-signature-type" data-tsd-kind="Interface">PermissionOwnershipTransferException</a></li>
+<li><a href="PermissionSetAggregateException.html" class="tsd-signature-type" data-tsd-kind="Interface">PermissionSetAggregateException</a></li>
+<li><a href="DuplicateRightException.html" class="tsd-signature-type" data-tsd-kind="Interface">DuplicateRightException</a></li>
+<li><a href="PermissionValidationException.html" class="tsd-signature-type" data-tsd-kind="Interface">PermissionValidationException</a></li>
+<li><a href="PermissionSetInUseException.html" class="tsd-signature-type" data-tsd-kind="Interface">PermissionSetInUseException</a></li>
+<li><a href="ContentPermissionException.html" class="tsd-signature-type" data-tsd-kind="Interface">ContentPermissionException</a></li>
+<li><a href="ListItemPermissionException.html" class="tsd-signature-type" data-tsd-kind="Interface">ListItemPermissionException</a></li>
+<li><a href="SchemaPermissionException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaPermissionException</a></li>
+<li><a href="PermissionSetValidationException.html" class="tsd-signature-type" data-tsd-kind="Interface">PermissionSetValidationException</a></li>
+<li><a href="UnsupportedListItemChangeCommandException.html" class="tsd-signature-type" data-tsd-kind="Interface">UnsupportedListItemChangeCommandException</a></li>
+<li><a href="ListItemLayerException.html" class="tsd-signature-type" data-tsd-kind="Interface">ListItemLayerException</a></li>
+<li><a href="DeleteListItemsWithReferencesException.html" class="tsd-signature-type" data-tsd-kind="Interface">DeleteListItemsWithReferencesException</a></li>
+<li><a href="ListItemSchemaMismatchException.html" class="tsd-signature-type" data-tsd-kind="Interface">ListItemSchemaMismatchException</a></li>
+<li><a href="ListItemResolveBehaviorNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">ListItemResolveBehaviorNotSupportedException</a></li>
+<li><a href="WrongChunkSizeException.html" class="tsd-signature-type" data-tsd-kind="Interface">WrongChunkSizeException</a></li>
+<li><a href="ChunkSizeOutOfRangeException.html" class="tsd-signature-type" data-tsd-kind="Interface">ChunkSizeOutOfRangeException</a></li>
+<li><a href="FileIdDuplicatedException.html" class="tsd-signature-type" data-tsd-kind="Interface">FileIdDuplicatedException</a></li>
+<li><a href="MaximumNumberOfChunksExceededException.html" class="tsd-signature-type" data-tsd-kind="Interface">MaximumNumberOfChunksExceededException</a></li>
+<li><a href="MaximumFileSizeExceededException.html" class="tsd-signature-type" data-tsd-kind="Interface">MaximumFileSizeExceededException</a></li>
+<li><a href="MissingDependenciesException.html" class="tsd-signature-type" data-tsd-kind="Interface">MissingDependenciesException</a></li>
+<li><a href="RelationSelfReferencingException.html" class="tsd-signature-type" data-tsd-kind="Interface">RelationSelfReferencingException</a></li>
+<li><a href="InvalidChangeCommandFieldTypeInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidChangeCommandFieldTypeInvalidException</a></li>
+<li><a href="InvalidChangeCommandFieldNotFoundException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidChangeCommandFieldNotFoundException</a></li>
+<li><a href="InvalidChangeCommandSchemaChangeInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidChangeCommandSchemaChangeInvalidException</a></li>
+<li><a href="InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidContentSchemaForMetadataValuesSchemaRemoveCommandException</a></li>
+<li><a href="InvalidMetadataException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidMetadataException</a></li>
+<li><a href="DuplicatedItemAssignedException.html" class="tsd-signature-type" data-tsd-kind="Interface">DuplicatedItemAssignedException</a></li>
+<li><a href="InvalidDataTypeException.html" class="tsd-signature-type" data-tsd-kind="Interface">InvalidDataTypeException</a></li>
+<li><a href="LayerAssignmentInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">LayerAssignmentInvalidException</a></li>
+<li><a href="OutdatedMetadataUpdateInProgressException.html" class="tsd-signature-type" data-tsd-kind="Interface">OutdatedMetadataUpdateInProgressException</a></li>
+<li><a href="SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException.html" class="tsd-signature-type" data-tsd-kind="Interface">SortingSupportedOnlyOnTermsAndTermsRelationAggregatorsException</a></li>
+<li><a href="SchemasMetadataProtectionException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemasMetadataProtectionException</a></li>
+<li><a href="FilterTemplateRenderingException.html" class="tsd-signature-type" data-tsd-kind="Interface">FilterTemplateRenderingException</a></li>
+<li><a href="ResolvedLinkedItemsThresholdReachedException.html" class="tsd-signature-type" data-tsd-kind="Interface">ResolvedLinkedItemsThresholdReachedException</a></li>
+<li><a href="SchemaFieldOverwriteTypeMismatchException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldOverwriteTypeMismatchException</a></li>
+<li><a href="SchemaFieldOverwriteIdException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldOverwriteIdException</a></li>
+<li><a href="SchemaFieldIdDuplicatedException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldIdDuplicatedException</a></li>
+<li><a href="SchemaFieldIdPreviouslyUsedException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldIdPreviouslyUsedException</a></li>
+<li><a href="SchemaFieldIdAlreadyExistsInSchemaHierarchyException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldIdAlreadyExistsInSchemaHierarchyException</a></li>
+<li><a href="SchemaFieldSchemaIndexInfoSimpleSearchNestingException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldSchemaIndexInfoSimpleSearchNestingException</a></li>
+<li><a href="SchemaFieldSchemaIndexInfoNestingException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldSchemaIndexInfoNestingException</a></li>
+<li><a href="SchemaFieldIdUppercaseException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldIdUppercaseException</a></li>
+<li><a href="SchemaIdLowercaseException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaIdLowercaseException</a></li>
+<li><a href="IndexedFieldThresholdExceededException.html" class="tsd-signature-type" data-tsd-kind="Interface">IndexedFieldThresholdExceededException</a></li>
+<li><a href="SortableFieldThresholdExceededException.html" class="tsd-signature-type" data-tsd-kind="Interface">SortableFieldThresholdExceededException</a></li>
+<li><a href="SchemaFieldNumberRangeException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldNumberRangeException</a></li>
+<li><a href="SchemaInUseContentSchemaException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaInUseContentSchemaException</a></li>
+<li><a href="LayerAssignmentInUseWithContentsException.html" class="tsd-signature-type" data-tsd-kind="Interface">LayerAssignmentInUseWithContentsException</a></li>
+<li><a href="SchemaInUseListItemException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaInUseListItemException</a></li>
+<li><a href="SchemaInUseContentException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaInUseContentException</a></li>
+<li><a href="SchemaInUseFieldException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaInUseFieldException</a></li>
+<li><a href="DuplicateMetadataDisplayPatternException.html" class="tsd-signature-type" data-tsd-kind="Interface">DuplicateMetadataDisplayPatternException</a></li>
+<li><a href="DuplicateSchemaException.html" class="tsd-signature-type" data-tsd-kind="Interface">DuplicateSchemaException</a></li>
+<li><a href="SchemaImportEmptyException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaImportEmptyException</a></li>
+<li><a href="SchemaImportVersionMismatchException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaImportVersionMismatchException</a></li>
+<li><a href="SchemaInheritanceFieldIndexDeviationException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaInheritanceFieldIndexDeviationException</a></li>
+<li><a href="SchemaInheritanceTypeDeviationException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaInheritanceTypeDeviationException</a></li>
+<li><a href="SchemaValidationException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaValidationException</a></li>
+<li><a href="SchemaSortFieldException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaSortFieldException</a></li>
+<li><a href="SchemaFieldIdException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldIdException</a></li>
+<li><a href="SchemaFieldTypeChangeException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldTypeChangeException</a></li>
+<li><a href="SchemaFieldNotFilterableException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldNotFilterableException</a></li>
+<li><a href="SchemaFieldNotSortableException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldNotSortableException</a></li>
+<li><a href="SchemaFieldNotSearchableException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldNotSearchableException</a></li>
+<li><a href="SchemaFieldInvalidBoostException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldInvalidBoostException</a></li>
+<li><a href="SchemaFieldSortableInUseException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldSortableInUseException</a></li>
+<li><a href="SchemaNoContentException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaNoContentException</a></li>
+<li><a href="SchemaParentChangeException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaParentChangeException</a></li>
+<li><a href="SchemaMissingTypeException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaMissingTypeException</a></li>
+<li><a href="SchemaPermissionConfigurationException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaPermissionConfigurationException</a></li>
+<li><a href="SchemaMetadataProtectionSettingsNotSupportedForStructsException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaMetadataProtectionSettingsNotSupportedForStructsException</a></li>
+<li><a href="SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaMetadataProtectionSettingsChangeNotAllowedForXmpMappedLayersException</a></li>
+<li><a href="SchemaNoLayerException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaNoLayerException</a></li>
+<li><a href="SchemaIdException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaIdException</a></li>
+<li><a href="SchemaInUseException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaInUseException</a></li>
+<li><a href="SystemSchemaInvalidModificationException.html" class="tsd-signature-type" data-tsd-kind="Interface">SystemSchemaInvalidModificationException</a></li>
+<li><a href="SchemaFieldRelationSchemaSystemSchemaException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldRelationSchemaSystemSchemaException</a></li>
+<li><a href="SchemaFieldRelationSchemaTypeUnsupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldRelationSchemaTypeUnsupportedException</a></li>
+<li><a href="SchemaMultipleTypesException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaMultipleTypesException</a></li>
+<li><a href="MissingDisplayPatternForCustomerDefaultLanguageException.html" class="tsd-signature-type" data-tsd-kind="Interface">MissingDisplayPatternForCustomerDefaultLanguageException</a></li>
+<li><a href="SchemaViewForAllException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaViewForAllException</a></li>
+<li><a href="SystemLayerReferenceInvalidModificationException.html" class="tsd-signature-type" data-tsd-kind="Interface">SystemLayerReferenceInvalidModificationException</a></li>
+<li><a href="SchemaFieldAnalyzerInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldAnalyzerInvalidException</a></li>
+<li><a href="SchemaFieldRelationMultipleTypesException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldRelationMultipleTypesException</a></li>
+<li><a href="SchemaFieldNotRequirableException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldNotRequirableException</a></li>
+<li><a href="DisplayPatternTypeNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">DisplayPatternTypeNotSupportedException</a></li>
+<li><a href="SchemaFieldActivityInUseException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldActivityInUseException</a></li>
+<li><a href="SchemaFieldReferencedSchemaChangeNotAllowedException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldReferencedSchemaChangeNotAllowedException</a></li>
+<li><a href="SchemaFieldReferencedSchemaSystemSchemaException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldReferencedSchemaSystemSchemaException</a></li>
+<li><a href="SchemaFieldRelationRelationTypeIdModificationNotAllowedException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldRelationRelationTypeIdModificationNotAllowedException</a></li>
+<li><a href="SchemaFieldRelationTargetDocTypeModificationNotAllowedException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldRelationTargetDocTypeModificationNotAllowedException</a></li>
+<li><a href="SchemaFieldImportMismatchException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldImportMismatchException</a></li>
+<li><a href="SchemaFieldImportRelatedSchemaMismatchException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldImportRelatedSchemaMismatchException</a></li>
+<li><a href="SchemaFieldImportTypeMismatchException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldImportTypeMismatchException</a></li>
+<li><a href="SchemaFieldNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldNotSupportedException</a></li>
+<li><a href="SchemaFieldDisplayPatternTypeNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldDisplayPatternTypeNotSupportedException</a></li>
+<li><a href="SchemaFieldMarkdownNotMultilineException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldMarkdownNotMultilineException</a></li>
+<li><a href="IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException.html" class="tsd-signature-type" data-tsd-kind="Interface">IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFieldsException</a></li>
+<li><a href="SchemaFieldDynamicViewFieldInvalidFilterTemplateException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaFieldDynamicViewFieldInvalidFilterTemplateException</a></li>
+<li><a href="DeleteContentsWithReferencesException.html" class="tsd-signature-type" data-tsd-kind="Interface">DeleteContentsWithReferencesException</a></li>
+<li><a href="ContentLayerInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">ContentLayerInvalidException</a></li>
+<li><a href="ContentFileReplaceTypeMismatchException.html" class="tsd-signature-type" data-tsd-kind="Interface">ContentFileReplaceTypeMismatchException</a></li>
+<li><a href="ContentLayerSameRootException.html" class="tsd-signature-type" data-tsd-kind="Interface">ContentLayerSameRootException</a></li>
+<li><a href="UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException.html" class="tsd-signature-type" data-tsd-kind="Interface">UnableToDeleteLatestXmpWritebackGeneratedContentHistoricVersionException</a></li>
+<li><a href="ContentSchemaChangeException.html" class="tsd-signature-type" data-tsd-kind="Interface">ContentSchemaChangeException</a></li>
+<li><a href="ContentResolveBehaviorNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">ContentResolveBehaviorNotSupportedException</a></li>
+<li><a href="BusinessProcessCancellationNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcessCancellationNotSupportedException</a></li>
+<li><a href="BusinessProcessSummaryNotBatchBasedException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcessSummaryNotBatchBasedException</a></li>
+<li><a href="EnvironmentProcessAlreadyRunningException.html" class="tsd-signature-type" data-tsd-kind="Interface">EnvironmentProcessAlreadyRunningException</a></li>
+<li><a href="AtLeastOneActiveTermsOfServiceMustExistException.html" class="tsd-signature-type" data-tsd-kind="Interface">AtLeastOneActiveTermsOfServiceMustExistException</a></li>
+<li><a href="ForbiddenHtmlElementsUsedException.html" class="tsd-signature-type" data-tsd-kind="Interface">ForbiddenHtmlElementsUsedException</a></li>
+<li><a href="OnlyAccessibleToRecipientException.html" class="tsd-signature-type" data-tsd-kind="Interface">OnlyAccessibleToRecipientException</a></li>
+<li><a href="CustomerAliasHeaderMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">CustomerAliasHeaderMissingException</a></li>
+<li><a href="BusinessRuleActionInvalidDocumentTypeException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleActionInvalidDocumentTypeException</a></li>
+<li><a href="BusinessRuleActionsMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleActionsMissingException</a></li>
+<li><a href="BusinessRuleConditionMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleConditionMissingException</a></li>
+<li><a href="BusinessRuleConditionsMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleConditionsMissingException</a></li>
+<li><a href="BusinessRuleConfigurationValidationException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleConfigurationValidationException</a></li>
+<li><a href="BusinessRuleSchemaIdInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleSchemaIdInvalidException</a></li>
+<li><a href="BusinessRulePermissionSetIdInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRulePermissionSetIdInvalidException</a></li>
+<li><a href="BusinessRuleRuleIdDuplicationException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleRuleIdDuplicationException</a></li>
+<li><a href="BusinessRuleRuleIdMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleRuleIdMissingException</a></li>
+<li><a href="BusinessRuleTriggerPointMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleTriggerPointMissingException</a></li>
+<li><a href="BusinessRuleValidationException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleValidationException</a></li>
+<li><a href="BusinessRuleRegularExpressionInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleRegularExpressionInvalidException</a></li>
+<li><a href="BusinessRuleConditionInvalidTriggerPointException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleConditionInvalidTriggerPointException</a></li>
+<li><a href="BusinessRuleRefIdsMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleRefIdsMissingException</a></li>
+<li><a href="BusinessRulePathInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRulePathInvalidException</a></li>
+<li><a href="BusinessRuleFieldIdInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleFieldIdInvalidException</a></li>
+<li><a href="BusinessRuleContentPermissionSetIdsMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleContentPermissionSetIdsMissingException</a></li>
+<li><a href="BusinessRuleFieldPathInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleFieldPathInvalidException</a></li>
+<li><a href="BusinessRulePolygonInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRulePolygonInvalidException</a></li>
+<li><a href="BusinessRuleArrayIndexInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleArrayIndexInvalidException</a></li>
+<li><a href="BusinessRuleDictionaryKeyInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleDictionaryKeyInvalidException</a></li>
+<li><a href="BusinessRuleProjectionTransformationsMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleProjectionTransformationsMissingException</a></li>
+<li><a href="BusinessRuleInvalidVariableNameException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleInvalidVariableNameException</a></li>
+<li><a href="BusinessRuleTransformationGroupTransformationsMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleTransformationGroupTransformationsMissingException</a></li>
+<li><a href="BusinessRuleTransformationGroupInputsMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleTransformationGroupInputsMissingException</a></li>
+<li><a href="BusinessRuleNamedCacheNameInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleNamedCacheNameInvalidException</a></li>
+<li><a href="BusinessRuleNGramTransformationSizeInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleNGramTransformationSizeInvalidException</a></li>
+<li><a href="BusinessRuleNGramTransformationMinWordLengthInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleNGramTransformationMinWordLengthInvalidException</a></li>
+<li><a href="BusinessRuleNGramTransformationMaxWordLengthInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleNGramTransformationMaxWordLengthInvalidException</a></li>
+<li><a href="BusinessRuleNotificationInvalidIdException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleNotificationInvalidIdException</a></li>
+<li><a href="BusinessRuleNotificationNoRecipientsException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleNotificationNoRecipientsException</a></li>
+<li><a href="BusinessRuleNotificationRecipientUserIdMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleNotificationRecipientUserIdMissingException</a></li>
+<li><a href="BusinessRuleNotificationRecipientUserRoleIdMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleNotificationRecipientUserRoleIdMissingException</a></li>
+<li><a href="BusinessRuleNumberSequenceInvalidIdException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleNumberSequenceInvalidIdException</a></li>
+<li><a href="BusinessRuleNumberSequenceIdDuplicationException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleNumberSequenceIdDuplicationException</a></li>
+<li><a href="BusinessRuleScheduleInvalidCronExpressionException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleScheduleInvalidCronExpressionException</a></li>
+<li><a href="BusinessRuleScheduleFilterMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleScheduleFilterMissingException</a></li>
+<li><a href="BusinessRuleScheduleRulesMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleScheduleRulesMissingException</a></li>
+<li><a href="BusinessRuleStringContainsConditionValuesToMatchMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleStringContainsConditionValuesToMatchMissingException</a></li>
+<li><a href="BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException</a></li>
+<li><a href="BusinessRuleDateMathTransformationTimeSpanInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleDateMathTransformationTimeSpanInvalidException</a></li>
+<li><a href="BusinessRuleTransferOwnershipTransferUserIdMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleTransferOwnershipTransferUserIdMissingException</a></li>
+<li><a href="BusinessRuleOutputFormatIdMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleOutputFormatIdMissingException</a></li>
+<li><a href="BusinessRuleEnqueueCreateEmbedActionExpirationDateInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessRuleEnqueueCreateEmbedActionExpirationDateInvalidException</a></li>
+<li><a href="NamedCacheConfigurationException.html" class="tsd-signature-type" data-tsd-kind="Interface">NamedCacheConfigurationException</a></li>
+<li><a href="NamedCacheNameMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">NamedCacheNameMissingException</a></li>
+<li><a href="NamedCacheNameDuplicationException.html" class="tsd-signature-type" data-tsd-kind="Interface">NamedCacheNameDuplicationException</a></li>
+<li><a href="ListItemNamedCacheSchemaIdInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">ListItemNamedCacheSchemaIdInvalidException</a></li>
+<li><a href="ListItemNamedCacheKeyFieldsInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">ListItemNamedCacheKeyFieldsInvalidException</a></li>
+<li><a href="SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">SchemaTagboxFilterLookupNamedCacheSchemaIdInvalidException</a></li>
+<li><a href="DisplayValueRerenderingInProgressException.html" class="tsd-signature-type" data-tsd-kind="Interface">DisplayValueRerenderingInProgressException</a></li>
+<li><a href="OutputFormatSourceNotDefinedException.html" class="tsd-signature-type" data-tsd-kind="Interface">OutputFormatSourceNotDefinedException</a></li>
+<li><a href="OutputFormatXmpWritebackNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">OutputFormatXmpWritebackNotSupportedException</a></li>
+<li><a href="OutputFormatsInUseException.html" class="tsd-signature-type" data-tsd-kind="Interface">OutputFormatsInUseException</a></li>
+<li><a href="StaticOutputFormatModificationNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">StaticOutputFormatModificationNotSupportedException</a></li>
+<li><a href="OriginalOutputFormatModificationNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">OriginalOutputFormatModificationNotSupportedException</a></li>
+<li><a href="OutputFormatSourceNotValidForRenderingCategoryException.html" class="tsd-signature-type" data-tsd-kind="Interface">OutputFormatSourceNotValidForRenderingCategoryException</a></li>
+<li><a href="CollectionSizeLimitExceededException.html" class="tsd-signature-type" data-tsd-kind="Interface">CollectionSizeLimitExceededException</a></li>
+<li><a href="CollectionModificationNotAllowedException.html" class="tsd-signature-type" data-tsd-kind="Interface">CollectionModificationNotAllowedException</a></li>
+<li><a href="NonDefaultTemplateNameNotAllowedException.html" class="tsd-signature-type" data-tsd-kind="Interface">NonDefaultTemplateNameNotAllowedException</a></li>
+<li><a href="SystemTemplateModificationNotAllowedException.html" class="tsd-signature-type" data-tsd-kind="Interface">SystemTemplateModificationNotAllowedException</a></li>
+<li><a href="TemplateDuplicationException.html" class="tsd-signature-type" data-tsd-kind="Interface">TemplateDuplicationException</a></li>
+<li><a href="TemplateLanguageCodeNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">TemplateLanguageCodeNotSupportedException</a></li>
+<li><a href="TemplateMediaTypesMissingException.html" class="tsd-signature-type" data-tsd-kind="Interface">TemplateMediaTypesMissingException</a></li>
+<li><a href="TemplateMediaTypesNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">TemplateMediaTypesNotSupportedException</a></li>
+<li><a href="XmpMappingFieldNotSupported.html" class="tsd-signature-type" data-tsd-kind="Interface">XmpMappingFieldNotSupported</a></li>
+<li><a href="XmpMappingFieldNotFoundException.html" class="tsd-signature-type" data-tsd-kind="Interface">XmpMappingFieldNotFoundException</a></li>
+<li><a href="XmpMappingSchemaNotAvailableForFileContentSchemaException.html" class="tsd-signature-type" data-tsd-kind="Interface">XmpMappingSchemaNotAvailableForFileContentSchemaException</a></li>
+<li><a href="XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException.html" class="tsd-signature-type" data-tsd-kind="Interface">XmpMappingFieldToLayerWithRequiredFieldsNotAllowedException</a></li>
+<li><a href="XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">XmpMappingFieldToLayerWithMetadataProtectionForCreateOrUpdateNotSupportedException</a></li>
+<li><a href="XmpMappingFieldInUseException.html" class="tsd-signature-type" data-tsd-kind="Interface">XmpMappingFieldInUseException</a></li>
+<li><a href="XmpMappingConfigurationInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">XmpMappingConfigurationInvalidException</a></li>
+<li><a href="ActivityMappingInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">ActivityMappingInvalidException</a></li>
+<li><a href="StatisticsFeatureNotEnabledException.html" class="tsd-signature-type" data-tsd-kind="Interface">StatisticsFeatureNotEnabledException</a></li>
+<li><a href="CommentOwnershipFailureException.html" class="tsd-signature-type" data-tsd-kind="Interface">CommentOwnershipFailureException</a></li>
+<li><a href="CommentReplyDeletionException.html" class="tsd-signature-type" data-tsd-kind="Interface">CommentReplyDeletionException</a></li>
+<li><a href="CommentReplyParentException.html" class="tsd-signature-type" data-tsd-kind="Interface">CommentReplyParentException</a></li>
+<li><a href="CommentReplyContentMismatchException.html" class="tsd-signature-type" data-tsd-kind="Interface">CommentReplyContentMismatchException</a></li></ul></li></ul></li></ul></section><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L23338">src/picturepark-sdk-v1-fetch/src/index.ts:23338</a></li></ul></aside>
+<section class="tsd-panel-group tsd-index-group">
+<section class="tsd-panel tsd-index-panel">
+<details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
+<h5 class="tsd-index-heading uppercase" role="button" aria-expanded="false" tabIndex=0><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1.5 5.50969L8 11.6609L14.5 5.50969L12.5466 3.66086L8 7.96494L3.45341 3.66086L1.5 5.50969Z" fill="var(--color-text)"></path></svg> Index</h5></summary>
+<div class="tsd-accordion-details">
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading">Properties</h3>
+<div class="tsd-index-list"><a href="PictureparkValidationException.html#customerAlias" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>customer<wbr/>Alias?</span></a>
+<a href="PictureparkValidationException.html#customerId" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>customer<wbr/>Id?</span></a>
+<a href="PictureparkValidationException.html#exceptionMessage" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>exception<wbr/>Message?</span></a>
+<a href="PictureparkValidationException.html#httpStatusCode" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>http<wbr/>Status<wbr/>Code?</span></a>
+<a href="PictureparkValidationException.html#kind" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>kind</span></a>
+<a href="PictureparkValidationException.html#traceId" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>trace<wbr/>Id?</span></a>
+<a href="PictureparkValidationException.html#traceJobId" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>trace<wbr/>Job<wbr/>Id?</span></a>
+<a href="PictureparkValidationException.html#traceLevel" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>trace<wbr/>Level?</span></a>
+<a href="PictureparkValidationException.html#userId" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>user<wbr/>Id?</span></a>
+</div></section></div></details></section></section>
+<section class="tsd-panel-group tsd-member-group">
+<h2>Properties</h2>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="customerAlias" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>customer<wbr/>Alias</span><a href="#customerAlias" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
+<div class="tsd-signature">customer<wbr/>Alias<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<p>Inherited from <a href="PictureparkBusinessException.html">PictureparkBusinessException</a>.<a href="PictureparkBusinessException.html#customerAlias">customerAlias</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L23334">src/picturepark-sdk-v1-fetch/src/index.ts:23334</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="customerId" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>customer<wbr/>Id</span><a href="#customerId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">customer<wbr/>Id<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<p>Inherited from <a href="PictureparkBusinessException.html">PictureparkBusinessException</a>.<a href="PictureparkBusinessException.html#customerId">customerId</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L23333">src/picturepark-sdk-v1-fetch/src/index.ts:23333</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="exceptionMessage" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>exception<wbr/>Message</span><a href="#exceptionMessage" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">exception<wbr/>Message<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<p>Inherited from <a href="PictureparkBusinessException.html">PictureparkBusinessException</a>.<a href="PictureparkBusinessException.html#exceptionMessage">exceptionMessage</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L23328">src/picturepark-sdk-v1-fetch/src/index.ts:23328</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="httpStatusCode" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>http<wbr/>Status<wbr/>Code</span><a href="#httpStatusCode" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">http<wbr/>Status<wbr/>Code<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<p>Inherited from <a href="PictureparkBusinessException.html">PictureparkBusinessException</a>.<a href="PictureparkBusinessException.html#httpStatusCode">httpStatusCode</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L23327">src/picturepark-sdk-v1-fetch/src/index.ts:23327</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="kind" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>kind</span><a href="#kind" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">kind<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<p>Inherited from <a href="PictureparkBusinessException.html">PictureparkBusinessException</a>.<a href="PictureparkBusinessException.html#kind">kind</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L23329">src/picturepark-sdk-v1-fetch/src/index.ts:23329</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="traceId" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>trace<wbr/>Id</span><a href="#traceId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">trace<wbr/>Id<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<p>Inherited from <a href="PictureparkBusinessException.html">PictureparkBusinessException</a>.<a href="PictureparkBusinessException.html#traceId">traceId</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L23325">src/picturepark-sdk-v1-fetch/src/index.ts:23325</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="traceJobId" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>trace<wbr/>Job<wbr/>Id</span><a href="#traceJobId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">trace<wbr/>Job<wbr/>Id<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<p>Inherited from <a href="PictureparkBusinessException.html">PictureparkBusinessException</a>.<a href="PictureparkBusinessException.html#traceJobId">traceJobId</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L23326">src/picturepark-sdk-v1-fetch/src/index.ts:23326</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="traceLevel" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>trace<wbr/>Level</span><a href="#traceLevel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">trace<wbr/>Level<span class="tsd-signature-symbol">?:</span> <a href="../enums/TraceLevel.html" class="tsd-signature-type" data-tsd-kind="Enumeration">TraceLevel</a></div><aside class="tsd-sources">
+<p>Inherited from <a href="PictureparkBusinessException.html">PictureparkBusinessException</a>.<a href="PictureparkBusinessException.html#traceLevel">traceLevel</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L23324">src/picturepark-sdk-v1-fetch/src/index.ts:23324</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="userId" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>user<wbr/>Id</span><a href="#userId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">user<wbr/>Id<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<p>Inherited from <a href="PictureparkBusinessException.html">PictureparkBusinessException</a>.<a href="PictureparkBusinessException.html#userId">userId</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L23335">src/picturepark-sdk-v1-fetch/src/index.ts:23335</a></li></ul></aside></section></section></div>
+<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+<div class="tsd-navigation settings">
+<details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility">
+<h4 class="uppercase">Member Visibility</h4><form>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-private" name="private"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Private</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div>
+<div class="tsd-theme-toggle">
+<h4 class="uppercase">Theme</h4><select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<nav class="tsd-navigation primary">
+<details class="tsd-index-accordion" open><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Modules</h3></summary>
+<div class="tsd-accordion-details">
+<ul>
+<li><a href="../modules.html">picturepark-<wbr/>sdk-<wbr/>v1-<wbr/>fetch API</a>
+<ul></ul></li></ul></div></details></nav>
+<nav class="tsd-navigation secondary menu-sticky">
+<ul>
+<li class="current tsd-kind-interface"><a href="PictureparkValidationException.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-256-path"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)" id="icon-256-text"></path></svg><span>Picturepark<wbr/>Validation<wbr/>Exception</span></a>
+<ul>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="PictureparkValidationException.html#customerAlias" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>customer<wbr/>Alias?</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="PictureparkValidationException.html#customerId" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>customer<wbr/>Id?</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="PictureparkValidationException.html#exceptionMessage" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>exception<wbr/>Message?</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="PictureparkValidationException.html#httpStatusCode" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>http<wbr/>Status<wbr/>Code?</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="PictureparkValidationException.html#kind" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>kind</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="PictureparkValidationException.html#traceId" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>trace<wbr/>Id?</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="PictureparkValidationException.html#traceJobId" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>trace<wbr/>Job<wbr/>Id?</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="PictureparkValidationException.html#traceLevel" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>trace<wbr/>Level?</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="PictureparkValidationException.html#userId" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>user<wbr/>Id?</a></li></ul></li></ul></nav></div></div>
+<div class="container tsd-generator">
+<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
+<div class="overlay"></div><script src="../assets/main.js"></script></body></html>

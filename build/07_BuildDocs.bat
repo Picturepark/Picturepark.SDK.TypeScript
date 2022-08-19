@@ -1,17 +1,6 @@
-mkdir "%~dp0\..\docs\temp\"
- 
-copy /b/v/y "%~dp0\..\src\picturepark-sdk-v1-fetch\dist\index.d.ts" "%~dp0\..\docs\temp\picturepark.d.ts"
-copy /b/v/y "%~dp0\..\src\picturepark-sdk-v1-pickers\dist\index.d.ts" "%~dp0\..\docs\temp\picturepark-pickers.d.ts"
-
-REM Remove protected process*() methods
-cmd /c powershell "& { [System.IO.File]::ReadAllText('%~dp0/../docs/temp/picturepark.d.ts') -replace 'protected process(.*?);', '' | Set-Content '%~dp0/../docs/temp/picturepark.d.ts'}"
-
-cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\docs\temp\picturepark.d.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-fetch\api" --includeDeclarations --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-fetch\API.md" --theme default --name "picturepark-sdk-v1-fetch API"
-
-cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\docs\temp\picturepark-pickers.d.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-pickers\api" --includeDeclarations --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-pickers\API.md" --theme default --name "picturepark-sdk-v1-pickers API"
+cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\src\picturepark-sdk-v1-fetch\src\index.ts" --tsconfig  "%~dp0\..\src\picturepark-sdk-v1-fetch\tsconfig.json" --out "%~dp0\..\docs\picturepark-sdk-v1-fetch\api" --readme "%~dp0\..\docs\picturepark-sdk-v1-fetch\API.md" --theme default --name "picturepark-sdk-v1-fetch API"
+cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\src\picturepark-sdk-v1-pickers\src\index.ts" --tsconfig  "%~dp0\..\src\picturepark-sdk-v1-pickers\tsconfig.json" --out "%~dp0\..\docs\picturepark-sdk-v1-pickers\api" --readme "%~dp0\..\docs\picturepark-sdk-v1-pickers\API.md" --theme default --name "picturepark-sdk-v1-pickers API"
 
 pushd "%~dp0/../src/picturepark-sdk-v1-angular"
 popd
-cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\src\picturepark-sdk-v1-angular\projects\picturepark-sdk-v1-angular\src\public_api.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-angular\api" --mode file --readme "%~dp0\..\docs\picturepark-sdk-v1-angular\API.md" --theme default --tsconfig "%~dp0\..\src\picturepark-sdk-v1-angular\projects\picturepark-sdk-v1-angular\tsconfig.lib.json" --excludePrivate --name "@picturepark/sdk-v1-angular API"
-
-rmdir "%~dp0\..\docs\temp\" /s /q
+cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\src\picturepark-sdk-v1-angular\projects\picturepark-sdk-v1-angular\src\public_api.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-angular\api" --readme "%~dp0\..\docs\picturepark-sdk-v1-angular\API.md" --theme default --tsconfig "%~dp0\..\src\picturepark-sdk-v1-angular\projects\picturepark-sdk-v1-angular\tsconfig.lib.json" --excludePrivate --name "@picturepark/sdk-v1-angular API"

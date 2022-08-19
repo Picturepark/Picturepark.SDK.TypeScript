@@ -1,0 +1,817 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>ShareClient | picturepark-sdk-v1-fetch API</title><meta name="description" content="Documentation for picturepark-sdk-v1-fetch API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script async src="../assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container">
+<div class="table-cell" id="tsd-search" data-base="..">
+<div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
+<ul class="results">
+<li class="state loading">Preparing search index...</li>
+<li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">picturepark-sdk-v1-fetch API</a></div>
+<div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
+<div class="container container-main">
+<div class="col-8 col-content">
+<div class="tsd-page-title">
+<ul class="tsd-breadcrumb">
+<li><a href="../modules.html">picturepark-sdk-v1-fetch API</a></li>
+<li><a href="ShareClient.html">ShareClient</a></li></ul>
+<h1>Class ShareClient</h1></div>
+<section class="tsd-panel tsd-hierarchy">
+<h4>Hierarchy</h4>
+<ul class="tsd-hierarchy">
+<li><a href="PictureparkClientBase.html" class="tsd-signature-type" data-tsd-kind="Class">PictureparkClientBase</a>
+<ul class="tsd-hierarchy">
+<li><span class="target">ShareClient</span></li></ul></li></ul></section><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16478">src/picturepark-sdk-v1-fetch/src/index.ts:16478</a></li></ul></aside>
+<section class="tsd-panel-group tsd-index-group">
+<section class="tsd-panel tsd-index-panel">
+<details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
+<h5 class="tsd-index-heading uppercase" role="button" aria-expanded="false" tabIndex=0><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1.5 5.50969L8 11.6609L14.5 5.50969L12.5466 3.66086L8 7.96494L3.45341 3.66086L1.5 5.50969Z" fill="var(--color-text)"></path></svg> Index</h5></summary>
+<div class="tsd-accordion-details">
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading">Constructors</h3>
+<div class="tsd-index-list"><a href="ShareClient.html#constructor" class="tsd-index-link tsd-kind-constructor tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#4D7FFF" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-512-path"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)" id="icon-512-text"></path></svg><span>constructor</span></a>
+</div></section>
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading">Properties</h3>
+<div class="tsd-index-list"><a href="ShareClient.html#baseUrl" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>base<wbr/>Url</span></a>
+<a href="ShareClient.html#http" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>http</span></a>
+<a href="ShareClient.html#jsonParseReviver" class="tsd-index-link tsd-kind-property tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>json<wbr/>Parse<wbr/>Reviver</span></a>
+</div></section>
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading">Methods</h3>
+<div class="tsd-index-list"><a href="ShareClient.html#aggregate" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>aggregate</span></a>
+<a href="ShareClient.html#create" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>create</span></a>
+<a href="ShareClient.html#createShareSelectionDownloadLink" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>create<wbr/>Share<wbr/>Selection<wbr/>Download<wbr/>Link</span></a>
+<a href="ShareClient.html#deleteMany" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>delete<wbr/>Many</span></a>
+<a href="ShareClient.html#download" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>download</span></a>
+<a href="ShareClient.html#downloadSingleContent" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>download<wbr/>Single<wbr/>Content</span></a>
+<a href="ShareClient.html#downloadWithConversionPreset" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>download<wbr/>With<wbr/>Conversion<wbr/>Preset</span></a>
+<a href="ShareClient.html#get" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get</span></a>
+<a href="ShareClient.html#getBaseUrl" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Base<wbr/>Url</span></a>
+<a href="ShareClient.html#getContentsInShare" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Contents<wbr/>In<wbr/>Share</span></a>
+<a href="ShareClient.html#getOutputsInShare" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Outputs<wbr/>In<wbr/>Share</span></a>
+<a href="ShareClient.html#getShareContents" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Share<wbr/>Contents</span></a>
+<a href="ShareClient.html#getShareJson" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Share<wbr/>Json</span></a>
+<a href="ShareClient.html#processAggregate" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Aggregate</span></a>
+<a href="ShareClient.html#processCreate" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Create</span></a>
+<a href="ShareClient.html#processCreateShareSelectionDownloadLink" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Create<wbr/>Share<wbr/>Selection<wbr/>Download<wbr/>Link</span></a>
+<a href="ShareClient.html#processDeleteMany" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Delete<wbr/>Many</span></a>
+<a href="ShareClient.html#processDownload" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Download</span></a>
+<a href="ShareClient.html#processDownloadSingleContent" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Download<wbr/>Single<wbr/>Content</span></a>
+<a href="ShareClient.html#processDownloadWithConversionPreset" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Download<wbr/>With<wbr/>Conversion<wbr/>Preset</span></a>
+<a href="ShareClient.html#processGet" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Get</span></a>
+<a href="ShareClient.html#processGetContentsInShare" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Get<wbr/>Contents<wbr/>In<wbr/>Share</span></a>
+<a href="ShareClient.html#processGetOutputsInShare" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Get<wbr/>Outputs<wbr/>In<wbr/>Share</span></a>
+<a href="ShareClient.html#processGetShareContents" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Get<wbr/>Share<wbr/>Contents</span></a>
+<a href="ShareClient.html#processGetShareJson" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Get<wbr/>Share<wbr/>Json</span></a>
+<a href="ShareClient.html#processRevoke" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Revoke</span></a>
+<a href="ShareClient.html#processSearch" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Search</span></a>
+<a href="ShareClient.html#processUpdate" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Update</span></a>
+<a href="ShareClient.html#revoke" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>revoke</span></a>
+<a href="ShareClient.html#search" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>search</span></a>
+<a href="ShareClient.html#transformOptions" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>transform<wbr/>Options</span></a>
+<a href="ShareClient.html#update" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>update</span></a>
+</div></section></div></details></section></section>
+<section class="tsd-panel-group tsd-member-group">
+<h2>Constructors</h2>
+<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class"><a id="constructor" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_ShareClient">new <wbr/>Share<wbr/>Client<span class="tsd-signature-symbol">(</span>configuration<span class="tsd-signature-symbol">: </span><a href="AuthClient.html" class="tsd-signature-type" data-tsd-kind="Class">AuthClient</a>, baseUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, http<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>fetch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ShareClient.html" class="tsd-signature-type" data-tsd-kind="Class">ShareClient</a><a href="#constructor.new_ShareClient" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>configuration: <a href="AuthClient.html" class="tsd-signature-type" data-tsd-kind="Class">AuthClient</a></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> baseUrl: <span class="tsd-signature-type">string</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> http: <span class="tsd-signature-symbol">{ </span>fetch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h5>
+<ul class="tsd-parameters">
+<li class="tsd-parameter">
+<h5>fetch<span class="tsd-signature-symbol">:</span>function</h5>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-type-literal">
+<li class="tsd-signature tsd-anchor-link">fetch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestInfo</span>, init<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span><a href="#undefined" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>url: <span class="tsd-signature-type">RequestInfo</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> init: <span class="tsd-signature-type">RequestInit</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16483">src/picturepark-sdk-v1-fetch/src/index.ts:16483</a></li></ul></aside></li></ul></li></ul></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="ShareClient.html" class="tsd-signature-type" data-tsd-kind="Class">ShareClient</a></h4><aside class="tsd-sources">
+<p>Overrides <a href="PictureparkClientBase.html">PictureparkClientBase</a>.<a href="PictureparkClientBase.html#constructor">constructor</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16483">src/picturepark-sdk-v1-fetch/src/index.ts:16483</a></li></ul></aside></li></ul></section></section>
+<section class="tsd-panel-group tsd-member-group">
+<h2>Properties</h2>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="baseUrl" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>base<wbr/>Url</span><a href="#baseUrl" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">base<wbr/>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16480">src/picturepark-sdk-v1-fetch/src/index.ts:16480</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="http" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>http</span><a href="#http" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>fetch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></div>
+<div class="tsd-type-declaration">
+<h4>Type declaration</h4>
+<ul class="tsd-parameters">
+<li class="tsd-parameter">
+<h5>fetch<span class="tsd-signature-symbol">:</span>function</h5>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-type-literal">
+<li class="tsd-signature tsd-anchor-link" id="__type.fetch.fetch-1">fetch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestInfo</span>, init<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span><a href="#__type.fetch.fetch-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>url: <span class="tsd-signature-type">RequestInfo</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> init: <span class="tsd-signature-type">RequestInit</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16479">src/picturepark-sdk-v1-fetch/src/index.ts:16479</a></li></ul></aside></li></ul></li></ul></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16479">src/picturepark-sdk-v1-fetch/src/index.ts:16479</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="jsonParseReviver" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>json<wbr/>Parse<wbr/>Reviver</span><a href="#jsonParseReviver" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">json<wbr/>Parse<wbr/>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> = undefined</span></div>
+<div class="tsd-type-declaration">
+<h4>Type declaration</h4>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-class">
+<li class="tsd-signature" id="__type-1.__type-2"><span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>key: <span class="tsd-signature-type">string</span></h5></li>
+<li>
+<h5>value: <span class="tsd-signature-type">any</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4></li></ul></li></ul></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16481">src/picturepark-sdk-v1-fetch/src/index.ts:16481</a></li></ul></aside></section></section>
+<section class="tsd-panel-group tsd-member-group">
+<h2>Methods</h2>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="aggregate" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>aggregate</span><a href="#aggregate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="aggregate.aggregate-1">aggregate<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/ShareAggregationRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareAggregationRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ObjectAggregationResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ObjectAggregationResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#aggregate.aggregate-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Aggregate</p>
+
+<h3>Returns</h3><p>Share aggregation result</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>request: <a href="../interfaces/ShareAggregationRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareAggregationRequest</a></h5>
+<div class="tsd-comment tsd-typography"><p>Aggregation request</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ObjectAggregationResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ObjectAggregationResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17697">src/picturepark-sdk-v1-fetch/src/index.ts:17697</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="create" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>create</span><a href="#create" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="create.create-1">create<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/ShareBaseCreateRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareBaseCreateRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span><a href="#create.create-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Create</p>
+
+<h3>Returns</h3><p>BusinessProcess</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>request: <a href="../interfaces/ShareBaseCreateRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareBaseCreateRequest</a></h5>
+<div class="tsd-comment tsd-typography"><p>Polymorphic create contract. Use either ShareBasicCreateRequest or ShareEmbedCreateRequest</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17439">src/picturepark-sdk-v1-fetch/src/index.ts:17439</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="createShareSelectionDownloadLink" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>create<wbr/>Share<wbr/>Selection<wbr/>Download<wbr/>Link</span><a href="#createShareSelectionDownloadLink" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="createShareSelectionDownloadLink.createShareSelectionDownloadLink-1">create<wbr/>Share<wbr/>Selection<wbr/>Download<wbr/>Link<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, request<span class="tsd-signature-symbol">: </span><a href="../interfaces/ShareDownloadRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDownloadRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/DownloadLink.html" class="tsd-signature-type" data-tsd-kind="Interface">DownloadLink</a><span class="tsd-signature-symbol">&gt;</span><a href="#createShareSelectionDownloadLink.createShareSelectionDownloadLink-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Download selection of a share</p>
+
+<h3>Returns</h3><p>DownloadLink</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>token: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>Share token</p>
+</div></li>
+<li>
+<h5>request: <a href="../interfaces/ShareDownloadRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDownloadRequest</a></h5>
+<div class="tsd-comment tsd-typography"><p>Share download request</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/DownloadLink.html" class="tsd-signature-type" data-tsd-kind="Interface">DownloadLink</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16870">src/picturepark-sdk-v1-fetch/src/index.ts:16870</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="deleteMany" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>delete<wbr/>Many</span><a href="#deleteMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="deleteMany.deleteMany-1">delete<wbr/>Many<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/ShareDeleteManyRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDeleteManyRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span><a href="#deleteMany.deleteMany-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Delete multiple shares</p>
+
+<h3>Returns</h3><p>BusinessProcess</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>request: <a href="../interfaces/ShareDeleteManyRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDeleteManyRequest</a></h5>
+<div class="tsd-comment tsd-typography"><p>A delete many request containing the ids of the shares to delete.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17525">src/picturepark-sdk-v1-fetch/src/index.ts:17525</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="download" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>download</span><a href="#download" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="download.download-1">download<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, width<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, range<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span><a href="#download.download-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Download shared outputs</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>token: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>Share token</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> width: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) Optional width in pixels to resize image</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> height: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) Optional height in pixels to resize image</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> range: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16771">src/picturepark-sdk-v1-fetch/src/index.ts:16771</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="downloadSingleContent" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>download<wbr/>Single<wbr/>Content</span><a href="#downloadSingleContent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="downloadSingleContent.downloadSingleContent-1">download<wbr/>Single<wbr/>Content<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, contentId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, outputFormatId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, width<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, range<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span><a href="#downloadSingleContent.downloadSingleContent-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Download shared output</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>token: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>Share token</p>
+</div></li>
+<li>
+<h5>contentId: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The content id</p>
+</div></li>
+<li>
+<h5>outputFormatId: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The output format id</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> width: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) Optional width in pixels to resize image</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> height: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) Optional height in pixels to resize image</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> range: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16963">src/picturepark-sdk-v1-fetch/src/index.ts:16963</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="downloadWithConversionPreset" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>download<wbr/>With<wbr/>Conversion<wbr/>Preset</span><a href="#downloadWithConversionPreset" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="downloadWithConversionPreset.downloadWithConversionPreset-1">download<wbr/>With<wbr/>Conversion<wbr/>Preset<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, conversionPreset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, range<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span><a href="#downloadWithConversionPreset.downloadWithConversionPreset-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Download shared outputs</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>token: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>Share token</p>
+</div></li>
+<li>
+<h5>conversionPreset: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>Image editing specification</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> range: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) The range of bytes to download (http range header): bytes={from}-{to} (e.g. bytes=0-100000)</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17068">src/picturepark-sdk-v1-fetch/src/index.ts:17068</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="get" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get</span><a href="#get" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="get.get-1">get<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, resolveBehaviors<span class="tsd-signature-symbol">?: </span><a href="../enums/ShareResolveBehavior.html" class="tsd-signature-type" data-tsd-kind="Enumeration">ShareResolveBehavior</a><span class="tsd-signature-symbol">[]</span>, contentResolveLimit<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDetail</a><span class="tsd-signature-symbol">&gt;</span><a href="#get.get-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get</p>
+
+<h3>Returns</h3><p>Share detail</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>id: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>Share Id (not token, use <a href="#operation/Share_GetShareJson">GetShareJson</a> to get share by token)</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> resolveBehaviors: <a href="../enums/ShareResolveBehavior.html" class="tsd-signature-type" data-tsd-kind="Enumeration">ShareResolveBehavior</a><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) List of enums that control which parts of the share are resolved and returned.</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> contentResolveLimit: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) Optional limit the number of contents to resolve. Use a lower value for higher performance. If nothing is specified, everything is resolved.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17167">src/picturepark-sdk-v1-fetch/src/index.ts:17167</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="getBaseUrl" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Base<wbr/>Url</span><a href="#getBaseUrl" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="getBaseUrl.getBaseUrl-1">get<wbr/>Base<wbr/>Url<span class="tsd-signature-symbol">(</span>defaultUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, baseUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#getBaseUrl.getBaseUrl-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>defaultUrl: <span class="tsd-signature-type">string</span></h5></li>
+<li>
+<h5>baseUrl: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="PictureparkClientBase.html">PictureparkClientBase</a>.<a href="PictureparkClientBase.html#getBaseUrl">getBaseUrl</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L33">src/picturepark-sdk-v1-fetch/src/index.ts:33</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getContentsInShare" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Contents<wbr/>In<wbr/>Share</span><a href="#getContentsInShare" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="getContentsInShare.getContentsInShare-1">get<wbr/>Contents<wbr/>In<wbr/>Share<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, limit<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, pageToken<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareContentDetailResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareContentDetailResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#getContentsInShare.getContentsInShare-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get contents in share</p>
+
+<h3>Returns</h3><p>ShareContentDetailResult</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>id: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>Share Id</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> limit: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) Number of contents to return</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> pageToken: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) PageToken to page over contents</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareContentDetailResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareContentDetailResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17348">src/picturepark-sdk-v1-fetch/src/index.ts:17348</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getOutputsInShare" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Outputs<wbr/>In<wbr/>Share</span><a href="#getOutputsInShare" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="getOutputsInShare.getOutputsInShare-1">get<wbr/>Outputs<wbr/>In<wbr/>Share<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareOutputsResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareOutputsResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#getOutputsInShare.getOutputsInShare-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get shared outputs</p>
+
+<h3>Returns</h3><p>List of OutputResolveResult</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>token: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>Share token</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareOutputsResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareOutputsResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16684">src/picturepark-sdk-v1-fetch/src/index.ts:16684</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getShareContents" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Share<wbr/>Contents</span><a href="#getShareContents" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="getShareContents.getShareContents-1">get<wbr/>Share<wbr/>Contents<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, languageCode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, limit<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, pageToken<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareContentDetailResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareContentDetailResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#getShareContents.getShareContents-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get share contents</p>
+
+<h3>Returns</h3><p>ShareContentDetailResult</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>token: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>Share token</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> languageCode: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) Language code</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> limit: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) Number of contents to return</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> pageToken: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) PageToken to page over contents</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareContentDetailResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareContentDetailResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16591">src/picturepark-sdk-v1-fetch/src/index.ts:16591</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getShareJson" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Share<wbr/>Json</span><a href="#getShareJson" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="getShareJson.getShareJson-1">get<wbr/>Share<wbr/>Json<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, languageCode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, resolveBehaviors<span class="tsd-signature-symbol">?: </span><a href="../enums/ShareResolveBehavior.html" class="tsd-signature-type" data-tsd-kind="Enumeration">ShareResolveBehavior</a><span class="tsd-signature-symbol">[]</span>, contentResolveLimit<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDetail</a><span class="tsd-signature-symbol">&gt;</span><a href="#getShareJson.getShareJson-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Get share json</p>
+
+<h3>Returns</h3><p>ShareDetail</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>token: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>Share token</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> languageCode: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) Language code</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> resolveBehaviors: <a href="../enums/ShareResolveBehavior.html" class="tsd-signature-type" data-tsd-kind="Enumeration">ShareResolveBehavior</a><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) List of enums that control which parts of the share are resolved and returned.</p>
+</div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> contentResolveLimit: <span class="tsd-signature-type">number</span></h5>
+<div class="tsd-comment tsd-typography"><p>(optional) Optional limit the number of contents to resolve. Use a lower value for higher performance. If nothing is specified, everything is resolved.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16497">src/picturepark-sdk-v1-fetch/src/index.ts:16497</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processAggregate" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Aggregate</span><a href="#processAggregate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processAggregate.processAggregate-1">process<wbr/>Aggregate<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ObjectAggregationResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ObjectAggregationResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#processAggregate.processAggregate-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ObjectAggregationResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ObjectAggregationResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17719">src/picturepark-sdk-v1-fetch/src/index.ts:17719</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processCreate" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Create</span><a href="#processCreate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processCreate.processCreate-1">process<wbr/>Create<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span><a href="#processCreate.processCreate-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17461">src/picturepark-sdk-v1-fetch/src/index.ts:17461</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processCreateShareSelectionDownloadLink" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Create<wbr/>Share<wbr/>Selection<wbr/>Download<wbr/>Link</span><a href="#processCreateShareSelectionDownloadLink" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processCreateShareSelectionDownloadLink.processCreateShareSelectionDownloadLink-1">process<wbr/>Create<wbr/>Share<wbr/>Selection<wbr/>Download<wbr/>Link<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/DownloadLink.html" class="tsd-signature-type" data-tsd-kind="Interface">DownloadLink</a><span class="tsd-signature-symbol">&gt;</span><a href="#processCreateShareSelectionDownloadLink.processCreateShareSelectionDownloadLink-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/DownloadLink.html" class="tsd-signature-type" data-tsd-kind="Interface">DownloadLink</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16895">src/picturepark-sdk-v1-fetch/src/index.ts:16895</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processDeleteMany" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Delete<wbr/>Many</span><a href="#processDeleteMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processDeleteMany.processDeleteMany-1">process<wbr/>Delete<wbr/>Many<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span><a href="#processDeleteMany.processDeleteMany-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17547">src/picturepark-sdk-v1-fetch/src/index.ts:17547</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processDownload" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Download</span><a href="#processDownload" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processDownload.processDownload-1">process<wbr/>Download<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span><a href="#processDownload.processDownload-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16797">src/picturepark-sdk-v1-fetch/src/index.ts:16797</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processDownloadSingleContent" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Download<wbr/>Single<wbr/>Content</span><a href="#processDownloadSingleContent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processDownloadSingleContent.processDownloadSingleContent-1">process<wbr/>Download<wbr/>Single<wbr/>Content<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span><a href="#processDownloadSingleContent.processDownloadSingleContent-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16995">src/picturepark-sdk-v1-fetch/src/index.ts:16995</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processDownloadWithConversionPreset" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Download<wbr/>With<wbr/>Conversion<wbr/>Preset</span><a href="#processDownloadWithConversionPreset" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processDownloadWithConversionPreset.processDownloadWithConversionPreset-1">process<wbr/>Download<wbr/>With<wbr/>Conversion<wbr/>Preset<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span><a href="#processDownloadWithConversionPreset.processDownloadWithConversionPreset-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/FileResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">FileResponse</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17093">src/picturepark-sdk-v1-fetch/src/index.ts:17093</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processGet" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Get</span><a href="#processGet" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processGet.processGet-1">process<wbr/>Get<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDetail</a><span class="tsd-signature-symbol">&gt;</span><a href="#processGet.processGet-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17192">src/picturepark-sdk-v1-fetch/src/index.ts:17192</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processGetContentsInShare" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Get<wbr/>Contents<wbr/>In<wbr/>Share</span><a href="#processGetContentsInShare" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processGetContentsInShare.processGetContentsInShare-1">process<wbr/>Get<wbr/>Contents<wbr/>In<wbr/>Share<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareContentDetailResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareContentDetailResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#processGetContentsInShare.processGetContentsInShare-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareContentDetailResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareContentDetailResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17375">src/picturepark-sdk-v1-fetch/src/index.ts:17375</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processGetOutputsInShare" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Get<wbr/>Outputs<wbr/>In<wbr/>Share</span><a href="#processGetOutputsInShare" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processGetOutputsInShare.processGetOutputsInShare-1">process<wbr/>Get<wbr/>Outputs<wbr/>In<wbr/>Share<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareOutputsResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareOutputsResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#processGetOutputsInShare.processGetOutputsInShare-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareOutputsResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareOutputsResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16705">src/picturepark-sdk-v1-fetch/src/index.ts:16705</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processGetShareContents" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Get<wbr/>Share<wbr/>Contents</span><a href="#processGetShareContents" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processGetShareContents.processGetShareContents-1">process<wbr/>Get<wbr/>Share<wbr/>Contents<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareContentDetailResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareContentDetailResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#processGetShareContents.processGetShareContents-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareContentDetailResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareContentDetailResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16620">src/picturepark-sdk-v1-fetch/src/index.ts:16620</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processGetShareJson" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Get<wbr/>Share<wbr/>Json</span><a href="#processGetShareJson" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processGetShareJson.processGetShareJson-1">process<wbr/>Get<wbr/>Share<wbr/>Json<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDetail</a><span class="tsd-signature-symbol">&gt;</span><a href="#processGetShareJson.processGetShareJson-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L16524">src/picturepark-sdk-v1-fetch/src/index.ts:16524</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processRevoke" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Revoke</span><a href="#processRevoke" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processRevoke.processRevoke-1">process<wbr/>Revoke<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span><a href="#processRevoke.processRevoke-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17633">src/picturepark-sdk-v1-fetch/src/index.ts:17633</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processSearch" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Search</span><a href="#processSearch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processSearch.processSearch-1">process<wbr/>Search<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareSearchResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareSearchResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#processSearch.processSearch-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareSearchResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareSearchResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17805">src/picturepark-sdk-v1-fetch/src/index.ts:17805</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processUpdate" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Update</span><a href="#processUpdate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processUpdate.processUpdate-1">process<wbr/>Update<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span><a href="#processUpdate.processUpdate-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17282">src/picturepark-sdk-v1-fetch/src/index.ts:17282</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="revoke" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>revoke</span><a href="#revoke" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="revoke.revoke-1">revoke<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/ShareRevokeManyRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareRevokeManyRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span><a href="#revoke.revoke-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Revokes multiple shares</p>
+
+<h3>Returns</h3><p>BusinessProcess</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>request: <a href="../interfaces/ShareRevokeManyRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareRevokeManyRequest</a></h5>
+<div class="tsd-comment tsd-typography"><p>A revoke many request containing the ids of the shares to revoke.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17611">src/picturepark-sdk-v1-fetch/src/index.ts:17611</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="search" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>search</span><a href="#search" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="search.search-1">search<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/ShareSearchRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareSearchRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareSearchResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareSearchResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#search.search-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Search</p>
+
+<h3>Returns</h3><p>Share search result</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>request: <a href="../interfaces/ShareSearchRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareSearchRequest</a></h5>
+<div class="tsd-comment tsd-typography"><p>Search request</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ShareSearchResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareSearchResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17783">src/picturepark-sdk-v1-fetch/src/index.ts:17783</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="transformOptions" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>transform<wbr/>Options</span><a href="#transformOptions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="transformOptions.transformOptions-1">transform<wbr/>Options<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">&gt;</span><a href="#transformOptions.transformOptions-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>options: <span class="tsd-signature-type">RequestInit</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="PictureparkClientBase.html">PictureparkClientBase</a>.<a href="PictureparkClientBase.html#transformOptions">transformOptions</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L37">src/picturepark-sdk-v1-fetch/src/index.ts:37</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="update" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>update</span><a href="#update" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="update.update-1">update<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, request<span class="tsd-signature-symbol">: </span><a href="../interfaces/ShareBaseUpdateRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareBaseUpdateRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span><a href="#update.update-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Update</p>
+
+<h3>Returns</h3><p>BusinessProcess</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>id: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The share id.</p>
+</div></li>
+<li>
+<h5>request: <a href="../interfaces/ShareBaseUpdateRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">ShareBaseUpdateRequest</a></h5>
+<div class="tsd-comment tsd-typography"><p>The share update request.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/7459461ba/src/picturepark-sdk-v1-fetch/src/index.ts#L17257">src/picturepark-sdk-v1-fetch/src/index.ts:17257</a></li></ul></aside></li></ul></section></section></div>
+<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+<div class="tsd-navigation settings">
+<details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility">
+<h4 class="uppercase">Member Visibility</h4><form>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-private" name="private"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Private</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div>
+<div class="tsd-theme-toggle">
+<h4 class="uppercase">Theme</h4><select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<nav class="tsd-navigation primary">
+<details class="tsd-index-accordion" open><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Modules</h3></summary>
+<div class="tsd-accordion-details">
+<ul>
+<li><a href="../modules.html">picturepark-<wbr/>sdk-<wbr/>v1-<wbr/>fetch API</a>
+<ul></ul></li></ul></div></details></nav>
+<nav class="tsd-navigation secondary menu-sticky">
+<ul>
+<li class="current tsd-kind-class"><a href="ShareClient.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-class)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-128-path"></rect><path d="M11.898 16.1201C11.098 16.1201 10.466 15.8961 10.002 15.4481C9.53803 15.0001 9.30603 14.3841 9.30603 13.6001V9.64012C9.30603 8.85612 9.53803 8.24012 10.002 7.79212C10.466 7.34412 11.098 7.12012 11.898 7.12012C12.682 7.12012 13.306 7.34812 13.77 7.80412C14.234 8.25212 14.466 8.86412 14.466 9.64012H13.386C13.386 9.14412 13.254 8.76412 12.99 8.50012C12.734 8.22812 12.37 8.09212 11.898 8.09212C11.426 8.09212 11.054 8.22412 10.782 8.48812C10.518 8.75212 10.386 9.13212 10.386 9.62812V13.6001C10.386 14.0961 10.518 14.4801 10.782 14.7521C11.054 15.0161 11.426 15.1481 11.898 15.1481C12.37 15.1481 12.734 15.0161 12.99 14.7521C13.254 14.4801 13.386 14.0961 13.386 13.6001H14.466C14.466 14.3761 14.234 14.9921 13.77 15.4481C13.306 15.8961 12.682 16.1201 11.898 16.1201Z" fill="var(--color-text)" id="icon-128-text"></path></svg><span>Share<wbr/>Client</span></a>
+<ul>
+<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="ShareClient.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-512-path"></use><use href="#icon-512-text"></use></svg>constructor</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="ShareClient.html#baseUrl" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>base<wbr/>Url</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="ShareClient.html#http" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>http</a></li>
+<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#jsonParseReviver" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>json<wbr/>Parse<wbr/>Reviver</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#aggregate" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>aggregate</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#create" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>create</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#createShareSelectionDownloadLink" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>create<wbr/>Share<wbr/>Selection<wbr/>Download<wbr/>Link</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#deleteMany" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>delete<wbr/>Many</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#download" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>download</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#downloadSingleContent" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>download<wbr/>Single<wbr/>Content</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#downloadWithConversionPreset" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>download<wbr/>With<wbr/>Conversion<wbr/>Preset</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#get" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="ShareClient.html#getBaseUrl" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Base<wbr/>Url</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#getContentsInShare" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Contents<wbr/>In<wbr/>Share</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#getOutputsInShare" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Outputs<wbr/>In<wbr/>Share</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#getShareContents" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Share<wbr/>Contents</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#getShareJson" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Share<wbr/>Json</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processAggregate" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Aggregate</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processCreate" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Create</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processCreateShareSelectionDownloadLink" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Create<wbr/>Share<wbr/>Selection<wbr/>Download<wbr/>Link</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processDeleteMany" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Delete<wbr/>Many</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processDownload" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Download</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processDownloadSingleContent" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Download<wbr/>Single<wbr/>Content</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processDownloadWithConversionPreset" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Download<wbr/>With<wbr/>Conversion<wbr/>Preset</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processGet" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Get</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processGetContentsInShare" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Get<wbr/>Contents<wbr/>In<wbr/>Share</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processGetOutputsInShare" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Get<wbr/>Outputs<wbr/>In<wbr/>Share</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processGetShareContents" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Get<wbr/>Share<wbr/>Contents</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processGetShareJson" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Get<wbr/>Share<wbr/>Json</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processRevoke" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Revoke</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processSearch" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Search</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="ShareClient.html#processUpdate" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Update</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#revoke" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>revoke</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#search" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>search</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="ShareClient.html#transformOptions" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>transform<wbr/>Options</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="ShareClient.html#update" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>update</a></li></ul></li></ul></nav></div></div>
+<div class="container tsd-generator">
+<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
+<div class="overlay"></div><script src="../assets/main.js"></script></body></html>
