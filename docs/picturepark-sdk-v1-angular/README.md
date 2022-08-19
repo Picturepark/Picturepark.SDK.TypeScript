@@ -21,7 +21,7 @@ npm install @picturepark/sdk-v1-angular liquidjs@8.2.1 lazy-get-decorator@2.2.0
 - **PictureparkOidcModule:** Registers the [OidcAuthService](auth/OidcAuthService.md) to authenticate using the OIDC implict flow. 
 - **PictureparkUiModule:** Registers the UI components.
 
-**Important:** To improve the final app file distrubution size, you should [only import required modules](modules.md).
+**Important:** To improve the final app file distrubution size, you should only import required modules.
 
 ### Use the API services
 
