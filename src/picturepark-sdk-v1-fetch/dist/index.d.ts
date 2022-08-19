@@ -93,7 +93,7 @@ export declare class BusinessProcessClient extends PictureparkClientBase {
     Depending on the type of the business process, this can be not available at all or contain just a minimal set of information.
     If business process produces a batch based response, page over successful and failed items using respective endpoints.
      * @param id Business process id.
-     * @return BusinessProcessSummaryBaseViewItem
+     * @return BusinessProcessSummaryBase
      */
     getSummary(id: string | null): Promise<BusinessProcessSummaryBase>;
     protected processGetSummary(response: Response): Promise<BusinessProcessSummaryBase>;
@@ -103,7 +103,7 @@ export declare class BusinessProcessClient extends PictureparkClientBase {
      * @param id Business process id.
      * @param limit Number of items to fetch.
      * @param pageToken (optional) PageToken for paging.
-     * @return BusinessProcessBatchViewItem
+     * @return BusinessProcessBatch
      */
     getSuccessfulItems(id: string | null, limit: number, pageToken?: string | null | undefined): Promise<BusinessProcessBatch>;
     protected processGetSuccessfulItems(response: Response): Promise<BusinessProcessBatch>;
@@ -113,7 +113,7 @@ export declare class BusinessProcessClient extends PictureparkClientBase {
      * @param id Business process id.
      * @param limit Number of items to fetch.
      * @param pageToken (optional) PageToken for paging.
-     * @return BusinessProcessBatchViewItem
+     * @return BusinessProcessBatch
      */
     getFailedItems(id: string | null, limit: number, pageToken?: string | null | undefined): Promise<BusinessProcessBatch>;
     protected processGetFailedItems(response: Response): Promise<BusinessProcessBatch>;
@@ -634,6 +634,124 @@ export declare class ContentClient extends PictureparkClientBase {
      */
     deleteVersion(id: string | null, versionId: number): Promise<void>;
     protected processDeleteVersion(response: Response): Promise<void>;
+    /**
+     * Get comment
+     * @param id Content ID.
+     * @param commentId Comment ID.
+     * @return Comment if found
+     */
+    getComment(id: string | null, commentId: string | null): Promise<Comment>;
+    protected processGetComment(response: Response): Promise<Comment>;
+    /**
+     * Update comment
+     * @param id Content ID.
+     * @param commentId Comment ID.
+     * @param request Comment update.
+     * @param timeout (optional) Operation timeout.
+     * @return Updated comment
+     */
+    updateComment(id: string | null, commentId: string | null, request: CommentEditable, timeout?: string | null | undefined): Promise<Comment>;
+    protected processUpdateComment(response: Response): Promise<Comment>;
+    /**
+     * Delete comment
+     * @param id Content ID.
+     * @param commentId Comment ID.
+     * @param timeout (optional) Operation timeout.
+     * @return OK
+     */
+    deleteComment(id: string | null, commentId: string | null, timeout?: string | null | undefined): Promise<void>;
+    protected processDeleteComment(response: Response): Promise<void>;
+    /**
+     * Create comment
+     * @param id Content ID.
+     * @param request Comment creation request.
+     * @param timeout (optional) Operation timeout.
+     * @return Created comment
+     */
+    createComment(id: string | null, request: CommentCreateRequest, timeout?: string | null | undefined): Promise<Comment>;
+    protected processCreateComment(response: Response): Promise<Comment>;
+    /**
+     * Search comments
+     * @param id Content ID.
+     * @param request Search request.
+     * @return List of found comments
+     */
+    searchComments(id: string | null, request: CommentSearchRequest): Promise<CommentSearchResult>;
+    protected processSearchComments(response: Response): Promise<CommentSearchResult>;
+}
+export declare class ConversionPresetTemplateClient extends PictureparkClientBase {
+    private http;
+    private baseUrl;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined;
+    constructor(configuration: AuthClient, baseUrl?: string, http?: {
+        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+    });
+    /**
+     * Search conversion preset templates
+     * @param request Conversion preset templates search request.
+     * @return Result of the conversion preset templates search
+     */
+    search(request: ConversionPresetTemplateSearchRequest): Promise<ConversionPresetTemplateSearchResult>;
+    protected processSearch(response: Response): Promise<ConversionPresetTemplateSearchResult>;
+    /**
+     * Create conversion preset template
+     * @param request Request containing information needed to create new conversion preset template.
+     * @param timeout (optional) Timeout
+     * @return Represents the detail of a conversion preset template
+     */
+    create(request: ConversionPresetTemplateCreateRequest, timeout?: string | null | undefined): Promise<ConversionPresetTemplateDetail>;
+    protected processCreate(response: Response): Promise<ConversionPresetTemplateDetail>;
+    /**
+     * Get multiple conversion preset templates
+     * @param ids (optional) Conversion preset template IDs to get information about.
+     * @return Array of Represents the detail of a conversion preset template
+     */
+    getMany(ids?: string[] | null | undefined): Promise<ConversionPresetTemplateDetail[]>;
+    protected processGetMany(response: Response): Promise<ConversionPresetTemplateDetail[]>;
+    /**
+     * Update conversion preset template
+     * @param id Conversion preset template ID.
+     * @param request Request containing information needed to update the conversion preset template.
+     * @param timeout (optional) Timeout
+     * @return Represents the detail of a conversion preset template
+     */
+    update(id: string | null, request: ConversionPresetTemplateUpdateRequest, timeout?: string | null | undefined): Promise<ConversionPresetTemplateDetail>;
+    protected processUpdate(response: Response): Promise<ConversionPresetTemplateDetail>;
+    /**
+     * Delete conversion preset template
+     * @param id Conversion preset template ID.
+     * @param timeout (optional) Timeout
+     */
+    delete(id: string | null, timeout?: string | null | undefined): Promise<void>;
+    protected processDelete(response: Response): Promise<void>;
+    /**
+     * Get conversion preset template
+     * @param id Conversion preset template ID.
+     * @return Represents the detail of a conversion preset template
+     */
+    get(id: string | null): Promise<ConversionPresetTemplateDetail>;
+    protected processGet(response: Response): Promise<ConversionPresetTemplateDetail>;
+    /**
+     * Create multiple conversion preset templates
+     * @param request Request containing information needed to create new conversion preset template.
+     * @return Business process
+     */
+    createMany(request: ConversionPresetTemplateCreateManyRequest): Promise<BusinessProcess>;
+    protected processCreateMany(response: Response): Promise<BusinessProcess>;
+    /**
+     * Update multiple conversion preset templates
+     * @param request Request containing information needed to update the conversion preset template.
+     * @return Business process
+     */
+    updateMany(request: ConversionPresetTemplateUpdateManyRequest): Promise<BusinessProcess>;
+    protected processUpdateMany(response: Response): Promise<BusinessProcess>;
+    /**
+     * Delete multiple conversion preset templates
+     * @param request The request with conversion preset template IDs to delete.
+     * @return Business process
+     */
+    deleteMany(request: ConversionPresetTemplateDeleteManyRequest): Promise<BusinessProcess>;
+    protected processDeleteMany(response: Response): Promise<BusinessProcess>;
 }
 export declare class DisplayValueClient extends PictureparkClientBase {
     private http;
@@ -1030,10 +1148,13 @@ export declare class NotificationClient extends PictureparkClientBase {
     protected processPutEmailNotificationSettings(response: Response): Promise<EmailNotificationsSettings>;
     /**
      * Get notification types available for email settings.
-     * @return Array of Notification that is available for email settings.
      */
-    getAvailableNotificationTypes(): Promise<NotificationType[]>;
-    protected processGetAvailableNotificationTypes(response: Response): Promise<NotificationType[]>;
+    getAvailableNotificationTypes(): Promise<{
+        [key: string]: NotificationType[];
+    }>;
+    protected processGetAvailableNotificationTypes(response: Response): Promise<{
+        [key: string]: NotificationType[];
+    }>;
 }
 export declare class OutputFormatClient extends PictureparkClientBase {
     private http;
@@ -1075,8 +1196,23 @@ export declare class OutputFormatClient extends PictureparkClientBase {
      * @param request The request containing the state changes for each output format.
      * @return Business process
      */
-    setXmpWritebackState2(request: OutputFormatSetXmpWritebackStateManyRequest): Promise<BusinessProcess>;
-    protected processSetXmpWritebackState2(response: Response): Promise<BusinessProcess>;
+    setXmpWritebackStateMany(request: OutputFormatSetXmpWritebackStateManyRequest): Promise<BusinessProcess>;
+    protected processSetXmpWritebackStateMany(response: Response): Promise<BusinessProcess>;
+    /**
+     * Updates permission-related settings for an output format
+     * @param id ID of the output format.
+     * @param request The request containing the settings for the output format.
+     * @return Business process
+     */
+    setPermission(id: string | null, request: OutputFormatSetPermissionRequest): Promise<BusinessProcess>;
+    protected processSetPermission(response: Response): Promise<BusinessProcess>;
+    /**
+     * Updates permission-related settings for multiple output formats
+     * @param request The request containing the state changes for each output format.
+     * @return Business process
+     */
+    setPermissionMany(request: OutputFormatSetPermissionManyRequest): Promise<BusinessProcess>;
+    protected processSetPermissionMany(response: Response): Promise<BusinessProcess>;
     /**
      * Render output format preview
      * @param request Information about the OutputFormat as well as which Content to use for the preview.
@@ -1099,13 +1235,6 @@ export declare class OutputFormatClient extends PictureparkClientBase {
     create(request: OutputFormat): Promise<BusinessProcess>;
     protected processCreate(response: Response): Promise<BusinessProcess>;
     /**
-     * Get output format
-     * @param id Output format ID.
-     * @return Represents an output format.
-     */
-    get(id: string | null): Promise<OutputFormatDetail>;
-    protected processGet(response: Response): Promise<OutputFormatDetail>;
-    /**
      * Update output format
      * @param id Output format ID.
      * @param request Request containing information needed to update the output format.
@@ -1120,6 +1249,13 @@ export declare class OutputFormatClient extends PictureparkClientBase {
      */
     delete(id: string | null): Promise<BusinessProcess>;
     protected processDelete(response: Response): Promise<BusinessProcess>;
+    /**
+     * Get output format
+     * @param id Output format ID.
+     * @return Represents an output format.
+     */
+    get(id: string | null): Promise<OutputFormatDetail>;
+    protected processGet(response: Response): Promise<OutputFormatDetail>;
     /**
      * Create multiple output formats
      * @param request Request containing information needed to create new output format.
@@ -1442,6 +1578,13 @@ export declare class SchemaClient extends PictureparkClientBase {
      */
     getFilterFieldsMany(ids?: string[] | null | undefined): Promise<FieldInfo[]>;
     protected processGetFilterFieldsMany(response: Response): Promise<FieldInfo[]>;
+    /**
+     * Retrieve the fields that can be used for sorting.
+     * @param schemaTypes (optional) Schema types to include in search
+     * @return The list of fields
+     */
+    getSortFieldsBySchemaTypes(schemaTypes?: SchemaType[] | null | undefined): Promise<SortFieldInfo[]>;
+    protected processGetSortFieldsBySchemaTypes(response: Response): Promise<SortFieldInfo[]>;
 }
 export declare class SchemaTransferClient extends PictureparkClientBase {
     private http;
@@ -1667,6 +1810,13 @@ export declare class TemplateClient extends PictureparkClientBase {
      */
     getAll(): Promise<Template[]>;
     protected processGetAll(response: Response): Promise<Template[]>;
+    /**
+     * Search templates
+     * @param searchRequest The template search request.
+     * @return Template search result
+     */
+    search(searchRequest: TemplateSearchRequest): Promise<TemplateSearchResult>;
+    protected processSearch(response: Response): Promise<TemplateSearchResult>;
 }
 export declare class TransferClient extends PictureparkClientBase {
     private http;
@@ -1753,16 +1903,16 @@ export declare class TransferClient extends PictureparkClientBase {
     getBlacklist(): Promise<Blacklist>;
     protected processGetBlacklist(response: Response): Promise<Blacklist>;
     /**
-    * Upload file
-    * @param chunkNumber Information about chunk.
-    * @param currentChunkSize Information about chunk.
-    * @param totalSize Information about chunk.
-    * @param totalChunks Information about chunk.
-    * @param transferId ID of transfer.
-    * @param requestId Identifier of file.
-    * @param body (optional) Body
-    * @return OK
-    */
+     * Upload file
+     * @param chunkNumber Information about chunk.
+     * @param currentChunkSize Information about chunk.
+     * @param totalSize Information about chunk.
+     * @param totalChunks Information about chunk.
+     * @param transferId ID of transfer.
+     * @param requestId Identifier of file.
+     * @param body (optional) Body
+     * @return OK
+     */
     uploadFile(chunkNumber: number, currentChunkSize: number, totalSize: number, totalChunks: number, transferId: string | null, requestId: string | null, body?: Blob | undefined): Promise<void>;
     protected processUploadFile(response: Response): Promise<void>;
 }
@@ -2017,12 +2167,19 @@ export declare class XmpMappingClient extends PictureparkClientBase {
     search(request: XmpMappingEntrySearchRequest): Promise<XmpMappingEntrySearchResult>;
     protected processSearch(response: Response): Promise<XmpMappingEntrySearchResult>;
     /**
-     * Get xmp mapping
-     * @param id Xmp mapping ID.
-     * @return XMP mapping entry
+     * Create xmp mapping
+     * @param request Request containing information needed to create new xmp mapping.
+     * @return Business process
      */
-    get(id: string | null): Promise<XmpMappingEntry>;
-    protected processGet(response: Response): Promise<XmpMappingEntry>;
+    create(request: XmpMappingEntryCreateRequest): Promise<BusinessProcess>;
+    protected processCreate(response: Response): Promise<BusinessProcess>;
+    /**
+     * Get multiple xmp mappings
+     * @param ids (optional) Xmp mapping IDs to get information about.
+     * @return Array of XMP mapping entry
+     */
+    getMany(ids?: string[] | null | undefined): Promise<XmpMappingEntry[]>;
+    protected processGetMany(response: Response): Promise<XmpMappingEntry[]>;
     /**
      * Update xmp mapping
      * @param id Xmp mapping ID.
@@ -2039,19 +2196,12 @@ export declare class XmpMappingClient extends PictureparkClientBase {
     delete(id: string | null): Promise<BusinessProcess>;
     protected processDelete(response: Response): Promise<BusinessProcess>;
     /**
-     * Create xmp mapping
-     * @param request Request containing information needed to create new xmp mapping.
-     * @return Business process
+     * Get xmp mapping
+     * @param id Xmp mapping ID.
+     * @return XMP mapping entry
      */
-    create(request: XmpMappingEntryCreateRequest): Promise<BusinessProcess>;
-    protected processCreate(response: Response): Promise<BusinessProcess>;
-    /**
-     * Get multiple xmp mappings
-     * @param ids (optional) Xmp mapping IDs to get information about.
-     * @return Array of XMP mapping entry
-     */
-    getMany(ids?: string[] | null | undefined): Promise<XmpMappingEntry[]>;
-    protected processGetMany(response: Response): Promise<XmpMappingEntry[]>;
+    get(id: string | null): Promise<XmpMappingEntry>;
+    protected processGet(response: Response): Promise<XmpMappingEntry>;
     /**
      * Create multiple xmp mappings
      * @param request Request containing information needed to create new xmp mapping.
@@ -2376,6 +2526,8 @@ export interface OutputBackupHashMismatchException extends PictureparkValidation
     requestedHash?: string | undefined;
     documentHash?: string | undefined;
 }
+export interface OutputOperationInProgressException extends PictureparkBusinessException {
+}
 export interface DownloadLinkExpiredException extends PictureparkBusinessException {
 }
 export interface RenderingNotAwaitedException extends PictureparkBusinessException {
@@ -2391,6 +2543,8 @@ export interface DownloadNotFoundException extends PictureparkNotFoundException 
 }
 export interface EmbedMultiDownloadException extends PictureparkValidationException {
     token?: string | undefined;
+}
+export interface ImageOptimizationLicensingException extends PictureparkValidationException {
 }
 export interface LeaseNotAcquiredException extends PictureparkBusinessException {
     resourceId?: string | undefined;
@@ -2635,7 +2789,10 @@ export declare enum UserRight {
     ReadStatistics,
     WriteStatistics,
     ExportStatistics,
-    EditImages
+    EditImages,
+    ManageConversionPresetTemplates,
+    ManageComments,
+    ManageAllComments
 }
 export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
     permissionSetIds?: string[] | undefined;
@@ -2713,6 +2870,23 @@ export interface ListItemSchemaMismatchException extends PictureparkValidationEx
     listItemId?: string | undefined;
     listItemSchemaId?: string | undefined;
     fieldSchemaId?: string | undefined;
+}
+export interface ListItemResolveBehaviorNotSupportedException extends PictureparkValidationException {
+    behaviors?: ListItemResolveBehavior[] | undefined;
+}
+export declare enum ListItemResolveBehavior {
+    Content,
+    LinkedListItems,
+    InnerDisplayValueThumbnail,
+    InnerDisplayValueList,
+    InnerDisplayValueDetail,
+    InnerDisplayValueName,
+    OuterDisplayValueThumbnail,
+    OuterDisplayValueList,
+    OuterDisplayValueDetail,
+    OuterDisplayValueName,
+    DynamicViewFields,
+    DynamicViewFieldsWithHasItems
 }
 export interface TransferInfoNotFoundException extends PictureparkNotFoundException {
     transferInfoId?: string | undefined;
@@ -2844,6 +3018,11 @@ export interface SchemasMetadataProtectionException extends PictureparkValidatio
     schemaIds?: string[] | undefined;
     operation?: string | undefined;
 }
+export interface FilterTemplateRenderingException extends PictureparkValidationException {
+}
+export interface ResolvedLinkedItemsThresholdReachedException extends PictureparkValidationException {
+    metadataItemId?: string | undefined;
+}
 export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -2966,7 +3145,7 @@ export interface SchemaFieldTypeChangeException extends PictureparkValidationExc
     oldTypeName?: string | undefined;
     newTypeName?: string | undefined;
 }
-export interface SchemaFieldIndexException extends PictureparkValidationException {
+export interface SchemaFieldNotFilterableException extends PictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
 }
@@ -3153,6 +3332,11 @@ export interface IndexingDisplayValueInFilterOnlySupportedForIndexedTagboxFields
     fieldId?: string | undefined;
     relatedFieldId?: string | undefined;
 }
+export interface SchemaFieldDynamicViewFieldInvalidFilterTemplateException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    errors?: string[] | undefined;
+}
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
     numberOfReferences?: number;
     numberOfShares?: number;
@@ -3230,6 +3414,28 @@ export interface ConcurrentFileReplacementDuringRepairException extends Picturep
     contentId?: string | undefined;
     expectedOriginalFileVersion?: number;
     actualOriginalFileVersion?: number;
+}
+export interface ContentResolveBehaviorNotSupportedException extends PictureparkValidationException {
+    behaviors?: ContentResolveBehavior[] | undefined;
+}
+export declare enum ContentResolveBehavior {
+    Content,
+    LinkedListItems,
+    Metadata,
+    Outputs,
+    InnerDisplayValueThumbnail,
+    InnerDisplayValueList,
+    InnerDisplayValueDetail,
+    InnerDisplayValueName,
+    Owner,
+    Permissions,
+    OuterDisplayValueThumbnail,
+    OuterDisplayValueList,
+    OuterDisplayValueDetail,
+    OuterDisplayValueName,
+    HistoricVersionCount,
+    DynamicViewFields,
+    DynamicViewFieldsWithHasItems
 }
 export interface BusinessProcessEngineRequestException extends PictureparkBusinessException {
     businessProcessId?: string | undefined;
@@ -3431,6 +3637,13 @@ export interface BusinessRuleUserInUserRolesConditionUserRoleIdsMissingException
 export interface BusinessRuleDateMathTransformationTimeSpanInvalidException extends PictureparkValidationException {
     timeSpan?: string | undefined;
 }
+export interface BusinessRuleTransferOwnershipTransferUserIdMissingException extends PictureparkValidationException {
+}
+export interface BusinessRuleOutputFormatIdMissingException extends PictureparkValidationException {
+}
+export interface BusinessRuleEnqueueCreateEmbedActionExpirationDateInvalidException extends PictureparkValidationException {
+    expirationDate?: string | undefined;
+}
 export interface NamedCacheConfigurationException extends PictureparkValidationException {
     innerExceptions?: PictureparkValidationException[] | undefined;
 }
@@ -3557,15 +3770,24 @@ export interface StatisticsReadNotEnabledException extends StatisticsFeatureNotE
 }
 export interface StatisticsWriteNotEnabledException extends StatisticsFeatureNotEnabledException {
 }
-export interface ProblemDetails {
-    type?: string | undefined;
-    title?: string | undefined;
-    status?: number | undefined;
-    detail?: string | undefined;
-    instance?: string | undefined;
-    extensions?: {
-        [key: string]: any;
-    } | undefined;
+export interface ConversionPresetTemplateNotFoundException extends PictureparkNotFoundException {
+    conversionPresetTemplateId?: string | undefined;
+}
+export interface CommentNotFoundException extends PictureparkNotFoundException {
+    id?: string | undefined;
+}
+export interface CommentOwnershipFailureException extends PictureparkValidationException {
+    commentId?: string | undefined;
+}
+export interface CommentReplyDeletionException extends PictureparkValidationException {
+    commentId?: string | undefined;
+}
+export interface CommentReplyParentException extends PictureparkValidationException {
+    parentId?: string | undefined;
+}
+export interface CommentReplyContentMismatchException extends PictureparkValidationException {
+    parentId?: string | undefined;
+    contentId?: string | undefined;
 }
 /** Create request to create a BusinessProcess. */
 export interface BusinessProcessCreateRequest {
@@ -4038,6 +4260,13 @@ export interface FieldValueChangedCondition extends BusinessRuleCondition {
     /** Expected value for the field to have to satisfy the condition */
     expectedValue?: any | undefined;
 }
+/** Matches when a field matching the field path string (JSON path) has the expected value. */
+export interface FieldValueCondition extends BusinessRuleCondition {
+    /** JSON path to the field */
+    fieldPath?: string | undefined;
+    /** Expected value for the field to have to satisfy the condition */
+    expectedValue?: any | undefined;
+}
 /** Matches when a field matching the field path string (JSON Path) changes and matches the given regular expression. */
 export interface MatchRegexCondition extends BusinessRuleCondition {
     /** JSON path to the field */
@@ -4394,6 +4623,28 @@ export interface GetNumberFromNumberSequenceAction extends BusinessRuleAction {
     /** ID of the sequence number to get number from. */
     numberSequenceId?: string | undefined;
     /** Variable name to store number in. */
+    storeIn?: string | undefined;
+}
+/** Enqueue content for transfer ownership */
+export interface EnqueueTransferOwnershipAction extends BusinessRuleAction {
+    /** Id of the user to whom the ownership should be transferred. */
+    transferUserId?: string | undefined;
+}
+/** Enqueue creation of an embed */
+export interface EnqueueCreateEmbedAction extends BusinessRuleAction {
+    /** Name of the embed. If empty, it will be automatically initialized with the 'Embed_{RuleId}'. */
+    embedName?: string | undefined;
+    /** Optional description of the embed. */
+    embedDescription?: string | undefined;
+    /** Output format of the content to be embedded. */
+    outputFormatId: string;
+    /** Optional conversion to apply to the output. */
+    conversionString?: string | undefined;
+    /** Indicates if the conversion is locked and therefore cannot be changed by the caller of the embed URI. */
+    lockDeliveryOptions?: boolean;
+    /** Optional date when embed expires and cannot be accessed anymore: It must be in ISO format, with or without milliseconds 'yyyy-MM-ddTHH:mm:ss(.fffffff)K'. */
+    expirationDate?: string | undefined;
+    /** Optional variable name to store in the url of the embed that will be created. */
     storeIn?: string | undefined;
 }
 /** A business rule expressed as a script */
@@ -5269,22 +5520,15 @@ export interface Activity {
     creationDate?: Date | undefined;
     modificationDate?: Date | undefined;
 }
-export declare enum ContentResolveBehavior {
-    Content,
-    LinkedListItems,
-    Metadata,
-    Outputs,
-    InnerDisplayValueThumbnail,
-    InnerDisplayValueList,
-    InnerDisplayValueDetail,
-    InnerDisplayValueName,
-    Owner,
-    Permissions,
-    OuterDisplayValueThumbnail,
-    OuterDisplayValueList,
-    OuterDisplayValueDetail,
-    OuterDisplayValueName,
-    HistoricVersionCount
+export interface ProblemDetails {
+    type?: string | undefined;
+    title?: string | undefined;
+    status?: number | undefined;
+    detail?: string | undefined;
+    instance?: string | undefined;
+    extensions: {
+        [key: string]: any;
+    };
 }
 /** Values that represent thumbnail sizes. */
 export declare enum ThumbnailSize {
@@ -5923,6 +6167,149 @@ export interface HistoricVersionSearchRequest {
 Warning! It severely affects performance. */
     debugMode: boolean;
 }
+export interface CommentEditable {
+    /** Text of the comment message. */
+    message: string;
+}
+/** Represents a comment */
+export interface Comment extends CommentEditable {
+    /** Comment ID. */
+    id: string;
+    /** ID of the content this comment is on. */
+    contentId: string;
+    /** ID of the parent comment, in case this comment is a reply. */
+    parentId?: string | undefined;
+    /** Audit information. */
+    audit?: UserAuditDetail | undefined;
+}
+export interface CommentCreateRequest extends CommentEditable {
+    /** ID of the parent comment, in case the comment should be a reply. */
+    parentId?: string | undefined;
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
+    requestId?: string | undefined;
+}
+/** Base class for search results */
+export interface BaseResultOfComment {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: Comment[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+export interface CommentSearchResult extends BaseResultOfComment {
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
+}
+export interface CommentSearchRequest {
+    /** Limits the document count of the result set. Defaults to 30. */
+    limit: number;
+    /** If set to true, the result set will be sorted in an ascending order based on time of when which comment was originally created, replies will be always in descending order.
+If false, the result set will be sorted in a descending order of when which comment was originally created. */
+    ascending: boolean;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the CommentSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+}
+/** Base class for search results */
+export interface BaseResultOfConversionPresetTemplate {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: ConversionPresetTemplate[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+/** Base class for search result queries that support SearchBehaviors */
+export interface SearchBehaviorBaseResultOfConversionPresetTemplate extends BaseResultOfConversionPresetTemplate {
+    /** The search string used to query the data. */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
+    isSearchStringRewritten?: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
+}
+/** Holds results of the conversion preset template search */
+export interface ConversionPresetTemplateSearchResult extends SearchBehaviorBaseResultOfConversionPresetTemplate {
+}
+/** Holds information needed for conversion preset template update. */
+export interface ConversionPresetTemplateUpdateRequest {
+    /** Language specific names. */
+    names: TranslatedStringDictionary;
+    /** Language specific descriptions. */
+    descriptions?: TranslatedStringDictionary | undefined;
+    /** The template for the conversion. */
+    template?: string | undefined;
+}
+/** Represents a conversion preset template */
+export interface ConversionPresetTemplate extends ConversionPresetTemplateUpdateRequest {
+    /** Conversion preset template ID. */
+    id: string;
+    /** The output format ID to which the conversion preset template is associated. */
+    outputFormatId: string;
+}
+/** Conversion preset templates search request */
+export interface ConversionPresetTemplateSearchRequest {
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Enable debug mode to get as result of the Searched additional debug information. Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** When searching in multi language fields, limit the searchable fields to the ones corresponding to the specified languages.
+If not specified, all metadata languages defined in the system are used. */
+    searchLanguages?: string[] | undefined;
+}
+/** Represents the detail of a conversion preset template */
+export interface ConversionPresetTemplateDetail extends ConversionPresetTemplate {
+    /** Audit information. */
+    audit?: UserAuditDetail | undefined;
+}
+/** Holds information needed for conversion preset template creation */
+export interface ConversionPresetTemplateCreateRequest extends ConversionPresetTemplateUpdateRequest {
+    /** Optional client reference for this request.
+Will be returned back in response to make easier for clients to match request items with the respective results.
+It is not persisted anywhere and it is ignored in single operations. */
+    requestId?: string | undefined;
+    /** The output format ID to which the conversion preset template is associated */
+    outputFormatId: string;
+}
+/** Used to create multiple new conversion preset templates at once. */
+export interface ConversionPresetTemplateCreateManyRequest {
+    /** Conversion preset templates items to be created. */
+    items?: ConversionPresetTemplateCreateRequest[] | undefined;
+}
+/** Used to modify multiple conversion preset templates at once. */
+export interface ConversionPresetTemplateUpdateManyRequest {
+    /** Conversion preset templates items to be modified. */
+    items?: ConversionPresetTemplateUpdateManyRequestItem[] | undefined;
+}
+/** Represents one item to be modified in a bulk update operation on conversion preset templates. */
+export interface ConversionPresetTemplateUpdateManyRequestItem extends ConversionPresetTemplateUpdateRequest {
+    /** ID of the conversion preset templates to modify. */
+    id?: string | undefined;
+}
+/** Used to remove multiple conversion preset templates at once. */
+export interface ConversionPresetTemplateDeleteManyRequest {
+    /** List of IDs of conversion preset templates to remove. */
+    ids?: string[] | undefined;
+}
 export interface DisplayValueStatus {
     /** The schema ids (of type Content or Layer) for which the re-rendering of the display values is needed. */
     contentOrLayerSchemaIds?: string[] | undefined;
@@ -6079,6 +6466,8 @@ export interface CustomerInfo {
     licenseInformation: LicenseInfo;
     /** Customer settings */
     settings: CustomerInfoSettings;
+    /** True if a dashboard overview template is available. */
+    hasDashboard: boolean;
 }
 export interface LanguageConfiguration {
     /** A list of languages serving as system languages. */
@@ -6122,6 +6511,8 @@ export interface LicenseInfo {
     historicVersioningState: HistoricVersioningState;
     /** State of statistics features for Content */
     contentStatistics: StatisticsLicenseState;
+    /** Licensing options for image optimization. */
+    imageOptimization: ImageOptimizationLicenseState;
 }
 export declare enum HistoricVersioningState {
     Disabled,
@@ -6137,6 +6528,12 @@ export interface StatisticsLicenseState {
     write: boolean;
     /** Allows or prevents export of the respective statistics */
     export: boolean;
+}
+export interface ImageOptimizationLicenseState {
+    /** Whether image optimization can be used when delivering embeds. */
+    embedDelivery: boolean;
+    /** Whether edit output endpoint is available in API. */
+    apiOutputEditing: boolean;
 }
 /** Customer settings within customer information */
 export interface CustomerInfoSettings {
@@ -6198,18 +6595,6 @@ They are referenced list items that reference at least a list item that do not e
     audit?: UserAuditDetail | undefined;
     /** Activity information: dynamically mapped from configured metadata fields or from audit information if no mapping is configured. */
     activity?: Activity | undefined;
-}
-export declare enum ListItemResolveBehavior {
-    Content,
-    LinkedListItems,
-    InnerDisplayValueThumbnail,
-    InnerDisplayValueList,
-    InnerDisplayValueDetail,
-    InnerDisplayValueName,
-    OuterDisplayValueThumbnail,
-    OuterDisplayValueList,
-    OuterDisplayValueDetail,
-    OuterDisplayValueName
 }
 /** Request to update an existing list item */
 export interface ListItemUpdateRequest {
@@ -6588,6 +6973,7 @@ export declare enum TitleCode {
     StatisticsExportCompleted,
     StatisticsExportFailed,
     StatisticsExportCancelled,
+    NewComment,
     UserEmailConflictSolved,
     UserEmailConflictSolvedSubject,
     SupportUserDeactivation,
@@ -6690,7 +7076,8 @@ export declare enum MessageCode {
     StatisticsExportInProgress,
     StatisticsExportCompleted,
     StatisticsExportFailed,
-    StatisticsExportCancelled
+    StatisticsExportCancelled,
+    NewComment
 }
 export interface NotificationDetailBase {
     kind: string;
@@ -6799,6 +7186,19 @@ export interface NotificationDetailListItemMetadataBatchEdit extends Notificatio
 }
 export interface NotificationDetailListItemDeactivation extends NotificationDetailMetadataItemDeactivationBase {
 }
+export interface NotificationDetailComment extends NotificationDetailBase {
+    reason?: CommentNotificationReason;
+    contentId?: string | undefined;
+    commenterName?: string | undefined;
+    commentMessage?: string | undefined;
+    count?: number;
+}
+/** Reason for a comment notification. */
+export declare enum CommentNotificationReason {
+    Owned,
+    Replied,
+    Mentioned
+}
 export declare enum NotificationState {
     Draft,
     Unread,
@@ -6848,6 +7248,13 @@ export interface NotificationAggregationRequest extends NotificationSearchAndAgg
 }
 /** Email notification settings */
 export interface EmailNotificationsSettings {
+    /** Settings for notification sources */
+    sources?: {
+        [key: string]: EmailNotificationsSourceSettings;
+    } | undefined;
+}
+/** Email notification settings for a specific notification source */
+export interface EmailNotificationsSourceSettings {
     /** Interval. */
     interval: EmailNotificationsInterval;
     /** Exclusions from the default set by DisableAll property.
@@ -6864,6 +7271,7 @@ export declare enum EmailNotificationsInterval {
     Daily,
     Hourly,
     QuarterHourly,
+    EveryFiveMinutes,
     Off
 }
 /** Notification that is available for email settings. */
@@ -6908,6 +7316,21 @@ export interface OutputFormatSetXmpWritebackStateManyRequest {
 /** Represents a change to the XMP writeback state to one output format. */
 export interface OutputFormatSetXmpWritebackStateRequestItem extends OutputFormatSetXmpWritebackStateRequest {
     /** ID of the output format to set XMP writeback state for. */
+    id: string;
+}
+/** Request to change permission-related settings on an OutputFormat */
+export interface OutputFormatSetPermissionRequest {
+    /** Indicates if outputs of this format should be accessible for users not having AccessOriginal permission on the content. */
+    viewForAll: boolean;
+}
+/** Used to change permission-related settings on multiple OutputFormat */
+export interface OutputFormatSetPermissionManyRequest {
+    /** Permission changes to be processed. */
+    items?: OutputFormatSetPermissionRequestItem[] | undefined;
+}
+/** Represents a change to permission-related settings of an OutputFormat&gt; */
+export interface OutputFormatSetPermissionRequestItem extends OutputFormatSetPermissionRequest {
+    /** ID of the output format to set permission for. */
     id: string;
 }
 /** Specifies for which content a given format should be rendered */
@@ -7176,6 +7599,16 @@ export declare enum CompressionType {
     Rle,
     Zip
 }
+/** Renders a WebP image. */
+export interface WebPFormat extends ImageFormatBase {
+    /** Compression quality. Must be in range [0,100] and defaults to 90. */
+    quality?: number;
+}
+/** Renders an AVIF image. */
+export interface AvifFormat extends ImageFormatBase {
+    /** Compression quality. Must be in range [0,100] and defaults to 90. */
+    quality?: number;
+}
 /** Base class for rendering video. */
 export interface VideoFormatBase extends FormatWithFixedExtensionBase {
 }
@@ -7287,7 +7720,7 @@ export interface OutputFormatEditable extends OutputFormatRenderingSpecification
     /** Optional patterns (liquid syntax) that produce the filename for item of this output format.
 If set, the customer's default language is required. */
     downloadFileNamePatterns?: TranslatedStringDictionary | undefined;
-    /** Indicates if outputs of this or derived formats should be accessible also for users not having AccessOriginal permission on the content. */
+    /** Indicates if outputs of this format should be accessible for users not having AccessOriginal permission on the content. */
     viewForAll?: boolean;
     /** Indicates if metadata should be written into XMP header of outputs where applicable and configured. */
     enableXmpWriteback?: boolean;
@@ -7599,8 +8032,6 @@ export interface FieldBase {
     descriptions?: TranslatedStringDictionary | undefined;
     /** Defines if a field value is mandatory or not. */
     required: boolean;
-    /** Defines if the field can be edited or not. */
-    fixed: boolean;
     /** Field is stored for filtering. */
     index: boolean;
     /** Field is stored for simple search. */
@@ -7877,6 +8308,8 @@ export interface FieldSingleRelation extends FieldBase {
     schemaIndexingInfo?: SchemaIndexingInfo | undefined;
     /** Defines the allowed elation types. */
     relationTypes: RelationType[];
+    /** Settings for displaying purposes in the UI */
+    uiSettings?: RelationUiSettings | undefined;
 }
 /** Defines a relation */
 export interface RelationType {
@@ -7888,6 +8321,28 @@ export interface RelationType {
     targetDocType: string;
     /** An optional filter to limit the documents of type TargetDocType. */
     filter?: FilterBase | undefined;
+}
+export interface ItemFieldUiSettingsViewItemBase {
+    /** Maximum number of rows to be displayed in the List view. */
+    maxListRows?: number | undefined;
+    /** Maximum number of rows to be displayed in the Thumbnail views. */
+    maxThumbRows?: number | undefined;
+    /** The view to be used when rendering the field. */
+    view: ItemFieldViewMode;
+    /** Whether related content should be shown in UI download dialog */
+    showRelatedContentOnDownload?: boolean | undefined;
+}
+/** Ui settings for the single and multi relationship fields */
+export interface RelationUiSettings extends ItemFieldUiSettingsViewItemBase {
+}
+/** The view mode for related items */
+export declare enum ItemFieldViewMode {
+    List,
+    ThumbSmall,
+    ThumbMedium
+}
+/** Ui settings for FieldDynamicView */
+export interface DynamicViewFieldUiSettings extends ItemFieldUiSettingsViewItemBase {
 }
 /** The field used to store multiple relations */
 export interface FieldMultiRelation extends FieldBase {
@@ -7901,6 +8356,19 @@ export interface FieldMultiRelation extends FieldBase {
     maximumItems?: number | undefined;
     /** The minimum number of items that must be stored. */
     minimumItems?: number | undefined;
+    /** Settings for displaying purposes in the UI */
+    uiSettings?: RelationUiSettings | undefined;
+}
+/** Stores a filter template which can be used to query for related items */
+export interface FieldDynamicView extends FieldBase {
+    /** Type of item this field points to. Restricted to Content at this time. */
+    targetDocType: string;
+    /** Settings for displaying purposes in the UI */
+    viewUiSettings: DynamicViewFieldUiSettings;
+    /** Template to generate filter based on current item. */
+    filterTemplate: FilterBase;
+    /** Specifies sorting to be used in search with FilterBase&gt; from FilterTemplate */
+    sort: SortInfo[];
 }
 /** Base class to overwrite field's information */
 export interface FieldOverwriteBase {
@@ -8639,7 +9107,7 @@ export interface TemplateCreateRequest extends TemplateUpdateRequest {
 /** Template */
 export interface Template extends TemplateCreateRequest {
     /** ID of template. */
-    id?: string | undefined;
+    id: string;
     /** Indicates if this is a read-only system template. */
     system?: boolean;
     /** Audit information. */
@@ -8657,7 +9125,9 @@ export declare enum TemplateType {
     UserTriggeredDeactivationRequestMail,
     UserEmailConflictSolvedMail,
     NotificationMail,
-    NotificationMailItem
+    NotificationMailItem,
+    DashboardPage,
+    CommentNotificationMailItem
 }
 /** Media type specific value for a template */
 export interface TemplateValue {
@@ -8665,6 +9135,20 @@ export interface TemplateValue {
     mediaType: string;
     /** Text. */
     text: string;
+}
+/** Result for template search operation */
+export interface TemplateSearchResult {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: Template[];
+}
+/** Request to search for templates */
+export interface TemplateSearchRequest {
+    /** Language code of the template. */
+    languageCode?: string | undefined;
+    /** Type of the template. */
+    templateType?: TemplateType | undefined;
 }
 /** Creates a transfer. */
 export interface CreateTransferRequest {
@@ -9494,8 +9978,8 @@ export interface BusinessProcessCancellationRequestedEvent extends ApplicationEv
     businessProcessId?: string | undefined;
 }
 export interface DataExtractionRepairEvent extends ApplicationEvent {
-    contentRepairRequestId?: string;
-    contentId?: string;
+    contentRepairRequestId?: string | undefined;
+    contentId?: string | undefined;
     error?: ErrorResponse | undefined;
     hadChanges?: boolean;
 }
@@ -9618,6 +10102,29 @@ export interface VectorMetadata extends FileMetadata {
     title?: string | undefined;
     pageCount?: number;
     epsInfo?: EpsMetadata | undefined;
+}
+/** Base class of meta information for a dynamic view field */
+export interface DynamicViewFieldMetaBase {
+    kind: string;
+}
+/** Meta information for a dynamic view field */
+export interface DynamicViewFieldMeta extends DynamicViewFieldMetaBase {
+    /** Filter for the dynamic view field. */
+    filter: FilterBase;
+    /** Sorting information. */
+    sort?: SortInfo[] | undefined;
+    /** Target doc type. */
+    targetDocType: string;
+}
+/** Meta information for a dynamic view field including a flag that indicates if the rendered filter does match some items. */
+export interface DynamicViewFieldMetaWithHasItems extends DynamicViewFieldMeta {
+    /** indicates if the rendered filter does match some items. */
+    hasItems?: boolean;
+}
+/** Meta information for a dynamic view field where the filter could not be rendered successfully. */
+export interface DynamicViewFieldMetaWithRenderingError extends DynamicViewFieldMetaBase {
+    /** Error. */
+    error?: string | undefined;
 }
 export interface FileParameter {
     data: any;
