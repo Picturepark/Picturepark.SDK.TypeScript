@@ -30,7 +30,7 @@
     "e2e": "ng e2e",
     "bundle-report": "ng build --configuration production --stats-json && webpack-bundle-analyzer dist/picturepark-sdk-v2-angular-app/stats-es2015.json",
     "bundle-report-share-viewer": "ng build --configuration production --project share-viewer --stats-json && webpack-bundle-analyzer dist/share-viewer/stats-es2015.json --port 8889",
-    "prepare-config": "if not exist .\\src\\config.ts copy /y .\\src\\config-template.txt .\\src\\config.ts"
+    "prepare-config": "node ./prepare-config.mjs"
   },
   "private": true,
   "dependencies": {
