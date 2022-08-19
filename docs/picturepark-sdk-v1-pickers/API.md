@@ -2,4 +2,4 @@
 
 **Module:**
 
-- [pictureparkPickers](modules/_pictureparkpickers_.html)
+- [pictureparkPickers](modules.html)
