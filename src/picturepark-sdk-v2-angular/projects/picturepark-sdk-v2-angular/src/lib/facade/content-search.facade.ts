@@ -11,6 +11,7 @@ import {
   AggregatorBase,
 } from '../services/api-services';
 import { map, finalize } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 export interface ContentSearchInputState extends SearchInputState {
   channelId: string;
@@ -35,7 +36,7 @@ export class ContentSearchFacade extends SearchFacade<Content, ContentSearchInpu
 
   searchAggregations(aggregators: AggregatorBase[]) {
     if (!this.searchRequestState.channelId) {
-      return;
+      return of([]);
     }
 
     const params = { ...this.getRequest(), aggregators: aggregators, pageToken: undefined, limit: 0 };

@@ -60,7 +60,7 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
     return this.schemaService.search(request).pipe(tap(() => this.setLoading(false)));
   }
 
-  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> {
     throw new Error('Method not implemented.');
   }
 }
