@@ -33607,7 +33607,8 @@
           "PathHierarchy",
           "EdgeNGram",
           "NGram",
-          "NoDiacritics"
+          "NoDiacritics",
+          "KeywordLowercase"
         ],
         "enum": [
           "None",
@@ -33616,7 +33617,8 @@
           "PathHierarchy",
           "EdgeNGram",
           "NGram",
-          "NoDiacritics"
+          "NoDiacritics",
+          "KeywordLowercase"
         ]
       },
       "SchemaFieldRelationMultipleTypesException": {
@@ -40733,7 +40735,8 @@
           "User",
           "ContentPermissionSet",
           "Owner",
-          "UserRole"
+          "UserRole",
+          "SchemaPermissionSet"
         ],
         "enum": [
           "Content",
@@ -40742,7 +40745,8 @@
           "User",
           "ContentPermissionSet",
           "Owner",
-          "UserRole"
+          "UserRole",
+          "SchemaPermissionSet"
         ]
       },
       "TermsEnumAggregator": {
@@ -51494,7 +51498,8 @@
             "NGramAnalyzer": "#/components/schemas/NGramAnalyzer",
             "PathHierarchyAnalyzer": "#/components/schemas/PathHierarchyAnalyzer",
             "SimpleAnalyzer": "#/components/schemas/SimpleAnalyzer",
-            "NoDiacriticsAnalyzer": "#/components/schemas/NoDiacriticsAnalyzer"
+            "NoDiacriticsAnalyzer": "#/components/schemas/NoDiacriticsAnalyzer",
+            "KeywordLowercaseAnalyzer": "#/components/schemas/KeywordLowercaseAnalyzer"
           }
         },
         "description": "The analyzer base class",
@@ -51665,6 +51670,33 @@
               "fieldSuffix": {
                 "type": "string",
                 "description": "The suffix for the analyzed field: nodiacritics.",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "KeywordLowercaseAnalyzer": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AnalyzerBase"
+          },
+          {
+            "type": "object",
+            "description": "An analyzer that represents a lowercase normalizer on a keyword field",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "description": "The analyzer type: KeywordLowercase",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Analyzer"
+                  }
+                ]
+              },
+              "fieldSuffix": {
+                "type": "string",
+                "description": "The suffix for the analyzed field: keywordlowercase.",
                 "nullable": true
               }
             }
@@ -51928,12 +51960,14 @@
         "x-enumNames": [
           "List",
           "ThumbSmall",
-          "ThumbMedium"
+          "ThumbMedium",
+          "ThumbLarge"
         ],
         "enum": [
           "List",
           "ThumbSmall",
-          "ThumbMedium"
+          "ThumbMedium",
+          "ThumbLarge"
         ]
       },
       "DynamicViewFieldUiSettings": {
@@ -52628,12 +52662,34 @@
       "SchemaSearchResult": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/SearchBehaviorBaseResultOfSchema"
+            "$ref": "#/components/schemas/SearchBehaviorWithAggregationBaseResultOfSchema"
           },
           {
             "type": "object",
             "description": "Result for schema search operation",
             "additionalProperties": false
+          }
+        ]
+      },
+      "SearchBehaviorWithAggregationBaseResultOfSchema": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SearchBehaviorBaseResultOfSchema"
+          },
+          {
+            "type": "object",
+            "description": "Base class for search result queries that support SearchBehaviors",
+            "additionalProperties": false,
+            "properties": {
+              "aggregationResults": {
+                "type": "array",
+                "description": "Results of the aggregation, if any aggregators was passed in the request.",
+                "nullable": true,
+                "items": {
+                  "$ref": "#/components/schemas/AggregationResult"
+                }
+              }
+            }
           }
         ]
       },
@@ -52848,6 +52904,22 @@
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/MetadataRight"
+            }
+          },
+          "aggregators": {
+            "type": "array",
+            "description": "List of aggregators that defines how the items should be aggregated.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AggregatorBase"
+            }
+          },
+          "aggregationFilters": {
+            "type": "array",
+            "description": "Special filters used to filter down independently the aggregations' values and the search results on specific conditions.\nFor the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated\nby the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.\nFor the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the\naggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).\nMoreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AggregationFilter"
             }
           }
         }

@@ -21,8 +21,8 @@ export abstract class BaseComponent implements OnDestroy {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   }
 
-  set sub(value: Subscription) {
-    this.subscription.add(value);
+  set sub(value: Subscription | undefined) {
+    if (value !== undefined) this.subscription.add(value);
   }
 
   constructor(protected injector: Injector) {}

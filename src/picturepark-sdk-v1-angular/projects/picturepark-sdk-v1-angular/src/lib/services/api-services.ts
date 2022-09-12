@@ -43964,6 +43964,7 @@ export enum Analyzer {
     EdgeNGram = "EdgeNGram",
     NGram = "NGram",
     NoDiacritics = "NoDiacritics",
+    KeywordLowercase = "KeywordLowercase",
 }
 
 export class SchemaFieldRelationMultipleTypesException extends PictureparkValidationException implements ISchemaFieldRelationMultipleTypesException {
@@ -57622,6 +57623,7 @@ export enum TermsRelationAggregatorDocumentType {
     ContentPermissionSet = "ContentPermissionSet",
     Owner = "Owner",
     UserRole = "UserRole",
+    SchemaPermissionSet = "SchemaPermissionSet",
 }
 
 /** A multi-bucket value aggregator used for aggregations on indexed enum values. */
@@ -77714,6 +77716,11 @@ export abstract class AnalyzerBase implements IAnalyzerBase {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "KeywordLowercaseAnalyzer") {
+            let result = new KeywordLowercaseAnalyzer();
+            result.init(data);
+            return result;
+        }
         throw new Error("The abstract class 'AnalyzerBase' cannot be instantiated.");
     }
 
@@ -77989,6 +77996,50 @@ export interface INoDiacriticsAnalyzer extends IAnalyzerBase {
     /** The analyzer type: NoDiacritics */
     type?: Analyzer;
     /** The suffix for the analyzed field: nodiacritics. */
+    fieldSuffix?: string | undefined;
+}
+
+/** An analyzer that represents a lowercase normalizer on a keyword field */
+export class KeywordLowercaseAnalyzer extends AnalyzerBase implements IKeywordLowercaseAnalyzer {
+    /** The analyzer type: KeywordLowercase */
+    type?: Analyzer;
+    /** The suffix for the analyzed field: keywordlowercase. */
+    fieldSuffix?: string | undefined;
+
+    constructor(data?: IKeywordLowercaseAnalyzer) {
+        super(data);
+        this._discriminator = "KeywordLowercaseAnalyzer";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.type = _data["type"];
+            this.fieldSuffix = _data["fieldSuffix"];
+        }
+    }
+
+    static fromJS(data: any): KeywordLowercaseAnalyzer {
+        data = typeof data === 'object' ? data : {};
+        let result = new KeywordLowercaseAnalyzer();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
+        data["fieldSuffix"] = this.fieldSuffix;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** An analyzer that represents a lowercase normalizer on a keyword field */
+export interface IKeywordLowercaseAnalyzer extends IAnalyzerBase {
+    /** The analyzer type: KeywordLowercase */
+    type?: Analyzer;
+    /** The suffix for the analyzed field: keywordlowercase. */
     fieldSuffix?: string | undefined;
 }
 
@@ -78393,6 +78444,7 @@ export enum ItemFieldViewMode {
     List = "List",
     ThumbSmall = "ThumbSmall",
     ThumbMedium = "ThumbMedium",
+    ThumbLarge = "ThumbLarge",
 }
 
 /** Ui settings for FieldDynamicView */
@@ -79922,8 +79974,62 @@ export interface ISearchBehaviorBaseResultOfSchema extends IBaseResultOfSchema {
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
+/** Base class for search result queries that support SearchBehaviors */
+export class SearchBehaviorWithAggregationBaseResultOfSchema extends SearchBehaviorBaseResultOfSchema implements ISearchBehaviorWithAggregationBaseResultOfSchema {
+    /** Results of the aggregation, if any aggregators was passed in the request. */
+    aggregationResults?: AggregationResult[] | undefined;
+
+    constructor(data?: ISearchBehaviorWithAggregationBaseResultOfSchema) {
+        super(data);
+        if (data) {
+            if (data.aggregationResults) {
+                this.aggregationResults = [];
+                for (let i = 0; i < data.aggregationResults.length; i++) {
+                    let item = data.aggregationResults[i];
+                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["aggregationResults"])) {
+                this.aggregationResults = [] as any;
+                for (let item of _data["aggregationResults"])
+                    this.aggregationResults!.push(AggregationResult.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SearchBehaviorWithAggregationBaseResultOfSchema {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorWithAggregationBaseResultOfSchema();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.aggregationResults)) {
+            data["aggregationResults"] = [];
+            for (let item of this.aggregationResults)
+                data["aggregationResults"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export interface ISearchBehaviorWithAggregationBaseResultOfSchema extends ISearchBehaviorBaseResultOfSchema {
+    /** Results of the aggregation, if any aggregators was passed in the request. */
+    aggregationResults?: IAggregationResult[] | undefined;
+}
+
 /** Result for schema search operation */
-export class SchemaSearchResult extends SearchBehaviorBaseResultOfSchema implements ISchemaSearchResult {
+export class SchemaSearchResult extends SearchBehaviorWithAggregationBaseResultOfSchema implements ISchemaSearchResult {
 
     constructor(data?: ISchemaSearchResult) {
         super(data);
@@ -79948,7 +80054,7 @@ export class SchemaSearchResult extends SearchBehaviorBaseResultOfSchema impleme
 }
 
 /** Result for schema search operation */
-export interface ISchemaSearchResult extends ISearchBehaviorBaseResultOfSchema {
+export interface ISchemaSearchResult extends ISearchBehaviorWithAggregationBaseResultOfSchema {
 }
 
 /** A schema */
@@ -80085,6 +80191,15 @@ If not specified, all metadata languages in the system are used. */
     searchLanguages?: string[] | undefined;
     /** Limits the schemas to the ones the user has the specified MetadataRights. */
     rightsFilter?: MetadataRight[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
 
     constructor(data?: ISchemaSearchRequest) {
         if (data) {
@@ -80129,6 +80244,16 @@ If not specified, all metadata languages in the system are used. */
                 for (let item of _data["rightsFilter"])
                     this.rightsFilter!.push(item);
             }
+            if (Array.isArray(_data["aggregators"])) {
+                this.aggregators = [] as any;
+                for (let item of _data["aggregators"])
+                    this.aggregators!.push(AggregatorBase.fromJS(item));
+            }
+            if (Array.isArray(_data["aggregationFilters"])) {
+                this.aggregationFilters = [] as any;
+                for (let item of _data["aggregationFilters"])
+                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
+            }
         }
     }
 
@@ -80166,6 +80291,16 @@ If not specified, all metadata languages in the system are used. */
             for (let item of this.rightsFilter)
                 data["rightsFilter"].push(item);
         }
+        if (Array.isArray(this.aggregators)) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        if (Array.isArray(this.aggregationFilters)) {
+            data["aggregationFilters"] = [];
+            for (let item of this.aggregationFilters)
+                data["aggregationFilters"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -80192,6 +80327,15 @@ If not specified, all metadata languages in the system are used. */
     searchLanguages?: string[] | undefined;
     /** Limits the schemas to the ones the user has the specified MetadataRights. */
     rightsFilter?: MetadataRight[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
 }
 
 /** Represents a transfer. */

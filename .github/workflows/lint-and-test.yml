@@ -86,6 +86,13 @@ jobs:
         working-directory: ./src/picturepark-sdk-v2-angular
         run: npm run lint
 
+      - name: Build Angular SDK V2
+        working-directory: ./src/picturepark-sdk-v2-angular
+        run: |
+          npm run build-libraries
+          npm run build-app
+          npm run build-share-viewer
+
       - name: Run tests Angular SDK V2
         working-directory: ./src/picturepark-sdk-v2-angular
         run: npm run test-nowatch
