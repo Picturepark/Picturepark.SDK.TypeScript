@@ -1,14 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit, ApplicationRef, Injector } from '@angular/core';
 
 // LIBRARIES
-import {
-  ChannelService,
-  Channel,
-  LocalStorageService,
-  StorageKey,
-  parseJSON,
-  LoggerService,
-} from '@picturepark/sdk-v2-angular';
+import { ChannelService, Channel, LocalStorageService, StorageKey } from '@picturepark/sdk-v2-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
@@ -29,8 +22,7 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
     private channelService: ChannelService,
     private ref: ApplicationRef,
     protected injector: Injector,
-    private localStorageService: LocalStorageService,
-    private loggerService: LoggerService
+    private localStorageService: LocalStorageService
   ) {
     super(injector);
   }
