@@ -44,13 +44,10 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
 
         this.ref.tick();
 
-        if (this.channels) {
-          if (!this.channel) {
-            const activeChannelStr = this.localStorageService.get(StorageKey.ActiveChannel);
-            const activeChannelJson = activeChannelStr ? parseJSON(activeChannelStr, this.loggerService) : undefined;
-            this.changeChannel(activeChannelJson ? Channel.fromJS(activeChannelJson) : this.channels[0]);
-          }
-        }
+        if (this.channels && !this.channel)
+          this.changeChannel(
+            this.channels.find(c => c.id === this.localStorageService.get(StorageKey.ActiveChannel)) || this.channels[0]
+          );
       },
       () => {
         this.channels = [];
