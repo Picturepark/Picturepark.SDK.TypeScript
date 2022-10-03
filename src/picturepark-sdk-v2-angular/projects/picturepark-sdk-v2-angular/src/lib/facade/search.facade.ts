@@ -51,8 +51,8 @@ export abstract class SearchFacade<T, TState extends SearchInputState> {
 
   protected loading = new BehaviorSubject<LoadingState>({ loading: false });
 
-  searchResults$ = this.searchResults.pipe(filter(i => !!i));
-  searchRequest$ = this.searchRequest.pipe(filter(i => !!i));
+  searchResults$ = this.searchResults.pipe(filter(i => Object.keys(i).length > 0));
+  searchRequest$ = this.searchRequest.pipe(filter(i => Object.keys(i).length > 0));
   loading$ = this.loading.asObservable();
 
   totalResults$ = this.searchResults$.pipe(
