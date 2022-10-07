@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit, ApplicationRef, Injector } from '@angular/core';
 
 // LIBRARIES
-import { ChannelService, Channel } from '@picturepark/sdk-v2-angular';
+import { ChannelService, Channel, LocalStorageService, StorageKey } from '@picturepark/sdk-v2-angular';
 
 // COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
@@ -18,7 +18,12 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
 
   channels: Channel[] = [];
 
-  constructor(private channelService: ChannelService, private ref: ApplicationRef, protected injector: Injector) {
+  constructor(
+    private channelService: ChannelService,
+    private ref: ApplicationRef,
+    protected injector: Injector,
+    private localStorageService: LocalStorageService
+  ) {
     super(injector);
   }
 
@@ -31,11 +36,10 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
 
         this.ref.tick();
 
-        if (this.channels) {
-          if (!this.channel) {
-            this.changeChannel(this.channels[0]);
-          }
-        }
+        if (this.channels && !this.channel)
+          this.changeChannel(
+            this.channels.find(c => c.id === this.localStorageService.get(StorageKey.ActiveChannel)) || this.channels[0]
+          );
       },
       () => {
         this.channels = [];

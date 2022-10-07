@@ -8,6 +8,12 @@ import {
   ContentSearchFacade,
   SortDirection,
   UserRight,
+  StorageKey,
+  parseJSON,
+  LoggerService,
+  ContentSearchInputState,
+  AggregationFilter,
+  SortInfo,
 } from '@picturepark/sdk-v2-angular';
 
 // COMPONENTS
@@ -41,6 +47,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     private basketService: BasketService,
     public facade: ContentSearchFacade,
     private contentDownloadDialogService: ContentDownloadDialogService,
+    private loggerService: LoggerService,
     injector: Injector
   ) {
     super('ContentBrowserComponent', injector, facade);
@@ -49,8 +56,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   async init(): Promise<void> {}
 
   initSort(): void {
-    this.setSortFields();
-
     this.views = [
       {
         name: this.translationService.translate('ContentBrowser.ViewTypeList'),
@@ -80,39 +85,74 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     this.activeView = this.views[2];
   }
 
-  private setSortFields() {
-    if (this.channel?.sortFields?.length) {
-      this.sortingTypes = this.channel.sortFields.map(s => ({
-        name: this.translationService.translate(s.names),
-        field: s.path,
-      }));
-
-      let sortField: ISortItem | undefined;
-      let sortDirection: SortDirection | undefined;
-
-      if (this.channel.sort?.length) {
-        sortField = this.sortingTypes.find(f => f.field === this.channel?.sort?.[0]?.field);
-        sortDirection = this.channel.sort[0].direction;
-      }
-
-      this.isAscending = sortDirection ? sortDirection === SortDirection.Asc : false;
-      this.setSort(sortField ?? this.sortingTypes[0], this.isAscending, false);
+  private setSortFields(sort: SortInfo[]) {
+    if (!this.channel?.sortFields?.length) {
+      this.sortingTypes = [];
+      this.activeSortingType = undefined;
+      return;
     }
+
+    this.sortingTypes = this.channel.sortFields.map(s => ({
+      name: this.translationService.translate(s.names),
+      field: s.path,
+    }));
+
+    let sortField: ISortItem | undefined;
+    let sortDirection: SortDirection | undefined;
+
+    if (sort?.length) {
+      sortField = this.sortingTypes.find(f => f.field === sort?.[0].field);
+      sortDirection = sort[0].direction;
+    }
+
+    this.setSort(sortField ?? this.sortingTypes[0], sortDirection ? sortDirection === SortDirection.Asc : false, false);
   }
 
   onScroll(): void {
     this.loadData()?.subscribe();
   }
 
+  update(searchRequestState: ContentSearchInputState) {
+    const states = this.channelSearchRequestStates;
+    states[searchRequestState.channelId] = {
+      channelId: searchRequestState.channelId,
+      searchMode: searchRequestState.searchMode,
+      searchString: searchRequestState.searchString,
+      aggregationFilters: searchRequestState.aggregationFilters,
+      sort: searchRequestState.sort,
+    } as ContentSearchInputState;
+    this.localStorageService.set(StorageKey.ChannelSearchRequestStates, JSON.stringify(states));
+    super.update(searchRequestState);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     const channel = changes?.channel?.currentValue as Channel;
-    if (channel) {
-      this.setSortFields();
+    if (changes?.channel?.previousValue?.id !== channel?.id) this.facade.resetRequestState();
+    if (!channel) return;
 
-      this.facade.searchRequestState.channelId = channel.id;
-      // Trigger load
-      this.facade.patchRequestState(channel.aggregations ? { aggregators: channel.aggregations } : {});
-    }
+    this.localStorageService.set(StorageKey.ActiveChannel, channel.id);
+
+    const searchRequestState = this.channelSearchRequestStates[channel.id];
+
+    this.setSortFields(searchRequestState?.sort ?? channel.sort);
+
+    // Trigger load
+    this.facade.patchRequestState({
+      channelId: channel.id,
+      ...(channel.aggregations && { aggregators: channel.aggregations }),
+      ...(searchRequestState && {
+        searchMode: searchRequestState.searchMode,
+        searchString: searchRequestState.searchString,
+        aggregationFilters: searchRequestState.aggregationFilters.map(filter => AggregationFilter.fromJS(filter)),
+        sort: searchRequestState.sort,
+      }),
+    });
+  }
+
+  get channelSearchRequestStates(): { [id: string]: ContentSearchInputState } {
+    const statesStr = this.localStorageService.get(StorageKey.ChannelSearchRequestStates);
+    const statesJson = statesStr ? parseJSON(statesStr, this.loggerService) : undefined;
+    return statesJson || {};
   }
 
   previewSelectedItem(): void {

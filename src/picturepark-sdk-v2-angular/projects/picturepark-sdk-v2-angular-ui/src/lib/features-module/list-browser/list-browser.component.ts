@@ -11,6 +11,7 @@ import {
   SortDirection,
   ListItemSearchFacade,
   InfoFacade,
+  SearchInputState,
 } from '@picturepark/sdk-v2-angular';
 
 // SERVICES
@@ -114,7 +115,15 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     document.onkeyup = shiftHandler;
   }
 
-  initSort(): void {}
+  initSort(): void {
+    this.sortingTypes = [
+      {
+        field: '_score',
+        name: this.translationService.translate('SortMenu.Relevance'),
+      },
+    ];
+    this.setSort(this.sortingTypes[0], false, false);
+  }
 
   onScroll(): void {
     this.loadData()?.subscribe();
@@ -138,9 +147,9 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     this.cdr.detectChanges();
   }
 
-  update(): void {
+  update(searchRequestState: SearchInputState): void {
     this.tableItems = [];
-    super.update();
+    super.update(searchRequestState);
   }
 
   deselectAll() {
