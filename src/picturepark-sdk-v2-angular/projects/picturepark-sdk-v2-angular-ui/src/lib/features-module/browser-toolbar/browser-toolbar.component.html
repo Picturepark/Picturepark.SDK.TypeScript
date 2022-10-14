@@ -42,37 +42,35 @@
             <span>{{ view.name }}</span>
           </button>
 
-          <ng-container *ngIf="browser.activeSortingType">
-            <mat-divider></mat-divider>
-            <div class="menu-title">{{ 'ContentBrowser.SortingMenu' | pptranslate }}</div>
-            <mat-divider></mat-divider>
+          <mat-divider></mat-divider>
+          <div class="menu-title">{{ 'ContentBrowser.SortingMenu' | pptranslate }}</div>
+          <mat-divider></mat-divider>
 
-            <button
-              mat-menu-item
-              [disabled]="browser.activeSortingType.field === '_score'"
-              (click)="setSortDirection(true)"
-              [class.active]="browser.isAscending === true"
-            >
-              <span>{{ 'SortMenu.Ascending' | pptranslate }}</span>
-            </button>
-            <button
-              mat-menu-item
-              [disabled]="browser.activeSortingType.field === '_score'"
-              (click)="setSortDirection(false)"
-              [class.active]="browser.isAscending === false"
-            >
-              <span>{{ 'SortMenu.Descending' | pptranslate }}</span>
-            </button>
-            <mat-divider></mat-divider>
-            <button
-              mat-menu-item
-              (click)="setSortField(sort)"
-              *ngFor="let sort of browser.sortingTypes"
-              [class.active]="browser.activeSortingType.field === sort.field"
-            >
-              <span>{{ sort.name }}</span>
-            </button>
-          </ng-container>
+          <button
+            mat-menu-item
+            [disabled]="browser.activeSortingType.field === '_score'"
+            (click)="setSortDirection(true)"
+            [class.active]="browser.isAscending === true"
+          >
+            <span>{{ 'SortMenu.Ascending' | pptranslate }}</span>
+          </button>
+          <button
+            mat-menu-item
+            [disabled]="browser.activeSortingType.field === '_score'"
+            (click)="setSortDirection(false)"
+            [class.active]="browser.isAscending === false"
+          >
+            <span>{{ 'SortMenu.Descending' | pptranslate }}</span>
+          </button>
+          <mat-divider></mat-divider>
+          <button
+            mat-menu-item
+            (click)="setSortField(sort)"
+            *ngFor="let sort of browser.sortingTypes"
+            [class.active]="browser.activeSortingType.field === sort.field"
+          >
+            <span>{{ sort.name }}</span>
+          </button>
         </ng-template>
       </mat-menu>
     </div>

@@ -42,7 +42,8 @@ export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
         name: this.translationService.translate('SortMenu.ModificationDate'),
       },
     ];
-    this.setSort(this.sortingTypes[1], false, false);
+    this.activeSortingType = this.sortingTypes[1];
+    this.isAscending = false;
 
     this.views = [
       {

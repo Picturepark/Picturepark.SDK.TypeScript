@@ -47,7 +47,7 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
         name: this.translationService.translate('SortMenu.ModificationDate'),
       },
     ];
-    this.setSort(this.sortingTypes[0], false, false);
+    this.activeSortingType = this.sortingTypes[0];
 
     this.views = [
       {

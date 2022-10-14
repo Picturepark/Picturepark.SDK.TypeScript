@@ -15,7 +15,6 @@ import {
   SortDirection,
   SearchInputState,
   AggregationResult,
-  LocalStorageService,
 } from '@picturepark/sdk-v2-angular';
 import { SelectionService } from '../../services/selection/selection.service';
 import { ISortItem } from './interfaces/sort-item';
@@ -35,10 +34,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   @LazyGetter()
   protected get ngZone(): NgZone {
     return this.injector.get(NgZone);
-  }
-  @LazyGetter()
-  protected get localStorageService(): LocalStorageService {
-    return this.injector.get(LocalStorageService);
   }
   @LazyGetter()
   protected get translationService(): TranslationService {
@@ -61,7 +56,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   isLoading = false;
   items: TEntity[] = [];
   isAscending: boolean | null = null;
-  activeSortingType: ISortItem | undefined;
+  activeSortingType: ISortItem;
   sortingTypes: ISortItem[];
   views: IBrowserView[];
   activeView: IBrowserView;
@@ -91,12 +86,25 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     public facade: SearchFacade<TEntity, SearchInputState>
   ) {
     super(injector);
+
     this.self = this;
+    // Init default sort
+    this.initSort();
+    if (!this.sortingTypes) {
+      this.sortingTypes = [
+        {
+          field: '_score',
+          name: this.translationService.translate('SortMenu.Relevance'),
+        },
+      ];
+      this.activeSortingType = this.sortingTypes[0];
+    }
+    this.setSort(this.activeSortingType, this.isAscending ?? true, false);
+
     this.pictureParkUIConfig = injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
   }
 
   async ngOnInit(): Promise<void> {
-    this.initSort();
     this.configActions = this.pictureParkUIConfig[this.componentName];
 
     // Scroll loader
@@ -125,7 +133,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     await this.init();
 
     // Subscribe to searchInput changes and trigger reload
-    this.sub = this.facade.searchRequest$.subscribe(searchRequestState => this.update(searchRequestState));
+    this.sub = this.facade.searchRequest$.subscribe(() => this.update());
 
     // Subscribe to loading
     this.sub = this.facade.getLoadingInfos('all').subscribe(i => (this.isLoading = i));
@@ -144,7 +152,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     return item.id;
   }
 
-  update(searchRequestState: SearchInputState): void {
+  update(): void {
     this.facade.searchResultState.nextPageToken = undefined;
     this.facade.searchResultState.results = [];
     this.items = [];

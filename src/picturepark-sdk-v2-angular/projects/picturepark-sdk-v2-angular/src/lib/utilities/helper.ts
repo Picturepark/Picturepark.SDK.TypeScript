@@ -9,7 +9,6 @@ import {
   TermsFilter,
   ContentService,
 } from '../services/api-services';
-import { LoggerService } from '../services/logger.service';
 
 export interface ISearchRequest {
   pageToken?: string | undefined;
@@ -68,13 +67,4 @@ export function fetchContentById(contentService: ContentService, id: string): Ob
       return result.results[0];
     })
   );
-}
-
-export function parseJSON(json: string, loggerService: LoggerService): any {
-  try {
-    return json ? JSON.parse(json) : undefined;
-  } catch (e) {
-    loggerService.warn('Unable to parse JSON from string', json);
-  }
-  return undefined;
 }
