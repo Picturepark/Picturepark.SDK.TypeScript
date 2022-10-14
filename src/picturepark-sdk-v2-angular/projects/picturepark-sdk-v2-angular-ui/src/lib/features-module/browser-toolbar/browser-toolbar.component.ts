@@ -43,7 +43,7 @@ export class BrowserToolbarComponent extends BaseComponent {
   }
 
   setSortDirection(asc: boolean) {
-    if (this.browser.activeSortingType) this.browser.setSort(this.browser.activeSortingType, asc);
+    this.browser.setSort(this.browser.activeSortingType, asc);
   }
 
   setSortField(sort: ISortItem) {
