@@ -59,5 +59,11 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true
+  },
+  "linterOptions": {
+    "exclude": [
+      "projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts",
+      "projects/picturepark-sdk-v1-angular/src/lib/services/frontend-services.ts"
+    ]
   }
 }
