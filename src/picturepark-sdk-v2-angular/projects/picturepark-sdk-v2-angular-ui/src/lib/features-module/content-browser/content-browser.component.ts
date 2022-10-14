@@ -114,13 +114,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
 
   update(searchRequestState: ContentSearchInputState) {
     const states = this.channelSearchRequestStates;
-    states[searchRequestState.channelId] = {
-      channelId: searchRequestState.channelId,
-      searchMode: searchRequestState.searchMode,
-      searchString: searchRequestState.searchString,
-      aggregationFilters: searchRequestState.aggregationFilters,
-      sort: searchRequestState.sort,
-    } as ContentSearchInputState;
+    states[searchRequestState.channelId] = searchRequestState;
     this.localStorageService.set(StorageKey.ChannelSearchRequestStates, JSON.stringify(states));
     super.update(searchRequestState);
   }
@@ -130,7 +124,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     if (changes?.channel?.previousValue?.id !== channel?.id) this.facade.resetRequestState();
     if (!channel) return;
 
-    this.localStorageService.set(StorageKey.ActiveChannel, channel.id);
+    this.localStorageService.set(StorageKey.ActiveChannel, JSON.stringify(channel.toJSON()));
 
     const searchRequestState = this.channelSearchRequestStates[channel.id];
 
