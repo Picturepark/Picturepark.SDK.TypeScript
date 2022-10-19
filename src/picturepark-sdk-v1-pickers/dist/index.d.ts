@@ -6,6 +6,7 @@ export interface IContentPickerSettings {
     embedName?: string;
     enableMediaEditor?: boolean;
     mediaEditorUnlockPreset?: boolean;
+    diableFocalPointEditor?: boolean;
 }
 /**
  * Opens a content picker window to select content items and create an embedded share.

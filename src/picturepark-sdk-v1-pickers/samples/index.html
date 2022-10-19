@@ -40,14 +40,15 @@
       });
     };
 
-    document.getElementById("openContentPicker").onclick = openContentPicker.bind(null, "https://pictureparkurl/contentPicker", {
+    document.getElementById("openContentPicker").onclick = openContentPicker.bind(null, "https://stadev001.01.k8s.qa-picturepark.com/contentPicker", {
       debug: false,
       width: 1400,
       height: 800,
       embedName: 'Caller defined embed name',
       returnType: 'embed',
       enableMediaEditor: true,
-      mediaEditorUnlockPreset: false
+      mediaEditorUnlockPreset: false,
+      diableFocalPointEditor: true,
     });
 
     document.getElementById("openContentPickerLocalhost").onclick = openContentPicker.bind(null, "http://localhost:4500/contentPicker", {
@@ -57,7 +58,8 @@
       embedName: 'Caller defined embed name',
       returnType: 'embed',
       enableMediaEditor: true,
-      mediaEditorUnlockPreset: false
+      mediaEditorUnlockPreset: false,
+      diableFocalPointEditor: true,
     });
   </script>
 </body>

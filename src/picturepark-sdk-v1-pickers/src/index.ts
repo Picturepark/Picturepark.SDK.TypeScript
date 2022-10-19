@@ -6,6 +6,7 @@ export interface IContentPickerSettings {
   embedName?: string;
   enableMediaEditor?: boolean;
   mediaEditorUnlockPreset?: boolean;
+  diableFocalPointEditor?: boolean;
 }
 
 /** 
@@ -33,6 +34,7 @@ export function showContentPicker(serverUrl: string, settings?: IContentPickerSe
     if(settings?.embedName) url += `&embedName=${encodeURIComponent(settings.embedName)}`;
     if(settings?.enableMediaEditor) url += `&enableMediaEditor=true`;
     if(settings?.mediaEditorUnlockPreset) url += `&mediaEditorUnlockPreset=true`;
+    if(settings?.diableFocalPointEditor) url += `&diableFocalPointEditor=true`;
 
     var popup: Window = window.open(url,
       '_blank', 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ',status=no,location=no,toolbar=no');
