@@ -27,8 +27,8 @@ function showContentPicker(serverUrl, settings) {
             url += `&enableMediaEditor=true`;
         if (settings === null || settings === void 0 ? void 0 : settings.mediaEditorUnlockPreset)
             url += `&mediaEditorUnlockPreset=true`;
-        if (settings === null || settings === void 0 ? void 0 : settings.diableFocalPointEditor)
-            url += `&diableFocalPointEditor=true`;
+        if (settings === null || settings === void 0 ? void 0 : settings.disableFocalPointEditor)
+            url += `&disableFocalPointEditor=true`;
         var popup = window.open(url, '_blank', 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left + ',status=no,location=no,toolbar=no');
         var callbackCalled = false;
         const messageReceived = (event) => {
