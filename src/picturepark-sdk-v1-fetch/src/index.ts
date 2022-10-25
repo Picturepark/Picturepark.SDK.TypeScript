@@ -23431,7 +23431,7 @@ export interface LoginUsingIncorrectIdentityProviderException extends Picturepar
     affectedUserId?: string | undefined;
 }
 
-export interface IdentityProviderNotFoundException extends PictureparkValidationException {
+export interface IdentityProviderNotFoundException extends PictureparkNotFoundException {
     missingIdentityProviderId?: string | undefined;
     external?: boolean;
 }
@@ -23472,6 +23472,10 @@ export interface UserNotLinkedWithIdsException extends PictureparkBusinessExcept
 export interface LanguageCodeNotExistingException extends PictureparkValidationException {
     languageCode?: string | undefined;
     existingLanguageCodes?: string[] | undefined;
+}
+
+export interface UserByOwnerTokenNotFoundException extends PictureparkNotFoundException {
+    ownerToken?: string | undefined;
 }
 
 export interface RenderingException extends PictureparkBusinessException {
@@ -24852,6 +24856,10 @@ export interface BusinessProcessLifeCycleNotHitException extends PictureparkTime
 }
 
 export interface OnlyAccessibleToRecipientException extends PictureparkValidationException {
+}
+
+export interface NotificationNotFoundException extends PictureparkNotFoundException {
+    notificationId?: string | undefined;
 }
 
 export interface EnvironmentNotAvailableException extends PictureparkException {

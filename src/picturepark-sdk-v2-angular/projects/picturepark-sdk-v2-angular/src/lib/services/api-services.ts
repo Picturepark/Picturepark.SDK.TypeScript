@@ -14,7 +14,7 @@ import { LiquidRenderingService } from './liquid-rendering.service';
 import { PictureparkServiceBase } from './base.service';
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
-import { Injectable, Inject, Optional, InjectionToken, Injector } from '@angular/core';
+import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
 export const PICTUREPARK_API_URL = new InjectionToken<string>('PICTUREPARK_API_URL');
@@ -29772,6 +29772,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UserByOwnerTokenNotFoundException") {
+            let result = new UserByOwnerTokenNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "RenderingException") {
             let result = new RenderingException();
             result.init(data);
@@ -30912,6 +30917,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "OnlyAccessibleToRecipientException") {
             let result = new OnlyAccessibleToRecipientException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationNotFoundException") {
+            let result = new NotificationNotFoundException();
             result.init(data);
             return result;
         }
@@ -31655,6 +31665,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "UserByOwnerTokenNotFoundException") {
+            let result = new UserByOwnerTokenNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "RenderingException") {
             let result = new RenderingException();
             result.init(data);
@@ -32798,6 +32813,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "NotificationNotFoundException") {
+            let result = new NotificationNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "CustomerAliasHeaderMissingException") {
             let result = new CustomerAliasHeaderMissingException();
             result.init(data);
@@ -33377,11 +33397,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "UserUnlockDisallowedException") {
             let result = new UserUnlockDisallowedException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "IdentityProviderNotFoundException") {
-            let result = new IdentityProviderNotFoundException();
             result.init(data);
             return result;
         }
@@ -35006,6 +35021,16 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
             result.init(data);
             return result;
         }
+        if (data["kind"] === "IdentityProviderNotFoundException") {
+            let result = new IdentityProviderNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "UserByOwnerTokenNotFoundException") {
+            let result = new UserByOwnerTokenNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DocumentVersionNotFoundException") {
             let result = new DocumentVersionNotFoundException();
             result.init(data);
@@ -35093,6 +35118,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "EnvironmentProcessNotFoundException") {
             let result = new EnvironmentProcessNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NotificationNotFoundException") {
+            let result = new NotificationNotFoundException();
             result.init(data);
             return result;
         }
@@ -35590,7 +35620,7 @@ export interface ILoginUsingIncorrectIdentityProviderException extends IPicturep
     affectedUserId?: string | undefined;
 }
 
-export class IdentityProviderNotFoundException extends PictureparkValidationException implements IIdentityProviderNotFoundException {
+export class IdentityProviderNotFoundException extends PictureparkNotFoundException implements IIdentityProviderNotFoundException {
     missingIdentityProviderId?: string | undefined;
     external?: boolean;
 
@@ -35623,7 +35653,7 @@ export class IdentityProviderNotFoundException extends PictureparkValidationExce
     }
 }
 
-export interface IIdentityProviderNotFoundException extends IPictureparkValidationException {
+export interface IIdentityProviderNotFoundException extends IPictureparkNotFoundException {
     missingIdentityProviderId?: string | undefined;
     external?: boolean;
 }
@@ -35962,6 +35992,40 @@ export class LanguageCodeNotExistingException extends PictureparkValidationExcep
 export interface ILanguageCodeNotExistingException extends IPictureparkValidationException {
     languageCode?: string | undefined;
     existingLanguageCodes?: string[] | undefined;
+}
+
+export class UserByOwnerTokenNotFoundException extends PictureparkNotFoundException implements IUserByOwnerTokenNotFoundException {
+    ownerToken?: string | undefined;
+
+    constructor(data?: IUserByOwnerTokenNotFoundException) {
+        super(data);
+        this._discriminator = "UserByOwnerTokenNotFoundException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.ownerToken = _data["ownerToken"];
+        }
+    }
+
+    static override fromJS(data: any): UserByOwnerTokenNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserByOwnerTokenNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["ownerToken"] = this.ownerToken;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IUserByOwnerTokenNotFoundException extends IPictureparkNotFoundException {
+    ownerToken?: string | undefined;
 }
 
 export class RenderingException extends PictureparkBusinessException implements IRenderingException {
@@ -46011,6 +46075,40 @@ export class OnlyAccessibleToRecipientException extends PictureparkValidationExc
 }
 
 export interface IOnlyAccessibleToRecipientException extends IPictureparkValidationException {
+}
+
+export class NotificationNotFoundException extends PictureparkNotFoundException implements INotificationNotFoundException {
+    notificationId?: string | undefined;
+
+    constructor(data?: INotificationNotFoundException) {
+        super(data);
+        this._discriminator = "NotificationNotFoundException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.notificationId = _data["notificationId"];
+        }
+    }
+
+    static override fromJS(data: any): NotificationNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new NotificationNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["notificationId"] = this.notificationId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface INotificationNotFoundException extends IPictureparkNotFoundException {
+    notificationId?: string | undefined;
 }
 
 export class EnvironmentNotAvailableException extends PictureparkException implements IEnvironmentNotAvailableException {
