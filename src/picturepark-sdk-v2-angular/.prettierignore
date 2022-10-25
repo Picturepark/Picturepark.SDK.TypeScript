@@ -1,3 +1,4 @@
 **/picturepark-sdk-v1-widgets
 **/polyfills.ts
 projects/picturepark-sdk-v2-angular/src/lib/services/api-services.ts
+projects/picturepark-sdk-v2-angular/src/lib/services/frontend-services.ts
