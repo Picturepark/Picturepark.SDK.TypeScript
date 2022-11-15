@@ -97,13 +97,6 @@ Branch: master
 
 - AppVeyor CI Build: [Picturepark.SDK.TypeScript CI](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript-hgo7c)
 
-### Pre-Release Builds
-
-Branch: pre-release
-
-- NPM Feed: https://www.npmjs.com/~picturepark
-- AppVeyor Build: [Picturepark.SDK.TypeScript PRE](https://ci.appveyor.com/project/Picturepark/picturepark-sdk-typescript-pre)
-
 ### Release Builds
 
 Branch: release
