@@ -41,18 +41,13 @@ Provides functions to show a content picker to select existing assets in 3rd par
 
 NPM package: `@picturepark/sdk-v1-pickers`
 
-**[picturepark-sdk-v1-widgets](docs/picturepark-sdk-v1-widgets/README.md)**
-
-Contains widgets to embed Picturepark content into other websites.
-
 ## Compatibility matrix
 
-| SDK version | Picturepark CP version |
-| ----------- | ---------------------- |
-| `11.0.x`    | `11.0.x`               |
-| `11.1.x`    | `11.1.x`               |
-| `11.2.x`    | `11.2.x`               |
-| `11.3.x`    | `11.3.x`               |
+| SDK version | Picturepark CP version | Branch |
+| ----------- | ---------------------- | -----------
+| `11.3.x`    | `11.3.x`               | [11.3.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.3.x)
+| `11.4.x`    | `11.4.x`               | [11.4.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.4.x)
+| `11.5.x`    | `11.5.x`               | [master](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master)
 	
 SDK Development
 
@@ -84,7 +79,7 @@ After nswag was run, manually revert change for removed block: import { ... } fr
 
 > NOTE:   
 For pre-release packages, the version should include the "pre" identifier.  
-Ex: 1.5.0-pre.0
+Ex: 11.5.0-pre.0
 
 2. Run the following command to regenerate the `package-lock.json` files and build all projects:
 

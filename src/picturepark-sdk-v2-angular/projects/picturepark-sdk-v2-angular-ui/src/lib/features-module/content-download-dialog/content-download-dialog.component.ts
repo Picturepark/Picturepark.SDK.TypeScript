@@ -99,7 +99,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
         .subscribe(output => this.setSelection(output));
     } else {
       if (this.data.contents.every(content => content.outputs)) {
-        const outputs = flatMap(this.data.contents, content => content.outputs!);
+        const outputs = flatMap(this.data.contents, content => content.outputs ?? []);
         await this.setSelection(outputs);
         return;
       }

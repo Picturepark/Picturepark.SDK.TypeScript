@@ -11,36 +11,36 @@ import {
   OutputAccess,
   BusinessProcessService,
 } from '../lib/services/api-services';
+import { lastValueFrom, take } from 'rxjs';
 
 describe('ShareService', () => {
   beforeEach(configureTest);
 
-  it(
-    'should create embed share',
-    waitForAsync(
-      inject(
-        [ContentService, ShareService, BusinessProcessService],
-        async (
-          contentService: ContentService,
-          shareService: ShareService,
-          businessProcessService: BusinessProcessService
-        ) => {
-          // arrange
-          const request = new ContentSearchRequest();
-          request.searchString = 'm';
+  it('should create embed share', waitForAsync(
+    inject(
+      [ContentService, ShareService, BusinessProcessService],
+      async (
+        contentService: ContentService,
+        shareService: ShareService,
+        businessProcessService: BusinessProcessService
+      ) => {
+        // arrange
+        const request = new ContentSearchRequest();
+        request.searchString = 'm';
 
-          const response = await contentService.search(request).toPromise();
+        const response = await lastValueFrom(contentService.search(request).pipe(take(1)));
 
-          // act
-          const contents = response?.results.map(
-            i =>
-              new ShareContent({
-                contentId: i.id,
-                outputFormatIds: ['Original'],
-              })
-          );
+        // act
+        const contents = response?.results.map(
+          i =>
+            new ShareContent({
+              contentId: i.id,
+              outputFormatIds: ['Original'],
+            })
+        );
 
-          const result = await shareService
+        const result = await lastValueFrom(
+          shareService
             .create(
               new ShareBasicCreateRequest({
                 name: 'Share',
@@ -50,16 +50,16 @@ describe('ShareService', () => {
                 suppressNotifications: false,
               })
             )
-            .toPromise();
+            .pipe(take(1))
+        );
 
-          await businessProcessService.waitForCompletion(result?.id ?? '', '02:00:00', true).toPromise();
-          const share = await shareService.get(result?.referenceId ?? '', null, 20).toPromise();
+        await lastValueFrom(businessProcessService.waitForCompletion(result?.id ?? '', '02:00:00', true).pipe(take(1)));
+        const share = await lastValueFrom(shareService.get(result?.referenceId ?? '', null, 20).pipe(take(1)));
 
-          // assert
-          expect(result?.referenceId).not.toBeNull();
-          expect(share?.id).toEqual(result?.referenceId);
-        }
-      )
+        // assert
+        expect(result?.referenceId).not.toBeNull();
+        expect(share?.id).toEqual(result?.referenceId as string);
+      }
     )
-  );
+  ));
 });

@@ -1,4 +1,5 @@
 import { APP_INITIALIZER, LOCALE_ID, ModuleWithProviders, NgModule, InjectionToken } from '@angular/core';
+import { lastValueFrom, take } from 'rxjs';
 import { LanguageService } from './services/language.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { StorageKey } from './utilities/storage-key.enum';
@@ -20,7 +21,7 @@ export function loadLanguagesFactory(
 ): () => Promise<boolean | undefined> {
   const languageToSelect = language || getLocaleFactory(localStorageService);
   return () => {
-    return languageService.loadLanguages(allowedLanguages, languageToSelect, cdnUrl).toPromise();
+    return lastValueFrom(languageService.loadLanguages(allowedLanguages, languageToSelect, cdnUrl).pipe(take(1)));
   };
 }
 

@@ -21,7 +21,7 @@ npm install @picturepark/sdk-v1-angular liquidjs@8.2.1 lazy-get-decorator@2.2.0
 - **PictureparkOidcModule:** Registers the [OidcAuthService](auth/OidcAuthService.md) to authenticate using the OIDC implict flow. 
 - **PictureparkUiModule:** Registers the UI components.
 
-**Important:** To improve the final app file distrubution size, you should [only import required modules](modules.md).
+**Important:** To improve the final app file distrubution size, you should only import required modules.
 
 ### Use the API services
 
@@ -114,14 +114,6 @@ export class AppModule { }
 ```
 
 The `PictureparkUiModule` automatically imports the required client services. If you do not need the UI components, just import `PictureparkModule`.
-
-The package provides the following Angular components for your views: 
-
-- [pp-aggregation-filter](pp-aggregation-filter.md)
-- [pp-channel-picker](pp-channel-picker.md)
-- [pp-content-browser](pp-content-browser.md)
-- [pp-search-box](pp-search-box.md)
-- [pp-share-card](pp-share-card.md)
 
 ## Start the picker app
 

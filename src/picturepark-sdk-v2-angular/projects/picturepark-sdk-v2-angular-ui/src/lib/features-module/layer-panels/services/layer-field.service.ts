@@ -261,12 +261,12 @@ export class LayerFieldService {
     ]);
 
     const relationFieldInfo = forkJoin([thumbnailDownload, contentDetail]).pipe(
-      map(response => {
+      map(([download, content]) => {
         return new RelationFieldInfo(
           targetId,
-          response[1].displayValues!['name'],
-          response[1].displayValues!['list'],
-          this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(response[0].data))
+          content?.displayValues?.name,
+          content?.displayValues?.list,
+          this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(download.data))
         );
       })
     );

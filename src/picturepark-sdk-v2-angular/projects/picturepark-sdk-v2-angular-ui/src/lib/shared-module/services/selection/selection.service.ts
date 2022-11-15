@@ -27,7 +27,9 @@ export class SelectionService<TEntity extends IEntityBase> {
   removeItem(value: TEntity | string) {
     if (typeof value === 'string') {
       const item = this.getById(value);
-      this.items.delete(item!);
+      if(!item) return;
+
+      this.items.delete(item);
     } else {
       this.items.delete(value);
     }
@@ -39,7 +41,9 @@ export class SelectionService<TEntity extends IEntityBase> {
     values.forEach(value => {
       if (typeof value === 'string') {
         const item = this.getById(value);
-        this.items.delete(item!);
+        if(!item) return;
+      
+        this.items.delete(item);
       } else {
         this.items.delete(value);
       }

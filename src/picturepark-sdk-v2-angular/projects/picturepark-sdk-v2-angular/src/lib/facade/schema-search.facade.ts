@@ -2,7 +2,6 @@ import { SearchInputState, SearchFacade } from './search.facade';
 import {
   Schema,
   SchemaService,
-  SchemaSearchResult,
   FilterBase,
   OrFilter,
   PrefixFilter,
@@ -29,7 +28,7 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
     super({});
   }
 
-  search(): Observable<SchemaSearchResult> | undefined {
+  search() {
     let filter: FilterBase | undefined;
     const parentSchema = this.searchRequestState.parentSchema;
     if (parentSchema) {
@@ -61,7 +60,7 @@ export class SchemaSearchFacade extends SearchFacade<Schema, SchemaSearchInputSt
     return this.schemaService.search(request).pipe(tap(() => this.setLoading(false)));
   }
 
-  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> | undefined {
+  searchAggregations(aggregators: AggregatorBase[]): Observable<AggregationResult[]> {
     throw new Error('Method not implemented.');
   }
 }

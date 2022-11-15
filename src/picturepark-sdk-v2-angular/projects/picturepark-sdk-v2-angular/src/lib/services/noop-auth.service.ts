@@ -12,7 +12,7 @@ export class NoopAuthService extends AuthService {
     @Optional() @Inject(PICTUREPARK_API_URL) pictureparkApiUrl?: string,
     @Optional() @Inject(PICTUREPARK_CONFIGURATION) pictureparkConfiguration?: PictureparkConfiguration
   ) {
-    super(pictureparkConfiguration?.apiServer || pictureparkApiUrl!);
+    super(pictureparkConfiguration?.apiServer || pictureparkApiUrl || '');
   }
 
   get isAuthenticated(): boolean {

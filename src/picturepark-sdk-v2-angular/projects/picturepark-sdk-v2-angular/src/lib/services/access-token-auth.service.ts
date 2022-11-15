@@ -14,11 +14,7 @@ export class AccessTokenAuthService extends AuthService {
     @Inject(PICTUREPARK_CONFIGURATION)
     private pictureparkConfiguration?: PictureparkAccessTokenAuthConfiguration
   ) {
-    super(
-      pictureparkConfiguration && pictureparkConfiguration.apiServer
-        ? pictureparkConfiguration.apiServer
-        : pictureparkApiUrl!
-    );
+    super(pictureparkConfiguration?.apiServer || pictureparkApiUrl || '');
   }
 
   get isAuthenticated(): boolean {

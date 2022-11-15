@@ -55,7 +55,9 @@ export class ShareDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(paramMap => {
-      const shareToken = paramMap.get('token')!;
+      const shareToken = paramMap.get('token');
+      if (!shareToken) return;
+
       this.shareToken = shareToken;
       this.update(shareToken);
     });

@@ -22,11 +22,7 @@ export class OidcAuthService extends AuthService {
     public oauthService: OAuthService,
     @Inject(LOCALE_ID) private locale: string
   ) {
-    super(
-      pictureparkConfiguration && pictureparkConfiguration.apiServer
-        ? pictureparkConfiguration.apiServer
-        : pictureparkApiUrl
-    );
+    super(pictureparkConfiguration?.apiServer ?? pictureparkApiUrl);
 
     const redirect = this.pictureparkConfiguration.redirectServer
       ? this.pictureparkConfiguration.redirectServer
