@@ -4,6 +4,7 @@ export interface IContentPickerSettings {
     debug?: boolean;
     returnType: 'embed' | 'content';
     embedName?: string;
+    enableCollections?: boolean;
     enableMediaEditor?: boolean;
     mediaEditorUnlockPreset?: boolean;
 }
