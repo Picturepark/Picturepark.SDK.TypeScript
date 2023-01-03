@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, Injector, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, Injector, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
@@ -10,6 +10,7 @@ import {
   OutputResolveManyRequest,
   DownloadFacade,
   ShareAccessFacade,
+  InfoFacade,
 } from '@picturepark/sdk-v1-angular';
 
 // COMPONENTS
@@ -19,7 +20,7 @@ import {
   IOutputPerOutputFormatSelection,
   IOutputPerSchemaSelection,
 } from './components/output-selection';
-import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
@@ -72,18 +73,26 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     private shareAccessFacade: ShareAccessFacade,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
     protected injector: Injector,
-    private renderer: Renderer2,
     private translationService: TranslationService,
     private snackBar: MatSnackBar,
     private dialogService: DialogService,
-    private downloadFacade: DownloadFacade
+    private downloadFacade: DownloadFacade,
+    private infoFacade: InfoFacade
   ) {
     super(dialogRef, injector);
   }
 
   async getSelection(outputs: IContentDownloadOutput[], contents: IContentDownload[]) {
     const translations = await this.translationService.getOutputFormatTranslations();
-    const selection = new OutputSelection(outputs, contents, translations, this.translationService);
+    const customerInfo = await this.infoFacade.getInfo().toPromise();
+
+    const selection = new OutputSelection(
+      outputs,
+      contents,
+      translations,
+      this.translationService,
+      customerInfo.outputFormats
+    );
     const fileFormats = selection.getFileFormats();
 
     fileFormats.forEach((fileFormat) => {
@@ -191,7 +200,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   public toggleAdvanced(): void {
-    this.selection.toggleThumbnails();
+    this.selection.toggleShowMore();
     this.update();
   }
 
@@ -203,7 +212,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
   public update(): void {
     this.enableAdvanced = this.selection.hasThumbnails;
-    this.advancedMode = !this.selection.hasHiddenThumbnails;
+    this.advancedMode = !this.selection.hasHiddenOutputFormats;
     const outputs = this.selection.getSelectedOutputs();
     this.hasDynamicOutputs = outputs.some((i) => i.dynamicRendering);
     if (outputs.length > 0) {
@@ -252,7 +261,9 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
         return;
       }
 
-      this.sub = this.contentService.getOutputs(this.data.contents[0].id).subscribe((output) => this.setSelection(output));
+      this.sub = this.contentService
+        .getOutputs(this.data.contents[0].id)
+        .subscribe((output) => this.setSelection(output));
     } else {
       if (this.data.contents.every((content) => content.outputs)) {
         const outputs = flatMap(this.data.contents, (content) => content.outputs!);
@@ -270,6 +281,8 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   private fetchOutputs(): void {
-    this.sub = this.contentService.getOutputsMany(new OutputResolveManyRequest({ contentIds: this.data.contents.map((i) => i.id) })).subscribe((o) => this.setSelection(o));
+    this.sub = this.contentService
+      .getOutputsMany(new OutputResolveManyRequest({ contentIds: this.data.contents.map((i) => i.id) }))
+      .subscribe((o) => this.setSelection(o));
   }
 }
