@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject, OnDestroy, Injector, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, Injector, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 
 // LIBRARIES
 import {
@@ -11,6 +11,7 @@ import {
   DownloadFacade,
   ShareAccessFacade,
   OutputRenderingState,
+  InfoFacade,
 } from '@picturepark/sdk-v2-angular';
 
 // COMPONENTS
@@ -73,11 +74,11 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     private shareAccessFacade: ShareAccessFacade,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
     protected injector: Injector,
-    private renderer: Renderer2,
     private translationService: TranslationService,
     private snackBar: MatSnackBar,
     private dialogService: DialogService,
-    private downloadFacade: DownloadFacade
+    private downloadFacade: DownloadFacade,
+    private infoFacade: InfoFacade
   ) {
     super(dialogRef, injector);
   }
@@ -110,6 +111,8 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
   async getSelection(outputs: IContentDownloadOutput[], contents: IContentDownload[]) {
     const translations = await this.translationService.getOutputFormatTranslations();
+    const customerInfo = await firstValueFrom(this.infoFacade.getInfo());
+
     const ignoreStates = [OutputRenderingState.Failed, OutputRenderingState.Skipped];
     const selection = new OutputSelection(
       outputs.filter(
@@ -119,7 +122,8 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       ),
       contents,
       translations,
-      this.translationService
+      this.translationService,
+      customerInfo.outputFormats
     );
 
     selection.fileFormats.forEach(fileFormat => {
@@ -233,7 +237,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
   }
 
   toggleAdvanced(): void {
-    this.selection.toggleThumbnails();
+    this.selection.toggleShowMore();
     this.update();
   }
 
@@ -245,7 +249,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
 
   update(): void {
     this.enableAdvanced = this.selection.hasThumbnails;
-    this.advancedMode = !this.selection.hasHiddenThumbnails;
+    this.advancedMode = !this.selection.hasHiddenOutputFormats;
     const outputs = this.selection.getSelectedOutputs();
     this.hasDynamicOutputs = outputs.some(i => i.dynamicRendering);
     if (outputs.length > 0) {

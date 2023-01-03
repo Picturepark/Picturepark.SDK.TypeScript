@@ -54799,6 +54799,11 @@ export abstract class TaggingOptionsBase implements ITaggingOptionsBase {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "AzureTaggingOptions") {
+            let result = new AzureTaggingOptions();
+            result.init(data);
+            return result;
+        }
         throw new Error("The abstract class 'TaggingOptionsBase' cannot be instantiated.");
     }
 
@@ -54881,6 +54886,8 @@ export interface IClarifaiTaggingOptions extends ITaggingOptionsBase {
 export class SimulatedTaggingOptions extends TaggingOptionsBase implements ISimulatedTaggingOptions {
     /** Number of keywords to assign. */
     numberOfKeywords?: string | undefined;
+    /** Enables/disables ocr feature */
+    enableOcr?: boolean;
 
     constructor(data?: ISimulatedTaggingOptions) {
         super(data);
@@ -54891,6 +54898,7 @@ export class SimulatedTaggingOptions extends TaggingOptionsBase implements ISimu
         super.init(_data);
         if (_data) {
             this.numberOfKeywords = _data["numberOfKeywords"];
+            this.enableOcr = _data["enableOcr"];
         }
     }
 
@@ -54904,6 +54912,7 @@ export class SimulatedTaggingOptions extends TaggingOptionsBase implements ISimu
     override toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["numberOfKeywords"] = this.numberOfKeywords;
+        data["enableOcr"] = this.enableOcr;
         super.toJSON(data);
         return data;
     }
@@ -54912,6 +54921,82 @@ export class SimulatedTaggingOptions extends TaggingOptionsBase implements ISimu
 export interface ISimulatedTaggingOptions extends ITaggingOptionsBase {
     /** Number of keywords to assign. */
     numberOfKeywords?: string | undefined;
+    /** Enables/disables ocr feature */
+    enableOcr?: boolean;
+}
+
+/** Options for Azure tagging */
+export class AzureTaggingOptions extends TaggingOptionsBase implements IAzureTaggingOptions {
+    /** Url to Azure Computer Vision Service */
+    apiUrl?: string | undefined;
+    /** API Key to Azure Computer Vision Service (needed for connection) */
+    apiKey?: string | undefined;
+    /** Determines the language, list of supported language codes: https://aka.ms/cv-languages */
+    languageCode?: string | undefined;
+    /** Minimum value of confidence to accept the service result */
+    minimumValue?: string | undefined;
+    /** Specifies if tagging feature should be enabled */
+    enableTagging?: boolean;
+    /** Specifies if object detection feature should be enabled */
+    enableObjectDetection?: boolean;
+    /** Specifies if OCR feature should be enabled */
+    enableOcr?: boolean;
+
+    constructor(data?: IAzureTaggingOptions) {
+        super(data);
+        this._discriminator = "AzureTaggingOptions";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.apiUrl = _data["apiUrl"];
+            this.apiKey = _data["apiKey"];
+            this.languageCode = _data["languageCode"];
+            this.minimumValue = _data["minimumValue"];
+            this.enableTagging = _data["enableTagging"];
+            this.enableObjectDetection = _data["enableObjectDetection"];
+            this.enableOcr = _data["enableOcr"];
+        }
+    }
+
+    static override fromJS(data: any): AzureTaggingOptions {
+        data = typeof data === 'object' ? data : {};
+        let result = new AzureTaggingOptions();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["apiUrl"] = this.apiUrl;
+        data["apiKey"] = this.apiKey;
+        data["languageCode"] = this.languageCode;
+        data["minimumValue"] = this.minimumValue;
+        data["enableTagging"] = this.enableTagging;
+        data["enableObjectDetection"] = this.enableObjectDetection;
+        data["enableOcr"] = this.enableOcr;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Options for Azure tagging */
+export interface IAzureTaggingOptions extends ITaggingOptionsBase {
+    /** Url to Azure Computer Vision Service */
+    apiUrl?: string | undefined;
+    /** API Key to Azure Computer Vision Service (needed for connection) */
+    apiKey?: string | undefined;
+    /** Determines the language, list of supported language codes: https://aka.ms/cv-languages */
+    languageCode?: string | undefined;
+    /** Minimum value of confidence to accept the service result */
+    minimumValue?: string | undefined;
+    /** Specifies if tagging feature should be enabled */
+    enableTagging?: boolean;
+    /** Specifies if object detection feature should be enabled */
+    enableObjectDetection?: boolean;
+    /** Specifies if OCR feature should be enabled */
+    enableOcr?: boolean;
 }
 
 /** Produces a notification that is enqueued to users, user groups or owners recipients */
@@ -58745,7 +58830,7 @@ export interface IUserAuditDetail {
 
 export class User implements IUser {
     /** User's Picturepark ID. */
-    id?: string | undefined;
+    id!: string;
     /** User's first name. */
     firstName?: string | undefined;
     /** User's last name. */
@@ -58794,7 +58879,7 @@ export class User implements IUser {
 
 export interface IUser {
     /** User's Picturepark ID. */
-    id?: string | undefined;
+    id: string;
     /** User's first name. */
     firstName?: string | undefined;
     /** User's last name. */
@@ -66565,7 +66650,7 @@ export interface IIdentityProviderEditable {
 /** Represents an identity provider defined in IdentityServer and its Picturepark configuration */
 export class IdentityProvider extends IdentityProviderEditable implements IIdentityProvider {
     /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
-    id?: string | undefined;
+    id!: string;
     /** Name of the identity provider as defined in IdentityServer */
     name?: string | undefined;
     /** Display name of the identity provider as defined in IdentityServer */
@@ -66604,7 +66689,7 @@ export class IdentityProvider extends IdentityProviderEditable implements IIdent
 /** Represents an identity provider defined in IdentityServer and its Picturepark configuration */
 export interface IIdentityProvider extends IIdentityProviderEditable {
     /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
-    id?: string | undefined;
+    id: string;
     /** Name of the identity provider as defined in IdentityServer */
     name?: string | undefined;
     /** Display name of the identity provider as defined in IdentityServer */
@@ -67194,6 +67279,8 @@ export class OutputFormatInfo implements IOutputFormatInfo {
     id!: string;
     /** Output translations. */
     names!: TranslatedStringDictionary;
+    /** Format behaviors. */
+    behaviors?: OutputFormatBehaviors | undefined;
 
     constructor(data?: IOutputFormatInfo) {
         if (data) {
@@ -67202,6 +67289,7 @@ export class OutputFormatInfo implements IOutputFormatInfo {
                     (<any>this)[property] = (<any>data)[property];
             }
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names;
+            this.behaviors = data.behaviors && !(<any>data.behaviors).toJSON ? new OutputFormatBehaviors(data.behaviors) : <OutputFormatBehaviors>this.behaviors;
         }
         if (!data) {
             this.names = new TranslatedStringDictionary();
@@ -67212,6 +67300,7 @@ export class OutputFormatInfo implements IOutputFormatInfo {
         if (_data) {
             this.id = _data["id"];
             this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : new TranslatedStringDictionary();
+            this.behaviors = _data["behaviors"] ? OutputFormatBehaviors.fromJS(_data["behaviors"]) : <any>undefined;
         }
     }
 
@@ -67226,6 +67315,7 @@ export class OutputFormatInfo implements IOutputFormatInfo {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["behaviors"] = this.behaviors ? this.behaviors.toJSON() : <any>undefined;
         return data;
     }
 }
@@ -67235,6 +67325,126 @@ export interface IOutputFormatInfo {
     id: string;
     /** Output translations. */
     names: ITranslatedStringDictionary;
+    /** Format behaviors. */
+    behaviors?: IOutputFormatBehaviors | undefined;
+}
+
+/** Behaviors of OutputFormat */
+export class OutputFormatBehaviors implements IOutputFormatBehaviors {
+    /** Behavior for DownloadDialog. */
+    downloadDialogBehavior!: DownloadDialogBehavior;
+    /** Behavior when sharing. */
+    shareOutputAccessBehaviors?: OutputFormatShareOutputAccessBehaviors | undefined;
+    /** Behavior for media editor. */
+    mediaEditorBehavior!: MediaEditorBehavior;
+
+    constructor(data?: IOutputFormatBehaviors) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.shareOutputAccessBehaviors = data.shareOutputAccessBehaviors && !(<any>data.shareOutputAccessBehaviors).toJSON ? new OutputFormatShareOutputAccessBehaviors(data.shareOutputAccessBehaviors) : <OutputFormatShareOutputAccessBehaviors>this.shareOutputAccessBehaviors;
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.downloadDialogBehavior = _data["downloadDialogBehavior"];
+            this.shareOutputAccessBehaviors = _data["shareOutputAccessBehaviors"] ? OutputFormatShareOutputAccessBehaviors.fromJS(_data["shareOutputAccessBehaviors"]) : <any>undefined;
+            this.mediaEditorBehavior = _data["mediaEditorBehavior"];
+        }
+    }
+
+    static fromJS(data: any): OutputFormatBehaviors {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatBehaviors();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["downloadDialogBehavior"] = this.downloadDialogBehavior;
+        data["shareOutputAccessBehaviors"] = this.shareOutputAccessBehaviors ? this.shareOutputAccessBehaviors.toJSON() : <any>undefined;
+        data["mediaEditorBehavior"] = this.mediaEditorBehavior;
+        return data;
+    }
+}
+
+/** Behaviors of OutputFormat */
+export interface IOutputFormatBehaviors {
+    /** Behavior for DownloadDialog. */
+    downloadDialogBehavior: DownloadDialogBehavior;
+    /** Behavior when sharing. */
+    shareOutputAccessBehaviors?: IOutputFormatShareOutputAccessBehaviors | undefined;
+    /** Behavior for media editor. */
+    mediaEditorBehavior: MediaEditorBehavior;
+}
+
+/** Defines behavior of an OutputFormat in DownloadDialog */
+export enum DownloadDialogBehavior {
+    ShowAlways = "ShowAlways",
+    ShowMoreFormats = "ShowMoreFormats",
+    Hide = "Hide",
+}
+
+/** Behavior when sharing for OutputFormat */
+export class OutputFormatShareOutputAccessBehaviors implements IOutputFormatShareOutputAccessBehaviors {
+    /** Behavior when sharing with Full. */
+    full!: OutputAccessBehavior;
+    /** Behavior when sharing with Preview. */
+    preview!: OutputAccessBehavior;
+
+    constructor(data?: IOutputFormatShareOutputAccessBehaviors) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.full = _data["full"];
+            this.preview = _data["preview"];
+        }
+    }
+
+    static fromJS(data: any): OutputFormatShareOutputAccessBehaviors {
+        data = typeof data === 'object' ? data : {};
+        let result = new OutputFormatShareOutputAccessBehaviors();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["full"] = this.full;
+        data["preview"] = this.preview;
+        return data;
+    }
+}
+
+/** Behavior when sharing for OutputFormat */
+export interface IOutputFormatShareOutputAccessBehaviors {
+    /** Behavior when sharing with Full. */
+    full: OutputAccessBehavior;
+    /** Behavior when sharing with Preview. */
+    preview: OutputAccessBehavior;
+}
+
+/** Defines behavior of OutputFormat in ShareAccess */
+export enum OutputAccessBehavior {
+    Include = "Include",
+    Exclude = "Exclude",
+}
+
+/** Defines behavior of OutputFormat in Media editor */
+export enum MediaEditorBehavior {
+    Show = "Show",
+    Hide = "Hide",
 }
 
 export class CustomerApp implements ICustomerApp {
@@ -74636,6 +74846,8 @@ If set, the customer's default language is required. */
     enableXmpWriteback?: boolean;
     /** Defines additional settings for XmpWriteback */
     xmpWritebackOptions?: XmpWritebackOptions | undefined;
+    /** Defines how the OutputFormat should behave for certain features (Download, Sharing, Media editing). */
+    behaviors?: OutputFormatBehaviors | undefined;
 
     constructor(data?: IOutputFormatEditable) {
         super(data);
@@ -74643,6 +74855,7 @@ If set, the customer's default language is required. */
             this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names;
             this.downloadFileNamePatterns = data.downloadFileNamePatterns && !(<any>data.downloadFileNamePatterns).toJSON ? new TranslatedStringDictionary(data.downloadFileNamePatterns) : <TranslatedStringDictionary>this.downloadFileNamePatterns;
             this.xmpWritebackOptions = data.xmpWritebackOptions && !(<any>data.xmpWritebackOptions).toJSON ? new XmpWritebackOptions(data.xmpWritebackOptions) : <XmpWritebackOptions>this.xmpWritebackOptions;
+            this.behaviors = data.behaviors && !(<any>data.behaviors).toJSON ? new OutputFormatBehaviors(data.behaviors) : <OutputFormatBehaviors>this.behaviors;
         }
         if (!data) {
             this.names = new TranslatedStringDictionary();
@@ -74658,6 +74871,7 @@ If set, the customer's default language is required. */
             this.viewForAll = _data["viewForAll"];
             this.enableXmpWriteback = _data["enableXmpWriteback"];
             this.xmpWritebackOptions = _data["xmpWritebackOptions"] ? XmpWritebackOptions.fromJS(_data["xmpWritebackOptions"]) : <any>undefined;
+            this.behaviors = _data["behaviors"] ? OutputFormatBehaviors.fromJS(_data["behaviors"]) : <any>undefined;
         }
     }
 
@@ -74676,6 +74890,7 @@ If set, the customer's default language is required. */
         data["viewForAll"] = this.viewForAll;
         data["enableXmpWriteback"] = this.enableXmpWriteback;
         data["xmpWritebackOptions"] = this.xmpWritebackOptions ? this.xmpWritebackOptions.toJSON() : <any>undefined;
+        data["behaviors"] = this.behaviors ? this.behaviors.toJSON() : <any>undefined;
         super.toJSON(data);
         return data;
     }
@@ -74696,6 +74911,8 @@ If set, the customer's default language is required. */
     enableXmpWriteback?: boolean;
     /** Defines additional settings for XmpWriteback */
     xmpWritebackOptions?: IXmpWritebackOptions | undefined;
+    /** Defines how the OutputFormat should behave for certain features (Download, Sharing, Media editing). */
+    behaviors?: IOutputFormatBehaviors | undefined;
 }
 
 /** Represents an output format. */
@@ -88550,6 +88767,11 @@ export class ApplicationEvent implements IApplicationEvent {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "TaggerStatisticsEvent") {
+            let result = new TaggerStatisticsEvent();
+            result.init(data);
+            return result;
+        }
         let result = new ApplicationEvent();
         result.init(data);
         return result;
@@ -89371,6 +89593,52 @@ export interface IDataExtractionRepairEvent extends IApplicationEvent {
     contentId?: string | undefined;
     error?: IErrorResponse | undefined;
     hadChanges?: boolean;
+}
+
+export class TaggerStatisticsEvent extends ApplicationEvent implements ITaggerStatisticsEvent {
+    requestsCounter?: number;
+    taggerCounter?: number;
+    ocrCounter?: number;
+    taggerName?: string | undefined;
+
+    constructor(data?: ITaggerStatisticsEvent) {
+        super(data);
+        this._discriminator = "TaggerStatisticsEvent";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.requestsCounter = _data["requestsCounter"];
+            this.taggerCounter = _data["taggerCounter"];
+            this.ocrCounter = _data["ocrCounter"];
+            this.taggerName = _data["taggerName"];
+        }
+    }
+
+    static override fromJS(data: any): TaggerStatisticsEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new TaggerStatisticsEvent();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["requestsCounter"] = this.requestsCounter;
+        data["taggerCounter"] = this.taggerCounter;
+        data["ocrCounter"] = this.ocrCounter;
+        data["taggerName"] = this.taggerName;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ITaggerStatisticsEvent extends IApplicationEvent {
+    requestsCounter?: number;
+    taggerCounter?: number;
+    ocrCounter?: number;
+    taggerName?: string | undefined;
 }
 
 export class ConsoleMessage extends Message implements IConsoleMessage {
