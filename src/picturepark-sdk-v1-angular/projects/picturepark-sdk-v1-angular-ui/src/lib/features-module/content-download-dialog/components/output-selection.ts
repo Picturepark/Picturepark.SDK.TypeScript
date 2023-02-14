@@ -1,5 +1,5 @@
 // LIBRARIES
-import { ContentType, OutputDataBase } from '@picturepark/sdk-v1-angular';
+import { ContentType, DownloadDialogBehavior, OutputDataBase, OutputFormatInfo } from '@picturepark/sdk-v1-angular';
 import { IContentDownload, IContentDownloadOutput } from '../interfaces/content-download-dialog.interfaces';
 
 // SERVICES
@@ -36,15 +36,16 @@ export class OutputSelection {
 
   private selection: { [fileSchemaId: string]: IOutputPerSchemaSelection };
 
-  public get hasHiddenThumbnails(): boolean {
-    return this.getThumbnailOutputs().some((i) => i.hidden);
+  public get hasHiddenOutputFormats(): boolean {
+    return this.getShowMoreOutputs().some((i) => i.hidden);
   }
 
   constructor(
     outputs: IContentDownloadOutput[],
     contents: IContentDownload[],
     outputTranslations: IOutputFormatTranslations,
-    translationService: TranslationService
+    translationService: TranslationService,
+    private outputFormatInfos: OutputFormatInfo[]
   ) {
     this.selection = {};
 
@@ -79,11 +80,16 @@ export class OutputSelection {
       }
 
       contentOutputs.forEach((output) => {
+        const outputFormat = outputFormatInfos.find((i) => i.id === output.outputFormatId);
+        if (outputFormat?.behaviors?.downloadDialogBehavior === DownloadDialogBehavior.Hide) {
+          return;
+        }
+
         const outputFormatItems = (schemaItems.outputs[output.outputFormatId] = schemaItems.outputs[
           output.outputFormatId
         ] || {
           id: output.outputFormatId,
-          hidden: output.outputFormatId.indexOf('Thumbnail') === 0, // Hide thumbnails by default
+          hidden: outputFormat?.behaviors?.downloadDialogBehavior === DownloadDialogBehavior.ShowMoreFormats,
           selected: false,
           values: [],
           name: outputTranslations[output.outputFormatId],
@@ -96,7 +102,7 @@ export class OutputSelection {
       });
     });
 
-    this.hasThumbnails = this.getThumbnailOutputs().length > 0;
+    this.hasThumbnails = this.getShowMoreOutputs().length > 0;
   }
 
   public getFileFormats(): IOutputPerSchemaSelection[] {
@@ -124,8 +130,8 @@ export class OutputSelection {
     return outputs;
   }
 
-  public toggleThumbnails(): void {
-    const thumbnails = this.getThumbnailOutputs();
+  public toggleShowMore(): void {
+    const thumbnails = this.getShowMoreOutputs();
     const hasHidden = thumbnails.some((i) => i.hidden);
     thumbnails.forEach((i) => (i.hidden = !hasHidden));
   }
@@ -137,7 +143,11 @@ export class OutputSelection {
     );
   }
 
-  private getThumbnailOutputs(): IOutputPerOutputFormatSelection[] {
-    return this.getAllOutputs().filter((output) => output.id.indexOf('Thumbnail') === 0);
+  private getShowMoreOutputs(): IOutputPerOutputFormatSelection[] {
+    return this.getAllOutputs().filter(
+      (output) =>
+        this.outputFormatInfos.find((i) => i.id === output.id)?.behaviors?.downloadDialogBehavior ===
+        DownloadDialogBehavior.ShowMoreFormats
+    );
   }
 }

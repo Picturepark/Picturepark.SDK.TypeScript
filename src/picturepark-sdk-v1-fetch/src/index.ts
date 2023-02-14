@@ -26150,6 +26150,26 @@ export interface ClarifaiTaggingOptions extends TaggingOptionsBase {
 export interface SimulatedTaggingOptions extends TaggingOptionsBase {
     /** Number of keywords to assign. */
     numberOfKeywords?: string | undefined;
+    /** Enables/disables ocr feature */
+    enableOcr?: boolean;
+}
+
+/** Options for Azure tagging */
+export interface AzureTaggingOptions extends TaggingOptionsBase {
+    /** Url to Azure Computer Vision Service */
+    apiUrl?: string | undefined;
+    /** API Key to Azure Computer Vision Service (needed for connection) */
+    apiKey?: string | undefined;
+    /** Determines the language, list of supported language codes: https://aka.ms/cv-languages */
+    languageCode?: string | undefined;
+    /** Minimum value of confidence to accept the service result */
+    minimumValue?: string | undefined;
+    /** Specifies if tagging feature should be enabled */
+    enableTagging?: boolean;
+    /** Specifies if object detection feature should be enabled */
+    enableObjectDetection?: boolean;
+    /** Specifies if OCR feature should be enabled */
+    enableOcr?: boolean;
 }
 
 /** Produces a notification that is enqueued to users, user groups or owners recipients */
@@ -26804,7 +26824,7 @@ export interface UserAuditDetail {
 
 export interface User {
     /** User's Picturepark ID. */
-    id?: string | undefined;
+    id: string;
     /** User's first name. */
     firstName?: string | undefined;
     /** User's last name. */
@@ -28144,7 +28164,7 @@ export interface IdentityProviderEditable {
 /** Represents an identity provider defined in IdentityServer and its Picturepark configuration */
 export interface IdentityProvider extends IdentityProviderEditable {
     /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
-    id?: string | undefined;
+    id: string;
     /** Name of the identity provider as defined in IdentityServer */
     name?: string | undefined;
     /** Display name of the identity provider as defined in IdentityServer */
@@ -28256,6 +28276,45 @@ export interface OutputFormatInfo {
     id: string;
     /** Output translations. */
     names: TranslatedStringDictionary;
+    /** Format behaviors. */
+    behaviors?: OutputFormatBehaviors | undefined;
+}
+
+/** Behaviors of OutputFormat */
+export interface OutputFormatBehaviors {
+    /** Behavior for DownloadDialog. */
+    downloadDialogBehavior: DownloadDialogBehavior;
+    /** Behavior when sharing. */
+    shareOutputAccessBehaviors?: OutputFormatShareOutputAccessBehaviors | undefined;
+    /** Behavior for media editor. */
+    mediaEditorBehavior: MediaEditorBehavior;
+}
+
+/** Defines behavior of an OutputFormat in DownloadDialog */
+export enum DownloadDialogBehavior {
+    ShowAlways = <any>"ShowAlways",
+    ShowMoreFormats = <any>"ShowMoreFormats",
+    Hide = <any>"Hide",
+}
+
+/** Behavior when sharing for OutputFormat */
+export interface OutputFormatShareOutputAccessBehaviors {
+    /** Behavior when sharing with Full. */
+    full: OutputAccessBehavior;
+    /** Behavior when sharing with Preview. */
+    preview: OutputAccessBehavior;
+}
+
+/** Defines behavior of OutputFormat in ShareAccess */
+export enum OutputAccessBehavior {
+    Include = <any>"Include",
+    Exclude = <any>"Exclude",
+}
+
+/** Defines behavior of OutputFormat in Media editor */
+export enum MediaEditorBehavior {
+    Show = <any>"Show",
+    Hide = <any>"Hide",
 }
 
 export interface CustomerApp {
@@ -29630,6 +29689,8 @@ If set, the customer's default language is required. */
     enableXmpWriteback?: boolean;
     /** Defines additional settings for XmpWriteback */
     xmpWritebackOptions?: XmpWritebackOptions | undefined;
+    /** Defines how the OutputFormat should behave for certain features (Download, Sharing, Media editing). */
+    behaviors?: OutputFormatBehaviors | undefined;
 }
 
 /** Represents an output format. */
@@ -32159,6 +32220,13 @@ export interface DataExtractionRepairEvent extends ApplicationEvent {
     contentId?: string | undefined;
     error?: ErrorResponse | undefined;
     hadChanges?: boolean;
+}
+
+export interface TaggerStatisticsEvent extends ApplicationEvent {
+    requestsCounter?: number;
+    taggerCounter?: number;
+    ocrCounter?: number;
+    taggerName?: string | undefined;
 }
 
 export interface ConsoleMessage extends Message {
