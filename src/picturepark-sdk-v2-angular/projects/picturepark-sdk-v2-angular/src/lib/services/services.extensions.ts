@@ -21,6 +21,7 @@ import { // ignore
   ShareSearchResult, // ignore
   ShareResolveBehavior, // ignore
   ShareContentDetailResult, // ignore
+  SetDisplayContentRequest, // ignore
 } from './api-services'; // ignore
 
 import { LazyGetter } from 'lazy-get-decorator';
@@ -199,6 +200,27 @@ class ContentService extends generated.ContentService {
     updateRequest: ContentPermissionsUpdateRequest
   ): Observable<ContentDetail> {
     return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
+      _observableMergeMap(async content => {
+        await this.liquidRenderingService.renderNestedDisplayValues(content);
+        return content;
+      })
+    );
+  }
+
+  setDisplayContent(
+    id: string | null,
+    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+    timeout: string | null | undefined,
+    waitForContinuation: boolean | undefined,
+    setDisplayContentRequest: SetDisplayContentRequest
+  ): Observable<ContentDetail> {
+    return this.setDisplayContentCore(
+      id,
+      resolveBehaviors,
+      timeout,
+      waitForContinuation,
+      setDisplayContentRequest
+    ).pipe(
       _observableMergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;

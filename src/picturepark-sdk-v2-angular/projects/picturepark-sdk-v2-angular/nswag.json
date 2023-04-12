@@ -42,6 +42,7 @@
         "ContentService.search",
         "ContentService.updateMetadata",
         "ContentService.updatePermissions",
+        "ContentService.setDisplayContent",
         "InfoService.getInfo",
         "ListItemService.get",
         "ListItemService.search",

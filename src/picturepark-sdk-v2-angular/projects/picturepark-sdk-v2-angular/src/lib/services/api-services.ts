@@ -4374,6 +4374,27 @@ export class ContentService extends PictureparkServiceBase {
     );
   }
 
+  setDisplayContent(
+    id: string | null,
+    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+    timeout: string | null | undefined,
+    waitForContinuation: boolean | undefined,
+    setDisplayContentRequest: SetDisplayContentRequest
+  ): Observable<ContentDetail> {
+    return this.setDisplayContentCore(
+      id,
+      resolveBehaviors,
+      timeout,
+      waitForContinuation,
+      setDisplayContentRequest
+    ).pipe(
+      _observableMergeMap(async content => {
+        await this.liquidRenderingService.renderNestedDisplayValues(content);
+        return content;
+      })
+    );
+  }
+
     /**
      * Get content
      * @param id The content ID.
@@ -9158,7 +9179,7 @@ export class ContentService extends PictureparkServiceBase {
      * @param setDisplayContentRequest Request with DisplayContentId
      * @return Result of the operation
      */
-    setDisplayContent(id: string | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined, timeout: string | null | undefined, waitForContinuation: boolean | undefined, setDisplayContentRequest: SetDisplayContentRequest): Observable<ContentDetail> {
+    protected setDisplayContentCore(id: string | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined, timeout: string | null | undefined, waitForContinuation: boolean | undefined, setDisplayContentRequest: SetDisplayContentRequest): Observable<ContentDetail> {
         let url_ = this.baseUrl + "/v1/Contents/{id}/displayContent?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
