@@ -119,7 +119,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -205,7 +207,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -295,7 +299,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -381,7 +387,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -462,7 +470,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -553,7 +563,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -644,7 +656,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -737,7 +751,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -823,7 +839,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -910,7 +928,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1004,7 +1024,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1098,7 +1120,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1184,7 +1208,9 @@ export class BusinessProcessClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1277,7 +1303,9 @@ export class BusinessRuleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1363,7 +1391,9 @@ export class BusinessRuleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1449,7 +1479,9 @@ export class BusinessRuleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1536,7 +1568,9 @@ export class BusinessRuleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1629,7 +1663,9 @@ export class ChannelClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1715,7 +1751,9 @@ export class ChannelClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1800,7 +1838,9 @@ export class ChannelClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1890,7 +1930,9 @@ export class ChannelClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -1972,7 +2014,9 @@ export class ChannelClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2053,7 +2097,9 @@ export class ChannelClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2134,7 +2180,9 @@ export class ChannelClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2215,7 +2263,9 @@ export class ChannelClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2312,7 +2362,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2402,7 +2454,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2483,7 +2537,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2569,7 +2625,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2653,7 +2711,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2739,7 +2799,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2824,7 +2886,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2910,7 +2974,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -2996,7 +3062,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3082,7 +3150,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3164,7 +3234,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3248,7 +3320,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3334,7 +3408,9 @@ export class ContentPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3428,7 +3504,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3525,7 +3603,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3621,7 +3701,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3721,7 +3803,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3823,7 +3907,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -3930,7 +4016,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4013,7 +4101,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4127,7 +4217,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4230,7 +4322,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4333,7 +4427,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4430,7 +4526,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4516,7 +4614,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4606,7 +4706,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4696,7 +4798,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4786,7 +4890,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4871,7 +4977,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -4957,7 +5065,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5042,7 +5152,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5128,7 +5240,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5208,7 +5322,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5300,7 +5416,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5386,7 +5504,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5472,7 +5592,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5558,7 +5680,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5644,7 +5768,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5730,7 +5856,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5816,7 +5944,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5902,7 +6032,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -5988,7 +6120,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -6074,7 +6208,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -6160,7 +6296,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -6240,7 +6378,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -6332,7 +6472,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -6418,7 +6560,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -6508,7 +6652,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -6597,7 +6743,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -6683,7 +6831,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -6766,7 +6916,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -6869,7 +7021,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -6958,7 +7112,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7051,7 +7207,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7141,7 +7299,9 @@ export class ContentClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7155,6 +7315,197 @@ export class ContentClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<CommentSearchResult>(null as any);
+    }
+
+    /**
+     * Sets/unsets a DisplayContent for a content with an id given in the request
+     * @param id Id of the content
+     * @param setDisplayContentRequest Request with DisplayContentId
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param timeout (optional) Timeout for the operation
+     * @param waitForContinuation (optional) Wait for the creation of the search doc update.
+     * @return Result of the operation
+     */
+    setDisplayContent(id: string | null, setDisplayContentRequest: SetDisplayContentRequest, resolveBehaviors?: ContentResolveBehavior[] | null | undefined, timeout?: string | null | undefined, waitForContinuation?: boolean | undefined): Promise<ContentDetail> {
+        let url_ = this.baseUrl + "/v1/Contents/{id}/displayContent?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (resolveBehaviors !== undefined && resolveBehaviors !== null)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
+        if (timeout !== undefined && timeout !== null)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
+        if (waitForContinuation === null)
+            throw new Error("The parameter 'waitForContinuation' cannot be null.");
+        else if (waitForContinuation !== undefined)
+            url_ += "waitForContinuation=" + encodeURIComponent("" + waitForContinuation) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(setDisplayContentRequest);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processSetDisplayContent(_response);
+        });
+    }
+
+    protected processSetDisplayContent(response: Response): Promise<ContentDetail> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ContentDetail;
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkValidationException;
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkForbiddenException;
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkNotFoundException;
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkConflictException;
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkException;
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ContentDetail>(null as any);
+    }
+
+    /**
+     * Process many requests to set/unset display contents for given contents
+     * @param setDisplayContentsManyRequest Set many display contents request
+     * @return Business process
+     */
+    setManyDisplayContents(setDisplayContentsManyRequest: SetDisplayContentsManyRequest): Promise<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Contents/many/displayContent";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(setDisplayContentsManyRequest);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processSetManyDisplayContents(_response);
+        });
+    }
+
+    protected processSetManyDisplayContents(response: Response): Promise<BusinessProcess> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BusinessProcess;
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkValidationException;
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkForbiddenException;
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkNotFoundException;
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkConflictException;
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkException;
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<BusinessProcess>(null as any);
     }
 }
 
@@ -7239,7 +7590,9 @@ export class ConversionPresetTemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7328,7 +7681,9 @@ export class ConversionPresetTemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7406,7 +7761,9 @@ export class ConversionPresetTemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7505,7 +7862,9 @@ export class ConversionPresetTemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7589,7 +7948,9 @@ export class ConversionPresetTemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7674,7 +8035,9 @@ export class ConversionPresetTemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7760,7 +8123,9 @@ export class ConversionPresetTemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7846,7 +8211,9 @@ export class ConversionPresetTemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -7932,7 +8299,9 @@ export class ConversionPresetTemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -8025,7 +8394,9 @@ export class DisplayValueClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -8106,7 +8477,9 @@ export class DisplayValueClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -8207,7 +8580,9 @@ export class DocumentHistoryClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -8300,7 +8675,9 @@ export class DocumentHistoryClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -8394,7 +8771,9 @@ export class DocumentHistoryClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -8492,7 +8871,9 @@ export class DocumentHistoryClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -8578,7 +8959,9 @@ export class DocumentHistoryClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -8671,7 +9054,9 @@ export class IdentityProviderClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -8752,7 +9137,9 @@ export class IdentityProviderClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -8837,7 +9224,9 @@ export class IdentityProviderClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -8927,7 +9316,9 @@ export class IdentityProviderClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -9008,7 +9399,9 @@ export class IdentityProviderClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -9227,7 +9620,9 @@ export class JsonSchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -9333,7 +9728,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -9441,7 +9838,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -9532,7 +9931,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -9635,7 +10036,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -9725,7 +10128,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -9829,7 +10234,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -9916,7 +10323,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10002,7 +10411,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10088,7 +10499,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10174,7 +10587,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10260,7 +10675,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10346,7 +10763,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10432,7 +10851,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10518,7 +10939,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10604,7 +11027,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10690,7 +11115,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10776,7 +11203,9 @@ export class ListItemClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10874,7 +11303,9 @@ export class LiveStreamClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -10967,7 +11398,9 @@ export class MetadataClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -11048,7 +11481,9 @@ export class MetadataClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -11145,7 +11580,9 @@ export class NotificationClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -11230,7 +11667,9 @@ export class NotificationClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -11316,7 +11755,9 @@ export class NotificationClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -11402,7 +11843,9 @@ export class NotificationClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -11479,7 +11922,9 @@ export class NotificationClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -11560,7 +12005,9 @@ export class NotificationClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -11646,7 +12093,9 @@ export class NotificationClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -11726,7 +12175,9 @@ export class NotificationClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -11831,7 +12282,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -11917,7 +12370,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12007,7 +12462,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12093,7 +12550,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12183,7 +12642,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12269,7 +12730,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12354,7 +12817,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12441,7 +12906,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12533,7 +13000,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12623,7 +13092,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12708,7 +13179,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12793,7 +13266,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12879,7 +13354,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -12965,7 +13442,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -13051,7 +13530,9 @@ export class OutputFormatClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -13148,7 +13629,9 @@ export class OutputClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -13234,7 +13717,9 @@ export class OutputClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -13320,7 +13805,9 @@ export class OutputClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -13413,7 +13900,9 @@ export class ProfileClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -13499,7 +13988,9 @@ export class ProfileClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -13577,7 +14068,9 @@ export class ProfileClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -13674,7 +14167,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -13764,7 +14259,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -13845,7 +14342,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -13931,7 +14430,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14015,7 +14516,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14101,7 +14604,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14186,7 +14691,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14272,7 +14779,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14358,7 +14867,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14444,7 +14955,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14526,7 +15039,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14610,7 +15125,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14696,7 +15213,9 @@ export class SchemaPermissionSetClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14787,7 +15306,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14875,7 +15396,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -14964,7 +15487,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -15061,7 +15586,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -15150,7 +15677,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -15234,7 +15763,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -15331,7 +15862,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -15415,7 +15948,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -15499,7 +16034,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -15585,7 +16122,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -15671,7 +16210,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -15766,7 +16307,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -15852,7 +16395,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -15938,7 +16483,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -16023,7 +16570,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -16107,7 +16656,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -16192,7 +16743,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -16276,7 +16829,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -16360,7 +16915,9 @@ export class SchemaClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -16452,7 +17009,9 @@ export class SchemaTransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -16564,7 +17123,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -16660,7 +17221,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -16745,7 +17308,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -16831,7 +17396,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -16935,7 +17502,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -17029,7 +17598,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -17127,7 +17698,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -17226,7 +17799,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -17316,7 +17891,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -17415,7 +17992,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -17489,7 +18068,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -17587,7 +18168,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -17673,7 +18256,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -17759,7 +18344,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -17845,7 +18432,9 @@ export class ShareClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -17944,7 +18533,9 @@ export class StatisticClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18030,7 +18621,9 @@ export class StatisticClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18115,7 +18708,9 @@ export class StatisticClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18201,7 +18796,9 @@ export class StatisticClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18298,7 +18895,9 @@ export class TemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18388,7 +18987,9 @@ export class TemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18469,7 +19070,9 @@ export class TemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18555,7 +19158,9 @@ export class TemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18636,7 +19241,9 @@ export class TemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18722,7 +19329,9 @@ export class TemplateClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18814,7 +19423,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18905,7 +19516,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -18987,7 +19600,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -19077,7 +19692,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -19167,7 +19784,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -19249,7 +19868,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -19335,7 +19956,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -19420,7 +20043,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -19506,7 +20131,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -19588,7 +20215,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -19669,7 +20298,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -19780,7 +20411,9 @@ export class TransferClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -19878,7 +20511,9 @@ export class UserRoleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -19956,7 +20591,9 @@ export class UserRoleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -20048,7 +20685,9 @@ export class UserRoleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -20134,7 +20773,9 @@ export class UserRoleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -20220,7 +20861,9 @@ export class UserRoleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -20306,7 +20949,9 @@ export class UserRoleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -20391,7 +21036,9 @@ export class UserRoleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -20481,7 +21128,9 @@ export class UserRoleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -20562,7 +21211,9 @@ export class UserRoleClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -20659,7 +21310,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -20749,7 +21402,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -20836,7 +21491,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -20922,7 +21579,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21009,7 +21668,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21095,7 +21756,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21177,7 +21840,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21263,7 +21928,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21345,7 +22012,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21431,7 +22100,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21517,7 +22188,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21604,7 +22277,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21686,7 +22361,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21768,7 +22445,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21850,7 +22529,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -21935,7 +22616,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22021,7 +22704,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22105,7 +22790,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22191,7 +22878,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22277,7 +22966,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22363,7 +23054,9 @@ export class UserClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22377,6 +23070,94 @@ export class UserClient extends PictureparkClientBase {
             });
         }
         return Promise.resolve<BusinessProcess>(null as any);
+    }
+
+    /**
+     * List users, result contains only essential info about user. Requires the `ListUsers` or the `ManageUsers` UserRight.
+     * @param request User list request.
+     * @return Result of the list users
+     */
+    list(request: UserListRequest): Promise<UserListResult> {
+        let url_ = this.baseUrl + "/v1/Users/list";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processList(_response);
+        });
+    }
+
+    protected processList(response: Response): Promise<UserListResult> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserListResult;
+            return result200;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkValidationException;
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkForbiddenException;
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkNotFoundException;
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkConflictException;
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkException;
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<UserListResult>(null as any);
     }
 }
 
@@ -22456,7 +23237,9 @@ export class XmpMappingClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22542,7 +23325,9 @@ export class XmpMappingClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22628,7 +23413,9 @@ export class XmpMappingClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22706,7 +23493,9 @@ export class XmpMappingClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22802,7 +23591,9 @@ export class XmpMappingClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22887,7 +23678,9 @@ export class XmpMappingClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -22972,7 +23765,9 @@ export class XmpMappingClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -23058,7 +23853,9 @@ export class XmpMappingClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -23144,7 +23941,9 @@ export class XmpMappingClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -23230,7 +24029,9 @@ export class XmpMappingClient extends PictureparkClientBase {
             });
         } else if (status === 429) {
             return response.text().then((_responseText) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             });
         } else if (status === 500) {
             return response.text().then((_responseText) => {
@@ -23710,6 +24511,9 @@ export interface PartialOperationNotSupportedException extends PictureparkValida
 export interface ContractMismatchException extends PictureparkValidationException {
 }
 
+export interface PictureparkTooManyRequestsException extends PictureparkBusinessException {
+}
+
 export interface InvalidArgumentException extends PictureparkValidationException {
     argumentName?: string | undefined;
     argumentValue?: string | undefined;
@@ -23971,6 +24775,7 @@ export enum UserRight {
     ManageConversionPresetTemplates = <any>"ManageConversionPresetTemplates",
     ManageComments = <any>"ManageComments",
     ManageAllComments = <any>"ManageAllComments",
+    ListUsers = <any>"ListUsers",
 }
 
 export interface PermissionSetNotFoundException extends PictureparkNotFoundException {
@@ -24087,6 +24892,11 @@ export enum ListItemResolveBehavior {
     OuterDisplayValueName = <any>"OuterDisplayValueName",
     DynamicViewFields = <any>"DynamicViewFields",
     DynamicViewFieldsWithHasItems = <any>"DynamicViewFieldsWithHasItems",
+}
+
+export interface InvalidLogoFileExtensionException extends PictureparkValidationException {
+    fileExtension?: string | undefined;
+    supportedExtensions?: string[] | undefined;
 }
 
 export interface TransferInfoNotFoundException extends PictureparkNotFoundException {
@@ -24758,6 +25568,7 @@ export enum ContentResolveBehavior {
     HistoricVersionCount = <any>"HistoricVersionCount",
     DynamicViewFields = <any>"DynamicViewFields",
     DynamicViewFieldsWithHasItems = <any>"DynamicViewFieldsWithHasItems",
+    DisplayContentOutputs = <any>"DisplayContentOutputs",
 }
 
 export interface BusinessProcessEngineRequestException extends PictureparkBusinessException {
@@ -24767,6 +25578,9 @@ export interface BusinessProcessEngineRequestException extends PictureparkBusine
 
 export interface BusinessProcessNotFoundException extends PictureparkNotFoundException {
     businessProcessId?: string | undefined;
+}
+
+export interface TooManyBusinessProcessesException extends PictureparkTooManyRequestsException {
 }
 
 export interface BusinessProcessDefinitionNotFoundException extends PictureparkNotFoundException {
@@ -25462,37 +26276,55 @@ export interface SearchBehaviorBaseResultOfBusinessProcess extends BaseResultOfB
     queryDebugInformation?: QueryDebugInformation[] | undefined;
 }
 
+/** Base class for search result queries that support SearchBehaviors */
+export interface SearchBehaviorWithAggregationBaseResultOfBusinessProcess extends SearchBehaviorBaseResultOfBusinessProcess {
+    /** Results of the aggregation, if any aggregators was passed in the request. */
+    aggregationResults?: AggregationResult[] | undefined;
+}
+
 /** Search result from a search for business processes */
-export interface BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusinessProcess {
+export interface BusinessProcessSearchResult extends SearchBehaviorWithAggregationBaseResultOfBusinessProcess {
 }
 
-export interface QueryDebugInformation {
-    general?: string | undefined;
-    auditTrail?: string | undefined;
-    request?: any | undefined;
-    response?: any | undefined;
+/** Result of an aggregation */
+export interface AggregationResult {
+    /** Name of the aggregation. */
+    name: string;
+    /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
+    sumOtherDocCount?: number | undefined;
+    /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
+Optionally inner aggregations for further drill down can be available. */
+    aggregationResultItems?: AggregationResultItem[] | undefined;
 }
 
-/** Search request to search for business processes */
-export interface BusinessProcessSearchRequest {
-    /** Limits the document count of the result set. */
-    limit: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** An optional search filter. Limits the document result set. */
-    filter?: FilterBase | undefined;
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
-Warning! It severely affects performance. */
-    debugMode: boolean;
+/** Aggregation result item */
+export interface AggregationResultItem {
+    /** Value matched. */
+    name: string;
+    /** Number of items matched. */
+    count: number;
+    /** Ready to use filter to filter the data based on the aggregation result values.
+It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
+    filter?: AggregationFilter | undefined;
+    /** True if the current result item matches on of the aggregation filters sent in the query. */
+    active: boolean;
+    /** Inner aggregation results, if inner aggregations were provided in the query. */
+    aggregationResults?: AggregationResult[] | undefined;
 }
 
 /** The filters' base class */
 export interface FilterBase {
     kind: string;
+}
+
+/** Filters aggregations */
+export interface AggregationFilter extends FilterBase {
+    /** The name of the aggregation this filter is connected to. */
+    aggregationName?: string | undefined;
+    /** The filter to be applied. */
+    filter?: FilterBase | undefined;
+    /** Autogenerated Guid at request time, for precise aggregation result mapping. */
+    temporaryAggregatorRequestId?: string | undefined;
 }
 
 /** Used to put filters in "and" */
@@ -25623,16 +26455,6 @@ export interface TermsFilter extends FilterBase {
     terms: string[];
 }
 
-/** Filters aggregations */
-export interface AggregationFilter extends FilterBase {
-    /** The name of the aggregation this filter is connected to. */
-    aggregationName?: string | undefined;
-    /** The filter to be applied. */
-    filter?: FilterBase | undefined;
-    /** Autogenerated Guid at request time, for precise aggregation result mapping. */
-    temporaryAggregatorRequestId?: string | undefined;
-}
-
 /** Filters on child documents */
 export interface ChildFilter extends FilterBase {
     /** The type of the child document. */
@@ -25649,6 +26471,41 @@ export interface ParentFilter extends FilterBase {
     filter: FilterBase;
 }
 
+export interface QueryDebugInformation {
+    general?: string | undefined;
+    auditTrail?: string | undefined;
+    request?: any | undefined;
+    response?: any | undefined;
+}
+
+/** Search request to search for business processes */
+export interface BusinessProcessSearchRequest {
+    /** Limits the document count of the result set. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+}
+
 /** Search behaviors */
 export enum SearchBehavior {
     DropInvalidCharactersOnFailure = <any>"DropInvalidCharactersOnFailure",
@@ -25658,26 +26515,168 @@ export enum SearchBehavior {
     SimplifiedSearchOr = <any>"SimplifiedSearchOr",
 }
 
+/** It is the base class for all aggregators. */
+export interface AggregatorBase {
+    /** The slug name of the aggregation. It must be unique per aggregation request. */
+    name: string;
+    /** Language specific field names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** An optional aggregator list for nested aggregations. */
+    aggregators?: AggregatorBase[] | undefined;
+    /** An optional filter to limit the data set the aggregation is operation on. */
+    filter?: FilterBase | undefined;
+    /** Optional behavior that the UI should keep in regards to the aggregation */
+    uiBehavior?: UiAggregatorBehavior | undefined;
+    kind: string;
+}
+
+/** Behavior that the UI should keep in regards to the aggregation */
+export interface UiAggregatorBehavior {
+    /** Filters should be enabled in the UI. */
+    enableFilter: boolean;
+    /** Suggestions should be enabled in the UI. */
+    enableSuggestions: boolean;
+    /** Search functionality should be enabled in the filters in the UI. */
+    enableSearchInFilter: boolean;
+}
+
+/** A multi-bucket range aggregator dedicated for date values. */
+export interface DateRangeAggregator extends AggregatorBase {
+    /** The field's ID to execute the aggregation on. */
+    field: string;
+    /** A list of date time ranges. */
+    ranges: DateRangeForAggregator[];
+}
+
+/** The date range class used in aggregators. */
+export interface DateRangeForAggregator {
+    /** Language specific range names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** The from value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    from?: string | undefined;
+    /** The to value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    to?: string | undefined;
+}
+
+/** A multi-bucket range aggregator that works on geo_point fields */
+export interface GeoDistanceAggregator extends AggregatorBase {
+    /** The field's ID to execute the aggregation on. */
+    field: string;
+    /** The point of origin to calculate the distance from (latitude/longitude). */
+    location: GeoLocation;
+    /** A list of distance ranges. */
+    ranges: GeoDistance[];
+}
+
+/** Stores geo distance information for gei distance aggregation */
+export interface GeoDistance {
+    /** Language specific geo distance names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** The distance in meters. */
+    distance: number;
+}
+
+/** A special single bucket aggregation that enables aggregating on nested documents */
+export interface NestedAggregator extends AggregatorBase {
+    /** The path pointing to the nested object. */
+    path: string;
+}
+
+/** A multi-bucket range aggregator. */
+export interface NumericRangeAggregator extends AggregatorBase {
+    /** The field's ID to execute the aggregation on. */
+    field?: string | undefined;
+    /** A list of numeric ranges on which aggregate. */
+    ranges: NumericRangeForAggregator[];
+}
+
+/** The numeric range for aggregator class */
+export interface NumericRangeForAggregator {
+    /** Language specific range names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** The from value. */
+    from?: number | undefined;
+    /** The to value. */
+    to?: number | undefined;
+}
+
+/** A multi-bucket value aggregator */
+export interface TermsAggregator extends AggregatorBase {
+    /** The field's ID to execute the aggregation on. Only not analyzed fields are supported. */
+    field: string;
+    /** It defines how many term buckets should be returned out of the overall terms list. */
+    size?: number | undefined;
+    /** Includes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
+    includes?: string[] | undefined;
+    /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
+    excludes?: string[] | undefined;
+    /** Limits the possible returned aggregation values by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used. */
+    searchFields?: string[] | undefined;
+    /** Sort settings for the aggregation results. If no sort is specified, aggregation is sorted on the item count. */
+    sort?: SortInfo | undefined;
+}
+
+/** Sorting information */
+export interface SortInfo {
+    /** The field's ID to sort on. */
+    field?: string | undefined;
+    /** The sort direction (ascending/descending). */
+    direction: SortDirection;
+}
+
+/** The sort direction */
+export enum SortDirection {
+    Asc = <any>"Asc",
+    Desc = <any>"Desc",
+}
+
+/** A multi-bucket value aggregator used for aggregations on relation item ids. */
+export interface TermsRelationAggregator extends TermsAggregator {
+    /** Type of the item target of the relation. It is used to resolve the target ID. */
+    documentType?: TermsRelationAggregatorDocumentType;
+}
+
+export enum TermsRelationAggregatorDocumentType {
+    Content = <any>"Content",
+    ListItem = <any>"ListItem",
+    Schema = <any>"Schema",
+    User = <any>"User",
+    ContentPermissionSet = <any>"ContentPermissionSet",
+    Owner = <any>"Owner",
+    UserRole = <any>"UserRole",
+    SchemaPermissionSet = <any>"SchemaPermissionSet",
+    IndexCustomerAlias = <any>"IndexCustomerAlias",
+    IndexCustomerId = <any>"IndexCustomerId",
+}
+
+/** A multi-bucket value aggregator used for aggregations on indexed enum values. */
+export interface TermsEnumAggregator extends TermsAggregator {
+    /** Type of the enum target of the relation. It is used to resolve the enum translation. */
+    enumType: string;
+}
+
 /** Represents the business rule configuration. */
 export interface BusinessRuleConfiguration {
     /** Disables the rule engine completely. */
     disableRuleEngine: boolean;
     /** Rules. */
-    rules?: BusinessRule[] | undefined;
+    rules: BusinessRule[];
     /** Named caches. */
-    caches?: NamedCacheConfigurationBase[] | undefined;
+    caches: NamedCacheConfigurationBase[];
     /** Notifications. */
-    notifications?: BusinessRuleNotification[] | undefined;
+    notifications: BusinessRuleNotification[];
     /** Numbers sequences. */
-    numberSequences?: BusinessRuleNumberSequence[] | undefined;
+    numberSequences: BusinessRuleNumberSequence[];
     /** Schedules. */
-    schedules?: BusinessRuleSchedule[] | undefined;
+    schedules: BusinessRuleSchedule[];
 }
 
 /** A business rule */
 export interface BusinessRule {
     /** User defined ID of the rule. */
-    id?: string | undefined;
+    id: string;
     /** Trigger point. */
     triggerPoints?: BusinessRuleTriggerPoint[] | undefined;
     /** Enable. */
@@ -26243,7 +27242,7 @@ export interface BusinessRuleScript extends BusinessRule {
 /** Named cache configuration */
 export interface NamedCacheConfigurationBase {
     /** Name of named cache. */
-    name?: string | undefined;
+    name: string;
     /** Indicates if the lookup should be case sensitive. */
     caseSensitive: boolean;
     kind: string;
@@ -26281,7 +27280,7 @@ export interface InverseListItemNamedCacheConfiguration extends NamedCacheConfig
 /** Configuration for a notification sent by ProduceNotificationAction. */
 export interface BusinessRuleNotification {
     /** ID of the notification. */
-    id?: string | undefined;
+    id: string;
     /** Title of the notification. */
     title?: TranslatedStringDictionary | undefined;
     /** Message of the notification. */
@@ -26295,7 +27294,7 @@ export interface BusinessRuleNotification {
 /** Configuration for a number sequence. */
 export interface BusinessRuleNumberSequence {
     /** ID of number sequence. */
-    id?: string | undefined;
+    id: string;
     /** Format.
 Refer to https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings for guidance.
 Note: formatting of numbers use invariant culture. */
@@ -26361,32 +27360,6 @@ export interface SearchBehaviorWithAggregationBaseResultOfBusinessRuleTraceLog e
 
 /** Holds results of trace log search. */
 export interface BusinessRuleTraceLogSearchResult extends SearchBehaviorWithAggregationBaseResultOfBusinessRuleTraceLog {
-}
-
-/** Result of an aggregation */
-export interface AggregationResult {
-    /** Name of the aggregation. */
-    name: string;
-    /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
-    sumOtherDocCount?: number | undefined;
-    /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
-Optionally inner aggregations for further drill down can be available. */
-    aggregationResultItems?: AggregationResultItem[] | undefined;
-}
-
-/** Aggregation result item */
-export interface AggregationResultItem {
-    /** Value matched. */
-    name: string;
-    /** Number of items matched. */
-    count: number;
-    /** Ready to use filter to filter the data based on the aggregation result values.
-It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
-    filter?: AggregationFilter | undefined;
-    /** True if the current result item matches on of the aggregation filters sent in the query. */
-    active: boolean;
-    /** Inner aggregation results, if inner aggregations were provided in the query. */
-    aggregationResults?: AggregationResult[] | undefined;
 }
 
 /** Contains a trace for a single document affected by potentially multiple business rules being evaluated and executed. */
@@ -26509,146 +27482,6 @@ Moreover, an AggregationFilter ensures that the related value is returned in the
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
     sort?: SortInfo[] | undefined;
-}
-
-/** It is the base class for all aggregators. */
-export interface AggregatorBase {
-    /** The slug name of the aggregation. It must be unique per aggregation request. */
-    name: string;
-    /** Language specific field names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** An optional aggregator list for nested aggregations. */
-    aggregators?: AggregatorBase[] | undefined;
-    /** An optional filter to limit the data set the aggregation is operation on. */
-    filter?: FilterBase | undefined;
-    /** Optional behavior that the UI should keep in regards to the aggregation */
-    uiBehavior?: UiAggregatorBehavior | undefined;
-    kind: string;
-}
-
-/** Behavior that the UI should keep in regards to the aggregation */
-export interface UiAggregatorBehavior {
-    /** Filters should be enabled in the UI. */
-    enableFilter: boolean;
-    /** Suggestions should be enabled in the UI. */
-    enableSuggestions: boolean;
-    /** Search functionality should be enabled in the filters in the UI. */
-    enableSearchInFilter: boolean;
-}
-
-/** A multi-bucket range aggregator dedicated for date values. */
-export interface DateRangeAggregator extends AggregatorBase {
-    /** The field's ID to execute the aggregation on. */
-    field: string;
-    /** A list of date time ranges. */
-    ranges: DateRangeForAggregator[];
-}
-
-/** The date range class used in aggregators. */
-export interface DateRangeForAggregator {
-    /** Language specific range names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** The from value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    from?: string | undefined;
-    /** The to value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    to?: string | undefined;
-}
-
-/** A multi-bucket range aggregator that works on geo_point fields */
-export interface GeoDistanceAggregator extends AggregatorBase {
-    /** The field's ID to execute the aggregation on. */
-    field: string;
-    /** The point of origin to calculate the distance from (latitude/longitude). */
-    location: GeoLocation;
-    /** A list of distance ranges. */
-    ranges: GeoDistance[];
-}
-
-/** Stores geo distance information for gei distance aggregation */
-export interface GeoDistance {
-    /** Language specific geo distance names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** The distance in meters. */
-    distance: number;
-}
-
-/** A special single bucket aggregation that enables aggregating on nested documents */
-export interface NestedAggregator extends AggregatorBase {
-    /** The path pointing to the nested object. */
-    path: string;
-}
-
-/** A multi-bucket range aggregator. */
-export interface NumericRangeAggregator extends AggregatorBase {
-    /** The field's ID to execute the aggregation on. */
-    field?: string | undefined;
-    /** A list of numeric ranges on which aggregate. */
-    ranges: NumericRangeForAggregator[];
-}
-
-/** The numeric range for aggregator class */
-export interface NumericRangeForAggregator {
-    /** Language specific range names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** The from value. */
-    from?: number | undefined;
-    /** The to value. */
-    to?: number | undefined;
-}
-
-/** A multi-bucket value aggregator */
-export interface TermsAggregator extends AggregatorBase {
-    /** The field's ID to execute the aggregation on. Only not analyzed fields are supported. */
-    field: string;
-    /** It defines how many term buckets should be returned out of the overall terms list. */
-    size?: number | undefined;
-    /** Includes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
-    includes?: string[] | undefined;
-    /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
-    excludes?: string[] | undefined;
-    /** Limits the possible returned aggregation values by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used. */
-    searchFields?: string[] | undefined;
-    /** Sort settings for the aggregation results. If no sort is specified, aggregation is sorted on the item count. */
-    sort?: SortInfo | undefined;
-}
-
-/** Sorting information */
-export interface SortInfo {
-    /** The field's ID to sort on. */
-    field?: string | undefined;
-    /** The sort direction (ascending/descending). */
-    direction: SortDirection;
-}
-
-/** The sort direction */
-export enum SortDirection {
-    Asc = <any>"Asc",
-    Desc = <any>"Desc",
-}
-
-/** A multi-bucket value aggregator used for aggregations on relation item ids. */
-export interface TermsRelationAggregator extends TermsAggregator {
-    /** Type of the item target of the relation. It is used to resolve the target ID. */
-    documentType?: TermsRelationAggregatorDocumentType;
-}
-
-export enum TermsRelationAggregatorDocumentType {
-    Content = <any>"Content",
-    ListItem = <any>"ListItem",
-    Schema = <any>"Schema",
-    User = <any>"User",
-    ContentPermissionSet = <any>"ContentPermissionSet",
-    Owner = <any>"Owner",
-    UserRole = <any>"UserRole",
-    SchemaPermissionSet = <any>"SchemaPermissionSet",
-}
-
-/** A multi-bucket value aggregator used for aggregations on indexed enum values. */
-export interface TermsEnumAggregator extends TermsAggregator {
-    /** Type of the enum target of the relation. It is used to resolve the enum translation. */
-    enumType: string;
 }
 
 export interface Channel {
@@ -26785,7 +27618,7 @@ export interface ContentPermissionSetDetail extends PermissionSetDetailOfContent
 /** Rights assigned to a user role. */
 export interface PermissionUserRoleRightsOfContentRight {
     /** The user role ID. */
-    userRoleId?: string | undefined;
+    userRoleId: string;
     /** Language specific user role names. */
     names?: TranslatedStringDictionary | undefined;
     /** List of rights: they can be content, metadata or permission set rights, depending on the type defined on the class
@@ -26796,7 +27629,7 @@ export interface PermissionUserRoleRightsOfContentRight {
 /** Rights assigned to a user role. */
 export interface PermissionUserRoleRightsOfPermissionSetRight {
     /** The user role ID. */
-    userRoleId?: string | undefined;
+    userRoleId: string;
     /** Language specific user role names. */
     names?: TranslatedStringDictionary | undefined;
     /** List of rights: they can be content, metadata or permission set rights, depending on the type defined on the class
@@ -27044,6 +27877,10 @@ by the LayerSchemaIds property. */
     /** The Outputs generated from the content. They identifies the rendered files generated by the system.
 They are available only for file base contents, and they depends on the output formats configured in the system. */
     outputs?: Output[] | undefined;
+    /** The id of related DisplayContent */
+    displayContentId?: string | undefined;
+    /** The Outputs generated from the display content. */
+    displayContentOutputs?: Output[] | undefined;
     /** Audit information. */
     audit?: UserAuditDetail | undefined;
     /** The owner token ID. Defines the content owner. */
@@ -27342,6 +28179,8 @@ export interface ContentReferencesResult {
     metadataReferences?: MetadataReferenceResult | undefined;
     /** List of share references */
     shareReferences?: ContentShareReferenceResult | undefined;
+    /** List of usages as the display content */
+    displayContentUsagesReferences?: DisplayContentUsagesReferenceResult | undefined;
 }
 
 /** Base class for search results */
@@ -27412,12 +28251,30 @@ export enum ShareType {
     Embed = <any>"Embed",
 }
 
+/** Base class for search results */
+export interface BaseResultOfString {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: string[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+
+/** Result class for display content reference search */
+export interface DisplayContentUsagesReferenceResult extends BaseResultOfString {
+}
+
 /** Request to get the references to a content */
 export interface ContentReferencesRequest {
     /** Limits the number of the returned metadata references by setting paging information. */
     references?: MetadataReferencesPagingRequest | undefined;
     /** Limits the number of the returned share references by setting paging information. */
     shares?: PagingRequest | undefined;
+    /** Limits the number of the returned display content usages by setting paging information. */
+    displayContentUsages?: PagingRequest | undefined;
 }
 
 /** Request to page data */
@@ -27597,6 +28454,8 @@ export interface ContentManyReferencesRequest {
     references?: MetadataReferencesPagingRequest | undefined;
     /** Limits the number of the returned share references by setting paging information. */
     shares?: PagingRequest | undefined;
+    /** Limits the number of the returned contentIds referencing as DisplayContent by setting paging information. */
+    displayContentUsages?: PagingRequest | undefined;
 }
 
 /** Resolves outputs available for given content ids. */
@@ -27781,6 +28640,8 @@ export interface Content {
     lifeCycle: LifeCycle;
     /** List of content rights the user has on this content. Values are returned only if related resolve behavior is requested in the search request. */
     contentRights?: ContentRight[] | undefined;
+    /** Id of the related display content */
+    displayContentId?: string | undefined;
 }
 
 /** Request to aggregate contents based on the aggregators defined on a channel */
@@ -27963,6 +28824,22 @@ If false, the result set will be sorted in a descending order of when which comm
     /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the CommentSearchResult.
 Warning! It severely affects performance. */
     debugMode: boolean;
+}
+
+export interface SetDisplayContentRequest {
+    /** Id of the content which is supposed to be a DisplayContent. Intentionally nullable, null on the the property means the 'unset' operation */
+    displayContentId?: string | undefined;
+}
+
+export interface SetDisplayContentsManyRequest {
+    /** List of set display content items */
+    items: SetDisplayContentItem[];
+}
+
+/** Set display content item */
+export interface SetDisplayContentItem extends SetDisplayContentRequest {
+    /** The content ID. */
+    contentId: string;
 }
 
 /** Base class for search results */
@@ -28203,8 +29080,10 @@ export interface VersionInfo {
     fileProductVersion?: string | undefined;
     /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
     contractVersion?: string | undefined;
-    /** The bamboo release version. Only provided on bamboo deployments. */
+    /** The release version. */
     release?: string | undefined;
+    /** Cloud name. */
+    cloudName?: string | undefined;
 }
 
 /** Customer configuration information */
@@ -28219,6 +29098,8 @@ export interface CustomerInfo {
     identityServerUrl: string;
     /** The base API URL. */
     apiUrl: string;
+    /** Host for integrations (Service Providers) */
+    integrationHost: string;
     /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails: boolean;
     /** Configured languages of customer instance (system, metadata, share, default). */
@@ -28242,6 +29123,8 @@ export interface CustomerInfo {
     settings: CustomerInfoSettings;
     /** True if a dashboard overview template is available. */
     hasDashboard: boolean;
+    /** Cloud name customer is located in. */
+    cloudName: string;
 }
 
 export interface LanguageConfiguration {
@@ -29878,7 +30761,7 @@ export interface SchemaPermissionSetDetail extends PermissionSetDetailOfMetadata
 /** Rights assigned to a user role. */
 export interface PermissionUserRoleRightsOfMetadataRight {
     /** The user role ID. */
-    userRoleId?: string | undefined;
+    userRoleId: string;
     /** Language specific user role names. */
     names?: TranslatedStringDictionary | undefined;
     /** List of rights: they can be content, metadata or permission set rights, depending on the type defined on the class
@@ -30821,6 +31704,10 @@ by the LayerSchemaIds property. */
     displayValues: DisplayValueDictionary;
     /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
     iconUrl?: string | undefined;
+    /** The Outputs generated from the related display content. */
+    displayContentOutputs?: Output[] | undefined;
+    /** The id of related DisplayContent */
+    displayContentId?: string | undefined;
 }
 
 /** Base of shared output */
@@ -31847,8 +32734,8 @@ export interface UserWithRoles {
     lastActivity?: Date | undefined;
 }
 
-/** Represents an aggregation request over users. */
-export interface UserSearchAndAggregationBaseRequest {
+/** Represents a search request over users. */
+export interface UsersSearchBaseRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
@@ -31859,6 +32746,15 @@ export interface UserSearchAndAggregationBaseRequest {
     lifeCycleFilter: LifeCycleFilter;
     /** Return only users with certain user rights. */
     userRightsFilter?: UserRight[] | undefined;
+    /** Includes the service user in result. */
+    includeServiceUser: boolean;
+    /** Restricts the results to users that are editable for calling user.
+If set to true, IncludeServiceUser is ignored. */
+    editableOnly: boolean;
+}
+
+/** Represents an aggregation request over users. */
+export interface UserSearchAndAggregationBaseRequest extends UsersSearchBaseRequest {
     /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
 For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
 by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
@@ -31866,11 +32762,6 @@ For the aggregation values, only the original Filter of the search request is us
 aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
 Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
-    /** Includes the service user in result. */
-    includeServiceUser: boolean;
-    /** Restricts the results to users that are editable for calling user.
-If set to true, IncludeServiceUser is ignored. */
-    editableOnly: boolean;
 }
 
 /** Represents user search request. */
@@ -31897,6 +32788,42 @@ export interface UserAggregationRequest extends UserSearchAndAggregationBaseRequ
 export interface UserUpdateIdentityProviderManyRequest extends UserManyRequestBase {
     /** Identity provider to assign to users. */
     identityProviderId?: string | undefined;
+}
+
+/** Base class for search results */
+export interface BaseResultOfUser {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: User[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export interface SearchBehaviorBaseResultOfUser extends BaseResultOfUser {
+    /** The search string used to query the data. */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
+    isSearchStringRewritten?: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
+}
+
+/** Holds results of the list user search. */
+export interface UserListResult extends SearchBehaviorBaseResultOfUser {
+}
+
+/** Represents user list request. */
+export interface UserListRequest extends UsersSearchBaseRequest {
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit?: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
 }
 
 /** Represents a list of source/target fields for XMP mappings */
