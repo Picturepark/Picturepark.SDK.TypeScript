@@ -20,8 +20,8 @@ import {
   ContentFacade,
   PICTUREPARK_CDN_URL,
   ShareDataEmbed,
+  ContentService,
 } from '@picturepark/sdk-v2-angular';
-import { ContentService } from '@picturepark/sdk-v2-angular';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -65,9 +65,11 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   }
 
   async ngOnChanges(changes: SimpleChanges) {
+    const handleVirtual = this.item.isVirtual() && !this.item.displayContentId;
+
     if (changes['shareItem']) {
       if (this.shareItem) {
-        if (this.item.isVirtual()) {
+        if (handleVirtual) {
           this.handleVirtualItem();
         } else {
           const content = this.item as ShareContentDetail;
@@ -79,7 +81,9 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
                 this.trust(
                   output?.viewUrl ||
                     content.iconUrl ||
-                    `${this.cdnUrl}/icon/${(this.shareItem?.data as ShareDataEmbed).token}/${content.id}`
+                    `${this.cdnUrl}/icon/${(this.shareItem?.data as ShareDataEmbed).token}/${
+                      content.displayContentId ?? content.id
+                    }`
                 )
               ),
               tap(() => (this.isLoading = false)),
@@ -90,14 +94,19 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
       }
     } else {
       if (changes['item']) {
-        if (this.item.isVirtual()) {
+        if (handleVirtual) {
           this.handleVirtualItem();
         } else {
           this.thumbnailUrl$ = this.loadItem.pipe(
             tap(() => (this.isLoading = true)),
             switchMap(() => {
               return this.contentService
-                .downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
+                .downloadThumbnail(
+                  this.item.displayContentId ?? this.item.id,
+                  this.thumbnailSize || ThumbnailSize.Small,
+                  null,
+                  null
+                )
                 .pipe(finalize(() => (this.isLoading = false)));
             }),
             map(response => this.trust(URL.createObjectURL(response.data)))
