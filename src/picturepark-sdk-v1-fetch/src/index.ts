@@ -17731,6 +17731,108 @@ export class ShareClient extends PictureparkClientBase {
     }
 
     /**
+     * Download shared display content outputs
+     * @param token Share token
+     * @param contentId The content id
+     * @param outputFormatId Id of the output format
+     */
+    downloadDisplayContentOutputs(token: string | null, contentId: string | null, outputFormatId: string | null): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/d/{token}/displayContent/{contentId}/{outputFormatId}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        if (contentId === undefined || contentId === null)
+            throw new Error("The parameter 'contentId' must be defined.");
+        url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId));
+        if (outputFormatId === undefined || outputFormatId === null)
+            throw new Error("The parameter 'outputFormatId' must be defined.");
+        url_ = url_.replace("{outputFormatId}", encodeURIComponent("" + outputFormatId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processDownloadDisplayContentOutputs(_response);
+        });
+    }
+
+    protected processDownloadDisplayContentOutputs(response: Response): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 400) {
+            return response.text().then((_responseText) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkValidationException;
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkForbiddenException;
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            });
+        } else if (status === 404) {
+            return response.text().then((_responseText) => {
+            let result404: any = null;
+            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkNotFoundException;
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            });
+        } else if (status === 405) {
+            return response.text().then((_responseText) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            });
+        } else if (status === 409) {
+            return response.text().then((_responseText) => {
+            let result409: any = null;
+            result409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkConflictException;
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            });
+        } else if (status === 429) {
+            return response.text().then((_responseText) => {
+            let result429: any = null;
+            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
+            return throwException("Too many requests", status, _responseText, _headers, result429);
+            });
+        } else if (status === 500) {
+            return response.text().then((_responseText) => {
+            let result500: any = null;
+            result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkException;
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            });
+        } else if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status === 412) {
+            return response.text().then((_responseText) => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse>(null as any);
+    }
+
+    /**
      * Get
      * @param id Share Id (not token, use [GetShareJson](#operation/Share_GetShareJson) to get share by token)
      * @param resolveBehaviors (optional) List of enums that control which parts of the share are resolved and returned.
@@ -24354,6 +24456,10 @@ export interface EnvironmentDeactivationException extends PictureparkException {
 export interface CustomerClonesNotAcceptedException extends PictureparkValidationException {
 }
 
+export interface ShareOutputNotFoundException extends PictureparkNotFoundException {
+    contentId?: string | undefined;
+}
+
 export interface ShareNotFoundException extends PictureparkNotFoundException {
     shareId?: string | undefined;
 }
@@ -26049,6 +26155,10 @@ export interface CommentReplyParentException extends PictureparkValidationExcept
 export interface CommentReplyContentMismatchException extends PictureparkValidationException {
     parentId?: string | undefined;
     contentId?: string | undefined;
+}
+
+export interface VirtualDisplayContentNotSupportedException extends PictureparkNotFoundException {
+    contentIds?: string[] | undefined;
 }
 
 /** Create request to create a BusinessProcess. */
@@ -31704,8 +31814,6 @@ by the LayerSchemaIds property. */
     displayValues: DisplayValueDictionary;
     /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
     iconUrl?: string | undefined;
-    /** The Outputs generated from the related display content. */
-    displayContentOutputs?: Output[] | undefined;
     /** The id of related DisplayContent */
     displayContentId?: string | undefined;
 }
@@ -31737,6 +31845,10 @@ export interface ShareOutputBasic extends ShareOutputBase {
 export interface ShareOutputEmbed extends ShareOutputBase {
     /** Share token for the shared output. */
     token?: string | undefined;
+}
+
+/** Shared output for a display content */
+export interface ShareOutputDisplayContent extends ShareOutputBase {
 }
 
 export interface ShareContentBase {

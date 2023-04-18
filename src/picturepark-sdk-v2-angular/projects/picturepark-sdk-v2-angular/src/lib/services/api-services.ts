@@ -22417,6 +22417,128 @@ export class ShareService extends PictureparkServiceBase {
     }
 
     /**
+     * Download shared display content outputs
+     * @param token Share token
+     * @param contentId The content id
+     * @param outputFormatId Id of the output format
+     */
+    downloadDisplayContentOutputs(token: string | null, contentId: string | null, outputFormatId: string | null): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/d/{token}/displayContent/{contentId}/{outputFormatId}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        if (contentId === undefined || contentId === null)
+            throw new Error("The parameter 'contentId' must be defined.");
+        url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId));
+        if (outputFormatId === undefined || outputFormatId === null)
+            throw new Error("The parameter 'outputFormatId' must be defined.");
+        url_ = url_.replace("{outputFormatId}", encodeURIComponent("" + outputFormatId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDownloadDisplayContentOutputs(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDownloadDisplayContentOutputs(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileResponse>;
+        }));
+    }
+
+    protected processDownloadDisplayContentOutputs(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status === 412) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * Get
      * @param id Share Id (not token, use [GetShareJson](#operation/Share_GetShareJson) to get share by token)
      * @param resolveBehaviors (optional) List of enums that control which parts of the share are resolved and returned.
@@ -30968,6 +31090,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ShareOutputNotFoundException") {
+            let result = new ShareOutputNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ShareByTokenNotFoundException") {
             let result = new ShareByTokenNotFoundException();
             result.init(data);
@@ -32546,6 +32673,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "CommentReplyContentMismatchException") {
             let result = new CommentReplyContentMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VirtualDisplayContentNotSupportedException") {
+            let result = new VirtualDisplayContentNotSupportedException();
             result.init(data);
             return result;
         }
@@ -32876,6 +33008,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ShareOutputNotFoundException") {
+            let result = new ShareOutputNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ShareByTokenNotFoundException") {
             let result = new ShareByTokenNotFoundException();
             result.init(data);
@@ -34454,6 +34591,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "CommentReplyContentMismatchException") {
             let result = new CommentReplyContentMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VirtualDisplayContentNotSupportedException") {
+            let result = new VirtualDisplayContentNotSupportedException();
             result.init(data);
             return result;
         }
@@ -36222,6 +36364,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
             result.init(data);
             return result;
         }
+        if (data["kind"] === "ShareOutputNotFoundException") {
+            let result = new ShareOutputNotFoundException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ShareByTokenNotFoundException") {
             let result = new ShareByTokenNotFoundException();
             result.init(data);
@@ -36329,6 +36476,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "ConversionPresetTemplateNotFoundException") {
             let result = new ConversionPresetTemplateNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VirtualDisplayContentNotSupportedException") {
+            let result = new VirtualDisplayContentNotSupportedException();
             result.init(data);
             return result;
         }
@@ -37759,6 +37911,40 @@ export class CustomerClonesNotAcceptedException extends PictureparkValidationExc
 }
 
 export interface ICustomerClonesNotAcceptedException extends IPictureparkValidationException {
+}
+
+export class ShareOutputNotFoundException extends PictureparkNotFoundException implements IShareOutputNotFoundException {
+    contentId?: string | undefined;
+
+    constructor(data?: IShareOutputNotFoundException) {
+        super(data);
+        this._discriminator = "ShareOutputNotFoundException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.contentId = _data["contentId"];
+        }
+    }
+
+    static override fromJS(data: any): ShareOutputNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareOutputNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IShareOutputNotFoundException extends IPictureparkNotFoundException {
+    contentId?: string | undefined;
 }
 
 export class ShareNotFoundException extends PictureparkNotFoundException implements IShareNotFoundException {
@@ -50635,6 +50821,48 @@ export class CommentReplyContentMismatchException extends PictureparkValidationE
 export interface ICommentReplyContentMismatchException extends IPictureparkValidationException {
     parentId?: string | undefined;
     contentId?: string | undefined;
+}
+
+export class VirtualDisplayContentNotSupportedException extends PictureparkNotFoundException implements IVirtualDisplayContentNotSupportedException {
+    contentIds?: string[] | undefined;
+
+    constructor(data?: IVirtualDisplayContentNotSupportedException) {
+        super(data);
+        this._discriminator = "VirtualDisplayContentNotSupportedException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["contentIds"])) {
+                this.contentIds = [] as any;
+                for (let item of _data["contentIds"])
+                    this.contentIds!.push(item);
+            }
+        }
+    }
+
+    static override fromJS(data: any): VirtualDisplayContentNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new VirtualDisplayContentNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.contentIds)) {
+            data["contentIds"] = [];
+            for (let item of this.contentIds)
+                data["contentIds"].push(item);
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IVirtualDisplayContentNotSupportedException extends IPictureparkNotFoundException {
+    contentIds?: string[] | undefined;
 }
 
 /** Create request to create a BusinessProcess. */
@@ -82747,8 +82975,6 @@ by the LayerSchemaIds property. */
     displayValues!: DisplayValueDictionary;
     /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
     iconUrl?: string | undefined;
-    /** The Outputs generated from the related display content. */
-    displayContentOutputs?: Output[] | undefined;
     /** The id of related DisplayContent */
     displayContentId?: string | undefined;
 
@@ -82795,11 +83021,6 @@ by the LayerSchemaIds property. */
             this.contentType = _data["contentType"];
             this.displayValues = _data["displayValues"] ? DisplayValueDictionary.fromJS(_data["displayValues"]) : new DisplayValueDictionary();
             this.iconUrl = _data["iconUrl"];
-            if (Array.isArray(_data["displayContentOutputs"])) {
-                this.displayContentOutputs = [] as any;
-                for (let item of _data["displayContentOutputs"])
-                    this.displayContentOutputs!.push(Output.fromJS(item));
-            }
             this.displayContentId = _data["displayContentId"];
         }
     }
@@ -82836,11 +83057,6 @@ by the LayerSchemaIds property. */
         data["contentType"] = this.contentType;
         data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         data["iconUrl"] = this.iconUrl;
-        if (Array.isArray(this.displayContentOutputs)) {
-            data["displayContentOutputs"] = [];
-            for (let item of this.displayContentOutputs)
-                data["displayContentOutputs"].push(item.toJSON());
-        }
         data["displayContentId"] = this.displayContentId;
         return data;
     }
@@ -82868,8 +83084,6 @@ by the LayerSchemaIds property. */
     displayValues: IDisplayValueDictionary;
     /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
     iconUrl?: string | undefined;
-    /** The Outputs generated from the related display content. */
-    displayContentOutputs?: Output[] | undefined;
     /** The id of related DisplayContent */
     displayContentId?: string | undefined;
 }
@@ -82924,6 +83138,11 @@ export abstract class ShareOutputBase implements IShareOutputBase {
         }
         if (data["kind"] === "ShareOutputEmbed") {
             let result = new ShareOutputEmbed();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareOutputDisplayContent") {
+            let result = new ShareOutputDisplayContent();
             result.init(data);
             return result;
         }
@@ -83028,6 +83247,36 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
 export interface IShareOutputEmbed extends IShareOutputBase {
     /** Share token for the shared output. */
     token?: string | undefined;
+}
+
+/** Shared output for a display content */
+export class ShareOutputDisplayContent extends ShareOutputBase implements IShareOutputDisplayContent {
+
+    constructor(data?: IShareOutputDisplayContent) {
+        super(data);
+        this._discriminator = "ShareOutputDisplayContent";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): ShareOutputDisplayContent {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareOutputDisplayContent();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Shared output for a display content */
+export interface IShareOutputDisplayContent extends IShareOutputBase {
 }
 
 export abstract class ShareContentBase implements IShareContentBase {
