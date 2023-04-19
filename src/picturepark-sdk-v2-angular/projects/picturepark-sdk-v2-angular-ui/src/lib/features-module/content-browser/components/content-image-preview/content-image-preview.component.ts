@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { LazyGetter } from 'lazy-get-decorator';
-import { throttleTime } from 'rxjs/operators';
+import { catchError, throttleTime } from 'rxjs/operators';
 import { firstValueFrom, Subject } from 'rxjs';
 
 // LIBRARIES
@@ -41,6 +41,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
 // INTERFACES
 import { FullScreenDisplayItems } from './interfaces/content-image-preview.interfaces';
+import { imageLoaderErrorHandler } from '../../../../shared-module/components/image-loader.helper';
 
 @Component({
   selector: 'pp-content-image-preview',
@@ -147,7 +148,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         );
         const request = output
           ? this.contentService.download(
-              this.content.id,
+              this.content.displayContentId ?? this.content.id,
               output.outputFormatId,
               this.width || 800,
               this.height || 650,
@@ -155,7 +156,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
             )
           : this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
 
-        this.sub = request.subscribe(response => {
+        this.sub = request.pipe(catchError(imageLoaderErrorHandler)).subscribe(response => {
           const isIcon = (response.headers && response.headers['content-type'] === 'image/svg+xml') || false;
           this.setPreviewUrl(URL.createObjectURL(response.data), isIcon);
         });

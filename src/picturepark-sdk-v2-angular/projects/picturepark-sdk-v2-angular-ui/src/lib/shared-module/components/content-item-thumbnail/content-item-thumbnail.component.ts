@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BROKEN_IMAGE_URL } from '../../../utilities/constants';
-import { switchMap, map, tap, finalize } from 'rxjs/operators';
+import { switchMap, map, tap, finalize, catchError } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
 import {
   ThumbnailSize,
@@ -23,6 +23,7 @@ import {
   ContentService,
 } from '@picturepark/sdk-v2-angular';
 import { Observable } from 'rxjs';
+import { imageLoaderErrorHandler } from '../image-loader.helper';
 
 @Component({
   selector: 'pp-content-item-thumbnail',
@@ -107,7 +108,10 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
                   null,
                   null
                 )
-                .pipe(finalize(() => (this.isLoading = false)));
+                .pipe(
+                  catchError(imageLoaderErrorHandler),
+                  finalize(() => (this.isLoading = false))
+                );
             }),
             map(response => this.trust(URL.createObjectURL(response.data)))
           );

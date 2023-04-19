@@ -14,8 +14,6 @@ import {
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { DialogBaseComponent } from '../../shared-module/components/dialog-base/dialog-base.component';
 import { ContentDetailsDialogOptions } from './content-details-dialog-options';
-
-// SERVICES
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 import { Observable, of } from 'rxjs';
 import { SafeHtml } from '@angular/platform-browser';
