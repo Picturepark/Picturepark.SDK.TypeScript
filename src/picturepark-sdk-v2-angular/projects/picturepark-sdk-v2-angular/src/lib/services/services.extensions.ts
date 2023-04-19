@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Inject, Injector, Optional } from '@angular/core'; // ignore
+import { Inject, Optional } from '@angular/core'; // ignore
 import { HttpClient, HttpHeaders, HttpResponseBase } from '@angular/common/http'; // ignore
 import { Observable, from as _observableFrom, throwError as _observableThrow } from 'rxjs'; // ignore
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators'; // ignore
@@ -24,6 +24,7 @@ import { // ignore
   SetDisplayContentRequest, // ignore
 } from './api-services'; // ignore
 
+import { Injector } from '@angular/core';
 import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
