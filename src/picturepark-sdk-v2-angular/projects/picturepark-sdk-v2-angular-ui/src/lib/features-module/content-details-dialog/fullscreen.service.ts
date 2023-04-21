@@ -1,5 +1,13 @@
 import { Inject, Injectable, Optional } from '@angular/core';
-import { LoggerService, ShareOutputBase } from '@picturepark/sdk-v2-angular';
+import {
+  ContentDetail,
+  LoggerService,
+  Output,
+  OutputRenderingState,
+  ShareContentDetail,
+  ShareOutputBase,
+  ShareOutputDisplayContent,
+} from '@picturepark/sdk-v2-angular';
 import { PICTUREPARK_UI_SCRIPTPATH } from '../../configuration';
 
 @Injectable({
@@ -19,7 +27,7 @@ export class FullscreenService {
 
   showDetailById(shareItemId: string, shareItems: IShareItem[]) {
     const shareItem = shareItems.filter(i => i.id === shareItemId)[0];
-    if (shareItem.isPdf && shareItems.length === 1) {
+    if (shareItem.viewerType === ContentViewerType.Document && shareItems.length === 1) {
       this.showPdfJsItem(shareItem);
       this.loading = false;
     } else {
@@ -42,10 +50,11 @@ export class FullscreenService {
       },
       sources: [
         {
-          type: item.isMovie
-            ? 'mp4'
-            : 'mp4' /* IndigoPlayer does not support mp3, but playback of mp3 defined as mp4 works */,
-          src: item.isMovie ? item.videoUrl : item.audioUrl,
+          type:
+            item.viewerType === ContentViewerType.Video
+              ? 'mp4'
+              : 'mp4' /* IndigoPlayer does not support mp3, but playback of mp3 defined as mp4 works */,
+          src: item.playerUrl,
         },
       ],
     });
@@ -109,32 +118,32 @@ export class FullscreenService {
       }
 
       const photoSwipeItems = shareItems.map(i => {
-        if (i.isImage && i.detail) {
+        if (i.viewerType === ContentViewerType.Image && i.detail) {
           return {
             src: i.previewUrl,
             w: i.detail.width,
             h: i.detail.height,
             origin: i.originalUrl,
           };
-        } else if (i.isPdf) {
+        } else if (i.viewerType === ContentViewerType.Document) {
           return {
             html:
               '<iframe style="position: absolute; left: 0; top: 40px; width: 100%; height: calc(100% - 40px)" ' +
               'src="' +
               this.scriptsPath +
               'pdfjs/web/viewer.html?file=' +
-              i.pdfUrl +
+              i.playerUrl +
               '&closeButton=false" id="pdfjs_' +
               i.id +
               '"></iframe>',
             origin: i.originalUrl,
           };
-        } else if (i.isMovie) {
+        } else if (i.viewerType === ContentViewerType.Video) {
           return {
             html: '<div id="vjsplayer_' + i.id + '"></div>',
             origin: i.originalUrl,
           };
-        } else if (i.isAudio) {
+        } else if (i.viewerType === ContentViewerType.Audio) {
           return {
             html: '<div id="vjsplayer_' + i.id + '"></div>',
             origin: i.originalUrl,
@@ -146,11 +155,11 @@ export class FullscreenService {
             h: 800,
             origin: i.originalUrl,
           };
-        } else if (!i.isBinary) {
+        } else if (i.viewerType === ContentViewerType.Html) {
           return {
             html:
-              '<br /><br /><br /><br /><div class="picturepark-widget-content-preview"> ' +
-              i.displayValues.detail +
+              '<br /><br /><br /><br /><div class="picturepark-widget-content-preview" style="color: white; padding: 24px"> ' +
+              i.displayValues.thumbnail +
               '</div>',
             origin: i.originalUrl,
           };
@@ -195,12 +204,19 @@ export class FullscreenService {
         });
       };
 
-      if (shareItems.filter(i => i.isMovie || i.isAudio || i.isPdf).length > 0) {
+      if (
+        shareItems.filter(
+          i =>
+            i.viewerType === ContentViewerType.Video ||
+            i.viewerType === ContentViewerType.Audio ||
+            i.viewerType === ContentViewerType.Document
+        ).length > 0
+      ) {
         const updatePlayers = async () => {
           cleanupPlayers();
 
           const item = shareItems[photoSwipe.getCurrentIndex()];
-          if (item.isMovie || item.isAudio) {
+          if (item.viewerType === ContentViewerType.Video || item.viewerType === ContentViewerType.Audio) {
             await this.loadVideoPlayerLibraries();
             const elementId = 'vjsplayer_' + item.id;
             const element = document.getElementById(elementId);
@@ -213,7 +229,7 @@ export class FullscreenService {
           }
 
           // Handle pdfjs iframe close event
-          for (const i of shareItems.filter(s => s.isPdf)) {
+          for (const i of shareItems.filter(s => s.viewerType === ContentViewerType.Document)) {
             const elementId = 'pdfjs_' + i.id;
             const element: any = document.getElementById(elementId);
             if (element) {
@@ -354,30 +370,80 @@ export class FullscreenService {
       document.getElementsByTagName('head')[0].appendChild(linkElement);
     });
   }
+
+  getContentViewerType(content: ContentDetail | ShareContentDetail) {
+    if (this.getOutput(content, ['Pdf'])) {
+      return ContentViewerType.Document;
+    } else if (this.getOutput(content, ['AudioSmall'])) {
+      return ContentViewerType.Audio;
+    } else if (this.getOutput(content, ['VideoLarge', 'VideoSmall'])) {
+      return ContentViewerType.Video;
+    } else if (content.isVirtual()) {
+      return ContentViewerType.Html;
+    } else if (this.getOutput(content, ['Preview'])) {
+      return ContentViewerType.Image;
+    }
+
+    return ContentViewerType.None;
+  }
+
+  getViewerOutput(content: ContentDetail | ShareContentDetail, type: ContentViewerType) {
+    switch (type) {
+      case ContentViewerType.Document:
+        return this.getOutput(content, ['Pdf']);
+      case ContentViewerType.Audio:
+        return this.getOutput(content, ['AudioSmall']);
+      case ContentViewerType.Video:
+        return this.getOutput(content, ['VideoLarge', 'VideoSmall']);
+      case ContentViewerType.Image:
+        return this.getOutput(content, ['Preview']);
+    }
+  }
+
+  getOutput(content: ContentDetail | ShareContentDetail, outputFormatIds: string[]) {
+    if (content instanceof ContentDetail) {
+      return this.getContentOutput(content, outputFormatIds);
+    }
+    return this.getShareContentOutput(content, outputFormatIds);
+  }
+
+  private getContentOutput(content: ContentDetail, outputFormatIds: string[]) {
+    const find = (output: Output) =>
+      outputFormatIds.includes(output.outputFormatId) && output.renderingState === OutputRenderingState.Completed;
+    return content.displayContentOutputs?.find(find) ?? content.outputs?.find(find);
+  }
+
+  private getShareContentOutput(content: ShareContentDetail, outputFormatIds: string[]) {
+    const find = (output: ShareOutputBase) =>
+      outputFormatIds.includes(output.outputFormatId) && output.renderingState === OutputRenderingState.Completed;
+    return (
+      content.outputs.filter(i => i instanceof ShareOutputDisplayContent).find(find) ?? content.outputs?.find(find)
+    );
+  }
 }
 
 export interface IShareItem {
   id: string;
 
-  isImage: boolean;
-  isPdf: boolean;
-  isMovie: boolean;
-  isAudio: boolean;
-  isBinary: boolean;
+  viewerType: ContentViewerType;
   isIcon: boolean;
 
   displayValues: any;
   previewUrl: string;
-
   originalUrl: string;
-  videoUrl: string;
-  audioUrl: string;
-  pdfUrl: string;
+  playerUrl: string;
 
   detail?: {
     width: number;
     height: number;
   };
+}
 
-  outputs: ShareOutputBase[];
+export enum ContentViewerType {
+  Document = 'document',
+  Audio = 'audio',
+  Video = 'video',
+  Image = 'image',
+  Html = 'html',
+  None = 'None',
 }
