@@ -13,26 +13,26 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { LazyGetter } from 'lazy-get-decorator';
-import { throttleTime } from 'rxjs/operators';
+import { catchError, throttleTime } from 'rxjs/operators';
 import { firstValueFrom, Subject } from 'rxjs';
 
 // LIBRARIES
 import {
   ContentService,
-  ContentType,
   ContentDownloadRequestItem,
   ContentDetail,
-  OutputRenderingState,
   ThumbnailSize,
   ShareContentDetail,
   ShareDetail,
   DownloadFacade,
   PICTUREPARK_CDN_URL,
   ShareDataEmbed,
+  ShareOutputDisplayContent,
+  ShareOutputBase,
 } from '@picturepark/sdk-v2-angular';
 
 // SERVICES
-import { FullscreenService, IShareItem } from '../../../content-details-dialog/fullscreen.service';
+import { ContentViewerType, FullscreenService, IShareItem } from '../../../content-details-dialog/fullscreen.service';
 import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
 import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 
@@ -41,6 +41,7 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
 
 // INTERFACES
 import { FullScreenDisplayItems } from './interfaces/content-image-preview.interfaces';
+import { imageLoaderErrorHandler } from '../../../../shared-module/components/image-loader.helper';
 
 @Component({
   selector: 'pp-content-image-preview',
@@ -54,8 +55,6 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
 
   @Input() content: ContentDetail | ShareContentDetail;
   @Input() outputId = 'Preview';
-  @Input() width?: number;
-  @Input() height?: number;
   @Input() shareDetail?: ShareDetail;
 
   @Output() playChange = new EventEmitter<boolean>();
@@ -65,6 +64,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
   isIcon = false;
   isLoading = true;
   playing = false;
+  viewerType: ContentViewerType;
 
   constructor(
     @Optional() @Inject(PICTUREPARK_UI_SCRIPTPATH) private uiScriptPath: string,
@@ -95,25 +95,17 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
     return '';
   }
 
-  get isVideo(): boolean {
-    return this.content.contentType === ContentType.Video;
-  }
-
-  get isAudio(): boolean {
-    return this.content.contentType === ContentType.Audio;
-  }
-
   ngOnInit() {
     this.sub = this.displayFullscreen.pipe(throttleTime(1000, undefined, { leading: true })).subscribe(displayItems => {
       const selectedItem = displayItems.selectedItem;
       const items = displayItems.items;
 
-      if (selectedItem.isMovie || selectedItem.isAudio) {
+      if (selectedItem.viewerType === ContentViewerType.Video || selectedItem.viewerType === ContentViewerType.Audio) {
         this.playMedia(true, selectedItem);
         return;
       }
 
-      if (selectedItem.isPdf) {
+      if (selectedItem.viewerType === ContentViewerType.Document) {
         this.showPdf(selectedItem);
         return;
       }
@@ -127,7 +119,10 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
       this.content = changes.content.currentValue;
 
       if (this.content instanceof ShareContentDetail) {
-        const shareOutput = this.content.outputs.find(i => i.outputFormatId === this.outputId);
+        const shareOutput =
+          this.content.outputs.find(
+            i => i instanceof ShareOutputDisplayContent && i.outputFormatId === this.outputId
+          ) ?? this.content.outputs.find(i => i.outputFormatId === this.outputId);
         if (shareOutput && shareOutput.viewUrl) {
           this.setPreviewUrl(shareOutput.viewUrl, false);
           return;
@@ -142,20 +137,19 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         }
       } else {
         // If preview does not exist, fallback to download thumbnail as MissingDownloadOutputFallbackBehavior is not exposed
-        const output = this.content.outputs?.find(
-          i => i.outputFormatId === this.outputId && i.renderingState === OutputRenderingState.Completed
-        );
+        const output = this.fullscreenService.getOutput(this.content, [this.outputId]);
+
         const request = output
           ? this.contentService.download(
-              this.content.id,
+              this.content.displayContentId ?? this.content.id,
               output.outputFormatId,
-              this.width || 800,
-              this.height || 650,
+              null,
+              null,
               null
             )
           : this.contentService.downloadThumbnail(this.content.id, ThumbnailSize.Large, null, null);
 
-        this.sub = request.subscribe(response => {
+        this.sub = request.pipe(catchError(imageLoaderErrorHandler)).subscribe(response => {
           const isIcon = (response.headers && response.headers['content-type'] === 'image/svg+xml') || false;
           this.setPreviewUrl(URL.createObjectURL(response.data), isIcon);
         });
@@ -175,34 +169,20 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
   }
 
   async showFullscreen() {
-    let isPdf = this.content.contentType === ContentType.InterchangeDocument;
-    const isImage = !this.isVideo && !isPdf && !this.isIcon;
     let item: IShareItem;
     let items: IShareItem[] = [];
 
     if (this.content instanceof ContentDetail) {
-      if (!this.content.outputs) return;
-
-      const outputs = this.content.outputs;
-
-      const pdfOutput = outputs.find(i => i.outputFormatId === 'Pdf');
-      isPdf = pdfOutput !== undefined;
-
-      const previewOutput = isPdf
-        ? outputs.filter(o => o.outputFormatId === 'Pdf')[0]
-        : this.isAudio
-        ? outputs.filter(o => o.outputFormatId === 'AudioSmall')[0]
-        : this.isVideo
-        ? outputs.filter(o => o.outputFormatId === 'VideoSmall')[0]
-        : this.isIcon
-        ? outputs.filter(o => o.outputFormatId === 'Original')[0]
-        : outputs.filter(o => o.outputFormatId === 'Preview')[0];
+      const viewerType = this.fullscreenService.getContentViewerType(this.content);
+      const viewerOutput = this.fullscreenService.getViewerOutput(this.content, viewerType);
+      const output = this.fullscreenService.getOutput(this.content, [this.outputId]);
+      if (!viewerOutput) return;
 
       const downloadLink = await firstValueFrom(
         this.downloadFacade.getDownloadLink([
           new ContentDownloadRequestItem({
-            contentId: this.content.id,
-            outputFormatId: previewOutput.outputFormatId,
+            contentId: viewerOutput.contentId,
+            outputFormatId: viewerOutput.outputFormatId,
           }),
         ])
       );
@@ -210,25 +190,17 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
       item = {
         id: this.content.id,
 
-        isPdf: isPdf,
-        isImage: isImage,
-        isMovie: this.isVideo,
-        isAudio: this.isAudio,
-        isBinary: false,
+        viewerType,
         isIcon: this.isIcon,
-        videoUrl: this.isVideo ? downloadLink.downloadUrl : '',
-        audioUrl: this.isAudio ? downloadLink.downloadUrl : '',
-        pdfUrl: isPdf ? downloadLink.downloadUrl : '',
+        playerUrl: downloadLink.downloadUrl,
 
-        displayValues: {},
-        previewUrl: isImage ? downloadLink.downloadUrl : this.thumbnailUrl,
-
+        displayValues: this.content.displayValues,
+        previewUrl: this.thumbnailUrl,
         originalUrl: downloadLink.downloadUrl,
-        outputs: this.content.outputs as any[],
 
         detail: {
-          width: (<any>previewOutput.detail).width,
-          height: (<any>previewOutput.detail).height,
+          width: (<any>output?.detail).width,
+          height: (<any>output?.detail).height,
         },
       };
 
@@ -244,37 +216,28 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         creator: this.shareDetail.creator,
         description: this.shareDetail.description,
         items: this.shareDetail.contentSelections.map(s => {
-          const previewOutput = s.outputs.find(o => o.outputFormatId === 'Preview');
-          const originalOutput = s.outputs.find(o => o.outputFormatId === 'Original');
+          const viewerType = this.fullscreenService.getContentViewerType(s);
+          const viewerOutput = this.fullscreenService.getViewerOutput(s, viewerType) as ShareOutputBase | undefined;
+          const previewOutput = this.fullscreenService.getOutput(this.content, [this.outputId]) as
+            | ShareOutputBase
+            | undefined;
+          const originalOutput = this.fullscreenService.getOutput(this.content, ['Original']) as
+            | ShareOutputBase
+            | undefined;
+
           const detail = originalOutput ? originalOutput.detail : previewOutput ? previewOutput.detail : null;
 
-          const pdfOutput = s.outputs.find(i => i.outputFormatId === 'Pdf');
           return {
             id: s.id,
             index: index++,
             displayValues: s.displayValues,
             detail: detail,
 
-            isMovie: s.contentSchemaId === 'VideoMetadata',
-            isAudio: s.contentSchemaId === 'AudioMetadata',
-            isImage: s.contentSchemaId === 'ImageMetadata',
-            isPdf: pdfOutput !== undefined,
-            isBinary: s.contentType !== ContentType.Virtual,
+            viewerType,
             isIcon: this.isIcon,
-
-            previewUrl: previewOutput
-              ? previewOutput.viewUrl
-              : originalOutput && s.contentSchemaId === 'ImageMetadata'
-              ? originalOutput.viewUrl
-              : s.iconUrl,
-
-            originalUrl: originalOutput ? originalOutput.downloadUrl : null,
-            pdfUrl: pdfOutput ? pdfOutput.downloadUrl : null,
-            videoUrl:
-              s.outputs.find(i => i.outputFormatId === 'VideoLarge')?.downloadUrl ??
-              s.outputs.find(i => i.outputFormatId === 'VideoSmall')?.downloadUrl,
-            audioUrl: s.outputs.find(i => i.outputFormatId === 'AudioSmall')?.viewUrl,
-            outputs: s.outputs,
+            previewUrl: previewOutput?.viewUrl ?? s.iconUrl,
+            originalUrl: originalOutput?.downloadUrl,
+            playerUrl: viewerOutput?.downloadUrl,
           } as IShareItem;
         }),
       };
@@ -282,7 +245,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
       item = share.items.find(i => i.id === this.content.id) as IShareItem;
       items = share.items;
     }
-
+    this.viewerType = item.viewerType;
     this.displayFullscreen.next({ selectedItem: item, items });
   }
 
@@ -291,7 +254,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
     const url =
       this.scriptsPath +
       '/assets/picturepark-sdk-v1-widgets/pdfjs/web/viewer.html?file=' +
-      item.pdfUrl +
+      item.playerUrl +
       '&closeButton=false';
     this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }

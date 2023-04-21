@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BROKEN_IMAGE_URL } from '../../../utilities/constants';
-import { switchMap, map, tap, finalize } from 'rxjs/operators';
+import { switchMap, map, tap, finalize, catchError } from 'rxjs/operators';
 import { BaseBrowserItemComponent } from '../browser-item-base/browser-item-base.component';
 import {
   ThumbnailSize,
@@ -20,9 +20,11 @@ import {
   ContentFacade,
   PICTUREPARK_CDN_URL,
   ShareDataEmbed,
+  ContentService,
+  ShareOutputDisplayContent,
 } from '@picturepark/sdk-v2-angular';
-import { ContentService } from '@picturepark/sdk-v2-angular';
 import { Observable } from 'rxjs';
+import { imageLoaderErrorHandler } from '../image-loader.helper';
 
 @Component({
   selector: 'pp-content-item-thumbnail',
@@ -65,21 +67,28 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   }
 
   async ngOnChanges(changes: SimpleChanges) {
+    const handleVirtual = this.item.isVirtual() && !this.item.displayContentId;
+
     if (changes['shareItem']) {
       if (this.shareItem) {
-        if (this.item.isVirtual()) {
+        if (handleVirtual) {
           this.handleVirtualItem();
         } else {
           const content = this.item as ShareContentDetail;
           if (content) {
-            const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
+            const output =
+              content.outputs.find(
+                i => i instanceof ShareOutputDisplayContent && i.outputFormatId === 'Thumbnail' + this.thumbnailSize
+              ) ?? content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
             this.isLoading = true;
             this.thumbnailUrl$ = this.loadItem.pipe(
               map(() =>
                 this.trust(
                   output?.viewUrl ||
                     content.iconUrl ||
-                    `${this.cdnUrl}/icon/${(this.shareItem?.data as ShareDataEmbed).token}/${content.id}`
+                    `${this.cdnUrl}/icon/${(this.shareItem?.data as ShareDataEmbed).token}/${
+                      content.displayContentId ?? content.id
+                    }`
                 )
               ),
               tap(() => (this.isLoading = false)),
@@ -90,15 +99,23 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
       }
     } else {
       if (changes['item']) {
-        if (this.item.isVirtual()) {
+        if (handleVirtual) {
           this.handleVirtualItem();
         } else {
           this.thumbnailUrl$ = this.loadItem.pipe(
             tap(() => (this.isLoading = true)),
             switchMap(() => {
               return this.contentService
-                .downloadThumbnail(this.item.id, this.thumbnailSize || ThumbnailSize.Small, null, null)
-                .pipe(finalize(() => (this.isLoading = false)));
+                .downloadThumbnail(
+                  this.item.displayContentId ?? this.item.id,
+                  this.thumbnailSize || ThumbnailSize.Small,
+                  null,
+                  null
+                )
+                .pipe(
+                  catchError(imageLoaderErrorHandler),
+                  finalize(() => (this.isLoading = false))
+                );
             }),
             map(response => this.trust(URL.createObjectURL(response.data)))
           );

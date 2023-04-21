@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Inject, Injector, Optional } from '@angular/core'; // ignore
+import { Inject, Optional } from '@angular/core'; // ignore
 import { HttpClient, HttpHeaders, HttpResponseBase } from '@angular/common/http'; // ignore
 import { Observable, from as _observableFrom, throwError as _observableThrow } from 'rxjs'; // ignore
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators'; // ignore
@@ -21,8 +21,10 @@ import { // ignore
   ShareSearchResult, // ignore
   ShareResolveBehavior, // ignore
   ShareContentDetailResult, // ignore
+  SetDisplayContentRequest, // ignore
 } from './api-services'; // ignore
 
+import { Injector } from '@angular/core';
 import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
@@ -199,6 +201,27 @@ class ContentService extends generated.ContentService {
     updateRequest: ContentPermissionsUpdateRequest
   ): Observable<ContentDetail> {
     return this.updatePermissionsCore(contentId, resolveBehaviors, timeout, waitSearchDocCreation, updateRequest).pipe(
+      _observableMergeMap(async content => {
+        await this.liquidRenderingService.renderNestedDisplayValues(content);
+        return content;
+      })
+    );
+  }
+
+  setDisplayContent(
+    id: string | null,
+    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+    timeout: string | null | undefined,
+    waitForContinuation: boolean | undefined,
+    setDisplayContentRequest: SetDisplayContentRequest
+  ): Observable<ContentDetail> {
+    return this.setDisplayContentCore(
+      id,
+      resolveBehaviors,
+      timeout,
+      waitForContinuation,
+      setDisplayContentRequest
+    ).pipe(
       _observableMergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
         return content;
