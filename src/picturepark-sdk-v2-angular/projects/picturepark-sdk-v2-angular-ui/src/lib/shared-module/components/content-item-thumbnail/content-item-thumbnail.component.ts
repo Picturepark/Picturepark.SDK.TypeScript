@@ -21,6 +21,7 @@ import {
   PICTUREPARK_CDN_URL,
   ShareDataEmbed,
   ContentService,
+  ShareOutputDisplayContent,
 } from '@picturepark/sdk-v2-angular';
 import { Observable } from 'rxjs';
 import { imageLoaderErrorHandler } from '../image-loader.helper';
@@ -75,7 +76,10 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
         } else {
           const content = this.item as ShareContentDetail;
           if (content) {
-            const output = content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
+            const output =
+              content.outputs.find(
+                i => i instanceof ShareOutputDisplayContent && i.outputFormatId === 'Thumbnail' + this.thumbnailSize
+              ) ?? content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
             this.isLoading = true;
             this.thumbnailUrl$ = this.loadItem.pipe(
               map(() =>

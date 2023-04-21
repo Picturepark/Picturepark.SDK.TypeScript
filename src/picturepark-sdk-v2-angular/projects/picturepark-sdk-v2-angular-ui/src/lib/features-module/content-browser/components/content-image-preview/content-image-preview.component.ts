@@ -29,6 +29,7 @@ import {
   DownloadFacade,
   PICTUREPARK_CDN_URL,
   ShareDataEmbed,
+  ShareOutputDisplayContent,
 } from '@picturepark/sdk-v2-angular';
 
 // SERVICES
@@ -128,7 +129,10 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
       this.content = changes.content.currentValue;
 
       if (this.content instanceof ShareContentDetail) {
-        const shareOutput = this.content.outputs.find(i => i.outputFormatId === this.outputId);
+        const shareOutput =
+          this.content.outputs.find(
+            i => i instanceof ShareOutputDisplayContent && i.outputFormatId === this.outputId
+          ) ?? this.content.outputs.find(i => i.outputFormatId === this.outputId);
         if (shareOutput && shareOutput.viewUrl) {
           this.setPreviewUrl(shareOutput.viewUrl, false);
           return;
