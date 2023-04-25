@@ -32668,6 +32668,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SelfReferencingDisplayContentNotSupportedException") {
+            let result = new SelfReferencingDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkException();
         result.init(data);
         return result;
@@ -34586,6 +34591,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "SelfReferencingDisplayContentNotSupportedException") {
+            let result = new SelfReferencingDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkBusinessException();
         result.init(data);
         return result;
@@ -35998,6 +36008,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "CommentReplyContentMismatchException") {
             let result = new CommentReplyContentMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SelfReferencingDisplayContentNotSupportedException") {
+            let result = new SelfReferencingDisplayContentNotSupportedException();
             result.init(data);
             return result;
         }
@@ -50849,6 +50864,48 @@ export class VirtualDisplayContentNotSupportedException extends PictureparkNotFo
 }
 
 export interface IVirtualDisplayContentNotSupportedException extends IPictureparkNotFoundException {
+    contentIds?: string[] | undefined;
+}
+
+export class SelfReferencingDisplayContentNotSupportedException extends PictureparkValidationException implements ISelfReferencingDisplayContentNotSupportedException {
+    contentIds?: string[] | undefined;
+
+    constructor(data?: ISelfReferencingDisplayContentNotSupportedException) {
+        super(data);
+        this._discriminator = "SelfReferencingDisplayContentNotSupportedException";
+    }
+
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["contentIds"])) {
+                this.contentIds = [] as any;
+                for (let item of _data["contentIds"])
+                    this.contentIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): SelfReferencingDisplayContentNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SelfReferencingDisplayContentNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.contentIds)) {
+            data["contentIds"] = [];
+            for (let item of this.contentIds)
+                data["contentIds"].push(item);
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ISelfReferencingDisplayContentNotSupportedException extends IPictureparkValidationException {
     contentIds?: string[] | undefined;
 }
 

@@ -26161,6 +26161,10 @@ export interface VirtualDisplayContentNotSupportedException extends PictureparkN
     contentIds?: string[] | undefined;
 }
 
+export interface SelfReferencingDisplayContentNotSupportedException extends PictureparkValidationException {
+    contentIds?: string[] | undefined;
+}
+
 /** Create request to create a BusinessProcess. */
 export interface BusinessProcessCreateRequest {
     /** Indicates if the system starting the business process supports cancellation. */
