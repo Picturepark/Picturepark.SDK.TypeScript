@@ -12,7 +12,7 @@ import {
   Injector,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormGroup, FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators, UntypedFormArray } from '@angular/forms';
 
 // MD5 HASH
 import { Md5 } from 'ts-md5';
@@ -65,18 +65,18 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   @Output() previewItemChange = new EventEmitter<string>();
 
   selectedContent: Content[] = [];
-  sharedContentForm$ = new BehaviorSubject<FormGroup | undefined>(undefined);
+  sharedContentForm$ = new BehaviorSubject<UntypedFormGroup | undefined>(undefined);
   loader = false;
   spinnerLoader = true;
   recipients: ConfirmRecipients[] = [];
-  languageFormControl: FormControl;
+  languageFormControl: UntypedFormControl;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ShareContentDialogComponent>,
     protected injector: Injector,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private shareService: ShareService,
     private translatePipe: TranslatePipe,
     private renderer: Renderer2,
@@ -252,7 +252,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
   ngAfterViewInit() {
     this.notificationService.clearNotification();
     this.selectedContent = [...this.data];
-    this.languageFormControl = new FormControl(
+    this.languageFormControl = new UntypedFormControl(
       this.languageService.shareLanguages.find(lang => lang.ietf === this.languageService.currentLanguage.ietf)?.ietf ??
         this.languageService.shareLanguages[0].ietf,
       [Validators.required]
@@ -261,12 +261,12 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     this.sub = this.hasAccessOriginalRights().subscribe(accessOriginal => {
       this.sharedContentForm$.next(
         this.formBuilder.group({
-          share_name: new FormControl('', [Validators.required]),
-          recipientSearch: new FormControl(''),
-          recipients: new FormArray([], [Validators.required]),
-          expire_date: new FormControl(''),
+          share_name: new UntypedFormControl('', [Validators.required]),
+          recipientSearch: new UntypedFormControl(''),
+          recipients: new UntypedFormArray([], [Validators.required]),
+          expire_date: new UntypedFormControl(''),
           language: this.languageFormControl,
-          accessOriginal: new FormControl({ value: accessOriginal, disabled: !accessOriginal }),
+          accessOriginal: new UntypedFormControl({ value: accessOriginal, disabled: !accessOriginal }),
         })
       );
       this.setPrefillSubject(this.selectedContent);

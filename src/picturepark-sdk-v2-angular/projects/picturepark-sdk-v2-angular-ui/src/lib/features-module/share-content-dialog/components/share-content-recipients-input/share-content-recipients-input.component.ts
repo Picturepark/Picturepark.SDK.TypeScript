@@ -1,6 +1,6 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, Input, OnInit, Injector, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, UntypedFormArray, Validators, AbstractControl } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { TermsAggregator, ShareService, ShareAggregationRequest, NestedAggregator } from '@picturepark/sdk-v2-angular';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -12,8 +12,8 @@ import { BaseComponent } from '../../../../shared-module/components/base.compone
   styleUrls: ['./share-content-recipients-input.component.scss'],
 })
 export class ShareContentRecipientsInputComponent extends BaseComponent implements OnInit {
-  @Input() parentForm: FormGroup;
-  recipients: FormArray;
+  @Input() parentForm: UntypedFormGroup;
+  recipients: UntypedFormArray;
   recipientSearch: AbstractControl;
 
   @ViewChild('matChipListInput') matChipListInput: ElementRef<HTMLInputElement>;
@@ -32,10 +32,10 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
   }
 
   ngOnInit(): void {
-    this.recipients = <FormArray>this.parentForm.controls['recipients'];
+    this.recipients = <UntypedFormArray>this.parentForm.controls['recipients'];
     this.recipientSearch = this.parentForm.controls['recipientSearch'];
     this.recipientSearch.setValidators([Validators.pattern(this.reg)]);
-    this.sub = (<FormArray>this.recipientSearch).valueChanges
+    this.sub = (<UntypedFormArray>this.recipientSearch).valueChanges
       .pipe(
         debounceTime(300),
         tap(() => (this.isLoading = true)),
@@ -91,7 +91,7 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
         return;
       }
 
-      this.recipients.push(new FormControl(value.trim(), [Validators.email]));
+      this.recipients.push(new UntypedFormControl(value.trim(), [Validators.email]));
 
       this.recipients.markAsTouched();
 

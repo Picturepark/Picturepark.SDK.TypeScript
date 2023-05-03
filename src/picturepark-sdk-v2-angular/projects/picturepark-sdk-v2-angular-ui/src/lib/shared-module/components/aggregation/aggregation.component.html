@@ -58,7 +58,7 @@
       <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
     </mat-form-field>
 
-    <mat-selection-list (selectionChange)="selectionChanged($event.option.value)">
+    <mat-selection-list (selectionChange)="selectionChanged($event.options[0].value)">
       <mat-list-option
         *ngFor="let item of expandedAggregationResult?.aggregationResultItems"
         checkboxPosition="before"

@@ -10,7 +10,7 @@ import {
   IEntityBase,
 } from '@picturepark/sdk-v2-angular';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { FormControl, FormBuilder } from '@angular/forms';
+import { UntypedFormControl, UntypedFormBuilder } from '@angular/forms';
 import { debounceTime, tap, switchMap, map, catchError, distinctUntilChanged, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { BaseComponent } from '../../shared-module/components/base.component';
@@ -23,7 +23,7 @@ import { MatRadioChange } from '@angular/material/radio';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
-  constructor(injector: Injector, private formBuilder: FormBuilder, @Inject(LOCALE_ID) public locale: string) {
+  constructor(injector: Injector, private formBuilder: UntypedFormBuilder, @Inject(LOCALE_ID) public locale: string) {
     super(injector);
   }
 
@@ -32,7 +32,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   typed = false;
 
   form = this.formBuilder.group({
-    suggestBox: new FormControl(''),
+    suggestBox: new UntypedFormControl(''),
   });
 
   @Input()

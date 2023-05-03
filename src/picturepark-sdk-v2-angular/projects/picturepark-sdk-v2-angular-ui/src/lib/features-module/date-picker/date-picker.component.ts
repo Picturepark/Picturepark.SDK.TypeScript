@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'pp-date-picker',
@@ -7,6 +7,6 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./date-picker.component.scss'],
 })
 export class DatePickerComponent {
-  @Input() parentForm: FormGroup;
+  @Input() parentForm: UntypedFormGroup;
   @Input() placeHolderMessage: string;
 }

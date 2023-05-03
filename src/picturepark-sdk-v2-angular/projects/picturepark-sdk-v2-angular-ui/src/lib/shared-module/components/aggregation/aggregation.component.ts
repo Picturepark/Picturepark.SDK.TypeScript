@@ -1,5 +1,5 @@
 import { Input, OnChanges, SimpleChanges, Component, Inject, LOCALE_ID, Injector, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { debounce, map, flatMap } from 'rxjs/operators';
 import { timer, Observable, from, of } from 'rxjs';
 
@@ -40,7 +40,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
 
   aggregationsFiltersCount = 0;
 
-  aggregationQuery = new FormControl();
+  aggregationQuery = new UntypedFormControl();
 
   expandedAggregator: TermsAggregator;
 
