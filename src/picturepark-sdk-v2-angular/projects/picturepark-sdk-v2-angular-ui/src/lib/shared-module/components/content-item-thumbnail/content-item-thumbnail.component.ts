@@ -1,13 +1,4 @@
-import {
-  Component,
-  OnChanges,
-  SimpleChanges,
-  Input,
-  Injector,
-  ChangeDetectionStrategy,
-  Inject,
-  Optional,
-} from '@angular/core';
+import { Component, OnChanges, SimpleChanges, Input, ChangeDetectionStrategy, Inject, Optional } from '@angular/core';
 import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BROKEN_IMAGE_URL } from '../../../utilities/constants';
 import { switchMap, map, tap, finalize, catchError } from 'rxjs/operators';
@@ -59,10 +50,9 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
     private contentService: ContentService,
     private contentFacade: ContentFacade,
     private sanitizer: DomSanitizer,
-    protected injector: Injector,
     @Optional() @Inject(PICTUREPARK_CDN_URL) private cdnUrl?: string
   ) {
-    super(injector);
+    super();
     this.cdnUrl = this.cdnUrl || '';
   }
 

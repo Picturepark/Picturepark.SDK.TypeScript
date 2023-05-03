@@ -1,4 +1,4 @@
-import { Component, Input, Injector } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
@@ -15,8 +15,8 @@ import { Content } from '@picturepark/sdk-v2-angular';
 export class BasketItemComponent extends BaseComponent {
   @Input() item: Content;
 
-  constructor(private basketService: BasketService, protected injector: Injector) {
-    super(injector);
+  constructor(private basketService: BasketService) {
+    super();
   }
 
   remove() {

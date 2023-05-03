@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {
   AndFilter,
@@ -23,13 +23,12 @@ export class ListItemsPickerComponent extends BaseComponent implements OnInit {
   parentSchemaId$: Observable<string>;
 
   constructor(
-    injector: Injector,
     private route: ActivatedRoute,
     private router: Router,
     private schemaService: SchemaService,
     private facade: SchemaSearchFacade
   ) {
-    super(injector);
+    super();
   }
 
   ngOnInit(): void {

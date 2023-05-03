@@ -1,10 +1,12 @@
-import { OnDestroy, Injector, Directive } from '@angular/core';
+import { OnDestroy, Injector, Directive, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LazyGetter } from 'lazy-get-decorator';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Directive()
 export abstract class BaseComponent implements OnDestroy {
+  protected injector = inject(Injector);
+
   @LazyGetter()
   protected get breakpointObserver(): BreakpointObserver {
     return this.injector.get(BreakpointObserver);
@@ -25,7 +27,7 @@ export abstract class BaseComponent implements OnDestroy {
     if (value !== undefined) this.subscription.add(value);
   }
 
-  constructor(protected injector: Injector) {}
+  constructor() {}
 
   ngOnDestroy(): void {
     if (this.subscription) {

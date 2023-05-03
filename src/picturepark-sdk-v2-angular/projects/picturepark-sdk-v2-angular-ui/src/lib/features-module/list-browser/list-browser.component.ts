@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Sort, SortDirection as MatSortDirection } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -53,10 +53,9 @@ export class ListBrowserComponent extends BaseBrowserComponent<ListItem> impleme
     private metaDataPreviewService: MetaDataPreviewService,
     private infoFacade: InfoFacade,
     private cdr: ChangeDetectorRef,
-    public facade: ListItemSearchFacade,
-    injector: Injector
+    public facade: ListItemSearchFacade
   ) {
-    super('ListBrowserComponent', injector, facade);
+    super('ListBrowserComponent', facade);
   }
 
   async init(): Promise<void> {

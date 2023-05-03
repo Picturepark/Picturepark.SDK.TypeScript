@@ -9,7 +9,6 @@ import {
   EventEmitter,
   Renderer2,
   AfterViewInit,
-  Injector,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators, UntypedFormArray } from '@angular/forms';
@@ -75,7 +74,6 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     @Inject(MAT_DIALOG_DATA) public data: any,
     private contentService: ContentService,
     protected dialogRef: MatDialogRef<ShareContentDialogComponent>,
-    protected injector: Injector,
     private formBuilder: UntypedFormBuilder,
     private shareService: ShareService,
     private translatePipe: TranslatePipe,
@@ -84,7 +82,7 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
     public languageService: LanguageService,
     private shareFacade: ShareFacade
   ) {
-    super(dialogRef, injector);
+    super(dialogRef);
   }
 
   removeContent(event: Content) {

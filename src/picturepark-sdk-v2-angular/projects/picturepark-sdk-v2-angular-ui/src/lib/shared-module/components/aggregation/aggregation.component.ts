@@ -1,4 +1,4 @@
-import { Input, OnChanges, SimpleChanges, Component, Inject, LOCALE_ID, Injector, OnInit } from '@angular/core';
+import { Input, OnChanges, SimpleChanges, Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { debounce, map, flatMap } from 'rxjs/operators';
 import { timer, Observable, from, of } from 'rxjs';
@@ -54,8 +54,8 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
 
   isLoading = false;
 
-  constructor(@Inject(LOCALE_ID) public locale: string, protected injector: Injector) {
-    super(injector);
+  constructor(@Inject(LOCALE_ID) public locale: string) {
+    super();
     this.autoCompleteOptions = this.aggregationQuery.valueChanges.pipe(
       debounce(() => timer(500)),
       map((value: string | AggregationResultItem) => (typeof value === 'string' ? value : value.name || '')),

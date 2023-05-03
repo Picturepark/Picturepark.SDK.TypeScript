@@ -1,5 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, Input, OnInit, Injector, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, UntypedFormArray, Validators, AbstractControl } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { TermsAggregator, ShareService, ShareAggregationRequest, NestedAggregator } from '@picturepark/sdk-v2-angular';
@@ -27,8 +27,8 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
     // eslint-disable-next-line
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-  constructor(private shareService: ShareService, protected injector: Injector) {
-    super(injector);
+  constructor(private shareService: ShareService) {
+    super();
   }
 
   ngOnInit(): void {

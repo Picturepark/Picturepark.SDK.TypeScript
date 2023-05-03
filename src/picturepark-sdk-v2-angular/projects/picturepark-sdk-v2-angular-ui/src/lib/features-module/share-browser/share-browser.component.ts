@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // LIBRARIES
@@ -16,13 +16,8 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
   ],
 })
 export class ShareBrowserComponent extends BaseBrowserComponent<Share> {
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    injector: Injector,
-    private router: Router,
-    public facade: ShareSearchFacade
-  ) {
-    super('ShareBrowserComponent', injector, facade);
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, public facade: ShareSearchFacade) {
+    super('ShareBrowserComponent', facade);
   }
 
   async init() {}

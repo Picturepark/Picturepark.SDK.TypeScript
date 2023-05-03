@@ -1,4 +1,4 @@
-import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {
@@ -39,12 +39,11 @@ export class ContentDetailsDialogComponent extends DialogBaseComponent implement
     private contentService: ContentService,
     @Inject(MAT_DIALOG_DATA) public data: ContentDetailsDialogOptions,
     protected dialogRef: MatDialogRef<ContentDetailsDialogComponent>,
-    protected injector: Injector,
     private schemaService: SchemaService,
     private contentDownloadDialogService: ContentDownloadDialogService,
     private contentFacade: ContentFacade
   ) {
-    super(dialogRef, injector);
+    super(dialogRef);
 
     const shareDetail = this.data.shareDetail;
     if (shareDetail?.schemas) {

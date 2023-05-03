@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 // LIBRARIES
 import {
@@ -40,10 +40,9 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     private sessionService: SessionService,
     private basketService: BasketService,
     public facade: ContentSearchFacade,
-    private contentDownloadDialogService: ContentDownloadDialogService,
-    injector: Injector
+    private contentDownloadDialogService: ContentDownloadDialogService
   ) {
-    super('ContentBrowserComponent', injector, facade);
+    super('ContentBrowserComponent', facade);
   }
 
   async init(): Promise<void> {}

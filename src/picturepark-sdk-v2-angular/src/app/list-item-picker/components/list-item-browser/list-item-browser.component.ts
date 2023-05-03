@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Injector } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -18,12 +18,11 @@ export class ListItemBrowserComponent extends BaseComponent implements OnInit {
   schema = new Observable<SchemaDetail>();
 
   constructor(
-    injector: Injector,
     private route: ActivatedRoute,
     private router: Router,
     @Inject(AuthService) public authService: OidcAuthService
   ) {
-    super(injector);
+    super();
   }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Injector, Input, Optional, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Optional, Output } from '@angular/core';
 import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk-v2-angular';
 import { VIEW_MODE } from '../../configuration';
 import { BaseComponent } from '../../shared-module/components/base.component';
@@ -18,11 +18,10 @@ export class ShareItemsPanelComponent extends BaseComponent {
   thumbnailSize = ThumbnailSize;
 
   constructor(
-    injector: Injector,
     private contentDownloadDialogService: ContentDownloadDialogService,
     @Optional() @Inject(VIEW_MODE) public viewMode: 'grid' | 'list'
   ) {
-    super(injector);
+    super();
   }
 
   openInNewWindow(item: ShareContentDetail) {

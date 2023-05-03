@@ -8,7 +8,6 @@ import {
   ChangeDetectorRef,
   Inject,
   Optional,
-  Injector,
   OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -72,11 +71,10 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
     private sanitizer: DomSanitizer,
     private fullscreenService: FullscreenService,
     private cdr: ChangeDetectorRef,
-    protected injector: Injector,
     private downloadFacade: DownloadFacade,
     @Optional() @Inject(PICTUREPARK_CDN_URL) private cdnUrl?: string
   ) {
-    super(injector);
+    super();
     this.cdnUrl = this.cdnUrl || '';
   }
 

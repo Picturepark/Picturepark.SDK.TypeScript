@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Injector, ChangeDetectionStrategy, Inject, LOCALE_ID } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, Inject, LOCALE_ID } from '@angular/core';
 
 // LIBRARIES
 import {
@@ -23,8 +23,8 @@ import { MatRadioChange } from '@angular/material/radio';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
-  constructor(injector: Injector, private formBuilder: UntypedFormBuilder, @Inject(LOCALE_ID) public locale: string) {
-    super(injector);
+  constructor(private formBuilder: UntypedFormBuilder, @Inject(LOCALE_ID) public locale: string) {
+    super();
   }
 
   isLoading = false;

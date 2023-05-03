@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, ApplicationRef, Injector } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, ApplicationRef } from '@angular/core';
 
 // LIBRARIES
 import { ChannelService, Channel } from '@picturepark/sdk-v2-angular';
@@ -18,8 +18,8 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
 
   channels: Channel[] = [];
 
-  constructor(private channelService: ChannelService, private ref: ApplicationRef, protected injector: Injector) {
-    super(injector);
+  constructor(private channelService: ChannelService, private ref: ApplicationRef) {
+    super();
   }
 
   ngOnInit(): void {

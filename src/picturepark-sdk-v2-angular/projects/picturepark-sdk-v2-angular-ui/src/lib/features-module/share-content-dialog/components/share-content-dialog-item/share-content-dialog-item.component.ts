@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnDestroy, Injector } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 
 // COMPONENTS
 import { BaseComponent } from '../../../../shared-module/components/base.component';
@@ -16,10 +16,6 @@ export class ShareContentDialogItemComponent extends BaseComponent implements On
   item: Content;
 
   @Output() removeDialogContent = new EventEmitter<Content>();
-
-  constructor(protected injector: Injector) {
-    super(injector);
-  }
 
   remove() {
     this.removeDialogContent.emit(this.item);

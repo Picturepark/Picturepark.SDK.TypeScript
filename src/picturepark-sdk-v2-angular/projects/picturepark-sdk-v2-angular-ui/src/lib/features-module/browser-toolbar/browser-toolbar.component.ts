@@ -1,4 +1,4 @@
-import { Component, Input, Injector } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 // LIBRARIES
 import { IEntityBase } from '@picturepark/sdk-v2-angular';
@@ -36,10 +36,6 @@ export class BrowserToolbarComponent extends BaseComponent {
 
   get selectedItemCountLabel(): string {
     return this.selectedItemCount > 0 ? `${this.selectedItemCount}` : '';
-  }
-
-  constructor(protected injector: Injector) {
-    super(injector);
   }
 
   setSortDirection(asc: boolean) {

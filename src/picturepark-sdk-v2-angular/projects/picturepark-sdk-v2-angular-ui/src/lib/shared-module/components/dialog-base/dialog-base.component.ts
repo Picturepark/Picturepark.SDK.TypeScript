@@ -1,4 +1,4 @@
-import { OnInit, OnDestroy, Injector, Directive } from '@angular/core';
+import { OnInit, OnDestroy, Directive, inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 // COMPONENTS
@@ -15,11 +15,10 @@ export class DialogBaseComponent extends BaseComponent implements OnInit, OnDest
   // VARS
   notification: Notification;
   title: string;
-  notificationService: NotificationService;
+  notificationService = inject(NotificationService);
 
-  constructor(protected dialogRef: MatDialogRef<any>, protected injector: Injector) {
-    super(injector);
-    this.notificationService = injector.get(NotificationService);
+  constructor(protected dialogRef: MatDialogRef<any>) {
+    super();
   }
 
   // CLOSE DIALOG

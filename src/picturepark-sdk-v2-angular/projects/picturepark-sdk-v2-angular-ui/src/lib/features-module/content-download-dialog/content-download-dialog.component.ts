@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, Injector, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { firstValueFrom, Subscription } from 'rxjs';
 
@@ -73,14 +73,13 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     private contentService: ContentService,
     private shareAccessFacade: ShareAccessFacade,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
-    protected injector: Injector,
     private translationService: TranslationService,
     private snackBar: MatSnackBar,
     private dialogService: DialogService,
     private downloadFacade: DownloadFacade,
     private infoFacade: InfoFacade
   ) {
-    super(dialogRef, injector);
+    super(dialogRef);
   }
 
   async ngOnInit() {

@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, OnInit, Injector } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // LIBRARIES
@@ -28,13 +28,8 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
   isSelected$: Observable<boolean> | undefined;
 
-  constructor(
-    private contentService: ContentService,
-    private sanitizer: DomSanitizer,
-    protected injector: Injector,
-    private logger: LoggerService
-  ) {
-    super(injector);
+  constructor(private contentService: ContentService, private sanitizer: DomSanitizer, private logger: LoggerService) {
+    super();
   }
 
   getThumbnails(contentIds: string[]): void {

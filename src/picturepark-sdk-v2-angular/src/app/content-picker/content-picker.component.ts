@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, Injector } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -40,7 +40,6 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   @ViewChild(ContentBrowserComponent) contentBrowserComponent: ContentBrowserComponent;
 
   constructor(
-    injector: Injector,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private embedService: EmbedService,
@@ -51,7 +50,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     private translationService: TranslationService,
     private titleService: Title
   ) {
-    super(injector);
+    super();
   }
 
   openDetails(item: Content) {

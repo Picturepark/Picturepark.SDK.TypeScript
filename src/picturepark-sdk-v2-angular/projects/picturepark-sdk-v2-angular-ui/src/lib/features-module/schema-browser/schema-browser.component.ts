@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 // LIBRARIES
 import { Schema, SchemaSearchFacade } from '@picturepark/sdk-v2-angular';
 // COMPONENTS
@@ -19,8 +19,8 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
 
   selectedSchemaId: string;
 
-  constructor(public facade: SchemaSearchFacade, injector: Injector) {
-    super('SchemaBrowserComponent', injector, facade);
+  constructor(public facade: SchemaSearchFacade) {
+    super('SchemaBrowserComponent', facade);
   }
 
   async init(): Promise<void> {

@@ -1,5 +1,5 @@
 import { BaseComponent } from '../base.component';
-import { Injector, OnInit, NgZone, Output, EventEmitter, HostListener, Directive } from '@angular/core';
+import { OnInit, NgZone, Output, EventEmitter, HostListener, Directive } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LazyGetter } from 'lazy-get-decorator';
 
@@ -80,12 +80,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   abstract onScroll(): void;
   abstract checkContains(elementClassName: string): boolean;
 
-  constructor(
-    protected componentName: string,
-    protected injector: Injector,
-    public facade: SearchFacade<TEntity, SearchInputState>
-  ) {
-    super(injector);
+  constructor(protected componentName: string, public facade: SearchFacade<TEntity, SearchInputState>) {
+    super();
 
     this.self = this;
     // Init default sort
@@ -101,7 +97,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     }
     this.setSort(this.activeSortingType, this.isAscending ?? true, false);
 
-    this.pictureParkUIConfig = injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
+    this.pictureParkUIConfig = this.injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
   }
 
   async ngOnInit(): Promise<void> {

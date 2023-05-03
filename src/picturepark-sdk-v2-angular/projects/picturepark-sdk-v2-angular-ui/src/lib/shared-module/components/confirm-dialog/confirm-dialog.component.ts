@@ -1,4 +1,4 @@
-import { Component, Inject, Injector } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmOptions } from './confirm-dialog.interface';
 import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
@@ -10,9 +10,8 @@ import { DialogBaseComponent } from '../dialog-base/dialog-base.component';
 export class ConfirmDialogComponent extends DialogBaseComponent {
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public options: ConfirmOptions,
-    injector: Injector
+    @Inject(MAT_DIALOG_DATA) public options: ConfirmOptions
   ) {
-    super(dialogRef, injector);
+    super(dialogRef);
   }
 }

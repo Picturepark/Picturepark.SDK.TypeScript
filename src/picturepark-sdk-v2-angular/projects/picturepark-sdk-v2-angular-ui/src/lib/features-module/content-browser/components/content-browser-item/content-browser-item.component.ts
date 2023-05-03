@@ -2,7 +2,6 @@ import {
   Component,
   OnChanges,
   SecurityContext,
-  Injector,
   ChangeDetectionStrategy,
   OnInit,
   Output,
@@ -42,12 +41,11 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   private isSelected: boolean | undefined;
 
   constructor(
-    protected injector: Injector,
     private basketService: BasketService,
     private sanitizer: DomSanitizer,
     private contentDownloadDialogService: ContentDownloadDialogService
   ) {
-    super(injector);
+    super();
   }
 
   ngOnInit(): void {
