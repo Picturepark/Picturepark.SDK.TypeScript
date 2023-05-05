@@ -1,6 +1,6 @@
 import { BaseComponent } from '../base.component';
 import { OnInit, NgZone, Output, EventEmitter, HostListener, Directive } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK

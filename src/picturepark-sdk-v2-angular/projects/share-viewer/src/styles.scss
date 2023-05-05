@@ -6,7 +6,7 @@
 // CUSTOM THEME
 @import 'theme.scss';
 
-@include mat.all-component-themes($picturepark-app-theme);
+@include mat.all-legacy-component-themes($picturepark-app-theme);
 @include picturepark-theme($picturepark-app-theme);
 
 // GLOBAL STYLES (keep at bottom)

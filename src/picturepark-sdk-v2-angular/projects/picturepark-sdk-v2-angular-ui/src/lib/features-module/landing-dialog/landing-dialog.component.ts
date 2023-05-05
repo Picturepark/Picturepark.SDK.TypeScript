@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { LocalStorageService, StorageKey, TermsOfServiceFacade } from '@picturepark/sdk-v2-angular';
 import { map } from 'rxjs/operators';
 

@@ -9,12 +9,12 @@ import {
   SearchInputState,
   IEntityBase,
 } from '@picturepark/sdk-v2-angular';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 import { UntypedFormControl, UntypedFormBuilder } from '@angular/forms';
 import { debounceTime, tap, switchMap, map, catchError, distinctUntilChanged, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { BaseComponent } from '../../shared-module/components/base.component';
-import { MatRadioChange } from '@angular/material/radio';
+import { MatLegacyRadioChange as MatRadioChange } from '@angular/material/legacy-radio';
 
 @Component({
   selector: 'pp-search-suggest-box',

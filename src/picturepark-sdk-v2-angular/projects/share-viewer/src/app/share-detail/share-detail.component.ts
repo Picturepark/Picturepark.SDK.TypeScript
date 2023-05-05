@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import {
   ShareDetail,
   IMailRecipient,

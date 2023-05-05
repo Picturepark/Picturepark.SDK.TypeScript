@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Sort, SortDirection as MatSortDirection } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 
 // LIBRARIES
 import {
@@ -20,7 +20,7 @@ import { MetaDataPreviewService } from '../../shared-module/services/metadata-pr
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import { lowerFirst } from '../../utilities/helper';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 import { firstValueFrom } from 'rxjs';
 
 @Component({

@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-$custom-typography: mat.define-typography-config(
+$custom-typography: mat.define-legacy-typography-config(
   $font-family: '"Roboto", "Helvetica Neue", sans-serif',
   $display-4: mat.define-typography-level(16px, 25px, 300),
   $display-3: mat.define-typography-level(18px, 48px, 400),
@@ -17,8 +17,17 @@ $custom-typography: mat.define-typography-config(
   $input: mat.define-typography-level(18px, 1.125, 400),
 );
 
-@include mat.typography-hierarchy($custom-typography);
-@include mat.core($custom-typography);
+@include mat.legacy-typography-hierarchy($custom-typography);
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy($custom-typography);`
+@include mat.all-legacy-component-typographies($custom-typography);
+@include mat.legacy-core();
 
 $mat-picturepark-accent: (
   0: #eeeeee,
@@ -133,9 +142,15 @@ $picturepark-app-primary: mat.define-palette($mat-picturepark-primary);
 $picturepark-app-accent: mat.define-palette($mat-picturepark-accent, 400, 200, 700);
 $picturepark-app-warn: mat.define-palette($mat-picturepark-warn);
 $picturepark-app-theme: mat.define-light-theme(
-  $picturepark-app-primary,
-  $picturepark-app-accent,
-  $picturepark-app-warn
+  (
+    color: (
+      primary: $picturepark-app-primary,
+      accent: $picturepark-app-accent,
+      warn: $picturepark-app-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
 );
 
 $mat-picturepark-primary-dark: (
@@ -165,9 +180,15 @@ $picturepark-app-primary-dark: mat.define-palette($mat-picturepark-primary-dark)
 $picturepark-app-accent-dark: mat.define-palette($mat-picturepark-accent, 400, 200, 700);
 $picturepark-app-warn-dark: mat.define-palette($mat-picturepark-warn);
 $picturepark-app-theme-dark: mat.define-dark-theme(
-  $picturepark-app-primary-dark,
-  $picturepark-app-accent-dark,
-  $picturepark-app-warn-dark
+  (
+    color: (
+      primary: $picturepark-app-primary-dark,
+      accent: $picturepark-app-accent-dark,
+      warn: $picturepark-app-warn-dark,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
 );
 
 // Apply custom components themes

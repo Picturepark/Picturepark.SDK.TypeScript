@@ -6,8 +6,8 @@ import { RouterModule } from '@angular/router';
 import { ApplicationMenuComponent } from './application-menu.component';
 
 // Materials
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 @NgModule({
   declarations: [ApplicationMenuComponent],

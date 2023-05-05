@@ -7,7 +7,7 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 // COMPONENTS
 import { ListBrowserComponent } from './list-browser.component';
 import { BrowserToolbarModule } from '../browser-toolbar/browser-toolbar.module';
-import { MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
+import { MAT_LEGACY_TOOLTIP_DEFAULT_OPTIONS as MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/legacy-tooltip';
 
 @NgModule({
   declarations: [ListBrowserComponent],
