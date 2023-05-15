@@ -11,7 +11,7 @@
     "build-libraries:dev": "ng build picturepark-sdk-v2-angular --configuration=development && ng build picturepark-sdk-v2-angular-oidc --configuration=development && npm run build-ui:dev",
     "build": "npm run prepare-config & npm run init && npm run lint && npm run format:check && npm run build-libraries && ng build --configuration production",
     "build-share-viewer": "ng build share-viewer --configuration production --output-hashing none",
-    "build-app": "npm run prepare-config & ng build --configuration production --output-hashing none --baseHref=/elements/",
+    "build-app": "npm run prepare-config & ng build --configuration production --output-hashing none",
     "build-ui": "ng build picturepark-sdk-v2-angular-ui --configuration production && npm run build-ui-theme",
     "build-ui:dev": "ng build picturepark-sdk-v2-angular-ui --configuration=development && npm run build-ui-theme && npm run build-css",
     "build-ui-theme": "node ./build-scss.mjs",
