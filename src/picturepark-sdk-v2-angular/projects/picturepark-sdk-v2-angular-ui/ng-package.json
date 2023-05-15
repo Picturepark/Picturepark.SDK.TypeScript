@@ -4,5 +4,5 @@
   "lib": {
     "entryFile": "src/public_api.ts"
   },
-  "allowedNonPeerDependencies": ["tslib", "ts-md5", "moment", "lazy-get-decorator"]
+  "allowedNonPeerDependencies": ["tslib", "ts-md5", "moment"]
 }

@@ -1,9 +1,12 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, inject } from '@angular/core';
 import { AuthService } from './auth.service';
+import { LiquidRenderingService } from './liquid-rendering.service';
 
 export const PICTUREPARK_CONFIGURATION = new InjectionToken<string>('PICTUREPARK_CONFIGURATION');
 
 export abstract class PictureparkServiceBase {
+  liquidRenderingService = inject(LiquidRenderingService);
+
   constructor(private authService: AuthService) {}
 
   getBaseUrl(defaultUrl: string) {

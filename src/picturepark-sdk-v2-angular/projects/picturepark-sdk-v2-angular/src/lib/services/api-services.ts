@@ -9,9 +9,7 @@
 // ReSharper disable InconsistentNaming
 
 import { Injector } from '@angular/core';
-import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
-import { LiquidRenderingService } from './liquid-rendering.service';
 import { PictureparkServiceBase } from './base.service';
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
@@ -4269,23 +4267,13 @@ export class ContentService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("");
+    }
+
     
-  @LazyGetter()
-  protected get liquidRenderingService(): LiquidRenderingService {
-    return this.injector.get(LiquidRenderingService);
-  }
-
-  constructor(
-    protected injector: Injector,
-    @Inject(AuthService) configuration: AuthService,
-    @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
-  ) {
-    super(configuration);
-    this.http = http;
-    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-  }
-
   create(
     resolveBehaviors: ContentResolveBehavior[] | null | undefined,
     allowMissingDependencies: boolean | undefined,
@@ -12102,23 +12090,13 @@ export class ListItemService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("");
+    }
+
     
-  @LazyGetter()
-  protected get liquidRenderingService(): LiquidRenderingService {
-    return this.injector.get(LiquidRenderingService);
-  }
-
-  constructor(
-    protected injector: Injector,
-    @Inject(AuthService) configuration: AuthService,
-    @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
-  ) {
-    super(configuration);
-    this.http = http;
-    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-  }
-
   get(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
     return this.getCore(listItemId, resolveBehaviors).pipe(
       _observableMergeMap(async listItem => {
@@ -21363,23 +21341,13 @@ export class ShareService extends PictureparkServiceBase {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
+    constructor(@Inject(AuthService) configuration: AuthService, @Inject(HttpClient) http: HttpClient, @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string) {
+        super(configuration);
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : this.getBaseUrl("");
+    }
+
     
-  @LazyGetter()
-  protected get liquidRenderingService(): LiquidRenderingService {
-    return this.injector.get(LiquidRenderingService);
-  }
-
-  constructor(
-    protected injector: Injector,
-    @Inject(AuthService) configuration: AuthService,
-    @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
-  ) {
-    super(configuration);
-    this.http = http;
-    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-  }
-
   get(
     id: string | null,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,

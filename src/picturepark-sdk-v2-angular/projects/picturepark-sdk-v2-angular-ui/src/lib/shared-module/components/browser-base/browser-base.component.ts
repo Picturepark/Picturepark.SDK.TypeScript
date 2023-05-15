@@ -1,12 +1,11 @@
 import { BaseComponent } from '../base.component';
-import { OnInit, NgZone, Output, EventEmitter, HostListener, Directive } from '@angular/core';
+import { OnInit, NgZone, Output, EventEmitter, HostListener, Directive, inject } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
-import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
+import { ConfigActions, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
 import {
   IEntityBase,
   ThumbnailSize,
@@ -26,31 +25,15 @@ import { RangeSelection } from './interfaces/range-selection';
 
 @Directive()
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
-  // Services
-  @LazyGetter()
-  protected get scrollDispatcher(): ScrollDispatcher {
-    return this.injector.get(ScrollDispatcher);
-  }
-  @LazyGetter()
-  protected get ngZone(): NgZone {
-    return this.injector.get(NgZone);
-  }
-  @LazyGetter()
-  protected get translationService(): TranslationService {
-    return this.injector.get(TranslationService);
-  }
-  @LazyGetter()
-  get selectionService(): SelectionService<TEntity> {
-    return new SelectionService<TEntity>();
-  }
-  @LazyGetter()
-  protected get dialog(): MatDialog {
-    return this.injector.get(MatDialog);
-  }
+  protected scrollDispatcher = inject(ScrollDispatcher);
+  protected ngZone = inject(NgZone);
+  protected translationService = inject(TranslationService);
+  selectionService: SelectionService<TEntity> = new SelectionService();
+  protected dialog = inject(MatDialog);
 
   self: BaseBrowserComponent<TEntity>;
 
-  protected pictureParkUIConfig: PictureparkUIConfiguration;
+  protected pictureParkUIConfig = inject(PICTUREPARK_UI_CONFIGURATION);
 
   configActions: ConfigActions;
   isLoading = false;
@@ -96,8 +79,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
       this.activeSortingType = this.sortingTypes[0];
     }
     this.setSort(this.activeSortingType, this.isAscending ?? true, false);
-
-    this.pictureParkUIConfig = this.injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
   }
 
   async ngOnInit(): Promise<void> {

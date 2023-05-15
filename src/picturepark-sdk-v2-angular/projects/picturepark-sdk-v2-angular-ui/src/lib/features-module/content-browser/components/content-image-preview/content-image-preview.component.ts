@@ -11,7 +11,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { LazyGetter } from 'lazy-get-decorator';
 import { catchError, throttleTime } from 'rxjs/operators';
 import { firstValueFrom, Subject } from 'rxjs';
 
@@ -79,7 +78,6 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
   }
 
   /** Gets the script path from either configured PICTUREPARK_UI_SCRIPTPATH or fallback to the configured base href */
-  @LazyGetter()
   protected get scriptsPath() {
     if (this.uiScriptPath) {
       return this.uiScriptPath;
