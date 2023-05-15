@@ -7,7 +7,7 @@
     "ng": "ng",
     "start": "ng serve --port 4300 -o",
     "start-share-viewer": "ng serve share-viewer --port 4400 -o",
-    "build-libraries": "ng build picturepark-sdk-v2-angular --configuration production && ng build picturepark-sdk-v2-angular-oidc --configuration production && npm run build-ui && npm run build-css",
+    "build-libraries": "node --stack-size=8192 ./node_modules/@angular/cli/bin/ng build picturepark-sdk-v2-angular --configuration production && ng build picturepark-sdk-v2-angular-oidc --configuration production && npm run build-ui && npm run build-css",
     "build-libraries:dev": "ng build picturepark-sdk-v2-angular --configuration=development && ng build picturepark-sdk-v2-angular-oidc --configuration=development && npm run build-ui:dev",
     "build": "npm run prepare-config & npm run init && npm run lint && npm run format:check && npm run build-libraries && ng build --configuration production",
     "build-share-viewer": "ng build share-viewer --configuration production --output-hashing none",
