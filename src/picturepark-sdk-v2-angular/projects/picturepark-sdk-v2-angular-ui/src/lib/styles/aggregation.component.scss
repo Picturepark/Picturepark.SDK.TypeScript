@@ -26,6 +26,7 @@ pp-aggregation-item {
         }
       }
     }
+    /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version. */
     mat-progress-bar {
       right: 35px;
       width: calc(100% + 35px) !important;
@@ -48,9 +49,14 @@ pp-aggregation-item {
       top: 8px;
       font-size: 21px;
     }
+    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
     .mat-form-field-wrapper {
       width: 100%;
       padding: 0px;
+      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
+      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
       .mat-form-field-infix {
         padding: 0px 0px 0px 35px;
         border-top: 0px;
@@ -59,10 +65,12 @@ pp-aggregation-item {
         input {
           font-size: 16px;
         }
+        /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
         .mat-form-field-label-wrapper {
           display: none;
         }
       }
+      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
       .mat-form-field-underline {
         display: none;
       }

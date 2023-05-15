@@ -37,7 +37,7 @@
     padding-left: 5px;
   }
 
-  .mat-list-base .mat-list-item,
+  .mat-mdc-list-base .mat-mdc-list-item,
   .mat-list-base .mat-list-option {
     height: 28px;
     padding: 0 20px;
@@ -59,19 +59,19 @@
     padding: 0 0 10px 0;
   }
 
-  .mat-list-base {
+  .mat-mdc-list-base {
     padding-bottom: 8px;
-
-    .mat-list-item,
+    /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+    .mat-mdc-list-item,
     .mat-list-option,
-    .mat-subheader {
+    .mat-mdc-subheader {
       font-size: 14px;
     }
   }
-
-  .mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
+  /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+  .mat-mdc-list-base .mat-mdc-list-item.mat-list-option ::ng-deep .mat-list-item-content {
     padding: unset;
-
+    /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
     .mat-list-text {
       padding-left: 5px;
     }

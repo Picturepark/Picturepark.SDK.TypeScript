@@ -6,14 +6,15 @@
 // CUSTOM THEME
 @import 'theme.scss';
 
-@include mat.all-legacy-component-themes($picturepark-app-theme);
+@include mat.all-component-themes($picturepark-app-theme);
 @include picturepark-theme($picturepark-app-theme);
 
 // GLOBAL STYLES (keep at bottom)
 @import '../../picturepark-sdk-v2-angular-ui/src/lib/styles/global_styles.scss';
 
 // Custom tooltip styling
-mat-tooltip-component .mat-tooltip {
+/* TODO(mdc-migration): The following rule targets internal classes of tooltip that may no longer apply for the MDC version.*/
+mat-tooltip-component .mat-mdc-tooltip {
   opacity: 0.9;
   border-radius: 2px;
   background-color: #535353;

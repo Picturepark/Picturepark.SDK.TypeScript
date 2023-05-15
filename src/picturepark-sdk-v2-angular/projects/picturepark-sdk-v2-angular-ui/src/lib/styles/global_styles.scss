@@ -1,6 +1,7 @@
 .app-root-container {
   position: relative;
   height: 100vh;
+  /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
   mat-progress-bar {
     position: absolute;
     top: 0px;
@@ -19,21 +20,22 @@
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 .filters .mat-tab-label {
   height: 48px;
 }
 
-.mat-expansion-panel-header .mat-selection-list {
+.mat-expansion-panel-header .mat-mdc-selection-list {
   &::focus {
     outline: -webkit-focus-ring-color auto 0px;
   }
 }
 
-.mat-tab-header {
+.mat-mdc-tab-header {
   height: 50px;
 }
 
-.filters mat-tab-group mat-tab-header .mat-tab-header-pagination {
+.filters mat-tab-group mat-tab-header .mat-mdc-tab-header-pagination {
   display: none !important;
 }
 
@@ -71,16 +73,17 @@
   height: 30px !important;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 .mat-tab-body-wrapper {
   height: 100% !important;
 }
 
 // Start Handle Angular Material Pannels Styles
-.mat-menu-panel {
+.mat-mdc-menu-panel {
   min-width: 200px !important;
   max-width: 280px !important;
 
-  .mat-menu-content {
+  .mat-mdc-menu-content {
     padding-top: 0px !important;
     padding-bottom: 0px !important;
   }
@@ -92,7 +95,7 @@
 
 // End Handle Angular Material Pannels Styles
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   overflow: hidden !important;
 }
 
@@ -103,13 +106,16 @@ pp-aggregation-item .mat-expansion-panel {
 
 // CONTENT DETAILS DIALOG
 pp-content-details-dialog {
-  .mat-tab-body .mat-tab-body-content {
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+  .mat-mdc-tab-body .mat-tab-body-content {
     overflow-x: hidden;
     overflow-y: auto;
   }
-  .mat-tab-group.mat-tab-fill-height .mat-tab-body-wrapper {
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+  .mat-mdc-tab-group.mat-tab-fill-height .mat-tab-body-wrapper {
     flex: 1 1 100%;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   .dialog-content .mat-tab-labels .mat-tab-label {
     height: 48px;
   }
@@ -117,18 +123,18 @@ pp-content-details-dialog {
 
 // SHARE CONTENT DIALOG
 pp-share-content-dialog {
-  .mat-tab-header {
+  .mat-mdc-tab-header {
     height: 50px;
   }
 
   @media (max-width: 525px) {
-    .mat-dialog-content {
+    .mat-mdc-dialog-content {
       max-height: unset;
     }
   }
 }
 
-.pp-dialog .mat-dialog-container {
+.pp-dialog .mat-mdc-dialog-container {
   padding: 0;
   overflow: unset;
 }
@@ -145,6 +151,6 @@ pp-share-content-dialog {
 }
 
 // Extends the base mat-stroked-button styling
-.mat-stroked-button {
+.mat-mdc-outlined-button {
   line-height: 30px !important;
 }

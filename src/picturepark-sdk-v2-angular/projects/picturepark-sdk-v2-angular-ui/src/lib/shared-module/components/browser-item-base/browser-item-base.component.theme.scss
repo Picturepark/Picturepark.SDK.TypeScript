@@ -40,7 +40,7 @@
       &__title {
         background-color: mat.get-color-from-palette($primary, background-dark);
         color: mat.get-color-from-palette($primary, on-background-dark);
-        font-size: mat.font-size($custom-typography, display-1);
+        font-size: mat.font-size($custom-typography, headline-4);
       }
     }
 

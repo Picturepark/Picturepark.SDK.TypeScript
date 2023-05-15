@@ -28,7 +28,7 @@ $pp-share-content-dialog: (
           ul {
             li {
               mat-icon {
-                font-size: mat.font-size($custom-typography, subheading-2);
+                font-size: mat.font-size($custom-typography, subtitle-1);
                 color: mat.get-color-from-palette($primary, on-background-dark);
               }
 
@@ -48,7 +48,7 @@ $pp-share-content-dialog: (
     }
   }
 
-  .mat-tab-header {
+  .mat-mdc-tab-header {
     background-color: mat.get-color-from-palette($primary, surface-mid);
   }
 

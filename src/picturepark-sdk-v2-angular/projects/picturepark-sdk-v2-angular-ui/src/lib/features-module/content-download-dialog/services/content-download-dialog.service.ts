@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ContentDownloadDialogComponent } from '../content-download-dialog.component';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ContentDownloadDialogOptions } from '../interfaces/content-download-dialog.interfaces';
 
 @Injectable({

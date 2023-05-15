@@ -5,12 +5,12 @@
 // CUSTOM THEME
 @import 'theme.scss';
 
-@include mat.all-legacy-component-themes($picturepark-app-theme);
+@include mat.all-component-themes($picturepark-app-theme);
 @include picturepark-theme($picturepark-app-theme);
 @include picturepark-components($picturepark-app-theme);
 
 .dark-theme {
-  @include mat.all-legacy-component-themes($picturepark-app-theme-dark);
+  @include mat.all-component-themes($picturepark-app-theme-dark);
   @include picturepark-theme($picturepark-app-theme-dark);
   @include picturepark-components($picturepark-app-theme-dark);
 }

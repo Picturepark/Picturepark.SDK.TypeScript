@@ -19,23 +19,27 @@ $pp-dialog-base: (
         color: mat.get-color-from-palette($accent, '200-contrast');
         border-color: mat.get-color-from-palette($primary, divider);
       }
-
+      /* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
+      /* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
+      /* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
       mat-dialog-content {
         background-color: mat.get-color-from-palette($primary, background-dark);
         color: mat.get-color-from-palette($primary, on-background-dark);
 
-        .mat-tab-header {
+        .mat-mdc-tab-header {
           background-color: mat.get-color-from-palette($accent, 550);
         }
-
+        /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
+        /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
         .mat-checkbox-checked {
           &.mat-primary {
+            /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
             .mat-checkbox-background {
               background-color: mat.get-color-from-palette($primary, primary);
             }
           }
         }
-
+        /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
         .mat-tab-body-content {
           background-color: mat.get-color-from-palette($accent, 450);
           color: mat.get-color-from-palette($primary, on-surface-mid);
@@ -45,7 +49,7 @@ $pp-dialog-base: (
       .loader-container {
         background-color: mat.get-color-from-palette($primary, surface-light);
       }
-
+      /* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
       mat-dialog-actions {
         background-color: mat.get-color-from-palette($primary, surface-light);
         color: mat.get-color-from-palette($primary, on-surface-light);
@@ -55,18 +59,25 @@ $pp-dialog-base: (
 
   .cp-dialog {
     .dialog-container {
+      /* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
+      /* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
+      /* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
       mat-dialog-content {
         background-color: mat.get-color-from-palette($accent, 400);
         color: mat.get-color-from-palette($accent, '400-contrast');
         fill: mat.get-color-from-palette($accent, '200-contrast');
 
-        .mat-radio-button {
+        .mat-mdc-radio-button {
           &.mat-accent {
+            /* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
+            /* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
             &.mat-radio-checked {
+              /* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
               .mat-radio-outer-circle {
                 border-color: mat.get-color-from-palette($primary, 400);
               }
             }
+            /* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
             .mat-radio-inner-circle {
               background-color: mat.get-color-from-palette($primary, 400);
             }

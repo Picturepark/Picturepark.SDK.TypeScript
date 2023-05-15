@@ -3,7 +3,7 @@ import { ShareDetail, IMailRecipient, StorageKey, LocalStorageService } from '@p
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { DISABLE_COOKIE_CONSENT, TERMS } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { LandingDialogComponent } from '@picturepark/sdk-v2-angular-ui';
 
 @Component({

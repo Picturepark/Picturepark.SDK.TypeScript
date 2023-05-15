@@ -1,5 +1,5 @@
 import { OnInit, OnDestroy, Directive, inject } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 // COMPONENTS
 import { BaseComponent } from '../base.component';

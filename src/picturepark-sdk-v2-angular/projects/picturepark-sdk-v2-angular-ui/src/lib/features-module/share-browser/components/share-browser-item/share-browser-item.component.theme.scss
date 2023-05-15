@@ -17,11 +17,11 @@ $pp-share-browser-item: (
       }
 
       &__title {
-        font-size: mat.font-size($custom-typography, display-1);
+        font-size: mat.font-size($custom-typography, headline-4);
         color: mat.get-color-from-palette($primary, on-background-dark);
 
         i {
-          font-size: mat.font-size($custom-typography, display-1);
+          font-size: mat.font-size($custom-typography, headline-4);
         }
       }
     }

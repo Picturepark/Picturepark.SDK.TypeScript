@@ -1,13 +1,16 @@
 // OVERWRITE DEFAULT DATE PICKER STYLES
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-underline {
   display: none;
 }
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-label {
   position: relative;
   top: 0;
   left: 0.8em;
   font-size: 13px;
 }
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 pp-date-picker
   .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float
   .mat-form-field-label,
@@ -22,38 +25,47 @@ pp-date-picker
 pp-date-picker .mat-form-field-appearance-legacy.mat-focused input {
   border: 1px solid rgba(0, 0, 0, 0.54);
 }
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 pp-date-picker .mat-form-field-suffix {
   bottom: 0.65em;
   right: 1.2em;
 }
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 pp-date-picker .mat-form-field-infix {
   border-top: 0;
   padding: 0 !important;
 }
-pp-date-picker .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+pp-date-picker .mat-mdc-form-field.mat-form-field-invalid .mat-form-field-label {
   color: rgba(0, 0, 0, 0.54);
 }
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-label {
   z-index: 11;
 }
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 pp-date-picker
   .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float
   .mat-form-field-label {
   transform: none;
 }
-pp-date-picker .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+pp-date-picker .mat-mdc-form-field.mat-form-field-invalid .mat-form-field-label {
   transition: 0.5s;
 }
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 pp-date-picker
   .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float
   .mat-form-field-label {
   top: 2.2em;
   color: rgba(0, 0, 0, 0);
 }
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 pp-date-picker .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding-bottom: 0;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 pp-date-picker .mat-form-field-label-wrapper {
   padding-top: 0;
   top: 0;

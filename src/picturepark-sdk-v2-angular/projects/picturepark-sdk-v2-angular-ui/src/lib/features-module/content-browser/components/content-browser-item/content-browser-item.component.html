@@ -38,7 +38,7 @@
     [class.browser-item__title--mobile]="deviceBreakpoint"
   >
     <div class="browser-item__title__title-content">{{ itemModel.displayValues!['name'] || 'n/a' }}</div>
-    <div class="mat-subheading-1" *ngIf="isListView" [innerHtml]="listItemHtml || 'n/a'"></div>
+    <div class="mat-body-1" *ngIf="isListView" [innerHtml]="listItemHtml || 'n/a'"></div>
   </div>
   <div
     *ngIf="isListView"

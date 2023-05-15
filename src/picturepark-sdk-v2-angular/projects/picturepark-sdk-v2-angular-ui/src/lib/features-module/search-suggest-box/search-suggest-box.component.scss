@@ -42,9 +42,11 @@
   margin: 5px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of autocomplete that may no longer apply for the MDC version. */
+/* TODO(mdc-migration): The following rule targets internal classes of autocomplete that may no longer apply for the MDC version. */
 ::ng-deep .mat-autocomplete-panel {
   max-height: 800px !important;
-
+  /* TODO(mdc-migration): The following rule targets internal classes of option that may no longer apply for the MDC version. */
   .mat-option-text {
     font-size: 16px;
   }

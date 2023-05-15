@@ -7,13 +7,14 @@
 
   table {
     width: 100%;
+    /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
     mat-checkbox {
       position: relative;
       left: 7px;
     }
   }
-  .mat-cell,
-  .mat-header-cell {
+  .mat-mdc-cell,
+  .mat-mdc-header-cell {
     padding: 10px 10px 10px 10px;
     white-space: nowrap;
     overflow: hidden;

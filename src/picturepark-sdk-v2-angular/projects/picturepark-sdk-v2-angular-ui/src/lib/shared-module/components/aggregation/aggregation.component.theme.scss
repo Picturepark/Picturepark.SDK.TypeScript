@@ -12,7 +12,7 @@
       }
 
       .mat-expansion-panel-header {
-        font-size: mat.font-size($custom-typography, display-1);
+        font-size: mat.font-size($custom-typography, headline-4);
 
         .mat-content {
           border-bottom: 1px solid mat.get-color-from-palette($primary, divider);
@@ -29,15 +29,16 @@
         }
       }
 
-      .mat-list-base {
-        .mat-list-item,
+      .mat-mdc-list-base {
+        /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+        .mat-mdc-list-item,
         .mat-list-option,
-        .mat-subheader {
-          font-size: mat.font-size($custom-typography, display-1);
+        .mat-mdc-subheader {
+          font-size: mat.font-size($custom-typography, headline-4);
         }
       }
-
-      .mat-list-item.mat-list-option .mat-list-item-content {
+      /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+      .mat-mdc-list-item.mat-list-option .mat-list-item-content {
         .mat-pseudo-checkbox {
           color: mat.get-color-from-palette($primary, on-background-dark);
 

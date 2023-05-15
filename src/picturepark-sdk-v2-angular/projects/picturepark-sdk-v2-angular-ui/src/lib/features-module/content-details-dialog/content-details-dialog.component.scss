@@ -4,7 +4,8 @@
   .dialog-content {
     overflow: hidden;
     height: calc(100% - 62px);
-
+    /* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version. */
+    /* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version. */
     mat-dialog-content {
       position: relative;
 
@@ -52,7 +53,7 @@
         }
       }
 
-      .mat-tab-header {
+      .mat-mdc-tab-header {
         height: 50px;
       }
 
@@ -104,6 +105,6 @@
   }
 }
 
-.mat-dialog-content {
+.mat-mdc-dialog-content {
   max-height: 100vh;
 }
