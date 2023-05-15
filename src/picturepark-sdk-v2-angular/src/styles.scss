@@ -10,7 +10,7 @@
 @include picturepark-components($picturepark-app-theme);
 
 .dark-theme {
-  @include mat.all-component-themes($picturepark-app-theme-dark);
+  @include mat.all-component-colors($picturepark-app-theme-dark);
   @include picturepark-theme($picturepark-app-theme-dark);
   @include picturepark-components($picturepark-app-theme-dark);
 }
