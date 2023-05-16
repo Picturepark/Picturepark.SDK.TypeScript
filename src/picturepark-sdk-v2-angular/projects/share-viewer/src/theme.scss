@@ -165,7 +165,7 @@ $picturepark-app-theme: mat.define-light-theme(
       accent: $picturepark-app-accent,
       warn: $picturepark-app-warn,
     ),
-    typography: mat.define-typography-config(),
+    typography: $custom-typography,
     density: 0,
   )
 );
