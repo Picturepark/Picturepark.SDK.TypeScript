@@ -134,8 +134,8 @@ pp-share-content-dialog {
   }
 }
 
-.pp-dialog .mat-mdc-dialog-container {
-  padding: 0;
+.pp-dialog .mdc-dialog__content {
+  padding: 0 !important;
   overflow: unset;
 }
 

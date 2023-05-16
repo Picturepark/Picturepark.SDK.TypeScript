@@ -79,7 +79,7 @@
       </div>
 
       <div class="selected-items-content" *ngIf="recipients.length === 0">
-        <mat-tab-group autoFocus="false">
+        <mat-tab-group autoFocus="false" [mat-stretch-tabs]="false">
           <mat-tab label="{{ 'ShareContentDialog.Items' | pptranslate }}">
             <ng-template matTabContent>
               <div class="selected-items">
