@@ -73,8 +73,7 @@
   height: 30px !important;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-.mat-tab-body-wrapper {
+.mat-mdc-tab-body-wrapper {
   height: 100% !important;
 }
 
@@ -106,15 +105,15 @@ pp-aggregation-item .mat-expansion-panel {
 
 // CONTENT DETAILS DIALOG
 pp-content-details-dialog {
-  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-  .mat-mdc-tab-body .mat-tab-body-content {
+  .mat-mdc-tab-body .mat-mdc-tab-body-content {
     overflow-x: hidden;
     overflow-y: auto;
   }
-  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-  .mat-mdc-tab-group.mat-tab-fill-height .mat-tab-body-wrapper {
+
+  .mat-mdc-tab-group.mat-tab-fill-height .mat-mdc-tab-body-wrapper {
     flex: 1 1 100%;
   }
+
   /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   .dialog-content .mat-tab-labels .mat-tab-label {
     height: 48px;

@@ -39,8 +39,8 @@ $pp-dialog-base: (
             }
           }
         }
-        /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-        .mat-tab-body-content {
+
+        .mat-mdc-tab-body-content {
           background-color: mat.get-color-from-palette($accent, 450);
           color: mat.get-color-from-palette($primary, on-surface-mid);
         }

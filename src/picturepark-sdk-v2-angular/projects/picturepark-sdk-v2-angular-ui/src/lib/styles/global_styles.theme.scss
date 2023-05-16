@@ -84,8 +84,8 @@
   .share-preview-container mat-spinner circle {
     stroke: mat.get-color-from-palette($primary, primary);
   }
-  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-  .mat-tab-body-wrapper {
+
+  .mat-mdc-tab-body-wrapper {
     background-color: mat.get-color-from-palette($primary, background-dark);
   }
 
