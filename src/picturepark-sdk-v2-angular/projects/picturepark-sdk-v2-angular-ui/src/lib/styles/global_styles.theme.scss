@@ -26,7 +26,6 @@
   // END FILTERS AGGREGATES
 
   // SPINNER
-  .mat-mdc-progress-spinner circle,
   .mat-mdc-progress-spinner circle {
     stroke: mat.get-color-from-palette($primary, primary) !important;
   }

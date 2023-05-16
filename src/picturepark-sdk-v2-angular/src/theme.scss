@@ -140,7 +140,7 @@ $picturepark-app-theme: mat.define-light-theme(
       warn: $picturepark-app-warn,
     ),
     typography: $custom-typography,
-    density: 0,
+    density: -1,
   )
 );
 
@@ -178,7 +178,7 @@ $picturepark-app-theme-dark: mat.define-dark-theme(
       warn: $picturepark-app-warn-dark,
     ),
     typography: $custom-typography,
-    density: 0,
+    density: -1,
   )
 );
 

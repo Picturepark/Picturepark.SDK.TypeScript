@@ -19,7 +19,6 @@ $pp-browser-toolbar: (
           button {
             background-color: mat.get-color-from-palette($primary, background-dark);
             color: mat.get-color-from-palette($primary, primary);
-            font-size: mat.font-size($custom-typography, headline-4);
 
             i {
               font-size: mat.font-size($custom-typography, headline-1);
@@ -38,7 +37,6 @@ $pp-browser-toolbar: (
         .order-by {
           button {
             color: mat.get-color-from-palette($primary, on-background-dark);
-            font-size: mat.font-size($custom-typography, headline-2);
 
             &:hover {
               color: mat.get-color-from-palette($primary, primary);
