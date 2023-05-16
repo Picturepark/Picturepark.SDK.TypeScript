@@ -33,6 +33,11 @@
 
 .mat-mdc-tab-header {
   height: 50px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  .mat-mdc-tab {
+    height: 50px !important;
+  }
 }
 
 .filters mat-tab-group mat-tab-header .mat-mdc-tab-header-pagination {
