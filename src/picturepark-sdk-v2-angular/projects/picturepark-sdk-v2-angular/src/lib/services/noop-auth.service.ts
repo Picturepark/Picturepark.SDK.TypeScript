@@ -1,9 +1,9 @@
 import { Injectable, Inject, Optional, LOCALE_ID } from '@angular/core';
 
-import { PICTUREPARK_CONFIGURATION } from './base.service';
 import { PictureparkConfiguration } from '../models/configuration';
 import { PICTUREPARK_API_URL } from './api-services';
 import { AuthService } from './auth.service';
+import { PICTUREPARK_CONFIGURATION } from './picturepark-configuration';
 
 @Injectable({ providedIn: 'root' })
 export class NoopAuthService extends AuthService {

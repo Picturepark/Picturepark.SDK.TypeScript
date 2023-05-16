@@ -6,7 +6,7 @@
 export * from './lib/models/configuration';
 export * from './lib/models/entity-base';
 export * from './lib/services/auth.service';
-export * from './lib/services/base.service';
+export { PICTUREPARK_CONFIGURATION } from './lib/services/picturepark-configuration';
 export * from './lib/services/access-token-auth.service';
 export * from './lib/services/noop-auth.service';
 

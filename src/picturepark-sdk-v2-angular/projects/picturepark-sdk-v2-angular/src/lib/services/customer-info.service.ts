@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { PictureparkConfiguration } from '../models/configuration';
 import { CustomerInfo } from './api-services';
-import { PICTUREPARK_CONFIGURATION } from './base.service';
+import { PICTUREPARK_CONFIGURATION } from './picturepark-configuration';
 
 @Injectable({
   providedIn: 'root',

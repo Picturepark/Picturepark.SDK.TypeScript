@@ -24,7 +24,6 @@ import { // ignore
   SetDisplayContentRequest, // ignore
 } from './api-services'; // ignore
 
-import { Injector } from '@angular/core';
 import { AuthService } from './auth.service';
 import { PictureparkServiceBase } from './base.service';
 import * as generated from './api-services';
