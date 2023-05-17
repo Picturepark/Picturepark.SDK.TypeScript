@@ -1,45 +1,36 @@
-// OVERWRITE DEFAULT CHIPS ANGULAR MATERIAL
 pp-share-content-recipients-input {
-  .mat-form-field-appearance-legacy {
-    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    .mat-form-field-infix {
-      padding: 0;
-    }
-    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    .mat-form-field-wrapper {
-      padding-bottom: 0;
-    }
-    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    .mat-form-field-underline {
-      display: none;
-    }
-  }
   .mat-mdc-input-element {
     max-width: auto;
   }
-  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-  .mat-form-field-flex {
+
+  .mat-mdc-form-field-infix {
+    padding: 0 !important;
+    min-height: 36px;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    padding: 0;
+  }
+
+  .mat-mdc-form-field-flex {
+    padding: 4px 10px 4px 14px;
     background-color: white;
     border-radius: 4px;
-    padding: 4px 10px 4px 10px;
     border: 1px solid #fff;
     min-height: 40px;
     position: relative;
     z-index: 10;
   }
-  /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version.*/
-  /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version.*/
-  .mat-chip-list-wrapper {
-    margin: 0px;
-    .mat-mdc-standard-chip {
-      margin: 0px 4px;
-    }
-    input.mat-mdc-input-element {
-      margin: 0px;
-    }
+
+  .mat-mdc-form-field-focus-overlay {
+    display: none;
   }
-  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-  .mat-form-field-infix {
-    border-top: 0;
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .mat-mdc-chip-grid {
+    min-height: 36px;
   }
 }
