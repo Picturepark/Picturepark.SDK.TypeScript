@@ -18,7 +18,7 @@ import { BaseBrowserItemComponent } from '../../../../shared-module/components/b
 // SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../../../content-download-dialog/services/content-download-dialog.service';
-import { map, share, tap } from 'rxjs/operators';
+import { map, share, take, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ItemBasketSelection } from './interfaces/content-browser-item.interface';
 
@@ -77,7 +77,9 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
     });
   }
 
-  handleChangeInBasket(addItem: boolean) {
-    this.changeInBasket.emit({ addItem, itemId: this.itemModel.id });
+  handleChangeInBasket() {
+    this.isInBasket$?.pipe(take(1)).subscribe(inBasket => {
+      this.changeInBasket.emit({ addItem: !inBasket, itemId: this.itemModel.id });
+    });
   }
 }

@@ -69,30 +69,17 @@
       <li [ngClass]="{ 'in-basket': isInBasket$ | async }">
         <button
           mat-icon-button
+          (click)="handleChangeInBasket(); $event.stopPropagation()"
           *ngIf="browser.configActions['basket']"
           [matTooltip]="
             ((isInBasket$ | async) ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate
           "
         >
-          <mat-icon
-            (click)="handleChangeInBasket(true); $event.stopPropagation()"
-            class="add"
-            aria-label="Add item to basket"
-            *ngIf="(isInBasket$ | async) === false"
-            >add</mat-icon
-          >
-          <mat-icon
-            (click)="handleChangeInBasket(false); $event.stopPropagation()"
-            class="remove"
-            aria-label="Remove item from basket class=remove"
-            *ngIf="isInBasket$ | async"
+          <mat-icon class="add" aria-label="Add item to basket" *ngIf="(isInBasket$ | async) === false">add</mat-icon>
+          <mat-icon class="remove" aria-label="Remove item from basket class=remove" *ngIf="isInBasket$ | async"
             >done</mat-icon
           >
-          <mat-icon
-            (click)="handleChangeInBasket(false); $event.stopPropagation()"
-            class="clear"
-            aria-label="Remove item from basket class=clear"
-            *ngIf="isInBasket$ | async"
+          <mat-icon class="clear" aria-label="Remove item from basket class=clear" *ngIf="isInBasket$ | async"
             >clear</mat-icon
           >
         </button>
@@ -102,6 +89,7 @@
   <button
     *ngIf="browser.configActions['basket'] && !isListView"
     mat-mini-fab
+    (click)="handleChangeInBasket(); $event.stopPropagation()"
     class="browser-item__basket-icon"
     [class.browser-item__basket-icon--mobile]="deviceBreakpoint"
     [class.browser-item__basket-icon--selected]="isInBasket$ | async"
@@ -109,20 +97,8 @@
       ((isInBasket$ | async) ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate
     "
   >
-    <mat-icon
-      (click)="handleChangeInBasket(true); $event.stopPropagation()"
-      class="add"
-      aria-label="Add item to basket"
-      *ngIf="(isInBasket$ | async) === false"
-      >add</mat-icon
-    >
-    <mat-icon
-      (click)="handleChangeInBasket(false); $event.stopPropagation()"
-      class="remove"
-      aria-label="Remove item from basket"
-      *ngIf="isInBasket$ | async"
-      >done</mat-icon
-    >
+    <mat-icon class="add" aria-label="Add item to basket" *ngIf="(isInBasket$ | async) === false">add</mat-icon>
+    <mat-icon class="remove" aria-label="Remove item from basket" *ngIf="isInBasket$ | async">done</mat-icon>
     <mat-icon class="clear" aria-label="Remove item from basket" *ngIf="isInBasket$ | async">clear</mat-icon>
   </button>
 </div>
