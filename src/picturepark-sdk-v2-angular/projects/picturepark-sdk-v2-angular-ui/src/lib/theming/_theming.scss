@@ -33,6 +33,8 @@
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
 @mixin picturepark-theme($theme) {
+  @include pp-global-theme($theme);
+
   @include pp-aggregation-theme($theme);
   @include pp-content-item-thumbnail-theme($theme);
   @include pp-aggregation-list-theme($theme);
@@ -58,7 +60,6 @@
   @include pp-share-content-dialog-item-theme($theme);
   @include pp-share-content-recipients-input-theme($theme);
   @include pp-panel-theme($theme);
-  @include pp-global-theme($theme);
   @include pp-schema-browser-item-theme($theme);
   @include pp-read-more-theme($theme);
   @include pp-notification($theme);
