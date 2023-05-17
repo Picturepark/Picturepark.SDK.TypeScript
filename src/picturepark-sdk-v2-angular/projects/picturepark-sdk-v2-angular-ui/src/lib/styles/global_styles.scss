@@ -113,11 +113,6 @@ pp-content-details-dialog {
   .mat-mdc-tab-group.mat-tab-fill-height .mat-mdc-tab-body-wrapper {
     flex: 1 1 100%;
   }
-
-  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-  .dialog-content .mat-tab-labels .mat-tab-label {
-    height: 48px;
-  }
 }
 
 // SHARE CONTENT DIALOG
@@ -135,7 +130,7 @@ pp-share-content-dialog {
 
 .pp-dialog .mdc-dialog__content {
   padding: 0 !important;
-  overflow: unset;
+  overflow: auto;
 }
 
 //SCROLL BAR
@@ -152,4 +147,9 @@ pp-share-content-dialog {
 // Extends the base mat-stroked-button styling
 .mat-mdc-outlined-button {
   line-height: 30px !important;
+}
+
+.mat-mdc-checkbox,
+.mat-mdc-checkbox .mdc-form-field {
+  width: 100%;
 }

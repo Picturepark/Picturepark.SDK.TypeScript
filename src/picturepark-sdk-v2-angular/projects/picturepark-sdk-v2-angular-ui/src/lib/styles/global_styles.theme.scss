@@ -125,6 +125,7 @@
   }
 
   // Fixes wrong contrast: https://github.com/angular/components/issues/26056
+  .mat-mdc-unelevated-button.mat-primary,
   .mat-mdc-unelevated-button.mat-accent {
     --mdc-filled-button-label-text-color: white;
     .mdc-button__label {
