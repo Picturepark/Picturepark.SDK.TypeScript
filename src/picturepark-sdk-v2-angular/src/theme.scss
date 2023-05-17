@@ -16,10 +16,6 @@ $custom-typography: mat.define-typography-config(
   $button: mat.define-typography-level(12px, 21px, 500),
 );
 
-@include mat.typography-hierarchy($custom-typography);
-@include mat.all-component-typographies($custom-typography);
-@include mat.core();
-
 $mat-picturepark-accent: (
   0: #eeeeee,
   50: #e8f6f6,

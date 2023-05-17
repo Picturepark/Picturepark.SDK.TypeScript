@@ -48,10 +48,6 @@ $pp-share-content-dialog: (
     }
   }
 
-  .mat-mdc-tab-header {
-    background-color: mat.get-color-from-palette($primary, surface-mid);
-  }
-
   .inputs-content mat-select {
     background-color: mat.get-color-from-palette($primary, surface-light);
     color: mat.get-color-from-palette($primary, on-surface-light);

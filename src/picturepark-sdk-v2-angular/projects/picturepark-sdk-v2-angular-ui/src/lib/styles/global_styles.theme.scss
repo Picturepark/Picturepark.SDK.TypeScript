@@ -118,10 +118,41 @@
 
   // Extends the base mat-stroked-button styling
   .mat-mdc-outlined-button {
-    --mdc-outlined-button-outline-color: mat.get-color-from-palette($accent, '200-contrast');
+    border-color: mat.get-color-from-palette($accent, '200-contrast');
+
     &.mat-unthemed {
-      --mdc-outlined-button-label-text-color: mat.get-color-from-palette($accent, '200-contrast');
+      color: mat.get-color-from-palette($accent, '200-contrast');
     }
+  }
+
+  // Fixes wrong contrast: https://github.com/angular/components/issues/26056
+  .mat-mdc-unelevated-button.mat-accent {
+    --mdc-filled-button-label-text-color: white;
+    .mdc-button__label {
+      color: white;
+    }
+  }
+  .mat-mdc-raised-button.mat-accent {
+    --mdc-protected-button-label-text-color: white;
+  }
+  .mdc-checkbox .mdc-checkbox__native-control:enabled ~ .mdc-checkbox__background .mdc-checkbox__checkmark {
+    --mdc-checkbox-selected-checkmark-color: white;
+  }
+  .mdc-checkbox .mdc-checkbox__native-control:enabled ~ .mdc-checkbox__background .mdc-checkbox__mixedmark {
+    --mdc-checkbox-selected-checkmark-color: white;
+  }
+
+  // Checkbox
+  .mdc-checkbox,
+  .mdc-checkbox__background {
+    width: 14px;
+    height: 14px;
+  }
+  .mdc-checkbox__background {
+    border: 1.7px solid;
+  }
+  .mdc-checkbox__ripple {
+    width: 24px;
   }
 
   // Links
