@@ -1,4 +1,9 @@
 pp-aggregation-item {
+  .mdc-list-item--with-leading-checkbox .mdc-list-item__start {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
   mat-expansion-panel {
     border-radius: 0px !important;
     mat-expansion-panel-header {
@@ -26,21 +31,21 @@ pp-aggregation-item {
         }
       }
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version. */
+
     mat-progress-bar {
       right: 35px;
-      width: calc(100% + 35px) !important;
+      bottom: -6px;
+      width: calc(100% + 54px) !important;
       height: 2px !important;
     }
   }
+
   .mat-expansion-panel-content .mat-expansion-panel-body {
     padding: 0;
-    overflow: auto;
-    max-height: 450px;
   }
+
   mat-form-field.search {
     display: flex;
-    margin: 20px;
     border-radius: 2px;
     margin: 20px 20px 10px 20px;
     .search-icon {
@@ -49,31 +54,27 @@ pp-aggregation-item {
       top: 8px;
       font-size: 21px;
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-    .mat-form-field-wrapper {
+
+    .mat-mdc-text-field-wrapper {
       width: 100%;
       padding: 0px;
-      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-      .mat-form-field-infix {
-        padding: 0px 0px 0px 35px;
+      .mat-mdc-form-field-infix {
+        padding: 11px 0px 0px 35px !important;
         border-top: 0px;
         height: 36px;
-        line-height: 36px;
+        min-height: 36px;
+        line-height: 16px;
         input {
-          font-size: 16px;
-        }
-        /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-        .mat-form-field-label-wrapper {
-          display: none;
+          font-size: 14px;
         }
       }
-      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-      .mat-form-field-underline {
+      .mdc-line-ripple {
         display: none;
       }
     }
+  }
+
+  .mat-mdc-form-field-focus-overlay {
+    display: none;
   }
 }

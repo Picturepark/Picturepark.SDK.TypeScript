@@ -30,20 +30,11 @@
       }
 
       .mat-mdc-list-base {
-        /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
         .mat-mdc-list-item,
-        .mat-list-option,
+        .mat-mdc-list-option,
         .mat-mdc-subheader {
-          font-size: mat.font-size($custom-typography, headline-4);
-        }
-      }
-      /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
-      .mat-mdc-list-item.mat-list-option .mat-list-item-content {
-        .mat-pseudo-checkbox {
-          color: mat.get-color-from-palette($primary, on-background-dark);
-
-          &.mat-pseudo-checkbox-checked {
-            color: mat.get-color-from-palette($primary, primary);
+          .mdc-list-item__primary-text {
+            font-size: mat.font-size($custom-typography, headline-4);
           }
         }
       }

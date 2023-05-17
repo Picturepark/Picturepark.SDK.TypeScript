@@ -23,7 +23,7 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
   <ng-template matExpansionPanelContent>
-    <mat-form-field *ngIf="aggregator.uiBehavior?.enableSearchInFilter" class="search">
+    <mat-form-field *ngIf="aggregator.uiBehavior?.enableSearchInFilter" class="search" subscriptSizing="dynamic">
       <i class="material-icons search-icon">search</i>
       <input
         matInput
@@ -35,10 +35,9 @@
       />
 
       <button
-        mat-button
+        mat-icon-button
         *ngIf="aggregationQuery.value"
         matSuffix
-        mat-icon-button
         aria-label="Clear"
         (click)="aggregationQuery.setValue('')"
         class="clear-search"

@@ -40,7 +40,7 @@
   .mat-mdc-list-base .mat-mdc-list-item,
   .mat-list-base .mat-list-option {
     height: 28px;
-    padding: 0 20px;
+    padding: 0 10px;
     width: unset;
   }
 
@@ -55,37 +55,14 @@
     }
   }
 
-  .mat-expansion-panel-body {
-    padding: 0 0 10px 0;
-  }
-
   .mat-mdc-list-base {
     padding-bottom: 8px;
-    /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
+
     .mat-mdc-list-item,
-    .mat-list-option,
+    .mat-mdc-list-option,
     .mat-mdc-subheader {
-      font-size: 14px;
-    }
-  }
-  /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
-  .mat-mdc-list-base .mat-mdc-list-item.mat-list-option ::ng-deep .mat-list-item-content {
-    padding: unset;
-    /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
-    .mat-list-text {
-      padding-left: 5px;
-    }
-
-    .mat-pseudo-checkbox {
-      height: 15px;
-      width: 15px;
-      border-style: solid;
-      border-width: 2px;
-      margin: 0px 5px 0px 0px;
-
-      &.mat-pseudo-checkbox-checked {
-        border-style: solid;
-        border-width: 2px;
+      .mdc-list-item__primary-text {
+        font-size: 14px;
       }
     }
   }
@@ -101,7 +78,7 @@
 
   .clear-search {
     position: absolute;
-    right: 5px;
-    top: -19px;
+    right: 2px;
+    top: -2px;
   }
 }
