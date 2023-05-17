@@ -119,7 +119,6 @@
   // Extends the base mat-stroked-button styling
   .mat-mdc-outlined-button {
     border-color: mat.get-color-from-palette($accent, '200-contrast');
-
     &.mat-unthemed {
       color: mat.get-color-from-palette($accent, '200-contrast');
     }
