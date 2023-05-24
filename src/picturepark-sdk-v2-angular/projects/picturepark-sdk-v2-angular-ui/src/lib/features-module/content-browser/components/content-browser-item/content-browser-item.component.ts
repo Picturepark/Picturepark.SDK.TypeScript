@@ -61,7 +61,7 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   }
 
   ngOnChanges(): void {
-    if (this.itemModel.displayValues && this.itemModel.displayValues['list']) {
+    if (this.itemModel.displayValues?.['list']) {
       this.listItemHtml = this.sanitizer.sanitize(SecurityContext.HTML, this.itemModel.displayValues['list']);
     }
   }

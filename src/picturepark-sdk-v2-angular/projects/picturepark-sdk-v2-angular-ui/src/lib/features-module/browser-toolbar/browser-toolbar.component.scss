@@ -4,12 +4,9 @@
   border-bottom-style: solid;
 
   .browser-toolbar-content {
-    $self: &;
-
     display: flex;
     flex-direction: row;
     align-items: center;
-    line-height: 50px;
     height: 100%;
     padding: 0px 30px;
     overflow: hidden;
@@ -40,8 +37,6 @@
         }
 
         .button-icon {
-          $self: &;
-
           padding: 2px;
           position: relative;
           top: 6px;
@@ -50,22 +45,6 @@
           &--mobile {
             left: 0px;
           }
-        }
-      }
-    }
-
-    .order-by {
-      button {
-        border: 0px;
-        cursor: pointer;
-        padding: 0px;
-
-        &:hover {
-          text-decoration: underline;
-        }
-
-        mat-icon {
-          padding: 2px;
         }
       }
     }

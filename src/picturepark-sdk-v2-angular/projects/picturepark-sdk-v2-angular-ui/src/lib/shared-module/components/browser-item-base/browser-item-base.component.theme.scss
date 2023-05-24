@@ -73,12 +73,6 @@
 
         ul {
           li {
-            button {
-              mat-icon {
-                font-size: 21px;
-              }
-            }
-
             &.in-basket {
               button {
                 background-color: mat.get-color-from-palette($primary, opacity-light);
