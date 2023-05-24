@@ -1,7 +1,6 @@
 .app-root-container {
   position: relative;
   height: 100vh;
-  /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
   mat-progress-bar {
     position: absolute;
     top: 0px;

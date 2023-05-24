@@ -4,10 +4,11 @@
       <ng-container browser-buttons>
         <button
           mat-icon-button
+          (click)="previewSelectedItem()"
           *ngIf="selectedItems.length === 1 && configActions['preview']"
           [matTooltip]="'ContentBrowser.Preview' | pptranslate"
         >
-          <mat-icon aria-label="Preview item" (click)="previewSelectedItem()">open_in_new</mat-icon>
+          <mat-icon aria-label="Preview item">open_in_new</mat-icon>
         </button>
         <button
           mat-icon-button

@@ -4,16 +4,6 @@
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
 
-  // PROGRESS BAR
-  /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
-  .mat-progress-bar-buffer {
-    background-color: mat.get-color-from-palette($primary, background-dark);
-  }
-  /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
-  .mat-progress-bar-fill::after {
-    background-color: mat.get-color-from-palette($primary, primary);
-  }
-
   // FILTERS AGGREGATES
   .mat-ink-bar {
     background-color: mat.get-color-from-palette($primary, primary);
@@ -74,7 +64,6 @@
   }
 
   // PANEL ITEMS BUTTON HOVER
-  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .panel-header .panel-buttons button .mat-button-focus-overlay {
     background: mat.get-color-from-palette($primary, background-dark);
   }
