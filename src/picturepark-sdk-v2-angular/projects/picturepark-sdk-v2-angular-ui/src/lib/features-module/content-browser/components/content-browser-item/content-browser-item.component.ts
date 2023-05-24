@@ -20,7 +20,7 @@ import { BasketService } from '../../../../shared-module/services/basket/basket.
 import { ContentDownloadDialogService } from '../../../content-download-dialog/services/content-download-dialog.service';
 import { map, share, take, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { ItemBasketSelection } from './interfaces/content-browser-item.interface';
+import { ItemBasketSelection } from './content-browser-item.interface';
 
 @Component({
   selector: 'pp-content-browser-item',

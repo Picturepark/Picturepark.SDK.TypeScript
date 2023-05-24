@@ -37,6 +37,7 @@
                   <div *ngFor="let output of selection.outputs[filetype.id]">
                     <mat-radio-button
                       *ngIf="!output.hidden && output.values.length"
+                      color="primary"
                       [value]="filetype.id + '-' + output.id"
                       [checked]="output.selected"
                       (change)="radioChange(output, filetype)"
