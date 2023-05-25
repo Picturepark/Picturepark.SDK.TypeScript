@@ -94,6 +94,7 @@ export { DialogService } from './lib/shared-module/services/dialog/dialog.servic
 
 // Classes
 export { BaseComponent } from './lib/shared-module/components/base.component';
+export { StatefulComponent } from './lib/shared-module/components/stateful.component';
 
 // Utilities
 export * from './lib/utilities/helper';

@@ -1,5 +1,5 @@
 import { ElementRef, Renderer2, Directive, OnInit, Input } from '@angular/core';
-import * as markdown from 'markdown-it';
+import markdown from 'markdown-it';
 
 @Directive({
   selector: '[ppMarkdown]',

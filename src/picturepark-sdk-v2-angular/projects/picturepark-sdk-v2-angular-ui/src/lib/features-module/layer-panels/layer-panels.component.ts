@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import {
   ContentDetail,
   SchemaDetail,
@@ -13,32 +13,31 @@ import { take } from 'rxjs/operators';
 import { Layer } from './models/layer';
 import { LayerFieldService } from './services/layer-field.service';
 import { RelationFieldInfo } from './models/relation-field-info';
+import { StatefulComponent } from '../../shared-module/components/stateful.component';
+
+const initialState = {
+  layers: [] as Layer[],
+};
 
 @Component({
   selector: 'pp-layer-panels',
   templateUrl: './layer-panels.component.html',
   styleUrls: ['./layer-panels.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayerPanelsComponent implements OnInit {
-  @Input()
-  schemas: SchemaDetail[];
+export class LayerPanelsComponent extends StatefulComponent<typeof initialState> implements OnInit {
+  @Input() schemas: SchemaDetail[];
 
-  @Input()
-  content: ContentDetail | ShareContentDetail;
+  @Input() content: ContentDetail | ShareContentDetail;
 
-  @Input()
-  showContentSchema = false;
+  @Input() showContentSchema = false;
 
-  @Input()
-  excludedLayerSchemaIds: string[] | undefined = [];
+  @Input() excludedLayerSchemaIds: string[] | undefined = [];
 
-  @Input()
-  showReferenced?: boolean;
+  @Input() showReferenced?: boolean;
 
-  @Output()
-  relationClick = new EventEmitter<RelationFieldInfo>();
+  @Output() relationClick = new EventEmitter<RelationFieldInfo>();
 
-  layers: Layer[] = [];
   expandedSchemas: Set<string> = new Set<string>();
 
   private allSchemas: SchemaDetail[];
@@ -47,7 +46,9 @@ export class LayerPanelsComponent implements OnInit {
     private schemaService: SchemaService,
     private layerFieldService: LayerFieldService,
     private localStorageService: LocalStorageService
-  ) {}
+  ) {
+    super(initialState);
+  }
 
   ngOnInit() {
     const expandedSchemasString = this.localStorageService.get(StorageKey.SchemaExpansionState);
@@ -87,6 +88,8 @@ export class LayerPanelsComponent implements OnInit {
   }
 
   private setLayers() {
+    const layers: Layer[] = [];
+
     const contentSchema = this.schemas.find(i => i.id === this.content.contentSchemaId);
     if (!contentSchema) {
       return;
@@ -144,9 +147,11 @@ export class LayerPanelsComponent implements OnInit {
       if (schema.system && schema.types.includes(SchemaType.Layer)) {
         bottomLayers.push(layer);
       } else {
-        this.layers.push(layer);
+        layers.push(layer);
       }
     });
-    bottomLayers.forEach(bottomLayer => this.layers.push(bottomLayer));
+    bottomLayers.forEach(bottomLayer => layers.push(bottomLayer));
+
+    this.patchState({ layers });
   }
 }

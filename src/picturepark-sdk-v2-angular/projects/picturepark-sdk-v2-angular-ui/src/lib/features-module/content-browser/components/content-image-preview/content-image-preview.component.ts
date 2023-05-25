@@ -9,12 +9,11 @@ import {
   Inject,
   Optional,
   OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { catchError, throttleTime } from 'rxjs/operators';
 import { firstValueFrom, Subject } from 'rxjs';
-
-// LIBRARIES
 import {
   ContentService,
   ContentDownloadRequestItem,
@@ -28,28 +27,30 @@ import {
   ShareOutputDisplayContent,
   ShareOutputBase,
 } from '@picturepark/sdk-v2-angular';
-
-// SERVICES
 import { ContentViewerType, FullscreenService, IShareItem } from '../../../content-details-dialog/fullscreen.service';
 import { PICTUREPARK_UI_SCRIPTPATH } from '../../../../configuration';
 import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
-
-// COMPONENTS
-import { BaseComponent } from '../../../../shared-module/components/base.component';
-
-// INTERFACES
 import { FullScreenDisplayItems } from './interfaces/content-image-preview.interfaces';
 import { imageLoaderErrorHandler } from '../../../../shared-module/components/image-loader.helper';
+import { StatefulComponent } from '../../../../shared-module/components/stateful.component';
+
+const initialState = {
+  isIcon: false,
+  isLoading: true,
+  playing: false,
+  viewerType: ContentViewerType.Image,
+  thumbnailUrlSafe: undefined as SafeUrl | undefined,
+  pdfUrl: undefined as SafeUrl | undefined,
+};
 
 @Component({
   selector: 'pp-content-image-preview',
   templateUrl: './content-image-preview.component.html',
   styleUrls: ['./content-image-preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContentImagePreviewComponent extends BaseComponent implements OnInit, OnChanges {
+export class ContentImagePreviewComponent extends StatefulComponent<typeof initialState> implements OnInit, OnChanges {
   thumbnailUrl: string;
-  thumbnailUrlSafe: SafeUrl;
-  pdfUrl: SafeUrl;
 
   @Input() content: ContentDetail | ShareContentDetail;
   @Input() outputId = 'Preview';
@@ -58,11 +59,6 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
   @Output() playChange = new EventEmitter<boolean>();
 
   displayFullscreen = new Subject<FullScreenDisplayItems>();
-
-  isIcon = false;
-  isLoading = true;
-  playing = false;
-  viewerType: ContentViewerType;
 
   constructor(
     @Optional() @Inject(PICTUREPARK_UI_SCRIPTPATH) private uiScriptPath: string,
@@ -73,8 +69,9 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
     private downloadFacade: DownloadFacade,
     @Optional() @Inject(PICTUREPARK_CDN_URL) private cdnUrl?: string
   ) {
-    super();
-    this.cdnUrl = this.cdnUrl || '';
+    super(initialState);
+
+    this.cdnUrl = this.cdnUrl ?? '';
   }
 
   /** Gets the script path from either configured PICTUREPARK_UI_SCRIPTPATH or fallback to the configured base href */
@@ -111,7 +108,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.content && changes.content.currentValue) {
+    if (changes.content?.currentValue) {
       this.content = changes.content.currentValue;
 
       if (this.content instanceof ShareContentDetail) {
@@ -119,7 +116,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
           this.content.outputs.find(
             i => i instanceof ShareOutputDisplayContent && i.outputFormatId === this.outputId
           ) ?? this.content.outputs.find(i => i.outputFormatId === this.outputId);
-        if (shareOutput && shareOutput.viewUrl) {
+        if (shareOutput?.viewUrl) {
           this.setPreviewUrl(shareOutput.viewUrl, false);
           return;
         } else if (this.content.iconUrl) {
@@ -154,14 +151,13 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
   }
 
   updateUrl(event) {
-    this.thumbnailUrlSafe = BROKEN_IMAGE_URL;
+    this.patchState({ thumbnailUrlSafe: BROKEN_IMAGE_URL });
   }
 
   private setPreviewUrl(url: string, isIcon: boolean): void {
     this.thumbnailUrl = url;
-    this.thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
-    this.isIcon = isIcon;
-    this.isLoading = false;
+    const thumbnailUrlSafe = this.sanitizer.bypassSecurityTrustUrl(this.thumbnailUrl);
+    this.patchState({ isIcon, thumbnailUrlSafe, isLoading: false });
   }
 
   async showFullscreen() {
@@ -187,7 +183,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
         id: this.content.id,
 
         viewerType,
-        isIcon: this.isIcon,
+        isIcon: this.state().isIcon,
         playerUrl: downloadLink.downloadUrl,
 
         displayValues: this.content.displayValues,
@@ -221,7 +217,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
             | ShareOutputBase
             | undefined;
 
-          const detail = originalOutput ? originalOutput.detail : previewOutput ? previewOutput.detail : null;
+          const detail = originalOutput ? originalOutput.detail : previewOutput?.detail;
 
           return {
             id: s.id,
@@ -230,7 +226,7 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
             detail: detail,
 
             viewerType,
-            isIcon: this.isIcon,
+            isIcon: this.state().isIcon,
             previewUrl: previewOutput?.viewUrl ?? s.iconUrl,
             originalUrl: originalOutput?.downloadUrl,
             playerUrl: viewerOutput?.downloadUrl,
@@ -241,7 +237,8 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
       item = share.items.find(i => i.id === this.content.id) as IShareItem;
       items = share.items;
     }
-    this.viewerType = item.viewerType;
+
+    this.patchState({ viewerType: item.viewerType });
     this.displayFullscreen.next({ selectedItem: item, items });
   }
 
@@ -252,13 +249,13 @@ export class ContentImagePreviewComponent extends BaseComponent implements OnIni
       '/assets/picturepark-sdk-v1-widgets/pdfjs/web/viewer.html?file=' +
       item.playerUrl +
       '&closeButton=false';
-    this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    this.patchState({ pdfUrl: this.sanitizer.bypassSecurityTrustResourceUrl(url) });
   }
 
   playMedia(playing: boolean, item: IShareItem): void {
     if (!item?.detail) return;
 
-    this.playing = playing;
+    this.patchState({ playing });
     this.playChange.emit(playing);
     this.cdr.detectChanges();
 
