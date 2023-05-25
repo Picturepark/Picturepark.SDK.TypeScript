@@ -58,7 +58,9 @@
     }
 
     mat-form-field.search {
-      background-color: mat.get-color-from-palette($primary, surface-light);
+      .mat-mdc-text-field-wrapper {
+        background-color: mat.get-color-from-palette($primary, surface-light);
+      }
 
       .search-icon {
         color: mat.get-color-from-palette($primary, on-surface-light);
