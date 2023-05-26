@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 // MODULES
 import { BasketModule } from './basket/basket.module';
-import { BrowserToolbarModule } from './browser-toolbar/browser-toolbar.module';
 import { ContentBrowserModule } from './content-browser/content-browser.module';
 import { ContentDetailsDialogModule } from './content-details-dialog/content-details-dialog.module';
 import { ChannelPickerModule } from './channel-picker/channel-picker.module';
@@ -26,12 +25,13 @@ import { ShareMailRecipientsPanelModule } from '../features-module/share-mail-re
 import { ShareOwnerPanelModule } from '../features-module/share-owner-panel/share-owner-panel.module';
 import { ShareSettingsPanelModule } from '../features-module/share-settings-panel/share-settings-panel.module';
 import { LanguageSwitchModule } from './language-switch/language-switch.module';
+import { BrowserToolbarComponent } from './browser-toolbar/browser-toolbar.component';
 
 @NgModule({
   declarations: [],
   imports: [
     BasketModule,
-    BrowserToolbarModule,
+    BrowserToolbarComponent,
     AggregationListModule,
     ContentBrowserModule,
     ContentDetailsDialogModule,
@@ -57,7 +57,7 @@ import { LanguageSwitchModule } from './language-switch/language-switch.module';
   ],
   exports: [
     BasketModule,
-    BrowserToolbarModule,
+    BrowserToolbarComponent,
     ContentBrowserModule,
     ContentDetailsDialogModule,
     ChannelPickerModule,

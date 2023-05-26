@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 // LIBRARIES
 import {
-  BrowserToolbarModule,
+  BrowserToolbarComponent,
   SearchBoxModule,
   SharedModule,
   ShareBrowserModule,
@@ -28,7 +28,7 @@ import { ApplicationHeaderModule } from '../components/application-header/applic
   declarations: [ShareBrowserComponent, ShareManagerItemComponent, SharesManagerComponent],
   imports: [
     CommonModule,
-    BrowserToolbarModule,
+    BrowserToolbarComponent,
     AggregationListModule,
     ShareManagerRoutingModule,
     SharedModule,

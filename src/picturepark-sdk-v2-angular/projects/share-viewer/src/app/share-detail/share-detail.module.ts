@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {
-  BrowserToolbarModule,
+  BrowserToolbarComponent,
   ContentDetailsDialogModule,
   ContentDownloadDialogModule,
   SharedModule,
@@ -19,7 +19,7 @@ import { ShareDetailComponent } from './share-detail.component';
   imports: [
     CommonModule,
     ContentDetailsDialogModule,
-    BrowserToolbarModule,
+    BrowserToolbarComponent,
     ShareItemsPanelModule,
     MatProgressBarModule,
     SharedModule,
