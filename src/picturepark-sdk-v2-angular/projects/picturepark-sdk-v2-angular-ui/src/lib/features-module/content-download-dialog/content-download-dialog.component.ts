@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { firstValueFrom, Subscription } from 'rxjs';
 
 // LIBRARIES
@@ -33,6 +33,17 @@ import {
 } from './interfaces/content-download-dialog.interfaces';
 import { DialogService } from '../../shared-module/services/dialog/dialog.service';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { FileSizePipe } from '../../shared-module/pipes/filesize.pipe';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { MatButtonModule } from '@angular/material/button';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NotificationComponent } from '../notification/components/notification/notification.component';
+import { CommonModule } from '@angular/common';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -40,6 +51,22 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
   styleUrls: [
     '../../shared-module/components/dialog-base/dialog-base.component.scss',
     './content-download-dialog.component.scss',
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatDialogModule,
+    NotificationComponent,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatButtonModule,
+    TranslatePipe,
+    FileSizePipe,
   ],
 })
 export class ContentDownloadDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {

@@ -1,5 +1,5 @@
 import { Input, OnChanges, SimpleChanges, Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounce, map, mergeMap } from 'rxjs/operators';
 import { timer, Observable, from, of } from 'rxjs';
 import {
@@ -12,11 +12,46 @@ import {
   IEntityBase,
 } from '@picturepark/sdk-v2-angular';
 import { BaseComponent } from '../base.component';
+import { AggregationItemTranslatePipe } from '../../pipes/aggregation-item-translate';
+import { HighlightPipe } from '../../pipes/highlight.pipe';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatOptionModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { NgClass, NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
-  selector: 'pp-aggregation-item',
-  templateUrl: './aggregation.component.html',
-  styleUrls: ['./aggregation.component.scss'],
+    selector: 'pp-aggregation-item',
+    templateUrl: './aggregation.component.html',
+    styleUrls: ['./aggregation.component.scss'],
+    standalone: true,
+    imports: [
+        MatExpansionModule,
+        NgClass,
+        NgIf,
+        MatButtonModule,
+        MatTooltipModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        NgFor,
+        MatOptionModule,
+        MatProgressBarModule,
+        MatListModule,
+        AsyncPipe,
+        TranslatePipe,
+        HighlightPipe,
+        AggregationItemTranslatePipe,
+    ],
 })
 export class AggregationComponent extends BaseComponent implements OnInit, OnChanges {
   @Input() aggregator: AggregatorBase;

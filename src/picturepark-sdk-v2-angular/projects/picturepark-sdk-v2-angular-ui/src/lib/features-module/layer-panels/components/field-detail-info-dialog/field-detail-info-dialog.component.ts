@@ -3,9 +3,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: 'pp-field-detail-info-dialog',
-  templateUrl: './field-detail-info-dialog.component.html',
-  styleUrls: ['./field-detail-info-dialog.component.scss'],
+    selector: 'pp-field-detail-info-dialog',
+    templateUrl: './field-detail-info-dialog.component.html',
+    styleUrls: ['./field-detail-info-dialog.component.scss'],
+    standalone: true,
 })
 export class FieldDetailInfoDialogComponent implements OnInit {
   title: string;

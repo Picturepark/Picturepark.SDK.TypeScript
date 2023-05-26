@@ -1,10 +1,24 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { StorageKey, LocalStorageService } from '@picturepark/sdk-v2-angular';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-application-menu',
-  templateUrl: './application-menu.component.html',
-  styleUrls: ['./application-menu.component.scss'],
+    selector: 'app-application-menu',
+    templateUrl: './application-menu.component.html',
+    styleUrls: ['./application-menu.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        RouterLink,
+        NgFor,
+        RouterLinkActive,
+        MatSlideToggleModule,
+        MatTooltipModule,
+        NgIf,
+    ],
 })
 export class ApplicationMenuComponent implements OnInit {
   @ViewChild('labelNameElement', { static: true }) labelNameElement: ElementRef;

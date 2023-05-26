@@ -33,6 +33,9 @@ import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 import { FullScreenDisplayItems } from './interfaces/content-image-preview.interfaces';
 import { imageLoaderErrorHandler } from '../../../../shared-module/components/image-loader.helper';
 import { StatefulComponent } from '../../../../shared-module/components/stateful.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 const initialState = {
   isIcon: false,
@@ -48,6 +51,8 @@ const initialState = {
   templateUrl: './content-image-preview.component.html',
   styleUrls: ['./content-image-preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, MatIconModule, MatProgressSpinnerModule],
 })
 export class ContentImagePreviewComponent extends StatefulComponent<typeof initialState> implements OnInit, OnChanges {
   thumbnailUrl: string;

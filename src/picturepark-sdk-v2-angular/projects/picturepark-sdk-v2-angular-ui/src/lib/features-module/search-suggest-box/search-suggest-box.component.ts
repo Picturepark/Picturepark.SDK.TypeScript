@@ -9,18 +9,41 @@ import {
   SearchInputState,
   IEntityBase,
 } from '@picturepark/sdk-v2-angular';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { UntypedFormControl, UntypedFormBuilder } from '@angular/forms';
+import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { UntypedFormControl, UntypedFormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { debounceTime, tap, switchMap, map, catchError, distinctUntilChanged, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { BaseComponent } from '../../shared-module/components/base.component';
-import { MatRadioChange } from '@angular/material/radio';
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
+import { HighlightPipe } from '../../shared-module/pipes/highlight.pipe';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatOptionModule } from '@angular/material/core';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'pp-search-suggest-box',
-  templateUrl: './search-suggest-box.component.html',
-  styleUrls: ['./search-suggest-box.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'pp-search-suggest-box',
+    templateUrl: './search-suggest-box.component.html',
+    styleUrls: ['./search-suggest-box.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatIconModule,
+        NgIf,
+        MatOptionModule,
+        NgFor,
+        MatRadioModule,
+        FormsModule,
+        MatTooltipModule,
+        AsyncPipe,
+        TranslatePipe,
+        HighlightPipe,
+    ],
 })
 export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   constructor(private formBuilder: UntypedFormBuilder, @Inject(LOCALE_ID) public locale: string) {

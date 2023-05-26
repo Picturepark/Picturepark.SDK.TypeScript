@@ -4,8 +4,7 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 import { ShareSettingsPanelComponent } from './share-settings-panel.component';
 
 @NgModule({
-  declarations: [ShareSettingsPanelComponent],
-  imports: [CommonModule, SharedModule],
-  exports: [ShareSettingsPanelComponent],
+    imports: [CommonModule, SharedModule, ShareSettingsPanelComponent],
+    exports: [ShareSettingsPanelComponent],
 })
 export class ShareSettingsPanelModule {}

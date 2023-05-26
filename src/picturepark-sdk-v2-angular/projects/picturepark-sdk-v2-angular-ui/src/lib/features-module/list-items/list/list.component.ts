@@ -12,11 +12,7 @@ import {
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, mergeMap, map, take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
-
-// ANGULAR CDK
 import { MediaMatcher } from '@angular/cdk/layout';
-
-// LIBRARIES
 import {
   AggregationFilter,
   AndFilter,
@@ -29,12 +25,18 @@ import {
 } from '@picturepark/sdk-v2-angular';
 import { groupBy } from '../../../utilities/helper';
 import { ListBrowserComponent } from '../../list-browser/list-browser.component';
+import { TranslatePipe } from '../../../shared-module/pipes/translate.pipe';
+import { AggregationListComponent } from '../../../shared-module/components/aggregation-list/aggregation-list.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'pp-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, ListBrowserComponent, MatTabsModule, AggregationListComponent, TranslatePipe],
 })
 export class ListComponent implements OnInit, OnDestroy {
   @ViewChild(ListBrowserComponent) listBrowserComponent: ListBrowserComponent;

@@ -8,19 +8,19 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-
-// LIBRARIES
 import { Content, ThumbnailSize } from '@picturepark/sdk-v2-angular';
-
-// COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
-
-// SERVICES
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../../../content-download-dialog/services/content-download-dialog.service';
 import { map, share, take, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ItemBasketSelection } from './content-browser-item.interface';
+import { TranslatePipe } from '../../../../shared-module/pipes/translate.pipe';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { ContentItemThumbnailComponent } from '../../../../shared-module/components/content-item-thumbnail/content-item-thumbnail.component';
 
 @Component({
   selector: 'pp-content-browser-item',
@@ -30,6 +30,15 @@ import { ItemBasketSelection } from './content-browser-item.interface';
     './content-browser-item.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    ContentItemThumbnailComponent,
+    MatButtonModule,
+    MatTooltipModule,
+    MatIconModule,
+    TranslatePipe,
+  ],
 })
 export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Content> implements OnChanges, OnInit {
   @Output() changeInBasket = new EventEmitter<ItemBasketSelection>();

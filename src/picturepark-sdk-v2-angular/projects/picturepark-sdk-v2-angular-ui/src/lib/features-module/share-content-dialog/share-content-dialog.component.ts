@@ -10,8 +10,8 @@ import {
   Renderer2,
   AfterViewInit,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators, UntypedFormArray } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators, UntypedFormArray, ReactiveFormsModule } from '@angular/forms';
 
 // MD5 HASH
 import { Md5 } from 'ts-md5';
@@ -47,15 +47,50 @@ import { ConfirmRecipients } from './interfaces/confirm-recipients.interface';
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { MatButtonModule } from '@angular/material/button';
+import { ShareContentDialogItemComponent } from './components/share-content-dialog-item/share-content-dialog-item.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { DatePickerComponent } from '../date-picker/date-picker.component';
+import { ShareContentRecipientsInputComponent } from './components/share-content-recipients-input/share-content-recipients-input.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NotificationComponent } from '../notification/components/notification/notification.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { NgIf, NgClass, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'pp-share-content-dialog',
-  templateUrl: './share-content-dialog.component.html',
-  styleUrls: [
-    '../../shared-module/components/dialog-base/dialog-base.component.scss',
-    './share-content-dialog.component.scss',
-  ],
-  providers: [TranslatePipe],
+    selector: 'pp-share-content-dialog',
+    templateUrl: './share-content-dialog.component.html',
+    styleUrls: [
+        '../../shared-module/components/dialog-base/dialog-base.component.scss',
+        './share-content-dialog.component.scss',
+    ],
+    providers: [TranslatePipe],
+    standalone: true,
+    imports: [
+        NgIf,
+        MatIconModule,
+        MatDividerModule,
+        NotificationComponent,
+        MatDialogModule,
+        ReactiveFormsModule,
+        NgClass,
+        MatProgressSpinnerModule,
+        ShareContentRecipientsInputComponent,
+        DatePickerComponent,
+        MatSlideToggleModule,
+        MatSelectModule,
+        NgFor,
+        MatOptionModule,
+        MatTabsModule,
+        ShareContentDialogItemComponent,
+        MatButtonModule,
+        AsyncPipe,
+        TranslatePipe,
+    ],
 })
 export class ShareContentDialogComponent extends DialogBaseComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('contentContainer') contentContainer: ElementRef;

@@ -1,7 +1,8 @@
 import { Directive, Output, EventEmitter, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[ppUserInteraction]',
+    selector: '[ppUserInteraction]',
+    standalone: true,
 })
 export class UserInteractionDirective {
   // Should be more than the default device press timer (400)

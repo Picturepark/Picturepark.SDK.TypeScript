@@ -19,11 +19,28 @@ import {
   TranslationService,
   ContentDetailsDialogComponent,
 } from '@picturepark/sdk-v2-angular-ui';
+import { ShareOwnerPanelComponent } from '../../../../../projects/picturepark-sdk-v2-angular-ui/src/lib/features-module/share-owner-panel/share-owner-panel.component';
+import { ShareItemsPanelComponent } from '../../../../../projects/picturepark-sdk-v2-angular-ui/src/lib/features-module/share-items-panel/share-items-panel.component';
+import { ShareMailRecipientsPanelComponent } from '../../../../../projects/picturepark-sdk-v2-angular-ui/src/lib/features-module/share-mail-recipients-panel/share-mail-recipients-panel.component';
+import { ShareSettingsPanelComponent } from '../../../../../projects/picturepark-sdk-v2-angular-ui/src/lib/features-module/share-settings-panel/share-settings-panel.component';
+import { ItemToolBarComponent } from '../../../../../projects/picturepark-sdk-v2-angular-ui/src/lib/features-module/item-tool-bar/item-tool-bar.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-share-manager-item',
-  templateUrl: './share-manager-item.component.html',
-  styleUrls: ['./share-manager-item.component.scss'],
+    selector: 'app-share-manager-item',
+    templateUrl: './share-manager-item.component.html',
+    styleUrls: ['./share-manager-item.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        MatProgressBarModule,
+        ItemToolBarComponent,
+        ShareSettingsPanelComponent,
+        ShareMailRecipientsPanelComponent,
+        ShareItemsPanelComponent,
+        ShareOwnerPanelComponent,
+    ],
 })
 export class ShareManagerItemComponent implements OnInit, OnDestroy {
   // SUBSCRIPTIONS

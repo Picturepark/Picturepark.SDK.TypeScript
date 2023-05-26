@@ -12,9 +12,8 @@ describe('ApplicationMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, MatSlideToggleModule, MatTooltipModule, RouterTestingModule],
-      declarations: [ApplicationMenuComponent],
-    }).compileComponents();
+    imports: [CommonModule, MatSlideToggleModule, MatTooltipModule, RouterTestingModule, ApplicationMenuComponent],
+}).compileComponents();
   }));
 
   beforeEach(() => {

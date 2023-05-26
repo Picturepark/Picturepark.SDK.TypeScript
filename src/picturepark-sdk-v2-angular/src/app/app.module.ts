@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 // LIBRARIES
 import { LocaleModule, PICTUREPARK_CDN_URL } from '@picturepark/sdk-v2-angular';
 import { PictureparkOidcAuthConfiguration, PictureparkOidcModule } from '@picturepark/sdk-v2-angular-oidc';
-import { PictureparkUiModule, LayerPanelsModule, TRANSLATIONS } from '@picturepark/sdk-v2-angular-ui';
+import { PictureparkUiModule, LayerPanelsComponent, TRANSLATIONS } from '@picturepark/sdk-v2-angular-ui';
 
 // MODULES
 import { AppRoutingModule } from './app-routing.module';
@@ -16,7 +16,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { environment } from '../environments/environment';
 import { getDevCdnUrl, PictureparkAppSetting } from 'src/config';
-import { ApplicationMenuModule } from './components/application-menu/application-menu.module';
+
 import { VIEW_MODE } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
 
 const translations = TRANSLATIONS;
@@ -93,7 +93,7 @@ export function getViewModeFactory(): 'grid' | 'list' {
 }
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -101,10 +101,10 @@ export function getViewModeFactory(): 'grid' | 'list' {
     AppRoutingModule,
     PictureparkUiModule,
     PictureparkOidcModule.forRoot(oidcConfigFactory),
-    LayerPanelsModule,
+    LayerPanelsComponent,
     HammerModule,
-    ApplicationMenuModule,
     LocaleModule.forRoot('system'),
+    HomeComponent,
   ],
   providers: [
     { provide: PICTUREPARK_CDN_URL, useFactory: getCdnUrl },

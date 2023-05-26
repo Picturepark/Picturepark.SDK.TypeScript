@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import {
   ContentDetail,
   ContentFacade,
@@ -17,6 +17,12 @@ import { ContentDetailsDialogOptions } from './content-details-dialog-options';
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 import { Observable, of } from 'rxjs';
 import { SafeHtml } from '@angular/platform-browser';
+import { LayerPanelsComponent } from '../layer-panels/layer-panels.component';
+import { ContentImagePreviewComponent } from '../content-browser/components/content-image-preview/content-image-preview.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'pp-content-details-dialog',
@@ -26,6 +32,18 @@ import { SafeHtml } from '@angular/platform-browser';
     './content-details-dialog.component.scss',
   ],
   providers: [TranslatePipe],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatTabsModule,
+    ContentImagePreviewComponent,
+    LayerPanelsComponent,
+    TranslatePipe,
+  ],
 })
 export class ContentDetailsDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
   content: ContentDetail | ShareContentDetail;

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { Sort, SortDirection as MatSortDirection } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Sort, SortDirection as MatSortDirection, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 // LIBRARIES
 import {
@@ -20,8 +20,14 @@ import { MetaDataPreviewService } from '../../shared-module/services/metadata-pr
 import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import { lowerFirst } from '../../utilities/helper';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { firstValueFrom } from 'rxjs';
+import { UserInteractionDirective } from '../../shared-module/directives/user-interaction.directive';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipModule } from '@angular/material/tooltip';
+import { CdkTableModule } from '@angular/cdk/table';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { CommonModule } from '@angular/common';
+import { BrowserToolbarComponent } from '../browser-toolbar/browser-toolbar.component';
 
 @Component({
   selector: 'pp-list-browser',
@@ -31,8 +37,24 @@ import { firstValueFrom } from 'rxjs';
     './list-browser.component.scss',
     './list-browser.component.theme.scss',
   ],
-  providers: [TranslatePipe],
+  providers: [
+    TranslatePipe,
+    { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: { showDelay: 250, hideDelay: 0, touchGestures: 'off' } },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    BrowserToolbarComponent,
+    CdkScrollable,
+    MatTableModule,
+    MatSortModule,
+    MatCheckboxModule,
+    CdkTableModule,
+    MatTooltipModule,
+    UserInteractionDirective,
+    TranslatePipe,
+  ],
 })
 export class ListBrowserComponent extends BaseBrowserComponent<ListItem> implements OnInit {
   @Input() schema: SchemaDetail;

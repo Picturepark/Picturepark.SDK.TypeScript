@@ -13,11 +13,14 @@ import {
 import { BaseComponent } from '@picturepark/sdk-v2-angular-ui';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
+import { SchemaBrowserComponent } from '../../../../../projects/picturepark-sdk-v2-angular-ui/src/lib/features-module/schema-browser/schema-browser.component';
 
 @Component({
-  selector: 'app-list-items-picker',
-  templateUrl: './list-items-picker.component.html',
-  styleUrls: ['./list-items-picker.component.scss'],
+    selector: 'app-list-items-picker',
+    templateUrl: './list-items-picker.component.html',
+    styleUrls: ['./list-items-picker.component.scss'],
+    standalone: true,
+    imports: [SchemaBrowserComponent],
 })
 export class ListItemsPickerComponent extends BaseComponent implements OnInit {
   parentSchemaId$: Observable<string>;

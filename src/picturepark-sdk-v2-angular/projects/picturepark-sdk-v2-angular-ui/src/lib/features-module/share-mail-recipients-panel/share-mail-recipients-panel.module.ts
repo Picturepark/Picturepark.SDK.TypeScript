@@ -4,8 +4,7 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 import { ShareMailRecipientsPanelComponent } from './share-mail-recipients-panel.component';
 
 @NgModule({
-  declarations: [ShareMailRecipientsPanelComponent],
-  imports: [CommonModule, SharedModule],
-  exports: [ShareMailRecipientsPanelComponent],
+    imports: [CommonModule, SharedModule, ShareMailRecipientsPanelComponent],
+    exports: [ShareMailRecipientsPanelComponent],
 })
 export class ShareMailRecipientsPanelModule {}

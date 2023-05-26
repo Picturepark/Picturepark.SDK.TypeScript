@@ -5,8 +5,7 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 import { LandingDialogComponent } from './landing-dialog.component';
 
 @NgModule({
-  declarations: [LandingDialogComponent],
-  imports: [CommonModule, SharedModule, MatSlideToggleModule],
-  exports: [LandingDialogComponent],
+    imports: [CommonModule, SharedModule, MatSlideToggleModule, LandingDialogComponent],
+    exports: [LandingDialogComponent],
 })
 export class LandingDialogModule {}

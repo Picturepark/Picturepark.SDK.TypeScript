@@ -3,15 +3,29 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Schema, SchemaSearchFacade } from '@picturepark/sdk-v2-angular';
 // COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { SchemaBrowserItemComponent } from './components/schema-browser-item/schema-browser-item.component';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { BrowserToolbarComponent } from '../browser-toolbar/browser-toolbar.component';
 
 @Component({
-  selector: 'pp-schema-browser',
-  templateUrl: './schema-browser.component.html',
-  styleUrls: [
-    '../../shared-module/components/browser-base/browser-base.component.scss',
-    './schema-browser.component.scss',
-  ],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'pp-schema-browser',
+    templateUrl: './schema-browser.component.html',
+    styleUrls: [
+        '../../shared-module/components/browser-base/browser-base.component.scss',
+        './schema-browser.component.scss',
+    ],
+    standalone: true,
+    imports: [
+        BrowserToolbarComponent,
+        NgIf,
+        CdkScrollable,
+        NgFor,
+        SchemaBrowserItemComponent,
+        AsyncPipe,
+        TranslatePipe,
+    ],
 })
 export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
   @Output() activeSchemaChange = new EventEmitter<Schema>();

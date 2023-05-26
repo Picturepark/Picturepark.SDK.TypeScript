@@ -22,6 +22,16 @@ import { ContentDownloadDialogService } from '../content-download-dialog/service
 import { ItemBasketSelection } from './components/content-browser-item/content-browser-item.interface';
 import { ISortItem } from '../../shared-module/components/browser-base/interfaces/sort-item';
 import { SessionService } from '../../shared-module/services/session/session.service';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { UserInteractionDirective } from '../../shared-module/directives/user-interaction.directive';
+import { ContentBrowserItemComponent } from './components/content-browser-item/content-browser-item.component';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { BrowserToolbarComponent } from '../browser-toolbar/browser-toolbar.component';
 
 @Component({
   selector: 'pp-content-browser',
@@ -30,6 +40,19 @@ import { SessionService } from '../../shared-module/services/session/session.ser
     '../../shared-module/components/browser-base/browser-base.component.scss',
     './content-browser.component.scss',
     './content-browser-resp.component.scss',
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    BrowserToolbarComponent,
+    MatButtonModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatProgressBarModule,
+    CdkScrollable,
+    ContentBrowserItemComponent,
+    UserInteractionDirective,
+    TranslatePipe,
   ],
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {

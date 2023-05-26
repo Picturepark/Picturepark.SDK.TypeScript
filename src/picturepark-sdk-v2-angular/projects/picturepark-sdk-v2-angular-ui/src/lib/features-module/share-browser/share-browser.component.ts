@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
-// LIBRARIES
 import { Share, ThumbnailSize, ShareSearchFacade } from '@picturepark/sdk-v2-angular';
-
-// COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { UserInteractionDirective } from '../../shared-module/directives/user-interaction.directive';
+import { ShareBrowserItemComponent } from './components/share-browser-item/share-browser-item.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CommonModule } from '@angular/common';
+import { BrowserToolbarComponent } from '../browser-toolbar/browser-toolbar.component';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'pp-share-browser',
@@ -13,6 +16,16 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
   styleUrls: [
     '../../shared-module/components/browser-base/browser-base.component.scss',
     './share-browser.component.scss',
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    CdkScrollable,
+    BrowserToolbarComponent,
+    MatProgressBarModule,
+    ShareBrowserItemComponent,
+    UserInteractionDirective,
+    TranslatePipe,
   ],
 })
 export class ShareBrowserComponent extends BaseBrowserComponent<Share> {

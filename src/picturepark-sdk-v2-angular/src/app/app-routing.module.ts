@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-// COMPONENTS
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
@@ -11,15 +9,15 @@ const routes: Routes = [
   },
   {
     path: 'content-picker',
-    loadChildren: () => import('./content-picker/content-picker.module').then(m => m.ContentPickerModule),
+    loadComponent: () => import('./content-picker/content-picker.component').then(m => m.ContentPickerComponent),
   },
   {
     path: 'list-item-browser',
-    loadChildren: () => import('./list-item-picker/list-item-picker.module').then(m => m.ListItemPickerModule),
+    loadComponent: () => import('./list-item-picker/list-item-picker.component').then(m => m.ListItemPickerComponent),
   },
   {
     path: 'share-manager',
-    loadChildren: () => import('./share-manager/share-manager.module').then(m => m.ShareManagerModule),
+    loadComponent: () => import('./share-manager/share-manager.component').then(m => m.ShareBrowserComponent),
   },
   {
     path: '**',

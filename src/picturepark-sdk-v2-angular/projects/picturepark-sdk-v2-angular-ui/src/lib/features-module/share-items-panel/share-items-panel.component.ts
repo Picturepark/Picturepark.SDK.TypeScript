@@ -3,11 +3,30 @@ import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk
 import { VIEW_MODE } from '../../configuration';
 import { BaseComponent } from '../../shared-module/components/base.component';
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ContentItemThumbnailComponent } from '../../shared-module/components/content-item-thumbnail/content-item-thumbnail.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { NgIf, NgClass, NgFor } from '@angular/common';
+import { PanelComponent } from '../../shared-module/components/panel/panel.component';
 
 @Component({
-  selector: 'pp-share-items-panel',
-  templateUrl: './share-items-panel.component.html',
-  styleUrls: ['./share-items-panel.component.scss'],
+    selector: 'pp-share-items-panel',
+    templateUrl: './share-items-panel.component.html',
+    styleUrls: ['./share-items-panel.component.scss'],
+    standalone: true,
+    imports: [
+        PanelComponent,
+        NgIf,
+        MatButtonModule,
+        MatIconModule,
+        NgClass,
+        NgFor,
+        ContentItemThumbnailComponent,
+        MatTooltipModule,
+        TranslatePipe,
+    ],
 })
 export class ShareItemsPanelComponent extends BaseComponent {
   @Input() shareDetail: ShareDetail;

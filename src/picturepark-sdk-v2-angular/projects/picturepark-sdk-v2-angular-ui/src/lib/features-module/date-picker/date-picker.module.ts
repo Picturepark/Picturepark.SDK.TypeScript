@@ -8,8 +8,7 @@ import { SharedModule } from '../../shared-module/shared-module.module';
 import { DatePickerComponent } from './date-picker.component';
 
 @NgModule({
-  declarations: [DatePickerComponent],
-  imports: [CommonModule, SharedModule],
-  exports: [DatePickerComponent],
+    imports: [CommonModule, SharedModule, DatePickerComponent],
+    exports: [DatePickerComponent],
 })
 export class DatePickerModule {}

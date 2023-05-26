@@ -9,14 +9,30 @@ import { BaseBrowserItemComponent } from '../../../../shared-module/components/b
 import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 import { Observable } from 'rxjs';
 import { debounceTime, map, share } from 'rxjs/operators';
+import { TranslatePipe } from '../../../../shared-module/pipes/translate.pipe';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { LazyLoadDirective } from '../../../../shared-module/directives/lazy-load.directive';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'pp-share-browser-item',
-  templateUrl: './share-browser-item.component.html',
-  styleUrls: [
-    '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
-    './share-browser-item.component.scss',
-  ],
+    selector: 'pp-share-browser-item',
+    templateUrl: './share-browser-item.component.html',
+    styleUrls: [
+        '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
+        './share-browser-item.component.scss',
+    ],
+    standalone: true,
+    imports: [
+        NgIf,
+        LazyLoadDirective,
+        MatButtonModule,
+        MatTooltipModule,
+        MatIconModule,
+        AsyncPipe,
+        TranslatePipe,
+    ],
 })
 export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> implements OnChanges, OnInit {
   // VARS

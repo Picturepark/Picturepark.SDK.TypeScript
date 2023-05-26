@@ -14,16 +14,27 @@ import { Layer } from './models/layer';
 import { LayerFieldService } from './services/layer-field.service';
 import { RelationFieldInfo } from './models/relation-field-info';
 import { StatefulComponent } from '../../shared-module/components/stateful.component';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { LayerFieldsComponent } from './components/layer-fields/layer-fields.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { NgFor } from '@angular/common';
 
 const initialState = {
   layers: [] as Layer[],
 };
 
 @Component({
-  selector: 'pp-layer-panels',
-  templateUrl: './layer-panels.component.html',
-  styleUrls: ['./layer-panels.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'pp-layer-panels',
+    templateUrl: './layer-panels.component.html',
+    styleUrls: ['./layer-panels.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        NgFor,
+        MatExpansionModule,
+        LayerFieldsComponent,
+        TranslatePipe,
+    ],
 })
 export class LayerPanelsComponent extends StatefulComponent<typeof initialState> implements OnInit {
   @Input() schemas: SchemaDetail[];
