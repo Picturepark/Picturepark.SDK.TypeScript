@@ -17,14 +17,13 @@ import { BaseComponent } from '../../components/base.component';
   styleUrls: ['./aggregation-list.component.scss'],
 })
 export class AggregationListComponent extends BaseComponent implements OnInit {
-  @Input()
-  facade: SearchFacade<IEntityBase, SearchInputState>;
+  @Input() facade: SearchFacade<IEntityBase, SearchInputState>;
 
   aggregators$: Observable<AggregatorBase[]>;
   loading$: Observable<boolean>;
   aggregationResults$: Observable<AggregationResult[]>;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.aggregators$ = this.facade.aggregators$.pipe(map(items => this.filterDisabledAggregators(items)));
 
     // Show loading if it takes more than 100ms
@@ -35,7 +34,7 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
     );
   }
 
-  clearFilters(): void {
+  clearFilters() {
     this.facade.patchRequestState({ aggregationFilters: [] });
   }
 

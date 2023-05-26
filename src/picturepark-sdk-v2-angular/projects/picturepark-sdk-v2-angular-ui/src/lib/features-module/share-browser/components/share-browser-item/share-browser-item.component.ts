@@ -75,7 +75,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['thumbnailSize'] && this.isVisible) {
+    if (changes['thumbnailSize'] && this.isVisible()) {
       const updateImage =
         changes['thumbnailSize'].firstChange ||
         (changes['thumbnailSize'].previousValue === ThumbnailSize.Small && this.isListView === false) ||

@@ -3,6 +3,7 @@ import { Directive, Output, EventEmitter, ElementRef, AfterViewInit, OnDestroy, 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[lazyload]',
+  standalone: true,
 })
 export class LazyLoadDirective implements OnInit, OnDestroy, AfterViewInit {
   @Output() lazyload: EventEmitter<any> = new EventEmitter();

@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// MODULES
-import { BasketModule } from './basket/basket.module';
 import { ContentBrowserModule } from './content-browser/content-browser.module';
 import { ContentDetailsDialogModule } from './content-details-dialog/content-details-dialog.module';
 import { ChannelPickerModule } from './channel-picker/channel-picker.module';
 import { DatePickerModule } from './date-picker/date-picker.module';
-
 import { LayerPanelsModule } from './layer-panels/layer-panels.module';
 import { ListItemsModule } from './list-items/list-items.module';
 import { ListBrowserModule } from './list-browser/list-browser.module';
@@ -26,11 +22,12 @@ import { ShareOwnerPanelModule } from '../features-module/share-owner-panel/shar
 import { ShareSettingsPanelModule } from '../features-module/share-settings-panel/share-settings-panel.module';
 import { LanguageSwitchModule } from './language-switch/language-switch.module';
 import { BrowserToolbarComponent } from './browser-toolbar/browser-toolbar.component';
+import { BasketComponent } from './basket/basket.component';
 
 @NgModule({
   declarations: [],
   imports: [
-    BasketModule,
+    BasketComponent,
     BrowserToolbarComponent,
     AggregationListModule,
     ContentBrowserModule,
@@ -56,7 +53,7 @@ import { BrowserToolbarComponent } from './browser-toolbar/browser-toolbar.compo
     LanguageSwitchModule,
   ],
   exports: [
-    BasketModule,
+    BasketComponent,
     BrowserToolbarComponent,
     ContentBrowserModule,
     ContentDetailsDialogModule,

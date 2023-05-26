@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'filesize' })
+@Pipe({ name: 'filesize', standalone: true })
 export class FileSizePipe implements PipeTransform {
   transform(input: number) {
     if (input < 1024) {

@@ -42,7 +42,6 @@ export {
 
 // Modules
 export { PictureparkUiModule } from './lib/picturepark-ui.module';
-export { BasketModule } from './lib/features-module/basket/basket.module';
 export { ChannelPickerModule } from './lib/features-module/channel-picker/channel-picker.module';
 export { ContentBrowserModule } from './lib/features-module/content-browser/content-browser.module';
 export { ContentDetailsDialogModule } from './lib/features-module/content-details-dialog/content-details-dialog.module';

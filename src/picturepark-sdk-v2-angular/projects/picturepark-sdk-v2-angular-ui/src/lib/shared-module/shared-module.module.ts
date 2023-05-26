@@ -49,22 +49,21 @@ export class HammerConfig extends HammerGestureConfig {
 }
 
 @NgModule({
-  declarations: [
-    // COMPONENTS
-    AggregationComponent,
-    ContentItemThumbnailComponent,
-    PanelComponent,
-    ConfirmDialogComponent,
-    // PIPES
+  declarations: [AggregationComponent, PanelComponent, ConfirmDialogComponent, UserInteractionDirective],
+  imports: [
+    CommonModule,
+    MaterialsModule,
+    ReactiveFormsModule,
+    HammerModule,
+    TranslatePipe,
     AvatarPipe,
     AvatarHashedPipe,
     FileSizePipe,
-    LazyLoadDirective,
     HighlightPipe,
     AggregationItemTranslatePipe,
-    UserInteractionDirective,
+    ContentItemThumbnailComponent,
+    LazyLoadDirective,
   ],
-  imports: [CommonModule, MaterialsModule, ReactiveFormsModule, HammerModule, TranslatePipe],
   exports: [
     CommonModule,
     FormsModule,

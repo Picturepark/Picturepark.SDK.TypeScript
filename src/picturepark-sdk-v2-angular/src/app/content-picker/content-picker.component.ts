@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-
-// LIBRARIES
 import { AggregationResult, Channel, Content, ContentSearchFacade, LanguageService } from '@picturepark/sdk-v2-angular';
 import {
   SelectionService,
@@ -12,12 +10,8 @@ import {
   BaseComponent,
   ContentDetailsDialogOptions,
   TranslationService,
+  ContentDetailsDialogComponent,
 } from '@picturepark/sdk-v2-angular-ui';
-
-// COMPONENTS
-import { ContentDetailsDialogComponent } from '@picturepark/sdk-v2-angular-ui';
-
-// SERVICES
 import { EmbedService } from './embed.service';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';

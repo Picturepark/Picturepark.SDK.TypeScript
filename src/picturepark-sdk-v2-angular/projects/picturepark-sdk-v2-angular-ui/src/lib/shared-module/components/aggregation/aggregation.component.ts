@@ -1,9 +1,7 @@
 import { Input, OnChanges, SimpleChanges, Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { debounce, map, flatMap } from 'rxjs/operators';
+import { debounce, map, mergeMap } from 'rxjs/operators';
 import { timer, Observable, from, of } from 'rxjs';
-
-// LIBRARIES
 import {
   AggregationResult,
   AggregatorBase,
@@ -13,8 +11,6 @@ import {
   SearchInputState,
   IEntityBase,
 } from '@picturepark/sdk-v2-angular';
-
-// COMPONENTS
 import { BaseComponent } from '../base.component';
 
 @Component({
@@ -23,18 +19,14 @@ import { BaseComponent } from '../base.component';
   styleUrls: ['./aggregation.component.scss'],
 })
 export class AggregationComponent extends BaseComponent implements OnInit, OnChanges {
-  @Input()
-  aggregator: AggregatorBase;
+  @Input() aggregator: AggregatorBase;
 
-  @Input()
-  aggregationResult: AggregationResult | null = null;
+  @Input() aggregationResult: AggregationResult | null = null;
 
   // Used for expanding aggregation list (by default only first element is expanded).
-  @Input()
-  shouldExpand: boolean;
+  @Input() shouldExpand: boolean;
 
-  @Input()
-  facade: SearchFacade<IEntityBase, SearchInputState>;
+  @Input() facade: SearchFacade<IEntityBase, SearchInputState>;
 
   pagingSize = 0;
 
@@ -59,7 +51,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     this.autoCompleteOptions = this.aggregationQuery.valueChanges.pipe(
       debounce(() => timer(500)),
       map((value: string | AggregationResultItem) => (typeof value === 'string' ? value : value.name || '')),
-      flatMap(value => this.searchAggregator(value))
+      mergeMap(value => this.searchAggregator(value))
     );
   }
 
@@ -73,7 +65,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges) {
     if (changes['aggregator']) {
       this.expandedAggregator = this.expandAggregator(this.aggregator);
       this.pagingSize = this.expandedAggregator.size || 0;
@@ -89,7 +81,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     }
   }
 
-  loadMore(): void {
+  loadMore() {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) + this.pagingSize;
 
     this.sub = this.facade.searchAggregations([this.aggregator])?.subscribe(result => {
@@ -97,7 +89,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     });
   }
 
-  loadLess(): void {
+  loadLess() {
     this.expandedAggregator.size = (this.expandedAggregator.size || 0) - this.pagingSize;
 
     this.sub = this.facade.searchAggregations([this.aggregator])?.subscribe(result => {
@@ -139,20 +131,20 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     return observableResult ?? of([]);
   }
 
-  queryDisplay(aggregationResultItem: AggregationResultItem): string {
+  queryDisplay(aggregationResultItem: AggregationResultItem) {
     return aggregationResultItem ? aggregationResultItem.name : '';
   }
 
-  autoCompleteOptionSelected(value: AggregationResultItem): void {
+  autoCompleteOptionSelected(value: AggregationResultItem) {
     this.aggregationQuery.setValue('');
     this.facade.toggleAggregationResult(value);
   }
 
-  selectionChanged(changedItem: AggregationResultItem): void {
+  selectionChanged(changedItem: AggregationResultItem) {
     this.facade.toggleAggregationResult(changedItem);
   }
 
-  get showLess(): boolean {
+  get showLess() {
     return (
       !!this.expandedAggregationResult &&
       !!this.expandedAggregationResult.aggregationResultItems &&
@@ -160,7 +152,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     );
   }
 
-  trackByName(_index, aggregationResultItem: AggregationResultItem): string {
+  trackByName(_index, aggregationResultItem: AggregationResultItem) {
     return aggregationResultItem.name;
   }
 
@@ -171,7 +163,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     this.facade.patchRequestState({ aggregationFilters });
   }
 
-  private updateAggregationResult(aggregationResult: AggregationResult | null): void {
+  private updateAggregationResult(aggregationResult: AggregationResult | null) {
     this.expandedAggregationResult = aggregationResult ? this.facade.expandAggregationResult(aggregationResult) : null;
     this.checkExpandedAggregationResult();
   }
@@ -206,7 +198,7 @@ export class AggregationComponent extends BaseComponent implements OnInit, OnCha
     }
   }
 
-  hideLoader(): void {
+  hideLoader() {
     setTimeout(() => {
       this.isLoading = false;
     }, 500);
