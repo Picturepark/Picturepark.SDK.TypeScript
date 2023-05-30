@@ -95,6 +95,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
                       }`
                   )
                 ),
+                tap(() => this.isLoading.set(false)),
                 finalize(() => this.isLoading.set(false))
               )
               .subscribe(url => this.thumbnailUrl.set(url));
