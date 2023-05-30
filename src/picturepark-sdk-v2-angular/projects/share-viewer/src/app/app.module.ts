@@ -1,31 +1,9 @@
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { PanelComponent, SearchBoxComponent, SharedModule } from '@picturepark/sdk-v2-angular-ui';
-import {
-  AuthService,
-  AccessTokenAuthService,
-  PICTUREPARK_CONFIGURATION,
-  StorageKey,
-  LocaleModule,
-  PICTUREPARK_CDN_URL,
-} from '@picturepark/sdk-v2-angular';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StorageKey } from '@picturepark/sdk-v2-angular';
 import { environment } from '../environments/environment';
 import { TRANSLATIONS } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/utilities/translations';
-import {
-  DISABLE_COOKIE_CONSENT,
-  PICTUREPARK_UI_SCRIPTPATH,
-  VIEW_MODE,
-  TERMS,
-} from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
 import { PictureparkCdnConfiguration } from '../models/cdn-config';
 import { shareTranslations } from './translations/share-translations';
 import { getDevCdnUrl, PictureparkAppSetting } from 'src/config';
-import { MatDialogModule } from '@angular/material/dialog';
 
 const translations = TRANSLATIONS;
 translations['ShareViewer'] = shareTranslations;
@@ -81,32 +59,3 @@ export function getDisableCookieConsentFactory(): boolean {
 export function getTermsFactory(): boolean {
   return getAttribute('terms') === 'true';
 }
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    HammerModule,
-    PanelComponent,
-    SearchBoxComponent,
-    MatDialogModule,
-
-    // Picturepark
-    SharedModule.forRoot(),
-    LocaleModule.forRoot('share', getLanguageFactory(), getCdnUrl()),
-  ],
-  providers: [
-    { provide: AuthService, useClass: AccessTokenAuthService },
-    { provide: PICTUREPARK_CONFIGURATION, useFactory: PictureparkConfigurationFactory },
-    { provide: PICTUREPARK_UI_SCRIPTPATH, useFactory: PictureparkUIScriptPathFactory },
-    { provide: PICTUREPARK_CDN_URL, useFactory: getCdnUrl },
-    { provide: VIEW_MODE, useFactory: getViewModeFactory },
-    { provide: DISABLE_COOKIE_CONSENT, useFactory: getDisableCookieConsentFactory },
-    { provide: TERMS, useFactory: getTermsFactory },
-  ],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}

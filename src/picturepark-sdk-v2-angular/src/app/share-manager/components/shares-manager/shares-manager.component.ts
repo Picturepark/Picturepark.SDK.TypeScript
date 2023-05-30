@@ -3,8 +3,7 @@ import { TermsAggregator, InfoFacade, NestedAggregator, ShareSearchFacade } from
 import { firstValueFrom } from 'rxjs';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
-import { ShareBrowserComponent } from '../../share-manager.component';
-import { AggregationListComponent, TranslatePipe } from '@picturepark/sdk-v2-angular-ui';
+import { AggregationListComponent, ShareBrowserComponent, TranslatePipe } from '@picturepark/sdk-v2-angular-ui';
 
 @Component({
   selector: 'app-shares-manager',

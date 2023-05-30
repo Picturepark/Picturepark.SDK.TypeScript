@@ -1,15 +1,23 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { ShareDetail, IMailRecipient, StorageKey, LocalStorageService } from '@picturepark/sdk-v2-angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { environment } from '../environments/environment';
 import { DISABLE_COOKIE_CONSENT, TERMS } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
 import { MatDialog } from '@angular/material/dialog';
-import { LandingDialogComponent } from '@picturepark/sdk-v2-angular-ui';
+import {
+  LandingDialogComponent,
+  PanelComponent,
+  SearchBoxComponent,
+  TranslatePipe,
+} from '@picturepark/sdk-v2-angular-ui';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [CommonModule, SearchBoxComponent, PanelComponent, RouterOutlet, TranslatePipe],
 })
 export class AppComponent implements OnInit {
   searchString: string;
