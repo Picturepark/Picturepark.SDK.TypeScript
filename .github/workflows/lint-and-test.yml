@@ -9,7 +9,6 @@ on:
 
 jobs:
   lint-and-test-angular-v1:
-    name: Lint and test Angular SDK V1
     runs-on: [ubuntu-latest]
     environment: QA02
 
@@ -52,7 +51,6 @@ jobs:
 
 
   lint-and-test-angular-v2:
-    name: Lint and test Angular SDK V2
     runs-on: [ubuntu-latest]
     environment: QA02
 
