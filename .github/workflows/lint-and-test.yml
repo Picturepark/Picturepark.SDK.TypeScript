@@ -1,4 +1,5 @@
 name: Lint and test
+run-name: ${{ github.job }}
 
 on:
   push:
