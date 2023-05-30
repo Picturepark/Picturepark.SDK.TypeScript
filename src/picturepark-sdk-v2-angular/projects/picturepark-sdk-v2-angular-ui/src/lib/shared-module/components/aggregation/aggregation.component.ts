@@ -24,34 +24,31 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
-import { NgClass, NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
-    selector: 'pp-aggregation-item',
-    templateUrl: './aggregation.component.html',
-    styleUrls: ['./aggregation.component.scss'],
-    standalone: true,
-    imports: [
-        MatExpansionModule,
-        NgClass,
-        NgIf,
-        MatButtonModule,
-        MatTooltipModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        NgFor,
-        MatOptionModule,
-        MatProgressBarModule,
-        MatListModule,
-        AsyncPipe,
-        TranslatePipe,
-        HighlightPipe,
-        AggregationItemTranslatePipe,
-    ],
+  selector: 'pp-aggregation-item',
+  templateUrl: './aggregation.component.html',
+  styleUrls: ['./aggregation.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatExpansionModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatOptionModule,
+    MatProgressBarModule,
+    MatListModule,
+    TranslatePipe,
+    HighlightPipe,
+    AggregationItemTranslatePipe,
+  ],
 })
 export class AggregationComponent extends BaseComponent implements OnInit, OnChanges {
   @Input() aggregator: AggregatorBase;

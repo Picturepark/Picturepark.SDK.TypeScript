@@ -3,22 +3,14 @@ import { StorageKey, LocalStorageService } from '@picturepark/sdk-v2-angular';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-application-menu',
-    templateUrl: './application-menu.component.html',
-    styleUrls: ['./application-menu.component.scss'],
-    standalone: true,
-    imports: [
-        NgClass,
-        RouterLink,
-        NgFor,
-        RouterLinkActive,
-        MatSlideToggleModule,
-        MatTooltipModule,
-        NgIf,
-    ],
+  selector: 'app-application-menu',
+  templateUrl: './application-menu.component.html',
+  styleUrls: ['./application-menu.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterLink, RouterLinkActive, MatSlideToggleModule, MatTooltipModule],
 })
 export class ApplicationMenuComponent implements OnInit {
   @ViewChild('labelNameElement', { static: true }) labelNameElement: ElementRef;
@@ -54,13 +46,11 @@ export class ApplicationMenuComponent implements OnInit {
     },
   ];
 
-  // VARS
   menuState = false;
   animateLogoState = false;
 
   constructor(private renderer: Renderer2, private localStorageService: LocalStorageService) {}
 
-  // ANIMATE LOGO
   animateLogo(): void {
     if (!this.menuState) {
       this.animateLogoState = true;
@@ -69,7 +59,6 @@ export class ApplicationMenuComponent implements OnInit {
     }
   }
 
-  // EXPAND MENU
   expandMenu(): void {
     if (this.menuState) {
       this.menuState = false;
@@ -79,7 +68,6 @@ export class ApplicationMenuComponent implements OnInit {
     }
   }
 
-  // DISPLAY LABEL ON HOVER
   showLabel(event: any, labelName: string): void {
     if (!this.menuState) {
       this.labelName = labelName;
@@ -88,7 +76,6 @@ export class ApplicationMenuComponent implements OnInit {
     }
   }
 
-  // HIDE LABEL
   hideLabel(): void {
     this.labelName = undefined;
   }

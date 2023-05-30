@@ -29,7 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { PanelComponent } from '../../../../picturepark-sdk-v2-angular-ui/src/lib/shared-module/components/panel/panel.component';
 import { LanguageSwitchComponent } from '../../../../picturepark-sdk-v2-angular-ui/src/lib/features-module/language-switch/language-switch.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgIf, DatePipe } from '@angular/common';
+import { DatePipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-share-detail',
@@ -37,7 +37,7 @@ import { NgIf, DatePipe } from '@angular/common';
   styleUrls: ['./share-detail.component.scss'],
   standalone: true,
   imports: [
-    NgIf,
+    CommonModule,
     MatProgressBarModule,
     LanguageSwitchComponent,
     PanelComponent,

@@ -18,26 +18,24 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'pp-aggregation-list',
-    templateUrl: './aggregation-list.component.html',
-    styleUrls: ['./aggregation-list.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        MatToolbarModule,
-        MatButtonModule,
-        MatTooltipModule,
-        MatIconModule,
-        MatExpansionModule,
-        NgFor,
-        AggregationComponent,
-        MatProgressSpinnerModule,
-        AsyncPipe,
-        TranslatePipe,
-    ],
+  selector: 'pp-aggregation-list',
+  templateUrl: './aggregation-list.component.html',
+  styleUrls: ['./aggregation-list.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatExpansionModule,
+    AggregationComponent,
+    MatProgressSpinnerModule,
+    TranslatePipe,
+  ],
 })
 export class AggregationListComponent extends BaseComponent implements OnInit {
   @Input() facade: SearchFacade<IEntityBase, SearchInputState>;

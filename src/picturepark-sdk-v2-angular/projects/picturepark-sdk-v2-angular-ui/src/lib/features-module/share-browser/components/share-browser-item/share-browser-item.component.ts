@@ -1,10 +1,6 @@
 import { Component, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
-// LIBRARIES
 import { ThumbnailSize, Share, ContentService, LoggerService } from '@picturepark/sdk-v2-angular';
-
-// COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
 import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 import { Observable } from 'rxjs';
@@ -14,25 +10,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { LazyLoadDirective } from '../../../../shared-module/directives/lazy-load.directive';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'pp-share-browser-item',
-    templateUrl: './share-browser-item.component.html',
-    styleUrls: [
-        '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
-        './share-browser-item.component.scss',
-    ],
-    standalone: true,
-    imports: [
-        NgIf,
-        LazyLoadDirective,
-        MatButtonModule,
-        MatTooltipModule,
-        MatIconModule,
-        AsyncPipe,
-        TranslatePipe,
-    ],
+  selector: 'pp-share-browser-item',
+  templateUrl: './share-browser-item.component.html',
+  styleUrls: [
+    '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
+    './share-browser-item.component.scss',
+  ],
+  standalone: true,
+  imports: [CommonModule, LazyLoadDirective, MatButtonModule, MatTooltipModule, MatIconModule, TranslatePipe],
 })
 export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> implements OnChanges, OnInit {
   // VARS

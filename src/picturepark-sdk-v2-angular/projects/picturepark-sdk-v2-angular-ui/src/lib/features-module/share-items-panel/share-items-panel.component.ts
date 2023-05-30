@@ -8,25 +8,23 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ContentItemThumbnailComponent } from '../../shared-module/components/content-item-thumbnail/content-item-thumbnail.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, NgClass, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { PanelComponent } from '../../shared-module/components/panel/panel.component';
 
 @Component({
-    selector: 'pp-share-items-panel',
-    templateUrl: './share-items-panel.component.html',
-    styleUrls: ['./share-items-panel.component.scss'],
-    standalone: true,
-    imports: [
-        PanelComponent,
-        NgIf,
-        MatButtonModule,
-        MatIconModule,
-        NgClass,
-        NgFor,
-        ContentItemThumbnailComponent,
-        MatTooltipModule,
-        TranslatePipe,
-    ],
+  selector: 'pp-share-items-panel',
+  templateUrl: './share-items-panel.component.html',
+  styleUrls: ['./share-items-panel.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    PanelComponent,
+    MatButtonModule,
+    MatIconModule,
+    ContentItemThumbnailComponent,
+    MatTooltipModule,
+    TranslatePipe,
+  ],
 })
 export class ShareItemsPanelComponent extends BaseComponent {
   @Input() shareDetail: ShareDetail;

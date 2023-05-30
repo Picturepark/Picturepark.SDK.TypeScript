@@ -1,6 +1,13 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, Input, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, UntypedFormArray, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  UntypedFormArray,
+  Validators,
+  AbstractControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { TermsAggregator, ShareService, ShareAggregationRequest, NestedAggregator } from '@picturepark/sdk-v2-angular';
 import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -10,27 +17,25 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-    selector: 'pp-share-content-recipients-input',
-    templateUrl: './share-content-recipients-input.component.html',
-    styleUrls: ['./share-content-recipients-input.component.scss'],
-    standalone: true,
-    imports: [
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        NgClass,
-        MatChipsModule,
-        NgFor,
-        MatIconModule,
-        MatAutocompleteModule,
-        NgIf,
-        MatOptionModule,
-        MatProgressSpinnerModule,
-        TranslatePipe,
-    ],
+  selector: 'pp-share-content-recipients-input',
+  templateUrl: './share-content-recipients-input.component.html',
+  styleUrls: ['./share-content-recipients-input.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatOptionModule,
+    MatProgressSpinnerModule,
+    TranslatePipe,
+  ],
 })
 export class ShareContentRecipientsInputComponent extends BaseComponent implements OnInit {
   @Input() parentForm: UntypedFormGroup;
