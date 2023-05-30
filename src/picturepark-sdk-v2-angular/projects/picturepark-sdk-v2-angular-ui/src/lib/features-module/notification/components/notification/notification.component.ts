@@ -16,7 +16,6 @@ export class NotificationComponent implements OnChanges {
   @Input() notification: Notification;
   notificationData$ = new BehaviorSubject<Notification | undefined>(undefined);
 
-  // CLOSE NOTIFICATION
   closeNotification() {
     this.notificationData$.next(undefined);
   }

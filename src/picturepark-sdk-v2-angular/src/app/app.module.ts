@@ -18,6 +18,8 @@ import { environment } from '../environments/environment';
 import { getDevCdnUrl, PictureparkAppSetting } from 'src/config';
 
 import { VIEW_MODE } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const translations = TRANSLATIONS;
 translations['ShareManager'] = {
@@ -105,6 +107,8 @@ export function getViewModeFactory(): 'grid' | 'list' {
     HammerModule,
     LocaleModule.forRoot('system'),
     HomeComponent,
+    MatProgressBarModule,
+    MatDialogModule,
   ],
   providers: [
     { provide: PICTUREPARK_CDN_URL, useFactory: getCdnUrl },

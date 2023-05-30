@@ -1,7 +1,6 @@
 import { NgModule, ModuleWithProviders, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialsModule } from '../materials-module/materials-module.module';
 import { SessionService } from './services/session/session.service';
 import { BasketService } from './services/basket/basket.service';
 import { SelectionService } from './services/selection/selection.service';
@@ -39,7 +38,6 @@ export class HammerConfig extends HammerGestureConfig {
 @NgModule({
   imports: [
     CommonModule,
-    MaterialsModule,
     ReactiveFormsModule,
     HammerModule,
     TranslatePipe,
@@ -55,7 +53,6 @@ export class HammerConfig extends HammerGestureConfig {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialsModule,
     // PIPES
     TranslatePipe,
     AvatarPipe,

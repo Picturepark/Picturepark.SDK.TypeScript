@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SearchBoxModule, SharedModule } from '@picturepark/sdk-v2-angular-ui';
+import { PanelComponent, SearchBoxComponent, SharedModule } from '@picturepark/sdk-v2-angular-ui';
 import {
   AuthService,
   AccessTokenAuthService,
@@ -14,7 +14,6 @@ import {
 } from '@picturepark/sdk-v2-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ShareDetailModule } from './share-detail/share-detail.module';
 import { environment } from '../environments/environment';
 import { TRANSLATIONS } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/utilities/translations';
 import {
@@ -26,6 +25,7 @@ import {
 import { PictureparkCdnConfiguration } from '../models/cdn-config';
 import { shareTranslations } from './translations/share-translations';
 import { getDevCdnUrl, PictureparkAppSetting } from 'src/config';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const translations = TRANSLATIONS;
 translations['ShareViewer'] = shareTranslations;
@@ -90,10 +90,11 @@ export function getTermsFactory(): boolean {
     BrowserAnimationsModule,
     HttpClientModule,
     HammerModule,
+    PanelComponent,
+    SearchBoxComponent,
+    MatDialogModule,
 
     // Picturepark
-    ShareDetailModule,
-    SearchBoxModule,
     SharedModule.forRoot(),
     LocaleModule.forRoot('share', getLanguageFactory(), getCdnUrl()),
   ],

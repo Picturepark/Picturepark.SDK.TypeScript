@@ -42,20 +42,7 @@ export {
 
 // Modules
 export { PictureparkUiModule } from './lib/picturepark-ui.module';
-export { ChannelPickerModule } from './lib/features-module/channel-picker/channel-picker.module';
-export { DatePickerModule } from './lib/features-module/date-picker/date-picker.module';
-export { NotificationModule } from './lib/features-module/notification/notification.module';
-export { SchemaBrowserModule } from './lib/features-module/schema-browser/schema-browser.module';
-export { SearchSuggestBoxModule } from './lib/features-module/search-suggest-box/search-suggest-box.module';
-export { SearchBoxModule } from './lib/features-module/search-box/search-box.module';
 export { SharedModule } from './lib/shared-module/shared-module.module';
-export { ShareContentDialogModule } from './lib/features-module/share-content-dialog/share-content-dialog.module';
-export { LandingDialogModule } from './lib/features-module/landing-dialog/landing-dialog.module';
-export { AggregationListModule } from './lib/shared-module/components/aggregation-list/aggregation-list.module';
-export { MaterialsModule } from './lib/materials-module/materials-module.module';
-export { ShareOwnerPanelModule } from './lib/features-module/share-owner-panel/share-owner-panel.module';
-export { ShareMailRecipientsPanelModule } from './lib/features-module/share-mail-recipients-panel/share-mail-recipients-panel.module';
-export { ShareSettingsPanelModule } from './lib/features-module/share-settings-panel/share-settings-panel.module';
 
 // Components
 export { ContentBrowserComponent } from './lib/features-module/content-browser/content-browser.component';
