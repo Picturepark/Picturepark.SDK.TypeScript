@@ -20,7 +20,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">UserClient</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20582">src/picturepark-sdk-v1-fetch/src/index.ts:20582</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21335">src/picturepark-sdk-v1-fetch/src/index.ts:21335</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -50,6 +50,7 @@
 <a href="UserClient.html#getMany" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Many</span></a>
 <a href="UserClient.html#invite" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>invite</span></a>
 <a href="UserClient.html#inviteMany" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>invite<wbr/>Many</span></a>
+<a href="UserClient.html#list" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>list</span></a>
 <a href="UserClient.html#lock" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>lock</span></a>
 <a href="UserClient.html#lockMany" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>lock<wbr/>Many</span></a>
 <a href="UserClient.html#processAggregate" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Aggregate</span></a>
@@ -63,6 +64,7 @@
 <a href="UserClient.html#processGetMany" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Get<wbr/>Many</span></a>
 <a href="UserClient.html#processInvite" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Invite</span></a>
 <a href="UserClient.html#processInviteMany" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Invite<wbr/>Many</span></a>
+<a href="UserClient.html#processList" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>List</span></a>
 <a href="UserClient.html#processLock" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Lock</span></a>
 <a href="UserClient.html#processLockMany" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Lock<wbr/>Many</span></a>
 <a href="UserClient.html#processReInviteMany" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>process<wbr/>Re<wbr/>Invite<wbr/>Many</span></a>
@@ -114,18 +116,18 @@
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> init: <span class="tsd-signature-type">RequestInit</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20587">src/picturepark-sdk-v1-fetch/src/index.ts:20587</a></li></ul></aside></li></ul></li></ul></li></ul></div>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21340">src/picturepark-sdk-v1-fetch/src/index.ts:21340</a></li></ul></aside></li></ul></li></ul></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="UserClient.html" class="tsd-signature-type" data-tsd-kind="Class">UserClient</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="PictureparkClientBase.html">PictureparkClientBase</a>.<a href="PictureparkClientBase.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20587">src/picturepark-sdk-v1-fetch/src/index.ts:20587</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21340">src/picturepark-sdk-v1-fetch/src/index.ts:21340</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="baseUrl" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>base<wbr/>Url</span><a href="#baseUrl" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">base<wbr/>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20584">src/picturepark-sdk-v1-fetch/src/index.ts:20584</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21337">src/picturepark-sdk-v1-fetch/src/index.ts:21337</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="http" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>http</span><a href="#http" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>fetch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></div>
@@ -146,9 +148,9 @@
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> init: <span class="tsd-signature-type">RequestInit</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20583">src/picturepark-sdk-v1-fetch/src/index.ts:20583</a></li></ul></aside></li></ul></li></ul></div><aside class="tsd-sources">
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21336">src/picturepark-sdk-v1-fetch/src/index.ts:21336</a></li></ul></aside></li></ul></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20583">src/picturepark-sdk-v1-fetch/src/index.ts:20583</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21336">src/picturepark-sdk-v1-fetch/src/index.ts:21336</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="jsonParseReviver" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>json<wbr/>Parse<wbr/>Reviver</span><a href="#jsonParseReviver" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">json<wbr/>Parse<wbr/>Reviver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> = undefined</span></div>
@@ -168,7 +170,7 @@
 <h5>value: <span class="tsd-signature-type">any</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4></li></ul></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20585">src/picturepark-sdk-v1-fetch/src/index.ts:20585</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21338">src/picturepark-sdk-v1-fetch/src/index.ts:21338</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="aggregate" class="tsd-anchor"></a>
@@ -189,7 +191,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ObjectAggregationResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ObjectAggregationResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22215">src/picturepark-sdk-v1-fetch/src/index.ts:22215</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L23006">src/picturepark-sdk-v1-fetch/src/index.ts:23006</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="archive" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>archive</span><a href="#archive" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -208,7 +210,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21628">src/picturepark-sdk-v1-fetch/src/index.ts:21628</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22405">src/picturepark-sdk-v1-fetch/src/index.ts:22405</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="assignUserRoles" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>assign<wbr/>User<wbr/>Roles</span><a href="#assignUserRoles" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -227,7 +229,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21455">src/picturepark-sdk-v1-fetch/src/index.ts:21455</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22228">src/picturepark-sdk-v1-fetch/src/index.ts:22228</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="cancelDeletionRequest" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>cancel<wbr/>Deletion<wbr/>Request</span><a href="#cancelDeletionRequest" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -246,7 +248,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21792">src/picturepark-sdk-v1-fetch/src/index.ts:21792</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22573">src/picturepark-sdk-v1-fetch/src/index.ts:22573</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="create" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>create</span><a href="#create" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -265,7 +267,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">UserDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21959">src/picturepark-sdk-v1-fetch/src/index.ts:21959</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22744">src/picturepark-sdk-v1-fetch/src/index.ts:22744</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="delete" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>delete</span><a href="#delete" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -288,7 +290,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21542">src/picturepark-sdk-v1-fetch/src/index.ts:21542</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22317">src/picturepark-sdk-v1-fetch/src/index.ts:22317</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="get" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get</span><a href="#get" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -307,7 +309,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">UserDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20598">src/picturepark-sdk-v1-fetch/src/index.ts:20598</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21351">src/picturepark-sdk-v1-fetch/src/index.ts:21351</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="getBaseUrl" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Base<wbr/>Url</span><a href="#getBaseUrl" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -323,7 +325,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PictureparkClientBase.html">PictureparkClientBase</a>.<a href="PictureparkClientBase.html#getBaseUrl">getBaseUrl</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L33">src/picturepark-sdk-v1-fetch/src/index.ts:33</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L33">src/picturepark-sdk-v1-fetch/src/index.ts:33</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getByOwnerToken" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>By<wbr/>Owner<wbr/>Token</span><a href="#getByOwnerToken" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -342,7 +344,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">UserDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21874">src/picturepark-sdk-v1-fetch/src/index.ts:21874</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22657">src/picturepark-sdk-v1-fetch/src/index.ts:22657</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Many</span><a href="#getMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -361,7 +363,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">UserDetail</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22045">src/picturepark-sdk-v1-fetch/src/index.ts:22045</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22832">src/picturepark-sdk-v1-fetch/src/index.ts:22832</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="invite" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>invite</span><a href="#invite" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -380,7 +382,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21119">src/picturepark-sdk-v1-fetch/src/index.ts:21119</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21884">src/picturepark-sdk-v1-fetch/src/index.ts:21884</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="inviteMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>invite<wbr/>Many</span><a href="#inviteMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -399,7 +401,26 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21201">src/picturepark-sdk-v1-fetch/src/index.ts:21201</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21968">src/picturepark-sdk-v1-fetch/src/index.ts:21968</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="list" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>list</span><a href="#list" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="list.list-1">list<span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><a href="../interfaces/UserListRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">UserListRequest</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserListResult.html" class="tsd-signature-type" data-tsd-kind="Interface">UserListResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#list.list-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>List users, result contains only essential info about user. Requires the <code>ListUsers</code> or the <code>ManageUsers</code> UserRight.</p>
+
+<h3>Returns</h3><p>Result of the list users</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>request: <a href="../interfaces/UserListRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">UserListRequest</a></h5>
+<div class="tsd-comment tsd-typography"><p>User list request.</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserListResult.html" class="tsd-signature-type" data-tsd-kind="Interface">UserListResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L23182">src/picturepark-sdk-v1-fetch/src/index.ts:23182</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="lock" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>lock</span><a href="#lock" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -422,7 +443,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20774">src/picturepark-sdk-v1-fetch/src/index.ts:20774</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21531">src/picturepark-sdk-v1-fetch/src/index.ts:21531</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="lockMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>lock<wbr/>Many</span><a href="#lockMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -441,7 +462,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20860">src/picturepark-sdk-v1-fetch/src/index.ts:20860</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21619">src/picturepark-sdk-v1-fetch/src/index.ts:21619</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processAggregate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Aggregate</span><a href="#processAggregate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -454,7 +475,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ObjectAggregationResult.html" class="tsd-signature-type" data-tsd-kind="Interface">ObjectAggregationResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22237">src/picturepark-sdk-v1-fetch/src/index.ts:22237</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L23028">src/picturepark-sdk-v1-fetch/src/index.ts:23028</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processArchive" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Archive</span><a href="#processArchive" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -467,7 +488,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21648">src/picturepark-sdk-v1-fetch/src/index.ts:21648</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22425">src/picturepark-sdk-v1-fetch/src/index.ts:22425</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processAssignUserRoles" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Assign<wbr/>User<wbr/>Roles</span><a href="#processAssignUserRoles" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -480,7 +501,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21477">src/picturepark-sdk-v1-fetch/src/index.ts:21477</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22250">src/picturepark-sdk-v1-fetch/src/index.ts:22250</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processCancelDeletionRequest" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Cancel<wbr/>Deletion<wbr/>Request</span><a href="#processCancelDeletionRequest" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -493,7 +514,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21812">src/picturepark-sdk-v1-fetch/src/index.ts:21812</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22593">src/picturepark-sdk-v1-fetch/src/index.ts:22593</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processCreate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Create</span><a href="#processCreate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -506,7 +527,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">UserDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21981">src/picturepark-sdk-v1-fetch/src/index.ts:21981</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22766">src/picturepark-sdk-v1-fetch/src/index.ts:22766</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processDelete" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Delete</span><a href="#processDelete" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -519,7 +540,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21566">src/picturepark-sdk-v1-fetch/src/index.ts:21566</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22341">src/picturepark-sdk-v1-fetch/src/index.ts:22341</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processGet" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Get</span><a href="#processGet" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -532,7 +553,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">UserDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20619">src/picturepark-sdk-v1-fetch/src/index.ts:20619</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21372">src/picturepark-sdk-v1-fetch/src/index.ts:21372</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processGetByOwnerToken" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Get<wbr/>By<wbr/>Owner<wbr/>Token</span><a href="#processGetByOwnerToken" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -545,7 +566,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">UserDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21895">src/picturepark-sdk-v1-fetch/src/index.ts:21895</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22678">src/picturepark-sdk-v1-fetch/src/index.ts:22678</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processGetMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Get<wbr/>Many</span><a href="#processGetMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -558,7 +579,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">UserDetail</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22065">src/picturepark-sdk-v1-fetch/src/index.ts:22065</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22852">src/picturepark-sdk-v1-fetch/src/index.ts:22852</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processInvite" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Invite</span><a href="#processInvite" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -571,7 +592,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21139">src/picturepark-sdk-v1-fetch/src/index.ts:21139</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21904">src/picturepark-sdk-v1-fetch/src/index.ts:21904</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processInviteMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Invite<wbr/>Many</span><a href="#processInviteMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -584,7 +605,20 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21223">src/picturepark-sdk-v1-fetch/src/index.ts:21223</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21990">src/picturepark-sdk-v1-fetch/src/index.ts:21990</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processList" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>List</span><a href="#processList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="processList.processList-1">process<wbr/>List<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserListResult.html" class="tsd-signature-type" data-tsd-kind="Interface">UserListResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#processList.processList-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserListResult.html" class="tsd-signature-type" data-tsd-kind="Interface">UserListResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L23204">src/picturepark-sdk-v1-fetch/src/index.ts:23204</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processLock" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Lock</span><a href="#processLock" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -597,7 +631,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20798">src/picturepark-sdk-v1-fetch/src/index.ts:20798</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21555">src/picturepark-sdk-v1-fetch/src/index.ts:21555</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processLockMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Lock<wbr/>Many</span><a href="#processLockMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -610,7 +644,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20882">src/picturepark-sdk-v1-fetch/src/index.ts:20882</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21641">src/picturepark-sdk-v1-fetch/src/index.ts:21641</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processReInviteMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Re<wbr/>Invite<wbr/>Many</span><a href="#processReInviteMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -623,7 +657,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21391">src/picturepark-sdk-v1-fetch/src/index.ts:21391</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22162">src/picturepark-sdk-v1-fetch/src/index.ts:22162</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processReinvite" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Reinvite</span><a href="#processReinvite" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -636,7 +670,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21307">src/picturepark-sdk-v1-fetch/src/index.ts:21307</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22076">src/picturepark-sdk-v1-fetch/src/index.ts:22076</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processRestore" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Restore</span><a href="#processRestore" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -649,7 +683,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21730">src/picturepark-sdk-v1-fetch/src/index.ts:21730</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22509">src/picturepark-sdk-v1-fetch/src/index.ts:22509</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processReview" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Review</span><a href="#processReview" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -662,7 +696,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20971">src/picturepark-sdk-v1-fetch/src/index.ts:20971</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21732">src/picturepark-sdk-v1-fetch/src/index.ts:21732</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processReviewMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Review<wbr/>Many</span><a href="#processReviewMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -675,7 +709,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21055">src/picturepark-sdk-v1-fetch/src/index.ts:21055</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21818">src/picturepark-sdk-v1-fetch/src/index.ts:21818</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processSearch" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Search</span><a href="#processSearch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -688,7 +722,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserSearchResult.html" class="tsd-signature-type" data-tsd-kind="Interface">UserSearchResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22151">src/picturepark-sdk-v1-fetch/src/index.ts:22151</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22940">src/picturepark-sdk-v1-fetch/src/index.ts:22940</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processUpdate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Update</span><a href="#processUpdate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -701,7 +735,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">UserDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20709">src/picturepark-sdk-v1-fetch/src/index.ts:20709</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21464">src/picturepark-sdk-v1-fetch/src/index.ts:21464</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="processUpdateIdentityProviderMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>process<wbr/>Update<wbr/>Identity<wbr/>Provider<wbr/>Many</span><a href="#processUpdateIdentityProviderMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -714,7 +748,7 @@
 <h5>response: <span class="tsd-signature-type">Response</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22323">src/picturepark-sdk-v1-fetch/src/index.ts:22323</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L23116">src/picturepark-sdk-v1-fetch/src/index.ts:23116</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="reInviteMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>re<wbr/>Invite<wbr/>Many</span><a href="#reInviteMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -733,7 +767,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21369">src/picturepark-sdk-v1-fetch/src/index.ts:21369</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22140">src/picturepark-sdk-v1-fetch/src/index.ts:22140</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="reinvite" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reinvite</span><a href="#reinvite" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -752,7 +786,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21287">src/picturepark-sdk-v1-fetch/src/index.ts:21287</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22056">src/picturepark-sdk-v1-fetch/src/index.ts:22056</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="restore" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>restore</span><a href="#restore" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -771,7 +805,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21710">src/picturepark-sdk-v1-fetch/src/index.ts:21710</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22489">src/picturepark-sdk-v1-fetch/src/index.ts:22489</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="review" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>review</span><a href="#review" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -794,7 +828,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20947">src/picturepark-sdk-v1-fetch/src/index.ts:20947</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21708">src/picturepark-sdk-v1-fetch/src/index.ts:21708</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="reviewMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>review<wbr/>Many</span><a href="#reviewMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -813,7 +847,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21033">src/picturepark-sdk-v1-fetch/src/index.ts:21033</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21796">src/picturepark-sdk-v1-fetch/src/index.ts:21796</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="search" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>search</span><a href="#search" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -832,7 +866,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserSearchResult.html" class="tsd-signature-type" data-tsd-kind="Interface">UserSearchResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22129">src/picturepark-sdk-v1-fetch/src/index.ts:22129</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22918">src/picturepark-sdk-v1-fetch/src/index.ts:22918</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="transformOptions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>transform<wbr/>Options</span><a href="#transformOptions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -846,7 +880,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RequestInit</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PictureparkClientBase.html">PictureparkClientBase</a>.<a href="PictureparkClientBase.html#transformOptions">transformOptions</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L37">src/picturepark-sdk-v1-fetch/src/index.ts:37</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L37">src/picturepark-sdk-v1-fetch/src/index.ts:37</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="update" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update</span><a href="#update" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -869,7 +903,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/UserDetail.html" class="tsd-signature-type" data-tsd-kind="Interface">UserDetail</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L20684">src/picturepark-sdk-v1-fetch/src/index.ts:20684</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L21439">src/picturepark-sdk-v1-fetch/src/index.ts:21439</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="updateIdentityProviderMany" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update<wbr/>Identity<wbr/>Provider<wbr/>Many</span><a href="#updateIdentityProviderMany" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -888,7 +922,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/BusinessProcess.html" class="tsd-signature-type" data-tsd-kind="Interface">BusinessProcess</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/dc7f5a7e8/src/picturepark-sdk-v1-fetch/src/index.ts#L22301">src/picturepark-sdk-v1-fetch/src/index.ts:22301</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L23094">src/picturepark-sdk-v1-fetch/src/index.ts:23094</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -930,6 +964,7 @@
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="UserClient.html#getMany" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Many</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="UserClient.html#invite" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>invite</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="UserClient.html#inviteMany" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>invite<wbr/>Many</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="UserClient.html#list" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>list</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="UserClient.html#lock" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>lock</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="UserClient.html#lockMany" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>lock<wbr/>Many</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="UserClient.html#processAggregate" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Aggregate</a></li>
@@ -943,6 +978,7 @@
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="UserClient.html#processGetMany" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Get<wbr/>Many</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="UserClient.html#processInvite" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Invite</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="UserClient.html#processInviteMany" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Invite<wbr/>Many</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="UserClient.html#processList" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>List</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="UserClient.html#processLock" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Lock</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="UserClient.html#processLockMany" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Lock<wbr/>Many</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="UserClient.html#processReInviteMany" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>process<wbr/>Re<wbr/>Invite<wbr/>Many</a></li>
