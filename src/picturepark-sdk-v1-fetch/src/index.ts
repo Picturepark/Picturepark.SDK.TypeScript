@@ -26157,7 +26157,11 @@ export interface CommentReplyContentMismatchException extends PictureparkValidat
     contentId?: string | undefined;
 }
 
-export interface VirtualDisplayContentNotSupportedException extends PictureparkNotFoundException {
+export interface VirtualDisplayContentNotSupportedException extends PictureparkValidationException {
+    contentIds?: string[] | undefined;
+}
+
+export interface NestedDisplayContentNotSupportedException extends PictureparkValidationException {
     contentIds?: string[] | undefined;
 }
 
