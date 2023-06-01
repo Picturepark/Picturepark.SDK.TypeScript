@@ -21,7 +21,7 @@ import {
   IOutputPerOutputFormatSelection,
   IOutputPerSchemaSelection,
 } from './components/output-selection';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
@@ -67,6 +67,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     TranslatePipe,
     FileSizePipe,
+    MatSnackBarModule,
   ],
 })
 export class ContentDownloadDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
