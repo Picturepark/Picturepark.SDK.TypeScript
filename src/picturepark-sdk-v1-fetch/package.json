@@ -1,6 +1,6 @@
 {
   "name": "@picturepark/sdk-v1-fetch",
-  "version": "11.7.0",
+  "version": "11.7.0-pre.0",
   "main": "dist/index.umd.min.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.esm.min.mjs",
