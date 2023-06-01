@@ -32682,6 +32682,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "NestedDisplayContentNotSupportedException") {
+            let result = new NestedDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SelfReferencingDisplayContentNotSupportedException") {
             let result = new SelfReferencingDisplayContentNotSupportedException();
             result.init(data);
@@ -34605,6 +34610,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "NestedDisplayContentNotSupportedException") {
+            let result = new NestedDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SelfReferencingDisplayContentNotSupportedException") {
             let result = new SelfReferencingDisplayContentNotSupportedException();
             result.init(data);
@@ -36025,6 +36035,16 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "VirtualDisplayContentNotSupportedException") {
+            let result = new VirtualDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NestedDisplayContentNotSupportedException") {
+            let result = new NestedDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SelfReferencingDisplayContentNotSupportedException") {
             let result = new SelfReferencingDisplayContentNotSupportedException();
             result.init(data);
@@ -36492,11 +36512,6 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "ConversionPresetTemplateNotFoundException") {
             let result = new ConversionPresetTemplateNotFoundException();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "VirtualDisplayContentNotSupportedException") {
-            let result = new VirtualDisplayContentNotSupportedException();
             result.init(data);
             return result;
         }
@@ -50839,7 +50854,7 @@ export interface ICommentReplyContentMismatchException extends IPictureparkValid
     contentId?: string | undefined;
 }
 
-export class VirtualDisplayContentNotSupportedException extends PictureparkNotFoundException implements IVirtualDisplayContentNotSupportedException {
+export class VirtualDisplayContentNotSupportedException extends PictureparkValidationException implements IVirtualDisplayContentNotSupportedException {
     contentIds?: string[] | undefined;
 
     constructor(data?: IVirtualDisplayContentNotSupportedException) {
@@ -50877,7 +50892,49 @@ export class VirtualDisplayContentNotSupportedException extends PictureparkNotFo
     }
 }
 
-export interface IVirtualDisplayContentNotSupportedException extends IPictureparkNotFoundException {
+export interface IVirtualDisplayContentNotSupportedException extends IPictureparkValidationException {
+    contentIds?: string[] | undefined;
+}
+
+export class NestedDisplayContentNotSupportedException extends PictureparkValidationException implements INestedDisplayContentNotSupportedException {
+    contentIds?: string[] | undefined;
+
+    constructor(data?: INestedDisplayContentNotSupportedException) {
+        super(data);
+        this._discriminator = "NestedDisplayContentNotSupportedException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["contentIds"])) {
+                this.contentIds = [] as any;
+                for (let item of _data["contentIds"])
+                    this.contentIds!.push(item);
+            }
+        }
+    }
+
+    static override fromJS(data: any): NestedDisplayContentNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new NestedDisplayContentNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.contentIds)) {
+            data["contentIds"] = [];
+            for (let item of this.contentIds)
+                data["contentIds"].push(item);
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface INestedDisplayContentNotSupportedException extends IPictureparkValidationException {
     contentIds?: string[] | undefined;
 }
 
