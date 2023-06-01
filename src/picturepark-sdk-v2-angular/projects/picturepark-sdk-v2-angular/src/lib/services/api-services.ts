@@ -8,13 +8,14 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
+import { Injector } from '@angular/core';
 import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
 import { LiquidRenderingService } from './liquid-rendering.service';
 import { PictureparkServiceBase } from './base.service';
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
-import { Injectable, Inject, Optional, InjectionToken, Injector } from '@angular/core';
+import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
 export const PICTUREPARK_API_URL = new InjectionToken<string>('PICTUREPARK_API_URL');
@@ -121,7 +122,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -227,7 +231,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -337,7 +344,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -442,7 +452,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -542,7 +555,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -653,7 +669,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -764,7 +783,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -877,7 +899,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -983,7 +1008,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1090,7 +1118,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1204,7 +1235,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1318,7 +1352,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1424,7 +1461,10 @@ export class BusinessProcessService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1540,7 +1580,10 @@ export class BusinessRuleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1646,7 +1689,10 @@ export class BusinessRuleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1752,7 +1798,10 @@ export class BusinessRuleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1859,7 +1908,10 @@ export class BusinessRuleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1982,7 +2034,10 @@ export class ChannelService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -2088,7 +2143,10 @@ export class ChannelService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -2193,7 +2251,10 @@ export class ChannelService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -2303,7 +2364,10 @@ export class ChannelService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -2404,7 +2468,10 @@ export class ChannelService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -2512,7 +2579,10 @@ export class ChannelService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -2620,7 +2690,10 @@ export class ChannelService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -2728,7 +2801,10 @@ export class ChannelService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -2848,7 +2924,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -2958,7 +3037,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -3058,7 +3140,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -3164,7 +3249,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -3275,7 +3363,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -3380,7 +3471,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -3492,7 +3586,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -3598,7 +3695,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -3704,7 +3804,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -3810,7 +3913,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -3911,7 +4017,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -4022,7 +4131,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -4128,7 +4240,10 @@ export class ContentPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -4260,6 +4375,27 @@ export class ContentService extends PictureparkServiceBase {
     );
   }
 
+  setDisplayContent(
+    id: string | null,
+    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+    timeout: string | null | undefined,
+    waitForContinuation: boolean | undefined,
+    setDisplayContentRequest: SetDisplayContentRequest
+  ): Observable<ContentDetail> {
+    return this.setDisplayContentCore(
+      id,
+      resolveBehaviors,
+      timeout,
+      waitForContinuation,
+      setDisplayContentRequest
+    ).pipe(
+      _observableMergeMap(async content => {
+        await this.liquidRenderingService.renderNestedDisplayValues(content);
+        return content;
+      })
+    );
+  }
+
     /**
      * Get content
      * @param id The content ID.
@@ -4344,7 +4480,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -4460,7 +4599,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -4576,7 +4718,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -4695,7 +4840,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -4816,7 +4964,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -4942,7 +5093,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -5051,7 +5205,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -5186,7 +5343,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -5309,7 +5469,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -5432,7 +5595,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -5548,7 +5714,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -5654,7 +5823,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -5764,7 +5936,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -5874,7 +6049,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -5984,7 +6162,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -6096,7 +6277,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -6202,7 +6386,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -6307,7 +6494,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -6413,7 +6603,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -6512,7 +6705,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -6625,7 +6821,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -6731,7 +6930,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -6837,7 +7039,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -6943,7 +7148,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -7049,7 +7257,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -7155,7 +7366,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -7268,7 +7482,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -7374,7 +7591,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -7480,7 +7700,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -7586,7 +7809,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -7692,7 +7918,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -7791,7 +8020,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -7904,7 +8136,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -8010,7 +8245,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -8120,7 +8358,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -8230,7 +8471,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -8335,7 +8579,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -8437,7 +8684,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -8561,7 +8811,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -8669,7 +8922,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -8782,7 +9038,10 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -8892,7 +9151,243 @@ export class ContentService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Sets/unsets a DisplayContent for a content with an id given in the request
+     * @param id Id of the content
+     * @param resolveBehaviors (optional) List of enums that control which parts of the content are resolved and returned.
+     * @param timeout (optional) Timeout for the operation
+     * @param waitForContinuation (optional) Wait for the creation of the search doc update.
+     * @param setDisplayContentRequest Request with DisplayContentId
+     * @return Result of the operation
+     */
+    protected setDisplayContentCore(id: string | null, resolveBehaviors: ContentResolveBehavior[] | null | undefined, timeout: string | null | undefined, waitForContinuation: boolean | undefined, setDisplayContentRequest: SetDisplayContentRequest): Observable<ContentDetail> {
+        let url_ = this.baseUrl + "/v1/Contents/{id}/displayContent?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (resolveBehaviors !== undefined && resolveBehaviors !== null)
+            resolveBehaviors && resolveBehaviors.forEach(item => { url_ += "resolveBehaviors=" + encodeURIComponent("" + item) + "&"; });
+        if (timeout !== undefined && timeout !== null)
+            url_ += "timeout=" + encodeURIComponent("" + timeout) + "&";
+        if (waitForContinuation === null)
+            throw new Error("The parameter 'waitForContinuation' cannot be null.");
+        else if (waitForContinuation !== undefined)
+            url_ += "waitForContinuation=" + encodeURIComponent("" + waitForContinuation) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(setDisplayContentRequest);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processSetDisplayContent(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSetDisplayContent(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ContentDetail>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ContentDetail>;
+        }));
+    }
+
+    protected processSetDisplayContent(response: HttpResponseBase): Observable<ContentDetail> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ContentDetail.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Process many requests to set/unset display contents for given contents
+     * @param setDisplayContentsManyRequest Set many display contents request
+     * @return Business process
+     */
+    setManyDisplayContents(setDisplayContentsManyRequest: SetDisplayContentsManyRequest): Observable<BusinessProcess> {
+        let url_ = this.baseUrl + "/v1/Contents/many/displayContent";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(setDisplayContentsManyRequest);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processSetManyDisplayContents(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSetManyDisplayContents(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BusinessProcess>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BusinessProcess>;
+        }));
+    }
+
+    protected processSetManyDisplayContents(response: HttpResponseBase): Observable<BusinessProcess> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BusinessProcess.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -9013,7 +9508,10 @@ export class ConversionPresetTemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -9122,7 +9620,10 @@ export class ConversionPresetTemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -9226,7 +9727,10 @@ export class ConversionPresetTemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -9346,7 +9850,10 @@ export class ConversionPresetTemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -9449,7 +9956,10 @@ export class ConversionPresetTemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -9554,7 +10064,10 @@ export class ConversionPresetTemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -9660,7 +10173,10 @@ export class ConversionPresetTemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -9766,7 +10282,10 @@ export class ConversionPresetTemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -9872,7 +10391,10 @@ export class ConversionPresetTemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -9988,7 +10510,10 @@ export class DisplayValueService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -10089,7 +10614,10 @@ export class DisplayValueService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -10213,7 +10741,10 @@ export class DocumentHistoryService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -10326,7 +10857,10 @@ export class DocumentHistoryService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -10440,7 +10974,10 @@ export class DocumentHistoryService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -10558,7 +11095,10 @@ export class DocumentHistoryService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -10664,7 +11204,10 @@ export class DocumentHistoryService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -10787,7 +11330,10 @@ export class IdentityProviderService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -10895,7 +11441,10 @@ export class IdentityProviderService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -11000,7 +11549,10 @@ export class IdentityProviderService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -11110,7 +11662,10 @@ export class IdentityProviderService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -11218,7 +11773,10 @@ export class IdentityProviderService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -11507,7 +12065,10 @@ export class JsonSchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -11667,7 +12228,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -11795,7 +12359,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -11904,7 +12471,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -12027,7 +12597,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -12137,7 +12710,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -12261,7 +12837,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -12375,7 +12954,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -12481,7 +13063,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -12587,7 +13172,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -12693,7 +13281,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -12799,7 +13390,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -12905,7 +13499,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -13011,7 +13608,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -13117,7 +13717,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -13223,7 +13826,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -13329,7 +13935,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -13435,7 +14044,10 @@ export class ListItemService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -13556,7 +14168,10 @@ export class LiveStreamService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -13672,7 +14287,10 @@ export class MetadataService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -13773,7 +14391,10 @@ export class MetadataService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -13893,7 +14514,10 @@ export class NotificationService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -13998,7 +14622,10 @@ export class NotificationService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -14104,7 +14731,10 @@ export class NotificationService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -14210,7 +14840,10 @@ export class NotificationService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -14306,7 +14939,10 @@ export class NotificationService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -14407,7 +15043,10 @@ export class NotificationService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -14513,7 +15152,10 @@ export class NotificationService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -14622,7 +15264,10 @@ export class NotificationService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -14750,7 +15395,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -14856,7 +15504,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -14966,7 +15617,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -15072,7 +15726,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -15182,7 +15839,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -15288,7 +15948,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -15392,7 +16055,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -15505,7 +16171,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -15618,7 +16287,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -15728,7 +16400,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -15833,7 +16508,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -15938,7 +16616,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -16044,7 +16725,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -16150,7 +16834,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -16256,7 +16943,10 @@ export class OutputFormatService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -16376,7 +17066,10 @@ export class OutputService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -16482,7 +17175,10 @@ export class OutputService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -16588,7 +17284,10 @@ export class OutputService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -16704,7 +17403,10 @@ export class ProfileService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -16810,7 +17512,10 @@ export class ProfileService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -16907,7 +17612,10 @@ export class ProfileService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -17027,7 +17735,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -17137,7 +17848,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -17237,7 +17951,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -17343,7 +18060,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -17454,7 +18174,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -17559,7 +18282,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -17671,7 +18397,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -17777,7 +18506,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -17883,7 +18615,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -17989,7 +18724,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -18090,7 +18828,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -18201,7 +18942,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -18307,7 +19051,10 @@ export class SchemaPermissionSetService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -18420,7 +19167,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -18527,7 +19277,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -18636,7 +19389,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -18755,7 +19511,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -18864,7 +19623,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -18974,7 +19736,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -19091,7 +19856,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -19194,7 +19962,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -19305,7 +20076,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -19411,7 +20185,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -19517,7 +20294,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -19640,7 +20420,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -19746,7 +20529,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -19852,7 +20638,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -19964,7 +20753,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -20075,7 +20867,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -20187,7 +20982,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -20298,7 +21096,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -20409,7 +21210,10 @@ export class SchemaService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -20523,7 +21327,10 @@ export class SchemaTransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -20878,7 +21685,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -20994,7 +21804,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -21099,7 +21912,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -21204,7 +22020,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -21328,7 +22147,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -21441,7 +22263,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -21558,7 +22383,132 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status === 412) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("A server side error occurred.", status, _responseText, _headers);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * Download shared display content outputs
+     * @param token Share token
+     * @param contentId The content id
+     * @param outputFormatId Id of the output format
+     */
+    downloadDisplayContentOutputs(token: string | null, contentId: string | null, outputFormatId: string | null): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/d/{token}/displayContent/{contentId}/{outputFormatId}";
+        if (token === undefined || token === null)
+            throw new Error("The parameter 'token' must be defined.");
+        url_ = url_.replace("{token}", encodeURIComponent("" + token));
+        if (contentId === undefined || contentId === null)
+            throw new Error("The parameter 'contentId' must be defined.");
+        url_ = url_.replace("{contentId}", encodeURIComponent("" + contentId));
+        if (outputFormatId === undefined || outputFormatId === null)
+            throw new Error("The parameter 'outputFormatId' must be defined.");
+        url_ = url_.replace("{outputFormatId}", encodeURIComponent("" + outputFormatId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processDownloadDisplayContentOutputs(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDownloadDisplayContentOutputs(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileResponse>;
+        }));
+    }
+
+    protected processDownloadDisplayContentOutputs(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -21676,7 +22626,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -21786,7 +22739,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -21906,7 +22862,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -21998,7 +22957,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -22118,7 +23080,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -22224,7 +23189,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -22330,7 +23298,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -22436,7 +23407,10 @@ export class ShareService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -22558,7 +23532,10 @@ export class StatisticService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -22664,7 +23641,10 @@ export class StatisticService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -22769,7 +23749,10 @@ export class StatisticService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -22875,7 +23858,10 @@ export class StatisticService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -22995,7 +23981,10 @@ export class TemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -23105,7 +24094,10 @@ export class TemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -23205,7 +24197,10 @@ export class TemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -23311,7 +24306,10 @@ export class TemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -23419,7 +24417,10 @@ export class TemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -23525,7 +24526,10 @@ export class TemplateService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -23639,7 +24643,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -23751,7 +24758,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -23852,7 +24862,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -23962,7 +24975,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -24072,7 +25088,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -24173,7 +25192,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -24279,7 +25301,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -24384,7 +25409,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -24490,7 +25518,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -24591,7 +25622,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -24692,7 +25726,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -24822,7 +25859,10 @@ export class TransferService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -24943,7 +25983,10 @@ export class UserRoleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -25047,7 +26090,10 @@ export class UserRoleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -25160,7 +26206,10 @@ export class UserRoleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -25266,7 +26315,10 @@ export class UserRoleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -25372,7 +26424,10 @@ export class UserRoleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -25478,7 +26533,10 @@ export class UserRoleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -25583,7 +26641,10 @@ export class UserRoleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -25693,7 +26754,10 @@ export class UserRoleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -25793,7 +26857,10 @@ export class UserRoleService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -25913,7 +26980,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26023,7 +27093,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26129,7 +27202,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26235,7 +27311,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26341,7 +27420,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26447,7 +27529,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26548,7 +27633,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26654,7 +27742,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26755,7 +27846,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26861,7 +27955,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -26967,7 +28064,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -27073,7 +28173,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -27174,7 +28277,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -27275,7 +28381,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -27376,7 +28485,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -27481,7 +28593,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -27587,7 +28702,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -27698,7 +28816,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -27804,7 +28925,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -27910,7 +29034,10 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -28016,7 +29143,119 @@ export class UserService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
+            }));
+        } else if (status === 500) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result500: any = null;
+            let resultData500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result500 = PictureparkException.fromJS(resultData500);
+            return throwException("Internal server error", status, _responseText, _headers, result500);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * List users, result contains only essential info about user. Requires the `ListUsers` or the `ManageUsers` UserRight.
+     * @param request User list request.
+     * @return Result of the list users
+     */
+    list(request: UserListRequest): Observable<UserListResult> {
+        let url_ = this.baseUrl + "/v1/Users/list";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(request);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processList(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<UserListResult>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<UserListResult>;
+        }));
+    }
+
+    protected processList(response: HttpResponseBase): Observable<UserListResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserListResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = PictureparkValidationException.fromJS(resultData400);
+            return throwException("Validation exception", status, _responseText, _headers, result400);
+            }));
+        } else if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Unauthorized", status, _responseText, _headers);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            let resultData403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result403 = PictureparkForbiddenException.fromJS(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = PictureparkNotFoundException.fromJS(resultData404);
+            return throwException("Entity not found", status, _responseText, _headers, result404);
+            }));
+        } else if (status === 405) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("Method not allowed", status, _responseText, _headers);
+            }));
+        } else if (status === 409) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result409: any = null;
+            let resultData409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result409 = PictureparkConflictException.fromJS(resultData409);
+            return throwException("Version conflict", status, _responseText, _headers, result409);
+            }));
+        } else if (status === 429) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -28132,7 +29371,10 @@ export class XmpMappingService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -28238,7 +29480,10 @@ export class XmpMappingService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -28344,7 +29589,10 @@ export class XmpMappingService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -28448,7 +29696,10 @@ export class XmpMappingService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -28565,7 +29816,10 @@ export class XmpMappingService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -28670,7 +29924,10 @@ export class XmpMappingService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -28775,7 +30032,10 @@ export class XmpMappingService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -28881,7 +30141,10 @@ export class XmpMappingService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -28987,7 +30250,10 @@ export class XmpMappingService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -29093,7 +30359,10 @@ export class XmpMappingService extends PictureparkServiceBase {
             }));
         } else if (status === 429) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("Too many requests", status, _responseText, _headers);
+            let result429: any = null;
+            let resultData429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
+            return throwException("Too many requests", status, _responseText, _headers, result429);
             }));
         } else if (status === 500) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -29562,6 +30831,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PictureparkTooManyRequestsException") {
+            let result = new PictureparkTooManyRequestsException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ContentNotFoundException") {
             let result = new ContentNotFoundException();
             result.init(data);
@@ -29814,6 +31088,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "CustomerClonesNotAcceptedException") {
             let result = new CustomerClonesNotAcceptedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareOutputNotFoundException") {
+            let result = new ShareOutputNotFoundException();
             result.init(data);
             return result;
         }
@@ -30297,6 +31576,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "ListItemResolveBehaviorNotSupportedException") {
             let result = new ListItemResolveBehaviorNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidLogoFileExtensionException") {
+            let result = new InvalidLogoFileExtensionException();
             result.init(data);
             return result;
         }
@@ -30822,6 +32106,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "BusinessProcessNotFoundException") {
             let result = new BusinessProcessNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TooManyBusinessProcessesException") {
+            let result = new TooManyBusinessProcessesException();
             result.init(data);
             return result;
         }
@@ -31385,6 +32674,21 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "CommentReplyContentMismatchException") {
             let result = new CommentReplyContentMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VirtualDisplayContentNotSupportedException") {
+            let result = new VirtualDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NestedDisplayContentNotSupportedException") {
+            let result = new NestedDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SelfReferencingDisplayContentNotSupportedException") {
+            let result = new SelfReferencingDisplayContentNotSupportedException();
             result.init(data);
             return result;
         }
@@ -31455,6 +32759,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "PictureparkTooManyRequestsException") {
+            let result = new PictureparkTooManyRequestsException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "ContentNotFoundException") {
             let result = new ContentNotFoundException();
             result.init(data);
@@ -31707,6 +33016,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "CustomerClonesNotAcceptedException") {
             let result = new CustomerClonesNotAcceptedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareOutputNotFoundException") {
+            let result = new ShareOutputNotFoundException();
             result.init(data);
             return result;
         }
@@ -32190,6 +33504,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "ListItemResolveBehaviorNotSupportedException") {
             let result = new ListItemResolveBehaviorNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidLogoFileExtensionException") {
+            let result = new InvalidLogoFileExtensionException();
             result.init(data);
             return result;
         }
@@ -32715,6 +34034,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "BusinessProcessNotFoundException") {
             let result = new BusinessProcessNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TooManyBusinessProcessesException") {
+            let result = new TooManyBusinessProcessesException();
             result.init(data);
             return result;
         }
@@ -33278,6 +34602,21 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "CommentReplyContentMismatchException") {
             let result = new CommentReplyContentMismatchException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "VirtualDisplayContentNotSupportedException") {
+            let result = new VirtualDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NestedDisplayContentNotSupportedException") {
+            let result = new NestedDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SelfReferencingDisplayContentNotSupportedException") {
+            let result = new SelfReferencingDisplayContentNotSupportedException();
             result.init(data);
             return result;
         }
@@ -33773,6 +35112,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "InvalidLogoFileExtensionException") {
+            let result = new InvalidLogoFileExtensionException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "WrongChunkSizeException") {
             let result = new WrongChunkSizeException();
             result.init(data);
@@ -34691,6 +36035,21 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "VirtualDisplayContentNotSupportedException") {
+            let result = new VirtualDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NestedDisplayContentNotSupportedException") {
+            let result = new NestedDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SelfReferencingDisplayContentNotSupportedException") {
+            let result = new SelfReferencingDisplayContentNotSupportedException();
+            result.init(data);
+            return result;
+        }
         let result = new PictureparkValidationException();
         result.init(data);
         return result;
@@ -35038,6 +36397,11 @@ export class PictureparkNotFoundException extends PictureparkBusinessException i
         }
         if (data["kind"] === "ChannelsNotFoundException") {
             let result = new ChannelsNotFoundException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareOutputNotFoundException") {
+            let result = new ShareOutputNotFoundException();
             result.init(data);
             return result;
         }
@@ -36580,6 +37944,40 @@ export class CustomerClonesNotAcceptedException extends PictureparkValidationExc
 export interface ICustomerClonesNotAcceptedException extends IPictureparkValidationException {
 }
 
+export class ShareOutputNotFoundException extends PictureparkNotFoundException implements IShareOutputNotFoundException {
+    contentId?: string | undefined;
+
+    constructor(data?: IShareOutputNotFoundException) {
+        super(data);
+        this._discriminator = "ShareOutputNotFoundException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.contentId = _data["contentId"];
+        }
+    }
+
+    static override fromJS(data: any): ShareOutputNotFoundException {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareOutputNotFoundException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IShareOutputNotFoundException extends IPictureparkNotFoundException {
+    contentId?: string | undefined;
+}
+
 export class ShareNotFoundException extends PictureparkNotFoundException implements IShareNotFoundException {
     shareId?: string | undefined;
 
@@ -37900,6 +39298,39 @@ export class ContractMismatchException extends PictureparkValidationException im
 }
 
 export interface IContractMismatchException extends IPictureparkValidationException {
+}
+
+export class PictureparkTooManyRequestsException extends PictureparkBusinessException implements IPictureparkTooManyRequestsException {
+
+    constructor(data?: IPictureparkTooManyRequestsException) {
+        super(data);
+        this._discriminator = "PictureparkTooManyRequestsException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): PictureparkTooManyRequestsException {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "TooManyBusinessProcessesException") {
+            let result = new TooManyBusinessProcessesException();
+            result.init(data);
+            return result;
+        }
+        let result = new PictureparkTooManyRequestsException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IPictureparkTooManyRequestsException extends IPictureparkBusinessException {
 }
 
 export class InvalidArgumentException extends PictureparkValidationException implements IInvalidArgumentException {
@@ -39823,6 +41254,7 @@ export enum UserRight {
     ManageConversionPresetTemplates = "ManageConversionPresetTemplates",
     ManageComments = "ManageComments",
     ManageAllComments = "ManageAllComments",
+    ListUsers = "ListUsers",
 }
 
 export class PermissionSetNotFoundException extends PictureparkNotFoundException implements IPermissionSetNotFoundException {
@@ -40582,6 +42014,52 @@ export enum ListItemResolveBehavior {
     OuterDisplayValueName = "OuterDisplayValueName",
     DynamicViewFields = "DynamicViewFields",
     DynamicViewFieldsWithHasItems = "DynamicViewFieldsWithHasItems",
+}
+
+export class InvalidLogoFileExtensionException extends PictureparkValidationException implements IInvalidLogoFileExtensionException {
+    fileExtension?: string | undefined;
+    supportedExtensions?: string[] | undefined;
+
+    constructor(data?: IInvalidLogoFileExtensionException) {
+        super(data);
+        this._discriminator = "InvalidLogoFileExtensionException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.fileExtension = _data["fileExtension"];
+            if (Array.isArray(_data["supportedExtensions"])) {
+                this.supportedExtensions = [] as any;
+                for (let item of _data["supportedExtensions"])
+                    this.supportedExtensions!.push(item);
+            }
+        }
+    }
+
+    static override fromJS(data: any): InvalidLogoFileExtensionException {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvalidLogoFileExtensionException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fileExtension"] = this.fileExtension;
+        if (Array.isArray(this.supportedExtensions)) {
+            data["supportedExtensions"] = [];
+            for (let item of this.supportedExtensions)
+                data["supportedExtensions"].push(item);
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IInvalidLogoFileExtensionException extends IPictureparkValidationException {
+    fileExtension?: string | undefined;
+    supportedExtensions?: string[] | undefined;
 }
 
 export class TransferInfoNotFoundException extends PictureparkNotFoundException implements ITransferInfoNotFoundException {
@@ -45299,6 +46777,7 @@ export enum ContentResolveBehavior {
     HistoricVersionCount = "HistoricVersionCount",
     DynamicViewFields = "DynamicViewFields",
     DynamicViewFieldsWithHasItems = "DynamicViewFieldsWithHasItems",
+    DisplayContentOutputs = "DisplayContentOutputs",
 }
 
 export class BusinessProcessEngineRequestException extends PictureparkBusinessException implements IBusinessProcessEngineRequestException {
@@ -45371,6 +46850,34 @@ export class BusinessProcessNotFoundException extends PictureparkNotFoundExcepti
 
 export interface IBusinessProcessNotFoundException extends IPictureparkNotFoundException {
     businessProcessId?: string | undefined;
+}
+
+export class TooManyBusinessProcessesException extends PictureparkTooManyRequestsException implements ITooManyBusinessProcessesException {
+
+    constructor(data?: ITooManyBusinessProcessesException) {
+        super(data);
+        this._discriminator = "TooManyBusinessProcessesException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): TooManyBusinessProcessesException {
+        data = typeof data === 'object' ? data : {};
+        let result = new TooManyBusinessProcessesException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ITooManyBusinessProcessesException extends IPictureparkTooManyRequestsException {
 }
 
 export class BusinessProcessDefinitionNotFoundException extends PictureparkNotFoundException implements IBusinessProcessDefinitionNotFoundException {
@@ -49347,6 +50854,132 @@ export interface ICommentReplyContentMismatchException extends IPictureparkValid
     contentId?: string | undefined;
 }
 
+export class VirtualDisplayContentNotSupportedException extends PictureparkValidationException implements IVirtualDisplayContentNotSupportedException {
+    contentIds?: string[] | undefined;
+
+    constructor(data?: IVirtualDisplayContentNotSupportedException) {
+        super(data);
+        this._discriminator = "VirtualDisplayContentNotSupportedException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["contentIds"])) {
+                this.contentIds = [] as any;
+                for (let item of _data["contentIds"])
+                    this.contentIds!.push(item);
+            }
+        }
+    }
+
+    static override fromJS(data: any): VirtualDisplayContentNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new VirtualDisplayContentNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.contentIds)) {
+            data["contentIds"] = [];
+            for (let item of this.contentIds)
+                data["contentIds"].push(item);
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IVirtualDisplayContentNotSupportedException extends IPictureparkValidationException {
+    contentIds?: string[] | undefined;
+}
+
+export class NestedDisplayContentNotSupportedException extends PictureparkValidationException implements INestedDisplayContentNotSupportedException {
+    contentIds?: string[] | undefined;
+
+    constructor(data?: INestedDisplayContentNotSupportedException) {
+        super(data);
+        this._discriminator = "NestedDisplayContentNotSupportedException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["contentIds"])) {
+                this.contentIds = [] as any;
+                for (let item of _data["contentIds"])
+                    this.contentIds!.push(item);
+            }
+        }
+    }
+
+    static override fromJS(data: any): NestedDisplayContentNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new NestedDisplayContentNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.contentIds)) {
+            data["contentIds"] = [];
+            for (let item of this.contentIds)
+                data["contentIds"].push(item);
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface INestedDisplayContentNotSupportedException extends IPictureparkValidationException {
+    contentIds?: string[] | undefined;
+}
+
+export class SelfReferencingDisplayContentNotSupportedException extends PictureparkValidationException implements ISelfReferencingDisplayContentNotSupportedException {
+    contentIds?: string[] | undefined;
+
+    constructor(data?: ISelfReferencingDisplayContentNotSupportedException) {
+        super(data);
+        this._discriminator = "SelfReferencingDisplayContentNotSupportedException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["contentIds"])) {
+                this.contentIds = [] as any;
+                for (let item of _data["contentIds"])
+                    this.contentIds!.push(item);
+            }
+        }
+    }
+
+    static override fromJS(data: any): SelfReferencingDisplayContentNotSupportedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SelfReferencingDisplayContentNotSupportedException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.contentIds)) {
+            data["contentIds"] = [];
+            for (let item of this.contentIds)
+                data["contentIds"].push(item);
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ISelfReferencingDisplayContentNotSupportedException extends IPictureparkValidationException {
+    contentIds?: string[] | undefined;
+}
+
 /** Create request to create a BusinessProcess. */
 export class BusinessProcessCreateRequest implements IBusinessProcessCreateRequest {
     /** Indicates if the system starting the business process supports cancellation. */
@@ -50761,8 +52394,62 @@ export interface ISearchBehaviorBaseResultOfBusinessProcess extends IBaseResultO
     queryDebugInformation?: IQueryDebugInformation[] | undefined;
 }
 
+/** Base class for search result queries that support SearchBehaviors */
+export class SearchBehaviorWithAggregationBaseResultOfBusinessProcess extends SearchBehaviorBaseResultOfBusinessProcess implements ISearchBehaviorWithAggregationBaseResultOfBusinessProcess {
+    /** Results of the aggregation, if any aggregators was passed in the request. */
+    aggregationResults?: AggregationResult[] | undefined;
+
+    constructor(data?: ISearchBehaviorWithAggregationBaseResultOfBusinessProcess) {
+        super(data);
+        if (data) {
+            if (data.aggregationResults) {
+                this.aggregationResults = [];
+                for (let i = 0; i < data.aggregationResults.length; i++) {
+                    let item = data.aggregationResults[i];
+                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
+                }
+            }
+        }
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["aggregationResults"])) {
+                this.aggregationResults = [] as any;
+                for (let item of _data["aggregationResults"])
+                    this.aggregationResults!.push(AggregationResult.fromJS(item));
+            }
+        }
+    }
+
+    static override fromJS(data: any): SearchBehaviorWithAggregationBaseResultOfBusinessProcess {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorWithAggregationBaseResultOfBusinessProcess();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.aggregationResults)) {
+            data["aggregationResults"] = [];
+            for (let item of this.aggregationResults)
+                data["aggregationResults"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export interface ISearchBehaviorWithAggregationBaseResultOfBusinessProcess extends ISearchBehaviorBaseResultOfBusinessProcess {
+    /** Results of the aggregation, if any aggregators was passed in the request. */
+    aggregationResults?: IAggregationResult[] | undefined;
+}
+
 /** Search result from a search for business processes */
-export class BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusinessProcess implements IBusinessProcessSearchResult {
+export class BusinessProcessSearchResult extends SearchBehaviorWithAggregationBaseResultOfBusinessProcess implements IBusinessProcessSearchResult {
 
     constructor(data?: IBusinessProcessSearchResult) {
         super(data);
@@ -50787,135 +52474,175 @@ export class BusinessProcessSearchResult extends SearchBehaviorBaseResultOfBusin
 }
 
 /** Search result from a search for business processes */
-export interface IBusinessProcessSearchResult extends ISearchBehaviorBaseResultOfBusinessProcess {
+export interface IBusinessProcessSearchResult extends ISearchBehaviorWithAggregationBaseResultOfBusinessProcess {
 }
 
-export class QueryDebugInformation implements IQueryDebugInformation {
-    general?: string | undefined;
-    auditTrail?: string | undefined;
-    request?: any | undefined;
-    response?: any | undefined;
+/** Result of an aggregation */
+export class AggregationResult implements IAggregationResult {
+    /** Name of the aggregation. */
+    name!: string;
+    /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
+    sumOtherDocCount?: number | undefined;
+    /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
+Optionally inner aggregations for further drill down can be available. */
+    aggregationResultItems?: AggregationResultItem[] | undefined;
 
-    constructor(data?: IQueryDebugInformation) {
+    constructor(data?: IAggregationResult) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.aggregationResultItems) {
+                this.aggregationResultItems = [];
+                for (let i = 0; i < data.aggregationResultItems.length; i++) {
+                    let item = data.aggregationResultItems[i];
+                    this.aggregationResultItems[i] = item && !(<any>item).toJSON ? new AggregationResultItem(item) : <AggregationResultItem>item;
+                }
             }
         }
     }
 
     init(_data?: any) {
         if (_data) {
-            this.general = _data["general"];
-            this.auditTrail = _data["auditTrail"];
-            this.request = _data["request"];
-            this.response = _data["response"];
+            this.name = _data["name"];
+            this.sumOtherDocCount = _data["sumOtherDocCount"];
+            if (Array.isArray(_data["aggregationResultItems"])) {
+                this.aggregationResultItems = [] as any;
+                for (let item of _data["aggregationResultItems"])
+                    this.aggregationResultItems!.push(AggregationResultItem.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): QueryDebugInformation {
+    static fromJS(data: any): AggregationResult {
         data = typeof data === 'object' ? data : {};
-        let result = new QueryDebugInformation();
+        let result = new AggregationResult();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["general"] = this.general;
-        data["auditTrail"] = this.auditTrail;
-        data["request"] = this.request;
-        data["response"] = this.response;
+        data["name"] = this.name;
+        data["sumOtherDocCount"] = this.sumOtherDocCount;
+        if (Array.isArray(this.aggregationResultItems)) {
+            data["aggregationResultItems"] = [];
+            for (let item of this.aggregationResultItems)
+                data["aggregationResultItems"].push(item.toJSON());
+        }
         return data;
     }
 }
 
-export interface IQueryDebugInformation {
-    general?: string | undefined;
-    auditTrail?: string | undefined;
-    request?: any | undefined;
-    response?: any | undefined;
+/** Result of an aggregation */
+export interface IAggregationResult {
+    /** Name of the aggregation. */
+    name: string;
+    /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
+    sumOtherDocCount?: number | undefined;
+    /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
+Optionally inner aggregations for further drill down can be available. */
+    aggregationResultItems?: IAggregationResultItem[] | undefined;
 }
 
-/** Search request to search for business processes */
-export class BusinessProcessSearchRequest implements IBusinessProcessSearchRequest {
-    /** Limits the document count of the result set. */
-    limit!: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** An optional search filter. Limits the document result set. */
-    filter?: FilterBase | undefined;
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
-Warning! It severely affects performance. */
-    debugMode!: boolean;
+/** Aggregation result item */
+export class AggregationResultItem implements IAggregationResultItem {
+    /** Value matched. */
+    name!: string;
+    /** Number of items matched. */
+    count!: number;
+    /** Ready to use filter to filter the data based on the aggregation result values.
+It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
+    filter?: AggregationFilter | undefined;
+    /** True if the current result item matches on of the aggregation filters sent in the query. */
+    active!: boolean;
+    /** Inner aggregation results, if inner aggregations were provided in the query. */
+    aggregationResults?: AggregationResult[] | undefined;
 
-    constructor(data?: IBusinessProcessSearchRequest) {
+    getDisplayName(locale: string) {
+    let displayName: string | null;
+
+    // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
+    if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
+      displayName = this.name.split('/').pop() || null;
+    } else if (
+      this.filter &&
+      ((this.filter.filter as any).term === 'false' || (this.filter.filter as any).term === 'true')
+    ) {
+      displayName = (this.filter.filter as any).term;
+    } else {
+      displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
+    }
+
+    return displayName ?? this.name;
+  }
+
+    constructor(data?: IAggregationResultItem) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.aggregationResults) {
+                this.aggregationResults = [];
+                for (let i = 0; i < data.aggregationResults.length; i++) {
+                    let item = data.aggregationResults[i];
+                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
+                }
             }
         }
     }
 
     init(_data?: any) {
         if (_data) {
-            this.limit = _data["limit"];
-            this.pageToken = _data["pageToken"];
-            this.filter = _data["filter"] ? FilterBase.fromJS(_data["filter"]) : <any>undefined;
-            this.searchString = _data["searchString"];
-            if (Array.isArray(_data["searchBehaviors"])) {
-                this.searchBehaviors = [] as any;
-                for (let item of _data["searchBehaviors"])
-                    this.searchBehaviors!.push(item);
+            this.name = _data["name"];
+            this.count = _data["count"];
+            this.filter = _data["filter"] ? AggregationFilter.fromJS(_data["filter"]) : <any>undefined;
+            this.active = _data["active"];
+            if (Array.isArray(_data["aggregationResults"])) {
+                this.aggregationResults = [] as any;
+                for (let item of _data["aggregationResults"])
+                    this.aggregationResults!.push(AggregationResult.fromJS(item));
             }
-            this.debugMode = _data["debugMode"];
         }
     }
 
-    static fromJS(data: any): BusinessProcessSearchRequest {
+    static fromJS(data: any): AggregationResultItem {
         data = typeof data === 'object' ? data : {};
-        let result = new BusinessProcessSearchRequest();
+        let result = new AggregationResultItem();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
+        data["name"] = this.name;
+        data["count"] = this.count;
         data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchBehaviors)) {
-            data["searchBehaviors"] = [];
-            for (let item of this.searchBehaviors)
-                data["searchBehaviors"].push(item);
+        data["active"] = this.active;
+        if (Array.isArray(this.aggregationResults)) {
+            data["aggregationResults"] = [];
+            for (let item of this.aggregationResults)
+                data["aggregationResults"].push(item.toJSON());
         }
-        data["debugMode"] = this.debugMode;
         return data;
     }
 }
 
-/** Search request to search for business processes */
-export interface IBusinessProcessSearchRequest {
-    /** Limits the document count of the result set. */
-    limit: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** An optional search filter. Limits the document result set. */
-    filter?: FilterBase | undefined;
-    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** An optional list of search behaviors. All the passed behaviors will be applied. */
-    searchBehaviors?: SearchBehavior[] | undefined;
-    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
-Warning! It severely affects performance. */
-    debugMode: boolean;
+/** Aggregation result item */
+export interface IAggregationResultItem {
+    /** Value matched. */
+    name: string;
+    /** Number of items matched. */
+    count: number;
+    /** Ready to use filter to filter the data based on the aggregation result values.
+It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
+    filter?: AggregationFilter | undefined;
+    /** True if the current result item matches on of the aggregation filters sent in the query. */
+    active: boolean;
+    /** Inner aggregation results, if inner aggregations were provided in the query. */
+    aggregationResults?: IAggregationResult[] | undefined;
 }
 
 /** The filters' base class */
@@ -51002,11 +52729,6 @@ export class FilterBase implements IFilterBase {
             result.init(data);
             return result;
         }
-        if (data["kind"] === "AggregationFilter") {
-            let result = new AggregationFilter();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "ChildFilter") {
             let result = new ChildFilter();
             result.init(data);
@@ -51014,6 +52736,11 @@ export class FilterBase implements IFilterBase {
         }
         if (data["kind"] === "ParentFilter") {
             let result = new ParentFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "AggregationFilter") {
+            let result = new AggregationFilter();
             result.init(data);
             return result;
         }
@@ -51031,6 +52758,56 @@ export class FilterBase implements IFilterBase {
 
 /** The filters' base class */
 export interface IFilterBase {
+}
+
+/** Filters aggregations */
+export class AggregationFilter extends FilterBase implements IAggregationFilter {
+    /** The name of the aggregation this filter is connected to. */
+    aggregationName?: string | undefined;
+    /** The filter to be applied. */
+    filter?: FilterBase | undefined;
+    /** Autogenerated Guid at request time, for precise aggregation result mapping. */
+    temporaryAggregatorRequestId?: string | undefined;
+
+    constructor(data?: IAggregationFilter) {
+        super(data);
+        this._discriminator = "AggregationFilter";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregationName = _data["aggregationName"];
+            this.filter = _data["filter"] ? FilterBase.fromJS(_data["filter"]) : <any>undefined;
+            this.temporaryAggregatorRequestId = _data["temporaryAggregatorRequestId"];
+        }
+    }
+
+    static override fromJS(data: any): AggregationFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new AggregationFilter();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["temporaryAggregatorRequestId"] = this.temporaryAggregatorRequestId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Filters aggregations */
+export interface IAggregationFilter extends IFilterBase {
+    /** The name of the aggregation this filter is connected to. */
+    aggregationName?: string | undefined;
+    /** The filter to be applied. */
+    filter?: FilterBase | undefined;
+    /** Autogenerated Guid at request time, for precise aggregation result mapping. */
+    temporaryAggregatorRequestId?: string | undefined;
 }
 
 /** Used to put filters in "and" */
@@ -51780,56 +53557,6 @@ export interface ITermsFilter extends IFilterBase {
     terms: string[];
 }
 
-/** Filters aggregations */
-export class AggregationFilter extends FilterBase implements IAggregationFilter {
-    /** The name of the aggregation this filter is connected to. */
-    aggregationName?: string | undefined;
-    /** The filter to be applied. */
-    filter?: FilterBase | undefined;
-    /** Autogenerated Guid at request time, for precise aggregation result mapping. */
-    temporaryAggregatorRequestId?: string | undefined;
-
-    constructor(data?: IAggregationFilter) {
-        super(data);
-        this._discriminator = "AggregationFilter";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.aggregationName = _data["aggregationName"];
-            this.filter = _data["filter"] ? FilterBase.fromJS(_data["filter"]) : <any>undefined;
-            this.temporaryAggregatorRequestId = _data["temporaryAggregatorRequestId"];
-        }
-    }
-
-    static override fromJS(data: any): AggregationFilter {
-        data = typeof data === 'object' ? data : {};
-        let result = new AggregationFilter();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["aggregationName"] = this.aggregationName;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["temporaryAggregatorRequestId"] = this.temporaryAggregatorRequestId;
-        super.toJSON(data);
-        return data;
-    }
-}
-
-/** Filters aggregations */
-export interface IAggregationFilter extends IFilterBase {
-    /** The name of the aggregation this filter is connected to. */
-    aggregationName?: string | undefined;
-    /** The filter to be applied. */
-    filter?: FilterBase | undefined;
-    /** Autogenerated Guid at request time, for precise aggregation result mapping. */
-    temporaryAggregatorRequestId?: string | undefined;
-}
-
 /** Filters on child documents */
 export class ChildFilter extends FilterBase implements IChildFilter {
     /** The type of the child document. */
@@ -51924,6 +53651,193 @@ export interface IParentFilter extends IFilterBase {
     filter: FilterBase;
 }
 
+export class QueryDebugInformation implements IQueryDebugInformation {
+    general?: string | undefined;
+    auditTrail?: string | undefined;
+    request?: any | undefined;
+    response?: any | undefined;
+
+    constructor(data?: IQueryDebugInformation) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.general = _data["general"];
+            this.auditTrail = _data["auditTrail"];
+            this.request = _data["request"];
+            this.response = _data["response"];
+        }
+    }
+
+    static fromJS(data: any): QueryDebugInformation {
+        data = typeof data === 'object' ? data : {};
+        let result = new QueryDebugInformation();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["general"] = this.general;
+        data["auditTrail"] = this.auditTrail;
+        data["request"] = this.request;
+        data["response"] = this.response;
+        return data;
+    }
+}
+
+export interface IQueryDebugInformation {
+    general?: string | undefined;
+    auditTrail?: string | undefined;
+    request?: any | undefined;
+    response?: any | undefined;
+}
+
+/** Search request to search for business processes */
+export class BusinessProcessSearchRequest implements IBusinessProcessSearchRequest {
+    /** Limits the document count of the result set. */
+    limit!: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
+Warning! It severely affects performance. */
+    debugMode!: boolean;
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+
+    constructor(data?: IBusinessProcessSearchRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.limit = _data["limit"];
+            this.pageToken = _data["pageToken"];
+            this.filter = _data["filter"] ? FilterBase.fromJS(_data["filter"]) : <any>undefined;
+            this.searchString = _data["searchString"];
+            if (Array.isArray(_data["searchBehaviors"])) {
+                this.searchBehaviors = [] as any;
+                for (let item of _data["searchBehaviors"])
+                    this.searchBehaviors!.push(item);
+            }
+            this.debugMode = _data["debugMode"];
+            if (Array.isArray(_data["aggregationFilters"])) {
+                this.aggregationFilters = [] as any;
+                for (let item of _data["aggregationFilters"])
+                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
+            }
+            if (Array.isArray(_data["aggregators"])) {
+                this.aggregators = [] as any;
+                for (let item of _data["aggregators"])
+                    this.aggregators!.push(AggregatorBase.fromJS(item));
+            }
+            if (Array.isArray(_data["sort"])) {
+                this.sort = [] as any;
+                for (let item of _data["sort"])
+                    this.sort!.push(SortInfo.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BusinessProcessSearchRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessSearchRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["searchString"] = this.searchString;
+        if (Array.isArray(this.searchBehaviors)) {
+            data["searchBehaviors"] = [];
+            for (let item of this.searchBehaviors)
+                data["searchBehaviors"].push(item);
+        }
+        data["debugMode"] = this.debugMode;
+        if (Array.isArray(this.aggregationFilters)) {
+            data["aggregationFilters"] = [];
+            for (let item of this.aggregationFilters)
+                data["aggregationFilters"].push(item.toJSON());
+        }
+        if (Array.isArray(this.aggregators)) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        if (Array.isArray(this.sort)) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+/** Search request to search for business processes */
+export interface IBusinessProcessSearchRequest {
+    /** Limits the document count of the result set. */
+    limit: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+    /** An optional search filter. Limits the document result set. */
+    filter?: FilterBase | undefined;
+    /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** An optional list of search behaviors. All the passed behaviors will be applied. */
+    searchBehaviors?: SearchBehavior[] | undefined;
+    /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the BusinessProcessSearchResult.
+Warning! It severely affects performance. */
+    debugMode: boolean;
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
+    /** List of aggregators that defines how the items should be aggregated. */
+    aggregators?: AggregatorBase[] | undefined;
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: ISortInfo[] | undefined;
+}
+
 /** Search behaviors */
 export enum SearchBehavior {
     DropInvalidCharactersOnFailure = "DropInvalidCharactersOnFailure",
@@ -51933,20 +53847,826 @@ export enum SearchBehavior {
     SimplifiedSearchOr = "SimplifiedSearchOr",
 }
 
+/** It is the base class for all aggregators. */
+export abstract class AggregatorBase implements IAggregatorBase {
+    /** The slug name of the aggregation. It must be unique per aggregation request. */
+    name!: string;
+    /** Language specific field names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** An optional aggregator list for nested aggregations. */
+    aggregators?: AggregatorBase[] | undefined;
+    /** An optional filter to limit the data set the aggregation is operation on. */
+    filter?: FilterBase | undefined;
+    /** Optional behavior that the UI should keep in regards to the aggregation */
+    uiBehavior?: UiAggregatorBehavior | undefined;
+
+    protected _discriminator: string;
+
+    constructor(data?: IAggregatorBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names;
+            this.uiBehavior = data.uiBehavior && !(<any>data.uiBehavior).toJSON ? new UiAggregatorBehavior(data.uiBehavior) : <UiAggregatorBehavior>this.uiBehavior;
+        }
+        this._discriminator = "AggregatorBase";
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
+            if (Array.isArray(_data["aggregators"])) {
+                this.aggregators = [] as any;
+                for (let item of _data["aggregators"])
+                    this.aggregators!.push(AggregatorBase.fromJS(item));
+            }
+            this.filter = _data["filter"] ? FilterBase.fromJS(_data["filter"]) : <any>undefined;
+            this.uiBehavior = _data["uiBehavior"] ? UiAggregatorBehavior.fromJS(_data["uiBehavior"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): AggregatorBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "DateRangeAggregator") {
+            let result = new DateRangeAggregator();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "GeoDistanceAggregator") {
+            let result = new GeoDistanceAggregator();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NestedAggregator") {
+            let result = new NestedAggregator();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "NumericRangeAggregator") {
+            let result = new NumericRangeAggregator();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TermsAggregator") {
+            let result = new TermsAggregator();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TermsRelationAggregator") {
+            let result = new TermsRelationAggregator();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TermsEnumAggregator") {
+            let result = new TermsEnumAggregator();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'AggregatorBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator;
+        data["name"] = this.name;
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        if (Array.isArray(this.aggregators)) {
+            data["aggregators"] = [];
+            for (let item of this.aggregators)
+                data["aggregators"].push(item.toJSON());
+        }
+        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
+        data["uiBehavior"] = this.uiBehavior ? this.uiBehavior.toJSON() : <any>undefined;
+        return data;
+    }
+}
+
+/** It is the base class for all aggregators. */
+export interface IAggregatorBase {
+    /** The slug name of the aggregation. It must be unique per aggregation request. */
+    name: string;
+    /** Language specific field names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** An optional aggregator list for nested aggregations. */
+    aggregators?: AggregatorBase[] | undefined;
+    /** An optional filter to limit the data set the aggregation is operation on. */
+    filter?: FilterBase | undefined;
+    /** Optional behavior that the UI should keep in regards to the aggregation */
+    uiBehavior?: IUiAggregatorBehavior | undefined;
+}
+
+/** Behavior that the UI should keep in regards to the aggregation */
+export class UiAggregatorBehavior implements IUiAggregatorBehavior {
+    /** Filters should be enabled in the UI. */
+    enableFilter!: boolean;
+    /** Suggestions should be enabled in the UI. */
+    enableSuggestions!: boolean;
+    /** Search functionality should be enabled in the filters in the UI. */
+    enableSearchInFilter!: boolean;
+
+    constructor(data?: IUiAggregatorBehavior) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.enableFilter = _data["enableFilter"];
+            this.enableSuggestions = _data["enableSuggestions"];
+            this.enableSearchInFilter = _data["enableSearchInFilter"];
+        }
+    }
+
+    static fromJS(data: any): UiAggregatorBehavior {
+        data = typeof data === 'object' ? data : {};
+        let result = new UiAggregatorBehavior();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["enableFilter"] = this.enableFilter;
+        data["enableSuggestions"] = this.enableSuggestions;
+        data["enableSearchInFilter"] = this.enableSearchInFilter;
+        return data;
+    }
+}
+
+/** Behavior that the UI should keep in regards to the aggregation */
+export interface IUiAggregatorBehavior {
+    /** Filters should be enabled in the UI. */
+    enableFilter: boolean;
+    /** Suggestions should be enabled in the UI. */
+    enableSuggestions: boolean;
+    /** Search functionality should be enabled in the filters in the UI. */
+    enableSearchInFilter: boolean;
+}
+
+/** A multi-bucket range aggregator dedicated for date values. */
+export class DateRangeAggregator extends AggregatorBase implements IDateRangeAggregator {
+    /** The field's ID to execute the aggregation on. */
+    field!: string;
+    /** A list of date time ranges. */
+    ranges!: DateRangeForAggregator[];
+
+    constructor(data?: IDateRangeAggregator) {
+        super(data);
+        if (data) {
+            if (data.ranges) {
+                this.ranges = [];
+                for (let i = 0; i < data.ranges.length; i++) {
+                    let item = data.ranges[i];
+                    this.ranges[i] = item && !(<any>item).toJSON ? new DateRangeForAggregator(item) : <DateRangeForAggregator>item;
+                }
+            }
+        }
+        if (!data) {
+            this.ranges = [];
+        }
+        this._discriminator = "DateRangeAggregator";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.field = _data["field"];
+            if (Array.isArray(_data["ranges"])) {
+                this.ranges = [] as any;
+                for (let item of _data["ranges"])
+                    this.ranges!.push(DateRangeForAggregator.fromJS(item));
+            }
+        }
+    }
+
+    static override fromJS(data: any): DateRangeAggregator {
+        data = typeof data === 'object' ? data : {};
+        let result = new DateRangeAggregator();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        if (Array.isArray(this.ranges)) {
+            data["ranges"] = [];
+            for (let item of this.ranges)
+                data["ranges"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** A multi-bucket range aggregator dedicated for date values. */
+export interface IDateRangeAggregator extends IAggregatorBase {
+    /** The field's ID to execute the aggregation on. */
+    field: string;
+    /** A list of date time ranges. */
+    ranges: IDateRangeForAggregator[];
+}
+
+/** The date range class used in aggregators. */
+export class DateRangeForAggregator implements IDateRangeForAggregator {
+    /** Language specific range names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** The from value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    from?: string | undefined;
+    /** The to value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    to?: string | undefined;
+
+    constructor(data?: IDateRangeForAggregator) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names;
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
+            this.from = _data["from"];
+            this.to = _data["to"];
+        }
+    }
+
+    static fromJS(data: any): DateRangeForAggregator {
+        data = typeof data === 'object' ? data : {};
+        let result = new DateRangeForAggregator();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["from"] = this.from;
+        data["to"] = this.to;
+        return data;
+    }
+}
+
+/** The date range class used in aggregators. */
+export interface IDateRangeForAggregator {
+    /** Language specific range names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** The from value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    from?: string | undefined;
+    /** The to value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
+    to?: string | undefined;
+}
+
+/** A multi-bucket range aggregator that works on geo_point fields */
+export class GeoDistanceAggregator extends AggregatorBase implements IGeoDistanceAggregator {
+    /** The field's ID to execute the aggregation on. */
+    field!: string;
+    /** The point of origin to calculate the distance from (latitude/longitude). */
+    location!: GeoLocation;
+    /** A list of distance ranges. */
+    ranges!: GeoDistance[];
+
+    constructor(data?: IGeoDistanceAggregator) {
+        super(data);
+        if (data) {
+            this.location = data.location && !(<any>data.location).toJSON ? new GeoLocation(data.location) : <GeoLocation>this.location;
+            if (data.ranges) {
+                this.ranges = [];
+                for (let i = 0; i < data.ranges.length; i++) {
+                    let item = data.ranges[i];
+                    this.ranges[i] = item && !(<any>item).toJSON ? new GeoDistance(item) : <GeoDistance>item;
+                }
+            }
+        }
+        if (!data) {
+            this.location = new GeoLocation();
+            this.ranges = [];
+        }
+        this._discriminator = "GeoDistanceAggregator";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.field = _data["field"];
+            this.location = _data["location"] ? GeoLocation.fromJS(_data["location"]) : new GeoLocation();
+            if (Array.isArray(_data["ranges"])) {
+                this.ranges = [] as any;
+                for (let item of _data["ranges"])
+                    this.ranges!.push(GeoDistance.fromJS(item));
+            }
+        }
+    }
+
+    static override fromJS(data: any): GeoDistanceAggregator {
+        data = typeof data === 'object' ? data : {};
+        let result = new GeoDistanceAggregator();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["location"] = this.location ? this.location.toJSON() : <any>undefined;
+        if (Array.isArray(this.ranges)) {
+            data["ranges"] = [];
+            for (let item of this.ranges)
+                data["ranges"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** A multi-bucket range aggregator that works on geo_point fields */
+export interface IGeoDistanceAggregator extends IAggregatorBase {
+    /** The field's ID to execute the aggregation on. */
+    field: string;
+    /** The point of origin to calculate the distance from (latitude/longitude). */
+    location: IGeoLocation;
+    /** A list of distance ranges. */
+    ranges: IGeoDistance[];
+}
+
+/** Stores geo distance information for gei distance aggregation */
+export class GeoDistance implements IGeoDistance {
+    /** Language specific geo distance names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** The distance in meters. */
+    distance!: number;
+
+    constructor(data?: IGeoDistance) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names;
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
+            this.distance = _data["distance"];
+        }
+    }
+
+    static fromJS(data: any): GeoDistance {
+        data = typeof data === 'object' ? data : {};
+        let result = new GeoDistance();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["distance"] = this.distance;
+        return data;
+    }
+}
+
+/** Stores geo distance information for gei distance aggregation */
+export interface IGeoDistance {
+    /** Language specific geo distance names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** The distance in meters. */
+    distance: number;
+}
+
+/** A special single bucket aggregation that enables aggregating on nested documents */
+export class NestedAggregator extends AggregatorBase implements INestedAggregator {
+    /** The path pointing to the nested object. */
+    path!: string;
+
+    constructor(data?: INestedAggregator) {
+        super(data);
+        this._discriminator = "NestedAggregator";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.path = _data["path"];
+        }
+    }
+
+    static override fromJS(data: any): NestedAggregator {
+        data = typeof data === 'object' ? data : {};
+        let result = new NestedAggregator();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["path"] = this.path;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** A special single bucket aggregation that enables aggregating on nested documents */
+export interface INestedAggregator extends IAggregatorBase {
+    /** The path pointing to the nested object. */
+    path: string;
+}
+
+/** A multi-bucket range aggregator. */
+export class NumericRangeAggregator extends AggregatorBase implements INumericRangeAggregator {
+    /** The field's ID to execute the aggregation on. */
+    field?: string | undefined;
+    /** A list of numeric ranges on which aggregate. */
+    ranges!: NumericRangeForAggregator[];
+
+    constructor(data?: INumericRangeAggregator) {
+        super(data);
+        if (data) {
+            if (data.ranges) {
+                this.ranges = [];
+                for (let i = 0; i < data.ranges.length; i++) {
+                    let item = data.ranges[i];
+                    this.ranges[i] = item && !(<any>item).toJSON ? new NumericRangeForAggregator(item) : <NumericRangeForAggregator>item;
+                }
+            }
+        }
+        if (!data) {
+            this.ranges = [];
+        }
+        this._discriminator = "NumericRangeAggregator";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.field = _data["field"];
+            if (Array.isArray(_data["ranges"])) {
+                this.ranges = [] as any;
+                for (let item of _data["ranges"])
+                    this.ranges!.push(NumericRangeForAggregator.fromJS(item));
+            }
+        }
+    }
+
+    static override fromJS(data: any): NumericRangeAggregator {
+        data = typeof data === 'object' ? data : {};
+        let result = new NumericRangeAggregator();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        if (Array.isArray(this.ranges)) {
+            data["ranges"] = [];
+            for (let item of this.ranges)
+                data["ranges"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** A multi-bucket range aggregator. */
+export interface INumericRangeAggregator extends IAggregatorBase {
+    /** The field's ID to execute the aggregation on. */
+    field?: string | undefined;
+    /** A list of numeric ranges on which aggregate. */
+    ranges: INumericRangeForAggregator[];
+}
+
+/** The numeric range for aggregator class */
+export class NumericRangeForAggregator implements INumericRangeForAggregator {
+    /** Language specific range names. */
+    names?: TranslatedStringDictionary | undefined;
+    /** The from value. */
+    from?: number | undefined;
+    /** The to value. */
+    to?: number | undefined;
+
+    constructor(data?: INumericRangeForAggregator) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names;
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
+            this.from = _data["from"];
+            this.to = _data["to"];
+        }
+    }
+
+    static fromJS(data: any): NumericRangeForAggregator {
+        data = typeof data === 'object' ? data : {};
+        let result = new NumericRangeForAggregator();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
+        data["from"] = this.from;
+        data["to"] = this.to;
+        return data;
+    }
+}
+
+/** The numeric range for aggregator class */
+export interface INumericRangeForAggregator {
+    /** Language specific range names. */
+    names?: ITranslatedStringDictionary | undefined;
+    /** The from value. */
+    from?: number | undefined;
+    /** The to value. */
+    to?: number | undefined;
+}
+
+/** A multi-bucket value aggregator */
+export class TermsAggregator extends AggregatorBase implements ITermsAggregator {
+    /** The field's ID to execute the aggregation on. Only not analyzed fields are supported. */
+    field!: string;
+    /** It defines how many term buckets should be returned out of the overall terms list. */
+    size?: number | undefined;
+    /** Includes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
+    includes?: string[] | undefined;
+    /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
+    excludes?: string[] | undefined;
+    /** Limits the possible returned aggregation values by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used. */
+    searchFields?: string[] | undefined;
+    /** Sort settings for the aggregation results. If no sort is specified, aggregation is sorted on the item count. */
+    sort?: SortInfo | undefined;
+
+    constructor(data?: ITermsAggregator) {
+        super(data);
+        if (data) {
+            this.sort = data.sort && !(<any>data.sort).toJSON ? new SortInfo(data.sort) : <SortInfo>this.sort;
+        }
+        this._discriminator = "TermsAggregator";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.field = _data["field"];
+            this.size = _data["size"];
+            if (Array.isArray(_data["includes"])) {
+                this.includes = [] as any;
+                for (let item of _data["includes"])
+                    this.includes!.push(item);
+            }
+            if (Array.isArray(_data["excludes"])) {
+                this.excludes = [] as any;
+                for (let item of _data["excludes"])
+                    this.excludes!.push(item);
+            }
+            this.searchString = _data["searchString"];
+            if (Array.isArray(_data["searchFields"])) {
+                this.searchFields = [] as any;
+                for (let item of _data["searchFields"])
+                    this.searchFields!.push(item);
+            }
+            this.sort = _data["sort"] ? SortInfo.fromJS(_data["sort"]) : <any>undefined;
+        }
+    }
+
+    static override fromJS(data: any): TermsAggregator {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "TermsRelationAggregator") {
+            let result = new TermsRelationAggregator();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TermsEnumAggregator") {
+            let result = new TermsEnumAggregator();
+            result.init(data);
+            return result;
+        }
+        let result = new TermsAggregator();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["size"] = this.size;
+        if (Array.isArray(this.includes)) {
+            data["includes"] = [];
+            for (let item of this.includes)
+                data["includes"].push(item);
+        }
+        if (Array.isArray(this.excludes)) {
+            data["excludes"] = [];
+            for (let item of this.excludes)
+                data["excludes"].push(item);
+        }
+        data["searchString"] = this.searchString;
+        if (Array.isArray(this.searchFields)) {
+            data["searchFields"] = [];
+            for (let item of this.searchFields)
+                data["searchFields"].push(item);
+        }
+        data["sort"] = this.sort ? this.sort.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** A multi-bucket value aggregator */
+export interface ITermsAggregator extends IAggregatorBase {
+    /** The field's ID to execute the aggregation on. Only not analyzed fields are supported. */
+    field: string;
+    /** It defines how many term buckets should be returned out of the overall terms list. */
+    size?: number | undefined;
+    /** Includes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
+    includes?: string[] | undefined;
+    /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
+    excludes?: string[] | undefined;
+    /** Limits the possible returned aggregation values by using a query string filter. The Lucene query string syntax is supported. */
+    searchString?: string | undefined;
+    /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used. */
+    searchFields?: string[] | undefined;
+    /** Sort settings for the aggregation results. If no sort is specified, aggregation is sorted on the item count. */
+    sort?: ISortInfo | undefined;
+}
+
+/** Sorting information */
+export class SortInfo implements ISortInfo {
+    /** The field's ID to sort on. */
+    field?: string | undefined;
+    /** The sort direction (ascending/descending). */
+    direction!: SortDirection;
+
+    constructor(data?: ISortInfo) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.field = _data["field"];
+            this.direction = _data["direction"];
+        }
+    }
+
+    static fromJS(data: any): SortInfo {
+        data = typeof data === 'object' ? data : {};
+        let result = new SortInfo();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["direction"] = this.direction;
+        return data;
+    }
+}
+
+/** Sorting information */
+export interface ISortInfo {
+    /** The field's ID to sort on. */
+    field?: string | undefined;
+    /** The sort direction (ascending/descending). */
+    direction: SortDirection;
+}
+
+/** The sort direction */
+export enum SortDirection {
+    Asc = "Asc",
+    Desc = "Desc",
+}
+
+/** A multi-bucket value aggregator used for aggregations on relation item ids. */
+export class TermsRelationAggregator extends TermsAggregator implements ITermsRelationAggregator {
+    /** Type of the item target of the relation. It is used to resolve the target ID. */
+    documentType?: TermsRelationAggregatorDocumentType;
+
+    constructor(data?: ITermsRelationAggregator) {
+        super(data);
+        this._discriminator = "TermsRelationAggregator";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.documentType = _data["documentType"];
+        }
+    }
+
+    static override fromJS(data: any): TermsRelationAggregator {
+        data = typeof data === 'object' ? data : {};
+        let result = new TermsRelationAggregator();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["documentType"] = this.documentType;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** A multi-bucket value aggregator used for aggregations on relation item ids. */
+export interface ITermsRelationAggregator extends ITermsAggregator {
+    /** Type of the item target of the relation. It is used to resolve the target ID. */
+    documentType?: TermsRelationAggregatorDocumentType;
+}
+
+export enum TermsRelationAggregatorDocumentType {
+    Content = "Content",
+    ListItem = "ListItem",
+    Schema = "Schema",
+    User = "User",
+    ContentPermissionSet = "ContentPermissionSet",
+    Owner = "Owner",
+    UserRole = "UserRole",
+    SchemaPermissionSet = "SchemaPermissionSet",
+    IndexCustomerAlias = "IndexCustomerAlias",
+    IndexCustomerId = "IndexCustomerId",
+}
+
+/** A multi-bucket value aggregator used for aggregations on indexed enum values. */
+export class TermsEnumAggregator extends TermsAggregator implements ITermsEnumAggregator {
+    /** Type of the enum target of the relation. It is used to resolve the enum translation. */
+    enumType!: string;
+
+    constructor(data?: ITermsEnumAggregator) {
+        super(data);
+        this._discriminator = "TermsEnumAggregator";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.enumType = _data["enumType"];
+        }
+    }
+
+    static override fromJS(data: any): TermsEnumAggregator {
+        data = typeof data === 'object' ? data : {};
+        let result = new TermsEnumAggregator();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["enumType"] = this.enumType;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** A multi-bucket value aggregator used for aggregations on indexed enum values. */
+export interface ITermsEnumAggregator extends ITermsAggregator {
+    /** Type of the enum target of the relation. It is used to resolve the enum translation. */
+    enumType: string;
+}
+
 /** Represents the business rule configuration. */
 export class BusinessRuleConfiguration implements IBusinessRuleConfiguration {
     /** Disables the rule engine completely. */
     disableRuleEngine!: boolean;
     /** Rules. */
-    rules?: BusinessRule[] | undefined;
+    rules!: BusinessRule[];
     /** Named caches. */
-    caches?: NamedCacheConfigurationBase[] | undefined;
+    caches!: NamedCacheConfigurationBase[];
     /** Notifications. */
-    notifications?: BusinessRuleNotification[] | undefined;
+    notifications!: BusinessRuleNotification[];
     /** Numbers sequences. */
-    numberSequences?: BusinessRuleNumberSequence[] | undefined;
+    numberSequences!: BusinessRuleNumberSequence[];
     /** Schedules. */
-    schedules?: BusinessRuleSchedule[] | undefined;
+    schedules!: BusinessRuleSchedule[];
 
     constructor(data?: IBusinessRuleConfiguration) {
         if (data) {
@@ -51975,6 +54695,13 @@ export class BusinessRuleConfiguration implements IBusinessRuleConfiguration {
                     this.schedules[i] = item && !(<any>item).toJSON ? new BusinessRuleSchedule(item) : <BusinessRuleSchedule>item;
                 }
             }
+        }
+        if (!data) {
+            this.rules = [];
+            this.caches = [];
+            this.notifications = [];
+            this.numberSequences = [];
+            this.schedules = [];
         }
     }
 
@@ -52053,21 +54780,21 @@ export interface IBusinessRuleConfiguration {
     /** Disables the rule engine completely. */
     disableRuleEngine: boolean;
     /** Rules. */
-    rules?: BusinessRule[] | undefined;
+    rules: BusinessRule[];
     /** Named caches. */
-    caches?: NamedCacheConfigurationBase[] | undefined;
+    caches: NamedCacheConfigurationBase[];
     /** Notifications. */
-    notifications?: IBusinessRuleNotification[] | undefined;
+    notifications: IBusinessRuleNotification[];
     /** Numbers sequences. */
-    numberSequences?: IBusinessRuleNumberSequence[] | undefined;
+    numberSequences: IBusinessRuleNumberSequence[];
     /** Schedules. */
-    schedules?: IBusinessRuleSchedule[] | undefined;
+    schedules: IBusinessRuleSchedule[];
 }
 
 /** A business rule */
 export abstract class BusinessRule implements IBusinessRule {
     /** User defined ID of the rule. */
-    id?: string | undefined;
+    id!: string;
     /** Trigger point. */
     triggerPoints?: BusinessRuleTriggerPoint[] | undefined;
     /** Enable. */
@@ -52150,7 +54877,7 @@ export abstract class BusinessRule implements IBusinessRule {
 /** A business rule */
 export interface IBusinessRule {
     /** User defined ID of the rule. */
-    id?: string | undefined;
+    id: string;
     /** Trigger point. */
     triggerPoints?: IBusinessRuleTriggerPoint[] | undefined;
     /** Enable. */
@@ -55439,7 +58166,7 @@ export interface IBusinessRuleScript extends IBusinessRule {
 /** Named cache configuration */
 export abstract class NamedCacheConfigurationBase implements INamedCacheConfigurationBase {
     /** Name of named cache. */
-    name?: string | undefined;
+    name!: string;
     /** Indicates if the lookup should be case sensitive. */
     caseSensitive!: boolean;
 
@@ -55494,7 +58221,7 @@ export abstract class NamedCacheConfigurationBase implements INamedCacheConfigur
 /** Named cache configuration */
 export interface INamedCacheConfigurationBase {
     /** Name of named cache. */
-    name?: string | undefined;
+    name: string;
     /** Indicates if the lookup should be case sensitive. */
     caseSensitive: boolean;
 }
@@ -55658,7 +58385,7 @@ export interface IInverseListItemNamedCacheConfiguration extends INamedCacheConf
 /** Configuration for a notification sent by ProduceNotificationAction. */
 export class BusinessRuleNotification implements IBusinessRuleNotification {
     /** ID of the notification. */
-    id?: string | undefined;
+    id!: string;
     /** Title of the notification. */
     title?: TranslatedStringDictionary | undefined;
     /** Message of the notification. */
@@ -55710,7 +58437,7 @@ export class BusinessRuleNotification implements IBusinessRuleNotification {
 /** Configuration for a notification sent by ProduceNotificationAction. */
 export interface IBusinessRuleNotification {
     /** ID of the notification. */
-    id?: string | undefined;
+    id: string;
     /** Title of the notification. */
     title?: ITranslatedStringDictionary | undefined;
     /** Message of the notification. */
@@ -55724,7 +58451,7 @@ export interface IBusinessRuleNotification {
 /** Configuration for a number sequence. */
 export class BusinessRuleNumberSequence implements IBusinessRuleNumberSequence {
     /** ID of number sequence. */
-    id?: string | undefined;
+    id!: string;
     /** Format.
 Refer to https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings for guidance.
 Note: formatting of numbers use invariant culture. */
@@ -55769,7 +58496,7 @@ Note: When changing this, existing sequence number will be reset to new starting
 /** Configuration for a number sequence. */
 export interface IBusinessRuleNumberSequence {
     /** ID of number sequence. */
-    id?: string | undefined;
+    id: string;
     /** Format.
 Refer to https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-numeric-format-strings for guidance.
 Note: formatting of numbers use invariant culture. */
@@ -56127,174 +58854,6 @@ export class BusinessRuleTraceLogSearchResult extends SearchBehaviorWithAggregat
 
 /** Holds results of trace log search. */
 export interface IBusinessRuleTraceLogSearchResult extends ISearchBehaviorWithAggregationBaseResultOfBusinessRuleTraceLog {
-}
-
-/** Result of an aggregation */
-export class AggregationResult implements IAggregationResult {
-    /** Name of the aggregation. */
-    name!: string;
-    /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
-    sumOtherDocCount?: number | undefined;
-    /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
-Optionally inner aggregations for further drill down can be available. */
-    aggregationResultItems?: AggregationResultItem[] | undefined;
-
-    constructor(data?: IAggregationResult) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.aggregationResultItems) {
-                this.aggregationResultItems = [];
-                for (let i = 0; i < data.aggregationResultItems.length; i++) {
-                    let item = data.aggregationResultItems[i];
-                    this.aggregationResultItems[i] = item && !(<any>item).toJSON ? new AggregationResultItem(item) : <AggregationResultItem>item;
-                }
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"];
-            this.sumOtherDocCount = _data["sumOtherDocCount"];
-            if (Array.isArray(_data["aggregationResultItems"])) {
-                this.aggregationResultItems = [] as any;
-                for (let item of _data["aggregationResultItems"])
-                    this.aggregationResultItems!.push(AggregationResultItem.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): AggregationResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new AggregationResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["sumOtherDocCount"] = this.sumOtherDocCount;
-        if (Array.isArray(this.aggregationResultItems)) {
-            data["aggregationResultItems"] = [];
-            for (let item of this.aggregationResultItems)
-                data["aggregationResultItems"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-/** Result of an aggregation */
-export interface IAggregationResult {
-    /** Name of the aggregation. */
-    name: string;
-    /** When there are lots of unique terms, Elastic Search only returns the top terms; this number is the sum of the document counts for all buckets that are not part of the response. */
-    sumOtherDocCount?: number | undefined;
-    /** Items returned for the aggregation. Each item consists of a bucket with the matched value and the number of matches.
-Optionally inner aggregations for further drill down can be available. */
-    aggregationResultItems?: IAggregationResultItem[] | undefined;
-}
-
-/** Aggregation result item */
-export class AggregationResultItem implements IAggregationResultItem {
-    /** Value matched. */
-    name!: string;
-    /** Number of items matched. */
-    count!: number;
-    /** Ready to use filter to filter the data based on the aggregation result values.
-It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
-    filter?: AggregationFilter | undefined;
-    /** True if the current result item matches on of the aggregation filters sent in the query. */
-    active!: boolean;
-    /** Inner aggregation results, if inner aggregations were provided in the query. */
-    aggregationResults?: AggregationResult[] | undefined;
-
-    getDisplayName(locale: string) {
-    let displayName: string | null;
-
-    // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
-    if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
-      displayName = this.name.split('/').pop() || null;
-    } else if (
-      this.filter &&
-      ((this.filter.filter as any).term === 'false' || (this.filter.filter as any).term === 'true')
-    ) {
-      displayName = (this.filter.filter as any).term;
-    } else {
-      displayName = this.filter && this.filter.filter ? this.filter.filter.getDisplayName(locale) : null;
-    }
-
-    return displayName ?? this.name;
-  }
-
-    constructor(data?: IAggregationResultItem) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.aggregationResults) {
-                this.aggregationResults = [];
-                for (let i = 0; i < data.aggregationResults.length; i++) {
-                    let item = data.aggregationResults[i];
-                    this.aggregationResults[i] = item && !(<any>item).toJSON ? new AggregationResult(item) : <AggregationResult>item;
-                }
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"];
-            this.count = _data["count"];
-            this.filter = _data["filter"] ? AggregationFilter.fromJS(_data["filter"]) : <any>undefined;
-            this.active = _data["active"];
-            if (Array.isArray(_data["aggregationResults"])) {
-                this.aggregationResults = [] as any;
-                for (let item of _data["aggregationResults"])
-                    this.aggregationResults!.push(AggregationResult.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): AggregationResultItem {
-        data = typeof data === 'object' ? data : {};
-        let result = new AggregationResultItem();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["count"] = this.count;
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["active"] = this.active;
-        if (Array.isArray(this.aggregationResults)) {
-            data["aggregationResults"] = [];
-            for (let item of this.aggregationResults)
-                data["aggregationResults"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-/** Aggregation result item */
-export interface IAggregationResultItem {
-    /** Value matched. */
-    name: string;
-    /** Number of items matched. */
-    count: number;
-    /** Ready to use filter to filter the data based on the aggregation result values.
-It can be passed as one of the aggregation filters of an aggregation query: it returns documents meeting the aggregation condition. */
-    filter?: AggregationFilter | undefined;
-    /** True if the current result item matches on of the aggregation filters sent in the query. */
-    active: boolean;
-    /** Inner aggregation results, if inner aggregations were provided in the query. */
-    aggregationResults?: IAggregationResult[] | undefined;
 }
 
 /** Contains a trace for a single document affected by potentially multiple business rules being evaluated and executed. */
@@ -57035,810 +59594,6 @@ Moreover, an AggregationFilter ensures that the related value is returned in the
     searchBehaviors?: SearchBehavior[] | undefined;
     /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
     sort?: ISortInfo[] | undefined;
-}
-
-/** It is the base class for all aggregators. */
-export abstract class AggregatorBase implements IAggregatorBase {
-    /** The slug name of the aggregation. It must be unique per aggregation request. */
-    name!: string;
-    /** Language specific field names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** An optional aggregator list for nested aggregations. */
-    aggregators?: AggregatorBase[] | undefined;
-    /** An optional filter to limit the data set the aggregation is operation on. */
-    filter?: FilterBase | undefined;
-    /** Optional behavior that the UI should keep in regards to the aggregation */
-    uiBehavior?: UiAggregatorBehavior | undefined;
-
-    protected _discriminator: string;
-
-    constructor(data?: IAggregatorBase) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names;
-            this.uiBehavior = data.uiBehavior && !(<any>data.uiBehavior).toJSON ? new UiAggregatorBehavior(data.uiBehavior) : <UiAggregatorBehavior>this.uiBehavior;
-        }
-        this._discriminator = "AggregatorBase";
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"];
-            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
-            if (Array.isArray(_data["aggregators"])) {
-                this.aggregators = [] as any;
-                for (let item of _data["aggregators"])
-                    this.aggregators!.push(AggregatorBase.fromJS(item));
-            }
-            this.filter = _data["filter"] ? FilterBase.fromJS(_data["filter"]) : <any>undefined;
-            this.uiBehavior = _data["uiBehavior"] ? UiAggregatorBehavior.fromJS(_data["uiBehavior"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): AggregatorBase {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "DateRangeAggregator") {
-            let result = new DateRangeAggregator();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "GeoDistanceAggregator") {
-            let result = new GeoDistanceAggregator();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NestedAggregator") {
-            let result = new NestedAggregator();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NumericRangeAggregator") {
-            let result = new NumericRangeAggregator();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "TermsAggregator") {
-            let result = new TermsAggregator();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "TermsRelationAggregator") {
-            let result = new TermsRelationAggregator();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "TermsEnumAggregator") {
-            let result = new TermsEnumAggregator();
-            result.init(data);
-            return result;
-        }
-        throw new Error("The abstract class 'AggregatorBase' cannot be instantiated.");
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._discriminator;
-        data["name"] = this.name;
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        if (Array.isArray(this.aggregators)) {
-            data["aggregators"] = [];
-            for (let item of this.aggregators)
-                data["aggregators"].push(item.toJSON());
-        }
-        data["filter"] = this.filter ? this.filter.toJSON() : <any>undefined;
-        data["uiBehavior"] = this.uiBehavior ? this.uiBehavior.toJSON() : <any>undefined;
-        return data;
-    }
-}
-
-/** It is the base class for all aggregators. */
-export interface IAggregatorBase {
-    /** The slug name of the aggregation. It must be unique per aggregation request. */
-    name: string;
-    /** Language specific field names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** An optional aggregator list for nested aggregations. */
-    aggregators?: AggregatorBase[] | undefined;
-    /** An optional filter to limit the data set the aggregation is operation on. */
-    filter?: FilterBase | undefined;
-    /** Optional behavior that the UI should keep in regards to the aggregation */
-    uiBehavior?: IUiAggregatorBehavior | undefined;
-}
-
-/** Behavior that the UI should keep in regards to the aggregation */
-export class UiAggregatorBehavior implements IUiAggregatorBehavior {
-    /** Filters should be enabled in the UI. */
-    enableFilter!: boolean;
-    /** Suggestions should be enabled in the UI. */
-    enableSuggestions!: boolean;
-    /** Search functionality should be enabled in the filters in the UI. */
-    enableSearchInFilter!: boolean;
-
-    constructor(data?: IUiAggregatorBehavior) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.enableFilter = _data["enableFilter"];
-            this.enableSuggestions = _data["enableSuggestions"];
-            this.enableSearchInFilter = _data["enableSearchInFilter"];
-        }
-    }
-
-    static fromJS(data: any): UiAggregatorBehavior {
-        data = typeof data === 'object' ? data : {};
-        let result = new UiAggregatorBehavior();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["enableFilter"] = this.enableFilter;
-        data["enableSuggestions"] = this.enableSuggestions;
-        data["enableSearchInFilter"] = this.enableSearchInFilter;
-        return data;
-    }
-}
-
-/** Behavior that the UI should keep in regards to the aggregation */
-export interface IUiAggregatorBehavior {
-    /** Filters should be enabled in the UI. */
-    enableFilter: boolean;
-    /** Suggestions should be enabled in the UI. */
-    enableSuggestions: boolean;
-    /** Search functionality should be enabled in the filters in the UI. */
-    enableSearchInFilter: boolean;
-}
-
-/** A multi-bucket range aggregator dedicated for date values. */
-export class DateRangeAggregator extends AggregatorBase implements IDateRangeAggregator {
-    /** The field's ID to execute the aggregation on. */
-    field!: string;
-    /** A list of date time ranges. */
-    ranges!: DateRangeForAggregator[];
-
-    constructor(data?: IDateRangeAggregator) {
-        super(data);
-        if (data) {
-            if (data.ranges) {
-                this.ranges = [];
-                for (let i = 0; i < data.ranges.length; i++) {
-                    let item = data.ranges[i];
-                    this.ranges[i] = item && !(<any>item).toJSON ? new DateRangeForAggregator(item) : <DateRangeForAggregator>item;
-                }
-            }
-        }
-        if (!data) {
-            this.ranges = [];
-        }
-        this._discriminator = "DateRangeAggregator";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.field = _data["field"];
-            if (Array.isArray(_data["ranges"])) {
-                this.ranges = [] as any;
-                for (let item of _data["ranges"])
-                    this.ranges!.push(DateRangeForAggregator.fromJS(item));
-            }
-        }
-    }
-
-    static override fromJS(data: any): DateRangeAggregator {
-        data = typeof data === 'object' ? data : {};
-        let result = new DateRangeAggregator();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        if (Array.isArray(this.ranges)) {
-            data["ranges"] = [];
-            for (let item of this.ranges)
-                data["ranges"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data;
-    }
-}
-
-/** A multi-bucket range aggregator dedicated for date values. */
-export interface IDateRangeAggregator extends IAggregatorBase {
-    /** The field's ID to execute the aggregation on. */
-    field: string;
-    /** A list of date time ranges. */
-    ranges: IDateRangeForAggregator[];
-}
-
-/** The date range class used in aggregators. */
-export class DateRangeForAggregator implements IDateRangeForAggregator {
-    /** Language specific range names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** The from value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    from?: string | undefined;
-    /** The to value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    to?: string | undefined;
-
-    constructor(data?: IDateRangeForAggregator) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names;
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
-            this.from = _data["from"];
-            this.to = _data["to"];
-        }
-    }
-
-    static fromJS(data: any): DateRangeForAggregator {
-        data = typeof data === 'object' ? data : {};
-        let result = new DateRangeForAggregator();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["from"] = this.from;
-        data["to"] = this.to;
-        return data;
-    }
-}
-
-/** The date range class used in aggregators. */
-export interface IDateRangeForAggregator {
-    /** Language specific range names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** The from value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    from?: string | undefined;
-    /** The to value: it can be a datetime string or a pattern now(+-)(int)(YMDHm). */
-    to?: string | undefined;
-}
-
-/** A multi-bucket range aggregator that works on geo_point fields */
-export class GeoDistanceAggregator extends AggregatorBase implements IGeoDistanceAggregator {
-    /** The field's ID to execute the aggregation on. */
-    field!: string;
-    /** The point of origin to calculate the distance from (latitude/longitude). */
-    location!: GeoLocation;
-    /** A list of distance ranges. */
-    ranges!: GeoDistance[];
-
-    constructor(data?: IGeoDistanceAggregator) {
-        super(data);
-        if (data) {
-            this.location = data.location && !(<any>data.location).toJSON ? new GeoLocation(data.location) : <GeoLocation>this.location;
-            if (data.ranges) {
-                this.ranges = [];
-                for (let i = 0; i < data.ranges.length; i++) {
-                    let item = data.ranges[i];
-                    this.ranges[i] = item && !(<any>item).toJSON ? new GeoDistance(item) : <GeoDistance>item;
-                }
-            }
-        }
-        if (!data) {
-            this.location = new GeoLocation();
-            this.ranges = [];
-        }
-        this._discriminator = "GeoDistanceAggregator";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.field = _data["field"];
-            this.location = _data["location"] ? GeoLocation.fromJS(_data["location"]) : new GeoLocation();
-            if (Array.isArray(_data["ranges"])) {
-                this.ranges = [] as any;
-                for (let item of _data["ranges"])
-                    this.ranges!.push(GeoDistance.fromJS(item));
-            }
-        }
-    }
-
-    static override fromJS(data: any): GeoDistanceAggregator {
-        data = typeof data === 'object' ? data : {};
-        let result = new GeoDistanceAggregator();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["location"] = this.location ? this.location.toJSON() : <any>undefined;
-        if (Array.isArray(this.ranges)) {
-            data["ranges"] = [];
-            for (let item of this.ranges)
-                data["ranges"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data;
-    }
-}
-
-/** A multi-bucket range aggregator that works on geo_point fields */
-export interface IGeoDistanceAggregator extends IAggregatorBase {
-    /** The field's ID to execute the aggregation on. */
-    field: string;
-    /** The point of origin to calculate the distance from (latitude/longitude). */
-    location: IGeoLocation;
-    /** A list of distance ranges. */
-    ranges: IGeoDistance[];
-}
-
-/** Stores geo distance information for gei distance aggregation */
-export class GeoDistance implements IGeoDistance {
-    /** Language specific geo distance names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** The distance in meters. */
-    distance!: number;
-
-    constructor(data?: IGeoDistance) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names;
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
-            this.distance = _data["distance"];
-        }
-    }
-
-    static fromJS(data: any): GeoDistance {
-        data = typeof data === 'object' ? data : {};
-        let result = new GeoDistance();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["distance"] = this.distance;
-        return data;
-    }
-}
-
-/** Stores geo distance information for gei distance aggregation */
-export interface IGeoDistance {
-    /** Language specific geo distance names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** The distance in meters. */
-    distance: number;
-}
-
-/** A special single bucket aggregation that enables aggregating on nested documents */
-export class NestedAggregator extends AggregatorBase implements INestedAggregator {
-    /** The path pointing to the nested object. */
-    path!: string;
-
-    constructor(data?: INestedAggregator) {
-        super(data);
-        this._discriminator = "NestedAggregator";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.path = _data["path"];
-        }
-    }
-
-    static override fromJS(data: any): NestedAggregator {
-        data = typeof data === 'object' ? data : {};
-        let result = new NestedAggregator();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["path"] = this.path;
-        super.toJSON(data);
-        return data;
-    }
-}
-
-/** A special single bucket aggregation that enables aggregating on nested documents */
-export interface INestedAggregator extends IAggregatorBase {
-    /** The path pointing to the nested object. */
-    path: string;
-}
-
-/** A multi-bucket range aggregator. */
-export class NumericRangeAggregator extends AggregatorBase implements INumericRangeAggregator {
-    /** The field's ID to execute the aggregation on. */
-    field?: string | undefined;
-    /** A list of numeric ranges on which aggregate. */
-    ranges!: NumericRangeForAggregator[];
-
-    constructor(data?: INumericRangeAggregator) {
-        super(data);
-        if (data) {
-            if (data.ranges) {
-                this.ranges = [];
-                for (let i = 0; i < data.ranges.length; i++) {
-                    let item = data.ranges[i];
-                    this.ranges[i] = item && !(<any>item).toJSON ? new NumericRangeForAggregator(item) : <NumericRangeForAggregator>item;
-                }
-            }
-        }
-        if (!data) {
-            this.ranges = [];
-        }
-        this._discriminator = "NumericRangeAggregator";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.field = _data["field"];
-            if (Array.isArray(_data["ranges"])) {
-                this.ranges = [] as any;
-                for (let item of _data["ranges"])
-                    this.ranges!.push(NumericRangeForAggregator.fromJS(item));
-            }
-        }
-    }
-
-    static override fromJS(data: any): NumericRangeAggregator {
-        data = typeof data === 'object' ? data : {};
-        let result = new NumericRangeAggregator();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        if (Array.isArray(this.ranges)) {
-            data["ranges"] = [];
-            for (let item of this.ranges)
-                data["ranges"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data;
-    }
-}
-
-/** A multi-bucket range aggregator. */
-export interface INumericRangeAggregator extends IAggregatorBase {
-    /** The field's ID to execute the aggregation on. */
-    field?: string | undefined;
-    /** A list of numeric ranges on which aggregate. */
-    ranges: INumericRangeForAggregator[];
-}
-
-/** The numeric range for aggregator class */
-export class NumericRangeForAggregator implements INumericRangeForAggregator {
-    /** Language specific range names. */
-    names?: TranslatedStringDictionary | undefined;
-    /** The from value. */
-    from?: number | undefined;
-    /** The to value. */
-    to?: number | undefined;
-
-    constructor(data?: INumericRangeForAggregator) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.names = data.names && !(<any>data.names).toJSON ? new TranslatedStringDictionary(data.names) : <TranslatedStringDictionary>this.names;
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.names = _data["names"] ? TranslatedStringDictionary.fromJS(_data["names"]) : <any>undefined;
-            this.from = _data["from"];
-            this.to = _data["to"];
-        }
-    }
-
-    static fromJS(data: any): NumericRangeForAggregator {
-        data = typeof data === 'object' ? data : {};
-        let result = new NumericRangeForAggregator();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["names"] = this.names ? this.names.toJSON() : <any>undefined;
-        data["from"] = this.from;
-        data["to"] = this.to;
-        return data;
-    }
-}
-
-/** The numeric range for aggregator class */
-export interface INumericRangeForAggregator {
-    /** Language specific range names. */
-    names?: ITranslatedStringDictionary | undefined;
-    /** The from value. */
-    from?: number | undefined;
-    /** The to value. */
-    to?: number | undefined;
-}
-
-/** A multi-bucket value aggregator */
-export class TermsAggregator extends AggregatorBase implements ITermsAggregator {
-    /** The field's ID to execute the aggregation on. Only not analyzed fields are supported. */
-    field!: string;
-    /** It defines how many term buckets should be returned out of the overall terms list. */
-    size?: number | undefined;
-    /** Includes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
-    includes?: string[] | undefined;
-    /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
-    excludes?: string[] | undefined;
-    /** Limits the possible returned aggregation values by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used. */
-    searchFields?: string[] | undefined;
-    /** Sort settings for the aggregation results. If no sort is specified, aggregation is sorted on the item count. */
-    sort?: SortInfo | undefined;
-
-    constructor(data?: ITermsAggregator) {
-        super(data);
-        if (data) {
-            this.sort = data.sort && !(<any>data.sort).toJSON ? new SortInfo(data.sort) : <SortInfo>this.sort;
-        }
-        this._discriminator = "TermsAggregator";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.field = _data["field"];
-            this.size = _data["size"];
-            if (Array.isArray(_data["includes"])) {
-                this.includes = [] as any;
-                for (let item of _data["includes"])
-                    this.includes!.push(item);
-            }
-            if (Array.isArray(_data["excludes"])) {
-                this.excludes = [] as any;
-                for (let item of _data["excludes"])
-                    this.excludes!.push(item);
-            }
-            this.searchString = _data["searchString"];
-            if (Array.isArray(_data["searchFields"])) {
-                this.searchFields = [] as any;
-                for (let item of _data["searchFields"])
-                    this.searchFields!.push(item);
-            }
-            this.sort = _data["sort"] ? SortInfo.fromJS(_data["sort"]) : <any>undefined;
-        }
-    }
-
-    static override fromJS(data: any): TermsAggregator {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "TermsRelationAggregator") {
-            let result = new TermsRelationAggregator();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "TermsEnumAggregator") {
-            let result = new TermsEnumAggregator();
-            result.init(data);
-            return result;
-        }
-        let result = new TermsAggregator();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["size"] = this.size;
-        if (Array.isArray(this.includes)) {
-            data["includes"] = [];
-            for (let item of this.includes)
-                data["includes"].push(item);
-        }
-        if (Array.isArray(this.excludes)) {
-            data["excludes"] = [];
-            for (let item of this.excludes)
-                data["excludes"].push(item);
-        }
-        data["searchString"] = this.searchString;
-        if (Array.isArray(this.searchFields)) {
-            data["searchFields"] = [];
-            for (let item of this.searchFields)
-                data["searchFields"].push(item);
-        }
-        data["sort"] = this.sort ? this.sort.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data;
-    }
-}
-
-/** A multi-bucket value aggregator */
-export interface ITermsAggregator extends IAggregatorBase {
-    /** The field's ID to execute the aggregation on. Only not analyzed fields are supported. */
-    field: string;
-    /** It defines how many term buckets should be returned out of the overall terms list. */
-    size?: number | undefined;
-    /** Includes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
-    includes?: string[] | undefined;
-    /** Excludes values for which buckets will be created. Supports regular expression strings or arrays of exact values. */
-    excludes?: string[] | undefined;
-    /** Limits the possible returned aggregation values by using a query string filter. The Lucene query string syntax is supported. */
-    searchString?: string | undefined;
-    /** Search fields to be used to search the SearchString value into. If no search field is specified, the Field value is used. */
-    searchFields?: string[] | undefined;
-    /** Sort settings for the aggregation results. If no sort is specified, aggregation is sorted on the item count. */
-    sort?: ISortInfo | undefined;
-}
-
-/** Sorting information */
-export class SortInfo implements ISortInfo {
-    /** The field's ID to sort on. */
-    field?: string | undefined;
-    /** The sort direction (ascending/descending). */
-    direction!: SortDirection;
-
-    constructor(data?: ISortInfo) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.field = _data["field"];
-            this.direction = _data["direction"];
-        }
-    }
-
-    static fromJS(data: any): SortInfo {
-        data = typeof data === 'object' ? data : {};
-        let result = new SortInfo();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["field"] = this.field;
-        data["direction"] = this.direction;
-        return data;
-    }
-}
-
-/** Sorting information */
-export interface ISortInfo {
-    /** The field's ID to sort on. */
-    field?: string | undefined;
-    /** The sort direction (ascending/descending). */
-    direction: SortDirection;
-}
-
-/** The sort direction */
-export enum SortDirection {
-    Asc = "Asc",
-    Desc = "Desc",
-}
-
-/** A multi-bucket value aggregator used for aggregations on relation item ids. */
-export class TermsRelationAggregator extends TermsAggregator implements ITermsRelationAggregator {
-    /** Type of the item target of the relation. It is used to resolve the target ID. */
-    documentType?: TermsRelationAggregatorDocumentType;
-
-    constructor(data?: ITermsRelationAggregator) {
-        super(data);
-        this._discriminator = "TermsRelationAggregator";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.documentType = _data["documentType"];
-        }
-    }
-
-    static override fromJS(data: any): TermsRelationAggregator {
-        data = typeof data === 'object' ? data : {};
-        let result = new TermsRelationAggregator();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["documentType"] = this.documentType;
-        super.toJSON(data);
-        return data;
-    }
-}
-
-/** A multi-bucket value aggregator used for aggregations on relation item ids. */
-export interface ITermsRelationAggregator extends ITermsAggregator {
-    /** Type of the item target of the relation. It is used to resolve the target ID. */
-    documentType?: TermsRelationAggregatorDocumentType;
-}
-
-export enum TermsRelationAggregatorDocumentType {
-    Content = "Content",
-    ListItem = "ListItem",
-    Schema = "Schema",
-    User = "User",
-    ContentPermissionSet = "ContentPermissionSet",
-    Owner = "Owner",
-    UserRole = "UserRole",
-    SchemaPermissionSet = "SchemaPermissionSet",
-}
-
-/** A multi-bucket value aggregator used for aggregations on indexed enum values. */
-export class TermsEnumAggregator extends TermsAggregator implements ITermsEnumAggregator {
-    /** Type of the enum target of the relation. It is used to resolve the enum translation. */
-    enumType!: string;
-
-    constructor(data?: ITermsEnumAggregator) {
-        super(data);
-        this._discriminator = "TermsEnumAggregator";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.enumType = _data["enumType"];
-        }
-    }
-
-    static override fromJS(data: any): TermsEnumAggregator {
-        data = typeof data === 'object' ? data : {};
-        let result = new TermsEnumAggregator();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["enumType"] = this.enumType;
-        super.toJSON(data);
-        return data;
-    }
-}
-
-/** A multi-bucket value aggregator used for aggregations on indexed enum values. */
-export interface ITermsEnumAggregator extends ITermsAggregator {
-    /** Type of the enum target of the relation. It is used to resolve the enum translation. */
-    enumType: string;
 }
 
 export class Channel implements IChannel {
@@ -58639,7 +60394,7 @@ export interface IContentPermissionSetDetail extends IPermissionSetDetailOfConte
 /** Rights assigned to a user role. */
 export class PermissionUserRoleRightsOfContentRight implements IPermissionUserRoleRightsOfContentRight {
     /** The user role ID. */
-    userRoleId?: string | undefined;
+    userRoleId!: string;
     /** Language specific user role names. */
     names?: TranslatedStringDictionary | undefined;
     /** List of rights: they can be content, metadata or permission set rights, depending on the type defined on the class
@@ -58691,7 +60446,7 @@ export class PermissionUserRoleRightsOfContentRight implements IPermissionUserRo
 /** Rights assigned to a user role. */
 export interface IPermissionUserRoleRightsOfContentRight {
     /** The user role ID. */
-    userRoleId?: string | undefined;
+    userRoleId: string;
     /** Language specific user role names. */
     names?: ITranslatedStringDictionary | undefined;
     /** List of rights: they can be content, metadata or permission set rights, depending on the type defined on the class
@@ -58702,7 +60457,7 @@ export interface IPermissionUserRoleRightsOfContentRight {
 /** Rights assigned to a user role. */
 export class PermissionUserRoleRightsOfPermissionSetRight implements IPermissionUserRoleRightsOfPermissionSetRight {
     /** The user role ID. */
-    userRoleId?: string | undefined;
+    userRoleId!: string;
     /** Language specific user role names. */
     names?: TranslatedStringDictionary | undefined;
     /** List of rights: they can be content, metadata or permission set rights, depending on the type defined on the class
@@ -58754,7 +60509,7 @@ export class PermissionUserRoleRightsOfPermissionSetRight implements IPermission
 /** Rights assigned to a user role. */
 export interface IPermissionUserRoleRightsOfPermissionSetRight {
     /** The user role ID. */
-    userRoleId?: string | undefined;
+    userRoleId: string;
     /** Language specific user role names. */
     names?: ITranslatedStringDictionary | undefined;
     /** List of rights: they can be content, metadata or permission set rights, depending on the type defined on the class
@@ -60120,6 +61875,10 @@ by the LayerSchemaIds property. */
     /** The Outputs generated from the content. They identifies the rendered files generated by the system.
 They are available only for file base contents, and they depends on the output formats configured in the system. */
     outputs?: Output[] | undefined;
+    /** The id of related DisplayContent */
+    displayContentId?: string | undefined;
+    /** The Outputs generated from the display content. */
+    displayContentOutputs?: Output[] | undefined;
     /** Audit information. */
     audit?: UserAuditDetail | undefined;
     /** The owner token ID. Defines the content owner. */
@@ -60203,6 +61962,12 @@ They are available only for file base contents, and they depends on the output f
                 for (let item of _data["outputs"])
                     this.outputs!.push(Output.fromJS(item));
             }
+            this.displayContentId = _data["displayContentId"];
+            if (Array.isArray(_data["displayContentOutputs"])) {
+                this.displayContentOutputs = [] as any;
+                for (let item of _data["displayContentOutputs"])
+                    this.displayContentOutputs!.push(Output.fromJS(item));
+            }
             this.audit = _data["audit"] ? UserAuditDetail.fromJS(_data["audit"]) : <any>undefined;
             this.ownerTokenId = _data["ownerTokenId"];
             this.owner = _data["owner"] ? User.fromJS(_data["owner"]) : <any>undefined;
@@ -60268,6 +62033,12 @@ They are available only for file base contents, and they depends on the output f
             for (let item of this.outputs)
                 data["outputs"].push(item.toJSON());
         }
+        data["displayContentId"] = this.displayContentId;
+        if (Array.isArray(this.displayContentOutputs)) {
+            data["displayContentOutputs"] = [];
+            for (let item of this.displayContentOutputs)
+                data["displayContentOutputs"].push(item.toJSON());
+        }
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
         data["ownerTokenId"] = this.ownerTokenId;
         data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
@@ -60313,6 +62084,10 @@ by the LayerSchemaIds property. */
     /** The Outputs generated from the content. They identifies the rendered files generated by the system.
 They are available only for file base contents, and they depends on the output formats configured in the system. */
     outputs?: Output[] | undefined;
+    /** The id of related DisplayContent */
+    displayContentId?: string | undefined;
+    /** The Outputs generated from the display content. */
+    displayContentOutputs?: Output[] | undefined;
     /** Audit information. */
     audit?: IUserAuditDetail | undefined;
     /** The owner token ID. Defines the content owner. */
@@ -61745,6 +63520,8 @@ export class ContentReferencesResult implements IContentReferencesResult {
     metadataReferences?: MetadataReferenceResult | undefined;
     /** List of share references */
     shareReferences?: ContentShareReferenceResult | undefined;
+    /** List of usages as the display content */
+    displayContentUsagesReferences?: DisplayContentUsagesReferenceResult | undefined;
 
     constructor(data?: IContentReferencesResult) {
         if (data) {
@@ -61754,6 +63531,7 @@ export class ContentReferencesResult implements IContentReferencesResult {
             }
             this.metadataReferences = data.metadataReferences && !(<any>data.metadataReferences).toJSON ? new MetadataReferenceResult(data.metadataReferences) : <MetadataReferenceResult>this.metadataReferences;
             this.shareReferences = data.shareReferences && !(<any>data.shareReferences).toJSON ? new ContentShareReferenceResult(data.shareReferences) : <ContentShareReferenceResult>this.shareReferences;
+            this.displayContentUsagesReferences = data.displayContentUsagesReferences && !(<any>data.displayContentUsagesReferences).toJSON ? new DisplayContentUsagesReferenceResult(data.displayContentUsagesReferences) : <DisplayContentUsagesReferenceResult>this.displayContentUsagesReferences;
         }
     }
 
@@ -61761,6 +63539,7 @@ export class ContentReferencesResult implements IContentReferencesResult {
         if (_data) {
             this.metadataReferences = _data["metadataReferences"] ? MetadataReferenceResult.fromJS(_data["metadataReferences"]) : <any>undefined;
             this.shareReferences = _data["shareReferences"] ? ContentShareReferenceResult.fromJS(_data["shareReferences"]) : <any>undefined;
+            this.displayContentUsagesReferences = _data["displayContentUsagesReferences"] ? DisplayContentUsagesReferenceResult.fromJS(_data["displayContentUsagesReferences"]) : <any>undefined;
         }
     }
 
@@ -61775,6 +63554,7 @@ export class ContentReferencesResult implements IContentReferencesResult {
         data = typeof data === 'object' ? data : {};
         data["metadataReferences"] = this.metadataReferences ? this.metadataReferences.toJSON() : <any>undefined;
         data["shareReferences"] = this.shareReferences ? this.shareReferences.toJSON() : <any>undefined;
+        data["displayContentUsagesReferences"] = this.displayContentUsagesReferences ? this.displayContentUsagesReferences.toJSON() : <any>undefined;
         return data;
     }
 }
@@ -61785,6 +63565,8 @@ export interface IContentReferencesResult {
     metadataReferences?: IMetadataReferenceResult | undefined;
     /** List of share references */
     shareReferences?: IContentShareReferenceResult | undefined;
+    /** List of usages as the display content */
+    displayContentUsagesReferences?: IDisplayContentUsagesReferenceResult | undefined;
 }
 
 /** Base class for search results */
@@ -62139,12 +63921,112 @@ export enum ShareType {
     Embed = "Embed",
 }
 
+/** Base class for search results */
+export class BaseResultOfString implements IBaseResultOfString {
+    /** The total number of matching documents. */
+    totalResults!: number;
+    /** The matched documents. */
+    results!: string[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+
+    constructor(data?: IBaseResultOfString) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.results = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalResults = _data["totalResults"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(item);
+            }
+            this.elapsedMilliseconds = _data["elapsedMilliseconds"];
+            this.pageToken = _data["pageToken"];
+        }
+    }
+
+    static fromJS(data: any): BaseResultOfString {
+        data = typeof data === 'object' ? data : {};
+        let result = new BaseResultOfString();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item);
+        }
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
+        return data;
+    }
+}
+
+/** Base class for search results */
+export interface IBaseResultOfString {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: string[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+
+/** Result class for display content reference search */
+export class DisplayContentUsagesReferenceResult extends BaseResultOfString implements IDisplayContentUsagesReferenceResult {
+
+    constructor(data?: IDisplayContentUsagesReferenceResult) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): DisplayContentUsagesReferenceResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new DisplayContentUsagesReferenceResult();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Result class for display content reference search */
+export interface IDisplayContentUsagesReferenceResult extends IBaseResultOfString {
+}
+
 /** Request to get the references to a content */
 export class ContentReferencesRequest implements IContentReferencesRequest {
     /** Limits the number of the returned metadata references by setting paging information. */
     references?: MetadataReferencesPagingRequest | undefined;
     /** Limits the number of the returned share references by setting paging information. */
     shares?: PagingRequest | undefined;
+    /** Limits the number of the returned display content usages by setting paging information. */
+    displayContentUsages?: PagingRequest | undefined;
 
     constructor(data?: IContentReferencesRequest) {
         if (data) {
@@ -62154,6 +64036,7 @@ export class ContentReferencesRequest implements IContentReferencesRequest {
             }
             this.references = data.references && !(<any>data.references).toJSON ? new MetadataReferencesPagingRequest(data.references) : <MetadataReferencesPagingRequest>this.references;
             this.shares = data.shares && !(<any>data.shares).toJSON ? new PagingRequest(data.shares) : <PagingRequest>this.shares;
+            this.displayContentUsages = data.displayContentUsages && !(<any>data.displayContentUsages).toJSON ? new PagingRequest(data.displayContentUsages) : <PagingRequest>this.displayContentUsages;
         }
     }
 
@@ -62161,6 +64044,7 @@ export class ContentReferencesRequest implements IContentReferencesRequest {
         if (_data) {
             this.references = _data["references"] ? MetadataReferencesPagingRequest.fromJS(_data["references"]) : <any>undefined;
             this.shares = _data["shares"] ? PagingRequest.fromJS(_data["shares"]) : <any>undefined;
+            this.displayContentUsages = _data["displayContentUsages"] ? PagingRequest.fromJS(_data["displayContentUsages"]) : <any>undefined;
         }
     }
 
@@ -62175,6 +64059,7 @@ export class ContentReferencesRequest implements IContentReferencesRequest {
         data = typeof data === 'object' ? data : {};
         data["references"] = this.references ? this.references.toJSON() : <any>undefined;
         data["shares"] = this.shares ? this.shares.toJSON() : <any>undefined;
+        data["displayContentUsages"] = this.displayContentUsages ? this.displayContentUsages.toJSON() : <any>undefined;
         return data;
     }
 }
@@ -62185,6 +64070,8 @@ export interface IContentReferencesRequest {
     references?: IMetadataReferencesPagingRequest | undefined;
     /** Limits the number of the returned share references by setting paging information. */
     shares?: IPagingRequest | undefined;
+    /** Limits the number of the returned display content usages by setting paging information. */
+    displayContentUsages?: IPagingRequest | undefined;
 }
 
 /** Request to page data */
@@ -63136,6 +65023,8 @@ export class ContentManyReferencesRequest implements IContentManyReferencesReque
     references?: MetadataReferencesPagingRequest | undefined;
     /** Limits the number of the returned share references by setting paging information. */
     shares?: PagingRequest | undefined;
+    /** Limits the number of the returned contentIds referencing as DisplayContent by setting paging information. */
+    displayContentUsages?: PagingRequest | undefined;
 
     constructor(data?: IContentManyReferencesRequest) {
         if (data) {
@@ -63145,6 +65034,7 @@ export class ContentManyReferencesRequest implements IContentManyReferencesReque
             }
             this.references = data.references && !(<any>data.references).toJSON ? new MetadataReferencesPagingRequest(data.references) : <MetadataReferencesPagingRequest>this.references;
             this.shares = data.shares && !(<any>data.shares).toJSON ? new PagingRequest(data.shares) : <PagingRequest>this.shares;
+            this.displayContentUsages = data.displayContentUsages && !(<any>data.displayContentUsages).toJSON ? new PagingRequest(data.displayContentUsages) : <PagingRequest>this.displayContentUsages;
         }
         if (!data) {
             this.contentIds = [];
@@ -63160,6 +65050,7 @@ export class ContentManyReferencesRequest implements IContentManyReferencesReque
             }
             this.references = _data["references"] ? MetadataReferencesPagingRequest.fromJS(_data["references"]) : <any>undefined;
             this.shares = _data["shares"] ? PagingRequest.fromJS(_data["shares"]) : <any>undefined;
+            this.displayContentUsages = _data["displayContentUsages"] ? PagingRequest.fromJS(_data["displayContentUsages"]) : <any>undefined;
         }
     }
 
@@ -63179,6 +65070,7 @@ export class ContentManyReferencesRequest implements IContentManyReferencesReque
         }
         data["references"] = this.references ? this.references.toJSON() : <any>undefined;
         data["shares"] = this.shares ? this.shares.toJSON() : <any>undefined;
+        data["displayContentUsages"] = this.displayContentUsages ? this.displayContentUsages.toJSON() : <any>undefined;
         return data;
     }
 }
@@ -63191,6 +65083,8 @@ export interface IContentManyReferencesRequest {
     references?: IMetadataReferencesPagingRequest | undefined;
     /** Limits the number of the returned share references by setting paging information. */
     shares?: IPagingRequest | undefined;
+    /** Limits the number of the returned contentIds referencing as DisplayContent by setting paging information. */
+    displayContentUsages?: IPagingRequest | undefined;
 }
 
 /** Resolves outputs available for given content ids. */
@@ -64357,6 +66251,8 @@ export class Content implements IContent {
     lifeCycle!: LifeCycle;
     /** List of content rights the user has on this content. Values are returned only if related resolve behavior is requested in the search request. */
     contentRights?: ContentRight[] | undefined;
+    /** Id of the related display content */
+    displayContentId?: string | undefined;
 
     isVirtual() {
     return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
@@ -64414,6 +66310,7 @@ export class Content implements IContent {
                 for (let item of _data["contentRights"])
                     this.contentRights!.push(item);
             }
+            this.displayContentId = _data["displayContentId"];
         }
     }
 
@@ -64463,6 +66360,7 @@ export class Content implements IContent {
             for (let item of this.contentRights)
                 data["contentRights"].push(item);
         }
+        data["displayContentId"] = this.displayContentId;
         return data;
     }
 }
@@ -64489,6 +66387,8 @@ export interface IContent {
     lifeCycle: LifeCycle;
     /** List of content rights the user has on this content. Values are returned only if related resolve behavior is requested in the search request. */
     contentRights?: ContentRight[] | undefined;
+    /** Id of the related display content */
+    displayContentId?: string | undefined;
 }
 
 /** Request to aggregate contents based on the aggregators defined on a channel */
@@ -65500,6 +67400,130 @@ If false, the result set will be sorted in a descending order of when which comm
     /** Enable debug mode: additional debug information regarding the query execution and reason of the matched documents are returned in the CommentSearchResult.
 Warning! It severely affects performance. */
     debugMode: boolean;
+}
+
+export class SetDisplayContentRequest implements ISetDisplayContentRequest {
+    /** Id of the content which is supposed to be a DisplayContent. Intentionally nullable, null on the the property means the 'unset' operation */
+    displayContentId?: string | undefined;
+
+    constructor(data?: ISetDisplayContentRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.displayContentId = _data["displayContentId"];
+        }
+    }
+
+    static fromJS(data: any): SetDisplayContentRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SetDisplayContentRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["displayContentId"] = this.displayContentId;
+        return data;
+    }
+}
+
+export interface ISetDisplayContentRequest {
+    /** Id of the content which is supposed to be a DisplayContent. Intentionally nullable, null on the the property means the 'unset' operation */
+    displayContentId?: string | undefined;
+}
+
+export class SetDisplayContentsManyRequest implements ISetDisplayContentsManyRequest {
+    /** List of set display content items */
+    items!: SetDisplayContentItem[];
+
+    constructor(data?: ISetDisplayContentsManyRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.items = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(SetDisplayContentItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SetDisplayContentsManyRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new SetDisplayContentsManyRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface ISetDisplayContentsManyRequest {
+    /** List of set display content items */
+    items: SetDisplayContentItem[];
+}
+
+/** Set display content item */
+export class SetDisplayContentItem extends SetDisplayContentRequest implements ISetDisplayContentItem {
+    /** The content ID. */
+    contentId!: string;
+
+    constructor(data?: ISetDisplayContentItem) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.contentId = _data["contentId"];
+        }
+    }
+
+    static override fromJS(data: any): SetDisplayContentItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new SetDisplayContentItem();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentId"] = this.contentId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Set display content item */
+export interface ISetDisplayContentItem extends ISetDisplayContentRequest {
+    /** The content ID. */
+    contentId: string;
 }
 
 /** Base class for search results */
@@ -66844,8 +68868,10 @@ export class VersionInfo implements IVersionInfo {
     fileProductVersion?: string | undefined;
     /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
     contractVersion?: string | undefined;
-    /** The bamboo release version. Only provided on bamboo deployments. */
+    /** The release version. */
     release?: string | undefined;
+    /** Cloud name. */
+    cloudName?: string | undefined;
 
     constructor(data?: IVersionInfo) {
         if (data) {
@@ -66862,6 +68888,7 @@ export class VersionInfo implements IVersionInfo {
             this.fileProductVersion = _data["fileProductVersion"];
             this.contractVersion = _data["contractVersion"];
             this.release = _data["release"];
+            this.cloudName = _data["cloudName"];
         }
     }
 
@@ -66878,6 +68905,7 @@ export class VersionInfo implements IVersionInfo {
         data["fileProductVersion"] = this.fileProductVersion;
         data["contractVersion"] = this.contractVersion;
         data["release"] = this.release;
+        data["cloudName"] = this.cloudName;
         return data;
     }
 }
@@ -66890,8 +68918,10 @@ export interface IVersionInfo {
     fileProductVersion?: string | undefined;
     /** The current contract version stored in CustomerDoc / EnvironmentDoc. */
     contractVersion?: string | undefined;
-    /** The bamboo release version. Only provided on bamboo deployments. */
+    /** The release version. */
     release?: string | undefined;
+    /** Cloud name. */
+    cloudName?: string | undefined;
 }
 
 /** Customer configuration information */
@@ -66906,6 +68936,8 @@ export class CustomerInfo implements ICustomerInfo {
     identityServerUrl!: string;
     /** The base API URL. */
     apiUrl!: string;
+    /** Host for integrations (Service Providers) */
+    integrationHost!: string;
     /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails!: boolean;
     /** Configured languages of customer instance (system, metadata, share, default). */
@@ -66929,6 +68961,8 @@ export class CustomerInfo implements ICustomerInfo {
     settings!: CustomerInfoSettings;
     /** True if a dashboard overview template is available. */
     hasDashboard!: boolean;
+    /** Cloud name customer is located in. */
+    cloudName!: string;
 
     constructor(data?: ICustomerInfo) {
         if (data) {
@@ -66978,6 +69012,7 @@ export class CustomerInfo implements ICustomerInfo {
             this.customerAlias = _data["customerAlias"];
             this.identityServerUrl = _data["identityServerUrl"];
             this.apiUrl = _data["apiUrl"];
+            this.integrationHost = _data["integrationHost"];
             this.enableQueryDetails = _data["enableQueryDetails"];
             this.languageConfiguration = _data["languageConfiguration"] ? LanguageConfigurationInfo.fromJS(_data["languageConfiguration"]) : new LanguageConfigurationInfo();
             if (Array.isArray(_data["languages"])) {
@@ -67006,6 +69041,7 @@ export class CustomerInfo implements ICustomerInfo {
             this.licenseInformation = _data["licenseInformation"] ? LicenseInfo.fromJS(_data["licenseInformation"]) : new LicenseInfo();
             this.settings = _data["settings"] ? CustomerInfoSettings.fromJS(_data["settings"]) : new CustomerInfoSettings();
             this.hasDashboard = _data["hasDashboard"];
+            this.cloudName = _data["cloudName"];
         }
     }
 
@@ -67023,6 +69059,7 @@ export class CustomerInfo implements ICustomerInfo {
         data["customerAlias"] = this.customerAlias;
         data["identityServerUrl"] = this.identityServerUrl;
         data["apiUrl"] = this.apiUrl;
+        data["integrationHost"] = this.integrationHost;
         data["enableQueryDetails"] = this.enableQueryDetails;
         data["languageConfiguration"] = this.languageConfiguration ? this.languageConfiguration.toJSON() : <any>undefined;
         if (Array.isArray(this.languages)) {
@@ -67051,6 +69088,7 @@ export class CustomerInfo implements ICustomerInfo {
         data["licenseInformation"] = this.licenseInformation ? this.licenseInformation.toJSON() : <any>undefined;
         data["settings"] = this.settings ? this.settings.toJSON() : <any>undefined;
         data["hasDashboard"] = this.hasDashboard;
+        data["cloudName"] = this.cloudName;
         return data;
     }
 }
@@ -67067,6 +69105,8 @@ export interface ICustomerInfo {
     identityServerUrl: string;
     /** The base API URL. */
     apiUrl: string;
+    /** Host for integrations (Service Providers) */
+    integrationHost: string;
     /** Information if the query details can be enabled when searching. For debug purposes only. */
     enableQueryDetails: boolean;
     /** Configured languages of customer instance (system, metadata, share, default). */
@@ -67090,6 +69130,8 @@ export interface ICustomerInfo {
     settings: ICustomerInfoSettings;
     /** True if a dashboard overview template is available. */
     hasDashboard: boolean;
+    /** Cloud name customer is located in. */
+    cloudName: string;
 }
 
 export class LanguageConfiguration implements ILanguageConfiguration {
@@ -75929,7 +77971,7 @@ export interface ISchemaPermissionSetDetail extends IPermissionSetDetailOfMetada
 /** Rights assigned to a user role. */
 export class PermissionUserRoleRightsOfMetadataRight implements IPermissionUserRoleRightsOfMetadataRight {
     /** The user role ID. */
-    userRoleId?: string | undefined;
+    userRoleId!: string;
     /** Language specific user role names. */
     names?: TranslatedStringDictionary | undefined;
     /** List of rights: they can be content, metadata or permission set rights, depending on the type defined on the class
@@ -75981,7 +78023,7 @@ export class PermissionUserRoleRightsOfMetadataRight implements IPermissionUserR
 /** Rights assigned to a user role. */
 export interface IPermissionUserRoleRightsOfMetadataRight {
     /** The user role ID. */
-    userRoleId?: string | undefined;
+    userRoleId: string;
     /** Language specific user role names. */
     names?: ITranslatedStringDictionary | undefined;
     /** List of rights: they can be content, metadata or permission set rights, depending on the type defined on the class
@@ -81048,6 +83090,8 @@ by the LayerSchemaIds property. */
     displayValues!: DisplayValueDictionary;
     /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
     iconUrl?: string | undefined;
+    /** The id of related DisplayContent */
+    displayContentId?: string | undefined;
 
     isVirtual() {
     return !NON_VIRTUAL_CONTENT_SCHEMAS_IDS.includes(this.contentSchemaId);
@@ -81092,6 +83136,7 @@ by the LayerSchemaIds property. */
             this.contentType = _data["contentType"];
             this.displayValues = _data["displayValues"] ? DisplayValueDictionary.fromJS(_data["displayValues"]) : new DisplayValueDictionary();
             this.iconUrl = _data["iconUrl"];
+            this.displayContentId = _data["displayContentId"];
         }
     }
 
@@ -81127,6 +83172,7 @@ by the LayerSchemaIds property. */
         data["contentType"] = this.contentType;
         data["displayValues"] = this.displayValues ? this.displayValues.toJSON() : <any>undefined;
         data["iconUrl"] = this.iconUrl;
+        data["displayContentId"] = this.displayContentId;
         return data;
     }
 }
@@ -81153,6 +83199,8 @@ by the LayerSchemaIds property. */
     displayValues: IDisplayValueDictionary;
     /** Contains an URL that can be used to retrieve the icon corresponding to the file type. */
     iconUrl?: string | undefined;
+    /** The id of related DisplayContent */
+    displayContentId?: string | undefined;
 }
 
 /** Base of shared output */
@@ -81205,6 +83253,11 @@ export abstract class ShareOutputBase implements IShareOutputBase {
         }
         if (data["kind"] === "ShareOutputEmbed") {
             let result = new ShareOutputEmbed();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "ShareOutputDisplayContent") {
+            let result = new ShareOutputDisplayContent();
             result.init(data);
             return result;
         }
@@ -81309,6 +83362,36 @@ export class ShareOutputEmbed extends ShareOutputBase implements IShareOutputEmb
 export interface IShareOutputEmbed extends IShareOutputBase {
     /** Share token for the shared output. */
     token?: string | undefined;
+}
+
+/** Shared output for a display content */
+export class ShareOutputDisplayContent extends ShareOutputBase implements IShareOutputDisplayContent {
+
+    constructor(data?: IShareOutputDisplayContent) {
+        super(data);
+        this._discriminator = "ShareOutputDisplayContent";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): ShareOutputDisplayContent {
+        data = typeof data === 'object' ? data : {};
+        let result = new ShareOutputDisplayContent();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Shared output for a display content */
+export interface IShareOutputDisplayContent extends IShareOutputBase {
 }
 
 export abstract class ShareContentBase implements IShareContentBase {
@@ -87191,8 +89274,8 @@ export interface IUserWithRoles {
     lastActivity?: Date | undefined;
 }
 
-/** Represents an aggregation request over users. */
-export abstract class UserSearchAndAggregationBaseRequest implements IUserSearchAndAggregationBaseRequest {
+/** Represents a search request over users. */
+export abstract class UsersSearchBaseRequest implements IUsersSearchBaseRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
@@ -87203,20 +89286,13 @@ export abstract class UserSearchAndAggregationBaseRequest implements IUserSearch
     lifeCycleFilter!: LifeCycleFilter;
     /** Return only users with certain user rights. */
     userRightsFilter?: UserRight[] | undefined;
-    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
-For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
-by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
-For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
-aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
-Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
-    aggregationFilters?: AggregationFilter[] | undefined;
     /** Includes the service user in result. */
     includeServiceUser!: boolean;
     /** Restricts the results to users that are editable for calling user.
 If set to true, IncludeServiceUser is ignored. */
     editableOnly!: boolean;
 
-    constructor(data?: IUserSearchAndAggregationBaseRequest) {
+    constructor(data?: IUsersSearchBaseRequest) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -87240,19 +89316,14 @@ If set to true, IncludeServiceUser is ignored. */
                 for (let item of _data["userRightsFilter"])
                     this.userRightsFilter!.push(item);
             }
-            if (Array.isArray(_data["aggregationFilters"])) {
-                this.aggregationFilters = [] as any;
-                for (let item of _data["aggregationFilters"])
-                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
-            }
             this.includeServiceUser = _data["includeServiceUser"];
             this.editableOnly = _data["editableOnly"];
         }
     }
 
-    static fromJS(data: any): UserSearchAndAggregationBaseRequest {
+    static fromJS(data: any): UsersSearchBaseRequest {
         data = typeof data === 'object' ? data : {};
-        throw new Error("The abstract class 'UserSearchAndAggregationBaseRequest' cannot be instantiated.");
+        throw new Error("The abstract class 'UsersSearchBaseRequest' cannot be instantiated.");
     }
 
     toJSON(data?: any) {
@@ -87270,19 +89341,14 @@ If set to true, IncludeServiceUser is ignored. */
             for (let item of this.userRightsFilter)
                 data["userRightsFilter"].push(item);
         }
-        if (Array.isArray(this.aggregationFilters)) {
-            data["aggregationFilters"] = [];
-            for (let item of this.aggregationFilters)
-                data["aggregationFilters"].push(item.toJSON());
-        }
         data["includeServiceUser"] = this.includeServiceUser;
         data["editableOnly"] = this.editableOnly;
         return data;
     }
 }
 
-/** Represents an aggregation request over users. */
-export interface IUserSearchAndAggregationBaseRequest {
+/** Represents a search request over users. */
+export interface IUsersSearchBaseRequest {
     /** Limits the search by using a query string filter. The Lucene query string syntax is supported. */
     searchString?: string | undefined;
     /** An optional list of search behaviors. All the passed behaviors will be applied. */
@@ -87293,6 +89359,15 @@ export interface IUserSearchAndAggregationBaseRequest {
     lifeCycleFilter: LifeCycleFilter;
     /** Return only users with certain user rights. */
     userRightsFilter?: UserRight[] | undefined;
+    /** Includes the service user in result. */
+    includeServiceUser: boolean;
+    /** Restricts the results to users that are editable for calling user.
+If set to true, IncludeServiceUser is ignored. */
+    editableOnly: boolean;
+}
+
+/** Represents an aggregation request over users. */
+export abstract class UserSearchAndAggregationBaseRequest extends UsersSearchBaseRequest implements IUserSearchAndAggregationBaseRequest {
     /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
 For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
 by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
@@ -87300,11 +89375,48 @@ For the aggregation values, only the original Filter of the search request is us
 aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
 Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
     aggregationFilters?: AggregationFilter[] | undefined;
-    /** Includes the service user in result. */
-    includeServiceUser: boolean;
-    /** Restricts the results to users that are editable for calling user.
-If set to true, IncludeServiceUser is ignored. */
-    editableOnly: boolean;
+
+    constructor(data?: IUserSearchAndAggregationBaseRequest) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["aggregationFilters"])) {
+                this.aggregationFilters = [] as any;
+                for (let item of _data["aggregationFilters"])
+                    this.aggregationFilters!.push(AggregationFilter.fromJS(item));
+            }
+        }
+    }
+
+    static override fromJS(data: any): UserSearchAndAggregationBaseRequest {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'UserSearchAndAggregationBaseRequest' cannot be instantiated.");
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.aggregationFilters)) {
+            data["aggregationFilters"] = [];
+            for (let item of this.aggregationFilters)
+                data["aggregationFilters"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Represents an aggregation request over users. */
+export interface IUserSearchAndAggregationBaseRequest extends IUsersSearchBaseRequest {
+    /** Special filters used to filter down independently the aggregations' values and the search results on specific conditions.
+For the search results, the aggregation filters are used to create a Filter that is put in AND with the eventual existing Filter of the search request to nail down the search results. The filters generated
+by the aggregation filters are put in OR each other if they have the same AggregationName, and then such groups are put in AND.
+For the aggregation values, only the original Filter of the search request is used to nail down the data to be considered for the aggregations. Then, on top of that, for each aggregator in the search request, a Filter is created to filter down the
+aggregation results of that aggregation: depending if the AggregationName of the AggregationFilter matches the AggregationName of the Aggregator, the filter is put in OR (if it matches) or in AND (if it does not match it).
+Moreover, an AggregationFilter ensures that the related value is returned in the AggregationResults also if the top aggregation values returned by default do not contain it. */
+    aggregationFilters?: AggregationFilter[] | undefined;
 }
 
 /** Represents user search request. */
@@ -87476,6 +89588,243 @@ export class UserUpdateIdentityProviderManyRequest extends UserManyRequestBase i
 export interface IUserUpdateIdentityProviderManyRequest extends IUserManyRequestBase {
     /** Identity provider to assign to users. */
     identityProviderId?: string | undefined;
+}
+
+/** Base class for search results */
+export class BaseResultOfUser implements IBaseResultOfUser {
+    /** The total number of matching documents. */
+    totalResults!: number;
+    /** The matched documents. */
+    results!: User[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds!: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+
+    constructor(data?: IBaseResultOfUser) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.results) {
+                this.results = [];
+                for (let i = 0; i < data.results.length; i++) {
+                    let item = data.results[i];
+                    this.results[i] = item && !(<any>item).toJSON ? new User(item) : <User>item;
+                }
+            }
+        }
+        if (!data) {
+            this.results = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalResults = _data["totalResults"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(User.fromJS(item));
+            }
+            this.elapsedMilliseconds = _data["elapsedMilliseconds"];
+            this.pageToken = _data["pageToken"];
+        }
+    }
+
+    static fromJS(data: any): BaseResultOfUser {
+        data = typeof data === 'object' ? data : {};
+        let result = new BaseResultOfUser();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalResults"] = this.totalResults;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
+        data["pageToken"] = this.pageToken;
+        return data;
+    }
+}
+
+/** Base class for search results */
+export interface IBaseResultOfUser {
+    /** The total number of matching documents. */
+    totalResults: number;
+    /** The matched documents. */
+    results: IUser[];
+    /** The search execution time in milliseconds. */
+    elapsedMilliseconds: number;
+    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
+    pageToken?: string | undefined;
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export class SearchBehaviorBaseResultOfUser extends BaseResultOfUser implements ISearchBehaviorBaseResultOfUser {
+    /** The search string used to query the data. */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
+    isSearchStringRewritten?: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: QueryDebugInformation[] | undefined;
+
+    constructor(data?: ISearchBehaviorBaseResultOfUser) {
+        super(data);
+        if (data) {
+            if (data.queryDebugInformation) {
+                this.queryDebugInformation = [];
+                for (let i = 0; i < data.queryDebugInformation.length; i++) {
+                    let item = data.queryDebugInformation[i];
+                    this.queryDebugInformation[i] = item && !(<any>item).toJSON ? new QueryDebugInformation(item) : <QueryDebugInformation>item;
+                }
+            }
+        }
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.searchString = _data["searchString"];
+            this.isSearchStringRewritten = _data["isSearchStringRewritten"];
+            if (Array.isArray(_data["queryDebugInformation"])) {
+                this.queryDebugInformation = [] as any;
+                for (let item of _data["queryDebugInformation"])
+                    this.queryDebugInformation!.push(QueryDebugInformation.fromJS(item));
+            }
+        }
+    }
+
+    static override fromJS(data: any): SearchBehaviorBaseResultOfUser {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchBehaviorBaseResultOfUser();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["searchString"] = this.searchString;
+        data["isSearchStringRewritten"] = this.isSearchStringRewritten;
+        if (Array.isArray(this.queryDebugInformation)) {
+            data["queryDebugInformation"] = [];
+            for (let item of this.queryDebugInformation)
+                data["queryDebugInformation"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Base class for search result queries that support SearchBehaviors */
+export interface ISearchBehaviorBaseResultOfUser extends IBaseResultOfUser {
+    /** The search string used to query the data. */
+    searchString?: string | undefined;
+    /** Flag to notify if the SearchString was modified compared to the original requested one. */
+    isSearchStringRewritten?: boolean;
+    /** Additional information regarding the query execution and reason of the matched documents. Multiple items are returned if multiple queries were performed. */
+    queryDebugInformation?: IQueryDebugInformation[] | undefined;
+}
+
+/** Holds results of the list user search. */
+export class UserListResult extends SearchBehaviorBaseResultOfUser implements IUserListResult {
+
+    constructor(data?: IUserListResult) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): UserListResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserListResult();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Holds results of the list user search. */
+export interface IUserListResult extends ISearchBehaviorBaseResultOfUser {
+}
+
+/** Represents user list request. */
+export class UserListRequest extends UsersSearchBaseRequest implements IUserListRequest {
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: SortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit?: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
+
+    constructor(data?: IUserListRequest) {
+        super(data);
+        if (data) {
+            if (data.sort) {
+                this.sort = [];
+                for (let i = 0; i < data.sort.length; i++) {
+                    let item = data.sort[i];
+                    this.sort[i] = item && !(<any>item).toJSON ? new SortInfo(item) : <SortInfo>item;
+                }
+            }
+        }
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["sort"])) {
+                this.sort = [] as any;
+                for (let item of _data["sort"])
+                    this.sort!.push(SortInfo.fromJS(item));
+            }
+            this.limit = _data["limit"];
+            this.pageToken = _data["pageToken"];
+        }
+    }
+
+    static override fromJS(data: any): UserListRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserListRequest();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.sort)) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        data["limit"] = this.limit;
+        data["pageToken"] = this.pageToken;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Represents user list request. */
+export interface IUserListRequest extends IUsersSearchBaseRequest {
+    /** Fields and respective directions requested to sort the search results. Sorting on a not indexed field will throw an exception. */
+    sort?: ISortInfo[] | undefined;
+    /** Limits the document count of the result set. */
+    limit?: number;
+    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
+    pageToken?: string | undefined;
 }
 
 /** Represents a list of source/target fields for XMP mappings */

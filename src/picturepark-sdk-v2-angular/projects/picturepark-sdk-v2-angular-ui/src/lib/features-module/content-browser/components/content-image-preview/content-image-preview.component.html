@@ -11,7 +11,7 @@
       *ngIf="thumbnailUrlSafe && !playing && !pdfUrl"
       [class.icon]="isIcon"
     />
-    <mat-icon *ngIf="(isVideo || isAudio) && !playing && !pdfUrl">play_arrow</mat-icon>
+    <mat-icon *ngIf="(viewerType === 'video' || viewerType === 'audio') && !playing && !pdfUrl">play_arrow</mat-icon>
   </div>
   <div class="video-player" *ngIf="playing"></div>
   <div class="pdf-viewer" *ngIf="pdfUrl">

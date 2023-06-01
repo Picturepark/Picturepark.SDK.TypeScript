@@ -48,7 +48,7 @@
       "useLeafType": false,
       "classTypes": [],
       "extendedClasses": [],
-      "extensionCode": "",
+      "extensionCode": "src/lib/services/frontend-services.extensions.ts",
       "generateDefaultValues": false,
       "excludedTypeNames": [],
       "excludedParameterNames": [],

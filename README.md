@@ -45,9 +45,9 @@ NPM package: `@picturepark/sdk-v1-pickers`
 
 | SDK version | Picturepark CP version | Branch |
 | ----------- | ---------------------- | -----------
-| `11.5.x`    | `11.5.x`               | [11.5.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.5.x)
 | `11.6.x`    | `11.6.x`               | [11.6.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.6.x)
-| `11.7.x`    | `11.7.x`               | [master](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master)
+| `11.7.x`    | `11.7.x`               | [11.6.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.7.x)
+| `11.8.x`    | `11.8.x`               | [master](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master)
 	
 SDK Development
 
@@ -79,7 +79,7 @@ After nswag was run, manually revert change for removed block: import { ... } fr
 
 > NOTE:   
 For pre-release packages, the version should include the "pre" identifier.  
-Ex: 11.6.0-pre.0
+Ex: 11.7.0-pre.0
 
 2. Run the following command to regenerate the `package-lock.json` files and build all projects:
 

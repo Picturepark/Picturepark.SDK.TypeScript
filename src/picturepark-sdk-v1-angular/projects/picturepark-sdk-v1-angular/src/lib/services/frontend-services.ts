@@ -8,10 +8,6 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
-import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
-import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import {
   PictureparkValidationException,
   PictureparkForbiddenException,
@@ -26,6 +22,10 @@ import {
   DownloadLink,
 } from './api-services';
 import { TermsOfServiceDetail, TermsOfServiceEditable, TermsOfService } from './contracts-custom';
+import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
+import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
 export const PICTUREPARK_CDN_URL = new InjectionToken<string>('PICTUREPARK_CDN_URL');
 
