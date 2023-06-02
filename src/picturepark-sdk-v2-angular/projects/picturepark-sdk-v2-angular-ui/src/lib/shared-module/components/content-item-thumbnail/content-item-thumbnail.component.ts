@@ -3,10 +3,10 @@ import {
   OnChanges,
   SimpleChanges,
   Input,
-  Injector,
   ChangeDetectionStrategy,
   Inject,
   Optional,
+  signal,
 } from '@angular/core';
 import { SafeUrl, DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BROKEN_IMAGE_URL } from '../../../utilities/constants';
@@ -23,14 +23,19 @@ import {
   ContentService,
   ShareOutputDisplayContent,
 } from '@picturepark/sdk-v2-angular';
-import { Observable } from 'rxjs';
 import { imageLoaderErrorHandler } from '../image-loader.helper';
+import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { LazyLoadDirective } from '../../directives/lazy-load.directive';
 
 @Component({
   selector: 'pp-content-item-thumbnail',
   templateUrl: './content-item-thumbnail.component.html',
   styleUrls: ['./content-item-thumbnail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, MatProgressSpinnerModule, TranslatePipe, LazyLoadDirective],
 })
 export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Content> implements OnChanges {
   /**
@@ -50,19 +55,17 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   @Input() shadow: boolean;
   @Input() cover: boolean;
 
-  isLoading = false;
-  thumbnailUrl$: Observable<SafeUrl> | null;
-
-  virtualItemHtml: SafeHtml | null;
+  isLoading = signal(false);
+  virtualItemHtml = signal<SafeHtml | null>(null);
+  thumbnailUrl = signal<SafeUrl | null>(null);
 
   constructor(
     private contentService: ContentService,
     private contentFacade: ContentFacade,
     private sanitizer: DomSanitizer,
-    protected injector: Injector,
     @Optional() @Inject(PICTUREPARK_CDN_URL) private cdnUrl?: string
   ) {
-    super(injector);
+    super();
     this.cdnUrl = this.cdnUrl || '';
   }
 
@@ -80,20 +83,22 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
               content.outputs.find(
                 i => i instanceof ShareOutputDisplayContent && i.outputFormatId === 'Thumbnail' + this.thumbnailSize
               ) ?? content.outputs.find(i => i.outputFormatId === 'Thumbnail' + this.thumbnailSize);
-            this.isLoading = true;
-            this.thumbnailUrl$ = this.loadItem.pipe(
-              map(() =>
-                this.trust(
-                  output?.viewUrl ||
-                    content.iconUrl ||
-                    `${this.cdnUrl}/icon/${(this.shareItem?.data as ShareDataEmbed).token}/${
-                      content.displayContentId ?? content.id
-                    }`
-                )
-              ),
-              tap(() => (this.isLoading = false)),
-              finalize(() => (this.isLoading = false))
-            );
+            this.isLoading.set(true);
+            this.sub = this.loadItem
+              .pipe(
+                map(() =>
+                  this.trust(
+                    output?.viewUrl ??
+                      content.iconUrl ??
+                      `${this.cdnUrl}/icon/${(this.shareItem?.data as ShareDataEmbed).token}/${
+                        content.displayContentId ?? content.id
+                      }`
+                  )
+                ),
+                tap(() => this.isLoading.set(false)),
+                finalize(() => this.isLoading.set(false))
+              )
+              .subscribe(url => this.thumbnailUrl.set(url));
           }
         }
       }
@@ -102,35 +107,37 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
         if (handleVirtual) {
           this.handleVirtualItem();
         } else {
-          this.thumbnailUrl$ = this.loadItem.pipe(
-            tap(() => (this.isLoading = true)),
-            switchMap(() => {
-              return this.contentService
-                .downloadThumbnail(
-                  this.item.displayContentId ?? this.item.id,
-                  this.thumbnailSize || ThumbnailSize.Small,
-                  null,
-                  null
-                )
-                .pipe(
-                  catchError(imageLoaderErrorHandler),
-                  finalize(() => (this.isLoading = false))
-                );
-            }),
-            map(response => this.trust(URL.createObjectURL(response.data)))
-          );
+          this.sub = this.loadItem
+            .pipe(
+              tap(() => this.isLoading.set(true)),
+              switchMap(() => {
+                return this.contentService
+                  .downloadThumbnail(
+                    this.item.displayContentId ?? this.item.id,
+                    this.thumbnailSize || ThumbnailSize.Small,
+                    null,
+                    null
+                  )
+                  .pipe(
+                    catchError(imageLoaderErrorHandler),
+                    finalize(() => this.isLoading.set(false))
+                  );
+              }),
+              map(response => this.trust(URL.createObjectURL(response.data)))
+            )
+            .subscribe(url => this.thumbnailUrl.set(url));
         }
       }
     }
 
-    if (changes['thumbnailSize'] && !this.item?.isVirtual() && this.isVisible) {
+    if (changes['thumbnailSize'] && !this.item?.isVirtual() && this.isVisible()) {
       const updateImage =
         changes['thumbnailSize'].firstChange ||
         (changes['thumbnailSize'].previousValue === ThumbnailSize.Small && this.isListView === false) ||
         (changes['thumbnailSize'].previousValue === ThumbnailSize.Medium && this.thumbnailSize === ThumbnailSize.Large);
 
       if (updateImage) {
-        this.isLoading = true;
+        this.isLoading.set(true);
         this.loadItem.next();
       }
     }
@@ -138,10 +145,9 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
 
   handleVirtualItem() {
     if (this.item.displayValues['thumbnail']) {
-      this.thumbnailUrl$ = null;
-      this.virtualItemHtml = this.contentFacade.getVirtualItemHtml(this.item.displayValues['thumbnail']);
-
-      this.isLoading = false;
+      this.thumbnailUrl.set(null);
+      this.virtualItemHtml.set(this.contentFacade.getVirtualItemHtml(this.item.displayValues['thumbnail']));
+      this.isLoading.set(false);
     }
   }
 
@@ -158,7 +164,7 @@ export class ContentItemThumbnailComponent extends BaseBrowserItemComponent<Cont
   }
 
   onLoad(event: any) {
-    if (event && event.target) {
+    if (event?.target) {
       const width = event.target.naturalWidth;
       const height = event.target.naturalHeight;
       const factor = width / height;

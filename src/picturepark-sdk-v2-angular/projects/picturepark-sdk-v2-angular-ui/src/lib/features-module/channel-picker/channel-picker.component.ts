@@ -1,15 +1,18 @@
-import { Component, EventEmitter, Input, Output, OnInit, ApplicationRef, Injector } from '@angular/core';
-
-// LIBRARIES
+import { Component, EventEmitter, Input, Output, OnInit, ApplicationRef } from '@angular/core';
 import { ChannelService, Channel } from '@picturepark/sdk-v2-angular';
-
-// COMPONENTS
 import { BaseComponent } from '../../shared-module/components/base.component';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'pp-channel-picker',
   templateUrl: './channel-picker.component.html',
   styleUrls: ['./channel-picker.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatTooltipModule, MatMenuModule, TranslatePipe],
 })
 export class ChannelPickerComponent extends BaseComponent implements OnInit {
   @Input() channel: Channel | null = null;
@@ -18,8 +21,8 @@ export class ChannelPickerComponent extends BaseComponent implements OnInit {
 
   channels: Channel[] = [];
 
-  constructor(private channelService: ChannelService, private ref: ApplicationRef, protected injector: Injector) {
-    super(injector);
+  constructor(private channelService: ChannelService, private ref: ApplicationRef) {
+    super();
   }
 
   ngOnInit(): void {

@@ -3,7 +3,7 @@
     <pp-share-browser></pp-share-browser>
   </div>
   <div class="filters">
-    <mat-tab-group>
+    <mat-tab-group [mat-stretch-tabs]="false">
       <mat-tab label="{{ 'ContentAggregationList.FiltersLabel' | pptranslate }}">
         <pp-aggregation-list [facade]="facade"> </pp-aggregation-list>
       </mat-tab>

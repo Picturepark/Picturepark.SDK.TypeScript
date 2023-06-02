@@ -40,7 +40,7 @@
   mat-dialog-content {
     height: 100%;
 
-    .mat-tab-group {
+    .mat-mdc-tab-group {
       height: 100%;
     }
   }
@@ -67,7 +67,7 @@
   }
 
   mat-dialog-actions {
-    padding: 8px 24px;
+    padding: 12px 24px;
     margin: 0;
     justify-content: flex-end;
     position: relative;

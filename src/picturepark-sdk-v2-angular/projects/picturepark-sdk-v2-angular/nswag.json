@@ -89,7 +89,7 @@
       "inlineNamedDictionaries": false,
       "inlineNamedAny": false,
       "includeHttpContext": false,
-      "templateDirectory": null,
+      "templateDirectory": "liquid-templates",
       "typeNameGeneratorType": null,
       "propertyNameGeneratorType": null,
       "enumNameGeneratorType": null,

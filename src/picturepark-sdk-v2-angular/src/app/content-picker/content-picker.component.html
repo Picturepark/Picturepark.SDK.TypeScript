@@ -55,7 +55,7 @@
           >
           </pp-search-suggest-box>
         </mat-toolbar-row>
-        <mat-tab-group class="right-panel filters">
+        <mat-tab-group class="right-panel filters" [mat-stretch-tabs]="false">
           <mat-tab label="{{ 'ContentAggregationList.FiltersLabel' | pptranslate }}">
             <pp-aggregation-list *ngIf="selectedChannel" [facade]="facade"> </pp-aggregation-list>
           </mat-tab>

@@ -1,19 +1,45 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, Input, OnInit, Injector, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '@angular/forms';
+import { Component, Input, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  UntypedFormArray,
+  Validators,
+  AbstractControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { TermsAggregator, ShareService, ShareAggregationRequest, NestedAggregator } from '@picturepark/sdk-v2-angular';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BaseComponent } from '../../../../shared-module/components/base.component';
+import { TranslatePipe } from '../../../../shared-module/pipes/translate.pipe';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatOptionModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'pp-share-content-recipients-input',
   templateUrl: './share-content-recipients-input.component.html',
   styleUrls: ['./share-content-recipients-input.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatOptionModule,
+    MatProgressSpinnerModule,
+    TranslatePipe,
+  ],
 })
 export class ShareContentRecipientsInputComponent extends BaseComponent implements OnInit {
-  @Input() parentForm: FormGroup;
-  recipients: FormArray;
+  @Input() parentForm: UntypedFormGroup;
+  recipients: UntypedFormArray;
   recipientSearch: AbstractControl;
 
   @ViewChild('matChipListInput') matChipListInput: ElementRef<HTMLInputElement>;
@@ -27,15 +53,15 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
     // eslint-disable-next-line
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-  constructor(private shareService: ShareService, protected injector: Injector) {
-    super(injector);
+  constructor(private shareService: ShareService) {
+    super();
   }
 
   ngOnInit(): void {
-    this.recipients = <FormArray>this.parentForm.controls['recipients'];
+    this.recipients = <UntypedFormArray>this.parentForm.controls['recipients'];
     this.recipientSearch = this.parentForm.controls['recipientSearch'];
     this.recipientSearch.setValidators([Validators.pattern(this.reg)]);
-    this.sub = (<FormArray>this.recipientSearch).valueChanges
+    this.sub = (<UntypedFormArray>this.recipientSearch).valueChanges
       .pipe(
         debounceTime(300),
         tap(() => (this.isLoading = true)),
@@ -91,7 +117,7 @@ export class ShareContentRecipientsInputComponent extends BaseComponent implemen
         return;
       }
 
-      this.recipients.push(new FormControl(value.trim(), [Validators.email]));
+      this.recipients.push(new UntypedFormControl(value.trim(), [Validators.email]));
 
       this.recipients.markAsTouched();
 

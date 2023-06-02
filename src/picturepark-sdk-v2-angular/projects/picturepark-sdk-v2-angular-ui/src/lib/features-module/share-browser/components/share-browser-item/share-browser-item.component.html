@@ -47,6 +47,7 @@
         <li>
           <button
             mat-icon-button
+            class="cp-icon-button-24"
             (click)="previewItem(); $event.stopPropagation()"
             [matTooltip]="'ContentBrowser.PreviewItem' | pptranslate"
           >
@@ -56,6 +57,7 @@
         <li>
           <button
             mat-icon-button
+            class="cp-icon-button-24"
             (click)="previewItem(); $event.stopPropagation()"
             [matTooltip]="'ContentBrowser.More' | pptranslate"
           >
@@ -66,7 +68,7 @@
     </div>
     <div class="browser-item__items-num-container">{{ itemModel.contentIds.length }}</div>
   </div>
-  <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="browser-item__title mat-subheading-2">
+  <div *ngIf="thumbnailSize !== thumbnailSizes.Small" class="browser-item__title mat-subtitle-1">
     <i class="material-icons" *ngIf="itemModel.shareType === 'Embed'">code</i>
     <i class="material-icons" *ngIf="itemModel.shareType === 'Basic'">share</i>
     {{ itemModel.name }}

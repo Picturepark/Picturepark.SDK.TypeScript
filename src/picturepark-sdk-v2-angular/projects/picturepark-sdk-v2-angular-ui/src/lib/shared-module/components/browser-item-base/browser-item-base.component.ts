@@ -1,31 +1,23 @@
-import { Input, Output, EventEmitter, Component } from '@angular/core';
+import { Input, Output, EventEmitter, signal, Directive } from '@angular/core';
 import { Subject } from 'rxjs';
-
-// LIBRARIES
 import { ThumbnailSize, IEntityBase } from '@picturepark/sdk-v2-angular';
-
-// COMPONENTS
 import { BaseBrowserComponent } from '../browser-base/browser-base.component';
 import { BaseComponent } from '../base.component';
 
-@Component({
-  template: '',
-})
+@Directive()
 export abstract class BaseBrowserItemComponent<TEntity extends IEntityBase> extends BaseComponent {
-  // INPUTS
   @Input() itemModel: TEntity;
   @Input() thumbnailSize: ThumbnailSize = ThumbnailSize.Medium;
   @Input() isListView: boolean;
   @Input() browser: BaseBrowserComponent<TEntity>;
 
-  // OUTPUTS
   @Output() previewItemChange = new EventEmitter<TEntity>();
 
-  protected isVisible = false;
+  protected isVisible = signal(false);
   protected loadItem = new Subject<void>();
 
   markAsVisible() {
-    this.isVisible = true;
+    this.isVisible.set(true);
     this.loadItem.next();
   }
 

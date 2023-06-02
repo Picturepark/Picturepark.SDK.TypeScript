@@ -18,6 +18,10 @@
   max-width: 400px;
   margin: 20px;
   width: unset;
+
+  mat-card-title {
+    margin: 16px 16px 0 16px;
+  }
 }
 
 .spacer {

@@ -37,10 +37,10 @@
     padding-left: 5px;
   }
 
-  .mat-list-base .mat-list-item,
+  .mat-mdc-list-base .mat-mdc-list-item,
   .mat-list-base .mat-list-option {
     height: 28px;
-    padding: 0 20px;
+    padding: 0 20px 0 10px;
     width: unset;
   }
 
@@ -55,37 +55,14 @@
     }
   }
 
-  .mat-expansion-panel-body {
-    padding: 0 0 10px 0;
-  }
-
-  .mat-list-base {
+  .mat-mdc-list-base {
     padding-bottom: 8px;
 
-    .mat-list-item,
-    .mat-list-option,
-    .mat-subheader {
-      font-size: 14px;
-    }
-  }
-
-  .mat-list-base .mat-list-item.mat-list-option ::ng-deep .mat-list-item-content {
-    padding: unset;
-
-    .mat-list-text {
-      padding-left: 5px;
-    }
-
-    .mat-pseudo-checkbox {
-      height: 15px;
-      width: 15px;
-      border-style: solid;
-      border-width: 2px;
-      margin: 0px 5px 0px 0px;
-
-      &.mat-pseudo-checkbox-checked {
-        border-style: solid;
-        border-width: 2px;
+    .mat-mdc-list-item,
+    .mat-mdc-list-option,
+    .mat-mdc-subheader {
+      .mdc-list-item__primary-text {
+        font-size: 14px;
       }
     }
   }
@@ -101,7 +78,7 @@
 
   .clear-search {
     position: absolute;
-    right: 5px;
-    top: -19px;
+    right: 2px;
+    top: -2px;
   }
 }

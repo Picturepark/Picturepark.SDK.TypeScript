@@ -1,8 +1,12 @@
 @use '@angular/material' as mat;
 
-.mat-card {
+.mat-mdc-card {
   padding: 0px;
   margin: 0px 10px 20px 10px;
+
+  .mat-mdc-card-content {
+    padding: 0;
+  }
 }
 
 .schema-content {
@@ -72,7 +76,7 @@
   justify-content: flex-end;
   opacity: 0.6;
 
-  .mat-button {
+  .mat-mdc-button {
     width: 24px;
     height: 24px;
     min-width: 0;

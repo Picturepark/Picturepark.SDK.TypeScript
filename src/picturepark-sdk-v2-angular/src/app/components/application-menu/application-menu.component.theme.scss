@@ -34,10 +34,10 @@ $pp-application-menu: (
             color: mat.get-color-from-palette($primary, on-opacity-light);
           }
           & i {
-            font-size: mat.font-size($custom-typography, display-3) !important;
+            font-size: mat.font-size($custom-typography, headline-2) !important;
           }
           & span {
-            font-size: mat.font-size($custom-typography, display-1) !important;
+            font-size: mat.font-size($custom-typography, headline-4) !important;
           }
         }
       }

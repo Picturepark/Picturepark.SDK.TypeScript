@@ -22,11 +22,31 @@ import {
 import { PictureparkCdnConfiguration } from '../../models/cdn-config';
 import { forkJoin, fromEvent, of } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
+import { TranslatePipe } from '../../../../picturepark-sdk-v2-angular-ui/src/lib/shared-module/pipes/translate.pipe';
+import { ShareItemsPanelComponent } from '../../../../picturepark-sdk-v2-angular-ui/src/lib/features-module/share-items-panel/share-items-panel.component';
+import { ShareMailRecipientsPanelComponent } from '../../../../picturepark-sdk-v2-angular-ui/src/lib/features-module/share-mail-recipients-panel/share-mail-recipients-panel.component';
+import { MatButtonModule } from '@angular/material/button';
+import { PanelComponent } from '../../../../picturepark-sdk-v2-angular-ui/src/lib/shared-module/components/panel/panel.component';
+import { LanguageSwitchComponent } from '../../../../picturepark-sdk-v2-angular-ui/src/lib/features-module/language-switch/language-switch.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { DatePipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-share-detail',
   templateUrl: './share-detail.component.html',
   styleUrls: ['./share-detail.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatProgressBarModule,
+    LanguageSwitchComponent,
+    PanelComponent,
+    MatButtonModule,
+    ShareMailRecipientsPanelComponent,
+    ShareItemsPanelComponent,
+    DatePipe,
+    TranslatePipe,
+  ],
 })
 export class ShareDetailComponent implements OnInit {
   shareDetail: ShareDetail;

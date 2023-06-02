@@ -28,7 +28,7 @@ $pp-schema-browser-item: (
       .schema-menu {
         background-color: mat.get-color-from-palette($primary, surface-light);
 
-        .mat-button {
+        .mat-mdc-button {
           mat-icon {
             color: mat.get-color-from-palette($primary, on-surface-light);
           }

@@ -1,6 +1,6 @@
-<ng-container *ngIf="virtualItemHtml; else thumbnailDisplay">
+<ng-container *ngIf="virtualItemHtml(); else thumbnailDisplay">
   <div [ngClass]="{ shadow: shadow }" class="content-item-thumbnail__image-virtual-item-container">
-    <div class="content-item-thumbnail__image-virtual-item-display" [innerHTML]="virtualItemHtml"></div>
+    <div class="content-item-thumbnail__image-virtual-item-display" [innerHTML]="virtualItemHtml()"></div>
   </div>
 </ng-container>
 <ng-template #thumbnailDisplay>
@@ -9,10 +9,10 @@
     [class.content-item-thumbnail--list-view]="isListView"
     (lazyload)="markAsVisible()"
   >
-    <mat-spinner *ngIf="isLoading" [diameter]="40"></mat-spinner>
-    <ng-container *ngIf="thumbnailUrl$ | async as url">
+    <mat-spinner *ngIf="isLoading()" [diameter]="40"></mat-spinner>
+    <ng-container *ngIf="thumbnailUrl() as url">
       <img
-        *ngIf="!isLoading"
+        *ngIf="!isLoading()"
         [ngClass]="{ shadow: shadow, cover: cover, radius: isListView && !cover, 'radius-left': isListView && cover }"
         class="content-item-thumbnail__image"
         [src]="url"

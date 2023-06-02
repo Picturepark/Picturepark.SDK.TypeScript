@@ -1,8 +1,8 @@
 .dialog-container {
   position: relative;
   min-width: 500px;
-  mat-dialog-content {
-    padding: 24px;
+  .mdc-dialog .mdc-dialog__content {
+    padding: 24px !important;
     margin: 0;
   }
   button.option {

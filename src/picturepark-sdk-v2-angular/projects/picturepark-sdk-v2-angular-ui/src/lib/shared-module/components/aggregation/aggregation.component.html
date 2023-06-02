@@ -13,17 +13,16 @@
       </div>
       <button
         mat-icon-button
+        (click)="clear(); $event.stopPropagation()"
         *ngIf="aggregationsFiltersCount > 0"
         [matTooltip]="'ContentAggregationList.ClearFilters' | pptranslate"
       >
-        <mat-icon aria-label="Clear filters for this category" (click)="clear(); $event.stopPropagation()"
-          >clear</mat-icon
-        >
+        <mat-icon aria-label="Clear filters for this category">clear</mat-icon>
       </button>
     </mat-panel-title>
   </mat-expansion-panel-header>
   <ng-template matExpansionPanelContent>
-    <mat-form-field *ngIf="aggregator.uiBehavior?.enableSearchInFilter" class="search">
+    <mat-form-field *ngIf="aggregator.uiBehavior?.enableSearchInFilter" class="search" subscriptSizing="dynamic">
       <i class="material-icons search-icon">search</i>
       <input
         matInput
@@ -35,10 +34,9 @@
       />
 
       <button
-        mat-button
+        mat-icon-button
         *ngIf="aggregationQuery.value"
         matSuffix
-        mat-icon-button
         aria-label="Clear"
         (click)="aggregationQuery.setValue('')"
         class="clear-search"
@@ -58,7 +56,7 @@
       <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
     </mat-form-field>
 
-    <mat-selection-list (selectionChange)="selectionChanged($event.option.value)">
+    <mat-selection-list (selectionChange)="selectionChanged($event.options[0].value)">
       <mat-list-option
         *ngFor="let item of expandedAggregationResult?.aggregationResultItems"
         checkboxPosition="before"

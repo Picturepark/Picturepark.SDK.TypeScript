@@ -19,24 +19,15 @@ $pp-dialog-base: (
         color: mat.get-color-from-palette($accent, '200-contrast');
         border-color: mat.get-color-from-palette($primary, divider);
       }
-
       mat-dialog-content {
         background-color: mat.get-color-from-palette($primary, background-dark);
         color: mat.get-color-from-palette($primary, on-background-dark);
 
-        .mat-tab-header {
+        .mat-mdc-tab-header {
           background-color: mat.get-color-from-palette($accent, 550);
         }
 
-        .mat-checkbox-checked {
-          &.mat-primary {
-            .mat-checkbox-background {
-              background-color: mat.get-color-from-palette($primary, primary);
-            }
-          }
-        }
-
-        .mat-tab-body-content {
+        .mat-mdc-tab-body-content {
           background-color: mat.get-color-from-palette($accent, 450);
           color: mat.get-color-from-palette($primary, on-surface-mid);
         }
@@ -59,19 +50,6 @@ $pp-dialog-base: (
         background-color: mat.get-color-from-palette($accent, 400);
         color: mat.get-color-from-palette($accent, '400-contrast');
         fill: mat.get-color-from-palette($accent, '200-contrast');
-
-        .mat-radio-button {
-          &.mat-accent {
-            &.mat-radio-checked {
-              .mat-radio-outer-circle {
-                border-color: mat.get-color-from-palette($primary, 400);
-              }
-            }
-            .mat-radio-inner-circle {
-              background-color: mat.get-color-from-palette($primary, 400);
-            }
-          }
-        }
       }
     }
   }

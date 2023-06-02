@@ -3,7 +3,7 @@ import { TranslatedStringDictionary } from '@picturepark/sdk-v2-angular';
 import { translate } from '../../utilities/translations';
 
 @Injectable({ providedIn: 'root' })
-@Pipe({ name: 'pptranslate' })
+@Pipe({ name: 'pptranslate', standalone: true })
 export class TranslatePipe implements PipeTransform {
   constructor(@Inject(LOCALE_ID) private locale: string) {}
 

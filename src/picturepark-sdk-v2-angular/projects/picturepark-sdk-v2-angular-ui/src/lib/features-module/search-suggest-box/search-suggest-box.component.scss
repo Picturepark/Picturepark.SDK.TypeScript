@@ -42,10 +42,6 @@
   margin: 5px;
 }
 
-::ng-deep .mat-autocomplete-panel {
+::ng-deep .mat-mdc-autocomplete-panel {
   max-height: 800px !important;
-
-  .mat-option-text {
-    font-size: 16px;
-  }
 }

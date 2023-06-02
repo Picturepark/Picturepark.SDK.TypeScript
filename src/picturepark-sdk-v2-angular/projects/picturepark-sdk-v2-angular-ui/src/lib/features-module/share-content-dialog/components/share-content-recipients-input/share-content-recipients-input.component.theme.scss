@@ -23,12 +23,11 @@ $pp-share-content-recipients-input-theme: (
       color: mat.get-color-from-palette($primary, on-surface-light);
     }
 
-    .mat-chip {
-      &.mat-standard-chip {
+    .mat-mdc-chip {
+      &.mat-mdc-standard-chip {
         background-color: mat.get-color-from-palette($primary, primary);
         color: mat.get-color-from-palette($primary, on-primary);
-
-        .mat-chip-remove {
+        .mat-mdc-chip-remove {
           color: mat.get-color-from-palette($primary, on-primary);
         }
       }

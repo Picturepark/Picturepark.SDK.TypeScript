@@ -1,15 +1,12 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-// COMPONENTS
-import { ShareBrowserComponent } from './share-manager.component';
+import { Routes } from '@angular/router';
+import { ShareManagerComponent } from './share-manager.component';
 import { SharesManagerComponent } from './components/shares-manager/shares-manager.component';
 import { ShareManagerItemComponent } from './components/share-manager-item/share-manager-item.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ShareBrowserComponent,
+    component: ShareManagerComponent,
     children: [
       {
         path: '',
@@ -22,10 +19,4 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  providers: [],
-})
-export class ShareManagerRoutingModule {}
+export default routes;

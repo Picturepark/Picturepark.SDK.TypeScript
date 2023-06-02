@@ -3,10 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import {} from 'jasmine';
 import { AuthService } from '../lib/services/auth.service';
 import { AccessTokenAuthService } from '../lib/services/access-token-auth.service';
-import { PICTUREPARK_CONFIGURATION } from '../lib/services/base.service';
 import { PictureparkConfiguration } from '../lib/models/configuration';
 import { PICTUREPARK_API_URL } from '../lib/services/api-services';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PICTUREPARK_CONFIGURATION } from '../lib/services/picturepark-configuration';
 
 export const testUrl = '{Server}';
 export const testAccessToken = '{AccessToken}';

@@ -1,23 +1,8 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { PictureparkOidcAuthConfiguration } from '@picturepark/sdk-v2-angular-oidc';
+import { TRANSLATIONS } from '@picturepark/sdk-v2-angular-ui';
 
-// LIBRARIES
-import { LocaleModule, PICTUREPARK_CDN_URL } from '@picturepark/sdk-v2-angular';
-import { PictureparkOidcAuthConfiguration, PictureparkOidcModule } from '@picturepark/sdk-v2-angular-oidc';
-import { PictureparkUiModule, LayerPanelsModule, TRANSLATIONS } from '@picturepark/sdk-v2-angular-ui';
-
-// MODULES
-import { AppRoutingModule } from './app-routing.module';
-
-// COMPONENTS
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { environment } from '../environments/environment';
-import { getDevCdnUrl, PictureparkAppSetting } from 'src/config';
-import { ApplicationMenuModule } from './components/application-menu/application-menu.module';
-import { VIEW_MODE } from 'projects/picturepark-sdk-v2-angular-ui/src/lib/configuration';
+import { PictureparkAppSetting } from 'src/config';
 
 const translations = TRANSLATIONS;
 translations['ShareManager'] = {
@@ -75,41 +60,11 @@ export function oidcConfigFactory() {
   };
 }
 
-function getAttribute(attribute: string) {
+export function getAttribute(attribute: string) {
   const appRootTag = document.getElementsByTagName('app-root')[0];
   return appRootTag.getAttribute(attribute);
-}
-
-function getCdnUrl(): string | null {
-  if (!environment.production) {
-    return getDevCdnUrl();
-  }
-
-  return getAttribute('picturepark-cdn-url');
 }
 
 export function getViewModeFactory(): 'grid' | 'list' {
   return getAttribute('view-mode') === 'list' ? 'list' : 'grid';
 }
-
-@NgModule({
-  declarations: [AppComponent, HomeComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    PictureparkUiModule,
-    PictureparkOidcModule.forRoot(oidcConfigFactory),
-    LayerPanelsModule,
-    HammerModule,
-    ApplicationMenuModule,
-    LocaleModule.forRoot('system'),
-  ],
-  providers: [
-    { provide: PICTUREPARK_CDN_URL, useFactory: getCdnUrl },
-    { provide: VIEW_MODE, useFactory: getViewModeFactory },
-  ],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}

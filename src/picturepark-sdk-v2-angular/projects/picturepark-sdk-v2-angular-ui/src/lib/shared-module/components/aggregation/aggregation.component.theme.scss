@@ -12,7 +12,7 @@
       }
 
       .mat-expansion-panel-header {
-        font-size: mat.font-size($custom-typography, display-1);
+        font-size: mat.font-size($custom-typography, headline-4);
 
         .mat-content {
           border-bottom: 1px solid mat.get-color-from-palette($primary, divider);
@@ -29,20 +29,12 @@
         }
       }
 
-      .mat-list-base {
-        .mat-list-item,
-        .mat-list-option,
-        .mat-subheader {
-          font-size: mat.font-size($custom-typography, display-1);
-        }
-      }
-
-      .mat-list-item.mat-list-option .mat-list-item-content {
-        .mat-pseudo-checkbox {
-          color: mat.get-color-from-palette($primary, on-background-dark);
-
-          &.mat-pseudo-checkbox-checked {
-            color: mat.get-color-from-palette($primary, primary);
+      .mat-mdc-list-base {
+        .mat-mdc-list-item,
+        .mat-mdc-list-option,
+        .mat-mdc-subheader {
+          .mdc-list-item__primary-text {
+            font-size: mat.font-size($custom-typography, headline-4);
           }
         }
       }
@@ -66,7 +58,9 @@
     }
 
     mat-form-field.search {
-      background-color: mat.get-color-from-palette($primary, surface-light);
+      .mat-mdc-text-field-wrapper {
+        background-color: mat.get-color-from-palette($primary, surface-light);
+      }
 
       .search-icon {
         color: mat.get-color-from-palette($primary, on-surface-light);

@@ -40,23 +40,14 @@ input#recipient {
   }
 }
 
-.mat-chip-list-wrapper {
-  .mat-standard-chip,
-  input.mat-input-element {
-    margin: 0px;
-  }
-}
-
-.mat-chip {
-  &.mat-standard-chip {
+.mat-mdc-chip {
+  &.mat-mdc-standard-chip {
     min-height: 24px;
     margin: 3px 7px 3px 0px;
 
-    .mat-chip-remove {
+    .mat-mdc-chip-remove {
       opacity: 0.7;
-      font-size: 13px;
-      position: relative;
-      top: 3px;
+      font-size: 14px;
     }
   }
 }

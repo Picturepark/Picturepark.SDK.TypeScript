@@ -1,14 +1,16 @@
-import { Component, OnChanges, SimpleChanges, OnInit, Injector } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
-// LIBRARIES
 import { ThumbnailSize, Share, ContentService, LoggerService } from '@picturepark/sdk-v2-angular';
-
-// COMPONENTS
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
 import { BROKEN_IMAGE_URL } from '../../../../utilities/constants';
 import { Observable } from 'rxjs';
 import { debounceTime, map, share } from 'rxjs/operators';
+import { TranslatePipe } from '../../../../shared-module/pipes/translate.pipe';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { LazyLoadDirective } from '../../../../shared-module/directives/lazy-load.directive';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'pp-share-browser-item',
@@ -17,6 +19,8 @@ import { debounceTime, map, share } from 'rxjs/operators';
     '../../../../shared-module/components/browser-item-base/browser-item-base.component.scss',
     './share-browser-item.component.scss',
   ],
+  standalone: true,
+  imports: [CommonModule, LazyLoadDirective, MatButtonModule, MatTooltipModule, MatIconModule, TranslatePipe],
 })
 export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> implements OnChanges, OnInit {
   // VARS
@@ -28,13 +32,8 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
 
   isSelected$: Observable<boolean> | undefined;
 
-  constructor(
-    private contentService: ContentService,
-    private sanitizer: DomSanitizer,
-    protected injector: Injector,
-    private logger: LoggerService
-  ) {
-    super(injector);
+  constructor(private contentService: ContentService, private sanitizer: DomSanitizer, private logger: LoggerService) {
+    super();
   }
 
   getThumbnails(contentIds: string[]): void {
@@ -80,7 +79,7 @@ export class ShareBrowserItemComponent extends BaseBrowserItemComponent<Share> i
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['thumbnailSize'] && this.isVisible) {
+    if (changes['thumbnailSize'] && this.isVisible()) {
       const updateImage =
         changes['thumbnailSize'].firstChange ||
         (changes['thumbnailSize'].previousValue === ThumbnailSize.Small && this.isListView === false) ||

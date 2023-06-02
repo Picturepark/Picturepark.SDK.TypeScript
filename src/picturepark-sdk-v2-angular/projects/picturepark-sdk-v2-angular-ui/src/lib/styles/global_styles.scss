@@ -19,21 +19,22 @@
   }
 }
 
-.filters .mat-tab-label {
-  height: 48px;
-}
-
-.mat-expansion-panel-header .mat-selection-list {
+.mat-expansion-panel-header .mat-mdc-selection-list {
   &::focus {
     outline: -webkit-focus-ring-color auto 0px;
   }
 }
 
-.mat-tab-header {
+.mat-mdc-tab-header {
   height: 50px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  .mat-mdc-tab {
+    height: 50px !important;
+  }
 }
 
-.filters mat-tab-group mat-tab-header .mat-tab-header-pagination {
+.filters mat-tab-group mat-tab-header .mat-mdc-tab-header-pagination {
   display: none !important;
 }
 
@@ -71,16 +72,16 @@
   height: 30px !important;
 }
 
-.mat-tab-body-wrapper {
+.mat-mdc-tab-body-wrapper {
   height: 100% !important;
 }
 
 // Start Handle Angular Material Pannels Styles
-.mat-menu-panel {
+.mat-mdc-menu-panel {
   min-width: 200px !important;
   max-width: 280px !important;
 
-  .mat-menu-content {
+  .mat-mdc-menu-content {
     padding-top: 0px !important;
     padding-bottom: 0px !important;
   }
@@ -90,12 +91,6 @@
   }
 }
 
-// End Handle Angular Material Pannels Styles
-
-.mat-dialog-container {
-  overflow: hidden !important;
-}
-
 // AGGREGATION ITEM
 pp-aggregation-item .mat-expansion-panel {
   border-radius: 0px;
@@ -103,34 +98,47 @@ pp-aggregation-item .mat-expansion-panel {
 
 // CONTENT DETAILS DIALOG
 pp-content-details-dialog {
-  .mat-tab-body .mat-tab-body-content {
+  .mat-mdc-tab-body .mat-mdc-tab-body-content {
     overflow-x: hidden;
     overflow-y: auto;
   }
-  .mat-tab-group.mat-tab-fill-height .mat-tab-body-wrapper {
+
+  .mat-mdc-tab-group.mat-tab-fill-height .mat-mdc-tab-body-wrapper {
     flex: 1 1 100%;
-  }
-  .dialog-content .mat-tab-labels .mat-tab-label {
-    height: 48px;
   }
 }
 
 // SHARE CONTENT DIALOG
 pp-share-content-dialog {
-  .mat-tab-header {
+  .mat-mdc-tab-header {
     height: 50px;
   }
 
   @media (max-width: 525px) {
-    .mat-dialog-content {
+    .mat-mdc-dialog-content {
       max-height: unset;
     }
   }
 }
 
-.pp-dialog .mat-dialog-container {
-  padding: 0;
-  overflow: unset;
+.mat-mdc-icon-button {
+  mat-icon {
+    line-height: 24px !important;
+  }
+}
+
+.cp-icon-button-24 {
+  &.mat-mdc-icon-button {
+    width: 24px;
+    height: 24px;
+    line-height: 10px;
+    padding: 0 !important;
+  }
+}
+
+.pp-dialog .mdc-dialog__content {
+  padding: 0 !important;
+  overflow: auto;
 }
 
 //SCROLL BAR
@@ -145,6 +153,24 @@ pp-share-content-dialog {
 }
 
 // Extends the base mat-stroked-button styling
-.mat-stroked-button {
+.mat-mdc-outlined-button {
   line-height: 30px !important;
+}
+
+.mat-mdc-checkbox,
+.mat-mdc-checkbox .mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  .mdc-line-ripple {
+    display: none;
+  }
+}
+
+.mat-mdc-slide-toggle > .mdc-form-field > .mdc-switch > .mdc-switch__handle-track > .mdc-switch__handle {
+  > .mdc-switch__ripple {
+    width: 38px;
+    height: 38px;
+  }
 }

@@ -10,21 +10,41 @@ import {
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { BaseComponent } from '../../components/base.component';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AggregationComponent } from '../aggregation/aggregation.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'pp-aggregation-list',
   templateUrl: './aggregation-list.component.html',
   styleUrls: ['./aggregation-list.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatExpansionModule,
+    AggregationComponent,
+    MatProgressSpinnerModule,
+    TranslatePipe,
+  ],
 })
 export class AggregationListComponent extends BaseComponent implements OnInit {
-  @Input()
-  facade: SearchFacade<IEntityBase, SearchInputState>;
+  @Input() facade: SearchFacade<IEntityBase, SearchInputState>;
 
   aggregators$: Observable<AggregatorBase[]>;
   loading$: Observable<boolean>;
   aggregationResults$: Observable<AggregationResult[]>;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.aggregators$ = this.facade.aggregators$.pipe(map(items => this.filterDisabledAggregators(items)));
 
     // Show loading if it takes more than 100ms
@@ -35,7 +55,7 @@ export class AggregationListComponent extends BaseComponent implements OnInit {
     );
   }
 
-  clearFilters(): void {
+  clearFilters() {
     this.facade.patchRequestState({ aggregationFilters: [] });
   }
 

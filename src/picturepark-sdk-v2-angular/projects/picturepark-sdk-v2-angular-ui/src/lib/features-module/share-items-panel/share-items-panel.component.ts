@@ -1,13 +1,30 @@
-import { Component, EventEmitter, Inject, Injector, Input, Optional, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Optional, Output } from '@angular/core';
 import { ShareContentDetail, ShareDetail, ThumbnailSize } from '@picturepark/sdk-v2-angular';
 import { VIEW_MODE } from '../../configuration';
 import { BaseComponent } from '../../shared-module/components/base.component';
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ContentItemThumbnailComponent } from '../../shared-module/components/content-item-thumbnail/content-item-thumbnail.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { PanelComponent } from '../../shared-module/components/panel/panel.component';
 
 @Component({
   selector: 'pp-share-items-panel',
   templateUrl: './share-items-panel.component.html',
   styleUrls: ['./share-items-panel.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    PanelComponent,
+    MatButtonModule,
+    MatIconModule,
+    ContentItemThumbnailComponent,
+    MatTooltipModule,
+    TranslatePipe,
+  ],
 })
 export class ShareItemsPanelComponent extends BaseComponent {
   @Input() shareDetail: ShareDetail;
@@ -18,11 +35,10 @@ export class ShareItemsPanelComponent extends BaseComponent {
   thumbnailSize = ThumbnailSize;
 
   constructor(
-    injector: Injector,
     private contentDownloadDialogService: ContentDownloadDialogService,
     @Optional() @Inject(VIEW_MODE) public viewMode: 'grid' | 'list'
   ) {
-    super(injector);
+    super();
   }
 
   openInNewWindow(item: ShareContentDetail) {

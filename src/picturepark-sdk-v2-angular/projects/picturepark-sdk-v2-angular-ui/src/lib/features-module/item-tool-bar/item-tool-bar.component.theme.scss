@@ -29,7 +29,7 @@ $pp-item-tool-bar: (
 
             i {
               color: mat.get-color-from-palette($primary, on-surface-dark);
-              font-size: mat.font-size($custom-typography, headline);
+              font-size: mat.font-size($custom-typography, headline-5);
             }
 
             span {

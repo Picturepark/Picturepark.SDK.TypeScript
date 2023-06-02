@@ -1,6 +1,6 @@
 <div class="dialog-container" #contentContainer>
   <div class="header">
-    <span class="header-title mat-display-4 u-text-ellipsis">{{ title | pptranslate }}</span>
+    <span class="header-title mat-headline-1 u-text-ellipsis">{{ title | pptranslate }}</span>
     <mat-icon (click)="closeDialog()">close</mat-icon>
   </div>
   <mat-divider></mat-divider>
@@ -37,6 +37,7 @@
                   <div *ngFor="let output of selection.outputs[filetype.id]">
                     <mat-radio-button
                       *ngIf="!output.hidden && output.values.length"
+                      color="primary"
                       [value]="filetype.id + '-' + output.id"
                       [checked]="output.selected"
                       (change)="radioChange(output, filetype)"

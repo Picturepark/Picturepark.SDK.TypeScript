@@ -12,26 +12,26 @@
     .table-container {
       background: mat.get-color-from-palette($primary, background-light);
 
-      .mat-header-cell,
-      .mat-cell,
-      .mat-footer-cell {
+      .mat-mdc-header-cell,
+      .mat-mdc-cell,
+      .mat-mdc-footer-cell {
         background: mat.get-color-from-palette($primary, background-light);
         color: mat.get-color-from-palette($primary, on-background-light);
       }
 
       tr.selected {
-        .mat-header-cell,
-        .mat-cell,
-        .mat-footer-cell {
+        .mat-mdc-header-cell,
+        .mat-mdc-cell,
+        .mat-mdc-footer-cell {
           background: mat.get-color-from-palette($primary, background-dark);
           color: mat.get-color-from-palette($primary, on-background-dark);
         }
       }
 
-      tr.mat-row:hover {
-        .mat-header-cell,
-        .mat-cell,
-        .mat-footer-cell {
+      tr.mat-mdc-row:hover {
+        .mat-mdc-header-cell,
+        .mat-mdc-cell,
+        .mat-mdc-footer-cell {
           background: mat.get-color-from-palette($primary, background-dark);
           color: mat.get-color-from-palette($primary, on-background-dark);
         }
