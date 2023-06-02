@@ -11,20 +11,19 @@ import {
   ContentDetailsDialogOptions,
   TranslationService,
   ContentDetailsDialogComponent,
+  TranslatePipe,
+  BasketComponent,
+  AggregationListComponent,
+  LanguageSwitchComponent,
+  SearchSuggestBoxComponent,
+  ChannelPickerComponent,
 } from '@picturepark/sdk-v2-angular-ui';
 import { EmbedService } from './embed.service';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
-import { TranslatePipe } from '../../../projects/picturepark-sdk-v2-angular-ui/src/lib/shared-module/pipes/translate.pipe';
-import { ContentBrowserComponent as ContentBrowserComponent_1 } from '../../../projects/picturepark-sdk-v2-angular-ui/src/lib/features-module/content-browser/content-browser.component';
-import { BasketComponent } from '../../../projects/picturepark-sdk-v2-angular-ui/src/lib/features-module/basket/basket.component';
-import { AggregationListComponent } from '../../../projects/picturepark-sdk-v2-angular-ui/src/lib/shared-module/components/aggregation-list/aggregation-list.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { LanguageSwitchComponent } from '../../../projects/picturepark-sdk-v2-angular-ui/src/lib/features-module/language-switch/language-switch.component';
-import { SearchSuggestBoxComponent } from '../../../projects/picturepark-sdk-v2-angular-ui/src/lib/features-module/search-suggest-box/search-suggest-box.component';
-import { ChannelPickerComponent } from '../../../projects/picturepark-sdk-v2-angular-ui/src/lib/features-module/channel-picker/channel-picker.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -48,7 +47,7 @@ import { CommonModule } from '@angular/common';
     MatTabsModule,
     AggregationListComponent,
     BasketComponent,
-    ContentBrowserComponent_1,
+    ContentBrowserComponent,
     TranslatePipe,
   ],
 })
