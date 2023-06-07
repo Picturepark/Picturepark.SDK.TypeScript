@@ -1,5 +1,5 @@
 import { BaseComponent } from '../base.component';
-import { OnInit, NgZone, Output, EventEmitter, HostListener, Directive, inject } from '@angular/core';
+import { OnInit, NgZone, Output, EventEmitter, HostListener, Directive, inject, computed } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 // ANGULAR CDK
@@ -22,6 +22,7 @@ import { IBrowserView } from './interfaces/browser-view';
 import { debounceTime, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { RangeSelection } from './interfaces/range-selection';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Directive()
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
@@ -50,9 +51,11 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   @Output() selectedItemsChange = new EventEmitter<TEntity[]>();
   @Output() previewItemChange = new EventEmitter<TEntity>();
 
-  private _selectedItems: TEntity[] = [];
   private lastSelectedIndex = 0;
   private lastRangeSelection: RangeSelection | null;
+
+  selectedItems = toSignal(this.selectionService.selectedItems, { requireSync: true });
+  selectedItemsCount = computed(() => this.selectedItems().length);
 
   totalResults$ = this.facade.totalResults$;
   items$ = this.facade.items$;
@@ -103,7 +106,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     // Item selection
     this.sub = this.selectionService.selectedItems.subscribe(items => {
-      this.selectedItems = items;
+      this.selectedItemsChange.emit(items);
     });
 
     // Call abstract init class
@@ -116,13 +119,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.sub = this.facade.getLoadingInfos('all').subscribe(i => (this.isLoading = i));
   }
 
-  get selectedItems(): TEntity[] {
-    return this._selectedItems;
-  }
-
-  set selectedItems(items: TEntity[]) {
-    this._selectedItems = items;
-    this.selectedItemsChange.emit(items);
+  setSelectedItems(items: TEntity[]) {
+    this.selectionService.set(items);
   }
 
   trackByItem(index: number, item: TEntity): string {
@@ -133,7 +131,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.facade.searchResultState.nextPageToken = undefined;
     this.facade.searchResultState.results = [];
     this.items = [];
-    this.selectedItems = [];
+    this.setSelectedItems([]);
     this.loadData()?.subscribe();
   }
 

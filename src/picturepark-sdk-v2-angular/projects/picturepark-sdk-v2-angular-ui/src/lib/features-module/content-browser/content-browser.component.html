@@ -5,14 +5,14 @@
         <button
           mat-icon-button
           (click)="previewSelectedItem()"
-          *ngIf="selectedItems.length === 1 && configActions['preview']"
+          *ngIf="selectedItems().length === 1 && configActions['preview']"
           [matTooltip]="'ContentBrowser.Preview' | pptranslate"
         >
           <mat-icon aria-label="Preview item">open_in_new</mat-icon>
         </button>
         <button
           mat-icon-button
-          *ngIf="selectedItems.length > 0 && configActions['download']"
+          *ngIf="selectedItems().length > 0 && configActions['download']"
           (click)="openDownloadContentDialog()"
           [matTooltip]="'ContentBrowser.Download' | pptranslate"
         >
@@ -22,7 +22,7 @@
           mat-icon-button
           (click)="openShareContentDialog()"
           [matTooltip]="'ContentBrowser.ShareImages' | pptranslate"
-          *ngIf="selectedItems.length >= 1 && configActions['share'] && hasManageSharingsRight"
+          *ngIf="selectedItems().length >= 1 && configActions['share'] && hasManageSharingsRight"
         >
           <mat-icon aria-label="Share selected items">share</mat-icon>
         </button>
@@ -55,7 +55,7 @@
         (previewItemChange)="previewItem($event)"
         ppUserInteraction
         (ppPress)="itemPressed($event, i)"
-        (ppTouch)="selectedItems.length ? itemClicked($event, i) : previewItem(itemModel)"
+        (ppTouch)="selectedItems().length ? itemClicked($event, i) : previewItem(itemModel)"
         (ppClick)="itemClicked($event, i)"
         (ppDblclick)="previewItem(itemModel)"
         (changeInBasket)="handleBasketChanges($event)"

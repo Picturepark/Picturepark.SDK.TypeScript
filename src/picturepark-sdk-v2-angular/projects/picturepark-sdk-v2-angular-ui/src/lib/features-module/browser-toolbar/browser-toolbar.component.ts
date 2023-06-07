@@ -36,18 +36,6 @@ export class BrowserToolbarComponent extends BaseComponent {
 
   @Input() browser: BaseBrowserComponent<IEntityBase>;
 
-  get buttonLabel(): string {
-    return this.selectedItemCount > 0 ? 'ContentBrowser.Selected' : 'ContentBrowser.SelectMenu';
-  }
-
-  get selectedItemCount(): number {
-    return this.browser.selectedItems.length;
-  }
-
-  get selectedItemCountLabel(): string {
-    return this.selectedItemCount > 0 ? `${this.selectedItemCount}` : '';
-  }
-
   setSortDirection(asc: boolean) {
     this.browser.setSort(this.browser.activeSortingType, asc);
   }

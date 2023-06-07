@@ -1,8 +1,4 @@
-<div
-  class="browser-item"
-  [class.browser-item--selected]="isSelected$ | async"
-  [class.browser-item--list-view]="isListView"
->
+<div class="browser-item" [class.browser-item--selected]="isSelected()" [class.browser-item--list-view]="isListView">
   <div class="browser-item__image-slot" [class.browser-item__image-slot--mobile]="deviceBreakpoint">
     <pp-content-item-thumbnail [item]="itemModel" [thumbnailSize]="thumbnailSize" [isListView]="isListView">
     </pp-content-item-thumbnail>
@@ -70,23 +66,19 @@
           <mat-icon aria-label="Download item">get_app</mat-icon>
         </button>
       </li>
-      <li [ngClass]="{ 'in-basket': isInBasket$ | async }">
+      <li [ngClass]="{ 'in-basket': isInBasket() }">
         <button
           mat-icon-button
           class="cp-icon-button-24"
           (click)="handleChangeInBasket(); $event.stopPropagation()"
           *ngIf="browser.configActions['basket']"
-          [matTooltip]="
-            ((isInBasket$ | async) ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate
-          "
+          [matTooltip]="(isInBasket() ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate"
         >
-          <mat-icon class="add" aria-label="Add item to basket" *ngIf="(isInBasket$ | async) === false">add</mat-icon>
-          <mat-icon class="remove" aria-label="Remove item from basket class=remove" *ngIf="isInBasket$ | async"
+          <mat-icon class="add" aria-label="Add item to basket" *ngIf="isInBasket() === false">add</mat-icon>
+          <mat-icon class="remove" aria-label="Remove item from basket class=remove" *ngIf="isInBasket()"
             >done</mat-icon
           >
-          <mat-icon class="clear" aria-label="Remove item from basket class=clear" *ngIf="isInBasket$ | async"
-            >clear</mat-icon
-          >
+          <mat-icon class="clear" aria-label="Remove item from basket class=clear" *ngIf="isInBasket()">clear</mat-icon>
         </button>
       </li>
     </ul>
@@ -97,13 +89,11 @@
     (click)="handleChangeInBasket(); $event.stopPropagation()"
     class="browser-item__basket-icon"
     [class.browser-item__basket-icon--mobile]="deviceBreakpoint"
-    [class.browser-item__basket-icon--selected]="isInBasket$ | async"
-    [matTooltip]="
-      ((isInBasket$ | async) ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate
-    "
+    [class.browser-item__basket-icon--selected]="isInBasket()"
+    [matTooltip]="(isInBasket() ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate"
   >
-    <mat-icon class="add" aria-label="Add item to basket" *ngIf="(isInBasket$ | async) === false">add</mat-icon>
-    <mat-icon class="remove" aria-label="Remove item from basket" *ngIf="isInBasket$ | async">done</mat-icon>
-    <mat-icon class="clear" aria-label="Remove item from basket" *ngIf="isInBasket$ | async">clear</mat-icon>
+    <mat-icon class="add" aria-label="Add item to basket" *ngIf="isInBasket() === false">add</mat-icon>
+    <mat-icon class="remove" aria-label="Remove item from basket" *ngIf="isInBasket()">done</mat-icon>
+    <mat-icon class="clear" aria-label="Remove item from basket" *ngIf="isInBasket()">clear</mat-icon>
   </button>
 </div>

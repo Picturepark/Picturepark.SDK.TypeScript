@@ -151,7 +151,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   // OPEN SHARE CONTENT DIALOG
   openShareContentDialog(): void {
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-      data: [...this.selectedItems],
+      data: [...this.selectedItems()],
       autoFocus: false,
       maxHeight: '95vh',
       maxWidth: '99vw',
@@ -167,12 +167,12 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   openDownloadContentDialog(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: [...this.selectedItems],
+      contents: [...this.selectedItems()],
     });
   }
 
   handleBasketChanges(basketSelection: ItemBasketSelection) {
-    const selectedItemsIds = this.selectedItems.map(i => i.id);
+    const selectedItemsIds = this.selectedItems().map(i => i.id);
     if (selectedItemsIds.includes(basketSelection.itemId)) {
       if (basketSelection.addItem) {
         this.basketService.addItems(selectedItemsIds);

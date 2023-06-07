@@ -24,10 +24,16 @@ export class SelectionService<TEntity extends IEntityBase> {
     this.updateSubject();
   }
 
+  set(items: TEntity[]) {
+    this.items.clear();
+    items.forEach(item => this.items.add(item));
+    this.updateSubject();
+  }
+
   removeItem(value: TEntity | string) {
     if (typeof value === 'string') {
       const item = this.getById(value);
-      if(!item) return;
+      if (!item) return;
 
       this.items.delete(item);
     } else {
@@ -41,8 +47,8 @@ export class SelectionService<TEntity extends IEntityBase> {
     values.forEach(value => {
       if (typeof value === 'string') {
         const item = this.getById(value);
-        if(!item) return;
-      
+        if (!item) return;
+
         this.items.delete(item);
       } else {
         this.items.delete(value);
