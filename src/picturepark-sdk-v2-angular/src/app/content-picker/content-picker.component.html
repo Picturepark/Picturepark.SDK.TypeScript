@@ -87,7 +87,7 @@
     </mat-sidenav-container>
 
     <div class="footer" [ngClass]="{ active: selectedItems.length > 0 }">
-      <div class="mat-typography title">
+      <div class="title">
         <ng-container *ngIf="deviceBreakpoint; else noMobile">
           <ng-container *ngIf="selectedItems.length === 1">
             {{ 'ContentPicker.SelectedItem' | pptranslate: selectedItems.length }}
