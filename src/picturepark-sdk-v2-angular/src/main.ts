@@ -15,6 +15,7 @@ import { PICTUREPARK_CDN_URL, LocaleModule } from '@picturepark/sdk-v2-angular';
 import 'hammerjs';
 import { provideRouter } from '@angular/router';
 import { APP_ROUTES } from './app/app-routing';
+import { MatNativeDateModule } from '@angular/material/core';
 
 function getCdnUrl(): string | null {
   if (!environment.production) {
@@ -37,7 +38,8 @@ bootstrapApplication(AppComponent, {
       HammerModule,
       LocaleModule.forRoot('system'),
       MatProgressBarModule,
-      MatDialogModule
+      MatDialogModule,
+      MatNativeDateModule
     ),
     { provide: PICTUREPARK_CDN_URL, useFactory: getCdnUrl },
     { provide: VIEW_MODE, useFactory: getViewModeFactory },

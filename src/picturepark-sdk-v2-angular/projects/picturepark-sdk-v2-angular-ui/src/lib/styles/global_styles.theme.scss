@@ -78,7 +78,6 @@
   }
 
   // Start Handle Angular Material Pannels Theming
-
   .mat-mdc-menu-content {
     background-color: mat.get-color-from-palette($primary, surface-light);
 
@@ -90,6 +89,12 @@
 
     .mat-mdc-menu-item[disabled] {
       opacity: 0.3;
+    }
+
+    .active {
+      .mdc-list-item__primary-text {
+        font-weight: 600;
+      }
     }
   }
   // End Handle Angular Material Pannels Theming

@@ -6,14 +6,14 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  signal,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Content, ThumbnailSize } from '@picturepark/sdk-v2-angular';
 import { BaseBrowserItemComponent } from '../../../../shared-module/components/browser-item-base/browser-item-base.component';
 import { BasketService } from '../../../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../../../content-download-dialog/services/content-download-dialog.service';
-import { map, share, take, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ItemBasketSelection } from './content-browser-item.interface';
 import { TranslatePipe } from '../../../../shared-module/pipes/translate.pipe';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,9 +45,8 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   listItemHtml: SafeHtml | null = null;
   thumbnailSizes = ThumbnailSize;
 
-  isSelected$: Observable<boolean> | undefined;
-  isInBasket$: Observable<boolean> | undefined;
-  private isSelected: boolean | undefined;
+  isSelected = signal(false);
+  isInBasket = signal(false);
 
   constructor(
     private basketService: BasketService,
@@ -58,15 +57,13 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
   }
 
   ngOnInit(): void {
-    this.isInBasket$ = this.basketService.basketChange.pipe(
-      map(items => items.some(selectedItem => selectedItem === this.itemModel.id))
-    );
+    this.sub = this.basketService.basketChange
+      .pipe(map(items => items.some(selectedItem => selectedItem === this.itemModel.id)))
+      .subscribe(isInBasket => this.isInBasket.set(isInBasket));
 
-    this.isSelected$ = this.browser.selectedItemsChange.pipe(
-      map(items => items.some(selectedItem => selectedItem.id === this.itemModel.id)),
-      tap(isSelected => (this.isSelected = isSelected)),
-      share()
-    );
+    this.sub = this.browser.selectedItemsChange
+      .pipe(map(items => items.some(selectedItem => selectedItem.id === this.itemModel.id)))
+      .subscribe(isSelected => this.isSelected.set(isSelected));
   }
 
   ngOnChanges(): void {
@@ -77,18 +74,16 @@ export class ContentBrowserItemComponent extends BaseBrowserItemComponent<Conten
 
   downloadItem() {
     if (!this.isSelected) {
-      this.browser.selectedItems = [this.itemModel];
+      this.browser.setSelectedItems([this.itemModel]);
     }
 
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: this.browser.selectedItems,
+      contents: this.browser.selectedItems(),
     });
   }
 
   handleChangeInBasket() {
-    this.isInBasket$?.pipe(take(1)).subscribe(inBasket => {
-      this.changeInBasket.emit({ addItem: !inBasket, itemId: this.itemModel.id });
-    });
+    this.changeInBasket.emit({ addItem: !this.isInBasket(), itemId: this.itemModel.id });
   }
 }
