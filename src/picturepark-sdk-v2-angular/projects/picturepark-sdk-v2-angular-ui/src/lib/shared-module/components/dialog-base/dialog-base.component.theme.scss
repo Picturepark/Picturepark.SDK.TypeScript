@@ -38,14 +38,4 @@
       }
     }
   }
-
-  .cp-dialog {
-    .dialog-container {
-      mat-dialog-content {
-        background-color: mat.get-color-from-palette($accent, 400);
-        color: mat.get-color-from-palette($accent, '400-contrast');
-        fill: mat.get-color-from-palette($accent, '200-contrast');
-      }
-    }
-  }
 }

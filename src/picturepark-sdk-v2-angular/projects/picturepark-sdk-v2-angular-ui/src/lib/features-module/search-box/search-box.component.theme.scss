@@ -8,7 +8,7 @@
   pp-search-suggest-box {
     #search-container {
       .form {
-        background-color: mat.get-color-from-palette($accent, lighter);
+        background-color: mat.get-color-from-palette($primary, 50);
         color: mat.get-color-from-palette($accent, '200-contrast');
 
         input {
@@ -51,7 +51,7 @@
   pp-search-box {
     #search-container {
       .form {
-        @include mat.elevation(2, mat.get-color-from-palette($accent, A800), 0.7);
+        @include mat.elevation(2, mat.get-color-from-palette($primary, 700), 0.7);
       }
     }
   }
