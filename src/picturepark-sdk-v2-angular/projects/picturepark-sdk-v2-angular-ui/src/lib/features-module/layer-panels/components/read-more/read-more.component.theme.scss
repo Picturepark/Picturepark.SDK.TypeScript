@@ -1,11 +1,11 @@
 @use '@angular/material' as mat;
 
 @mixin pp-read-more-theme($theme) {
-  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
 
   pp-read-more {
     a {
-      color: mat.get-color-from-palette($primary, primary);
+      color: mat.get-color-from-palette($accent, 500);
     }
 
     img {

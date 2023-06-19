@@ -1,10 +1,5 @@
 @use '@angular/material' as mat;
 
-// PANEL BASE VARS
-$pp-panel: (
-  contrast: (),
-);
-
 @mixin pp-panel-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);

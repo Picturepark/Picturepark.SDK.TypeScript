@@ -1,11 +1,5 @@
 @use '@angular/material' as mat;
 
-// SHARE CONTENT DIALOG
-$pp-share-content-dialog: (
-  input-focus-border-color: #444,
-  contrast: (),
-);
-
 @mixin pp-share-content-dialog-theme($theme) {
   $primary: map-get($theme, primary);
   $warn: map-get($theme, warn);

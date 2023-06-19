@@ -1,9 +1,5 @@
 @use '@angular/material' as mat;
 
-$pp-search-box: (
-  contrast: (),
-);
-
 @mixin pp-search-box-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);

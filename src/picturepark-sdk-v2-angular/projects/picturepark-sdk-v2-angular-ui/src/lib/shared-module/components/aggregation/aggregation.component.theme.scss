@@ -2,6 +2,7 @@
 
 @mixin pp-aggregation-theme($theme) {
   $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
 
   pp-aggregation-item {
     .aggregation {
@@ -41,7 +42,7 @@
 
       .expand-filters {
         button {
-          color: mat.get-color-from-palette($primary, primary);
+          color: mat.get-color-from-palette($accent, 500);
         }
       }
     }

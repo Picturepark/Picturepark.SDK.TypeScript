@@ -1,10 +1,5 @@
 @use '@angular/material' as mat;
 
-// SHARE BROWSER ITEM VARS
-$pp-share-browser-item: (
-  contrast: (),
-);
-
 @mixin pp-share-browser-item-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);

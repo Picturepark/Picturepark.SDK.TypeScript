@@ -40,7 +40,7 @@
           </button>
         </div>
       </div>
-      <mat-tab-group (selectedTabChange)="tabChange($event)" [mat-stretch-tabs]="false">
+      <mat-tab-group (selectedTabChange)="tabChange($event)" [mat-stretch-tabs]="false" color="accent">
         <mat-tab label="{{ 'ContentDetailsDialog.Overview' | pptranslate }}">
           <ng-template matTabContent>
             <div class="overview-wrap cp-scrollbar" *ngIf="content">

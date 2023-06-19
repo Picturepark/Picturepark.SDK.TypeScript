@@ -1,10 +1,5 @@
 @use '@angular/material' as mat;
 
-// BROWSER TOOLBAR CONTAINER
-$pp-item-tool-bar: (
-  contrast: (),
-);
-
 @mixin pp-item-tool-bar-theme($theme) {
   $primary: map-get($theme, primary);
 
