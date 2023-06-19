@@ -23,7 +23,7 @@
         }
 
         .mat-mdc-tab-body-content {
-          background-color: mat.get-color-from-palette($primary, 50);
+          background-color: mat.get-color-from-palette($primary, 100);
           color: mat.get-color-from-palette($primary, on-surface-mid);
         }
       }
