@@ -53,7 +53,7 @@
           <span [innerHTML]="option.name | highlight: aggregationQuery.value"></span>
         </mat-option>
       </mat-autocomplete>
-      <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+      <mat-progress-bar mode="indeterminate" *ngIf="isLoading" color="accent"></mat-progress-bar>
     </mat-form-field>
 
     <mat-selection-list (selectionChange)="selectionChanged($event.options[0].value)">

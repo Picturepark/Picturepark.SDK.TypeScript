@@ -79,7 +79,7 @@
       </div>
 
       <div class="selected-items-content" *ngIf="recipients.length === 0">
-        <mat-tab-group autoFocus="false" [mat-stretch-tabs]="false">
+        <mat-tab-group autoFocus="false" [mat-stretch-tabs]="false" color="accent">
           <mat-tab label="{{ 'ShareContentDialog.Items' | pptranslate }}">
             <ng-template matTabContent>
               <div class="selected-items">
@@ -124,15 +124,15 @@
   </mat-dialog-content>
   <mat-divider></mat-divider>
   <mat-dialog-actions class="actions">
-    <button mat-button color="primary" (click)="closeDialog()" *ngIf="recipients.length === 0" [disabled]="loader">
+    <button mat-button color="accent" (click)="closeDialog()" *ngIf="recipients.length === 0" [disabled]="loader">
       {{ 'ShareContentDialog.CancelShare' | pptranslate }}
     </button>
-    <button mat-button color="primary" (click)="closeDialog()" *ngIf="recipients.length > 0" [disabled]="loader">
+    <button mat-button color="accent" (click)="closeDialog()" *ngIf="recipients.length > 0" [disabled]="loader">
       {{ 'ShareContentDialog.CloseDialog' | pptranslate }}
     </button>
     <button
       mat-flat-button
-      color="primary"
+      color="accent"
       [ngClass]="{ active: sharedContentForm.valid }"
       (click)="onFormSubmit()"
       *ngIf="recipients.length === 0"

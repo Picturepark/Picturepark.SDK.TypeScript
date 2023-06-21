@@ -1,12 +1,8 @@
 @use '@angular/material' as mat;
 
-// SHARE CONTENT DIALOG
-$pp-share-content-recipients-input-theme: (
-  contrast: (),
-);
-
 @mixin pp-share-content-recipients-input-theme($theme) {
   $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
 
   pp-share-content-recipients-input {
@@ -25,8 +21,10 @@ $pp-share-content-recipients-input-theme: (
 
     .mat-mdc-chip {
       &.mat-mdc-standard-chip {
-        background-color: mat.get-color-from-palette($primary, primary);
-        color: mat.get-color-from-palette($primary, on-primary);
+        background-color: mat.get-color-from-palette($accent, 500);
+        .mat-mdc-chip-action-label {
+          color: mat.get-color-from-palette($primary, on-primary);
+        }
         .mat-mdc-chip-remove {
           color: mat.get-color-from-palette($primary, on-primary);
         }

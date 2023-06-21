@@ -6,18 +6,18 @@
 
   // FILTERS AGGREGATES
   .mat-ink-bar {
-    background-color: mat.get-color-from-palette($primary, primary);
+    background-color: mat.get-color-from-palette($accent, 500);
   }
 
   .mat-badge-content {
-    background: mat.get-color-from-palette($primary, primary);
+    background: mat.get-color-from-palette($accent, 500);
     color: mat.get-color-from-palette($primary, on-primary);
   }
   // END FILTERS AGGREGATES
 
   // SPINNER
   .mat-mdc-progress-spinner circle {
-    stroke: mat.get-color-from-palette($primary, primary) !important;
+    stroke: mat.get-color-from-palette($accent, 500) !important;
   }
 
   .app-root-container {
@@ -70,7 +70,7 @@
 
   // SHARE ITEM MANAGE LOADER
   .share-preview-container mat-spinner circle {
-    stroke: mat.get-color-from-palette($primary, primary);
+    stroke: mat.get-color-from-palette($accent, 500);
   }
 
   .mat-mdc-tab-body-wrapper {

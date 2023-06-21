@@ -1,6 +1,4 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-
-// LIBRARIES
 import {
   ThumbnailSize,
   Channel,
@@ -9,15 +7,9 @@ import {
   SortDirection,
   UserRight,
 } from '@picturepark/sdk-v2-angular';
-
-// COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import { ShareContentDialogComponent } from '../../features-module/share-content-dialog/share-content-dialog.component';
-
-// SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
-
-// INTERFACES
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 import { ItemBasketSelection } from './components/content-browser-item/content-browser-item.interface';
 import { ISortItem } from '../../shared-module/components/browser-base/interfaces/sort-item';
@@ -138,7 +130,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   previewSelectedItem(): void {
-    const content = this.items.find(i => i === this.selectedItems[0]);
+    const content = this.items.find(i => i === this.selectedItems()[0]);
     if (content) {
       this.previewItem(content);
     }
@@ -148,7 +140,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     return thumbnailSize;
   }
 
-  // OPEN SHARE CONTENT DIALOG
   openShareContentDialog(): void {
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
       data: [...this.selectedItems()],
@@ -163,7 +154,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     instance.title = 'ShareContentDialog.CreateShare';
   }
 
-  // OPEN DOWNLOAD CONTENT DIALOG
   openDownloadContentDialog(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
@@ -194,7 +184,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 
-  // CLEAR SELECTION
   cancel(): void {
     this.selectionService.clear();
   }

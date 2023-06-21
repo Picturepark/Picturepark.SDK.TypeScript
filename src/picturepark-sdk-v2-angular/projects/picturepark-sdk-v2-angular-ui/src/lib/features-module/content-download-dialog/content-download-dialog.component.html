@@ -23,7 +23,7 @@
                 <div *ngFor="let output of selection.outputs[filetype.id]">
                   <mat-checkbox
                     *ngIf="!output.hidden && output.values.length"
-                    color="primary"
+                    color="accent"
                     [name]="filetype.id + '-' + output.id"
                     [(ngModel)]="output.selected"
                     (change)="update()"
@@ -37,7 +37,7 @@
                   <div *ngFor="let output of selection.outputs[filetype.id]">
                     <mat-radio-button
                       *ngIf="!output.hidden && output.values.length"
-                      color="primary"
+                      color="accent"
                       [value]="filetype.id + '-' + output.id"
                       [checked]="output.selected"
                       (change)="radioChange(output, filetype)"
@@ -65,7 +65,7 @@
   <mat-dialog-actions align="end">
     <button
       mat-button
-      color="primary"
+      color="accent"
       class="option"
       [disabled]="waitingDownload"
       (click)="toggleAdvanced()"
@@ -75,12 +75,12 @@
       <span *ngIf="advancedMode">{{ 'ContentDownloadDialog.Simple' | pptranslate }}</span>
     </button>
     <span class="spacer"></span>
-    <button mat-button color="primary" mat-dialog-close [disabled]="waitingDownload">
+    <button mat-button color="accent" mat-dialog-close [disabled]="waitingDownload">
       {{ 'ContentDownloadDialog.Cancel' | pptranslate }}
     </button>
     <button
       mat-flat-button
-      color="primary"
+      color="accent"
       *ngIf="!missingOutputs.all"
       (click)="download()"
       [disabled]="(fileSize === 0 && !hasDynamicOutputs) || waitingDownload"

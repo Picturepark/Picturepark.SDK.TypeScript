@@ -23,11 +23,8 @@ $mat-picturepark-accent: (
   200: #9fd9d8,
   300: #79cac8,
   400: #5cbebd,
-  450: #f8f8f8,
   500: #3fb3b1,
-  550: #eeeeee,
-  600: #d8d8d8,
-  650: #aaa,
+  600: #39acaa,
   700: #31a3a1,
   800: #299a98,
   900: #1b8b88,
@@ -35,26 +32,21 @@ $mat-picturepark-accent: (
   A200: #90fffc,
   A400: #5dfffb,
   A700: #44fffa,
-  A800: #2f2f2f,
   contrast: (
-    50: #000000,
-    100: #000000,
-    200: #727272,
-    300: #000000,
+    50: #444444,
+    100: #aaaaaa,
+    200: #444444,
+    300: #444444,
     400: #ffffff,
-    450: #727272,
     500: #ffffff,
-    550: #2f2f2f,
-    600: #727272,
-    650: #fff,
+    600: #ffffff,
     700: #ffffff,
     800: #ffffff,
     900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000,
-    A800: #eee,
+    A100: #444444,
+    A200: #444444,
+    A400: #444444,
+    A700: #444444,
   ),
 );
 
@@ -95,18 +87,15 @@ $mat-picturepark-warn: (
   ),
 );
 
-// GLOBAL COLORS
-$base: #39acaa;
-
 /*
     Style guide documentation
     https://material.io/design/color/the-color-system.html#color-theme-creation
 */
 $mat-picturepark-primary: (
-  100: #c5e8e8,
-  500: #31a3a1,
-  700: #31a3a1,
-  primary: $base,
+  50: #ffffff,
+  100: #f8f8f8,
+  500: #adadad,
+  700: #7c7c7c,
   background-light: #fff,
   background-dark: #eee,
   surface-light: #fff,
@@ -141,10 +130,10 @@ $picturepark-app-theme: mat.define-light-theme(
 );
 
 $mat-picturepark-primary-dark: (
+  50: #f8f8f8,
   100: #c5e8e8,
   500: #eeeeee,
   700: #31a3a1,
-  primary: $base,
   background-light: #727272,
   background-dark: #444,
   surface-light: #444,
@@ -180,12 +169,10 @@ $picturepark-app-theme-dark: mat.define-dark-theme(
 
 // Apply custom components themes
 @import '../projects/picturepark-sdk-v2-angular-ui/src/lib/theming/_theming.scss';
-@import './app/components/application-menu/application-menu.component.theme.scss';
 @import './app/components/application-header/application-header.component.theme.scss';
 
 // LOAD THEME COMPONENTS WITH CUSTOM THEME
 @mixin picturepark-components($theme) {
   // Include custom component themes from the main app
-  @include app-application-menu-theme($theme);
   @include app-application-header-theme($theme);
 }

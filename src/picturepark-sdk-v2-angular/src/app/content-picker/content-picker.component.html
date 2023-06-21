@@ -55,15 +55,19 @@
           >
           </pp-search-suggest-box>
         </mat-toolbar-row>
-        <mat-tab-group class="right-panel filters" [mat-stretch-tabs]="false">
+        <mat-tab-group class="right-panel filters" [mat-stretch-tabs]="false" color="accent">
           <mat-tab label="{{ 'ContentAggregationList.FiltersLabel' | pptranslate }}">
             <pp-aggregation-list *ngIf="selectedChannel" [facade]="facade"> </pp-aggregation-list>
           </mat-tab>
           <mat-tab label="{{ 'Basket.BasketLabel' | pptranslate }}">
             <ng-template mat-tab-label>
-              <span [matBadge]="itemsInBasket" matBadgeOverlap="false" [matBadgeHidden]="itemsInBasket === '0'">{{
-                'Basket.BasketLabel' | pptranslate
-              }}</span>
+              <span
+                [matBadge]="itemsInBasket"
+                matBadgeColor="accent"
+                matBadgeOverlap="false"
+                [matBadgeHidden]="itemsInBasket === '0'"
+                >{{ 'Basket.BasketLabel' | pptranslate }}</span
+              >
             </ng-template>
             <pp-basket (previewItemChange)="openDetails($event)"></pp-basket>
           </mat-tab>
