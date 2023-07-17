@@ -80,7 +80,7 @@ After nswag was run, manually revert change for removed block: import { ... } fr
 
 > NOTE:   
 For pre-release packages, the version should include the "pre" identifier.  
-Ex: 11.8.0-pre.0
+Ex: 11.9.0-pre.0
 
 2. Run the following command to regenerate the `package-lock.json` files and build all projects:
 
