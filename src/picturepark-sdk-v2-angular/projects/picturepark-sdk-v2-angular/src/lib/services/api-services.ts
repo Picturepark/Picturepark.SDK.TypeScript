@@ -26552,6 +26552,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "InvalidOperationWithAnonymousUserException") {
+            let result = new InvalidOperationWithAnonymousUserException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "RenderingException") {
             let result = new RenderingException();
             result.init(data);
@@ -28480,6 +28485,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "InvalidOperationWithAnonymousUserException") {
+            let result = new InvalidOperationWithAnonymousUserException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "RenderingException") {
             let result = new RenderingException();
             result.init(data);
@@ -30277,6 +30287,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "LanguageCodeNotExistingException") {
             let result = new LanguageCodeNotExistingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidOperationWithAnonymousUserException") {
+            let result = new InvalidOperationWithAnonymousUserException();
             result.init(data);
             return result;
         }
@@ -32891,6 +32906,40 @@ export class UserByOwnerTokenNotFoundException extends PictureparkNotFoundExcept
 
 export interface IUserByOwnerTokenNotFoundException extends IPictureparkNotFoundException {
     ownerToken?: string | undefined;
+}
+
+export class InvalidOperationWithAnonymousUserException extends PictureparkValidationException implements IInvalidOperationWithAnonymousUserException {
+    affectedUserId?: string | undefined;
+
+    constructor(data?: IInvalidOperationWithAnonymousUserException) {
+        super(data);
+        this._discriminator = "InvalidOperationWithAnonymousUserException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.affectedUserId = _data["affectedUserId"];
+        }
+    }
+
+    static override fromJS(data: any): InvalidOperationWithAnonymousUserException {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvalidOperationWithAnonymousUserException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["affectedUserId"] = this.affectedUserId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IInvalidOperationWithAnonymousUserException extends IPictureparkValidationException {
+    affectedUserId?: string | undefined;
 }
 
 export class RenderingException extends PictureparkBusinessException implements IRenderingException {
@@ -64464,6 +64513,8 @@ export class CustomerInfo implements ICustomerInfo {
     hasDashboard!: boolean;
     /** Cloud name customer is located in. */
     cloudName!: string;
+    /** True if anonymous access to customer's UI is allowed. */
+    anonymousAccessEnabled!: boolean;
 
     constructor(data?: ICustomerInfo) {
         if (data) {
@@ -64543,6 +64594,7 @@ export class CustomerInfo implements ICustomerInfo {
             this.settings = _data["settings"] ? CustomerInfoSettings.fromJS(_data["settings"]) : new CustomerInfoSettings();
             this.hasDashboard = _data["hasDashboard"];
             this.cloudName = _data["cloudName"];
+            this.anonymousAccessEnabled = _data["anonymousAccessEnabled"];
         }
     }
 
@@ -64590,6 +64642,7 @@ export class CustomerInfo implements ICustomerInfo {
         data["settings"] = this.settings ? this.settings.toJSON() : <any>undefined;
         data["hasDashboard"] = this.hasDashboard;
         data["cloudName"] = this.cloudName;
+        data["anonymousAccessEnabled"] = this.anonymousAccessEnabled;
         return data;
     }
 }
@@ -64633,6 +64686,8 @@ export interface ICustomerInfo {
     hasDashboard: boolean;
     /** Cloud name customer is located in. */
     cloudName: string;
+    /** True if anonymous access to customer's UI is allowed. */
+    anonymousAccessEnabled: boolean;
 }
 
 export class LanguageConfiguration implements ILanguageConfiguration {
@@ -67760,9 +67815,6 @@ export abstract class NotificationDetailBase implements INotificationDetailBase 
             result.init(data);
             return result;
         }
-        if (data["kind"] === "NotificationDetailProgressWithRelatedItemsBase") {
-            throw new Error("The abstract class 'NotificationDetailProgressWithRelatedItemsBase' cannot be instantiated.");
-        }
         if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItems") {
             let result = new NotificationDetailMetadataItemCreateRelatedItems();
             result.init(data);
@@ -67903,9 +67955,6 @@ export abstract class NotificationDetailBusinessProcessBase extends Notification
             let result = new NotificationDetailStatisticsExport();
             result.init(data);
             return result;
-        }
-        if (data["kind"] === "NotificationDetailProgressWithRelatedItemsBase") {
-            throw new Error("The abstract class 'NotificationDetailProgressWithRelatedItemsBase' cannot be instantiated.");
         }
         if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItems") {
             let result = new NotificationDetailMetadataItemCreateRelatedItems();
@@ -68475,9 +68524,6 @@ export abstract class NotificationDetailProgressBase extends NotificationDetailB
             result.init(data);
             return result;
         }
-        if (data["kind"] === "NotificationDetailProgressWithRelatedItemsBase") {
-            throw new Error("The abstract class 'NotificationDetailProgressWithRelatedItemsBase' cannot be instantiated.");
-        }
         if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItems") {
             let result = new NotificationDetailMetadataItemCreateRelatedItems();
             result.init(data);
@@ -68632,76 +68678,7 @@ export class NotificationDetailStatisticsExport extends NotificationDetailProgre
 export interface INotificationDetailStatisticsExport extends INotificationDetailProgressBase {
 }
 
-export abstract class NotificationDetailProgressWithRelatedItemsBase extends NotificationDetailProgressBase implements INotificationDetailProgressWithRelatedItemsBase {
-    relatedItemCount?: number;
-    relatedItemProgress?: number;
-
-    constructor(data?: INotificationDetailProgressWithRelatedItemsBase) {
-        super(data);
-        this._discriminator = "NotificationDetailProgressWithRelatedItemsBase";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.relatedItemCount = _data["relatedItemCount"];
-            this.relatedItemProgress = _data["relatedItemProgress"];
-        }
-    }
-
-    static override fromJS(data: any): NotificationDetailProgressWithRelatedItemsBase {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItems") {
-            let result = new NotificationDetailMetadataItemCreateRelatedItems();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NotificationDetailMetadataItemCreateRelatedItemsBySchema") {
-            let result = new NotificationDetailMetadataItemCreateRelatedItemsBySchema();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NotificationDetailMetadataItemUpdateOutdated") {
-            let result = new NotificationDetailMetadataItemUpdateOutdated();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NotificationDetailMetadataItemDeactivationBase") {
-            throw new Error("The abstract class 'NotificationDetailMetadataItemDeactivationBase' cannot be instantiated.");
-        }
-        if (data["kind"] === "NotificationDetailContentDeactivation") {
-            let result = new NotificationDetailContentDeactivation();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NotificationDetailListItemMetadataBatchEdit") {
-            let result = new NotificationDetailListItemMetadataBatchEdit();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "NotificationDetailListItemDeactivation") {
-            let result = new NotificationDetailListItemDeactivation();
-            result.init(data);
-            return result;
-        }
-        throw new Error("The abstract class 'NotificationDetailProgressWithRelatedItemsBase' cannot be instantiated.");
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["relatedItemCount"] = this.relatedItemCount;
-        data["relatedItemProgress"] = this.relatedItemProgress;
-        super.toJSON(data);
-        return data;
-    }
-}
-
-export interface INotificationDetailProgressWithRelatedItemsBase extends INotificationDetailProgressBase {
-    relatedItemCount?: number;
-    relatedItemProgress?: number;
-}
-
-export class NotificationDetailMetadataItemCreateRelatedItems extends NotificationDetailProgressWithRelatedItemsBase implements INotificationDetailMetadataItemCreateRelatedItems {
+export class NotificationDetailMetadataItemCreateRelatedItems extends NotificationDetailProgressBase implements INotificationDetailMetadataItemCreateRelatedItems {
 
     constructor(data?: INotificationDetailMetadataItemCreateRelatedItems) {
         super(data);
@@ -68726,10 +68703,10 @@ export class NotificationDetailMetadataItemCreateRelatedItems extends Notificati
     }
 }
 
-export interface INotificationDetailMetadataItemCreateRelatedItems extends INotificationDetailProgressWithRelatedItemsBase {
+export interface INotificationDetailMetadataItemCreateRelatedItems extends INotificationDetailProgressBase {
 }
 
-export class NotificationDetailMetadataItemCreateRelatedItemsBySchema extends NotificationDetailProgressWithRelatedItemsBase implements INotificationDetailMetadataItemCreateRelatedItemsBySchema {
+export class NotificationDetailMetadataItemCreateRelatedItemsBySchema extends NotificationDetailProgressBase implements INotificationDetailMetadataItemCreateRelatedItemsBySchema {
 
     constructor(data?: INotificationDetailMetadataItemCreateRelatedItemsBySchema) {
         super(data);
@@ -68754,10 +68731,10 @@ export class NotificationDetailMetadataItemCreateRelatedItemsBySchema extends No
     }
 }
 
-export interface INotificationDetailMetadataItemCreateRelatedItemsBySchema extends INotificationDetailProgressWithRelatedItemsBase {
+export interface INotificationDetailMetadataItemCreateRelatedItemsBySchema extends INotificationDetailProgressBase {
 }
 
-export class NotificationDetailMetadataItemUpdateOutdated extends NotificationDetailProgressWithRelatedItemsBase implements INotificationDetailMetadataItemUpdateOutdated {
+export class NotificationDetailMetadataItemUpdateOutdated extends NotificationDetailProgressBase implements INotificationDetailMetadataItemUpdateOutdated {
 
     constructor(data?: INotificationDetailMetadataItemUpdateOutdated) {
         super(data);
@@ -68782,7 +68759,7 @@ export class NotificationDetailMetadataItemUpdateOutdated extends NotificationDe
     }
 }
 
-export interface INotificationDetailMetadataItemUpdateOutdated extends INotificationDetailProgressWithRelatedItemsBase {
+export interface INotificationDetailMetadataItemUpdateOutdated extends INotificationDetailProgressBase {
 }
 
 export abstract class NotificationDetailContentBatchEditBase extends NotificationDetailProgressBase implements INotificationDetailContentBatchEditBase {
@@ -68916,7 +68893,7 @@ export class NotificationDetailContentPermissionsBatchEdit extends NotificationD
 export interface INotificationDetailContentPermissionsBatchEdit extends INotificationDetailContentBatchEditBase {
 }
 
-export abstract class NotificationDetailMetadataItemDeactivationBase extends NotificationDetailProgressWithRelatedItemsBase implements INotificationDetailMetadataItemDeactivationBase {
+export abstract class NotificationDetailMetadataItemDeactivationBase extends NotificationDetailProgressBase implements INotificationDetailMetadataItemDeactivationBase {
     referencingItemsCount?: number;
     referencingItemsProgress?: number;
 
@@ -68957,7 +68934,7 @@ export abstract class NotificationDetailMetadataItemDeactivationBase extends Not
     }
 }
 
-export interface INotificationDetailMetadataItemDeactivationBase extends INotificationDetailProgressWithRelatedItemsBase {
+export interface INotificationDetailMetadataItemDeactivationBase extends INotificationDetailProgressBase {
     referencingItemsCount?: number;
     referencingItemsProgress?: number;
 }
@@ -68990,7 +68967,7 @@ export class NotificationDetailContentDeactivation extends NotificationDetailMet
 export interface INotificationDetailContentDeactivation extends INotificationDetailMetadataItemDeactivationBase {
 }
 
-export class NotificationDetailListItemMetadataBatchEdit extends NotificationDetailProgressWithRelatedItemsBase implements INotificationDetailListItemMetadataBatchEdit {
+export class NotificationDetailListItemMetadataBatchEdit extends NotificationDetailProgressBase implements INotificationDetailListItemMetadataBatchEdit {
 
     constructor(data?: INotificationDetailListItemMetadataBatchEdit) {
         super(data);
@@ -69015,7 +68992,7 @@ export class NotificationDetailListItemMetadataBatchEdit extends NotificationDet
     }
 }
 
-export interface INotificationDetailListItemMetadataBatchEdit extends INotificationDetailProgressWithRelatedItemsBase {
+export interface INotificationDetailListItemMetadataBatchEdit extends INotificationDetailProgressBase {
 }
 
 export class NotificationDetailListItemDeactivation extends NotificationDetailMetadataItemDeactivationBase implements INotificationDetailListItemDeactivation {
@@ -73060,6 +73037,8 @@ export class UserProfile implements IUserProfile {
     isDeveloper!: boolean;
     /** Federated user is a user who is (currently) governed by an external identity provider. */
     isFederated!: boolean;
+    /** Anonymous user is the automatically logged in user if public access is allowed. */
+    isAnonymousUser!: boolean;
 
     constructor(data?: IUserProfile) {
         if (data) {
@@ -73099,6 +73078,7 @@ export class UserProfile implements IUserProfile {
             }
             this.isDeveloper = _data["isDeveloper"];
             this.isFederated = _data["isFederated"];
+            this.isAnonymousUser = _data["isAnonymousUser"];
         }
     }
 
@@ -73137,6 +73117,7 @@ export class UserProfile implements IUserProfile {
         }
         data["isDeveloper"] = this.isDeveloper;
         data["isFederated"] = this.isFederated;
+        data["isAnonymousUser"] = this.isAnonymousUser;
         return data;
     }
 }
@@ -73171,6 +73152,8 @@ export interface IUserProfile {
     isDeveloper: boolean;
     /** Federated user is a user who is (currently) governed by an external identity provider. */
     isFederated: boolean;
+    /** Anonymous user is the automatically logged in user if public access is allowed. */
+    isAnonymousUser: boolean;
 }
 
 /** User's address */
@@ -83681,8 +83664,10 @@ export class UserDetail extends User implements IUserDetail {
     isLocked?: boolean;
     /** Life cycle state the user is currently in. */
     lifeCycle?: LifeCycle;
-    /** The support user is a user created for Picturepark support personnel. */
+    /** Support user is a user created for Picturepark support personnel. */
     isSupportUser?: boolean;
+    /** Anonymous user is the automatically logged in user if public access is allowed. */
+    isAnonymousUser?: boolean;
     /** Read-only users can't be removed from the system, e.g. service user. */
     isReadOnly?: boolean;
     /** Federated user is a user who is (currently) governed by an external identity provider. */
@@ -83735,6 +83720,7 @@ export class UserDetail extends User implements IUserDetail {
             this.isLocked = _data["isLocked"];
             this.lifeCycle = _data["lifeCycle"];
             this.isSupportUser = _data["isSupportUser"];
+            this.isAnonymousUser = _data["isAnonymousUser"];
             this.isReadOnly = _data["isReadOnly"];
             this.isFederated = _data["isFederated"];
             this.audit = _data["audit"] ? UserAuditDetail.fromJS(_data["audit"]) : <any>undefined;
@@ -83769,6 +83755,7 @@ export class UserDetail extends User implements IUserDetail {
         data["isLocked"] = this.isLocked;
         data["lifeCycle"] = this.lifeCycle;
         data["isSupportUser"] = this.isSupportUser;
+        data["isAnonymousUser"] = this.isAnonymousUser;
         data["isReadOnly"] = this.isReadOnly;
         data["isFederated"] = this.isFederated;
         data["audit"] = this.audit ? this.audit.toJSON() : <any>undefined;
@@ -83798,8 +83785,10 @@ export interface IUserDetail extends IUser {
     isLocked?: boolean;
     /** Life cycle state the user is currently in. */
     lifeCycle?: LifeCycle;
-    /** The support user is a user created for Picturepark support personnel. */
+    /** Support user is a user created for Picturepark support personnel. */
     isSupportUser?: boolean;
+    /** Anonymous user is the automatically logged in user if public access is allowed. */
+    isAnonymousUser?: boolean;
     /** Read-only users can't be removed from the system, e.g. service user. */
     isReadOnly?: boolean;
     /** Federated user is a user who is (currently) governed by an external identity provider. */
@@ -84685,6 +84674,8 @@ export class UserWithRoles implements IUserWithRoles {
     isReadOnly!: boolean;
     /** Federated user is a user who is (currently) governed by an external identity provider. */
     isFederated!: boolean;
+    /** Anonymous user is the automatically logged in user if public access is allowed. */
+    isAnonymousUser!: boolean;
     /** Last activity of user. */
     lastActivity?: Date | undefined;
 
@@ -84714,6 +84705,7 @@ export class UserWithRoles implements IUserWithRoles {
             this.isSupportUser = _data["isSupportUser"];
             this.isReadOnly = _data["isReadOnly"];
             this.isFederated = _data["isFederated"];
+            this.isAnonymousUser = _data["isAnonymousUser"];
             this.lastActivity = _data["lastActivity"] ? new Date(_data["lastActivity"].toString()) : <any>undefined;
         }
     }
@@ -84742,6 +84734,7 @@ export class UserWithRoles implements IUserWithRoles {
         data["isSupportUser"] = this.isSupportUser;
         data["isReadOnly"] = this.isReadOnly;
         data["isFederated"] = this.isFederated;
+        data["isAnonymousUser"] = this.isAnonymousUser;
         data["lastActivity"] = this.lastActivity ? this.lastActivity.toISOString() : <any>undefined;
         return data;
     }
@@ -84771,6 +84764,8 @@ export interface IUserWithRoles {
     isReadOnly: boolean;
     /** Federated user is a user who is (currently) governed by an external identity provider. */
     isFederated: boolean;
+    /** Anonymous user is the automatically logged in user if public access is allowed. */
+    isAnonymousUser: boolean;
     /** Last activity of user. */
     lastActivity?: Date | undefined;
 }
@@ -84789,6 +84784,8 @@ export abstract class UsersSearchBaseRequest implements IUsersSearchBaseRequest 
     userRightsFilter?: UserRight[] | undefined;
     /** Includes the service user in result. */
     includeServiceUser!: boolean;
+    /** Includes the anonymous user in result. */
+    includeAnonymousUser!: boolean;
     /** Restricts the results to users that are editable for calling user.
 If set to true, IncludeServiceUser is ignored. */
     editableOnly!: boolean;
@@ -84818,6 +84815,7 @@ If set to true, IncludeServiceUser is ignored. */
                     this.userRightsFilter!.push(item);
             }
             this.includeServiceUser = _data["includeServiceUser"];
+            this.includeAnonymousUser = _data["includeAnonymousUser"];
             this.editableOnly = _data["editableOnly"];
         }
     }
@@ -84843,6 +84841,7 @@ If set to true, IncludeServiceUser is ignored. */
                 data["userRightsFilter"].push(item);
         }
         data["includeServiceUser"] = this.includeServiceUser;
+        data["includeAnonymousUser"] = this.includeAnonymousUser;
         data["editableOnly"] = this.editableOnly;
         return data;
     }
@@ -84862,6 +84861,8 @@ export interface IUsersSearchBaseRequest {
     userRightsFilter?: UserRight[] | undefined;
     /** Includes the service user in result. */
     includeServiceUser: boolean;
+    /** Includes the anonymous user in result. */
+    includeAnonymousUser: boolean;
     /** Restricts the results to users that are editable for calling user.
 If set to true, IncludeServiceUser is ignored. */
     editableOnly: boolean;
