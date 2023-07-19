@@ -11,13 +11,14 @@ import {
   TranslatePipe,
 } from '@picturepark/sdk-v2-angular-ui';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [CommonModule, SearchBoxComponent, PanelComponent, RouterOutlet, TranslatePipe],
+  imports: [CommonModule, SearchBoxComponent, PanelComponent, RouterOutlet, TranslatePipe, MatButtonModule],
 })
 export class AppComponent implements OnInit {
   searchString: string;

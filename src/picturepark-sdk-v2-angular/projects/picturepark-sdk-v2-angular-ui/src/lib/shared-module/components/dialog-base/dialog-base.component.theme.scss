@@ -15,8 +15,8 @@
         border-color: mat.get-color-from-palette($primary, divider);
       }
       mat-dialog-content {
-        background-color: mat.get-color-from-palette($primary, background-dark);
-        color: mat.get-color-from-palette($primary, on-background-dark);
+        background-color: mat.get-color-from-palette($primary, background-light);
+        color: mat.get-color-from-palette($primary, on-background-light);
 
         .mat-mdc-tab-header {
           background-color: mat.get-color-from-palette($accent, 550);
