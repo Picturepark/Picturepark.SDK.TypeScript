@@ -26557,6 +26557,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "InvalidOperationWithAnonymousUserRoleException") {
+            let result = new InvalidOperationWithAnonymousUserRoleException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "RenderingException") {
             let result = new RenderingException();
             result.init(data);
@@ -28490,6 +28495,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "InvalidOperationWithAnonymousUserRoleException") {
+            let result = new InvalidOperationWithAnonymousUserRoleException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "RenderingException") {
             let result = new RenderingException();
             result.init(data);
@@ -30292,6 +30302,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "InvalidOperationWithAnonymousUserException") {
             let result = new InvalidOperationWithAnonymousUserException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "InvalidOperationWithAnonymousUserRoleException") {
+            let result = new InvalidOperationWithAnonymousUserRoleException();
             result.init(data);
             return result;
         }
@@ -32940,6 +32955,40 @@ export class InvalidOperationWithAnonymousUserException extends PictureparkValid
 
 export interface IInvalidOperationWithAnonymousUserException extends IPictureparkValidationException {
     affectedUserId?: string | undefined;
+}
+
+export class InvalidOperationWithAnonymousUserRoleException extends PictureparkValidationException implements IInvalidOperationWithAnonymousUserRoleException {
+    affectedUserRoleId?: string | undefined;
+
+    constructor(data?: IInvalidOperationWithAnonymousUserRoleException) {
+        super(data);
+        this._discriminator = "InvalidOperationWithAnonymousUserRoleException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.affectedUserRoleId = _data["affectedUserRoleId"];
+        }
+    }
+
+    static override fromJS(data: any): InvalidOperationWithAnonymousUserRoleException {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvalidOperationWithAnonymousUserRoleException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["affectedUserRoleId"] = this.affectedUserRoleId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IInvalidOperationWithAnonymousUserRoleException extends IPictureparkValidationException {
+    affectedUserRoleId?: string | undefined;
 }
 
 export class RenderingException extends PictureparkBusinessException implements IRenderingException {
@@ -83312,6 +83361,8 @@ export class UserRoleSearchRequest implements IUserRoleSearchRequest {
     searchLanguages?: string[] | undefined;
     /** Defines if the user roles with system user role Administrator is returned. */
     includeAdministratorSystemUserRole!: boolean;
+    /** Defines if anonymous user role should be returned. */
+    includeAnonymousUserRole!: boolean;
 
     constructor(data?: IUserRoleSearchRequest) {
         if (data) {
@@ -83352,6 +83403,7 @@ export class UserRoleSearchRequest implements IUserRoleSearchRequest {
                     this.searchLanguages!.push(item);
             }
             this.includeAdministratorSystemUserRole = _data["includeAdministratorSystemUserRole"];
+            this.includeAnonymousUserRole = _data["includeAnonymousUserRole"];
         }
     }
 
@@ -83385,6 +83437,7 @@ export class UserRoleSearchRequest implements IUserRoleSearchRequest {
                 data["searchLanguages"].push(item);
         }
         data["includeAdministratorSystemUserRole"] = this.includeAdministratorSystemUserRole;
+        data["includeAnonymousUserRole"] = this.includeAnonymousUserRole;
         return data;
     }
 }
@@ -83408,6 +83461,8 @@ export interface IUserRoleSearchRequest {
     searchLanguages?: string[] | undefined;
     /** Defines if the user roles with system user role Administrator is returned. */
     includeAdministratorSystemUserRole: boolean;
+    /** Defines if anonymous user role should be returned. */
+    includeAnonymousUserRole: boolean;
 }
 
 /** Represents a user role, which associates users with user rights. */
