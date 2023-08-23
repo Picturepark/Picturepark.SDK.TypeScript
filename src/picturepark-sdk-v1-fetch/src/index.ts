@@ -24385,6 +24385,10 @@ export interface InvalidOperationWithAnonymousUserException extends PictureparkV
     affectedUserId?: string | undefined;
 }
 
+export interface InvalidOperationWithAnonymousUserRoleException extends PictureparkValidationException {
+    affectedUserRoleId?: string | undefined;
+}
+
 export interface RenderingException extends PictureparkBusinessException {
 }
 
@@ -32618,6 +32622,8 @@ export interface UserRoleSearchRequest {
     searchLanguages?: string[] | undefined;
     /** Defines if the user roles with system user role Administrator is returned. */
     includeAdministratorSystemUserRole: boolean;
+    /** Defines if anonymous user role should be returned. */
+    includeAnonymousUserRole: boolean;
 }
 
 /** Represents a user role, which associates users with user rights. */
