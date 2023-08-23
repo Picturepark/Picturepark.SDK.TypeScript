@@ -2,8 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lastValueFrom, Subscription, take } from 'rxjs';
-
-// LIBRARIES
 import {
   ShareService,
   ShareContentDetail,
@@ -18,18 +16,33 @@ import {
   DialogService,
   TranslationService,
   ContentDetailsDialogComponent,
+  ShareOwnerPanelComponent,
+  ItemToolBarComponent,
+  ShareSettingsPanelComponent,
+  ShareMailRecipientsPanelComponent,
+  ShareItemsPanelComponent,
 } from '@picturepark/sdk-v2-angular-ui';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-share-manager-item',
   templateUrl: './share-manager-item.component.html',
   styleUrls: ['./share-manager-item.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatProgressBarModule,
+    ItemToolBarComponent,
+    ShareSettingsPanelComponent,
+    ShareMailRecipientsPanelComponent,
+    ShareItemsPanelComponent,
+    ShareOwnerPanelComponent,
+  ],
 })
 export class ShareManagerItemComponent implements OnInit, OnDestroy {
-  // SUBSCRIPTIONS
   susbcription = new Subscription();
 
-  // VARS
   items: ShareContentDetail[] = [];
   mailRecipients: IMailRecipient[] = [];
   toolBarOptions: any[];
@@ -92,7 +105,6 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
     ];
   }
 
-  // GET SHARE INFO
   loadShare(shareId: string): void {
     this.shareService.get(shareId, null, null).subscribe(data => {
       this.share = data;
@@ -122,17 +134,14 @@ export class ShareManagerItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // ROUTE SUBSCRIBER
     const activatedRoute = this.activatedRoute.params.subscribe(params => {
       this.loadShare(params.shareId);
     });
 
-    // ADD TO SUBSCRIBERS
     this.susbcription.add(activatedRoute);
   }
 
   ngOnDestroy() {
-    // UNSUBSCRIBE
     if (this.susbcription) {
       this.susbcription.unsubscribe();
     }

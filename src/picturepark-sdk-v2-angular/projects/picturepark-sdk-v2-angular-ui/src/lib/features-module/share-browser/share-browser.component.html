@@ -4,7 +4,7 @@
       [browser]="self"
       entityName="{{ 'ShareBrowser.SharesLowercase' | pptranslate }}"
     ></pp-browser-toolbar>
-    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
   </div>
 
   <div
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <div *ngIf="(totalResults$ | async) === 0" class="browser__empty-result mat-typography">
+  <div *ngIf="(totalResults$ | async) === 0" class="browser__empty-result">
     {{ 'ContentBrowser.NoItems' | pptranslate }}
     <strong> {{ this.facade.searchRequestState.searchString }}</strong>
     <br />

@@ -1,15 +1,10 @@
 @use '@angular/material' as mat;
 
-// BROWSER TOOLBAR VARS
-$pp-browser-toolbar: (
-  contrast: (),
-);
-
 @mixin pp-browser-toolbar-theme($theme) {
   $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
 
   pp-browser-toolbar {
-    // BROWSER TOOLBAR MODULE
     .browser-toolbar-container {
       background-color: mat.get-color-from-palette($primary, background-dark);
       border-color: mat.get-color-from-palette($primary, divider);
@@ -18,17 +13,16 @@ $pp-browser-toolbar: (
         .select {
           button {
             background-color: mat.get-color-from-palette($primary, background-dark);
-            color: mat.get-color-from-palette($primary, primary);
-            font-size: mat.font-size($custom-typography, display-1);
+            color: mat.get-color-from-palette($accent, 500);
 
             i {
-              font-size: mat.font-size($custom-typography, display-4);
+              font-size: mat.font-size($custom-typography, headline-1);
               color: mat.get-color-from-palette($primary, on-background-dark);
             }
 
             &:hover {
               i {
-                background-color: mat.get-color-from-palette($primary, primary);
+                background-color: mat.get-color-from-palette($accent, 500);
                 color: mat.get-color-from-palette($primary, on-primary);
               }
             }
@@ -38,10 +32,9 @@ $pp-browser-toolbar: (
         .order-by {
           button {
             color: mat.get-color-from-palette($primary, on-background-dark);
-            font-size: mat.font-size($custom-typography, display-3);
 
             &:hover {
-              color: mat.get-color-from-palette($primary, primary);
+              color: mat.get-color-from-palette($accent, 500);
             }
           }
         }

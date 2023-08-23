@@ -1,11 +1,13 @@
 <div class="dialog-container" #contentContainer>
   <div class="header">
-    <span *ngIf="content && content.displayValues" class="header-title mat-display-4 u-text-ellipsis">{{
+    <span *ngIf="content && content.displayValues" class="header-title mat-headline-1 u-text-ellipsis">{{
       content.displayValues['name']
     }}</span>
-    <span *ngIf="contentId && !(content && content.displayValues)" class="header-title mat-display-4 u-text-ellipsis">{{
-      contentId
-    }}</span>
+    <span
+      *ngIf="contentId && !(content && content.displayValues)"
+      class="header-title mat-headline-1 u-text-ellipsis"
+      >{{ contentId }}</span
+    >
     <mat-icon class="header-close" (click)="closeDialog()">close</mat-icon>
   </div>
   <mat-divider></mat-divider>
@@ -38,7 +40,7 @@
           </button>
         </div>
       </div>
-      <mat-tab-group (selectedTabChange)="tabChange($event)">
+      <mat-tab-group (selectedTabChange)="tabChange($event)" [mat-stretch-tabs]="false" color="accent">
         <mat-tab label="{{ 'ContentDetailsDialog.Overview' | pptranslate }}">
           <ng-template matTabContent>
             <div class="overview-wrap cp-scrollbar" *ngIf="content">

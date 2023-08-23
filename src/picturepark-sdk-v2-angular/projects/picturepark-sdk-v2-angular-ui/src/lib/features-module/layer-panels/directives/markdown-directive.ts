@@ -1,8 +1,9 @@
 import { ElementRef, Renderer2, Directive, OnInit, Input } from '@angular/core';
-import * as markdown from 'markdown-it';
+import markdown from 'markdown-it';
 
 @Directive({
-  selector: '[ppMarkdown]',
+    selector: '[ppMarkdown]',
+    standalone: true,
 })
 export class MarkdownDirective implements OnInit {
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}

@@ -1,10 +1,5 @@
 @use '@angular/material' as mat;
 
-// SHARE BROWSER ITEM VARS
-$pp-share-browser-item: (
-  contrast: (),
-);
-
 @mixin pp-share-browser-item-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
@@ -17,11 +12,11 @@ $pp-share-browser-item: (
       }
 
       &__title {
-        font-size: mat.font-size($custom-typography, display-1);
+        font-size: mat.font-size($custom-typography, headline-4);
         color: mat.get-color-from-palette($primary, on-background-dark);
 
         i {
-          font-size: mat.font-size($custom-typography, display-1);
+          font-size: mat.font-size($custom-typography, headline-4);
         }
       }
     }

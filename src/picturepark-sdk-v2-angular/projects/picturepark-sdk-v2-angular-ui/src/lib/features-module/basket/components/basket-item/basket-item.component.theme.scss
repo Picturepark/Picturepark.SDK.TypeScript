@@ -1,10 +1,5 @@
 @use '@angular/material' as mat;
 
-// BASKET ITEM COMPONENT
-$pp-basket-item: (
-  contrast: (),
-);
-
 @mixin pp-basket-item-theme($theme) {
   $primary: map-get($theme, primary);
 

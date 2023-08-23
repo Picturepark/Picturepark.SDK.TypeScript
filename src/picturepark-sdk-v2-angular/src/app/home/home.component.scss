@@ -1,6 +1,8 @@
 @use '@angular/material' as mat;
 @import '../../theme.scss';
 
+$accent: map-get($picturepark-app-theme, accent);
+
 .home-container {
   display: flex;
   height: 100vh;
@@ -8,7 +10,7 @@
   .home-content {
     width: 100%;
     .header {
-      background-color: mat.get-color-from-palette($picturepark-app-primary, primary);
+      background-color: mat.get-color-from-palette($accent, 500);
       color: white;
     }
   }
@@ -18,6 +20,10 @@
   max-width: 400px;
   margin: 20px;
   width: unset;
+
+  mat-card-title {
+    margin: 16px 16px 0 16px;
+  }
 }
 
 .spacer {

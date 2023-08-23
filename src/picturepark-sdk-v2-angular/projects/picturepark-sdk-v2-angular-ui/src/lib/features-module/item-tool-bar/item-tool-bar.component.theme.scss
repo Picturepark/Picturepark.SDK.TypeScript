@@ -1,10 +1,5 @@
 @use '@angular/material' as mat;
 
-// BROWSER TOOLBAR CONTAINER
-$pp-item-tool-bar: (
-  contrast: (),
-);
-
 @mixin pp-item-tool-bar-theme($theme) {
   $primary: map-get($theme, primary);
 
@@ -29,7 +24,7 @@ $pp-item-tool-bar: (
 
             i {
               color: mat.get-color-from-palette($primary, on-surface-dark);
-              font-size: mat.font-size($custom-typography, headline);
+              font-size: mat.font-size($custom-typography, headline-5);
             }
 
             span {

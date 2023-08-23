@@ -1,12 +1,8 @@
 @use '@angular/material' as mat;
 
-// SCHEMA BROWSER ITEM BASE VARS
-$pp-schema-browser-item: (
-  contrast: (),
-);
-
 @mixin pp-schema-browser-item-theme($theme) {
   $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
 
   pp-schema-browser-item {
     .schema-browser-item-container {
@@ -16,7 +12,7 @@ $pp-schema-browser-item: (
       .schema-content {
         border-color: transparent;
         &--selected {
-          border-color: mat.get-color-from-palette($primary, primary);
+          border-color: mat.get-color-from-palette($accent, 500);
         }
       }
 
@@ -28,7 +24,7 @@ $pp-schema-browser-item: (
       .schema-menu {
         background-color: mat.get-color-from-palette($primary, surface-light);
 
-        .mat-button {
+        .mat-mdc-button {
           mat-icon {
             color: mat.get-color-from-palette($primary, on-surface-light);
           }

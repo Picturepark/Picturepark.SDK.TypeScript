@@ -1,6 +1,6 @@
 <ng-container *ngIf="sessionService.initialized$ | async as initialized">
   <div class="authorization-container" *ngIf="!initialized">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
     <div class="authorization-content">
       <svg
         _ngcontent-odu-c1=""
@@ -20,8 +20,6 @@
       </svg>
     </div>
   </div>
-
-  <!-- <app-application-menu *ngIf="initialized"></app-application-menu> -->
 
   <router-outlet *ngIf="initialized"></router-outlet>
 </ng-container>

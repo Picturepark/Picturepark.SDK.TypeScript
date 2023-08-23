@@ -24,7 +24,7 @@
 <li><a href="UserSearchAndAggregationBaseRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">UserSearchAndAggregationBaseRequest</a></li>
 <li><a href="UserListRequest.html" class="tsd-signature-type" data-tsd-kind="Interface">UserListRequest</a></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L32858">src/picturepark-sdk-v1-fetch/src/index.ts:32858</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-fetch/src/index.ts#L32871">src/picturepark-sdk-v1-fetch/src/index.ts:32871</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -34,6 +34,7 @@
 <h3 class="tsd-index-heading">Properties</h3>
 <div class="tsd-index-list"><a href="UsersSearchBaseRequest.html#editableOnly" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>editable<wbr/>Only</span></a>
 <a href="UsersSearchBaseRequest.html#filter" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>filter?</span></a>
+<a href="UsersSearchBaseRequest.html#includeAnonymousUser" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>include<wbr/>Anonymous<wbr/>User</span></a>
 <a href="UsersSearchBaseRequest.html#includeServiceUser" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>include<wbr/>Service<wbr/>User</span></a>
 <a href="UsersSearchBaseRequest.html#lifeCycleFilter" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>life<wbr/>Cycle<wbr/>Filter</span></a>
 <a href="UsersSearchBaseRequest.html#searchBehaviors" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>search<wbr/>Behaviors?</span></a>
@@ -49,49 +50,56 @@
 If set to true, IncludeServiceUser is ignored.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L32873">src/picturepark-sdk-v1-fetch/src/index.ts:32873</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-fetch/src/index.ts#L32888">src/picturepark-sdk-v1-fetch/src/index.ts:32888</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="filter" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>filter</span><a href="#filter" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">filter<span class="tsd-signature-symbol">?:</span> <a href="FilterBase.html" class="tsd-signature-type" data-tsd-kind="Interface">FilterBase</a></div>
 <div class="tsd-comment tsd-typography"><p>An optional search filter. Limits the document result set.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L32864">src/picturepark-sdk-v1-fetch/src/index.ts:32864</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-fetch/src/index.ts#L32877">src/picturepark-sdk-v1-fetch/src/index.ts:32877</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="includeAnonymousUser" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>include<wbr/>Anonymous<wbr/>User</span><a href="#includeAnonymousUser" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<div class="tsd-signature">include<wbr/>Anonymous<wbr/>User<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+<div class="tsd-comment tsd-typography"><p>Includes the anonymous user in result.</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-fetch/src/index.ts#L32885">src/picturepark-sdk-v1-fetch/src/index.ts:32885</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="includeServiceUser" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>include<wbr/>Service<wbr/>User</span><a href="#includeServiceUser" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">include<wbr/>Service<wbr/>User<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 <div class="tsd-comment tsd-typography"><p>Includes the service user in result.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L32870">src/picturepark-sdk-v1-fetch/src/index.ts:32870</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-fetch/src/index.ts#L32883">src/picturepark-sdk-v1-fetch/src/index.ts:32883</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="lifeCycleFilter" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>life<wbr/>Cycle<wbr/>Filter</span><a href="#lifeCycleFilter" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">life<wbr/>Cycle<wbr/>Filter<span class="tsd-signature-symbol">:</span> <a href="../enums/LifeCycleFilter.html" class="tsd-signature-type" data-tsd-kind="Enumeration">LifeCycleFilter</a></div>
 <div class="tsd-comment tsd-typography"><p>Return only users in certain life cycle state(s).</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L32866">src/picturepark-sdk-v1-fetch/src/index.ts:32866</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-fetch/src/index.ts#L32879">src/picturepark-sdk-v1-fetch/src/index.ts:32879</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="searchBehaviors" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>search<wbr/>Behaviors</span><a href="#searchBehaviors" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">search<wbr/>Behaviors<span class="tsd-signature-symbol">?:</span> <a href="../enums/SearchBehavior.html" class="tsd-signature-type" data-tsd-kind="Enumeration">SearchBehavior</a><span class="tsd-signature-symbol">[]</span></div>
 <div class="tsd-comment tsd-typography"><p>An optional list of search behaviors. All the passed behaviors will be applied.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L32862">src/picturepark-sdk-v1-fetch/src/index.ts:32862</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-fetch/src/index.ts#L32875">src/picturepark-sdk-v1-fetch/src/index.ts:32875</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="searchString" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>search<wbr/>String</span><a href="#searchString" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">search<wbr/>String<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div>
 <div class="tsd-comment tsd-typography"><p>Limits the search by using a query string filter. The Lucene query string syntax is supported.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L32860">src/picturepark-sdk-v1-fetch/src/index.ts:32860</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-fetch/src/index.ts#L32873">src/picturepark-sdk-v1-fetch/src/index.ts:32873</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="userRightsFilter" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>user<wbr/>Rights<wbr/>Filter</span><a href="#userRightsFilter" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">user<wbr/>Rights<wbr/>Filter<span class="tsd-signature-symbol">?:</span> <a href="../enums/UserRight.html" class="tsd-signature-type" data-tsd-kind="Enumeration">UserRight</a><span class="tsd-signature-symbol">[]</span></div>
 <div class="tsd-comment tsd-typography"><p>Return only users with certain user rights.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/5cd7833e8/src/picturepark-sdk-v1-fetch/src/index.ts#L32868">src/picturepark-sdk-v1-fetch/src/index.ts:32868</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-fetch/src/index.ts#L32881">src/picturepark-sdk-v1-fetch/src/index.ts:32881</a></li></ul></aside></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -119,6 +127,7 @@ If set to true, IncludeServiceUser is ignored.</p>
 <ul>
 <li class="tsd-kind-property tsd-parent-kind-interface"><a href="UsersSearchBaseRequest.html#editableOnly" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>editable<wbr/>Only</a></li>
 <li class="tsd-kind-property tsd-parent-kind-interface"><a href="UsersSearchBaseRequest.html#filter" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>filter?</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface"><a href="UsersSearchBaseRequest.html#includeAnonymousUser" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>include<wbr/>Anonymous<wbr/>User</a></li>
 <li class="tsd-kind-property tsd-parent-kind-interface"><a href="UsersSearchBaseRequest.html#includeServiceUser" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>include<wbr/>Service<wbr/>User</a></li>
 <li class="tsd-kind-property tsd-parent-kind-interface"><a href="UsersSearchBaseRequest.html#lifeCycleFilter" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>life<wbr/>Cycle<wbr/>Filter</a></li>
 <li class="tsd-kind-property tsd-parent-kind-interface"><a href="UsersSearchBaseRequest.html#searchBehaviors" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>search<wbr/>Behaviors?</a></li>

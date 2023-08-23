@@ -24381,6 +24381,14 @@ export interface UserByOwnerTokenNotFoundException extends PictureparkNotFoundEx
     ownerToken?: string | undefined;
 }
 
+export interface InvalidOperationWithAnonymousUserException extends PictureparkValidationException {
+    affectedUserId?: string | undefined;
+}
+
+export interface InvalidOperationWithAnonymousUserRoleException extends PictureparkValidationException {
+    affectedUserRoleId?: string | undefined;
+}
+
 export interface RenderingException extends PictureparkBusinessException {
 }
 
@@ -29243,6 +29251,8 @@ export interface CustomerInfo {
     hasDashboard: boolean;
     /** Cloud name customer is located in. */
     cloudName: string;
+    /** True if anonymous access to customer's UI is allowed. */
+    anonymousAccessEnabled: boolean;
 }
 
 export interface LanguageConfiguration {
@@ -30034,18 +30044,13 @@ export interface NotificationDetailBatchRendering extends NotificationDetailProg
 export interface NotificationDetailStatisticsExport extends NotificationDetailProgressBase {
 }
 
-export interface NotificationDetailProgressWithRelatedItemsBase extends NotificationDetailProgressBase {
-    relatedItemCount?: number;
-    relatedItemProgress?: number;
+export interface NotificationDetailMetadataItemCreateRelatedItems extends NotificationDetailProgressBase {
 }
 
-export interface NotificationDetailMetadataItemCreateRelatedItems extends NotificationDetailProgressWithRelatedItemsBase {
+export interface NotificationDetailMetadataItemCreateRelatedItemsBySchema extends NotificationDetailProgressBase {
 }
 
-export interface NotificationDetailMetadataItemCreateRelatedItemsBySchema extends NotificationDetailProgressWithRelatedItemsBase {
-}
-
-export interface NotificationDetailMetadataItemUpdateOutdated extends NotificationDetailProgressWithRelatedItemsBase {
+export interface NotificationDetailMetadataItemUpdateOutdated extends NotificationDetailProgressBase {
 }
 
 export interface NotificationDetailContentBatchEditBase extends NotificationDetailProgressBase {
@@ -30061,7 +30066,7 @@ export interface NotificationDetailContentOwnershipBatchEdit extends Notificatio
 export interface NotificationDetailContentPermissionsBatchEdit extends NotificationDetailContentBatchEditBase {
 }
 
-export interface NotificationDetailMetadataItemDeactivationBase extends NotificationDetailProgressWithRelatedItemsBase {
+export interface NotificationDetailMetadataItemDeactivationBase extends NotificationDetailProgressBase {
     referencingItemsCount?: number;
     referencingItemsProgress?: number;
 }
@@ -30069,7 +30074,7 @@ export interface NotificationDetailMetadataItemDeactivationBase extends Notifica
 export interface NotificationDetailContentDeactivation extends NotificationDetailMetadataItemDeactivationBase {
 }
 
-export interface NotificationDetailListItemMetadataBatchEdit extends NotificationDetailProgressWithRelatedItemsBase {
+export interface NotificationDetailListItemMetadataBatchEdit extends NotificationDetailProgressBase {
 }
 
 export interface NotificationDetailListItemDeactivation extends NotificationDetailMetadataItemDeactivationBase {
@@ -30811,6 +30816,8 @@ export interface UserProfile {
     isDeveloper: boolean;
     /** Federated user is a user who is (currently) governed by an external identity provider. */
     isFederated: boolean;
+    /** Anonymous user is the automatically logged in user if public access is allowed. */
+    isAnonymousUser: boolean;
 }
 
 /** User's address */
@@ -32615,6 +32622,8 @@ export interface UserRoleSearchRequest {
     searchLanguages?: string[] | undefined;
     /** Defines if the user roles with system user role Administrator is returned. */
     includeAdministratorSystemUserRole: boolean;
+    /** Defines if anonymous user role should be returned. */
+    includeAnonymousUserRole: boolean;
 }
 
 /** Represents a user role, which associates users with user rights. */
@@ -32669,8 +32678,10 @@ export interface UserDetail extends User {
     isLocked?: boolean;
     /** Life cycle state the user is currently in. */
     lifeCycle?: LifeCycle;
-    /** The support user is a user created for Picturepark support personnel. */
+    /** Support user is a user created for Picturepark support personnel. */
     isSupportUser?: boolean;
+    /** Anonymous user is the automatically logged in user if public access is allowed. */
+    isAnonymousUser?: boolean;
     /** Read-only users can't be removed from the system, e.g. service user. */
     isReadOnly?: boolean;
     /** Federated user is a user who is (currently) governed by an external identity provider. */
@@ -32850,6 +32861,8 @@ export interface UserWithRoles {
     isReadOnly: boolean;
     /** Federated user is a user who is (currently) governed by an external identity provider. */
     isFederated: boolean;
+    /** Anonymous user is the automatically logged in user if public access is allowed. */
+    isAnonymousUser: boolean;
     /** Last activity of user. */
     lastActivity?: Date | undefined;
 }
@@ -32868,6 +32881,8 @@ export interface UsersSearchBaseRequest {
     userRightsFilter?: UserRight[] | undefined;
     /** Includes the service user in result. */
     includeServiceUser: boolean;
+    /** Includes the anonymous user in result. */
+    includeAnonymousUser: boolean;
     /** Restricts the results to users that are editable for calling user.
 If set to true, IncludeServiceUser is ignored. */
     editableOnly: boolean;

@@ -1,10 +1,5 @@
 @use '@angular/material' as mat;
 
-// BASKET VARS
-$pp-basket: (
-  contrast: (),
-);
-
 @mixin pp-basket-theme($theme) {
   $primary: map-get($theme, primary);
 
@@ -15,13 +10,8 @@ $pp-basket: (
         background: mat.get-color-from-palette($primary, background-dark);
         border-bottom-color: mat.get-color-from-palette($primary, divider);
         button {
-          &:hover {
-            mat-icon {
-              color: mat.get-color-from-palette($primary, primary);
-            }
-          }
           mat-icon {
-            font-size: mat.font-size($custom-typography, display-3);
+            font-size: mat.font-size($custom-typography, headline-2);
             color: mat.get-color-from-palette($primary, on-background-dark);
           }
         }

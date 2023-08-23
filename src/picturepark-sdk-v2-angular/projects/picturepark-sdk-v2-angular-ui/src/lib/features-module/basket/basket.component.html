@@ -1,5 +1,5 @@
 <div class="basket">
-  <ng-container *ngIf="basketItems.length > 0; else emptyBasket">
+  <ng-container *ngIf="basketItems().length > 0; else emptyBasket">
     <mat-toolbar class="basket__header">
       <button
         mat-icon-button
@@ -24,13 +24,13 @@
       </div>
     </mat-toolbar>
     <div class="basket__items">
-      <div class="basket__item-container" *ngFor="let basketItem of basketItems; trackBy: trackByBasket">
+      <div class="basket__item-container" *ngFor="let basketItem of basketItems(); trackBy: trackByBasket">
         <pp-basket-item class="basket__item" [item]="basketItem" (dblclick)="previewItem(basketItem)"> </pp-basket-item>
       </div>
     </div>
   </ng-container>
   <ng-template #emptyBasket>
-    <div class="basket__empty mat-typography">
+    <div class="basket__empty">
       {{ 'Basket.EmptyBasket' | pptranslate }}
     </div>
   </ng-template>

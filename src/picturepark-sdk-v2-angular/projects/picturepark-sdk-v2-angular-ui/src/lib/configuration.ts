@@ -11,7 +11,9 @@ export interface PictureparkUIConfiguration {
   ListBrowserComponent: ConfigActions;
 }
 
-export const PICTUREPARK_UI_CONFIGURATION = new InjectionToken<string>('PICTUREPARK_UI_CONFIGURATION');
+export const PICTUREPARK_UI_CONFIGURATION = new InjectionToken<PictureparkUIConfiguration>(
+  'PICTUREPARK_UI_CONFIGURATION'
+);
 export const PICTUREPARK_UI_SCRIPTPATH = new InjectionToken<string>('PICTUREPARK_UI_SCRIPTPATH');
 export const VIEW_MODE = new InjectionToken<string>('VIEW_MODE');
 export const DISABLE_COOKIE_CONSENT = new InjectionToken<string>('DISABLE_COOKIE_CONSENT');

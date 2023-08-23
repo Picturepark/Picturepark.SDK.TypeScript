@@ -19,7 +19,7 @@
 
         button {
           mat-icon {
-            font-size: mat.font-size($custom-typography, display-3);
+            font-size: mat.font-size($custom-typography, headline-2);
             color: mat.get-color-from-palette($primary, on-background-dark);
           }
           &:hover {

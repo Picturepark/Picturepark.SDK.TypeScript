@@ -1,8 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChild, Injector } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-
-// LIBRARIES
 import { AggregationResult, Channel, Content, ContentSearchFacade, LanguageService } from '@picturepark/sdk-v2-angular';
 import {
   SelectionService,
@@ -12,20 +10,46 @@ import {
   BaseComponent,
   ContentDetailsDialogOptions,
   TranslationService,
+  ContentDetailsDialogComponent,
+  TranslatePipe,
+  BasketComponent,
+  AggregationListComponent,
+  LanguageSwitchComponent,
+  SearchSuggestBoxComponent,
+  ChannelPickerComponent,
 } from '@picturepark/sdk-v2-angular-ui';
-
-// COMPONENTS
-import { ContentDetailsDialogComponent } from '@picturepark/sdk-v2-angular-ui';
-
-// SERVICES
 import { EmbedService } from './embed.service';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { CommonModule } from '@angular/common';
 
 @Component({
   templateUrl: './content-picker.component.html',
   styleUrls: ['./content-picker.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatBadgeModule,
+    MatIconModule,
+    ChannelPickerComponent,
+    SearchSuggestBoxComponent,
+    LanguageSwitchComponent,
+    MatSidenavModule,
+    MatTabsModule,
+    AggregationListComponent,
+    BasketComponent,
+    ContentBrowserComponent,
+    TranslatePipe,
+  ],
 })
 export class ContentPickerComponent extends BaseComponent implements OnInit, OnDestroy {
   itemsInBasket = '0';
@@ -40,7 +64,6 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
   @ViewChild(ContentBrowserComponent) contentBrowserComponent: ContentBrowserComponent;
 
   constructor(
-    injector: Injector,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private embedService: EmbedService,
@@ -51,7 +74,7 @@ export class ContentPickerComponent extends BaseComponent implements OnInit, OnD
     private translationService: TranslationService,
     private titleService: Title
   ) {
-    super(injector);
+    super();
   }
 
   openDetails(item: Content) {

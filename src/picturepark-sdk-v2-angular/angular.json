@@ -48,7 +48,8 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "allowedCommonJsDependencies": ["moment"]
           },
           "configurations": {
             "production": {
@@ -250,7 +251,8 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "allowedCommonJsDependencies": ["moment"]
           },
           "configurations": {
             "production": {
@@ -321,6 +323,5 @@
         }
       }
     }
-  },
-  "defaultProject": "picturepark-sdk-v2-angular-app"
+  }
 }

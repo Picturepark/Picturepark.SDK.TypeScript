@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, OnDestroy, Injector, ViewChild, ElementRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { firstValueFrom, Subscription } from 'rxjs';
 
 // LIBRARIES
@@ -21,7 +21,7 @@ import {
   IOutputPerOutputFormatSelection,
   IOutputPerSchemaSelection,
 } from './components/output-selection';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 
 // SERVICES
 import { TranslationService } from '../../shared-module/services/translations/translation.service';
@@ -33,6 +33,17 @@ import {
 } from './interfaces/content-download-dialog.interfaces';
 import { DialogService } from '../../shared-module/services/dialog/dialog.service';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { FileSizePipe } from '../../shared-module/pipes/filesize.pipe';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { MatButtonModule } from '@angular/material/button';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NotificationComponent } from '../notification/components/notification/notification.component';
+import { CommonModule } from '@angular/common';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'pp-content-download-dialog',
@@ -40,6 +51,23 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
   styleUrls: [
     '../../shared-module/components/dialog-base/dialog-base.component.scss',
     './content-download-dialog.component.scss',
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatDialogModule,
+    NotificationComponent,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatButtonModule,
+    TranslatePipe,
+    FileSizePipe,
+    MatSnackBarModule,
   ],
 })
 export class ContentDownloadDialogComponent extends DialogBaseComponent implements OnInit, OnDestroy {
@@ -73,14 +101,13 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     private contentService: ContentService,
     private shareAccessFacade: ShareAccessFacade,
     protected dialogRef: MatDialogRef<ContentDownloadDialogComponent>,
-    protected injector: Injector,
     private translationService: TranslationService,
     private snackBar: MatSnackBar,
     private dialogService: DialogService,
     private downloadFacade: DownloadFacade,
     private infoFacade: InfoFacade
   ) {
-    super(dialogRef, injector);
+    super(dialogRef);
   }
 
   async ngOnInit() {

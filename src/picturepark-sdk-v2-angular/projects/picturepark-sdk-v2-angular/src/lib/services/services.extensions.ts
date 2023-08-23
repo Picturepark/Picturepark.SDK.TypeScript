@@ -24,10 +24,7 @@ import { // ignore
   SetDisplayContentRequest, // ignore
 } from './api-services'; // ignore
 
-import { Injector } from '@angular/core';
-import { LazyGetter } from 'lazy-get-decorator';
 import { AuthService } from './auth.service';
-import { LiquidRenderingService } from './liquid-rendering.service';
 import { PictureparkServiceBase } from './base.service';
 import * as generated from './api-services';
 
@@ -100,25 +97,6 @@ class AggregationResultItem extends generated.AggregationResultItem {
 }
 
 class ContentService extends generated.ContentService {
-  @LazyGetter()
-  protected get liquidRenderingService(): LiquidRenderingService {
-    return this.injector.get(LiquidRenderingService);
-  }
-
-  constructor(
-    protected injector: Injector,
-    @Inject(AuthService) configuration: AuthService,
-    @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
-  ) {
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    super(configuration);
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.http = http;
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-  }
-
   create(
     resolveBehaviors: ContentResolveBehavior[] | null | undefined,
     allowMissingDependencies: boolean | undefined,
@@ -231,25 +209,6 @@ class ContentService extends generated.ContentService {
 }
 
 class ListItemService extends generated.ListItemService {
-  @LazyGetter()
-  protected get liquidRenderingService(): LiquidRenderingService {
-    return this.injector.get(LiquidRenderingService);
-  }
-
-  constructor(
-    protected injector: Injector,
-    @Inject(AuthService) configuration: AuthService,
-    @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
-  ) {
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    super(configuration);
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.http = http;
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-  }
-
   get(listItemId: string, resolveBehaviors: ListItemResolveBehavior[] | null | undefined): Observable<ListItemDetail> {
     return this.getCore(listItemId, resolveBehaviors).pipe(
       _observableMergeMap(async listItem => {
@@ -270,25 +229,6 @@ class ListItemService extends generated.ListItemService {
 }
 
 class ShareService extends generated.ShareService {
-  @LazyGetter()
-  protected get liquidRenderingService(): LiquidRenderingService {
-    return this.injector.get(LiquidRenderingService);
-  }
-
-  constructor(
-    protected injector: Injector,
-    @Inject(AuthService) configuration: AuthService,
-    @Inject(HttpClient) http: HttpClient,
-    @Optional() @Inject(PICTUREPARK_API_URL) baseUrl?: string
-  ) {
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    super(configuration);
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.http = http;
-    // @ts-ignore: the purpose of this constructor is to be copied to the api-services via NSwag // ignore
-    this.baseUrl = baseUrl ? baseUrl : this.getBaseUrl('');
-  }
-
   get(
     id: string | null,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,

@@ -6,19 +6,19 @@
 // CUSTOM THEME
 @import 'theme.scss';
 
+@include mat.typography-hierarchy($custom-typography);
+@include mat.core();
 @include mat.all-component-themes($picturepark-app-theme);
-@include picturepark-theme($picturepark-app-theme);
+@include mat.checkbox-density(-3);
+@include mat.radio-density(-3);
+@include mat.list-density(-5);
+@include mat.icon-button-density(-2);
+@include mat.table-density(-1);
+@include mat.tree-density(-4);
+
+html.light-theme {
+  @include picturepark-theme($picturepark-app-theme);
+}
 
 // GLOBAL STYLES (keep at bottom)
 @import '../../picturepark-sdk-v2-angular-ui/src/lib/styles/global_styles.scss';
-
-// Custom tooltip styling
-mat-tooltip-component .mat-tooltip {
-  opacity: 0.9;
-  border-radius: 2px;
-  background-color: #535353;
-  color: rgba(255, 255, 255, 0.87);
-  font-size: 13px;
-  line-height: 22px;
-  padding: 0 8px;
-}

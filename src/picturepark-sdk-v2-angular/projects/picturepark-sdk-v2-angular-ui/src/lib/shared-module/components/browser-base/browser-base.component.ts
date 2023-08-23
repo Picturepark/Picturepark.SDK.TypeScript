@@ -1,12 +1,11 @@
 import { BaseComponent } from '../base.component';
-import { Injector, OnInit, NgZone, Output, EventEmitter, HostListener, Directive } from '@angular/core';
+import { OnInit, NgZone, Output, EventEmitter, HostListener, Directive, inject, computed } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { LazyGetter } from 'lazy-get-decorator';
 
 // ANGULAR CDK
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
-import { ConfigActions, PictureparkUIConfiguration, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
+import { ConfigActions, PICTUREPARK_UI_CONFIGURATION } from '../../../configuration';
 import {
   IEntityBase,
   ThumbnailSize,
@@ -23,34 +22,19 @@ import { IBrowserView } from './interfaces/browser-view';
 import { debounceTime, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { RangeSelection } from './interfaces/range-selection';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Directive()
 export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends BaseComponent implements OnInit {
-  // Services
-  @LazyGetter()
-  protected get scrollDispatcher(): ScrollDispatcher {
-    return this.injector.get(ScrollDispatcher);
-  }
-  @LazyGetter()
-  protected get ngZone(): NgZone {
-    return this.injector.get(NgZone);
-  }
-  @LazyGetter()
-  protected get translationService(): TranslationService {
-    return this.injector.get(TranslationService);
-  }
-  @LazyGetter()
-  get selectionService(): SelectionService<TEntity> {
-    return new SelectionService<TEntity>();
-  }
-  @LazyGetter()
-  protected get dialog(): MatDialog {
-    return this.injector.get(MatDialog);
-  }
+  protected scrollDispatcher = inject(ScrollDispatcher);
+  protected ngZone = inject(NgZone);
+  protected translationService = inject(TranslationService);
+  selectionService: SelectionService<TEntity> = new SelectionService();
+  protected dialog = inject(MatDialog);
 
   self: BaseBrowserComponent<TEntity>;
 
-  protected pictureParkUIConfig: PictureparkUIConfiguration;
+  protected pictureParkUIConfig = inject(PICTUREPARK_UI_CONFIGURATION);
 
   configActions: ConfigActions;
   isLoading = false;
@@ -67,9 +51,11 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   @Output() selectedItemsChange = new EventEmitter<TEntity[]>();
   @Output() previewItemChange = new EventEmitter<TEntity>();
 
-  private _selectedItems: TEntity[] = [];
   private lastSelectedIndex = 0;
   private lastRangeSelection: RangeSelection | null;
+
+  selectedItems = toSignal(this.selectionService.selectedItems, { requireSync: true });
+  selectedItemsCount = computed(() => this.selectedItems().length);
 
   totalResults$ = this.facade.totalResults$;
   items$ = this.facade.items$;
@@ -80,12 +66,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
   abstract onScroll(): void;
   abstract checkContains(elementClassName: string): boolean;
 
-  constructor(
-    protected componentName: string,
-    protected injector: Injector,
-    public facade: SearchFacade<TEntity, SearchInputState>
-  ) {
-    super(injector);
+  constructor(protected componentName: string, public facade: SearchFacade<TEntity, SearchInputState>) {
+    super();
 
     this.self = this;
     // Init default sort
@@ -100,8 +82,6 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
       this.activeSortingType = this.sortingTypes[0];
     }
     this.setSort(this.activeSortingType, this.isAscending ?? true, false);
-
-    this.pictureParkUIConfig = injector.get<PictureparkUIConfiguration>(PICTUREPARK_UI_CONFIGURATION);
   }
 
   async ngOnInit(): Promise<void> {
@@ -126,7 +106,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
 
     // Item selection
     this.sub = this.selectionService.selectedItems.subscribe(items => {
-      this.selectedItems = items;
+      this.selectedItemsChange.emit(items);
     });
 
     // Call abstract init class
@@ -139,13 +119,8 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.sub = this.facade.getLoadingInfos('all').subscribe(i => (this.isLoading = i));
   }
 
-  get selectedItems(): TEntity[] {
-    return this._selectedItems;
-  }
-
-  set selectedItems(items: TEntity[]) {
-    this._selectedItems = items;
-    this.selectedItemsChange.emit(items);
+  setSelectedItems(items: TEntity[]) {
+    this.selectionService.set(items);
   }
 
   trackByItem(index: number, item: TEntity): string {
@@ -156,7 +131,7 @@ export abstract class BaseBrowserComponent<TEntity extends IEntityBase> extends 
     this.facade.searchResultState.nextPageToken = undefined;
     this.facade.searchResultState.results = [];
     this.items = [];
-    this.selectedItems = [];
+    this.setSelectedItems([]);
     this.loadData()?.subscribe();
   }
 

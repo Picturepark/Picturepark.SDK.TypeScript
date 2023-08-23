@@ -1,9 +1,8 @@
 .dialog-container {
   position: relative;
   min-width: 500px;
-  mat-dialog-content {
+  .content-wrapper {
     padding: 24px;
-    margin: 0;
   }
   button.option {
     margin: 0px 24px 0px 24px;

@@ -1,11 +1,15 @@
 import { Component, Input, ElementRef, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { TranslatePipe } from '../../../../shared-module/pipes/translate.pipe';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'pp-read-more',
   templateUrl: './read-more.component.html',
   styleUrls: ['./read-more.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, TranslatePipe],
 })
 export class ReadMoreComponent implements AfterViewInit {
   @Input() maxHeight = 100;

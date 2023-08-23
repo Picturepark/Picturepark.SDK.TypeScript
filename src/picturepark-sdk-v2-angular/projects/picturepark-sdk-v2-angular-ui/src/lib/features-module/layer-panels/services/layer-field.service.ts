@@ -63,8 +63,8 @@ export class LayerFieldService {
       case FieldSingleTagbox:
         layerField.tagboxFields = [
           {
-            value: fieldValue._displayValues.name,
-            tooltip: fieldValue._displayValues.thumbnail,
+            value: fieldValue._displayValues?.name,
+            tooltip: fieldValue._displayValues?.thumbnail,
           },
         ];
         break;

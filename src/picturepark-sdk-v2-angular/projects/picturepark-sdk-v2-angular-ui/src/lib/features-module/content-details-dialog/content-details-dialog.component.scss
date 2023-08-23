@@ -3,7 +3,7 @@
 
   .dialog-content {
     overflow: hidden;
-    height: calc(100% - 62px);
+    height: calc(100% - 63px);
 
     mat-dialog-content {
       position: relative;
@@ -18,11 +18,11 @@
         }
 
         position: absolute;
-        right: 20px;
+        right: 0px;
         top: 0;
         z-index: 100;
-        padding: 10px;
-        padding-right: 30px;
+        padding: 8px;
+        padding-right: 24px;
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
@@ -33,6 +33,10 @@
           .navigation {
             min-width: 40px;
             padding: 0 8px;
+
+            mat-icon {
+              margin-right: -4px;
+            }
           }
 
           mat-divider {
@@ -52,7 +56,7 @@
         }
       }
 
-      .mat-tab-header {
+      .mat-mdc-tab-header {
         height: 50px;
       }
 
@@ -104,6 +108,6 @@
   }
 }
 
-.mat-dialog-content {
+.mat-mdc-dialog-content {
   max-height: 100vh;
 }

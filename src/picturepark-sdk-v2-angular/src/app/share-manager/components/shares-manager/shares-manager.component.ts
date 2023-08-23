@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-
-// LIBRARIES
 import { TermsAggregator, InfoFacade, NestedAggregator, ShareSearchFacade } from '@picturepark/sdk-v2-angular';
 import { firstValueFrom } from 'rxjs';
+import { MatTabsModule } from '@angular/material/tabs';
+import { CommonModule } from '@angular/common';
+import { AggregationListComponent, ShareBrowserComponent, TranslatePipe } from '@picturepark/sdk-v2-angular-ui';
 
 @Component({
   selector: 'app-shares-manager',
   templateUrl: './shares-manager.component.html',
   styleUrls: ['./shares-manager.component.scss'],
+  standalone: true,
+  imports: [CommonModule, ShareBrowserComponent, MatTabsModule, AggregationListComponent, TranslatePipe],
 })
 export class SharesManagerComponent implements OnInit {
   initialized = false;

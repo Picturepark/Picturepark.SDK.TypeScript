@@ -1,11 +1,9 @@
 import { Pipe, PipeTransform, Injectable } from '@angular/core';
-
-// LIBRARIES
 import { AggregationResultItem } from '@picturepark/sdk-v2-angular';
 import { TranslationService } from '../services/translations/translation.service';
 
 @Injectable({ providedIn: 'root' })
-@Pipe({ name: 'ppAggregationItemTranslate' })
+@Pipe({ name: 'ppAggregationItemTranslate', standalone: true })
 export class AggregationItemTranslatePipe implements PipeTransform {
   constructor(private translationService: TranslationService) {}
 

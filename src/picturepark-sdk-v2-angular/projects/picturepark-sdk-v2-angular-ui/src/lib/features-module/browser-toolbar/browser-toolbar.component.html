@@ -2,8 +2,13 @@
   <div class="browser-toolbar-content" [class.browser-toolbar-content--mobile]="deviceBreakpoint">
     <div class="select" *ngIf="selectionEnabled">
       <button [matMenuTriggerFor]="select">
-        <ng-container *ngIf="deviceBreakpoint; else showText">{{ selectedItemCountLabel }}</ng-container>
-        <ng-template #showText>{{ buttonLabel | pptranslate: selectedItemCount }}</ng-template>
+        <ng-container *ngIf="deviceBreakpoint; else showText">{{
+          browser.selectedItemsCount() > 0 ? browser.selectedItemsCount() : ''
+        }}</ng-container>
+        <ng-template #showText>{{
+          (browser.selectedItemsCount() > 0 ? 'ContentBrowser.Selected' : 'ContentBrowser.SelectMenu')
+            | pptranslate: browser.selectedItemsCount()
+        }}</ng-template>
         <i class="material-icons button-icon" [class.button-icon--mobile]="deviceBreakpoint">more_vert</i>
       </button>
       <mat-menu #select="matMenu" xPosition="after">
@@ -19,7 +24,7 @@
     <ng-content select="[browser-buttons]"></ng-content>
 
     <div class="spacer"></div>
-    <span *ngIf="browser.totalResults$ | async as totalResults" class="items-count mat-body-1"
+    <span *ngIf="browser.totalResults$ | async as totalResults" class="items-count mat-body-2"
       >{{ totalResults }} {{ entityName }}</span
     >
 

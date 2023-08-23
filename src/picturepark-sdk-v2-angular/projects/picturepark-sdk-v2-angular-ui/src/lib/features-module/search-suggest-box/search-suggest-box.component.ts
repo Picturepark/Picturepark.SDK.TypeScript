@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Injector, ChangeDetectionStrategy, Inject, LOCALE_ID } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, Inject, LOCALE_ID } from '@angular/core';
 
 // LIBRARIES
 import {
@@ -9,22 +9,43 @@ import {
   SearchInputState,
   IEntityBase,
 } from '@picturepark/sdk-v2-angular';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { FormControl, FormBuilder } from '@angular/forms';
+import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { UntypedFormControl, UntypedFormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { debounceTime, tap, switchMap, map, catchError, distinctUntilChanged, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { BaseComponent } from '../../shared-module/components/base.component';
-import { MatRadioChange } from '@angular/material/radio';
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
+import { HighlightPipe } from '../../shared-module/pipes/highlight.pipe';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatOptionModule } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'pp-search-suggest-box',
   templateUrl: './search-suggest-box.component.html',
   styleUrls: ['./search-suggest-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatIconModule,
+    MatOptionModule,
+    MatRadioModule,
+    FormsModule,
+    MatTooltipModule,
+    TranslatePipe,
+    HighlightPipe,
+  ],
 })
 export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
-  constructor(injector: Injector, private formBuilder: FormBuilder, @Inject(LOCALE_ID) public locale: string) {
-    super(injector);
+  constructor(private formBuilder: UntypedFormBuilder, @Inject(LOCALE_ID) public locale: string) {
+    super();
   }
 
   isLoading = false;
@@ -32,7 +53,7 @@ export class SearchSuggestBoxComponent extends BaseComponent implements OnInit {
   typed = false;
 
   form = this.formBuilder.group({
-    suggestBox: new FormControl(''),
+    suggestBox: new UntypedFormControl(''),
   });
 
   @Input()

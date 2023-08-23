@@ -1,41 +1,49 @@
-import { Component, Output, EventEmitter, OnInit, Inject, Injector } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-
-// LIBRARIES
-import { PICTUREPARK_UI_CONFIGURATION, PictureparkUIConfiguration, ConfigActions } from '../../configuration';
-
-// COMPONENTS
+import { PICTUREPARK_UI_CONFIGURATION, ConfigActions } from '../../configuration';
 import { BaseComponent } from '../../shared-module/components/base.component';
 import { ShareContentDialogComponent } from '../../features-module/share-content-dialog/share-content-dialog.component';
-
-// SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
 import { Content } from '@picturepark/sdk-v2-angular';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { BasketItemComponent } from './components/basket-item/basket-item.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'pp-basket',
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatIconModule,
+    TranslatePipe,
+    BasketItemComponent,
+  ],
 })
 export class BasketComponent extends BaseComponent implements OnInit {
-  basketItems: Content[] = [];
+  private pictureParkUIConfig = inject(PICTUREPARK_UI_CONFIGURATION);
+  private basketService = inject(BasketService);
+  private contentDownloadDialogService = inject(ContentDownloadDialogService);
+  private dialog = inject(MatDialog);
 
+  @Output() previewItemChange = new EventEmitter<Content>();
+
+  basketItems = toSignal(this.basketService.basketItemsChanges, { requireSync: true });
   configActions: ConfigActions;
 
-  @Output()
-  previewItemChange = new EventEmitter<Content>();
-
-  constructor(
-    @Inject(PICTUREPARK_UI_CONFIGURATION) private pictureParkUIConfig: PictureparkUIConfiguration,
-    private basketService: BasketService,
-    private contentDownloadDialogService: ContentDownloadDialogService,
-    protected injector: Injector,
-    public dialog: MatDialog
-  ) {
-    super(injector);
-
-    this.sub = this.basketService.basketItemsChanges.subscribe(items => (this.basketItems = items));
+  ngOnInit() {
+    this.configActions = this.pictureParkUIConfig['BasketComponent'];
   }
 
   previewItem(item: Content): void {
@@ -45,13 +53,13 @@ export class BasketComponent extends BaseComponent implements OnInit {
   downloadItems(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: [...this.basketItems],
+      contents: [...this.basketItems()],
     });
   }
 
   openShareContentDialog(): void {
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-      data: [...this.basketItems],
+      data: [...this.basketItems()],
       autoFocus: false,
       maxHeight: '95vh',
       maxWidth: '99vw',
@@ -67,9 +75,5 @@ export class BasketComponent extends BaseComponent implements OnInit {
 
   clearBasket(): void {
     this.basketService.clearBasket();
-  }
-
-  ngOnInit() {
-    this.configActions = this.pictureParkUIConfig['BasketComponent'];
   }
 }

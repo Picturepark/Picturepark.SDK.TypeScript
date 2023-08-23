@@ -1,17 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationHeaderComponent } from './application-header.component';
-import { ApplicationHeaderModule } from './application-header.module';
 
 describe('ApplicationHeaderComponent', () => {
   let component: ApplicationHeaderComponent;
   let fixture: ComponentFixture<ApplicationHeaderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ApplicationHeaderModule],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ApplicationHeaderComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ApplicationHeaderComponent);

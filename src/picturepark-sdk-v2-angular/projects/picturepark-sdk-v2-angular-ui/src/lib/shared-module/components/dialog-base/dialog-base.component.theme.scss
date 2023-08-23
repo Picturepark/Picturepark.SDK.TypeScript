@@ -1,10 +1,5 @@
 @use '@angular/material' as mat;
 
-// DIALOG BASE VARS
-$pp-dialog-base: (
-  contrast: (),
-);
-
 @mixin pp-dialog-base-theme($theme) {
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
@@ -19,25 +14,16 @@ $pp-dialog-base: (
         color: mat.get-color-from-palette($accent, '200-contrast');
         border-color: mat.get-color-from-palette($primary, divider);
       }
-
       mat-dialog-content {
-        background-color: mat.get-color-from-palette($primary, background-dark);
-        color: mat.get-color-from-palette($primary, on-background-dark);
+        background-color: mat.get-color-from-palette($primary, background-light);
+        color: mat.get-color-from-palette($primary, on-background-light);
 
-        .mat-tab-header {
+        .mat-mdc-tab-header {
           background-color: mat.get-color-from-palette($accent, 550);
         }
 
-        .mat-checkbox-checked {
-          &.mat-primary {
-            .mat-checkbox-background {
-              background-color: mat.get-color-from-palette($primary, primary);
-            }
-          }
-        }
-
-        .mat-tab-body-content {
-          background-color: mat.get-color-from-palette($accent, 450);
+        .mat-mdc-tab-body-content {
+          background-color: mat.get-color-from-palette($primary, 100);
           color: mat.get-color-from-palette($primary, on-surface-mid);
         }
       }
@@ -49,29 +35,6 @@ $pp-dialog-base: (
       mat-dialog-actions {
         background-color: mat.get-color-from-palette($primary, surface-light);
         color: mat.get-color-from-palette($primary, on-surface-light);
-      }
-    }
-  }
-
-  .cp-dialog {
-    .dialog-container {
-      mat-dialog-content {
-        background-color: mat.get-color-from-palette($accent, 400);
-        color: mat.get-color-from-palette($accent, '400-contrast');
-        fill: mat.get-color-from-palette($accent, '200-contrast');
-
-        .mat-radio-button {
-          &.mat-accent {
-            &.mat-radio-checked {
-              .mat-radio-outer-circle {
-                border-color: mat.get-color-from-palette($primary, 400);
-              }
-            }
-            .mat-radio-inner-circle {
-              background-color: mat.get-color-from-palette($primary, 400);
-            }
-          }
-        }
       }
     }
   }

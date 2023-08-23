@@ -1,6 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, Injector } from '@angular/core';
-
-// LIBRARIES
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
   ThumbnailSize,
   Channel,
@@ -9,19 +7,23 @@ import {
   SortDirection,
   UserRight,
 } from '@picturepark/sdk-v2-angular';
-
-// COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
 import { ShareContentDialogComponent } from '../../features-module/share-content-dialog/share-content-dialog.component';
-
-// SERVICES
 import { BasketService } from '../../shared-module/services/basket/basket.service';
-
-// INTERFACES
 import { ContentDownloadDialogService } from '../content-download-dialog/services/content-download-dialog.service';
-import { ItemBasketSelection } from './components/content-browser-item/interfaces/content-browser-item.interface';
+import { ItemBasketSelection } from './components/content-browser-item/content-browser-item.interface';
 import { ISortItem } from '../../shared-module/components/browser-base/interfaces/sort-item';
 import { SessionService } from '../../shared-module/services/session/session.service';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { UserInteractionDirective } from '../../shared-module/directives/user-interaction.directive';
+import { ContentBrowserItemComponent } from './components/content-browser-item/content-browser-item.component';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { BrowserToolbarComponent } from '../browser-toolbar/browser-toolbar.component';
 
 @Component({
   selector: 'pp-content-browser',
@@ -30,6 +32,19 @@ import { SessionService } from '../../shared-module/services/session/session.ser
     '../../shared-module/components/browser-base/browser-base.component.scss',
     './content-browser.component.scss',
     './content-browser-resp.component.scss',
+  ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    BrowserToolbarComponent,
+    MatButtonModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatProgressBarModule,
+    CdkScrollable,
+    ContentBrowserItemComponent,
+    UserInteractionDirective,
+    TranslatePipe,
   ],
 })
 export class ContentBrowserComponent extends BaseBrowserComponent<Content> implements OnChanges {
@@ -40,10 +55,9 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     private sessionService: SessionService,
     private basketService: BasketService,
     public facade: ContentSearchFacade,
-    private contentDownloadDialogService: ContentDownloadDialogService,
-    injector: Injector
+    private contentDownloadDialogService: ContentDownloadDialogService
   ) {
-    super('ContentBrowserComponent', injector, facade);
+    super('ContentBrowserComponent', facade);
   }
 
   async init(): Promise<void> {}
@@ -116,7 +130,7 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
   }
 
   previewSelectedItem(): void {
-    const content = this.items.find(i => i === this.selectedItems[0]);
+    const content = this.items.find(i => i === this.selectedItems()[0]);
     if (content) {
       this.previewItem(content);
     }
@@ -126,10 +140,9 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     return thumbnailSize;
   }
 
-  // OPEN SHARE CONTENT DIALOG
   openShareContentDialog(): void {
     const dialogRef = this.dialog.open(ShareContentDialogComponent, {
-      data: [...this.selectedItems],
+      data: [...this.selectedItems()],
       autoFocus: false,
       maxHeight: '95vh',
       maxWidth: '99vw',
@@ -141,16 +154,15 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     instance.title = 'ShareContentDialog.CreateShare';
   }
 
-  // OPEN DOWNLOAD CONTENT DIALOG
   openDownloadContentDialog(): void {
     this.contentDownloadDialogService.showDialog({
       mode: 'multi',
-      contents: [...this.selectedItems],
+      contents: [...this.selectedItems()],
     });
   }
 
   handleBasketChanges(basketSelection: ItemBasketSelection) {
-    const selectedItemsIds = this.selectedItems.map(i => i.id);
+    const selectedItemsIds = this.selectedItems().map(i => i.id);
     if (selectedItemsIds.includes(basketSelection.itemId)) {
       if (basketSelection.addItem) {
         this.basketService.addItems(selectedItemsIds);
@@ -172,7 +184,6 @@ export class ContentBrowserComponent extends BaseBrowserComponent<Content> imple
     return containClasses.some(iClass => elementClassName.includes(iClass));
   }
 
-  // CLEAR SELECTION
   cancel(): void {
     this.selectionService.clear();
   }

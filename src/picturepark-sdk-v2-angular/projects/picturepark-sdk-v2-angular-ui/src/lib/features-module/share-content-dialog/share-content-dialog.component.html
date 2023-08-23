@@ -1,6 +1,6 @@
 <div *ngIf="sharedContentForm$ | async as sharedContentForm" class="dialog-container" #contentContainer>
   <div class="header">
-    <span class="header-title mat-display-4 u-text-ellipsis">{{ title | pptranslate }}</span>
+    <span class="header-title mat-headline-1 u-text-ellipsis">{{ title | pptranslate }}</span>
     <mat-icon class="header-close" (click)="closeDialog()">close</mat-icon>
   </div>
   <mat-divider></mat-divider>
@@ -61,7 +61,7 @@
             <label for="expiry-date">{{ 'ShareContentDialog.AccessOriginal' | pptranslate }}:</label>
           </li>
           <li class="input-content">
-            <mat-slide-toggle color="primary" formControlName="accessOriginal"></mat-slide-toggle>
+            <mat-slide-toggle color="accent" formControlName="accessOriginal"></mat-slide-toggle>
           </li>
         </ul>
         <ul *ngIf="languageService.shareLanguages.length > 1">
@@ -79,7 +79,7 @@
       </div>
 
       <div class="selected-items-content" *ngIf="recipients.length === 0">
-        <mat-tab-group autoFocus="false">
+        <mat-tab-group autoFocus="false" [mat-stretch-tabs]="false" color="accent">
           <mat-tab label="{{ 'ShareContentDialog.Items' | pptranslate }}">
             <ng-template matTabContent>
               <div class="selected-items">
@@ -124,15 +124,15 @@
   </mat-dialog-content>
   <mat-divider></mat-divider>
   <mat-dialog-actions class="actions">
-    <button mat-button color="primary" (click)="closeDialog()" *ngIf="recipients.length === 0" [disabled]="loader">
+    <button mat-button color="accent" (click)="closeDialog()" *ngIf="recipients.length === 0" [disabled]="loader">
       {{ 'ShareContentDialog.CancelShare' | pptranslate }}
     </button>
-    <button mat-button color="primary" (click)="closeDialog()" *ngIf="recipients.length > 0" [disabled]="loader">
+    <button mat-button color="accent" (click)="closeDialog()" *ngIf="recipients.length > 0" [disabled]="loader">
       {{ 'ShareContentDialog.CloseDialog' | pptranslate }}
     </button>
     <button
       mat-flat-button
-      color="primary"
+      color="accent"
       [ngClass]="{ active: sharedContentForm.valid }"
       (click)="onFormSubmit()"
       *ngIf="recipients.length === 0"

@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Injector, Output } from '@angular/core';
-// LIBRARIES
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Schema, SchemaSearchFacade } from '@picturepark/sdk-v2-angular';
-// COMPONENTS
 import { BaseBrowserComponent } from '../../shared-module/components/browser-base/browser-base.component';
+import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
+import { SchemaBrowserItemComponent } from './components/schema-browser-item/schema-browser-item.component';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { CommonModule } from '@angular/common';
+import { BrowserToolbarComponent } from '../browser-toolbar/browser-toolbar.component';
 
 @Component({
   selector: 'pp-schema-browser',
@@ -11,7 +14,8 @@ import { BaseBrowserComponent } from '../../shared-module/components/browser-bas
     '../../shared-module/components/browser-base/browser-base.component.scss',
     './schema-browser.component.scss',
   ],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  standalone: true,
+  imports: [CommonModule, BrowserToolbarComponent, CdkScrollable, SchemaBrowserItemComponent, TranslatePipe],
 })
 export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
   @Output() activeSchemaChange = new EventEmitter<Schema>();
@@ -19,8 +23,8 @@ export class SchemaBrowserComponent extends BaseBrowserComponent<Schema> {
 
   selectedSchemaId: string;
 
-  constructor(public facade: SchemaSearchFacade, injector: Injector) {
-    super('SchemaBrowserComponent', injector, facade);
+  constructor(public facade: SchemaSearchFacade) {
+    super('SchemaBrowserComponent', facade);
   }
 
   async init(): Promise<void> {
