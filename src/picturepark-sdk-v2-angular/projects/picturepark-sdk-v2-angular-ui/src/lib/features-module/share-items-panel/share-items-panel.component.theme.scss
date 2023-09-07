@@ -23,7 +23,7 @@
         background-color: mat.get-color-from-palette($primary, 100);
 
         &:hover {
-          background-color: mat.get-color-from-palette($primary, 500);
+          background-color: mat.get-color-from-palette($primary, 400);
         }
 
         .item-funcs {
