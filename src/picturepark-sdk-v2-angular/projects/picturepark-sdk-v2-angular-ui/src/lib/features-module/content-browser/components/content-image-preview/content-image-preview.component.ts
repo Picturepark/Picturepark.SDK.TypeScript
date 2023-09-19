@@ -215,12 +215,8 @@ export class ContentImagePreviewComponent extends StatefulComponent<typeof initi
         items: this.shareDetail.contentSelections.map(s => {
           const viewerType = this.fullscreenService.getContentViewerType(s);
           const viewerOutput = this.fullscreenService.getViewerOutput(s, viewerType) as ShareOutputBase | undefined;
-          const previewOutput = this.fullscreenService.getOutput(this.content, [this.outputId]) as
-            | ShareOutputBase
-            | undefined;
-          const originalOutput = this.fullscreenService.getOutput(this.content, ['Original']) as
-            | ShareOutputBase
-            | undefined;
+          const previewOutput = this.fullscreenService.getOutput(s, [this.outputId]) as ShareOutputBase | undefined;
+          const originalOutput = this.fullscreenService.getOutput(s, ['Original']) as ShareOutputBase | undefined;
 
           const detail = originalOutput ? originalOutput.detail : previewOutput?.detail;
 
