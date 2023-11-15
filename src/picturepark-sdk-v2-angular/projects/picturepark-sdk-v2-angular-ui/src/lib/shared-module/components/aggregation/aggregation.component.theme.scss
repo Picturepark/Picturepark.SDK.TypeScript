@@ -15,7 +15,7 @@
       .mat-expansion-panel-header {
         font-size: mat.font-size($custom-typography, headline-4);
 
-        .mat-content {
+        &.mat-expanded {
           border-bottom: 1px solid mat.get-color-from-palette($primary, divider);
         }
 
