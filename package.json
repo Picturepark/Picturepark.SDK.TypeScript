@@ -1,6 +1,6 @@
 {
   "name": "@picturepark/typescript-sdk",
-  "version": "11.8.0",
+  "version": "11.9.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Picturepark/Picturepark.SDK.TypeScript.git"
@@ -27,7 +27,7 @@
     "@types/node": "^13.9.1",
     "http-server": "^14.1.1",
     "marked": "^4.0.12",
-    "nswag": "13.16.1",
+    "nswag": "13.20.0",
     "rollup": "^2.70.0",
     "terser": "^5.14.2",
     "tslib": "^2.4.0",

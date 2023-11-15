@@ -111,7 +111,7 @@
   }
 
   // Extends the base mat-stroked-button styling
-  .mat-mdc-outlined-button {
+  .mat-mdc-outlined-button:not([disabled]) {
     border-color: mat.get-color-from-palette($primary, 500);
     background-color: mat.get-color-from-palette($primary, background-light);
     &.mat-unthemed {
