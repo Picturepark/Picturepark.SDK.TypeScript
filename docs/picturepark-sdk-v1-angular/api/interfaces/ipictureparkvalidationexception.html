@@ -21,6 +21,7 @@
 <li><span class="target">IPictureparkValidationException</span>
 <ul class="tsd-hierarchy">
 <li><a href="IPictureparkTimeoutException.html" class="tsd-signature-type" data-tsd-kind="Interface">IPictureparkTimeoutException</a></li>
+<li><a href="IPictureparkContradictoryArgumentsException.html" class="tsd-signature-type" data-tsd-kind="Interface">IPictureparkContradictoryArgumentsException</a></li>
 <li><a href="IUserEmailAlreadyExistsException.html" class="tsd-signature-type" data-tsd-kind="Interface">IUserEmailAlreadyExistsException</a></li>
 <li><a href="IUnableToDeleteUserRoleException.html" class="tsd-signature-type" data-tsd-kind="Interface">IUnableToDeleteUserRoleException</a></li>
 <li><a href="IUserNotDeactivatedException.html" class="tsd-signature-type" data-tsd-kind="Interface">IUserNotDeactivatedException</a></li>
@@ -63,6 +64,7 @@
 <li><a href="IOwnerTokenInUseException.html" class="tsd-signature-type" data-tsd-kind="Interface">IOwnerTokenInUseException</a></li>
 <li><a href="IItemIdDuplicatedException.html" class="tsd-signature-type" data-tsd-kind="Interface">IItemIdDuplicatedException</a></li>
 <li><a href="IRequestSizeLimitExceededException.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestSizeLimitExceededException</a></li>
+<li><a href="ICronExpressionInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">ICronExpressionInvalidException</a></li>
 <li><a href="ICustomerAliasInUseException.html" class="tsd-signature-type" data-tsd-kind="Interface">ICustomerAliasInUseException</a></li>
 <li><a href="ICustomerBoostValuesInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">ICustomerBoostValuesInvalidException</a></li>
 <li><a href="ISnapshotRetentionTimeTooShortException.html" class="tsd-signature-type" data-tsd-kind="Interface">ISnapshotRetentionTimeTooShortException</a></li>
@@ -193,6 +195,8 @@
 <li><a href="IContentResolveBehaviorNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">IContentResolveBehaviorNotSupportedException</a></li>
 <li><a href="IBusinessProcessCancellationNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">IBusinessProcessCancellationNotSupportedException</a></li>
 <li><a href="IBusinessProcessSummaryNotBatchBasedException.html" class="tsd-signature-type" data-tsd-kind="Interface">IBusinessProcessSummaryNotBatchBasedException</a></li>
+<li><a href="ICoreClusterNotProvidedException.html" class="tsd-signature-type" data-tsd-kind="Interface">ICoreClusterNotProvidedException</a></li>
+<li><a href="ISnapshotExistingIndicesNotClosedException.html" class="tsd-signature-type" data-tsd-kind="Interface">ISnapshotExistingIndicesNotClosedException</a></li>
 <li><a href="IEnvironmentProcessAlreadyRunningException.html" class="tsd-signature-type" data-tsd-kind="Interface">IEnvironmentProcessAlreadyRunningException</a></li>
 <li><a href="IAtLeastOneActiveTermsOfServiceMustExistException.html" class="tsd-signature-type" data-tsd-kind="Interface">IAtLeastOneActiveTermsOfServiceMustExistException</a></li>
 <li><a href="IForbiddenHtmlElementsUsedException.html" class="tsd-signature-type" data-tsd-kind="Interface">IForbiddenHtmlElementsUsedException</a></li>
@@ -278,13 +282,20 @@
 <li><a href="ICommentReplyContentMismatchException.html" class="tsd-signature-type" data-tsd-kind="Interface">ICommentReplyContentMismatchException</a></li>
 <li><a href="IVirtualDisplayContentNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">IVirtualDisplayContentNotSupportedException</a></li>
 <li><a href="INestedDisplayContentNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">INestedDisplayContentNotSupportedException</a></li>
-<li><a href="ISelfReferencingDisplayContentNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">ISelfReferencingDisplayContentNotSupportedException</a></li></ul></li></ul></li></ul></section>
+<li><a href="ISelfReferencingDisplayContentNotSupportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">ISelfReferencingDisplayContentNotSupportedException</a></li>
+<li><a href="IIngestContainerEmptyException.html" class="tsd-signature-type" data-tsd-kind="Interface">IIngestContainerEmptyException</a></li>
+<li><a href="IIngestContainerImportAlreadyInProgress.html" class="tsd-signature-type" data-tsd-kind="Interface">IIngestContainerImportAlreadyInProgress</a></li>
+<li><a href="IIngestContainerImportRequestValidationFailedException.html" class="tsd-signature-type" data-tsd-kind="Interface">IIngestContainerImportRequestValidationFailedException</a></li>
+<li><a href="IIngestFileInvalidFileNameOverrideExtensionException.html" class="tsd-signature-type" data-tsd-kind="Interface">IIngestFileInvalidFileNameOverrideExtensionException</a></li>
+<li><a href="IIngestFileAlreadyImportedException.html" class="tsd-signature-type" data-tsd-kind="Interface">IIngestFileAlreadyImportedException</a></li>
+<li><a href="IIngestUrlInvalidException.html" class="tsd-signature-type" data-tsd-kind="Interface">IIngestUrlInvalidException</a></li>
+<li><a href="IIngestDownloadFailedException.html" class="tsd-signature-type" data-tsd-kind="Interface">IIngestDownloadFailedException</a></li></ul></li></ul></li></ul></section>
 <section class="tsd-panel">
 <h4>Implemented by</h4>
 <ul class="tsd-hierarchy">
 <li><a href="../classes/PictureparkValidationException.html" class="tsd-signature-type" data-tsd-kind="Class">PictureparkValidationException</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L36081">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:36081</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/635d3c39e/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L36977">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:36977</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -308,49 +319,49 @@
 <div class="tsd-signature">customer<wbr/>Alias<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <p>Inherited from <a href="IPictureparkBusinessException.html">IPictureparkBusinessException</a>.<a href="IPictureparkBusinessException.html#customerAlias">customerAlias</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L34646">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:34646</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/635d3c39e/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L35487">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:35487</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="customerId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>customer<wbr/>Id</span><a href="#customerId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">customer<wbr/>Id<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <p>Inherited from <a href="IPictureparkBusinessException.html">IPictureparkBusinessException</a>.<a href="IPictureparkBusinessException.html#customerId">customerId</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L34645">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:34645</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/635d3c39e/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L35486">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:35486</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="exceptionMessage" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>exception<wbr/>Message</span><a href="#exceptionMessage" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">exception<wbr/>Message<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <p>Inherited from <a href="IPictureparkBusinessException.html">IPictureparkBusinessException</a>.<a href="IPictureparkBusinessException.html#exceptionMessage">exceptionMessage</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L32714">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:32714</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/635d3c39e/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L33470">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:33470</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="httpStatusCode" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>http<wbr/>Status<wbr/>Code</span><a href="#httpStatusCode" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">http<wbr/>Status<wbr/>Code<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <p>Inherited from <a href="IPictureparkBusinessException.html">IPictureparkBusinessException</a>.<a href="IPictureparkBusinessException.html#httpStatusCode">httpStatusCode</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L32713">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:32713</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/635d3c39e/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L33469">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:33469</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="traceId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>trace<wbr/>Id</span><a href="#traceId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">trace<wbr/>Id<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <p>Inherited from <a href="IPictureparkBusinessException.html">IPictureparkBusinessException</a>.<a href="IPictureparkBusinessException.html#traceId">traceId</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L32711">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:32711</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/635d3c39e/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L33467">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:33467</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="traceJobId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>trace<wbr/>Job<wbr/>Id</span><a href="#traceJobId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">trace<wbr/>Job<wbr/>Id<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <p>Inherited from <a href="IPictureparkBusinessException.html">IPictureparkBusinessException</a>.<a href="IPictureparkBusinessException.html#traceJobId">traceJobId</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L32712">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:32712</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/635d3c39e/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L33468">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:33468</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="traceLevel" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>trace<wbr/>Level</span><a href="#traceLevel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">trace<wbr/>Level<span class="tsd-signature-symbol">?:</span> <a href="../enums/TraceLevel.html" class="tsd-signature-type" data-tsd-kind="Enumeration">TraceLevel</a></div><aside class="tsd-sources">
 <p>Inherited from <a href="IPictureparkBusinessException.html">IPictureparkBusinessException</a>.<a href="IPictureparkBusinessException.html#traceLevel">traceLevel</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L32710">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:32710</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/635d3c39e/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L33466">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:33466</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="userId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>user<wbr/>Id</span><a href="#userId" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">user<wbr/>Id<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <p>Inherited from <a href="IPictureparkBusinessException.html">IPictureparkBusinessException</a>.<a href="IPictureparkBusinessException.html#userId">userId</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/931ece5ba/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L34647">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:34647</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/635d3c39e/src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts#L35488">src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/src/lib/services/api-services.ts:35488</a></li></ul></aside></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
