@@ -1,6 +1,6 @@
 {
   "name": "@picturepark/sdk-v2-angular",
-  "version": "11.9.0",
+  "version": "11.9.0-pre.0",
   "peerDependencies": {
     "@angular/common": "^16.0.0",
     "@angular/core": "^16.0.0"
