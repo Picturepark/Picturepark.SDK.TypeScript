@@ -28,7 +28,7 @@ jobs:
         run: ./create-test-config.ps1
         env:
           TestApiServer: ${{ vars.TESTAPISERVER }}
-          TestCustomerAlias: ${{ secrets.TESTCUSTOMERALIAS }}
+          TestCustomerAlias: ${{ vars.TESTCUSTOMERALIAS }}
           TestIdentityClientId: ${{ secrets.TESTIDENTITYCLIENTID }}
           TestIdentitySecret: ${{ secrets.TESTIDENTITYSECRET }}
           TestIdentityServer: ${{ vars.TESTIDENTITYSERVER }}
@@ -70,7 +70,7 @@ jobs:
         run: ./create-test-config.ps1
         env:
           TestApiServer: ${{ vars.TESTAPISERVER }}
-          TestCustomerAlias: ${{ secrets.TESTCUSTOMERALIAS }}
+          TestCustomerAlias: ${{ vars.TESTCUSTOMERALIAS }}
           TestIdentityClientId: ${{ secrets.TESTIDENTITYCLIENTID }}
           TestIdentitySecret: ${{ secrets.TESTIDENTITYSECRET }}
           TestIdentityServer: ${{ vars.TESTIDENTITYSERVER }}
