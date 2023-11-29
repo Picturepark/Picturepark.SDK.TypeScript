@@ -3,11 +3,13 @@
     <i class="material-icons">{{ toolBarIcon }}</i>
   </div>
   <ul>
-    <li *ngFor="let tool of toolBarOptions">
-      <button (click)="fireAction(tool)">
-        <i class="material-icons">{{ tool.icon }}</i>
-        <span>{{ tool.name }}</span>
-      </button>
-    </li>
+    @for (tool of toolBarOptions; track tool) {
+      <li>
+        <button (click)="fireAction(tool)">
+          <i class="material-icons">{{ tool.icon }}</i>
+          <span>{{ tool.name }}</span>
+        </button>
+      </li>
+    }
   </ul>
 </div>

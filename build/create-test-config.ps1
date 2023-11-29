@@ -41,7 +41,7 @@ try {
     }
 } 
 catch [Exception] { 
-    "Failed to run unit tests: $_.Exception.Message" 
+    "Failed to run unit tests: $_.Exception.Message at line $($_.InvocationInfo.ScriptLineNumber)" 
     $_.Exception.StackTrace 
     Exit 1 
 }

@@ -2,8 +2,8 @@
   "name": "@picturepark/sdk-v2-angular-oidc",
   "version": "11.10.0-pre.0",
   "peerDependencies": {
-    "@angular/common": "^16.0.0",
-    "@angular/core": "^16.0.0",
+    "@angular/common": "^17.0.0",
+    "@angular/core": "^17.0.0",
     "angular-oauth2-oidc": "^15.0.1",
     "@picturepark/sdk-v2-angular": "^11.10.0-pre.0"
   },

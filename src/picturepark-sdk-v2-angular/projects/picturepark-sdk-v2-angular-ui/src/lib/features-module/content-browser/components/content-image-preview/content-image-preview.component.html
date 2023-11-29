@@ -1,25 +1,38 @@
-<div class="content-image-preview-container" *ngIf="state() as s">
-  <div
-    class="content-image-preview-content"
-    *ngIf="!s.isLoading"
-    (click)="showFullscreen()"
-    [class.content-image-preview-content-mobile]="deviceBreakpoint"
-  >
-    <img
-      *ngIf="s.thumbnailUrlSafe && !s.playing && !s.pdfUrl"
-      [src]="s.thumbnailUrlSafe"
-      (error)="updateUrl($event)"
-      [class.icon]="s.isIcon"
-    />
-    <mat-icon *ngIf="(s.viewerType === 'video' || s.viewerType === 'audio') && !s.playing && !s.pdfUrl"
-      >play_arrow</mat-icon
-    >
-  </div>
-  <div class="video-player" *ngIf="s.playing"></div>
-  <div class="pdf-viewer" *ngIf="s.pdfUrl">
-    <iframe [src]="s.pdfUrl" frameBorder="0" allowfullscreen webkitallowfullscreen></iframe>
-  </div>
-  <div class="loader" *ngIf="s.isLoading">
-    <mat-spinner></mat-spinner>
-  </div>
-</div>
+@if (state(); as s) {
+  <div class="content-image-preview-container">
+    @if (!s.isLoading) {
+      <div
+        class="content-image-preview-content"
+        (click)="showFullscreen()"
+        [class.content-image-preview-content-mobile]="deviceBreakpoint"
+        >
+        @if (s.thumbnailUrlSafe && !s.playing && !s.pdfUrl) {
+          <img
+            [src]="s.thumbnailUrlSafe"
+            (error)="updateUrl($event)"
+            [class.icon]="s.isIcon"
+            />
+        }
+        @if ((s.viewerType === 'video' || s.viewerType === 'audio') && !s.playing && !s.pdfUrl) {
+          <mat-icon
+            >play_arrow</mat-icon
+            >
+          }
+        </div>
+      }
+      @if (s.playing) {
+        <div class="video-player"></div>
+      }
+      @if (s.pdfUrl) {
+        <div class="pdf-viewer">
+          <iframe [src]="s.pdfUrl" frameBorder="0" allowfullscreen webkitallowfullscreen></iframe>
+        </div>
+      }
+      @if (s.isLoading) {
+        <div class="loader">
+          <mat-spinner></mat-spinner>
+        </div>
+      }
+    </div>
+  }
+  

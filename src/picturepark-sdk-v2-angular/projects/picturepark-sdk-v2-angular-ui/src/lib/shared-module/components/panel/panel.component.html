@@ -1,9 +1,13 @@
-<div *ngIf="showHeader" class="panel-header">
-  <h3 class="panel-header-title" *ngIf="title">{{ title }}</h3>
-  <div class="panel-buttons">
-    <ng-content select="[pp-panel-buttons]"></ng-content>
+@if (showHeader) {
+  <div class="panel-header">
+    @if (title) {
+      <h3 class="panel-header-title">{{ title }}</h3>
+    }
+    <div class="panel-buttons">
+      <ng-content select="[pp-panel-buttons]"></ng-content>
+    </div>
   </div>
-</div>
+}
 <div class="panel-content">
   <ng-content select="[pp-panel-content]"></ng-content>
 </div>
