@@ -2,98 +2,122 @@
   <div class="browser-item__image-slot" [class.browser-item__image-slot--mobile]="deviceBreakpoint">
     <pp-content-item-thumbnail [item]="itemModel" [thumbnailSize]="thumbnailSize" [isListView]="isListView">
     </pp-content-item-thumbnail>
-
-    <div class="browser-item__actions" *ngIf="!isListView">
+    @if (!isListView) {
+      <div class="browser-item__actions">
+        <ul>
+          <li>
+            @if (browser.configActions['preview']) {
+              <button
+                mat-icon-button
+                class="cp-icon-button-24"
+                (click)="previewItem(); $event.stopPropagation()"
+                [matTooltip]="'ContentBrowser.Details' | pptranslate"
+                >
+                <mat-icon aria-label="Preview content item">open_in_new</mat-icon>
+              </button>
+            }
+          </li>
+          <li>
+            @if (browser.configActions['download']) {
+              <button
+                mat-icon-button
+                class="cp-icon-button-24"
+                (click)="downloadItem(); $event.stopPropagation()"
+                [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate"
+                >
+                <mat-icon aria-label="Download item">get_app</mat-icon>
+              </button>
+            }
+          </li>
+        </ul>
+      </div>
+    }
+  </div>
+  @if (thumbnailSize !== thumbnailSizes.Small || isListView) {
+    <div
+      class="browser-item__title"
+      [class.browser-item__title--mobile]="deviceBreakpoint"
+      >
+      <div class="browser-item__title__title-content">{{ itemModel.displayValues!['name'] || 'n/a' }}</div>
+      @if (isListView) {
+        <div class="mat-body-1" [innerHtml]="listItemHtml || 'n/a'"></div>
+      }
+    </div>
+  }
+  @if (isListView) {
+    <div
+      class="browser-item__list-view-actions"
+      [class.browser-item__list-view-actions--mobile]="deviceBreakpoint"
+      >
       <ul>
         <li>
-          <button
-            mat-icon-button
-            class="cp-icon-button-24"
-            *ngIf="browser.configActions['preview']"
-            (click)="previewItem(); $event.stopPropagation()"
-            [matTooltip]="'ContentBrowser.Details' | pptranslate"
-          >
-            <mat-icon aria-label="Preview content item">open_in_new</mat-icon>
-          </button>
+          @if (browser.configActions['preview']) {
+            <button
+              mat-icon-button
+              class="cp-icon-button-24"
+              (click)="previewItem(); $event.stopPropagation()"
+              [matTooltip]="'ContentBrowser.Details' | pptranslate"
+              >
+              <mat-icon aria-label="Preview content item">open_in_new</mat-icon>
+            </button>
+          }
         </li>
         <li>
-          <button
-            mat-icon-button
-            class="cp-icon-button-24"
-            *ngIf="browser.configActions['download']"
-            (click)="downloadItem(); $event.stopPropagation()"
-            [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate"
-          >
-            <mat-icon aria-label="Download item">get_app</mat-icon>
-          </button>
+          @if (browser.configActions['download']) {
+            <button
+              mat-icon-button
+              class="cp-icon-button-24"
+              (click)="downloadItem(); $event.stopPropagation()"
+              [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate"
+              >
+              <mat-icon aria-label="Download item">get_app</mat-icon>
+            </button>
+          }
         </li>
-      </ul>
-    </div>
-  </div>
-  <div
-    *ngIf="thumbnailSize !== thumbnailSizes.Small || isListView"
-    class="browser-item__title"
-    [class.browser-item__title--mobile]="deviceBreakpoint"
-  >
-    <div class="browser-item__title__title-content">{{ itemModel.displayValues!['name'] || 'n/a' }}</div>
-    <div class="mat-body-1" *ngIf="isListView" [innerHtml]="listItemHtml || 'n/a'"></div>
-  </div>
-  <div
-    *ngIf="isListView"
-    class="browser-item__list-view-actions"
-    [class.browser-item__list-view-actions--mobile]="deviceBreakpoint"
-  >
-    <ul>
-      <li>
-        <button
-          mat-icon-button
-          class="cp-icon-button-24"
-          *ngIf="browser.configActions['preview']"
-          (click)="previewItem(); $event.stopPropagation()"
-          [matTooltip]="'ContentBrowser.Details' | pptranslate"
+        <li [ngClass]="{ 'in-basket': isInBasket() }">
+          @if (browser.configActions['basket']) {
+            <button
+              mat-icon-button
+              class="cp-icon-button-24"
+              (click)="handleChangeInBasket(); $event.stopPropagation()"
+              [matTooltip]="(isInBasket() ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate"
+              >
+              @if (isInBasket() === false) {
+                <mat-icon class="add" aria-label="Add item to basket">add</mat-icon>
+              }
+              @if (isInBasket()) {
+                <mat-icon class="remove" aria-label="Remove item from basket class=remove"
+                  >done</mat-icon
+                  >
+                }
+                @if (isInBasket()) {
+                  <mat-icon class="clear" aria-label="Remove item from basket class=clear">clear</mat-icon>
+                }
+              </button>
+            }
+          </li>
+        </ul>
+      </div>
+    }
+    @if (browser.configActions['basket'] && !isListView) {
+      <button
+        mat-mini-fab
+        (click)="handleChangeInBasket(); $event.stopPropagation()"
+        class="browser-item__basket-icon"
+        [class.browser-item__basket-icon--mobile]="deviceBreakpoint"
+        [class.browser-item__basket-icon--selected]="isInBasket()"
+        [matTooltip]="(isInBasket() ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate"
         >
-          <mat-icon aria-label="Preview content item">open_in_new</mat-icon>
-        </button>
-      </li>
-      <li>
-        <button
-          mat-icon-button
-          class="cp-icon-button-24"
-          *ngIf="browser.configActions['download']"
-          (click)="downloadItem(); $event.stopPropagation()"
-          [matTooltip]="'ContentBrowser.DownloadItem' | pptranslate"
-        >
-          <mat-icon aria-label="Download item">get_app</mat-icon>
-        </button>
-      </li>
-      <li [ngClass]="{ 'in-basket': isInBasket() }">
-        <button
-          mat-icon-button
-          class="cp-icon-button-24"
-          (click)="handleChangeInBasket(); $event.stopPropagation()"
-          *ngIf="browser.configActions['basket']"
-          [matTooltip]="(isInBasket() ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate"
-        >
-          <mat-icon class="add" aria-label="Add item to basket" *ngIf="isInBasket() === false">add</mat-icon>
-          <mat-icon class="remove" aria-label="Remove item from basket class=remove" *ngIf="isInBasket()"
-            >done</mat-icon
-          >
-          <mat-icon class="clear" aria-label="Remove item from basket class=clear" *ngIf="isInBasket()">clear</mat-icon>
-        </button>
-      </li>
-    </ul>
+        @if (isInBasket() === false) {
+          <mat-icon class="add" aria-label="Add item to basket">add</mat-icon>
+        }
+        @if (isInBasket()) {
+          <mat-icon class="remove" aria-label="Remove item from basket">done</mat-icon>
+        }
+        @if (isInBasket()) {
+          <mat-icon class="clear" aria-label="Remove item from basket">clear</mat-icon>
+        }
+      </button>
+    }
   </div>
-  <button
-    *ngIf="browser.configActions['basket'] && !isListView"
-    mat-mini-fab
-    (click)="handleChangeInBasket(); $event.stopPropagation()"
-    class="browser-item__basket-icon"
-    [class.browser-item__basket-icon--mobile]="deviceBreakpoint"
-    [class.browser-item__basket-icon--selected]="isInBasket()"
-    [matTooltip]="(isInBasket() ? 'ContentBrowser.RemoveFromBasket' : 'ContentBrowser.AddToBasket') | pptranslate"
-  >
-    <mat-icon class="add" aria-label="Add item to basket" *ngIf="isInBasket() === false">add</mat-icon>
-    <mat-icon class="remove" aria-label="Remove item from basket" *ngIf="isInBasket()">done</mat-icon>
-    <mat-icon class="clear" aria-label="Remove item from basket" *ngIf="isInBasket()">clear</mat-icon>
-  </button>
-</div>
+  

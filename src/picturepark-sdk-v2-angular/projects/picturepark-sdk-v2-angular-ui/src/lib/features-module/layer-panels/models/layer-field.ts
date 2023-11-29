@@ -22,6 +22,8 @@ export class LayerField {
   }[];
   constructor(field: FieldBase, metadata: any) {
     this.fieldsetFields = [];
+    this.tagboxFields = [];
+    this.relationFields = [];
     this.relatedField = field;
     this.title = (metadata._displayValues && metadata._displayValues.list) || '';
     this.markdown =

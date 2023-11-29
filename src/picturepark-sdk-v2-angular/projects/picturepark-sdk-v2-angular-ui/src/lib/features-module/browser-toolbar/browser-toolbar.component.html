@@ -1,83 +1,89 @@
 <div class="browser-toolbar-container">
   <div class="browser-toolbar-content" [class.browser-toolbar-content--mobile]="deviceBreakpoint">
-    <div class="select" *ngIf="selectionEnabled">
-      <button [matMenuTriggerFor]="select">
-        <ng-container *ngIf="deviceBreakpoint; else showText">{{
-          browser.selectedItemsCount() > 0 ? browser.selectedItemsCount() : ''
-        }}</ng-container>
-        <ng-template #showText>{{
-          (browser.selectedItemsCount() > 0 ? 'ContentBrowser.Selected' : 'ContentBrowser.SelectMenu')
+    @if (selectionEnabled) {
+      <div class="select">
+        <button [matMenuTriggerFor]="select">
+          @if (deviceBreakpoint) {
+            {{
+            browser.selectedItemsCount() > 0 ? browser.selectedItemsCount() : ''
+            }}
+          } @else {
+            {{
+            (browser.selectedItemsCount() > 0 ? 'ContentBrowser.Selected' : 'ContentBrowser.SelectMenu')
             | pptranslate: browser.selectedItemsCount()
-        }}</ng-template>
-        <i class="material-icons button-icon" [class.button-icon--mobile]="deviceBreakpoint">more_vert</i>
-      </button>
-      <mat-menu #select="matMenu" xPosition="after">
-        <button mat-menu-item (click)="browser.toggleItems(true)">
-          {{ 'ContentBrowser.SelectFirstItems' | pptranslate: browser.items.length }}
+            }}
+          }
+          <i class="material-icons button-icon" [class.button-icon--mobile]="deviceBreakpoint">more_vert</i>
         </button>
-        <button mat-menu-item (click)="browser.toggleItems(false)">
-          {{ 'ContentBrowser.DeselectAll' | pptranslate }}
-        </button>
-      </mat-menu>
-    </div>
-
+        <mat-menu #select="matMenu" xPosition="after">
+          <button mat-menu-item (click)="browser.toggleItems(true)">
+            {{ 'ContentBrowser.SelectFirstItems' | pptranslate: browser.items.length }}
+          </button>
+          <button mat-menu-item (click)="browser.toggleItems(false)">
+            {{ 'ContentBrowser.DeselectAll' | pptranslate }}
+          </button>
+        </mat-menu>
+      </div>
+    }
     <ng-content select="[browser-buttons]"></ng-content>
-
     <div class="spacer"></div>
-    <span *ngIf="browser.totalResults$ | async as totalResults" class="items-count mat-body-2"
-      >{{ totalResults }} {{ entityName }}</span
-    >
-
-    <div class="order-by" *ngIf="sortingEnabled">
-      <button mat-icon-button [matMenuTriggerFor]="sortMenu" [matTooltip]="'ContentBrowser.SortingMenu' | pptranslate">
-        <mat-icon aria-label="Select sorting">sort</mat-icon>
-      </button>
-
-      <mat-menu #sortMenu="matMenu">
-        <ng-template matMenuContent>
-          <div class="menu-title">{{ 'ContentBrowser.ViewTypeMenu' | pptranslate }}</div>
-          <mat-divider></mat-divider>
-          <button
-            *ngFor="let view of browser.views"
-            mat-menu-item
-            (click)="browser.changeView(view)"
-            [class.active]="browser.activeView === view"
-          >
-            <mat-icon>{{ view.icon }}</mat-icon>
-            <span>{{ view.name }}</span>
+    @if (browser.totalResults$ | async; as totalResults) {
+      <span class="items-count mat-body-2"
+        >{{ totalResults }} {{ entityName }}</span
+        >
+      }
+      @if (sortingEnabled) {
+        <div class="order-by">
+          <button mat-icon-button [matMenuTriggerFor]="sortMenu" [matTooltip]="'ContentBrowser.SortingMenu' | pptranslate">
+            <mat-icon aria-label="Select sorting">sort</mat-icon>
           </button>
-
-          <mat-divider></mat-divider>
-          <div class="menu-title">{{ 'ContentBrowser.SortingMenu' | pptranslate }}</div>
-          <mat-divider></mat-divider>
-
-          <button
-            mat-menu-item
-            [disabled]="browser.activeSortingType.field === '_score'"
-            (click)="setSortDirection(true)"
-            [class.active]="browser.isAscending === true"
-          >
-            <span>{{ 'SortMenu.Ascending' | pptranslate }}</span>
-          </button>
-          <button
-            mat-menu-item
-            [disabled]="browser.activeSortingType.field === '_score'"
-            (click)="setSortDirection(false)"
-            [class.active]="browser.isAscending === false"
-          >
-            <span>{{ 'SortMenu.Descending' | pptranslate }}</span>
-          </button>
-          <mat-divider></mat-divider>
-          <button
-            mat-menu-item
-            (click)="setSortField(sort)"
-            *ngFor="let sort of browser.sortingTypes"
-            [class.active]="browser.activeSortingType.field === sort.field"
-          >
-            <span>{{ sort.name }}</span>
-          </button>
-        </ng-template>
-      </mat-menu>
+          <mat-menu #sortMenu="matMenu">
+            <ng-template matMenuContent>
+              <div class="menu-title">{{ 'ContentBrowser.ViewTypeMenu' | pptranslate }}</div>
+              <mat-divider></mat-divider>
+              @for (view of browser.views; track view) {
+                <button
+                  mat-menu-item
+                  (click)="browser.changeView(view)"
+                  [class.active]="browser.activeView === view"
+                  >
+                  <mat-icon>{{ view.icon }}</mat-icon>
+                  <span>{{ view.name }}</span>
+                </button>
+              }
+              <mat-divider></mat-divider>
+              <div class="menu-title">{{ 'ContentBrowser.SortingMenu' | pptranslate }}</div>
+              <mat-divider></mat-divider>
+              <button
+                mat-menu-item
+                [disabled]="browser.activeSortingType.field === '_score'"
+                (click)="setSortDirection(true)"
+                [class.active]="browser.isAscending === true"
+                >
+                <span>{{ 'SortMenu.Ascending' | pptranslate }}</span>
+              </button>
+              <button
+                mat-menu-item
+                [disabled]="browser.activeSortingType.field === '_score'"
+                (click)="setSortDirection(false)"
+                [class.active]="browser.isAscending === false"
+                >
+                <span>{{ 'SortMenu.Descending' | pptranslate }}</span>
+              </button>
+              <mat-divider></mat-divider>
+              @for (sort of browser.sortingTypes; track sort) {
+                <button
+                  mat-menu-item
+                  (click)="setSortField(sort)"
+                  [class.active]="browser.activeSortingType.field === sort.field"
+                  >
+                  <span>{{ sort.name }}</span>
+                </button>
+              }
+            </ng-template>
+          </mat-menu>
+        </div>
+      }
     </div>
   </div>
-</div>
+  

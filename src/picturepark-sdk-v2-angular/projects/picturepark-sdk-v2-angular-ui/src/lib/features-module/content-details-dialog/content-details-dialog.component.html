@@ -1,17 +1,15 @@
 <div class="dialog-container" #contentContainer>
   <div class="header">
-    <span *ngIf="content && content.displayValues" class="header-title mat-headline-1 u-text-ellipsis">{{
-      content.displayValues['name']
-    }}</span>
-    <span
-      *ngIf="contentId && !(content && content.displayValues)"
-      class="header-title mat-headline-1 u-text-ellipsis"
-      >{{ contentId }}</span
-    >
+    @if (content && content.displayValues) {
+    <span class="header-title mat-headline-1 u-text-ellipsis">{{ content.displayValues['name'] }}</span>
+    } @if (contentId && !(content && content.displayValues)) {
+    <span class="header-title mat-headline-1 u-text-ellipsis">{{ contentId }}</span>
+    }
     <mat-icon class="header-close" (click)="closeDialog()">close</mat-icon>
   </div>
   <mat-divider></mat-divider>
-  <div class="dialog-content" *ngIf="content">
+  @if (content) {
+  <div class="dialog-content">
     <mat-dialog-content>
       <div class="action-buttons">
         <div>
@@ -20,10 +18,10 @@
             {{ 'ContentDetailsDialog.Download' | pptranslate }}
           </button>
         </div>
-        <div *ngIf="data.next || data.previous">
+        <div>
           <mat-divider [vertical]="true"></mat-divider>
         </div>
-        <div *ngIf="data.previous">
+        <div>
           <button
             mat-stroked-button
             aria-label="previous"
@@ -34,7 +32,7 @@
             <mat-icon>keyboard_arrow_left</mat-icon>
           </button>
         </div>
-        <div *ngIf="data.next">
+        <div>
           <button mat-stroked-button aria-label="next" class="navigation" [disabled]="!data.hasNext()" (click)="next()">
             <mat-icon>keyboard_arrow_right</mat-icon>
           </button>
@@ -43,44 +41,54 @@
       <mat-tab-group (selectedTabChange)="tabChange($event)" [mat-stretch-tabs]="false" color="accent">
         <mat-tab label="{{ 'ContentDetailsDialog.Overview' | pptranslate }}">
           <ng-template matTabContent>
-            <div class="overview-wrap cp-scrollbar" *ngIf="content">
+            @if (content) {
+            <div class="overview-wrap cp-scrollbar">
               <div class="content-preview">
-                <ng-container *ngIf="content.contentType !== 'Virtual'; else virtualItem">
-                  <pp-content-image-preview
-                    [content]="content"
-                    [shareDetail]="data.shareDetail"
-                    (playChange)="playing = $event"
-                  >
-                  </pp-content-image-preview>
-                </ng-container>
-                <ng-template #virtualItem>
-                  <div *ngIf="virtualItemHtml" [innerHTML]="virtualItemHtml"></div>
-                </ng-template>
+                @if (content.contentType !== 'Virtual') {
+                <pp-content-image-preview
+                  [content]="content"
+                  [shareDetail]="data.shareDetail"
+                  (playChange)="playing = $event"
+                >
+                </pp-content-image-preview>
+                } @else { @if (virtualItemHtml) {
+                <div [innerHTML]="virtualItemHtml"></div>
+                } }
               </div>
-
-              <div class="content-info" *ngIf="!playing">
+              @if (!playing) {
+              <div class="content-info">
                 <ul>
-                  <li *ngIf="content?.displayValues as displayValues" [innerHTML]="displayValues['detail']"></li>
+                  @if (content.displayValues; as displayValues) {
+                  <li [innerHTML]="displayValues['detail']"></li>
+                  }
                 </ul>
               </div>
+              }
             </div>
+            }
           </ng-template>
         </mat-tab>
-        <mat-tab label="{{ 'ContentDetailsDialog.Metadata' | pptranslate }}" *ngIf="data.showMetadata">
+        @if (data.showMetadata) {
+        <mat-tab label="{{ 'ContentDetailsDialog.Metadata' | pptranslate }}">
           <ng-template matTabContent>
-            <div class="metadata-wrap" *ngIf="content">
+            @if (content) {
+            <div class="metadata-wrap">
+              @if (schemas) {
               <pp-layer-panels
-                *ngIf="schemas"
                 [content]="content"
                 [schemas]="schemas"
                 [showContentSchema]="true"
                 [showReferenced]="data.showReferenced"
                 (relationClick)="setContentId($event.contentId)"
               ></pp-layer-panels>
+              }
             </div>
+            }
           </ng-template>
         </mat-tab>
+        }
       </mat-tab-group>
     </mat-dialog-content>
   </div>
+  }
 </div>

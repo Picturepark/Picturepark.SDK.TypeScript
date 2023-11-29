@@ -1,7 +1,13 @@
 <div [class.collapsed]="isCollapsed$ | async" [style.height]="(isCollapsed$ | async) ? maxHeight + 'px' : 'auto'">
   <ng-content></ng-content>
 </div>
-<a *ngIf="isCollapsable$ | async" class="collapse" (click)="toggle()">
-  <span *ngIf="isCollapsed$ | async">{{ 'ReadMore.More' | pptranslate }}</span>
-  <span *ngIf="(isCollapsed$ | async) === false">{{ 'ReadMore.Less' | pptranslate }}</span>
-</a>
+@if (isCollapsable$ | async) {
+  <a class="collapse" (click)="toggle()">
+    @if (isCollapsed$ | async) {
+      <span>{{ 'ReadMore.More' | pptranslate }}</span>
+    }
+    @if ((isCollapsed$ | async) === false) {
+      <span>{{ 'ReadMore.Less' | pptranslate }}</span>
+    }
+  </a>
+}
