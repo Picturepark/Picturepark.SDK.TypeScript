@@ -27,9 +27,12 @@ jobs:
         shell: pwsh
         run: ./create-test-config.ps1
         env:
+          TestApiServer: ${{ vars.TESTAPISERVER }}
           TestCustomerAlias: ${{ secrets.TESTCUSTOMERALIAS }}
           TestIdentityClientId: ${{ secrets.TESTIDENTITYCLIENTID }}
           TestIdentitySecret: ${{ secrets.TESTIDENTITYSECRET }}
+          TestIdentityServer: ${{ vars.TESTIDENTITYSERVER }}
+          TestInstanceUrl: ${{ vars.TESTINSTANCEURL }}
           TestPassword: ${{ secrets.TESTPASSWORD }}
           TestUsername: ${{ secrets.TESTUSERNAME }}
 
@@ -66,9 +69,12 @@ jobs:
         shell: pwsh
         run: ./create-test-config.ps1
         env:
+          TestApiServer: ${{ vars.TESTAPISERVER }}
           TestCustomerAlias: ${{ secrets.TESTCUSTOMERALIAS }}
           TestIdentityClientId: ${{ secrets.TESTIDENTITYCLIENTID }}
           TestIdentitySecret: ${{ secrets.TESTIDENTITYSECRET }}
+          TestIdentityServer: ${{ vars.TESTIDENTITYSERVER }}
+          TestInstanceUrl: ${{ vars.TESTINSTANCEURL }}
           TestPassword: ${{ secrets.TESTPASSWORD }}
           TestUsername: ${{ secrets.TESTUSERNAME }}
 
