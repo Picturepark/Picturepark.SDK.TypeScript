@@ -79,18 +79,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "picturepark-sdk-v2-angular-app:build"
+            "buildTarget": "picturepark-sdk-v2-angular-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "picturepark-sdk-v2-angular-app:build:production"
+              "buildTarget": "picturepark-sdk-v2-angular-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "picturepark-sdk-v2-angular-app:build"
+            "buildTarget": "picturepark-sdk-v2-angular-app:build"
           }
         },
         "test": {
@@ -295,18 +295,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "share-viewer:build"
+            "buildTarget": "share-viewer:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "share-viewer:build:production"
+              "buildTarget": "share-viewer:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "share-viewer:build"
+            "buildTarget": "share-viewer:build"
           }
         },
         "test": {
