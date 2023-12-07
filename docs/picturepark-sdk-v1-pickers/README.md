@@ -16,8 +16,8 @@ NPM Package:
 
 Latest version from master branch (use for development only): 
 
-- [picturepark-pickers.js](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.js)
-- [picturepark-pickers.d.ts](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-pickers/dist/picturepark-pickers.d.ts)
+- [picturepark-pickers.js](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-pickers/dist/index.umd.min.js)
+- [picturepark-pickers.d.ts](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/src/picturepark-sdk-v1-pickers/dist/index.d.ts)
 
 ### Samples
 
