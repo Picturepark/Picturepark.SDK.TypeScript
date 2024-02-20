@@ -1,25 +1,27 @@
-<ng-container *ngIf="virtualItemHtml(); else thumbnailDisplay">
+@if (virtualItemHtml()) {
   <div [ngClass]="{ shadow: shadow }" class="content-item-thumbnail__image-virtual-item-container">
     <div class="content-item-thumbnail__image-virtual-item-display" [innerHTML]="virtualItemHtml()"></div>
   </div>
-</ng-container>
-<ng-template #thumbnailDisplay>
+} @else {
   <div
     class="content-item-thumbnail__image-container"
     [class.content-item-thumbnail--list-view]="isListView"
     (lazyload)="markAsVisible()"
-  >
-    <mat-spinner *ngIf="isLoading()" [diameter]="40"></mat-spinner>
-    <ng-container *ngIf="thumbnailUrl() as url">
-      <img
-        *ngIf="!isLoading()"
-        [ngClass]="{ shadow: shadow, cover: cover, radius: isListView && !cover, 'radius-left': isListView && cover }"
-        class="content-item-thumbnail__image"
-        [src]="url"
-        [alt]="'ContentBrowser.NoImageForItem' | pptranslate"
-        (error)="setErrorImage($event)"
-        (load)="onLoad($event)"
-      />
-    </ng-container>
+    >
+    @if (isLoading()) {
+      <mat-spinner [diameter]="40"></mat-spinner>
+    }
+    @if (thumbnailUrl(); as url) {
+      @if (!isLoading()) {
+        <img
+          [ngClass]="{ shadow: shadow, cover: cover, radius: isListView && !cover, 'radius-left': isListView && cover }"
+          class="content-item-thumbnail__image"
+          [src]="url"
+          [alt]="'ContentBrowser.NoImageForItem' | pptranslate"
+          (error)="setErrorImage($event)"
+          (load)="onLoad($event)"
+          />
+      }
+    }
   </div>
-</ng-template>
+}

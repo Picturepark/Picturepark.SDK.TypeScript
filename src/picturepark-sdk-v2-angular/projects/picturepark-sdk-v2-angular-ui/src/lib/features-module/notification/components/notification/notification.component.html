@@ -1,12 +1,13 @@
-<div
-  *ngIf="notificationData$ | async as notificationData"
-  class="notification-container"
-  [ngClass]="{
+@if (notificationData$ | async; as notificationData) {
+  <div
+    class="notification-container"
+    [ngClass]="{
     error: notificationData.type === 'error',
     success: notificationData.type === 'success',
     active: notificationData.status
-  }"
->
-  <div class="notification-message">{{ notificationData.message }}</div>
-  <mat-icon class="notification-close" (click)="closeNotification()">close</mat-icon>
-</div>
+    }"
+    >
+    <div class="notification-message">{{ notificationData.message }}</div>
+    <mat-icon class="notification-close" (click)="closeNotification()">close</mat-icon>
+  </div>
+}

@@ -1,48 +1,53 @@
 <div class="raw">
-  <div class="label" *ngIf="!noname" #name [matTooltip]="field.name">{{ field.name }}</div>
-
-  <div class="value" *ngIf="field.value && !field.markdown">{{ field.value }}</div>
-  <pp-read-more class="value" *ngIf="field.value && field.markdown"
-    ><div ppMarkdown [markdownText]="field.value"></div
-  ></pp-read-more>
-
-  <div class="value" *ngIf="field.tagboxFields?.length">
-    <span *ngFor="let tagboxField of field.tagboxFields; let last = last; index as i">
+  @if (!noname) {
+  <div class="label" #name [matTooltip]="field.name">{{ field.name }}</div>
+  } @if (field.value && !field.markdown) {
+  <div class="value">{{ field.value }}</div>
+  } @if (field.value && field.markdown) {
+  <pp-read-more class="value"><div ppMarkdown [markdownText]="field.value"></div></pp-read-more>
+  } @if (field.tagboxFields.length) {
+  <div class="value">
+    @for (tagboxField of field.tagboxFields; track tagboxField; let last = $last; let i = $index) {
+    <span>
       <a class="link" href="javascript:" (click)="showItem(tagboxField, $event)"> {{ tagboxField.value }}</a>
-      <span *ngIf="!last">, </span>
+      @if (!last) {
+      <span>, </span>
+      }
     </span>
+    }
   </div>
-
-  <div class="value" *ngIf="field.fieldsetFields?.length">
-    <div *ngFor="let ref of field.fieldsetFields" class="field">
-      <ng-container *ngIf="ref.name === field.name; else noPanel">
-        <mat-expansion-panel (opened)="ref.isOpened = true" (closed)="ref.isOpened = false">
-          <mat-expansion-panel-header>
-            <mat-panel-description>
-              {{ ref.isOpened ? ref.name : ref.title }}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <ng-template matExpansionPanelContent>
-            <pp-layer-fields [field]="ref" [noname]="true"></pp-layer-fields>
-          </ng-template>
-        </mat-expansion-panel>
-      </ng-container>
-
-      <ng-template #noPanel>
-        <pp-layer-fields [field]="ref"></pp-layer-fields>
-      </ng-template>
+  } @if (field.fieldsetFields.length) {
+  <div class="value">
+    @for (ref of field.fieldsetFields; track ref) {
+    <div class="field">
+      @if (ref.name === field.name) {
+      <mat-expansion-panel (opened)="ref.isOpened = true" (closed)="ref.isOpened = false">
+        <mat-expansion-panel-header>
+          <mat-panel-description>
+            {{ ref.isOpened ? ref.name : ref.title }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <pp-layer-fields [field]="ref" [noname]="true"></pp-layer-fields>
+        </ng-template>
+      </mat-expansion-panel>
+      } @else {
+      <pp-layer-fields [field]="ref"></pp-layer-fields>
+      }
     </div>
+    }
   </div>
-
-  <div class="value" *ngIf="field.relationFields?.length">
-    <ng-container *ngFor="let relationField of field.relationFields">
-      <div class="relation field" *ngIf="relationField.info | async as info" (click)="relationClickHandler(info)">
-        <div class="image-wrap"><img [src]="info.fileUrl" /></div>
-        <div class="relationFields">
-          <div class="field relation-title" [innerHTML]="info.name"></div>
-          <div class="field relation-description" [innerHTML]="info.list"></div>
-        </div>
+  } @if (field.relationFields.length) {
+  <div class="value">
+    @for (relationField of field.relationFields; track relationField) { @if (relationField.info | async; as info) {
+    <div class="relation field" (click)="relationClickHandler(info)">
+      <div class="image-wrap"><img [src]="info.fileUrl" /></div>
+      <div class="relationFields">
+        <div class="field relation-title" [innerHTML]="info.name"></div>
+        <div class="field relation-description" [innerHTML]="info.list"></div>
       </div>
-    </ng-container>
+    </div>
+    } }
   </div>
+  }
 </div>

@@ -1,40 +1,50 @@
 <div class="share-manager-item-loader">
-  <mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
+  @if (isLoading) {
+    <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
+  }
 </div>
-
-<ng-container *ngIf="shareDetail">
+@if (shareDetail) {
   <div class="header">
-    <img *ngIf="logoUrl" [src]="logoUrl" width="160" />
-
-    <pp-language-switch *ngIf="languageService.languages.length > 1"></pp-language-switch>
+    @if (logoUrl) {
+      <img [src]="logoUrl" width="160" />
+    }
+    @if (languageService.languages.length > 1) {
+      <pp-language-switch></pp-language-switch>
+    }
   </div>
-
   <pp-panel class="settings" [title]="shareDetail.name">
     <div pp-panel-buttons>
-      <button
-        mat-stroked-button
-        aria-label="Download"
-        *ngIf="enableDownload"
-        (click)="download()"
-        [disabled]="!shareDetail.contentSelections.length"
-      >
-        {{ 'ShareViewer.Download' | pptranslate }}
-      </button>
+      @if (enableDownload) {
+        <button
+          mat-stroked-button
+          aria-label="Download"
+          (click)="download()"
+          [disabled]="!shareDetail.contentSelections.length"
+          >
+          {{ 'ShareViewer.Download' | pptranslate }}
+        </button>
+      }
     </div>
     <div pp-panel-content class="settings-wrap">
       <div class="left">
-        <div *ngIf="shareDetail.description" [innerHTML]="shareDetail.description" class="description"></div>
+        @if (shareDetail.description) {
+          <div [innerHTML]="shareDetail.description" class="description"></div>
+        }
         <ul class="settings-menu">
           <li>{{ 'ShareViewer.CreationDate' | pptranslate }}</li>
-          <li *ngIf="shareDetail.expirationDate">{{ 'ShareViewer.ExpirationDate' | pptranslate }}</li>
+          @if (shareDetail.expirationDate) {
+            <li>{{ 'ShareViewer.ExpirationDate' | pptranslate }}</li>
+          }
           <li>{{ 'ShareViewer.Creator' | pptranslate }}</li>
         </ul>
         <ul class="settings-info">
           <li>{{ shareDetail.audit.creationDate | date: 'yyyy-MM-dd HH:mm':undefined:'en-US' }}</li>
           <!-- TODO: Add support for more locales -->
-          <li *ngIf="shareDetail.expirationDate" class="expiration">
-            {{ shareDetail.expirationDate | date: 'yyyy-MM-dd HH:mm':undefined:'en-US' }}
-          </li>
+          @if (shareDetail.expirationDate) {
+            <li class="expiration">
+              {{ shareDetail.expirationDate | date: 'yyyy-MM-dd HH:mm':undefined:'en-US' }}
+            </li>
+          }
           <li>{{ shareDetail.creator.displayName }}</li>
         </ul>
       </div>
@@ -43,23 +53,24 @@
       </div>
     </div>
   </pp-panel>
-
-  <pp-panel *ngIf="shareDetail.expired" [showHeader]="false">
-    <div pp-panel-content class="expired-box">
-      {{ 'ShareViewer.Expired' | pptranslate }}
-    </div>
-  </pp-panel>
-
-  <pp-share-mail-recipients-panel
-    [mailRecipients]="mailRecipients"
-    *ngIf="mailRecipients && mailRecipients.length"
-  ></pp-share-mail-recipients-panel>
-
-  <pp-share-items-panel
-    *ngIf="!shareDetail.expired"
-    [shareDetail]="shareDetail"
-    [isShareViewer]="true"
-    (showDetail)="showDetail($event)"
-  >
-  </pp-share-items-panel>
-</ng-container>
+  @if (shareDetail.expired) {
+    <pp-panel [showHeader]="false">
+      <div pp-panel-content class="expired-box">
+        {{ 'ShareViewer.Expired' | pptranslate }}
+      </div>
+    </pp-panel>
+  }
+  @if (mailRecipients && mailRecipients.length) {
+    <pp-share-mail-recipients-panel
+      [mailRecipients]="mailRecipients"
+    ></pp-share-mail-recipients-panel>
+  }
+  @if (!shareDetail.expired) {
+    <pp-share-items-panel
+      [shareDetail]="shareDetail"
+      [isShareViewer]="true"
+      (showDetail)="showDetail($event)"
+      >
+    </pp-share-items-panel>
+  }
+}

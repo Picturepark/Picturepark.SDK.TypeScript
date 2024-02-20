@@ -1,19 +1,22 @@
-<div class="list-container" *ngIf="schema | async as schemaDetail">
-  <div class="list-content">
-    <pp-list-browser
-      *ngIf="schemaDetail"
-      [schema]="schemaDetail"
-      [enableSelection]="true"
-      [selectedItemIds]="selectedItemsIds"
-      (selectedItemsChange)="selectedItemsChange($event)"
-    >
-    </pp-list-browser>
+@if (schema | async; as schemaDetail) {
+  <div class="list-container">
+    <div class="list-content">
+      @if (schemaDetail) {
+        <pp-list-browser
+          [schema]="schemaDetail"
+          [enableSelection]="true"
+          [selectedItemIds]="selectedItemsIds"
+          (selectedItemsChange)="selectedItemsChange($event)"
+          >
+        </pp-list-browser>
+      }
+    </div>
+    <div class="list-filters">
+      <mat-tab-group class="content-panel" [mat-stretch-tabs]="false" color="accent">
+        <mat-tab label="{{ 'ContentAggregationList.FiltersLabel' | pptranslate }}">
+          <pp-aggregation-list [facade]="facade"> </pp-aggregation-list>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
   </div>
-  <div class="list-filters">
-    <mat-tab-group class="content-panel" [mat-stretch-tabs]="false" color="accent">
-      <mat-tab label="{{ 'ContentAggregationList.FiltersLabel' | pptranslate }}">
-        <pp-aggregation-list [facade]="facade"> </pp-aggregation-list>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
-</div>
+}

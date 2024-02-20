@@ -1,37 +1,47 @@
 <div class="aggregation-filter">
   <div class="aggregation-filter__filters filters">
-    <mat-toolbar class="filters__active-filters" *ngIf="facade.aggregationFilters$ | async as aggregationFilters">
-      <span *ngIf="aggregationFilters.length === 0">{{ 'ContentAggregationList.NoActiveFilters' | pptranslate }}</span>
-      <span *ngIf="aggregationFilters.length === 1">{{
-        'ContentAggregationList.SingleActiveFilter' | pptranslate
-      }}</span>
-      <span *ngIf="aggregationFilters.length > 1">{{
-        'ContentAggregationList.MultipleActiveFilters' | pptranslate: aggregationFilters.length
-      }}</span>
-      <button
-        [style.visibility]="aggregationFilters.length > 0 ? 'visible' : 'hidden'"
-        [matTooltip]="'ContentAggregationList.ClearAllFilters' | pptranslate"
-        (click)="clearFilters()"
-        mat-icon-button
-      >
-        <mat-icon aria-label="Clear filters">clear</mat-icon>
-      </button>
-    </mat-toolbar>
-
+    @if (facade.aggregationFilters$ | async; as aggregationFilters) {
+      <mat-toolbar class="filters__active-filters">
+        @if (aggregationFilters.length === 0) {
+          <span>{{ 'ContentAggregationList.NoActiveFilters' | pptranslate }}</span>
+        }
+        @if (aggregationFilters.length === 1) {
+          <span>{{
+            'ContentAggregationList.SingleActiveFilter' | pptranslate
+          }}</span>
+        }
+        @if (aggregationFilters.length > 1) {
+          <span>{{
+            'ContentAggregationList.MultipleActiveFilters' | pptranslate: aggregationFilters.length
+          }}</span>
+        }
+        <button
+          [style.visibility]="aggregationFilters.length > 0 ? 'visible' : 'hidden'"
+          [matTooltip]="'ContentAggregationList.ClearAllFilters' | pptranslate"
+          (click)="clearFilters()"
+          mat-icon-button
+          >
+          <mat-icon aria-label="Clear filters">clear</mat-icon>
+        </button>
+      </mat-toolbar>
+    }
     <mat-accordion displayMode="flat" multi="true">
-      <ng-container *ngIf="aggregationResults$ | async as aggregationResults">
-        <pp-aggregation-item
-          *ngFor="let aggregator of aggregators$ | async; let i = index; trackBy: trackByName"
-          [shouldExpand]="i === 0"
-          [aggregator]="aggregator"
-          [aggregationResult]="aggregationResults[i]"
-          [facade]="facade"
-        >
-        </pp-aggregation-item>
-      </ng-container>
+      @if (aggregationResults$ | async; as aggregationResults) {
+        @for (aggregator of aggregators$ | async; track trackByName(i, aggregator); let i = $index) {
+          <pp-aggregation-item
+            [shouldExpand]="i === 0"
+            [aggregator]="aggregator"
+            [aggregationResult]="aggregationResults[i]"
+            [facade]="facade"
+            >
+          </pp-aggregation-item>
+        }
+      }
     </mat-accordion>
   </div>
-  <div *ngIf="loading$ && loading$ | async" class="aggregation-filter__loading-spinner">
-    <mat-spinner></mat-spinner>
-  </div>
+  @if (loading$ && loading$ | async) {
+    <div class="aggregation-filter__loading-spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
 </div>

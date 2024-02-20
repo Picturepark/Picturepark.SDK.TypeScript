@@ -8,29 +8,30 @@
       [(ngModel)]="searchString"
       name="search"
       (keyup.enter)="search()"
-    />
+      />
     <button mat-icon-button (click)="clear()">
       <mat-icon aria-label="Clear">clear</mat-icon>
     </button>
   </form>
-
-  <div id="search-options-container" *ngIf="showSearchBehaviorPicker">
-    <button mat-icon-button [matMenuTriggerFor]="searchOptions">
-      <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" role="img" aria-hidden="true"
-        >menu</mat-icon
-      >
-    </button>
-
-    <mat-menu #searchOptions="matMenu" xPosition="after">
-      <button mat-menu-item (click)="setSearchMode('or')" [class.active]="searchMode === 'or'">
-        {{ 'SearchBox.SimpleOrSearch' | pptranslate }}
-      </button>
-      <button mat-menu-item (click)="setSearchMode('and')" [class.active]="searchMode === 'and'">
-        {{ 'SearchBox.SimpleAndSearch' | pptranslate }}
-      </button>
-      <button mat-menu-item (click)="setSearchMode('advanced')" [class.active]="searchMode === 'advanced'">
-        {{ 'SearchBox.AdvancedSearch' | pptranslate }}
-      </button>
-    </mat-menu>
+  @if (showSearchBehaviorPicker) {
+    <div id="search-options-container">
+      <button mat-icon-button [matMenuTriggerFor]="searchOptions">
+        <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" role="img" aria-hidden="true"
+          >menu</mat-icon
+          >
+        </button>
+        <mat-menu #searchOptions="matMenu" xPosition="after">
+          <button mat-menu-item (click)="setSearchMode('or')" [class.active]="searchMode === 'or'">
+            {{ 'SearchBox.SimpleOrSearch' | pptranslate }}
+          </button>
+          <button mat-menu-item (click)="setSearchMode('and')" [class.active]="searchMode === 'and'">
+            {{ 'SearchBox.SimpleAndSearch' | pptranslate }}
+          </button>
+          <button mat-menu-item (click)="setSearchMode('advanced')" [class.active]="searchMode === 'advanced'">
+            {{ 'SearchBox.AdvancedSearch' | pptranslate }}
+          </button>
+        </mat-menu>
+      </div>
+    }
   </div>
-</div>
+  

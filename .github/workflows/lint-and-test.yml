@@ -27,12 +27,12 @@ jobs:
         shell: pwsh
         run: ./create-test-config.ps1
         env:
-          TestApiServer: ${{ secrets.TESTAPISERVER }}
-          TestCustomerAlias: ${{ secrets.TESTCUSTOMERALIAS }}
+          TestApiServer: ${{ vars.TESTAPISERVER }}
+          TestCustomerAlias: ${{ vars.TESTCUSTOMERALIAS }}
           TestIdentityClientId: ${{ secrets.TESTIDENTITYCLIENTID }}
           TestIdentitySecret: ${{ secrets.TESTIDENTITYSECRET }}
-          TestIdentityServer: ${{ secrets.TESTIDENTITYSERVER }}
-          TestInstanceUrl: ${{ secrets.TESTINSTANCEURL }}
+          TestIdentityServer: ${{ vars.TESTIDENTITYSERVER }}
+          TestInstanceUrl: ${{ vars.TESTINSTANCEURL }}
           TestPassword: ${{ secrets.TESTPASSWORD }}
           TestUsername: ${{ secrets.TESTUSERNAME }}
 
@@ -69,12 +69,12 @@ jobs:
         shell: pwsh
         run: ./create-test-config.ps1
         env:
-          TestApiServer: ${{ secrets.TESTAPISERVER }}
-          TestCustomerAlias: ${{ secrets.TESTCUSTOMERALIAS }}
+          TestApiServer: ${{ vars.TESTAPISERVER }}
+          TestCustomerAlias: ${{ vars.TESTCUSTOMERALIAS }}
           TestIdentityClientId: ${{ secrets.TESTIDENTITYCLIENTID }}
           TestIdentitySecret: ${{ secrets.TESTIDENTITYSECRET }}
-          TestIdentityServer: ${{ secrets.TESTIDENTITYSERVER }}
-          TestInstanceUrl: ${{ secrets.TESTINSTANCEURL }}
+          TestIdentityServer: ${{ vars.TESTIDENTITYSERVER }}
+          TestInstanceUrl: ${{ vars.TESTINSTANCEURL }}
           TestPassword: ${{ secrets.TESTPASSWORD }}
           TestUsername: ${{ secrets.TESTUSERNAME }}
 

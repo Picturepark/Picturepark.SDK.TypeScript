@@ -1,18 +1,22 @@
-<div class="custom-shadow" *ngFor="let layer of state().layers; let i = index">
-  <mat-expansion-panel
-    [expanded]="layer.expanded"
-    (closed)="layerExpansionHandler(layer.id, false)"
-    (opened)="layerExpansionHandler(layer.id, true)"
-  >
-    <mat-expansion-panel-header>
-      <mat-panel-description>
-        {{ layer.names | pptranslate }}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <ng-template matExpansionPanelContent>
-      <div *ngFor="let field of layer.fields" class="fields">
-        <pp-layer-fields [field]="field" (relationClick)="relationClickHandler($event)"></pp-layer-fields>
-      </div>
-    </ng-template>
-  </mat-expansion-panel>
-</div>
+@for (layer of state().layers; track layer; let i = $index) {
+  <div class="custom-shadow">
+    <mat-expansion-panel
+      [expanded]="layer.expanded"
+      (closed)="layerExpansionHandler(layer.id, false)"
+      (opened)="layerExpansionHandler(layer.id, true)"
+      >
+      <mat-expansion-panel-header>
+        <mat-panel-description>
+          {{ layer.names | pptranslate }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        @for (field of layer.fields; track field) {
+          <div class="fields">
+            <pp-layer-fields [field]="field" (relationClick)="relationClickHandler($event)"></pp-layer-fields>
+          </div>
+        }
+      </ng-template>
+    </mat-expansion-panel>
+  </div>
+}

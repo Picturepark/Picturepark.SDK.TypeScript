@@ -6,18 +6,23 @@
       [selectionEnabled]="false"
     ></pp-browser-toolbar>
   </div>
-  <div *ngIf="(totalResults$ | async) !== 0" class="browser__items cp-scrollbar" cdkScrollable>
-    <div class="browser__item-container" *ngFor="let schema of items; trackBy: trackByItem">
-      <pp-schema-browser-item
-        [schema]="schema"
-        [selected]="schema.id === selectedSchemaId"
-        (activeSchemaChange)="setUpActiveSchema($event)"
-        (itemSelected)="onItemSelected($event)"
-      ></pp-schema-browser-item>
+  @if ((totalResults$ | async) !== 0) {
+    <div class="browser__items cp-scrollbar" cdkScrollable>
+      @for (schema of items; track trackByItem($index, schema)) {
+        <div class="browser__item-container">
+          <pp-schema-browser-item
+            [schema]="schema"
+            [selected]="schema.id === selectedSchemaId"
+            (activeSchemaChange)="setUpActiveSchema($event)"
+            (itemSelected)="onItemSelected($event)"
+          ></pp-schema-browser-item>
+        </div>
+      }
     </div>
-  </div>
-
-  <div *ngIf="(totalResults$ | async) === 0" class="browser__empty-result">
-    {{ 'SchemaBrowser.ItemsWereNotFound' | pptranslate }}
-  </div>
+  }
+  @if ((totalResults$ | async) === 0) {
+    <div class="browser__empty-result">
+      {{ 'SchemaBrowser.ItemsWereNotFound' | pptranslate }}
+    </div>
+  }
 </div>

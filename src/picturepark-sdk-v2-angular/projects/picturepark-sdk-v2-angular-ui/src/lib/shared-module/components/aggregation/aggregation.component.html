@@ -5,79 +5,91 @@
   (keyup)="handleUserEnter($event)"
   [ngClass]="{ disabled: !active }"
   [disabled]="!active"
->
+  >
   <mat-expansion-panel-header [collapsedHeight]="'56px'" [expandedHeight]="'56px'">
     <mat-panel-title class="aggregation__title-panel">
-      <div class="aggregation__title" *ngIf="expandedAggregator.names">
-        <span>{{ expandedAggregator.names | pptranslate }}</span>
-      </div>
-      <button
-        mat-icon-button
-        (click)="clear(); $event.stopPropagation()"
-        *ngIf="aggregationsFiltersCount > 0"
-        [matTooltip]="'ContentAggregationList.ClearFilters' | pptranslate"
-      >
-        <mat-icon aria-label="Clear filters for this category">clear</mat-icon>
-      </button>
+      @if (expandedAggregator.names) {
+        <div class="aggregation__title">
+          <span>{{ expandedAggregator.names | pptranslate }}</span>
+        </div>
+      }
+      @if (aggregationsFiltersCount > 0) {
+        <button
+          mat-icon-button
+          (click)="clear(); $event.stopPropagation()"
+          [matTooltip]="'ContentAggregationList.ClearFilters' | pptranslate"
+          >
+          <mat-icon aria-label="Clear filters for this category">clear</mat-icon>
+        </button>
+      }
     </mat-panel-title>
   </mat-expansion-panel-header>
   <ng-template matExpansionPanelContent>
-    <mat-form-field *ngIf="aggregator.uiBehavior?.enableSearchInFilter" class="search" subscriptSizing="dynamic">
-      <i class="material-icons search-icon">search</i>
-      <input
-        matInput
-        type="text"
-        [placeholder]="'ContentAggregationList.Search' | pptranslate"
-        aria-label="Search"
-        [formControl]="aggregationQuery"
-        [matAutocomplete]="searchAutocomplete"
-      />
-
-      <button
-        mat-icon-button
-        *ngIf="aggregationQuery.value"
-        matSuffix
-        aria-label="Clear"
-        (click)="aggregationQuery.setValue('')"
-        class="clear-search"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-
-      <mat-autocomplete
-        #searchAutocomplete="matAutocomplete"
-        (optionSelected)="autoCompleteOptionSelected($event.option.value)"
-        [displayWith]="queryDisplay"
-      >
-        <mat-option *ngFor="let option of autoCompleteOptions | async; trackBy: trackByName" [value]="option">
-          <span [innerHTML]="option.name | highlight: aggregationQuery.value"></span>
-        </mat-option>
-      </mat-autocomplete>
-      <mat-progress-bar mode="indeterminate" *ngIf="isLoading" color="accent"></mat-progress-bar>
-    </mat-form-field>
-
+    @if (aggregator.uiBehavior?.enableSearchInFilter) {
+      <mat-form-field class="search" subscriptSizing="dynamic">
+        <i class="material-icons search-icon">search</i>
+        <input
+          matInput
+          type="text"
+          [placeholder]="'ContentAggregationList.Search' | pptranslate"
+          aria-label="Search"
+          [formControl]="aggregationQuery"
+          [matAutocomplete]="searchAutocomplete"
+          />
+        @if (aggregationQuery.value) {
+          <button
+            mat-icon-button
+            matSuffix
+            aria-label="Clear"
+            (click)="aggregationQuery.setValue('')"
+            class="clear-search"
+            >
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+        <mat-autocomplete
+          #searchAutocomplete="matAutocomplete"
+          (optionSelected)="autoCompleteOptionSelected($event.option.value)"
+          [displayWith]="queryDisplay"
+          >
+          @for (option of autoCompleteOptions | async; track trackByName($index, option)) {
+            <mat-option [value]="option">
+              <span [innerHTML]="option.name | highlight: aggregationQuery.value"></span>
+            </mat-option>
+          }
+        </mat-autocomplete>
+        @if (isLoading) {
+          <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
+        }
+      </mat-form-field>
+    }
     <mat-selection-list (selectionChange)="selectionChanged($event.options[0].value)">
-      <mat-list-option
-        *ngFor="let item of expandedAggregationResult?.aggregationResultItems"
-        checkboxPosition="before"
-        [selected]="item.active"
-        [value]="item"
-      >
-        <ng-container *ngIf="item | ppAggregationItemTranslate: locale as displayName">
-          <div class="aggregation__option-title" matTooltip="{{ displayName }}" [matTooltipDisabled]="false">
-            <div class="aggregation__option-name">{{ displayName }}</div>
-            <div class="aggregation__option-number">{{ item.count }}</div>
-          </div>
-        </ng-container>
-      </mat-list-option>
+      @for (item of expandedAggregationResult?.aggregationResultItems; track item) {
+        <mat-list-option
+          checkboxPosition="before"
+          [selected]="item.active"
+          [value]="item"
+          >
+          @if (item | ppAggregationItemTranslate: locale; as displayName) {
+            <div class="aggregation__option-title" matTooltip="{{ displayName }}" [matTooltipDisabled]="false">
+              <div class="aggregation__option-name">{{ displayName }}</div>
+              <div class="aggregation__option-number">{{ item.count }}</div>
+            </div>
+          }
+        </mat-list-option>
+      }
     </mat-selection-list>
     <div class="expand-filters">
-      <button mat-button *ngIf="expandedAggregationResult?.sumOtherDocCount" (click)="loadMore()">
-        {{ 'ContentAggregationList.ShowMoreFilters' | pptranslate }}
-      </button>
-      <button mat-button *ngIf="showLess" (click)="loadLess()">
-        {{ 'ContentAggregationList.ShowLessFilters' | pptranslate }}
-      </button>
+      @if (expandedAggregationResult?.sumOtherDocCount) {
+        <button mat-button (click)="loadMore()">
+          {{ 'ContentAggregationList.ShowMoreFilters' | pptranslate }}
+        </button>
+      }
+      @if (showLess) {
+        <button mat-button (click)="loadLess()">
+          {{ 'ContentAggregationList.ShowLessFilters' | pptranslate }}
+        </button>
+      }
     </div>
   </ng-template>
 </mat-expansion-panel>

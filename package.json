@@ -1,6 +1,6 @@
 {
   "name": "@picturepark/typescript-sdk",
-  "version": "11.9.0",
+  "version": "11.10.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Picturepark/Picturepark.SDK.TypeScript.git"
@@ -13,7 +13,7 @@
     "build:pickers": "npm run build --prefix src/picturepark-sdk-v1-pickers",
     "build:widgets": "npm run build --prefix src/picturepark-sdk-v1-widgets",
     "build:ng": "call \"build/06_BuildProduction.bat\"",
-    "docs": "call \"build/07_BuildDocs.bat\"",
+    "docs": "node ./build/build-docs.js",
     "docs:serve": "http-server docs -p 8090 -c-1 -o",
     "build": "npm run build:fetch && npm run build:pickers && npm run build:widgets",
     "start:fetch": "http-server \"src/picturepark-sdk-v1-fetch/\" -p 8090 -c-1 -o /samples/index.html",
@@ -27,7 +27,7 @@
     "@types/node": "^13.9.1",
     "http-server": "^14.1.1",
     "marked": "^4.0.12",
-    "nswag": "13.20.0",
+    "nswag": "14.0.2",
     "rollup": "^2.70.0",
     "terser": "^5.14.2",
     "tslib": "^2.4.0",

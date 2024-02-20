@@ -1,24 +1,25 @@
 <div class="share-viewer-item-container">
   <div class="share-viewer-item-content-container">
-    <pp-search-box
-      *ngIf="showSearchBox"
-      [searchString]="searchString"
-      (searchStringChange)="updateRoute($event)"
-    ></pp-search-box>
-
-    <div *ngIf="showConsent">
-      <pp-panel [showHeader]="false">
-        <div pp-panel-content class="consent">
-          <div class="text" [innerHTML]="'ShareViewer.Consent' | pptranslate"></div>
-          <div>
-            <button mat-stroked-button (click)="confirmConsent()">
-              {{ 'ShareViewer.OK' | pptranslate }}
-            </button>
+    @if (showSearchBox) {
+      <pp-search-box
+        [searchString]="searchString"
+        (searchStringChange)="updateRoute($event)"
+      ></pp-search-box>
+    }
+    @if (showConsent) {
+      <div>
+        <pp-panel [showHeader]="false">
+          <div pp-panel-content class="consent">
+            <div class="text" [innerHTML]="'ShareViewer.Consent' | pptranslate"></div>
+            <div>
+              <button mat-stroked-button (click)="confirmConsent()">
+                {{ 'ShareViewer.OK' | pptranslate }}
+              </button>
+            </div>
           </div>
-        </div>
-      </pp-panel>
-    </div>
-
+        </pp-panel>
+      </div>
+    }
     <router-outlet></router-outlet>
   </div>
 </div>
