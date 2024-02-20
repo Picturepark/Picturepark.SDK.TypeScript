@@ -13,7 +13,7 @@
     "build:pickers": "npm run build --prefix src/picturepark-sdk-v1-pickers",
     "build:widgets": "npm run build --prefix src/picturepark-sdk-v1-widgets",
     "build:ng": "call \"build/06_BuildProduction.bat\"",
-    "docs": "call \"build/07_BuildDocs.bat\"",
+    "docs": "node ./build/build-docs.js",
     "docs:serve": "http-server docs -p 8090 -c-1 -o",
     "build": "npm run build:fetch && npm run build:pickers && npm run build:widgets",
     "start:fetch": "http-server \"src/picturepark-sdk-v1-fetch/\" -p 8090 -c-1 -o /samples/index.html",
