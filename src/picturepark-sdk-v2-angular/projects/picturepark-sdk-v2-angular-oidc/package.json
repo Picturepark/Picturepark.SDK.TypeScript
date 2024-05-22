@@ -1,11 +1,11 @@
 {
   "name": "@picturepark/sdk-v2-angular-oidc",
-  "version": "11.11.0-pre.0",
+  "version": "11.11.1",
   "peerDependencies": {
     "@angular/common": "^17.0.0",
     "@angular/core": "^17.0.0",
     "angular-oauth2-oidc": "^15.0.1",
-    "@picturepark/sdk-v2-angular": "^11.11.0-pre.0"
+    "@picturepark/sdk-v2-angular": "^11.11.1"
   },
   "dependencies": {
     "tslib": "^2.0.0"
