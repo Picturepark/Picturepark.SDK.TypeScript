@@ -56,7 +56,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.4",
+    "@angular-devkit/build-angular": "~18.0.3",
     "@angular-devkit/build-ng-packagr": "~0.901.4",
     "@angular/cli": "^9.1.4",
     "@angular/compiler-cli": "^9.1.4",
@@ -81,7 +81,7 @@
     "pretty-quick": "^2.0.1",
     "protractor": "~5.4.0",
     "puppeteer": "^5.3.1",
-    "scss-bundle": "^2.5.1",
+    "scss-bundle": "^3.1.2",
     "ts-node": "~7.0.0",
     "tslint": "~6.1.0",
     "typescript": "~3.7.5",
