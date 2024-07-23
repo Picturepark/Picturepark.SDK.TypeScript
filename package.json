@@ -7,7 +7,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "nswag": "npm run nswag-prepare && nswag run \"src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/nswag.json\" && nswag run \"src/picturepark-sdk-v1-angular/projects/picturepark-sdk-v1-angular/nswag-frontend.json\" && nswag run \"src/picturepark-sdk-v1-fetch/nswag.json\" && nswag run \"src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/nswag.json\" && nswag run \"src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/nswag-frontend.json\"",
+    "nswag": "npm run nswag-prepare && nswag run \"src/picturepark-sdk-v1-fetch/nswag.json\" && nswag run \"src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/nswag.json\" && nswag run \"src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/nswag-frontend.json\"",
     "nswag-prepare": "node ./swagger/patch-frontend.js",
     "build:fetch": "npm run build --prefix src/picturepark-sdk-v1-fetch",
     "build:pickers": "npm run build --prefix src/picturepark-sdk-v1-pickers",
