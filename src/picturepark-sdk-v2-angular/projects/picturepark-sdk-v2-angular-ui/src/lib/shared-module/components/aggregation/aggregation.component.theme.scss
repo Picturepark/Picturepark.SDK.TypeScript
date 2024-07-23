@@ -6,27 +6,27 @@
 
   pp-aggregation-item {
     .aggregation {
-      border-color: mat.get-color-from-palette($primary, divider);
+      border-color: mat.m2-get-color-from-palette($primary, divider);
 
       &__option-title {
-        color: mat.get-color-from-palette($primary, on-background-dark);
+        color: mat.m2-get-color-from-palette($primary, on-background-dark);
       }
 
       .mat-expansion-panel-header {
-        font-size: mat.font-size($custom-typography, headline-4);
+        font-size: mat.m2-font-size($custom-typography, headline-4);
 
         &.mat-expanded {
-          border-bottom: 1px solid mat.get-color-from-palette($primary, divider);
+          border-bottom: 1px solid mat.m2-get-color-from-palette($primary, divider);
         }
 
         mat-panel-title {
           &.mat-expansion-panel-header-title {
-            color: mat.get-color-from-palette($primary, on-background-dark);
+            color: mat.m2-get-color-from-palette($primary, on-background-dark);
           }
         }
 
         &:hover {
-          background-color: mat.get-color-from-palette($primary, opacity-light);
+          background-color: mat.m2-get-color-from-palette($primary, opacity-light);
         }
       }
 
@@ -35,14 +35,14 @@
         .mat-mdc-list-option,
         .mat-mdc-subheader {
           .mdc-list-item__primary-text {
-            font-size: mat.font-size($custom-typography, headline-4);
+            font-size: mat.m2-font-size($custom-typography, headline-4);
           }
         }
       }
 
       .expand-filters {
         button {
-          color: mat.get-color-from-palette($accent, 500);
+          color: mat.m2-get-color-from-palette($accent, 500);
         }
       }
     }
@@ -60,11 +60,11 @@
 
     mat-form-field.search {
       .mat-mdc-text-field-wrapper {
-        background-color: mat.get-color-from-palette($primary, surface-light);
+        background-color: mat.m2-get-color-from-palette($primary, surface-light);
       }
 
       .search-icon {
-        color: mat.get-color-from-palette($primary, on-surface-light);
+        color: mat.m2-get-color-from-palette($primary, on-surface-light);
       }
     }
   }

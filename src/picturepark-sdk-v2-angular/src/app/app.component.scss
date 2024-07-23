@@ -4,12 +4,12 @@
 $primary: map-get($picturepark-app-theme, primary);
 
 body {
-  background-color: mat.get-color-from-palette($primary, background-dark);
+  background-color: mat.m2-get-color-from-palette($primary, background-dark);
 }
 
 .authorization-container {
   position: relative;
-  background-color: mat.get-color-from-palette($primary, background-dark);
+  background-color: mat.m2-get-color-from-palette($primary, background-dark);
   height: 100vh;
   mat-progress-bar {
     position: absolute;

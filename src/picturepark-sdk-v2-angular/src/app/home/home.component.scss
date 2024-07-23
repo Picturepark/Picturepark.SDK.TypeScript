@@ -6,11 +6,11 @@ $accent: map-get($picturepark-app-theme, accent);
 .home-container {
   display: flex;
   height: 100vh;
-  background-color: mat.get-color-from-palette($picturepark-app-primary, background-dark);
+  background-color: mat.m2-get-color-from-palette($picturepark-app-primary, background-dark);
   .home-content {
     width: 100%;
     .header {
-      background-color: mat.get-color-from-palette($accent, 500);
+      background-color: mat.m2-get-color-from-palette($accent, 500);
       color: white;
     }
   }

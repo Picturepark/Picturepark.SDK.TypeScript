@@ -6,26 +6,26 @@
 
   // FILTERS AGGREGATES
   .mat-ink-bar {
-    background-color: mat.get-color-from-palette($accent, 500);
+    background-color: mat.m2-get-color-from-palette($accent, 500);
   }
 
   .mat-badge-content {
-    background: mat.get-color-from-palette($accent, 500);
-    color: mat.get-color-from-palette($primary, on-primary);
+    background: mat.m2-get-color-from-palette($accent, 500);
+    color: mat.m2-get-color-from-palette($primary, on-primary);
   }
   // END FILTERS AGGREGATES
 
   // SPINNER
   .mat-mdc-progress-spinner circle {
-    stroke: mat.get-color-from-palette($accent, 500) !important;
+    stroke: mat.m2-get-color-from-palette($accent, 500) !important;
   }
 
   .app-root-container {
-    background-color: mat.get-color-from-palette($primary, background-dark);
+    background-color: mat.m2-get-color-from-palette($primary, background-dark);
     .app-root-content {
       svg {
         path {
-          fill: mat.get-color-from-palette($primary, surface-light);
+          fill: mat.m2-get-color-from-palette($primary, surface-light);
         }
       }
     }
@@ -39,21 +39,21 @@
   .mat-expansion-panel,
   .mat-expansion-panel-header.mat-expanded,
   .mat-expansion-panel-header.mat-expanded:hover {
-    background: mat.get-color-from-palette($primary, background-dark);
+    background: mat.m2-get-color-from-palette($primary, background-dark);
   }
 
   .mat-mdc-tab-header {
-    background: mat.get-color-from-palette($primary, background-dark);
+    background: mat.m2-get-color-from-palette($primary, background-dark);
   }
 
   .filters mat-tab-header .mat-tab-label-content {
-    color: mat.get-color-from-palette($primary, on-background-dark);
+    color: mat.m2-get-color-from-palette($primary, on-background-dark);
   }
 
   .aggregation-filter {
     pp-aggregation-item:last-child {
       mat-expansion-panel {
-        border-bottom: 1px solid mat.get-color-from-palette($primary, divider);
+        border-bottom: 1px solid mat.m2-get-color-from-palette($primary, divider);
       }
     }
   }
@@ -65,26 +65,26 @@
 
   // PANEL ITEMS BUTTON HOVER
   .panel-header .panel-buttons button .mat-button-focus-overlay {
-    background: mat.get-color-from-palette($primary, background-dark);
+    background: mat.m2-get-color-from-palette($primary, background-dark);
   }
 
   // SHARE ITEM MANAGE LOADER
   .share-preview-container mat-spinner circle {
-    stroke: mat.get-color-from-palette($accent, 500);
+    stroke: mat.m2-get-color-from-palette($accent, 500);
   }
 
   .mat-mdc-tab-body-wrapper {
-    background-color: mat.get-color-from-palette($primary, background-dark);
+    background-color: mat.m2-get-color-from-palette($primary, background-dark);
   }
 
   // Start Handle Angular Material Pannels Theming
   .mat-mdc-menu-content {
-    background-color: mat.get-color-from-palette($primary, surface-light);
+    background-color: mat.m2-get-color-from-palette($primary, surface-light);
 
     .mat-mdc-menu-item,
     .mat-menu-item .mat-icon,
     .menu-title {
-      color: mat.get-color-from-palette($primary, on-surface-light);
+      color: mat.m2-get-color-from-palette($primary, on-surface-light);
     }
 
     .mat-mdc-menu-item[disabled] {
@@ -102,20 +102,20 @@
   //SCROLL BAR
   /* Works on Firefox */
   .cp-scrollbar {
-    scrollbar-color: mat.get-color-from-palette($primary, surface-mid) transparent;
+    scrollbar-color: mat.m2-get-color-from-palette($primary, surface-mid) transparent;
   }
 
   /* Works on Chrome, Edge, and Safari */
   .cp-scrollbar::-webkit-scrollbar-thumb {
-    background-color: mat.get-color-from-palette($primary, surface-mid);
+    background-color: mat.m2-get-color-from-palette($primary, surface-mid);
   }
 
   // Extends the base mat-stroked-button styling
   .mat-mdc-outlined-button:not([disabled]) {
-    border-color: mat.get-color-from-palette($primary, 500);
-    background-color: mat.get-color-from-palette($primary, background-light);
+    border-color: mat.m2-get-color-from-palette($primary, 500);
+    background-color: mat.m2-get-color-from-palette($primary, background-light);
     &.mat-unthemed {
-      color: mat.get-color-from-palette($primary, 700);
+      color: mat.m2-get-color-from-palette($primary, 700);
     }
   }
 
@@ -152,10 +152,10 @@
 
   // Links
   a {
-    color: mat.get-color-from-palette($primary);
+    color: mat.m2-get-color-from-palette($primary);
 
     &.disabled {
-      color: mat.get-color-from-palette($accent, '200-contrast');
+      color: mat.m2-get-color-from-palette($accent, '200-contrast');
     }
   }
 }

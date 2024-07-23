@@ -6,7 +6,7 @@ $primary: map-get($picturepark-app-theme, primary);
 .list-items-picker-container {
   display: flex;
   height: calc(100vh - 64px);
-  background-color: mat.get-color-from-palette($primary, background-dark);
+  background-color: mat.m2-get-color-from-palette($primary, background-dark);
   .list-items-picker-content {
     width: 100%;
     height: 100%;

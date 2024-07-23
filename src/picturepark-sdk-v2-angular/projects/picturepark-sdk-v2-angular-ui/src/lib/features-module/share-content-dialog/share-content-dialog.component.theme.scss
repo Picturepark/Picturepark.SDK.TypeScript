@@ -6,28 +6,28 @@
 
   pp-share-content-dialog {
     #share-name.error-active {
-      border-color: mat.get-color-from-palette($warn);
+      border-color: mat.m2-get-color-from-palette($warn);
     }
 
     .share-name-error {
-      color: mat.get-color-from-palette($warn);
-      font-size: mat.font-size($custom-typography, caption);
+      color: mat.m2-get-color-from-palette($warn);
+      font-size: mat.m2-font-size($custom-typography, caption);
     }
 
     .share-content-confirmation-container {
       .share-content-confirmation {
-        border-bottom-color: mat.get-color-from-palette($primary, divider);
+        border-bottom-color: mat.m2-get-color-from-palette($primary, divider);
 
         .user-info-container {
           ul {
             li {
               mat-icon {
-                font-size: mat.font-size($custom-typography, subtitle-1);
-                color: mat.get-color-from-palette($primary, on-background-dark);
+                font-size: mat.m2-font-size($custom-typography, subtitle-1);
+                color: mat.m2-get-color-from-palette($primary, on-background-dark);
               }
 
               a {
-                color: mat.get-color-from-palette($primary, on-background-dark);
+                color: mat.m2-get-color-from-palette($primary, on-background-dark);
               }
             }
           }
@@ -38,12 +38,12 @@
 
   .selected-items-content {
     .selected-item-wrapper {
-      background-color: mat.get-color-from-palette($primary, surface-light);
+      background-color: mat.m2-get-color-from-palette($primary, surface-light);
     }
   }
 
   .inputs-content mat-select {
-    background-color: mat.get-color-from-palette($primary, surface-light);
-    color: mat.get-color-from-palette($primary, on-surface-light);
+    background-color: mat.m2-get-color-from-palette($primary, surface-light);
+    color: mat.m2-get-color-from-palette($primary, on-surface-light);
   }
 }

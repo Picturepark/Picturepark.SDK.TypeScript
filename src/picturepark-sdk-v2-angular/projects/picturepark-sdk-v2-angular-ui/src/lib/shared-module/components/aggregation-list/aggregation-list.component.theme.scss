@@ -5,26 +5,26 @@
 
   pp-aggregation-list {
     .aggregation-filter {
-      background-color: mat.get-color-from-palette($primary, background-dark);
+      background-color: mat.m2-get-color-from-palette($primary, background-dark);
 
       &__loading-spinner {
-        background: mat.get-color-from-palette($primary, opacity-light);
+        background: mat.m2-get-color-from-palette($primary, opacity-light);
       }
 
       .filters {
         &__active-filters {
-          background-color: mat.get-color-from-palette($primary, background-dark);
-          border-bottom-color: mat.get-color-from-palette($primary, divider);
+          background-color: mat.m2-get-color-from-palette($primary, background-dark);
+          border-bottom-color: mat.m2-get-color-from-palette($primary, divider);
         }
       }
 
       mat-toolbar {
-        color: mat.get-color-from-palette($primary, on-background-dark);
+        color: mat.m2-get-color-from-palette($primary, on-background-dark);
 
         button {
           mat-icon {
             font-size: 21px;
-            color: mat.get-color-from-palette($primary, on-background-dark);
+            color: mat.m2-get-color-from-palette($primary, on-background-dark);
           }
         }
       }
