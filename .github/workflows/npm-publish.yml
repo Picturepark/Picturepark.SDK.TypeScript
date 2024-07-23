@@ -10,11 +10,11 @@ jobs:
     runs-on: [ubuntu-latest]
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [18.x]
     steps:
-      - uses: actions/checkout@v2
-      - name: Publish NPM packages - Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: https://registry.npmjs.org/
@@ -25,8 +25,8 @@ jobs:
           npm run build:fetch
           npm run build:pickers
 
-      - name: Build Angular V1 libraries
-        working-directory: ./src/picturepark-sdk-v1-angular
+      - name: Build Angular V2 libraries
+        working-directory: ./src/picturepark-sdk-v2-angular
         run: |
           npm run init
           npm run lint
@@ -37,8 +37,7 @@ jobs:
         run: |
           npm publish 'picturepark-sdk-v1-fetch' --access=public
           npm publish 'picturepark-sdk-v1-pickers' --access=public
-          npm publish 'picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular' --access=public
-          npm publish 'picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular-oidc' --access=public
-          npm publish 'picturepark-sdk-v1-angular/dist/picturepark-sdk-v1-angular-ui' --access=public
+          npm publish 'picturepark-sdk-v2-angular/dist/picturepark-sdk-v1-angular' --access=public
+          npm publish 'picturepark-sdk-v2-angular/dist/picturepark-sdk-v1-angular-oidc' --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  

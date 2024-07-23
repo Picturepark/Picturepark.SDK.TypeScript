@@ -7,48 +7,6 @@ on:
     branches: [master, '[0-9]+.[0-9]+.x', release]
 
 jobs:
-  lint-and-test-angular-v1:
-    runs-on: [ubuntu-latest]
-    environment: QA02
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Create test config
-        working-directory: ./build
-        shell: pwsh
-        run: ./create-test-config.ps1
-        env:
-          TestApiServer: ${{ vars.TESTAPISERVER }}
-          TestCustomerAlias: ${{ vars.TESTCUSTOMERALIAS }}
-          TestIdentityClientId: ${{ secrets.TESTIDENTITYCLIENTID }}
-          TestIdentitySecret: ${{ secrets.TESTIDENTITYSECRET }}
-          TestIdentityServer: ${{ vars.TESTIDENTITYSERVER }}
-          TestInstanceUrl: ${{ vars.TESTINSTANCEURL }}
-          TestPassword: ${{ secrets.TESTPASSWORD }}
-          TestUsername: ${{ secrets.TESTUSERNAME }}
-
-      - name: npm ci
-        working-directory: ./src/picturepark-sdk-v1-angular
-        run: npm ci
-
-      - name: Lint Angular SDK V1
-        working-directory: ./src/picturepark-sdk-v1-angular
-        run: npm run lint
-
-      - name: Run tests Angular SDK V1
-        working-directory: ./src/picturepark-sdk-v1-angular
-        run: npm run test-nowatch
-
-
   lint-and-test-angular-v2:
     runs-on: [ubuntu-latest]
     environment: QA02
@@ -80,7 +38,7 @@ jobs:
 
       - name: npm ci
         working-directory: ./src/picturepark-sdk-v2-angular
-        run: npm ci
+        run: npm ci --include=optional
 
       - name: Lint Angular SDK V2
         working-directory: ./src/picturepark-sdk-v2-angular
