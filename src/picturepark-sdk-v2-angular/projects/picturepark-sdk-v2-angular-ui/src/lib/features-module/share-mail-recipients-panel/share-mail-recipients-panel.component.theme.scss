@@ -9,11 +9,11 @@
   pp-share-mail-recipients-panel {
     .panel-content {
       .recipient {
-        border-bottom-color: mat.get-color-from-palette($primary, divider);
+        border-bottom-color: mat.m2-get-color-from-palette($primary, divider);
 
         .recipient-url {
           a {
-            color: mat.get-color-from-palette($primary, on-surface-mid);
+            color: mat.m2-get-color-from-palette($primary, on-surface-mid);
             text-decoration: none;
           }
         }
@@ -22,11 +22,11 @@
       ul {
         li {
           span {
-            color: mat.get-color-from-palette($primary, on-surface-light);
+            color: mat.m2-get-color-from-palette($primary, on-surface-light);
           }
 
           a {
-            color: mat.get-color-from-palette($accent, '200-contrast');
+            color: mat.m2-get-color-from-palette($accent, '200-contrast');
           }
         }
       }

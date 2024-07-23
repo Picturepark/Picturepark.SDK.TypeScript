@@ -2,7 +2,7 @@
 @import '../theme.scss';
 
 body {
-  background-color: mat.get-color-from-palette($picturepark-app-primary, background-dark);
+  background-color: mat.m2-get-color-from-palette($picturepark-app-primary, background-dark);
 }
 
 .share-viewer-item-container {

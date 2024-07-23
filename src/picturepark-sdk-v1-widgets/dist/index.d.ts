@@ -1,4 +1,3 @@
-/// <reference path="../../picturepark-sdk-v1-fetch/dist/index.d.ts" />
 import './libraries/liquid.min.js';
 export { PictureparkPlayers as players } from './players';
 /**

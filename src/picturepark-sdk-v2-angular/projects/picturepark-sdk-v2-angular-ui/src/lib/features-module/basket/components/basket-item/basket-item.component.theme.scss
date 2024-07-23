@@ -5,7 +5,7 @@
 
   pp-basket-item {
     .basket-item {
-      background: mat.get-color-from-palette($primary, surface-light);
+      background: mat.m2-get-color-from-palette($primary, surface-light);
     }
   }
 }

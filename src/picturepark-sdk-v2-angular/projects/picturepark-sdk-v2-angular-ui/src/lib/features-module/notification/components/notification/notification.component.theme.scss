@@ -5,14 +5,14 @@
   $warn: map-get($theme, warn);
 
   .notification-container {
-    color: mat.get-color-from-palette($primary, on-primary);
+    color: mat.m2-get-color-from-palette($primary, on-primary);
 
     &.error {
-      background-color: mat.get-color-from-palette($warn);
+      background-color: mat.m2-get-color-from-palette($warn);
     }
 
     &.success {
-      background-color: mat.get-color-from-palette($primary, success);
+      background-color: mat.m2-get-color-from-palette($primary, success);
     }
   }
 }

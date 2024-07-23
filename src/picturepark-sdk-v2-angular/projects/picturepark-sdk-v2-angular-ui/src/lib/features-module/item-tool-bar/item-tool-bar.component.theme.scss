@@ -5,32 +5,32 @@
 
   pp-item-tool-bar {
     .tool-bar-container {
-      background: mat.get-color-from-palette($primary, surface-dark);
+      background: mat.m2-get-color-from-palette($primary, surface-dark);
 
       .to-top {
-        background-color: mat.get-color-from-palette($primary, surface-light);
-        color: mat.get-color-from-palette($primary, on-surface-light);
+        background-color: mat.m2-get-color-from-palette($primary, surface-light);
+        color: mat.m2-get-color-from-palette($primary, on-surface-light);
       }
 
       ul {
         li {
           button {
-            color: mat.get-color-from-palette($primary, on-surface-dark);
+            color: mat.m2-get-color-from-palette($primary, on-surface-dark);
             &:hover {
               i {
-                color: mat.get-color-from-palette($primary, on-surface-dark);
+                color: mat.m2-get-color-from-palette($primary, on-surface-dark);
               }
             }
 
             i {
-              color: mat.get-color-from-palette($primary, on-surface-dark);
-              font-size: mat.font-size($custom-typography, headline-5);
+              color: mat.m2-get-color-from-palette($primary, on-surface-dark);
+              font-size: mat.m2-font-size($custom-typography, headline-5);
             }
 
             span {
-              font-size: mat.font-size($custom-typography, button);
-              background-color: mat.get-color-from-palette($primary, opacity-light);
-              color: mat.get-color-from-palette($primary, on-opacity-light);
+              font-size: mat.m2-font-size($custom-typography, button);
+              background-color: mat.m2-get-color-from-palette($primary, opacity-light);
+              color: mat.m2-get-color-from-palette($primary, on-opacity-light);
             }
           }
         }

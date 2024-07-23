@@ -69,6 +69,4 @@
 
     exports.showContentPicker = showContentPicker;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
-
 }));

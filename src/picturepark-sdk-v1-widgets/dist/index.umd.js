@@ -1218,6 +1218,4 @@
     exports.players = PictureparkPlayers;
     exports.processScriptTag = processScriptTag;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
-
 }));

@@ -27,8 +27,8 @@ html.dark-theme {
   @include picturepark-components($picturepark-app-theme-dark);
 
   .application-header-container {
-    background-color: mat.get-color-from-palette($mat-picturepark-primary-dark, surface-light);
-    border-bottom: 1px solid mat.get-color-from-palette($mat-picturepark-primary-dark, divider);
+    background-color: mat.m2-get-color-from-palette($mat-picturepark-primary-dark, surface-light);
+    border-bottom: 1px solid mat.m2-get-color-from-palette($mat-picturepark-primary-dark, divider);
   }
 }
 

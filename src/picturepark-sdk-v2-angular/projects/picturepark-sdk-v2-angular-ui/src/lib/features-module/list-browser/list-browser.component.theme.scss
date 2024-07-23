@@ -7,24 +7,24 @@
 
   pp-list-browser {
     .browser__header .browser__empty-result {
-      color: mat.get-color-from-palette($primary, on-background-light);
+      color: mat.m2-get-color-from-palette($primary, on-background-light);
     }
     .table-container {
-      background: mat.get-color-from-palette($primary, background-light);
+      background: mat.m2-get-color-from-palette($primary, background-light);
 
       .mat-mdc-header-cell,
       .mat-mdc-cell,
       .mat-mdc-footer-cell {
-        background: mat.get-color-from-palette($primary, background-light);
-        color: mat.get-color-from-palette($primary, on-background-light);
+        background: mat.m2-get-color-from-palette($primary, background-light);
+        color: mat.m2-get-color-from-palette($primary, on-background-light);
       }
 
       tr.selected {
         .mat-mdc-header-cell,
         .mat-mdc-cell,
         .mat-mdc-footer-cell {
-          background: mat.get-color-from-palette($primary, background-dark);
-          color: mat.get-color-from-palette($primary, on-background-dark);
+          background: mat.m2-get-color-from-palette($primary, background-dark);
+          color: mat.m2-get-color-from-palette($primary, on-background-dark);
         }
       }
 
@@ -32,8 +32,8 @@
         .mat-mdc-header-cell,
         .mat-mdc-cell,
         .mat-mdc-footer-cell {
-          background: mat.get-color-from-palette($primary, background-dark);
-          color: mat.get-color-from-palette($primary, on-background-dark);
+          background: mat.m2-get-color-from-palette($primary, background-dark);
+          color: mat.m2-get-color-from-palette($primary, on-background-dark);
         }
       }
     }

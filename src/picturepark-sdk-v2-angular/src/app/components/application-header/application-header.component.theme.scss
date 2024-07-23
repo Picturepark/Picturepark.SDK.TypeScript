@@ -5,9 +5,9 @@
 
   app-application-header {
     .application-header-container {
-      background-color: mat.get-color-from-palette($primary, surface-light);
-      border-color: mat.get-color-from-palette($primary, divider);
-      color: mat.get-color-from-palette($primary, on-surface-light);
+      background-color: mat.m2-get-color-from-palette($primary, surface-light);
+      border-color: mat.m2-get-color-from-palette($primary, divider);
+      color: mat.m2-get-color-from-palette($primary, on-surface-light);
     }
   }
 }

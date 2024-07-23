@@ -98,7 +98,7 @@ class AggregationResultItem extends generated.AggregationResultItem {
 
 class ContentService extends generated.ContentService {
   create(
-    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+    resolveBehaviors: ContentResolveBehavior[] | undefined,
     allowMissingDependencies: boolean | undefined,
     timeout: string | null | undefined,
     waitSearchDocCreation: boolean | undefined,
@@ -118,7 +118,7 @@ class ContentService extends generated.ContentService {
     );
   }
 
-  get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | null | undefined): Observable<ContentDetail> {
+  get(contentId: string, resolveBehaviors: ContentResolveBehavior[] | undefined): Observable<ContentDetail> {
     return this.getCore(contentId, resolveBehaviors).pipe(
       _observableMergeMap(async content => {
         await this.liquidRenderingService.renderNestedDisplayValues(content);
@@ -127,10 +127,7 @@ class ContentService extends generated.ContentService {
     );
   }
 
-  getMany(
-    ids: string[] | null,
-    resolveBehaviors: ContentResolveBehavior[] | null | undefined
-  ): Observable<ContentDetail[]> {
+  getMany(ids: string[], resolveBehaviors: ContentResolveBehavior[] | undefined): Observable<ContentDetail[]> {
     return this.getManyCore(ids, resolveBehaviors).pipe(
       _observableMergeMap(async contents => {
         contents.forEach(async content => await this.liquidRenderingService.renderNestedDisplayValues(content));
@@ -150,7 +147,7 @@ class ContentService extends generated.ContentService {
 
   updateMetadata(
     contentId: string,
-    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+    resolveBehaviors: ContentResolveBehavior[] | undefined,
     allowMissingDependencies: boolean | undefined,
     timeout: string | null | undefined,
     waitSearchDocCreation: boolean | undefined,
@@ -173,7 +170,7 @@ class ContentService extends generated.ContentService {
 
   updatePermissions(
     contentId: string,
-    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+    resolveBehaviors: ContentResolveBehavior[] | undefined,
     timeout: string | null | undefined,
     waitSearchDocCreation: boolean | undefined,
     updateRequest: ContentPermissionsUpdateRequest
@@ -187,8 +184,8 @@ class ContentService extends generated.ContentService {
   }
 
   setDisplayContent(
-    id: string | null,
-    resolveBehaviors: ContentResolveBehavior[] | null | undefined,
+    id: string,
+    resolveBehaviors: ContentResolveBehavior[] | undefined,
     timeout: string | null | undefined,
     waitForContinuation: boolean | undefined,
     setDisplayContentRequest: SetDisplayContentRequest
@@ -230,7 +227,7 @@ class ListItemService extends generated.ListItemService {
 
 class ShareService extends generated.ShareService {
   get(
-    id: string | null,
+    id: string,
     resolveBehaviors: ShareResolveBehavior[] | null | undefined,
     contentResolveLimit: number | null | undefined
   ): Observable<ShareDetail> {
@@ -273,7 +270,7 @@ class ShareService extends generated.ShareService {
   }
 
   getShareContents(
-    token: string | null,
+    token: string,
     lang: string | null | undefined,
     limit: number | undefined,
     pageToken: string | null | undefined,

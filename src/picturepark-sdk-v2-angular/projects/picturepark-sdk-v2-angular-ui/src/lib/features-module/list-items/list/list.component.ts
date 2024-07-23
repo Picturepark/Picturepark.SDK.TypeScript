@@ -70,7 +70,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.schema = this.route.paramMap.pipe(
       filter(p => !!p.get('id')),
       mergeMap(paramMap => {
-        const schemaId = paramMap.get('id');
+        const schemaId = paramMap.get('id') ?? '';
         return this.schemaService.get(schemaId);
       })
     );

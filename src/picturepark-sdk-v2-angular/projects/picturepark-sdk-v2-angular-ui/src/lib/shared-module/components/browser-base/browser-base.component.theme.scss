@@ -10,21 +10,21 @@
     .browser {
       $self: &;
 
-      background: mat.get-color-from-palette($primary, background-dark);
+      background: mat.m2-get-color-from-palette($primary, background-dark);
 
       &__header {
         & mat-toolbar {
-          border-bottom: 1px solid mat.get-color-from-palette($primary, divider);
+          border-bottom: 1px solid mat.m2-get-color-from-palette($primary, divider);
         }
 
         button {
           mat-icon {
-            font-size: mat.font-size($custom-typography, headline-2);
-            color: mat.get-color-from-palette($primary, on-background-dark);
+            font-size: mat.m2-font-size($custom-typography, headline-2);
+            color: mat.m2-get-color-from-palette($primary, on-background-dark);
           }
           &:hover {
             mat-icon {
-              color: mat.get-color-from-palette($primary, opacity-light);
+              color: mat.m2-get-color-from-palette($primary, opacity-light);
             }
           }
         }
@@ -32,7 +32,7 @@
 
       .browser__items--list {
         .browser__item-container {
-          border-color: mat.get-color-from-palette($primary, divider);
+          border-color: mat.m2-get-color-from-palette($primary, divider);
         }
       }
     }

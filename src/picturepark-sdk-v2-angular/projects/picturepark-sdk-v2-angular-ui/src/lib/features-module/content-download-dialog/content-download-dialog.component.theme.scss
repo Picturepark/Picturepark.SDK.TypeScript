@@ -8,12 +8,12 @@
     mat-dialog-content {
       .content-wrapper {
         .loader-wrapper {
-          background-color: mat.get-color-from-palette($primary, opacity-light);
+          background-color: mat.m2-get-color-from-palette($primary, opacity-light);
         }
       }
     }
     fieldset {
-      border-color: mat.get-color-from-palette($primary, on-background-dark);
+      border-color: mat.m2-get-color-from-palette($primary, on-background-dark);
     }
   }
 }
