@@ -1,16 +1,15 @@
 <pp-panel [title]="'ShareOwnerPanel.Owner' | pptranslate">
   <div pp-panel-content>
     @if (user) {
-      <ul>
-        <li class="avatar"><img src="{{ user.emailAddress | ppavatar }}" [alt]="user.emailAddress" /></li>
-        <li class="user-info">{{ user.firstName }} {{ user.lastName }}</li>
-      </ul>
-    }
-    @if (shareUser) {
-      <ul>
-        <li class="avatar"><img src="{{ shareUser.emailHash | ppavatarhashed }}" [alt]="shareUser.emailHash" /></li>
-        <li class="user-info">{{ shareUser.displayName }}</li>
-      </ul>
+    <ul>
+      <li class="avatar"><img src="{{ user.emailAddress ?? '' | ppavatar }}" [alt]="user.emailAddress" /></li>
+      <li class="user-info">{{ user.firstName }} {{ user.lastName }}</li>
+    </ul>
+    } @if (shareUser) {
+    <ul>
+      <li class="avatar"><img src="{{ shareUser.emailHash | ppavatarhashed }}" [alt]="shareUser.emailHash" /></li>
+      <li class="user-info">{{ shareUser.displayName }}</li>
+    </ul>
     }
   </div>
 </pp-panel>

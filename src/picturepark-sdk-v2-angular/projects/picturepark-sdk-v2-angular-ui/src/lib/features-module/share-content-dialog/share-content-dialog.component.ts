@@ -175,13 +175,13 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       await firstValueFrom(this.businessProcessService.waitForCompletion(response.id, '02:00:00', true));
 
-      const share = await firstValueFrom(this.shareService.get(response.referenceId ?? null, null, 0));
+      const share = await firstValueFrom(this.shareService.get(response.referenceId ?? '', null, 0));
 
       (share.data as ShareDataBasic).internalRecipients.forEach(recipient =>
         this.recipients.push({
-          email: recipient.recipient.emailAddress,
+          email: recipient.recipient.emailAddress ?? '',
           url: recipient.url ?? '',
-          img: `https://www.gravatar.com/avatar/${Md5.hashStr(recipient.recipient.emailAddress)}?d=mm&s=48`,
+          img: `https://www.gravatar.com/avatar/${Md5.hashStr(recipient.recipient.emailAddress ?? '')}?d=mm&s=48`,
         })
       );
 

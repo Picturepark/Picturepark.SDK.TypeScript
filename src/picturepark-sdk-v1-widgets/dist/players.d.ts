@@ -1,5 +1,3 @@
-/// <reference path="../src/typings/pdfjs.d.ts" />
-/// <reference path="../../picturepark-sdk-v1-fetch/dist/index.d.ts" />
 import * as picturepark from '../../picturepark-sdk-v1-fetch/dist/index';
 export declare class PictureparkPlayers {
     static loading: boolean;
