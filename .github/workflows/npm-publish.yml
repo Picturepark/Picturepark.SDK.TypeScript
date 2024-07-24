@@ -37,7 +37,7 @@ jobs:
         run: |
           npm publish 'picturepark-sdk-v1-fetch' --access=public
           npm publish 'picturepark-sdk-v1-pickers' --access=public
-          npm publish 'picturepark-sdk-v2-angular/dist/picturepark-sdk-v1-angular' --access=public
-          npm publish 'picturepark-sdk-v2-angular/dist/picturepark-sdk-v1-angular-oidc' --access=public
+          npm publish 'picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular' --access=public
+          npm publish 'picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular-oidc' --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  

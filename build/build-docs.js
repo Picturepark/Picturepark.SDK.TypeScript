@@ -31,6 +31,3 @@ runTypeDoc(
   path.join(rootDir, '../docs/picturepark-sdk-v2-angular/API.md'),
   'picturepark-sdk-v2-angular API'
 );
-
-
-// cmd /c call "node_modules/.bin/typedoc" "%~dp0\..\src\picturepark-sdk-v1-angular\projects\picturepark-sdk-v1-angular\src\public_api.ts" --out "%~dp0\..\docs\picturepark-sdk-v1-angular\api" --readme "%~dp0\..\docs\picturepark-sdk-v1-angular\API.md" --theme default --tsconfig "%~dp0\..\src\picturepark-sdk-v1-angular\projects\picturepark-sdk-v1-angular\tsconfig.lib.json" --excludePrivate --name "@picturepark/sdk-v1-angular API"
