@@ -11,7 +11,7 @@
     "markdown-it": "^12.3.2"
   },
   "dependencies": {
-    "moment": "2.24.0",
+    "moment": "2.29.4",
     "ts-md5": "^1.2.4"
   },
   "sideEffects": true,
