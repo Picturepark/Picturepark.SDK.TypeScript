@@ -23,3 +23,11 @@ runTypeDoc(
   path.join(rootDir, '../docs/picturepark-sdk-v1-pickers/API.md'),
   'picturepark-sdk-v1-pickers API'
 );
+
+runTypeDoc(
+  path.join(rootDir, '../src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/src/public_api.ts'),
+  path.join(rootDir, '../src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular/tsconfig.lib.json'),
+  path.join(rootDir, '../docs/picturepark-sdk-v2-angular/api'),
+  path.join(rootDir, '../docs/picturepark-sdk-v2-angular/API.md'),
+  'picturepark-sdk-v2-angular API'
+);
