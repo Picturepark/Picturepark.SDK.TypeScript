@@ -9,7 +9,7 @@ import { MarkdownDirective } from '../../directives/markdown-directive';
 import { ReadMoreComponent } from '../read-more/read-more.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
-import { isEmptyOrUndefined } from '@picturepark/sdk-v2-angular-ui';
+import { isEmptyOrUndefined } from '../../../../utilities/helper';
 
 @Component({
   selector: 'pp-layer-fields',
