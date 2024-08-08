@@ -18,6 +18,7 @@ import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { LayerFieldsComponent } from './components/layer-fields/layer-fields.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgFor } from '@angular/common';
+import { isEmptyOrUndefined } from '../../utilities/helper';
 
 const initialState = {
   layers: [] as Layer[],
@@ -138,7 +139,7 @@ export class LayerPanelsComponent extends StatefulComponent<typeof initialState>
       schema.fields.forEach(schemaField => {
         const fieldValue = schemaMetadata[schemaField.id];
 
-        if (fieldValue !== undefined && fieldValue !== null) {
+        if (!isEmptyOrUndefined(fieldValue)) {
           const layerField = this.layerFieldService.generate(
             schemaField,
             schemaMetadata,

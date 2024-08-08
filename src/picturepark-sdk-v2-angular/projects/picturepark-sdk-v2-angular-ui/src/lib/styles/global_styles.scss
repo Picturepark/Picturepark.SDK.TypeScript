@@ -168,9 +168,19 @@ pp-share-content-dialog {
   }
 }
 
-.mat-mdc-slide-toggle > .mdc-form-field > .mdc-switch > .mdc-switch__handle-track > .mdc-switch__handle {
-  > .mdc-switch__ripple {
-    width: 38px;
-    height: 38px;
+.mat-mdc-slide-toggle {
+  padding-top: 1px;
+  padding-bottom: 2px;
+  > .mdc-form-field > .mdc-switch > .mdc-switch__handle-track > .mdc-switch__handle {
+    > .mdc-switch__ripple {
+      width: 38px;
+      height: 38px;
+    }
+    > .mdc-switch__icons {
+      display: none;
+    }
+    > .mdc-switch__shadow {
+      display: none;
+    }
   }
 }
