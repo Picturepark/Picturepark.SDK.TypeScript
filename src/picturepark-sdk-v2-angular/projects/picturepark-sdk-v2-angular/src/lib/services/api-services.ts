@@ -80993,7 +80993,7 @@ export class ShareUser implements IShareUser {
     /** Name of user */
     displayName!: string;
     /** MD5 hash of email address. Can be used to display gravatar image */
-    emailHash!: string;
+    emailHash?: string | undefined;
 
     constructor(data?: IShareUser) {
         if (data) {
@@ -81031,7 +81031,7 @@ export interface IShareUser {
     /** Name of user */
     displayName: string;
     /** MD5 hash of email address. Can be used to display gravatar image */
-    emailHash: string;
+    emailHash?: string | undefined;
 }
 
 /** Detail of shared content */
