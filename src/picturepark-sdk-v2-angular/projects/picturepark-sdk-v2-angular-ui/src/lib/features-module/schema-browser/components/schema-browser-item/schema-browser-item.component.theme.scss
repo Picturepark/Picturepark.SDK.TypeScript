@@ -6,27 +6,27 @@
 
   pp-schema-browser-item {
     .schema-browser-item-container {
-      background-color: mat.get-color-from-palette($primary, surface-light);
-      color: mat.get-color-from-palette($primary, on-surface-light);
+      background-color: mat.m2-get-color-from-palette($primary, surface-light);
+      color: mat.m2-get-color-from-palette($primary, on-surface-light);
 
       .schema-content {
         border-color: transparent;
         &--selected {
-          border-color: mat.get-color-from-palette($accent, 500);
+          border-color: mat.m2-get-color-from-palette($accent, 500);
         }
       }
 
       .schema-icon {
         background-color: rgba(0, 0, 0, 0.03);
-        color: mat.get-color-from-palette($primary, on-surface-mid);
+        color: mat.m2-get-color-from-palette($primary, on-surface-mid);
       }
 
       .schema-menu {
-        background-color: mat.get-color-from-palette($primary, surface-light);
+        background-color: mat.m2-get-color-from-palette($primary, surface-light);
 
         .mat-mdc-button {
           mat-icon {
-            color: mat.get-color-from-palette($primary, on-surface-light);
+            color: mat.m2-get-color-from-palette($primary, on-surface-light);
           }
         }
       }

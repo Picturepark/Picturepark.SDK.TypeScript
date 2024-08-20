@@ -1,5 +1,5 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { AuthService, PICTUREPARK_CONFIGURATION } from '@picturepark/sdk-v2-angular';
 import { OidcAuthService, PictureparkOidcAuthConfiguration } from './oidc-auth.service';
@@ -11,13 +11,11 @@ export function storageFactory(): OAuthStorage {
   return localStorage;
 }
 
-@NgModule({
-  imports: [HttpClientModule, OAuthModule.forRoot()],
-  providers: [
-    { provide: OAuthStorage, useFactory: storageFactory },
-    { provide: AuthService, useClass: OidcAuthService },
-  ],
-})
+@NgModule({ imports: [OAuthModule.forRoot()], providers: [
+        { provide: OAuthStorage, useFactory: storageFactory },
+        { provide: AuthService, useClass: OidcAuthService },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class PictureparkOidcModule {
   // eslint-disable-next-line @typescript-eslint/ban-types
   static forRoot(config: PictureparkOidcAuthConfiguration | Function): ModuleWithProviders<PictureparkOidcModule> {

@@ -7,11 +7,11 @@
   pp-share-items-panel {
     .grid {
       > .item {
-        background-color: mat.get-color-from-palette($primary, background-dark);
-        border: 1px solid mat.get-color-from-palette($primary, 500);
+        background-color: mat.m2-get-color-from-palette($primary, background-dark);
+        border: 1px solid mat.m2-get-color-from-palette($primary, 500);
 
         &:hover {
-          border: 3px solid mat.get-color-from-palette($primary, 700);
+          border: 3px solid mat.m2-get-color-from-palette($primary, 700);
           border-radius: 4px;
           margin: -2px;
         }
@@ -20,14 +20,14 @@
 
     .list {
       > .item {
-        background-color: mat.get-color-from-palette($primary, 100);
+        background-color: mat.m2-get-color-from-palette($primary, 100);
 
         &:hover {
-          background-color: mat.get-color-from-palette($primary, 400);
+          background-color: mat.m2-get-color-from-palette($primary, 400);
         }
 
         .item-funcs {
-          color: mat.get-color-from-palette($primary, on-surface-light);
+          color: mat.m2-get-color-from-palette($primary, on-surface-light);
 
           i:hover {
             color: initial;

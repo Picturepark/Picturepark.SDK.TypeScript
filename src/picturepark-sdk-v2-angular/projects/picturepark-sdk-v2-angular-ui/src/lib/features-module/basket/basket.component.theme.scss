@@ -5,20 +5,20 @@
 
   pp-basket {
     .basket {
-      background-color: mat.get-color-from-palette($primary, background-dark);
+      background-color: mat.m2-get-color-from-palette($primary, background-dark);
       .mat-toolbar {
-        background: mat.get-color-from-palette($primary, background-dark);
-        border-bottom-color: mat.get-color-from-palette($primary, divider);
+        background: mat.m2-get-color-from-palette($primary, background-dark);
+        border-bottom-color: mat.m2-get-color-from-palette($primary, divider);
         button {
           mat-icon {
-            font-size: mat.font-size($custom-typography, headline-2);
-            color: mat.get-color-from-palette($primary, on-background-dark);
+            font-size: mat.m2-font-size($custom-typography, headline-2);
+            color: mat.m2-get-color-from-palette($primary, on-background-dark);
           }
         }
       }
 
       .basket__empty {
-        color: mat.get-color-from-palette($primary, on-background-dark);
+        color: mat.m2-get-color-from-palette($primary, on-background-dark);
       }
     }
   }

@@ -11,30 +11,30 @@
     .dialog,
     .dialog-container {
       .header {
-        color: mat.get-color-from-palette($accent, '200-contrast');
-        border-color: mat.get-color-from-palette($primary, divider);
+        color: mat.m2-get-color-from-palette($accent, '200-contrast');
+        border-color: mat.m2-get-color-from-palette($primary, divider);
       }
       mat-dialog-content {
-        background-color: mat.get-color-from-palette($primary, background-light);
-        color: mat.get-color-from-palette($primary, on-background-light);
+        background-color: mat.m2-get-color-from-palette($primary, background-light);
+        color: mat.m2-get-color-from-palette($primary, on-background-light);
 
         .mat-mdc-tab-header {
-          background-color: mat.get-color-from-palette($accent, 550);
+          background-color: mat.m2-get-color-from-palette($accent, 550);
         }
 
         .mat-mdc-tab-body-content {
-          background-color: mat.get-color-from-palette($primary, 100);
-          color: mat.get-color-from-palette($primary, on-surface-mid);
+          background-color: mat.m2-get-color-from-palette($primary, 100);
+          color: mat.m2-get-color-from-palette($primary, on-surface-mid);
         }
       }
 
       .loader-container {
-        background-color: mat.get-color-from-palette($primary, surface-light);
+        background-color: mat.m2-get-color-from-palette($primary, surface-light);
       }
 
       mat-dialog-actions {
-        background-color: mat.get-color-from-palette($primary, surface-light);
-        color: mat.get-color-from-palette($primary, on-surface-light);
+        background-color: mat.m2-get-color-from-palette($primary, surface-light);
+        color: mat.m2-get-color-from-palette($primary, on-surface-light);
       }
     }
   }

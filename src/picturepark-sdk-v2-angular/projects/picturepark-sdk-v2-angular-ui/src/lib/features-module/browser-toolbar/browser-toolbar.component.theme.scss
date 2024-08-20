@@ -6,24 +6,24 @@
 
   pp-browser-toolbar {
     .browser-toolbar-container {
-      background-color: mat.get-color-from-palette($primary, background-dark);
-      border-color: mat.get-color-from-palette($primary, divider);
+      background-color: mat.m2-get-color-from-palette($primary, background-dark);
+      border-color: mat.m2-get-color-from-palette($primary, divider);
 
       .browser-toolbar-content {
         .select {
           button {
-            background-color: mat.get-color-from-palette($primary, background-dark);
-            color: mat.get-color-from-palette($accent, 500);
+            background-color: mat.m2-get-color-from-palette($primary, background-dark);
+            color: mat.m2-get-color-from-palette($accent, 500);
 
             i {
-              font-size: mat.font-size($custom-typography, headline-1);
-              color: mat.get-color-from-palette($primary, on-background-dark);
+              font-size: mat.m2-font-size($custom-typography, headline-1);
+              color: mat.m2-get-color-from-palette($primary, on-background-dark);
             }
 
             &:hover {
               i {
-                background-color: mat.get-color-from-palette($accent, 500);
-                color: mat.get-color-from-palette($primary, on-primary);
+                background-color: mat.m2-get-color-from-palette($accent, 500);
+                color: mat.m2-get-color-from-palette($primary, on-primary);
               }
             }
           }
@@ -31,16 +31,16 @@
 
         .order-by {
           button {
-            color: mat.get-color-from-palette($primary, on-background-dark);
+            color: mat.m2-get-color-from-palette($primary, on-background-dark);
 
             &:hover {
-              color: mat.get-color-from-palette($accent, 500);
+              color: mat.m2-get-color-from-palette($accent, 500);
             }
           }
         }
 
         .items-count {
-          color: mat.get-color-from-palette($primary, on-background-dark);
+          color: mat.m2-get-color-from-palette($primary, on-background-dark);
         }
       }
     }

@@ -5,38 +5,38 @@
   $accent: map-get($theme, accent);
 
   pp-panel {
-    background-color: mat.get-color-from-palette($primary, 50);
-    color: mat.get-color-from-palette($accent, '300-contrast');
-    @include mat.elevation(2, mat.get-color-from-palette($primary, 700), 0.8);
+    background-color: mat.m2-get-color-from-palette($primary, 50);
+    color: mat.m2-get-color-from-palette($accent, '300-contrast');
+    @include mat.elevation(2, mat.m2-get-color-from-palette($primary, 700), 0.8);
 
     .panel-header {
-      border-bottom-color: mat.get-color-from-palette($primary, divider);
+      border-bottom-color: mat.m2-get-color-from-palette($primary, divider);
 
       .panel-header-title {
         font-size: 14px;
         font-weight: 500;
-        color: mat.get-color-from-palette($accent, '200-contrast');
+        color: mat.m2-get-color-from-palette($accent, '200-contrast');
       }
     }
 
     .panel-content {
       a {
-        color: mat.get-color-from-palette($primary, on-surface-mid);
+        color: mat.m2-get-color-from-palette($primary, on-surface-mid);
       }
     }
   }
 
   .share-manager-item-container {
     pp-panel {
-      background-color: mat.get-color-from-palette($primary, surface-light);
-      color: mat.get-color-from-palette($primary, on-surface-mid);
-      @include mat.elevation(2, mat.get-color-from-palette($primary, 700), 0.8);
+      background-color: mat.m2-get-color-from-palette($primary, surface-light);
+      color: mat.m2-get-color-from-palette($primary, on-surface-mid);
+      @include mat.elevation(2, mat.m2-get-color-from-palette($primary, 700), 0.8);
 
       .panel-header {
-        border-bottom-color: mat.get-color-from-palette($primary, surface-mid);
+        border-bottom-color: mat.m2-get-color-from-palette($primary, surface-mid);
 
         .panel-header-title {
-          color: mat.get-color-from-palette($primary, on-surface-light);
+          color: mat.m2-get-color-from-palette($primary, on-surface-light);
         }
       }
     }

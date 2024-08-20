@@ -8,42 +8,42 @@
   pp-search-suggest-box {
     #search-container {
       .form {
-        background-color: mat.get-color-from-palette($primary, 50);
-        color: mat.get-color-from-palette($accent, '200-contrast');
+        background-color: mat.m2-get-color-from-palette($primary, 50);
+        color: mat.m2-get-color-from-palette($accent, '200-contrast');
 
         input {
-          color: mat.get-color-from-palette($primary, on-surface-mid);
+          color: mat.m2-get-color-from-palette($primary, on-surface-mid);
 
           &::placeholder {
-            color: mat.get-color-from-palette($primary, on-surface-mid);
+            color: mat.m2-get-color-from-palette($primary, on-surface-mid);
           }
         }
       }
 
       #search-options-container {
-        color: mat.get-color-from-palette($primary, surface-mid);
+        color: mat.m2-get-color-from-palette($primary, surface-mid);
       }
     }
 
     #search-container:focus-within {
-      border-color: mat.get-color-from-palette($primary, opacity-light);
+      border-color: mat.m2-get-color-from-palette($primary, opacity-light);
 
       .form {
-        background-color: mat.get-color-from-palette($primary, opacity-light);
+        background-color: mat.m2-get-color-from-palette($primary, opacity-light);
 
-        color: mat.get-color-from-palette($primary, on-surface-dark);
+        color: mat.m2-get-color-from-palette($primary, on-surface-dark);
 
         input {
-          color: mat.get-color-from-palette($primary, on-surface-dark);
+          color: mat.m2-get-color-from-palette($primary, on-surface-dark);
 
           &::placeholder {
-            color: mat.get-color-from-palette($primary, on-surface-dark);
+            color: mat.m2-get-color-from-palette($primary, on-surface-dark);
           }
         }
       }
 
       #search-options-container {
-        color: mat.get-color-from-palette($primary, opacity-light);
+        color: mat.m2-get-color-from-palette($primary, opacity-light);
       }
     }
   }
@@ -51,7 +51,7 @@
   pp-search-box {
     #search-container {
       .form {
-        @include mat.elevation(2, mat.get-color-from-palette($primary, 700), 0.7);
+        @include mat.elevation(2, mat.m2-get-color-from-palette($primary, 700), 0.7);
       }
     }
   }
@@ -59,7 +59,7 @@
   pp-search-suggest-box {
     #search-container {
       .form {
-        background-color: mat.get-color-from-palette($primary, surface-mid);
+        background-color: mat.m2-get-color-from-palette($primary, surface-mid);
       }
     }
   }

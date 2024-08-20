@@ -1,7 +1,7 @@
 # Picturepark Content Platform TypeScript/JavaScript SDK
 ## Picturepark.Sdk.TypeScript
 
-[![npm](https://img.shields.io/npm/v/@picturepark/sdk-v1-angular.svg)](https://www.npmjs.com/~picturepark)
+[![npm](https://img.shields.io/npm/v/@picturepark/sdk-v2-angular.svg)](https://www.npmjs.com/~picturepark)
 
 Links:
 
@@ -11,23 +11,17 @@ Links:
 
 ## Projects
 
-**[picturepark-sdk-v1-angular](docs/picturepark-sdk-v1-angular/README.md)** 
+**[picturepark-sdk-v2-angular](docs/picturepark-sdk-v2-angular/README.md)** 
 
 Contains Angular service classes to access the Picturepark API.
 
-NPM package: `@picturepark/sdk-v1-angular`
+NPM package: `@picturepark/sdk-v2-angular`
 
-**[picturepark-sdk-v1-angular-oidc](docs/picturepark-sdk-v1-angular/README.md)** 
+**[picturepark-sdk-v2-angular-oidc](docs/picturepark-sdk-v2-angular/README.md)** 
 
 Contains Angular service classes to access the Picturepark authentication endpoints.
 
-NPM package: `@picturepark/sdk-v1-angular-oidc`
-
-**[picturepark-sdk-v1-angular-ui](docs/picturepark-sdk-v1-angular/README.md)** 
-
-Contains Angular UI components based on Angular Material.
-
-NPM package: `@picturepark/sdk-v1-angular-ui`
+NPM package: `@picturepark/sdk-v2-angular-oidc`
 
 **[picturepark-sdk-v1-fetch](docs/picturepark-sdk-v1-fetch/README.md)**
 
@@ -45,9 +39,9 @@ NPM package: `@picturepark/sdk-v1-pickers`
 
 | SDK version | Picturepark CP version | Branch |
 | ----------- | ---------------------- | -----------
-| `11.9.x`    | `11.9.x`               | [11.9.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.9.x)
 | `11.10.x`   | `11.10.x`              | [11.10.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.10.x)
-| `11.11.x`   | `11.11.x`              | [master](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master)
+| `11.11.x`   | `11.11.x`              | [11.11.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.11.x)
+| `11.12.x`   | `11.12.x`              | [master](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master)
 	
 SDK Development
 
@@ -65,15 +59,12 @@ Run the following commands to regenerate the clients based on the Swagger specif
 
 For more information, see [NSwag](http://nswag.org).
 
-After nswag was run, manually revert change for removed block: import { ... } from './api-services'; from auto generated file: src\picturepark-sdk-v1-angular\projects\picturepark-sdk-v1-angular\src\lib\services\frontend-services.ts
-
 ### Release new package versions
 
 1. Change package versions in the following projects and delete all `package-lock.json` files: 
 
-- picturepark-sdk-v1-angular
-- picturepark-sdk-v1-angular-oidc
-- picturepark-sdk-v1-angular-ui
+- picturepark-sdk-v2-angular
+- picturepark-sdk-v2-angular-oidc
 - picturepark-sdk-v1-fetch
 - picturepark-sdk-v1-pickers
 

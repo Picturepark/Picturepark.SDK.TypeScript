@@ -1,53 +1,66 @@
 <div class="raw">
   @if (!noname) {
-  <div class="label" #name [matTooltip]="field.name">{{ field.name }}</div>
-  } @if (field.value && !field.markdown) {
-  <div class="value">{{ field.value }}</div>
-  } @if (field.value && field.markdown) {
-  <pp-read-more class="value"><div ppMarkdown [markdownText]="field.value"></div></pp-read-more>
-  } @if (field.tagboxFields.length) {
-  <div class="value">
-    @for (tagboxField of field.tagboxFields; track tagboxField; let last = $last; let i = $index) {
-    <span>
-      <a class="link" href="javascript:" (click)="showItem(tagboxField, $event)"> {{ tagboxField.value }}</a>
-      @if (!last) {
-      <span>, </span>
-      }
-    </span>
+    <div class="label" #name [matTooltip]="field().name">{{ field().name }}</div>
+  }
+  @if (hasValue()) {
+    @if (!field().markdown) {
+      <div class="value">{{ field().value }}</div>
     }
-  </div>
-  } @if (field.fieldsetFields.length) {
-  <div class="value">
-    @for (ref of field.fieldsetFields; track ref) {
-    <div class="field">
-      @if (ref.name === field.name) {
-      <mat-expansion-panel (opened)="ref.isOpened = true" (closed)="ref.isOpened = false">
-        <mat-expansion-panel-header>
-          <mat-panel-description>
-            {{ ref.isOpened ? ref.name : ref.title }}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <ng-template matExpansionPanelContent>
-          <pp-layer-fields [field]="ref" [noname]="true"></pp-layer-fields>
-        </ng-template>
-      </mat-expansion-panel>
-      } @else {
-      <pp-layer-fields [field]="ref"></pp-layer-fields>
+    @if (field().markdown) {
+      <pp-read-more class="value">
+        @if (field().value; as value) {
+          <div ppMarkdown [markdownText]="value"></div>
+        }
+      </pp-read-more>
+    }
+  }
+  @if (field().tagboxFields.length) {
+    <div class="value">
+      @for (tagboxField of field().tagboxFields; track tagboxField; let last = $last; let i = $index) {
+        <span>
+          <a class="link" href="javascript:" (click)="showItem(tagboxField, $event)"> {{ tagboxField.value }}</a>
+          @if (!last) {
+            <span>, </span>
+          }
+        </span>
       }
     </div>
-    }
-  </div>
-  } @if (field.relationFields.length) {
-  <div class="value">
-    @for (relationField of field.relationFields; track relationField) { @if (relationField.info | async; as info) {
-    <div class="relation field" (click)="relationClickHandler(info)">
-      <div class="image-wrap"><img [src]="info.fileUrl" /></div>
-      <div class="relationFields">
-        <div class="field relation-title" [innerHTML]="info.name"></div>
-        <div class="field relation-description" [innerHTML]="info.list"></div>
-      </div>
+  }
+  @if (field().fieldsetFields.length) {
+    <div class="value">
+      @for (ref of field().fieldsetFields; track ref) {
+        <div class="field">
+          @if (ref.name === field().name) {
+            <mat-expansion-panel (opened)="ref.isOpened = true" (closed)="ref.isOpened = false">
+              <mat-expansion-panel-header>
+                <mat-panel-description>
+                  {{ ref.isOpened ? ref.name : ref.title }}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
+                <pp-layer-fields [field]="ref" [noname]="true"></pp-layer-fields>
+              </ng-template>
+            </mat-expansion-panel>
+          } @else {
+            <pp-layer-fields [field]="ref"></pp-layer-fields>
+          }
+        </div>
+      }
     </div>
-    } }
-  </div>
+  }
+  @if (field().relationFields.length) {
+    <div class="value">
+      @for (relationField of field().relationFields; track relationField) {
+        @if (relationField.info | async; as info) {
+          <div class="relation field" (click)="relationClickHandler(info)">
+            <div class="image-wrap"><img [src]="info.fileUrl" /></div>
+            <div class="relationFields">
+              <div class="field relation-title" [innerHTML]="info.name"></div>
+              <div class="field relation-description" [innerHTML]="info.list"></div>
+            </div>
+          </div>
+        }
+      }
+    </div>
   }
 </div>

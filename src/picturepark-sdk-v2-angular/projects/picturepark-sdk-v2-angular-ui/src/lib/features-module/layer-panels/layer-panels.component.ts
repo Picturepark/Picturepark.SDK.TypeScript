@@ -18,23 +18,19 @@ import { TranslatePipe } from '../../shared-module/pipes/translate.pipe';
 import { LayerFieldsComponent } from './components/layer-fields/layer-fields.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgFor } from '@angular/common';
+import { isEmptyOrUndefined } from '../../utilities/helper';
 
 const initialState = {
   layers: [] as Layer[],
 };
 
 @Component({
-    selector: 'pp-layer-panels',
-    templateUrl: './layer-panels.component.html',
-    styleUrls: ['./layer-panels.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgFor,
-        MatExpansionModule,
-        LayerFieldsComponent,
-        TranslatePipe,
-    ],
+  selector: 'pp-layer-panels',
+  templateUrl: './layer-panels.component.html',
+  styleUrls: ['./layer-panels.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgFor, MatExpansionModule, LayerFieldsComponent, TranslatePipe],
 })
 export class LayerPanelsComponent extends StatefulComponent<typeof initialState> implements OnInit {
   @Input() schemas: SchemaDetail[];
@@ -141,7 +137,9 @@ export class LayerPanelsComponent extends StatefulComponent<typeof initialState>
       };
 
       schema.fields.forEach(schemaField => {
-        if (schemaMetadata[schemaField.id]) {
+        const fieldValue = schemaMetadata[schemaField.id];
+
+        if (!isEmptyOrUndefined(fieldValue)) {
           const layerField = this.layerFieldService.generate(
             schemaField,
             schemaMetadata,

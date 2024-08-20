@@ -8,15 +8,15 @@
   pp-share-browser-item {
     .browser-item {
       &__items-num-container {
-        color: mat.get-color-from-palette($primary, on-opacity-light);
+        color: mat.m2-get-color-from-palette($primary, on-opacity-light);
       }
 
       &__title {
-        font-size: mat.font-size($custom-typography, headline-4);
-        color: mat.get-color-from-palette($primary, on-background-dark);
+        font-size: mat.m2-font-size($custom-typography, headline-4);
+        color: mat.m2-get-color-from-palette($primary, on-background-dark);
 
         i {
-          font-size: mat.font-size($custom-typography, headline-4);
+          font-size: mat.m2-font-size($custom-typography, headline-4);
         }
       }
     }

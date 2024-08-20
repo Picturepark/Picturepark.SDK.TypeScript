@@ -9,30 +9,30 @@
     .chip-list-container {
       .chip-list-content {
         &.error-active {
-          border-color: mat.get-color-from-palette($warn);
+          border-color: mat.m2-get-color-from-palette($warn);
         }
       }
     }
 
     .share-content-dialog-container ul li input {
-      background-color: mat.get-color-from-palette($primary, surface-light);
-      color: mat.get-color-from-palette($primary, on-surface-light);
+      background-color: mat.m2-get-color-from-palette($primary, surface-light);
+      color: mat.m2-get-color-from-palette($primary, on-surface-light);
     }
 
     .mat-mdc-chip {
       &.mat-mdc-standard-chip {
-        background-color: mat.get-color-from-palette($accent, 500);
+        background-color: mat.m2-get-color-from-palette($accent, 500);
         .mat-mdc-chip-action-label {
-          color: mat.get-color-from-palette($primary, on-primary);
+          color: mat.m2-get-color-from-palette($primary, on-primary);
         }
         .mat-mdc-chip-remove {
-          color: mat.get-color-from-palette($primary, on-primary);
+          color: mat.m2-get-color-from-palette($primary, on-primary);
         }
       }
     }
 
     .chip-input-error {
-      color: mat.get-color-from-palette($warn);
+      color: mat.m2-get-color-from-palette($warn);
     }
   }
 }
