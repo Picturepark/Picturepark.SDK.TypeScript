@@ -7,7 +7,7 @@
     </ul>
     } @if (shareUser) {
     <ul>
-      <li class="avatar"><img src="{{ shareUser.emailHash | ppavatarhashed }}" [alt]="shareUser.emailHash" /></li>
+      <li class="avatar"><img src="{{ shareUser.emailHash ?? '' | ppavatarhashed }}" [alt]="shareUser.emailHash" /></li>
       <li class="user-info">{{ shareUser.displayName }}</li>
     </ul>
     }
