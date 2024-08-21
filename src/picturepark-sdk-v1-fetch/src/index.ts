@@ -32803,7 +32803,7 @@ export interface ShareUser {
     /** Name of user */
     displayName: string;
     /** MD5 hash of email address. Can be used to display gravatar image */
-    emailHash: string;
+    emailHash?: string | undefined;
 }
 
 /** Detail of shared content */

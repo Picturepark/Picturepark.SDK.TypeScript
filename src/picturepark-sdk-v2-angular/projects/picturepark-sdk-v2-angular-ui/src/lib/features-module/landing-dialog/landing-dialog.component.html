@@ -7,7 +7,7 @@
     <div class="content-wrapper">
       <span>{{ 'LandingDialog.message' | pptranslate }}</span>
       <div class="toggle-wrap">
-        <mat-slide-toggle color="primary" [(ngModel)]="termsAccepted"></mat-slide-toggle>
+        <mat-slide-toggle color="accent" [(ngModel)]="termsAccepted"></mat-slide-toggle>
         <span class="toggle-label" [innerHTML]="terms$ | async | pptranslate"></span>
       </div>
     </div>

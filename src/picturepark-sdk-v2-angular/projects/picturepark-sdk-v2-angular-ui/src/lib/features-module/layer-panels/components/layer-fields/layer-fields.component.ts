@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef, input, computed } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { LayerField } from '../../models/layer-field';
@@ -9,6 +9,7 @@ import { MarkdownDirective } from '../../directives/markdown-directive';
 import { ReadMoreComponent } from '../read-more/read-more.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
+import { isEmptyOrUndefined } from '../../../../utilities/helper';
 
 @Component({
   selector: 'pp-layer-fields',
@@ -25,10 +26,12 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class LayerFieldsComponent {
-  @Input() field: LayerField;
+  field = input.required<LayerField>();
   @Input() noname = false;
 
   @Output() relationClick = new EventEmitter<RelationFieldInfo>();
+
+  hasValue = computed(() => isEmptyOrUndefined(this.field()?.value) === false);
 
   constructor(private dialog: MatDialog) {}
 
