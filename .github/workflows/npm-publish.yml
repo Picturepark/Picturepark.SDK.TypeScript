@@ -10,14 +10,16 @@ jobs:
     runs-on: [ubuntu-latest]
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: https://registry.npmjs.org/
+          registry-url: 'https://registry.npmjs.org'
+          always-auth: true
+          scope: '@picturepark'
 
       - name: Build
         run: |
@@ -32,12 +34,26 @@ jobs:
           npm run lint
           npm run build-libraries
 
-      - name: Publish npm packages
-        working-directory: ./src/
-        run: |
-          npm publish 'picturepark-sdk-v1-fetch' --access=public
-          npm publish 'picturepark-sdk-v1-pickers' --access=public
-          npm publish 'picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular' --access=public
-          npm publish 'picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular-oidc' --access=public
+      - name: Publish fetch packages
+        working-directory: ./src/picturepark-sdk-v1-fetch/
+        run: npm publish --access=public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+
+      - name: Publish pickers packages
+        working-directory: ./src/picturepark-sdk-v1-pickers/
+        run: npm publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+          
+      - name: Publish angular packages
+        working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular/
+        run: npm publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+
+      - name: Publish angular oidc packages
+        working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular-oidc/
+        run: npm publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
