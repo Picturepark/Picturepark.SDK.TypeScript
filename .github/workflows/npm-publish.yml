@@ -6,49 +6,54 @@ on:
       - release
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm run build:fetch
-      - run: npm run build:pickers
-
-  build-angular-v2:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src/picturepark-sdk-v2-angular
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm ci
-      - run: npm run init
-      - run: npm run lint
-      - run: npm run build-libraries
-
   npm-publish:
-    runs-on: ubuntu-latest
-    needs: 
-      - build
-      - build-angular-v2
+    runs-on: [ubuntu-latest]
+    strategy:
+      matrix:
+        node-version: [20.x]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
-      - run: |
-          npm ci
-          npm publish 'picturepark-sdk-v1-fetch' --access=public
-          npm publish 'picturepark-sdk-v1-pickers' --access=public
-          npm publish 'picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular' --access=public
-          npm publish 'picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular-oidc' --access=public
-        working-directory: ./src/
+          always-auth: true
+          scope: '@picturepark'
+
+      - name: Build
+        run: |
+          npm install
+          npm run build:fetch
+          npm run build:pickers
+
+      - name: Build Angular V2 libraries
+        working-directory: ./src/picturepark-sdk-v2-angular
+        run: |
+          npm run init
+          npm run lint
+          npm run build-libraries
+
+      - name: Publish fetch packages
+        working-directory: ./src/picturepark-sdk-v1-fetch/
+        run: npm publish --access=public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}  
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+
+      - name: Publish pickers packages
+        working-directory: ./src/picturepark-sdk-v1-pickers/
+        run: npm publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+          
+      - name: Publish angular packages
+        working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular/
+        run: npm publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+
+      - name: Publish angular oidc packages
+        working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular-oidc/
+        run: npm publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
