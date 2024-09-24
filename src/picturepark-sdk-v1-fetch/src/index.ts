@@ -14248,183 +14248,6 @@ export class OutputClient extends PictureparkClientBase {
         }
         return Promise.resolve<OutputDetail>(null as any);
     }
-
-    /**
-     * Search output documents
-     * @param request The output search request.
-     * @return Output result set
-     * @deprecated
-     */
-    search(request: OutputSearchRequest): Promise<OutputSearchResult> {
-        let url_ = this.baseUrl + "/v1/Outputs/search";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processSearch(_response);
-        });
-    }
-
-    protected processSearch(response: Response): Promise<OutputSearchResult> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as OutputSearchResult;
-            return result200;
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkValidationException;
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
-        } else if (status === 401) {
-            return response.text().then((_responseText) => {
-            return throwException("Unauthorized", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return response.text().then((_responseText) => {
-            let result403: any = null;
-            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkForbiddenException;
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-            });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            let result404: any = null;
-            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkNotFoundException;
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            });
-        } else if (status === 405) {
-            return response.text().then((_responseText) => {
-            return throwException("Method not allowed", status, _responseText, _headers);
-            });
-        } else if (status === 409) {
-            return response.text().then((_responseText) => {
-            let result409: any = null;
-            result409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkConflictException;
-            return throwException("Version conflict", status, _responseText, _headers, result409);
-            });
-        } else if (status === 429) {
-            return response.text().then((_responseText) => {
-            let result429: any = null;
-            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
-            return throwException("Too many requests", status, _responseText, _headers, result429);
-            });
-        } else if (status === 500) {
-            return response.text().then((_responseText) => {
-            let result500: any = null;
-            result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkException;
-            return throwException("Internal server error", status, _responseText, _headers, result500);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<OutputSearchResult>(null as any);
-    }
-
-    /**
-     * Resets retry attempt counters.
-     * @param request Request containing options to filter which outputs should be reset.
-     * @return Business process tracking the resetting
-     */
-    resetRetryAttempts(request: OutputResetRetryAttemptsRequest): Promise<BusinessProcess> {
-        let url_ = this.baseUrl + "/v1/Outputs/resetRetryAttempts";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processResetRetryAttempts(_response);
-        });
-    }
-
-    protected processResetRetryAttempts(response: Response): Promise<BusinessProcess> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BusinessProcess;
-            return result200;
-            });
-        } else if (status === 400) {
-            return response.text().then((_responseText) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkValidationException;
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
-        } else if (status === 401) {
-            return response.text().then((_responseText) => {
-            return throwException("Unauthorized", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return response.text().then((_responseText) => {
-            let result403: any = null;
-            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkForbiddenException;
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-            });
-        } else if (status === 404) {
-            return response.text().then((_responseText) => {
-            let result404: any = null;
-            result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkNotFoundException;
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            });
-        } else if (status === 405) {
-            return response.text().then((_responseText) => {
-            return throwException("Method not allowed", status, _responseText, _headers);
-            });
-        } else if (status === 409) {
-            return response.text().then((_responseText) => {
-            let result409: any = null;
-            result409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkConflictException;
-            return throwException("Version conflict", status, _responseText, _headers, result409);
-            });
-        } else if (status === 429) {
-            return response.text().then((_responseText) => {
-            let result429: any = null;
-            result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkTooManyRequestsException;
-            return throwException("Too many requests", status, _responseText, _headers, result429);
-            });
-        } else if (status === 500) {
-            return response.text().then((_responseText) => {
-            let result500: any = null;
-            result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as PictureparkException;
-            return throwException("Internal server error", status, _responseText, _headers, result500);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<BusinessProcess>(null as any);
-    }
 }
 
 export class ProfileClient extends PictureparkClientBase {
@@ -24984,6 +24807,102 @@ export interface ErrorResponse {
     traceJobId?: string | undefined;
 }
 
+/** Detailed representation of a business process */
+export interface BusinessProcessDetails extends BusinessProcess {
+    /** Details for the business process. */
+    details?: BusinessProcessDetailsDataBase | undefined;
+}
+
+/** Base class for the details of a business process */
+export interface BusinessProcessDetailsDataBase {
+    kind: string;
+}
+
+/** Business process detailed information regarding a batch operation */
+export interface BusinessProcessDetailsDataBatchResponse extends BusinessProcessDetailsDataBase {
+    /** The DocType on which the operation was performed. */
+    docType: string;
+    /** The response of the batch operation. */
+    response: BatchResponse;
+}
+
+/** Response from a batch operation */
+export interface BatchResponse {
+    /** Rows in the response. */
+    rows: BatchResponseRow[];
+}
+
+/** Row in a batch operation response */
+export interface BatchResponseRow {
+    /** Id of the item. */
+    id: string;
+    /** Indicates if the operation succeeded. */
+    succeeded: boolean;
+    /** Status code of the operation. */
+    status: number;
+    /** New version of the item. */
+    version: number;
+    /** If the operation did not succeed, this contains error information. */
+    error?: ErrorResponse | undefined;
+    /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
+    requestId?: string | undefined;
+}
+
+/** Business process detailed information regarding Schema / ListItems import operation */
+export interface BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetailsDataBase {
+    /** Result information of a schema import operation */
+    schemaImportResult?: SchemaImportResult | undefined;
+    /** Result information of a list item import operation */
+    listItemImportResult?: ListItemImportResult | undefined;
+}
+
+/** Result information of a schema import operation */
+export interface SchemaImportResult {
+    /** Number of schemas imported */
+    importedSchemaCount: number;
+    /** Number of schema skipped during import phase because they were already found in the system */
+    skippedSchemaCount: number;
+    /** Total number of schemas requested to be imported */
+    totalSchemaCount: number;
+    /** Ids of the schemas that were not imported because already found in the system */
+    skippedSchemaIds?: string[] | undefined;
+    /** Ids of the schemas that were successfully imported */
+    importedSchemaIds?: string[] | undefined;
+}
+
+/** Result information of a list item import operation */
+export interface ListItemImportResult {
+    /** Number of list items imported */
+    importedListItemCount: number;
+    /** Number of list items skipped during import phase because they were already found in the system */
+    skippedListItemCount: number;
+    /** Total number of list items requested to be imported */
+    totalListItemCount: number;
+    /** Ids of the list items that were not imported because already found in the system or due to errors */
+    skippedListItemIds?: string[] | undefined;
+    /** Ids of the list items that were successfully imported */
+    importedListItemIds?: string[] | undefined;
+}
+
+export interface BusinessProcessDetailsDataContentImport extends BusinessProcessDetailsDataBase {
+    /** Items that were imported. */
+    items?: ContentImportResult[] | undefined;
+}
+
+/** Represents an item imported during a content import */
+export interface ContentImportResult {
+    /** ID of the file transfer. */
+    fileTransferId: string;
+    /** ID of the resulting content. */
+    contentId?: string | undefined;
+    /** State of the item. */
+    state?: string | undefined;
+    /** Indicates if the operation succeeded. */
+    succeeded: boolean;
+    /** If the operation did not succeeded, this contains error related information. */
+    error?: ErrorResponse | undefined;
+}
+
 export interface Exception {
 }
 
@@ -25432,6 +25351,10 @@ export interface RequestSizeLimitExceededException extends PictureparkValidation
 
 export interface CronExpressionInvalidException extends PictureparkValidationException {
     cronExpression?: string | undefined;
+}
+
+export interface FeatureNotEnabledException extends PictureparkValidationException {
+    featureName?: string | undefined;
 }
 
 export interface CustomerViolationException extends PictureparkException {
@@ -26344,6 +26267,30 @@ export interface SchemaFieldDynamicViewFieldInvalidFilterTemplateException exten
     errors?: string[] | undefined;
 }
 
+export interface SchemaFieldTreeViewAtLeastOneLevelRequiredException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export interface SchemaFieldTreeViewInvalidMaxRecursionsException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    path?: string | undefined;
+    maxRecursions?: number;
+}
+
+export interface SchemaFieldTreeViewTagboxFieldRequiredException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    path?: string | undefined;
+}
+
+export interface SchemaFieldTreeViewNotSupportedForSchemaTypeException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    schemaType?: SchemaType;
+}
+
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
     numberOfReferences?: number;
     numberOfShares?: number;
@@ -27081,102 +27028,6 @@ export interface BusinessProcessWaitForLifeCycleResult {
     lifeCycleHit?: BusinessProcessLifeCycle | undefined;
     /** The business process. */
     businessProcess: BusinessProcess;
-}
-
-/** Detailed representation of a business process */
-export interface BusinessProcessDetails extends BusinessProcess {
-    /** Details for the business process. */
-    details?: BusinessProcessDetailsDataBase | undefined;
-}
-
-/** Base class for the details of a business process */
-export interface BusinessProcessDetailsDataBase {
-    kind: string;
-}
-
-/** Business process detailed information regarding a batch operation */
-export interface BusinessProcessDetailsDataBatchResponse extends BusinessProcessDetailsDataBase {
-    /** The DocType on which the operation was performed. */
-    docType: string;
-    /** The response of the batch operation. */
-    response: BatchResponse;
-}
-
-/** Response from a batch operation */
-export interface BatchResponse {
-    /** Rows in the response. */
-    rows: BatchResponseRow[];
-}
-
-/** Row in a batch operation response */
-export interface BatchResponseRow {
-    /** Id of the item. */
-    id: string;
-    /** Indicates if the operation succeeded. */
-    succeeded: boolean;
-    /** Status code of the operation. */
-    status: number;
-    /** New version of the item. */
-    version: number;
-    /** If the operation did not succeed, this contains error information. */
-    error?: ErrorResponse | undefined;
-    /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
-    requestId?: string | undefined;
-}
-
-/** Business process detailed information regarding Schema / ListItems import operation */
-export interface BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetailsDataBase {
-    /** Result information of a schema import operation */
-    schemaImportResult?: SchemaImportResult | undefined;
-    /** Result information of a list item import operation */
-    listItemImportResult?: ListItemImportResult | undefined;
-}
-
-/** Result information of a schema import operation */
-export interface SchemaImportResult {
-    /** Number of schemas imported */
-    importedSchemaCount: number;
-    /** Number of schema skipped during import phase because they were already found in the system */
-    skippedSchemaCount: number;
-    /** Total number of schemas requested to be imported */
-    totalSchemaCount: number;
-    /** Ids of the schemas that were not imported because already found in the system */
-    skippedSchemaIds?: string[] | undefined;
-    /** Ids of the schemas that were successfully imported */
-    importedSchemaIds?: string[] | undefined;
-}
-
-/** Result information of a list item import operation */
-export interface ListItemImportResult {
-    /** Number of list items imported */
-    importedListItemCount: number;
-    /** Number of list items skipped during import phase because they were already found in the system */
-    skippedListItemCount: number;
-    /** Total number of list items requested to be imported */
-    totalListItemCount: number;
-    /** Ids of the list items that were not imported because already found in the system or due to errors */
-    skippedListItemIds?: string[] | undefined;
-    /** Ids of the list items that were successfully imported */
-    importedListItemIds?: string[] | undefined;
-}
-
-export interface BusinessProcessDetailsDataContentImport extends BusinessProcessDetailsDataBase {
-    /** Items that were imported. */
-    items?: ContentImportResult[] | undefined;
-}
-
-/** Represents an item imported during a content import */
-export interface ContentImportResult {
-    /** ID of the file transfer. */
-    fileTransferId: string;
-    /** ID of the resulting content. */
-    contentId?: string | undefined;
-    /** State of the item. */
-    state?: string | undefined;
-    /** Indicates if the operation succeeded. */
-    succeeded: boolean;
-    /** If the operation did not succeeded, this contains error related information. */
-    error?: ErrorResponse | undefined;
 }
 
 export interface BusinessProcessSummaryBase {
@@ -31735,49 +31586,6 @@ export interface OutputFormatDeleteManyRequest {
     ids?: string[] | undefined;
 }
 
-/** Base class for search results */
-export interface BaseResultOfOutput {
-    /** The total number of matching documents. */
-    totalResults: number;
-    /** The matched documents. */
-    results: Output[];
-    /** The search execution time in milliseconds. */
-    elapsedMilliseconds: number;
-    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
-    pageToken?: string | undefined;
-}
-
-export interface OutputSearchResult extends BaseResultOfOutput {
-}
-
-export interface OutputSearchRequest {
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** List of Content ids you want to use to fetch the outputs. */
-    contentIds?: string[] | undefined;
-    /** The allowed rendering states of the outputs you want to fetch. */
-    renderingStates?: OutputRenderingState[] | undefined;
-    /** The file extension of the outputs you want to fetch. */
-    fileExtensions?: string[] | undefined;
-    /** The output format id of the outputs you want to fetch. */
-    outputFormatIds?: string[] | undefined;
-}
-
-export interface OutputResetRetryAttemptsRequest {
-    /** List of output IDs you want to filter on. If this field is not empty, the other will be ignored. */
-    outputIds?: string[] | undefined;
-    /** List of Content IDs you want to filter on. */
-    contentIds?: string[] | undefined;
-    /** The file extension of the outputs you want to filter on. */
-    fileExtensions?: string[] | undefined;
-    /** The IDs of the output formats you want to filter on. */
-    outputFormatIds?: string[] | undefined;
-    /** Should the successful filter results also be reset (and subsequently re-rendered)? */
-    includeCompleted: boolean;
-}
-
 /** User profile. */
 export interface UserProfile {
     /** ID of the user. */
@@ -32418,6 +32226,25 @@ export interface FieldDynamicView extends FieldBase {
     sort: SortInfo[];
 }
 
+/** Stores a tree structure based on tagbox fields in the same schema */
+export interface FieldTreeView extends FieldBase {
+    /** Levels of the tree.
+At least one level is required. */
+    levels: TreeLevelItem[];
+}
+
+/** Configures a level of a tree structure of a FieldTreeView */
+export interface TreeLevelItem {
+    /** ID of the field.
+Must be a tagbox field. */
+    fieldId: string;
+    /** Maximum number of recursions allowed if the tagbox references the same schema it is defined in.
+Set to -1 to recurse until no more items are found. */
+    maxRecursions: number;
+    /** Further levels of the tree based on the schema the tagbox field references. */
+    levels?: TreeLevelItem[] | undefined;
+}
+
 /** Base class to overwrite field's information */
 export interface FieldOverwriteBase {
     /** The field's ID whose information need to be overwritten. */
@@ -32922,7 +32749,7 @@ export interface ShareDataBasic extends ShareDataBase {
 /** Share mail recipient */
 export interface MailRecipient {
     /** User information including email. */
-    userEmail: UserEmail;
+    userEmail?: UserEmail | undefined;
     /** Recipient specific token. */
     token?: string | undefined;
     /** URL to access the share for this recipient. */

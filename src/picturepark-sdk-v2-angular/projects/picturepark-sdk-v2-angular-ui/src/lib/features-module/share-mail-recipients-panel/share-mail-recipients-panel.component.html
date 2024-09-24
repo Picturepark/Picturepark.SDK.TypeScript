@@ -3,12 +3,17 @@
     @for (mailRecipient of mailRecipients; track mailRecipient) {
       <div class="recipient">
         <div class="recipient-avatar">
-          <img src="{{ mailRecipient.userEmail.emailAddress | ppavatar }}" [alt]="mailRecipient.userEmail.emailAddress" />
+          <img
+            src="{{ mailRecipient.userEmail?.emailAddress ?? '' | ppavatar }}"
+            [alt]="mailRecipient.userEmail?.emailAddress"
+          />
         </div>
         <ul>
           <li>
-            <span class="full-name">{{ mailRecipient.userEmail.firstName }} {{ mailRecipient.userEmail.lastName }}</span>
-            <a href="mailto:{{ mailRecipient.userEmail.emailAddress }}">{{ mailRecipient.userEmail.emailAddress }}</a>
+            <span class="full-name"
+              >{{ mailRecipient.userEmail?.firstName }} {{ mailRecipient.userEmail?.lastName }}</span
+            >
+            <a href="mailto:{{ mailRecipient.userEmail?.emailAddress }}">{{ mailRecipient.userEmail?.emailAddress }}</a>
           </li>
           @if (mailRecipient.url; as url) {
             <li class="recipient-url">
@@ -18,14 +23,13 @@
                   [matTooltip]="'ShareMailRecipientsPanel.CopyToClipboard' | pptranslate"
                   (click)="copyToClipboard($event, url)"
                   >content_copy</i
-                  >
-                </div>
-                <a [href]="url">{{ url }}</a>
-              </li>
-            }
-          </ul>
-        </div>
-      }
-    </div>
-  </pp-panel>
-  
+                >
+              </div>
+              <a [href]="url">{{ url }}</a>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</pp-panel>

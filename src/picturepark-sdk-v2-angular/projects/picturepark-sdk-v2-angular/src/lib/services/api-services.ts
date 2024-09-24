@@ -15121,191 +15121,6 @@ export class OutputService extends PictureparkServiceBase {
         }
         return _observableOf(null as any);
     }
-
-    /**
-     * Search output documents
-     * @param request The output search request.
-     * @return Output result set
-     * @deprecated
-     */
-    search(request: OutputSearchRequest): Observable<OutputSearchResult> {
-        let url_ = this.baseUrl + "/v1/Outputs/search";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            })
-        };
-
-        return this.handleRequest<OutputSearchResult>("post", url_, options_, (r: any) => this.processSearch(r as any) );
-    }
-
-    protected processSearch(response: HttpResponseBase): Observable<OutputSearchResult> {
-        const status = response.status;
-        const responseBlob = this.getBlob(response);
-
-        let _headers = this.getHeaders(response);
-        if (status === 200) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result200: any = null;
-            let resultData200 = this.getResultData(_responseText);
-            result200 = OutputSearchResult.fromJS(resultData200);
-            return _observableOf(result200);
-            });
-        } else if (status === 400) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result400: any = null;
-            let resultData400 = this.getResultData(_responseText);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
-        } else if (status === 401) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            return throwException("Unauthorized", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result403: any = null;
-            let resultData403 = this.getResultData(_responseText);
-            result403 = PictureparkForbiddenException.fromJS(resultData403);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-            });
-        } else if (status === 404) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result404: any = null;
-            let resultData404 = this.getResultData(_responseText);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            });
-        } else if (status === 405) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            return throwException("Method not allowed", status, _responseText, _headers);
-            });
-        } else if (status === 409) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result409: any = null;
-            let resultData409 = this.getResultData(_responseText);
-            result409 = PictureparkConflictException.fromJS(resultData409);
-            return throwException("Version conflict", status, _responseText, _headers, result409);
-            });
-        } else if (status === 429) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result429: any = null;
-            let resultData429 = this.getResultData(_responseText);
-            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
-            return throwException("Too many requests", status, _responseText, _headers, result429);
-            });
-        } else if (status === 500) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result500: any = null;
-            let resultData500 = this.getResultData(_responseText);
-            result500 = PictureparkException.fromJS(resultData500);
-            return throwException("Internal server error", status, _responseText, _headers, result500);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return this.handleDefaultError(responseBlob, status, _headers);
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
-     * Resets retry attempt counters.
-     * @param request Request containing options to filter which outputs should be reset.
-     * @return Business process tracking the resetting
-     */
-    resetRetryAttempts(request: OutputResetRetryAttemptsRequest): Observable<BusinessProcess> {
-        let url_ = this.baseUrl + "/v1/Outputs/resetRetryAttempts";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(request);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            })
-        };
-
-        return this.handleRequest<BusinessProcess>("post", url_, options_, (r: any) => this.processResetRetryAttempts(r as any) );
-    }
-
-    protected processResetRetryAttempts(response: HttpResponseBase): Observable<BusinessProcess> {
-        const status = response.status;
-        const responseBlob = this.getBlob(response);
-
-        let _headers = this.getHeaders(response);
-        if (status === 200) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result200: any = null;
-            let resultData200 = this.getResultData(_responseText);
-            result200 = BusinessProcess.fromJS(resultData200);
-            return _observableOf(result200);
-            });
-        } else if (status === 400) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result400: any = null;
-            let resultData400 = this.getResultData(_responseText);
-            result400 = PictureparkValidationException.fromJS(resultData400);
-            return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
-        } else if (status === 401) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            return throwException("Unauthorized", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result403: any = null;
-            let resultData403 = this.getResultData(_responseText);
-            result403 = PictureparkForbiddenException.fromJS(resultData403);
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-            });
-        } else if (status === 404) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result404: any = null;
-            let resultData404 = this.getResultData(_responseText);
-            result404 = PictureparkNotFoundException.fromJS(resultData404);
-            return throwException("Entity not found", status, _responseText, _headers, result404);
-            });
-        } else if (status === 405) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            return throwException("Method not allowed", status, _responseText, _headers);
-            });
-        } else if (status === 409) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result409: any = null;
-            let resultData409 = this.getResultData(_responseText);
-            result409 = PictureparkConflictException.fromJS(resultData409);
-            return throwException("Version conflict", status, _responseText, _headers, result409);
-            });
-        } else if (status === 429) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result429: any = null;
-            let resultData429 = this.getResultData(_responseText);
-            result429 = PictureparkTooManyRequestsException.fromJS(resultData429);
-            return throwException("Too many requests", status, _responseText, _headers, result429);
-            });
-        } else if (status === 500) {
-            return this.handleResponse(responseBlob, (_responseText: string) => {
-            let result500: any = null;
-            let resultData500 = this.getResultData(_responseText);
-            result500 = PictureparkException.fromJS(resultData500);
-            return throwException("Internal server error", status, _responseText, _headers, result500);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return this.handleDefaultError(responseBlob, status, _headers);
-        }
-        return _observableOf(null as any);
-    }
 }
 
 @Injectable({
@@ -26847,6 +26662,598 @@ export interface IErrorResponse {
     traceJobId?: string | undefined;
 }
 
+/** Detailed representation of a business process */
+export class BusinessProcessDetails extends BusinessProcess implements IBusinessProcessDetails {
+    /** Details for the business process. */
+    details?: BusinessProcessDetailsDataBase | undefined;
+
+    constructor(data?: IBusinessProcessDetails) {
+        super(data);
+        this._discriminator = "BusinessProcessDetails";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.details = _data["details"] ? BusinessProcessDetailsDataBase.fromJS(_data["details"]) : <any>undefined;
+        }
+    }
+
+    static override fromJS(data: any): BusinessProcessDetails {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessDetails();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["details"] = this.details ? this.details.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Detailed representation of a business process */
+export interface IBusinessProcessDetails extends IBusinessProcess {
+    /** Details for the business process. */
+    details?: BusinessProcessDetailsDataBase | undefined;
+}
+
+/** Base class for the details of a business process */
+export abstract class BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataBase {
+
+    protected _discriminator: string;
+
+    constructor(data?: IBusinessProcessDetailsDataBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "BusinessProcessDetailsDataBase";
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): BusinessProcessDetailsDataBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "BusinessProcessDetailsDataBatchResponse") {
+            let result = new BusinessProcessDetailsDataBatchResponse();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessDetailsDataSchemaImport") {
+            let result = new BusinessProcessDetailsDataSchemaImport();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessProcessDetailsDataContentImport") {
+            let result = new BusinessProcessDetailsDataContentImport();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'BusinessProcessDetailsDataBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator;
+        return data;
+    }
+}
+
+/** Base class for the details of a business process */
+export interface IBusinessProcessDetailsDataBase {
+}
+
+/** Business process detailed information regarding a batch operation */
+export class BusinessProcessDetailsDataBatchResponse extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataBatchResponse {
+    /** The DocType on which the operation was performed. */
+    docType!: string;
+    /** The response of the batch operation. */
+    response!: BatchResponse;
+
+    constructor(data?: IBusinessProcessDetailsDataBatchResponse) {
+        super(data);
+        if (data) {
+            this.response = data.response && !(<any>data.response).toJSON ? new BatchResponse(data.response) : <BatchResponse>this.response;
+        }
+        if (!data) {
+            this.response = new BatchResponse();
+        }
+        this._discriminator = "BusinessProcessDetailsDataBatchResponse";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.docType = _data["docType"];
+            this.response = _data["response"] ? BatchResponse.fromJS(_data["response"]) : new BatchResponse();
+        }
+    }
+
+    static override fromJS(data: any): BusinessProcessDetailsDataBatchResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessDetailsDataBatchResponse();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["docType"] = this.docType;
+        data["response"] = this.response ? this.response.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Business process detailed information regarding a batch operation */
+export interface IBusinessProcessDetailsDataBatchResponse extends IBusinessProcessDetailsDataBase {
+    /** The DocType on which the operation was performed. */
+    docType: string;
+    /** The response of the batch operation. */
+    response: IBatchResponse;
+}
+
+/** Response from a batch operation */
+export class BatchResponse implements IBatchResponse {
+    /** Rows in the response. */
+    rows!: BatchResponseRow[];
+
+    constructor(data?: IBatchResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.rows) {
+                this.rows = [];
+                for (let i = 0; i < data.rows.length; i++) {
+                    let item = data.rows[i];
+                    this.rows[i] = item && !(<any>item).toJSON ? new BatchResponseRow(item) : <BatchResponseRow>item;
+                }
+            }
+        }
+        if (!data) {
+            this.rows = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["rows"])) {
+                this.rows = [] as any;
+                for (let item of _data["rows"])
+                    this.rows!.push(BatchResponseRow.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BatchResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new BatchResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.rows)) {
+            data["rows"] = [];
+            for (let item of this.rows)
+                data["rows"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+/** Response from a batch operation */
+export interface IBatchResponse {
+    /** Rows in the response. */
+    rows: IBatchResponseRow[];
+}
+
+/** Row in a batch operation response */
+export class BatchResponseRow implements IBatchResponseRow {
+    /** Id of the item. */
+    id!: string;
+    /** Indicates if the operation succeeded. */
+    succeeded!: boolean;
+    /** Status code of the operation. */
+    status!: number;
+    /** New version of the item. */
+    version!: number;
+    /** If the operation did not succeed, this contains error information. */
+    error?: ErrorResponse | undefined;
+    /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
+    requestId?: string | undefined;
+
+    constructor(data?: IBatchResponseRow) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.error = data.error && !(<any>data.error).toJSON ? new ErrorResponse(data.error) : <ErrorResponse>this.error;
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.succeeded = _data["succeeded"];
+            this.status = _data["status"];
+            this.version = _data["version"];
+            this.error = _data["error"] ? ErrorResponse.fromJS(_data["error"]) : <any>undefined;
+            this.requestId = _data["requestId"];
+        }
+    }
+
+    static fromJS(data: any): BatchResponseRow {
+        data = typeof data === 'object' ? data : {};
+        let result = new BatchResponseRow();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["succeeded"] = this.succeeded;
+        data["status"] = this.status;
+        data["version"] = this.version;
+        data["error"] = this.error ? this.error.toJSON() : <any>undefined;
+        data["requestId"] = this.requestId;
+        return data;
+    }
+}
+
+/** Row in a batch operation response */
+export interface IBatchResponseRow {
+    /** Id of the item. */
+    id: string;
+    /** Indicates if the operation succeeded. */
+    succeeded: boolean;
+    /** Status code of the operation. */
+    status: number;
+    /** New version of the item. */
+    version: number;
+    /** If the operation did not succeed, this contains error information. */
+    error?: IErrorResponse | undefined;
+    /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
+    requestId?: string | undefined;
+}
+
+/** Business process detailed information regarding Schema / ListItems import operation */
+export class BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataSchemaImport {
+    /** Result information of a schema import operation */
+    schemaImportResult?: SchemaImportResult | undefined;
+    /** Result information of a list item import operation */
+    listItemImportResult?: ListItemImportResult | undefined;
+
+    constructor(data?: IBusinessProcessDetailsDataSchemaImport) {
+        super(data);
+        if (data) {
+            this.schemaImportResult = data.schemaImportResult && !(<any>data.schemaImportResult).toJSON ? new SchemaImportResult(data.schemaImportResult) : <SchemaImportResult>this.schemaImportResult;
+            this.listItemImportResult = data.listItemImportResult && !(<any>data.listItemImportResult).toJSON ? new ListItemImportResult(data.listItemImportResult) : <ListItemImportResult>this.listItemImportResult;
+        }
+        this._discriminator = "BusinessProcessDetailsDataSchemaImport";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaImportResult = _data["schemaImportResult"] ? SchemaImportResult.fromJS(_data["schemaImportResult"]) : <any>undefined;
+            this.listItemImportResult = _data["listItemImportResult"] ? ListItemImportResult.fromJS(_data["listItemImportResult"]) : <any>undefined;
+        }
+    }
+
+    static override fromJS(data: any): BusinessProcessDetailsDataSchemaImport {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessDetailsDataSchemaImport();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaImportResult"] = this.schemaImportResult ? this.schemaImportResult.toJSON() : <any>undefined;
+        data["listItemImportResult"] = this.listItemImportResult ? this.listItemImportResult.toJSON() : <any>undefined;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Business process detailed information regarding Schema / ListItems import operation */
+export interface IBusinessProcessDetailsDataSchemaImport extends IBusinessProcessDetailsDataBase {
+    /** Result information of a schema import operation */
+    schemaImportResult?: ISchemaImportResult | undefined;
+    /** Result information of a list item import operation */
+    listItemImportResult?: IListItemImportResult | undefined;
+}
+
+/** Result information of a schema import operation */
+export class SchemaImportResult implements ISchemaImportResult {
+    /** Number of schemas imported */
+    importedSchemaCount!: number;
+    /** Number of schema skipped during import phase because they were already found in the system */
+    skippedSchemaCount!: number;
+    /** Total number of schemas requested to be imported */
+    totalSchemaCount!: number;
+    /** Ids of the schemas that were not imported because already found in the system */
+    skippedSchemaIds?: string[] | undefined;
+    /** Ids of the schemas that were successfully imported */
+    importedSchemaIds?: string[] | undefined;
+
+    constructor(data?: ISchemaImportResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.importedSchemaCount = _data["importedSchemaCount"];
+            this.skippedSchemaCount = _data["skippedSchemaCount"];
+            this.totalSchemaCount = _data["totalSchemaCount"];
+            if (Array.isArray(_data["skippedSchemaIds"])) {
+                this.skippedSchemaIds = [] as any;
+                for (let item of _data["skippedSchemaIds"])
+                    this.skippedSchemaIds!.push(item);
+            }
+            if (Array.isArray(_data["importedSchemaIds"])) {
+                this.importedSchemaIds = [] as any;
+                for (let item of _data["importedSchemaIds"])
+                    this.importedSchemaIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): SchemaImportResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaImportResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["importedSchemaCount"] = this.importedSchemaCount;
+        data["skippedSchemaCount"] = this.skippedSchemaCount;
+        data["totalSchemaCount"] = this.totalSchemaCount;
+        if (Array.isArray(this.skippedSchemaIds)) {
+            data["skippedSchemaIds"] = [];
+            for (let item of this.skippedSchemaIds)
+                data["skippedSchemaIds"].push(item);
+        }
+        if (Array.isArray(this.importedSchemaIds)) {
+            data["importedSchemaIds"] = [];
+            for (let item of this.importedSchemaIds)
+                data["importedSchemaIds"].push(item);
+        }
+        return data;
+    }
+}
+
+/** Result information of a schema import operation */
+export interface ISchemaImportResult {
+    /** Number of schemas imported */
+    importedSchemaCount: number;
+    /** Number of schema skipped during import phase because they were already found in the system */
+    skippedSchemaCount: number;
+    /** Total number of schemas requested to be imported */
+    totalSchemaCount: number;
+    /** Ids of the schemas that were not imported because already found in the system */
+    skippedSchemaIds?: string[] | undefined;
+    /** Ids of the schemas that were successfully imported */
+    importedSchemaIds?: string[] | undefined;
+}
+
+/** Result information of a list item import operation */
+export class ListItemImportResult implements IListItemImportResult {
+    /** Number of list items imported */
+    importedListItemCount!: number;
+    /** Number of list items skipped during import phase because they were already found in the system */
+    skippedListItemCount!: number;
+    /** Total number of list items requested to be imported */
+    totalListItemCount!: number;
+    /** Ids of the list items that were not imported because already found in the system or due to errors */
+    skippedListItemIds?: string[] | undefined;
+    /** Ids of the list items that were successfully imported */
+    importedListItemIds?: string[] | undefined;
+
+    constructor(data?: IListItemImportResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.importedListItemCount = _data["importedListItemCount"];
+            this.skippedListItemCount = _data["skippedListItemCount"];
+            this.totalListItemCount = _data["totalListItemCount"];
+            if (Array.isArray(_data["skippedListItemIds"])) {
+                this.skippedListItemIds = [] as any;
+                for (let item of _data["skippedListItemIds"])
+                    this.skippedListItemIds!.push(item);
+            }
+            if (Array.isArray(_data["importedListItemIds"])) {
+                this.importedListItemIds = [] as any;
+                for (let item of _data["importedListItemIds"])
+                    this.importedListItemIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ListItemImportResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListItemImportResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["importedListItemCount"] = this.importedListItemCount;
+        data["skippedListItemCount"] = this.skippedListItemCount;
+        data["totalListItemCount"] = this.totalListItemCount;
+        if (Array.isArray(this.skippedListItemIds)) {
+            data["skippedListItemIds"] = [];
+            for (let item of this.skippedListItemIds)
+                data["skippedListItemIds"].push(item);
+        }
+        if (Array.isArray(this.importedListItemIds)) {
+            data["importedListItemIds"] = [];
+            for (let item of this.importedListItemIds)
+                data["importedListItemIds"].push(item);
+        }
+        return data;
+    }
+}
+
+/** Result information of a list item import operation */
+export interface IListItemImportResult {
+    /** Number of list items imported */
+    importedListItemCount: number;
+    /** Number of list items skipped during import phase because they were already found in the system */
+    skippedListItemCount: number;
+    /** Total number of list items requested to be imported */
+    totalListItemCount: number;
+    /** Ids of the list items that were not imported because already found in the system or due to errors */
+    skippedListItemIds?: string[] | undefined;
+    /** Ids of the list items that were successfully imported */
+    importedListItemIds?: string[] | undefined;
+}
+
+export class BusinessProcessDetailsDataContentImport extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataContentImport {
+    /** Items that were imported. */
+    items?: ContentImportResult[] | undefined;
+
+    constructor(data?: IBusinessProcessDetailsDataContentImport) {
+        super(data);
+        if (data) {
+            if (data.items) {
+                this.items = [];
+                for (let i = 0; i < data.items.length; i++) {
+                    let item = data.items[i];
+                    this.items[i] = item && !(<any>item).toJSON ? new ContentImportResult(item) : <ContentImportResult>item;
+                }
+            }
+        }
+        this._discriminator = "BusinessProcessDetailsDataContentImport";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(ContentImportResult.fromJS(item));
+            }
+        }
+    }
+
+    static override fromJS(data: any): BusinessProcessDetailsDataContentImport {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessProcessDetailsDataContentImport();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IBusinessProcessDetailsDataContentImport extends IBusinessProcessDetailsDataBase {
+    /** Items that were imported. */
+    items?: IContentImportResult[] | undefined;
+}
+
+/** Represents an item imported during a content import */
+export class ContentImportResult implements IContentImportResult {
+    /** ID of the file transfer. */
+    fileTransferId!: string;
+    /** ID of the resulting content. */
+    contentId?: string | undefined;
+    /** State of the item. */
+    state?: string | undefined;
+    /** Indicates if the operation succeeded. */
+    succeeded!: boolean;
+    /** If the operation did not succeeded, this contains error related information. */
+    error?: ErrorResponse | undefined;
+
+    constructor(data?: IContentImportResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            this.error = data.error && !(<any>data.error).toJSON ? new ErrorResponse(data.error) : <ErrorResponse>this.error;
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.fileTransferId = _data["fileTransferId"];
+            this.contentId = _data["contentId"];
+            this.state = _data["state"];
+            this.succeeded = _data["succeeded"];
+            this.error = _data["error"] ? ErrorResponse.fromJS(_data["error"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ContentImportResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContentImportResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fileTransferId"] = this.fileTransferId;
+        data["contentId"] = this.contentId;
+        data["state"] = this.state;
+        data["succeeded"] = this.succeeded;
+        data["error"] = this.error ? this.error.toJSON() : <any>undefined;
+        return data;
+    }
+}
+
+/** Represents an item imported during a content import */
+export interface IContentImportResult {
+    /** ID of the file transfer. */
+    fileTransferId: string;
+    /** ID of the resulting content. */
+    contentId?: string | undefined;
+    /** State of the item. */
+    state?: string | undefined;
+    /** Indicates if the operation succeeded. */
+    succeeded: boolean;
+    /** If the operation did not succeeded, this contains error related information. */
+    error?: IErrorResponse | undefined;
+}
+
 export class Exception implements IException {
 
     constructor(data?: IException) {
@@ -27529,6 +27936,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "CronExpressionInvalidException") {
             let result = new CronExpressionInvalidException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FeatureNotEnabledException") {
+            let result = new FeatureNotEnabledException();
             result.init(data);
             return result;
         }
@@ -28269,6 +28681,26 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SchemaFieldDynamicViewFieldInvalidFilterTemplateException") {
             let result = new SchemaFieldDynamicViewFieldInvalidFilterTemplateException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewAtLeastOneLevelRequiredException") {
+            let result = new SchemaFieldTreeViewAtLeastOneLevelRequiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewInvalidMaxRecursionsException") {
+            let result = new SchemaFieldTreeViewInvalidMaxRecursionsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewTagboxFieldRequiredException") {
+            let result = new SchemaFieldTreeViewTagboxFieldRequiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewNotSupportedForSchemaTypeException") {
+            let result = new SchemaFieldTreeViewNotSupportedForSchemaTypeException();
             result.init(data);
             return result;
         }
@@ -29550,6 +29982,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "FeatureNotEnabledException") {
+            let result = new FeatureNotEnabledException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "CustomerAliasInUseException") {
             let result = new CustomerAliasInUseException();
             result.init(data);
@@ -30287,6 +30724,26 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SchemaFieldDynamicViewFieldInvalidFilterTemplateException") {
             let result = new SchemaFieldDynamicViewFieldInvalidFilterTemplateException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewAtLeastOneLevelRequiredException") {
+            let result = new SchemaFieldTreeViewAtLeastOneLevelRequiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewInvalidMaxRecursionsException") {
+            let result = new SchemaFieldTreeViewInvalidMaxRecursionsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewTagboxFieldRequiredException") {
+            let result = new SchemaFieldTreeViewTagboxFieldRequiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewNotSupportedForSchemaTypeException") {
+            let result = new SchemaFieldTreeViewNotSupportedForSchemaTypeException();
             result.init(data);
             return result;
         }
@@ -31325,6 +31782,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "FeatureNotEnabledException") {
+            let result = new FeatureNotEnabledException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "CustomerAliasInUseException") {
             let result = new CustomerAliasInUseException();
             result.init(data);
@@ -31927,6 +32389,26 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaFieldDynamicViewFieldInvalidFilterTemplateException") {
             let result = new SchemaFieldDynamicViewFieldInvalidFilterTemplateException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewAtLeastOneLevelRequiredException") {
+            let result = new SchemaFieldTreeViewAtLeastOneLevelRequiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewInvalidMaxRecursionsException") {
+            let result = new SchemaFieldTreeViewInvalidMaxRecursionsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewTagboxFieldRequiredException") {
+            let result = new SchemaFieldTreeViewTagboxFieldRequiredException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "SchemaFieldTreeViewNotSupportedForSchemaTypeException") {
+            let result = new SchemaFieldTreeViewNotSupportedForSchemaTypeException();
             result.init(data);
             return result;
         }
@@ -36222,6 +36704,40 @@ export class CronExpressionInvalidException extends PictureparkValidationExcepti
 
 export interface ICronExpressionInvalidException extends IPictureparkValidationException {
     cronExpression?: string | undefined;
+}
+
+export class FeatureNotEnabledException extends PictureparkValidationException implements IFeatureNotEnabledException {
+    featureName?: string | undefined;
+
+    constructor(data?: IFeatureNotEnabledException) {
+        super(data);
+        this._discriminator = "FeatureNotEnabledException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.featureName = _data["featureName"];
+        }
+    }
+
+    static override fromJS(data: any): FeatureNotEnabledException {
+        data = typeof data === 'object' ? data : {};
+        let result = new FeatureNotEnabledException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["featureName"] = this.featureName;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IFeatureNotEnabledException extends IPictureparkValidationException {
+    featureName?: string | undefined;
 }
 
 export class CustomerViolationException extends PictureparkException implements ICustomerViolationException {
@@ -42797,6 +43313,174 @@ export interface ISchemaFieldDynamicViewFieldInvalidFilterTemplateException exte
     errors?: string[] | undefined;
 }
 
+export class SchemaFieldTreeViewAtLeastOneLevelRequiredException extends PictureparkValidationException implements ISchemaFieldTreeViewAtLeastOneLevelRequiredException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+
+    constructor(data?: ISchemaFieldTreeViewAtLeastOneLevelRequiredException) {
+        super(data);
+        this._discriminator = "SchemaFieldTreeViewAtLeastOneLevelRequiredException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+        }
+    }
+
+    static override fromJS(data: any): SchemaFieldTreeViewAtLeastOneLevelRequiredException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldTreeViewAtLeastOneLevelRequiredException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ISchemaFieldTreeViewAtLeastOneLevelRequiredException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+
+export class SchemaFieldTreeViewInvalidMaxRecursionsException extends PictureparkValidationException implements ISchemaFieldTreeViewInvalidMaxRecursionsException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    path?: string | undefined;
+    maxRecursions?: number;
+
+    constructor(data?: ISchemaFieldTreeViewInvalidMaxRecursionsException) {
+        super(data);
+        this._discriminator = "SchemaFieldTreeViewInvalidMaxRecursionsException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+            this.path = _data["path"];
+            this.maxRecursions = _data["maxRecursions"];
+        }
+    }
+
+    static override fromJS(data: any): SchemaFieldTreeViewInvalidMaxRecursionsException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldTreeViewInvalidMaxRecursionsException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        data["path"] = this.path;
+        data["maxRecursions"] = this.maxRecursions;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ISchemaFieldTreeViewInvalidMaxRecursionsException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    path?: string | undefined;
+    maxRecursions?: number;
+}
+
+export class SchemaFieldTreeViewTagboxFieldRequiredException extends PictureparkValidationException implements ISchemaFieldTreeViewTagboxFieldRequiredException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    path?: string | undefined;
+
+    constructor(data?: ISchemaFieldTreeViewTagboxFieldRequiredException) {
+        super(data);
+        this._discriminator = "SchemaFieldTreeViewTagboxFieldRequiredException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+            this.path = _data["path"];
+        }
+    }
+
+    static override fromJS(data: any): SchemaFieldTreeViewTagboxFieldRequiredException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldTreeViewTagboxFieldRequiredException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        data["path"] = this.path;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ISchemaFieldTreeViewTagboxFieldRequiredException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    path?: string | undefined;
+}
+
+export class SchemaFieldTreeViewNotSupportedForSchemaTypeException extends PictureparkValidationException implements ISchemaFieldTreeViewNotSupportedForSchemaTypeException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    schemaType?: SchemaType;
+
+    constructor(data?: ISchemaFieldTreeViewNotSupportedForSchemaTypeException) {
+        super(data);
+        this._discriminator = "SchemaFieldTreeViewNotSupportedForSchemaTypeException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.fieldId = _data["fieldId"];
+            this.schemaType = _data["schemaType"];
+        }
+    }
+
+    static override fromJS(data: any): SchemaFieldTreeViewNotSupportedForSchemaTypeException {
+        data = typeof data === 'object' ? data : {};
+        let result = new SchemaFieldTreeViewNotSupportedForSchemaTypeException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["fieldId"] = this.fieldId;
+        data["schemaType"] = this.schemaType;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ISchemaFieldTreeViewNotSupportedForSchemaTypeException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    schemaType?: SchemaType;
+}
+
 export class DeleteContentsWithReferencesException extends PictureparkValidationException implements IDeleteContentsWithReferencesException {
     numberOfReferences?: number;
     numberOfShares?: number;
@@ -48469,598 +49153,6 @@ export interface IBusinessProcessWaitForLifeCycleResult {
     lifeCycleHit?: BusinessProcessLifeCycle | undefined;
     /** The business process. */
     businessProcess: BusinessProcess;
-}
-
-/** Detailed representation of a business process */
-export class BusinessProcessDetails extends BusinessProcess implements IBusinessProcessDetails {
-    /** Details for the business process. */
-    details?: BusinessProcessDetailsDataBase | undefined;
-
-    constructor(data?: IBusinessProcessDetails) {
-        super(data);
-        this._discriminator = "BusinessProcessDetails";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.details = _data["details"] ? BusinessProcessDetailsDataBase.fromJS(_data["details"]) : <any>undefined;
-        }
-    }
-
-    static override fromJS(data: any): BusinessProcessDetails {
-        data = typeof data === 'object' ? data : {};
-        let result = new BusinessProcessDetails();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["details"] = this.details ? this.details.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data;
-    }
-}
-
-/** Detailed representation of a business process */
-export interface IBusinessProcessDetails extends IBusinessProcess {
-    /** Details for the business process. */
-    details?: BusinessProcessDetailsDataBase | undefined;
-}
-
-/** Base class for the details of a business process */
-export abstract class BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataBase {
-
-    protected _discriminator: string;
-
-    constructor(data?: IBusinessProcessDetailsDataBase) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        this._discriminator = "BusinessProcessDetailsDataBase";
-    }
-
-    init(_data?: any) {
-    }
-
-    static fromJS(data: any): BusinessProcessDetailsDataBase {
-        data = typeof data === 'object' ? data : {};
-        if (data["kind"] === "BusinessProcessDetailsDataBatchResponse") {
-            let result = new BusinessProcessDetailsDataBatchResponse();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "BusinessProcessDetailsDataSchemaImport") {
-            let result = new BusinessProcessDetailsDataSchemaImport();
-            result.init(data);
-            return result;
-        }
-        if (data["kind"] === "BusinessProcessDetailsDataContentImport") {
-            let result = new BusinessProcessDetailsDataContentImport();
-            result.init(data);
-            return result;
-        }
-        throw new Error("The abstract class 'BusinessProcessDetailsDataBase' cannot be instantiated.");
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["kind"] = this._discriminator;
-        return data;
-    }
-}
-
-/** Base class for the details of a business process */
-export interface IBusinessProcessDetailsDataBase {
-}
-
-/** Business process detailed information regarding a batch operation */
-export class BusinessProcessDetailsDataBatchResponse extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataBatchResponse {
-    /** The DocType on which the operation was performed. */
-    docType!: string;
-    /** The response of the batch operation. */
-    response!: BatchResponse;
-
-    constructor(data?: IBusinessProcessDetailsDataBatchResponse) {
-        super(data);
-        if (data) {
-            this.response = data.response && !(<any>data.response).toJSON ? new BatchResponse(data.response) : <BatchResponse>this.response;
-        }
-        if (!data) {
-            this.response = new BatchResponse();
-        }
-        this._discriminator = "BusinessProcessDetailsDataBatchResponse";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.docType = _data["docType"];
-            this.response = _data["response"] ? BatchResponse.fromJS(_data["response"]) : new BatchResponse();
-        }
-    }
-
-    static override fromJS(data: any): BusinessProcessDetailsDataBatchResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new BusinessProcessDetailsDataBatchResponse();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["docType"] = this.docType;
-        data["response"] = this.response ? this.response.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data;
-    }
-}
-
-/** Business process detailed information regarding a batch operation */
-export interface IBusinessProcessDetailsDataBatchResponse extends IBusinessProcessDetailsDataBase {
-    /** The DocType on which the operation was performed. */
-    docType: string;
-    /** The response of the batch operation. */
-    response: IBatchResponse;
-}
-
-/** Response from a batch operation */
-export class BatchResponse implements IBatchResponse {
-    /** Rows in the response. */
-    rows!: BatchResponseRow[];
-
-    constructor(data?: IBatchResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            if (data.rows) {
-                this.rows = [];
-                for (let i = 0; i < data.rows.length; i++) {
-                    let item = data.rows[i];
-                    this.rows[i] = item && !(<any>item).toJSON ? new BatchResponseRow(item) : <BatchResponseRow>item;
-                }
-            }
-        }
-        if (!data) {
-            this.rows = [];
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["rows"])) {
-                this.rows = [] as any;
-                for (let item of _data["rows"])
-                    this.rows!.push(BatchResponseRow.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): BatchResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new BatchResponse();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.rows)) {
-            data["rows"] = [];
-            for (let item of this.rows)
-                data["rows"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-/** Response from a batch operation */
-export interface IBatchResponse {
-    /** Rows in the response. */
-    rows: IBatchResponseRow[];
-}
-
-/** Row in a batch operation response */
-export class BatchResponseRow implements IBatchResponseRow {
-    /** Id of the item. */
-    id!: string;
-    /** Indicates if the operation succeeded. */
-    succeeded!: boolean;
-    /** Status code of the operation. */
-    status!: number;
-    /** New version of the item. */
-    version!: number;
-    /** If the operation did not succeed, this contains error information. */
-    error?: ErrorResponse | undefined;
-    /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
-    requestId?: string | undefined;
-
-    constructor(data?: IBatchResponseRow) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.error = data.error && !(<any>data.error).toJSON ? new ErrorResponse(data.error) : <ErrorResponse>this.error;
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.succeeded = _data["succeeded"];
-            this.status = _data["status"];
-            this.version = _data["version"];
-            this.error = _data["error"] ? ErrorResponse.fromJS(_data["error"]) : <any>undefined;
-            this.requestId = _data["requestId"];
-        }
-    }
-
-    static fromJS(data: any): BatchResponseRow {
-        data = typeof data === 'object' ? data : {};
-        let result = new BatchResponseRow();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["succeeded"] = this.succeeded;
-        data["status"] = this.status;
-        data["version"] = this.version;
-        data["error"] = this.error ? this.error.toJSON() : <any>undefined;
-        data["requestId"] = this.requestId;
-        return data;
-    }
-}
-
-/** Row in a batch operation response */
-export interface IBatchResponseRow {
-    /** Id of the item. */
-    id: string;
-    /** Indicates if the operation succeeded. */
-    succeeded: boolean;
-    /** Status code of the operation. */
-    status: number;
-    /** New version of the item. */
-    version: number;
-    /** If the operation did not succeed, this contains error information. */
-    error?: IErrorResponse | undefined;
-    /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
-    requestId?: string | undefined;
-}
-
-/** Business process detailed information regarding Schema / ListItems import operation */
-export class BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataSchemaImport {
-    /** Result information of a schema import operation */
-    schemaImportResult?: SchemaImportResult | undefined;
-    /** Result information of a list item import operation */
-    listItemImportResult?: ListItemImportResult | undefined;
-
-    constructor(data?: IBusinessProcessDetailsDataSchemaImport) {
-        super(data);
-        if (data) {
-            this.schemaImportResult = data.schemaImportResult && !(<any>data.schemaImportResult).toJSON ? new SchemaImportResult(data.schemaImportResult) : <SchemaImportResult>this.schemaImportResult;
-            this.listItemImportResult = data.listItemImportResult && !(<any>data.listItemImportResult).toJSON ? new ListItemImportResult(data.listItemImportResult) : <ListItemImportResult>this.listItemImportResult;
-        }
-        this._discriminator = "BusinessProcessDetailsDataSchemaImport";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.schemaImportResult = _data["schemaImportResult"] ? SchemaImportResult.fromJS(_data["schemaImportResult"]) : <any>undefined;
-            this.listItemImportResult = _data["listItemImportResult"] ? ListItemImportResult.fromJS(_data["listItemImportResult"]) : <any>undefined;
-        }
-    }
-
-    static override fromJS(data: any): BusinessProcessDetailsDataSchemaImport {
-        data = typeof data === 'object' ? data : {};
-        let result = new BusinessProcessDetailsDataSchemaImport();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaImportResult"] = this.schemaImportResult ? this.schemaImportResult.toJSON() : <any>undefined;
-        data["listItemImportResult"] = this.listItemImportResult ? this.listItemImportResult.toJSON() : <any>undefined;
-        super.toJSON(data);
-        return data;
-    }
-}
-
-/** Business process detailed information regarding Schema / ListItems import operation */
-export interface IBusinessProcessDetailsDataSchemaImport extends IBusinessProcessDetailsDataBase {
-    /** Result information of a schema import operation */
-    schemaImportResult?: ISchemaImportResult | undefined;
-    /** Result information of a list item import operation */
-    listItemImportResult?: IListItemImportResult | undefined;
-}
-
-/** Result information of a schema import operation */
-export class SchemaImportResult implements ISchemaImportResult {
-    /** Number of schemas imported */
-    importedSchemaCount!: number;
-    /** Number of schema skipped during import phase because they were already found in the system */
-    skippedSchemaCount!: number;
-    /** Total number of schemas requested to be imported */
-    totalSchemaCount!: number;
-    /** Ids of the schemas that were not imported because already found in the system */
-    skippedSchemaIds?: string[] | undefined;
-    /** Ids of the schemas that were successfully imported */
-    importedSchemaIds?: string[] | undefined;
-
-    constructor(data?: ISchemaImportResult) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.importedSchemaCount = _data["importedSchemaCount"];
-            this.skippedSchemaCount = _data["skippedSchemaCount"];
-            this.totalSchemaCount = _data["totalSchemaCount"];
-            if (Array.isArray(_data["skippedSchemaIds"])) {
-                this.skippedSchemaIds = [] as any;
-                for (let item of _data["skippedSchemaIds"])
-                    this.skippedSchemaIds!.push(item);
-            }
-            if (Array.isArray(_data["importedSchemaIds"])) {
-                this.importedSchemaIds = [] as any;
-                for (let item of _data["importedSchemaIds"])
-                    this.importedSchemaIds!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): SchemaImportResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaImportResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["importedSchemaCount"] = this.importedSchemaCount;
-        data["skippedSchemaCount"] = this.skippedSchemaCount;
-        data["totalSchemaCount"] = this.totalSchemaCount;
-        if (Array.isArray(this.skippedSchemaIds)) {
-            data["skippedSchemaIds"] = [];
-            for (let item of this.skippedSchemaIds)
-                data["skippedSchemaIds"].push(item);
-        }
-        if (Array.isArray(this.importedSchemaIds)) {
-            data["importedSchemaIds"] = [];
-            for (let item of this.importedSchemaIds)
-                data["importedSchemaIds"].push(item);
-        }
-        return data;
-    }
-}
-
-/** Result information of a schema import operation */
-export interface ISchemaImportResult {
-    /** Number of schemas imported */
-    importedSchemaCount: number;
-    /** Number of schema skipped during import phase because they were already found in the system */
-    skippedSchemaCount: number;
-    /** Total number of schemas requested to be imported */
-    totalSchemaCount: number;
-    /** Ids of the schemas that were not imported because already found in the system */
-    skippedSchemaIds?: string[] | undefined;
-    /** Ids of the schemas that were successfully imported */
-    importedSchemaIds?: string[] | undefined;
-}
-
-/** Result information of a list item import operation */
-export class ListItemImportResult implements IListItemImportResult {
-    /** Number of list items imported */
-    importedListItemCount!: number;
-    /** Number of list items skipped during import phase because they were already found in the system */
-    skippedListItemCount!: number;
-    /** Total number of list items requested to be imported */
-    totalListItemCount!: number;
-    /** Ids of the list items that were not imported because already found in the system or due to errors */
-    skippedListItemIds?: string[] | undefined;
-    /** Ids of the list items that were successfully imported */
-    importedListItemIds?: string[] | undefined;
-
-    constructor(data?: IListItemImportResult) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.importedListItemCount = _data["importedListItemCount"];
-            this.skippedListItemCount = _data["skippedListItemCount"];
-            this.totalListItemCount = _data["totalListItemCount"];
-            if (Array.isArray(_data["skippedListItemIds"])) {
-                this.skippedListItemIds = [] as any;
-                for (let item of _data["skippedListItemIds"])
-                    this.skippedListItemIds!.push(item);
-            }
-            if (Array.isArray(_data["importedListItemIds"])) {
-                this.importedListItemIds = [] as any;
-                for (let item of _data["importedListItemIds"])
-                    this.importedListItemIds!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): ListItemImportResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListItemImportResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["importedListItemCount"] = this.importedListItemCount;
-        data["skippedListItemCount"] = this.skippedListItemCount;
-        data["totalListItemCount"] = this.totalListItemCount;
-        if (Array.isArray(this.skippedListItemIds)) {
-            data["skippedListItemIds"] = [];
-            for (let item of this.skippedListItemIds)
-                data["skippedListItemIds"].push(item);
-        }
-        if (Array.isArray(this.importedListItemIds)) {
-            data["importedListItemIds"] = [];
-            for (let item of this.importedListItemIds)
-                data["importedListItemIds"].push(item);
-        }
-        return data;
-    }
-}
-
-/** Result information of a list item import operation */
-export interface IListItemImportResult {
-    /** Number of list items imported */
-    importedListItemCount: number;
-    /** Number of list items skipped during import phase because they were already found in the system */
-    skippedListItemCount: number;
-    /** Total number of list items requested to be imported */
-    totalListItemCount: number;
-    /** Ids of the list items that were not imported because already found in the system or due to errors */
-    skippedListItemIds?: string[] | undefined;
-    /** Ids of the list items that were successfully imported */
-    importedListItemIds?: string[] | undefined;
-}
-
-export class BusinessProcessDetailsDataContentImport extends BusinessProcessDetailsDataBase implements IBusinessProcessDetailsDataContentImport {
-    /** Items that were imported. */
-    items?: ContentImportResult[] | undefined;
-
-    constructor(data?: IBusinessProcessDetailsDataContentImport) {
-        super(data);
-        if (data) {
-            if (data.items) {
-                this.items = [];
-                for (let i = 0; i < data.items.length; i++) {
-                    let item = data.items[i];
-                    this.items[i] = item && !(<any>item).toJSON ? new ContentImportResult(item) : <ContentImportResult>item;
-                }
-            }
-        }
-        this._discriminator = "BusinessProcessDetailsDataContentImport";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            if (Array.isArray(_data["items"])) {
-                this.items = [] as any;
-                for (let item of _data["items"])
-                    this.items!.push(ContentImportResult.fromJS(item));
-            }
-        }
-    }
-
-    static override fromJS(data: any): BusinessProcessDetailsDataContentImport {
-        data = typeof data === 'object' ? data : {};
-        let result = new BusinessProcessDetailsDataContentImport();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.items)) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        super.toJSON(data);
-        return data;
-    }
-}
-
-export interface IBusinessProcessDetailsDataContentImport extends IBusinessProcessDetailsDataBase {
-    /** Items that were imported. */
-    items?: IContentImportResult[] | undefined;
-}
-
-/** Represents an item imported during a content import */
-export class ContentImportResult implements IContentImportResult {
-    /** ID of the file transfer. */
-    fileTransferId!: string;
-    /** ID of the resulting content. */
-    contentId?: string | undefined;
-    /** State of the item. */
-    state?: string | undefined;
-    /** Indicates if the operation succeeded. */
-    succeeded!: boolean;
-    /** If the operation did not succeeded, this contains error related information. */
-    error?: ErrorResponse | undefined;
-
-    constructor(data?: IContentImportResult) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.error = data.error && !(<any>data.error).toJSON ? new ErrorResponse(data.error) : <ErrorResponse>this.error;
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.fileTransferId = _data["fileTransferId"];
-            this.contentId = _data["contentId"];
-            this.state = _data["state"];
-            this.succeeded = _data["succeeded"];
-            this.error = _data["error"] ? ErrorResponse.fromJS(_data["error"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): ContentImportResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new ContentImportResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["fileTransferId"] = this.fileTransferId;
-        data["contentId"] = this.contentId;
-        data["state"] = this.state;
-        data["succeeded"] = this.succeeded;
-        data["error"] = this.error ? this.error.toJSON() : <any>undefined;
-        return data;
-    }
-}
-
-/** Represents an item imported during a content import */
-export interface IContentImportResult {
-    /** ID of the file transfer. */
-    fileTransferId: string;
-    /** ID of the resulting content. */
-    contentId?: string | undefined;
-    /** State of the item. */
-    state?: string | undefined;
-    /** Indicates if the operation succeeded. */
-    succeeded: boolean;
-    /** If the operation did not succeeded, this contains error related information. */
-    error?: IErrorResponse | undefined;
 }
 
 export class BusinessProcessSummaryBase implements IBusinessProcessSummaryBase {
@@ -75155,296 +75247,6 @@ export interface IOutputFormatDeleteManyRequest {
     ids?: string[] | undefined;
 }
 
-/** Base class for search results */
-export class BaseResultOfOutput implements IBaseResultOfOutput {
-    /** The total number of matching documents. */
-    totalResults!: number;
-    /** The matched documents. */
-    results!: Output[];
-    /** The search execution time in milliseconds. */
-    elapsedMilliseconds!: number;
-    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
-    pageToken?: string | undefined;
-
-    constructor(data?: IBaseResultOfOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        if (!data) {
-            this.results = [];
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.totalResults = _data["totalResults"];
-            if (Array.isArray(_data["results"])) {
-                this.results = [] as any;
-                for (let item of _data["results"])
-                    this.results!.push(Output.fromJS(item));
-            }
-            this.elapsedMilliseconds = _data["elapsedMilliseconds"];
-            this.pageToken = _data["pageToken"];
-        }
-    }
-
-    static fromJS(data: any): BaseResultOfOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new BaseResultOfOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalResults"] = this.totalResults;
-        if (Array.isArray(this.results)) {
-            data["results"] = [];
-            for (let item of this.results)
-                data["results"].push(item.toJSON());
-        }
-        data["elapsedMilliseconds"] = this.elapsedMilliseconds;
-        data["pageToken"] = this.pageToken;
-        return data;
-    }
-}
-
-/** Base class for search results */
-export interface IBaseResultOfOutput {
-    /** The total number of matching documents. */
-    totalResults: number;
-    /** The matched documents. */
-    results: Output[];
-    /** The search execution time in milliseconds. */
-    elapsedMilliseconds: number;
-    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
-    pageToken?: string | undefined;
-}
-
-export class OutputSearchResult extends BaseResultOfOutput implements IOutputSearchResult {
-
-    constructor(data?: IOutputSearchResult) {
-        super(data);
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-    }
-
-    static override fromJS(data: any): OutputSearchResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new OutputSearchResult();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        super.toJSON(data);
-        return data;
-    }
-}
-
-export interface IOutputSearchResult extends IBaseResultOfOutput {
-}
-
-export class OutputSearchRequest implements IOutputSearchRequest {
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit!: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** List of Content ids you want to use to fetch the outputs. */
-    contentIds?: string[] | undefined;
-    /** The allowed rendering states of the outputs you want to fetch. */
-    renderingStates?: OutputRenderingState[] | undefined;
-    /** The file extension of the outputs you want to fetch. */
-    fileExtensions?: string[] | undefined;
-    /** The output format id of the outputs you want to fetch. */
-    outputFormatIds?: string[] | undefined;
-
-    constructor(data?: IOutputSearchRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.limit = _data["limit"];
-            this.pageToken = _data["pageToken"];
-            if (Array.isArray(_data["contentIds"])) {
-                this.contentIds = [] as any;
-                for (let item of _data["contentIds"])
-                    this.contentIds!.push(item);
-            }
-            if (Array.isArray(_data["renderingStates"])) {
-                this.renderingStates = [] as any;
-                for (let item of _data["renderingStates"])
-                    this.renderingStates!.push(item);
-            }
-            if (Array.isArray(_data["fileExtensions"])) {
-                this.fileExtensions = [] as any;
-                for (let item of _data["fileExtensions"])
-                    this.fileExtensions!.push(item);
-            }
-            if (Array.isArray(_data["outputFormatIds"])) {
-                this.outputFormatIds = [] as any;
-                for (let item of _data["outputFormatIds"])
-                    this.outputFormatIds!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): OutputSearchRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new OutputSearchRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["limit"] = this.limit;
-        data["pageToken"] = this.pageToken;
-        if (Array.isArray(this.contentIds)) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        if (Array.isArray(this.renderingStates)) {
-            data["renderingStates"] = [];
-            for (let item of this.renderingStates)
-                data["renderingStates"].push(item);
-        }
-        if (Array.isArray(this.fileExtensions)) {
-            data["fileExtensions"] = [];
-            for (let item of this.fileExtensions)
-                data["fileExtensions"].push(item);
-        }
-        if (Array.isArray(this.outputFormatIds)) {
-            data["outputFormatIds"] = [];
-            for (let item of this.outputFormatIds)
-                data["outputFormatIds"].push(item);
-        }
-        return data;
-    }
-}
-
-export interface IOutputSearchRequest {
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** List of Content ids you want to use to fetch the outputs. */
-    contentIds?: string[] | undefined;
-    /** The allowed rendering states of the outputs you want to fetch. */
-    renderingStates?: OutputRenderingState[] | undefined;
-    /** The file extension of the outputs you want to fetch. */
-    fileExtensions?: string[] | undefined;
-    /** The output format id of the outputs you want to fetch. */
-    outputFormatIds?: string[] | undefined;
-}
-
-export class OutputResetRetryAttemptsRequest implements IOutputResetRetryAttemptsRequest {
-    /** List of output IDs you want to filter on. If this field is not empty, the other will be ignored. */
-    outputIds?: string[] | undefined;
-    /** List of Content IDs you want to filter on. */
-    contentIds?: string[] | undefined;
-    /** The file extension of the outputs you want to filter on. */
-    fileExtensions?: string[] | undefined;
-    /** The IDs of the output formats you want to filter on. */
-    outputFormatIds?: string[] | undefined;
-    /** Should the successful filter results also be reset (and subsequently re-rendered)? */
-    includeCompleted!: boolean;
-
-    constructor(data?: IOutputResetRetryAttemptsRequest) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            if (Array.isArray(_data["outputIds"])) {
-                this.outputIds = [] as any;
-                for (let item of _data["outputIds"])
-                    this.outputIds!.push(item);
-            }
-            if (Array.isArray(_data["contentIds"])) {
-                this.contentIds = [] as any;
-                for (let item of _data["contentIds"])
-                    this.contentIds!.push(item);
-            }
-            if (Array.isArray(_data["fileExtensions"])) {
-                this.fileExtensions = [] as any;
-                for (let item of _data["fileExtensions"])
-                    this.fileExtensions!.push(item);
-            }
-            if (Array.isArray(_data["outputFormatIds"])) {
-                this.outputFormatIds = [] as any;
-                for (let item of _data["outputFormatIds"])
-                    this.outputFormatIds!.push(item);
-            }
-            this.includeCompleted = _data["includeCompleted"];
-        }
-    }
-
-    static fromJS(data: any): OutputResetRetryAttemptsRequest {
-        data = typeof data === 'object' ? data : {};
-        let result = new OutputResetRetryAttemptsRequest();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.outputIds)) {
-            data["outputIds"] = [];
-            for (let item of this.outputIds)
-                data["outputIds"].push(item);
-        }
-        if (Array.isArray(this.contentIds)) {
-            data["contentIds"] = [];
-            for (let item of this.contentIds)
-                data["contentIds"].push(item);
-        }
-        if (Array.isArray(this.fileExtensions)) {
-            data["fileExtensions"] = [];
-            for (let item of this.fileExtensions)
-                data["fileExtensions"].push(item);
-        }
-        if (Array.isArray(this.outputFormatIds)) {
-            data["outputFormatIds"] = [];
-            for (let item of this.outputFormatIds)
-                data["outputFormatIds"].push(item);
-        }
-        data["includeCompleted"] = this.includeCompleted;
-        return data;
-    }
-}
-
-export interface IOutputResetRetryAttemptsRequest {
-    /** List of output IDs you want to filter on. If this field is not empty, the other will be ignored. */
-    outputIds?: string[] | undefined;
-    /** List of Content IDs you want to filter on. */
-    contentIds?: string[] | undefined;
-    /** The file extension of the outputs you want to filter on. */
-    fileExtensions?: string[] | undefined;
-    /** The IDs of the output formats you want to filter on. */
-    outputFormatIds?: string[] | undefined;
-    /** Should the successful filter results also be reset (and subsequently re-rendered)? */
-    includeCompleted: boolean;
-}
-
 /** User profile. */
 export class UserProfile implements IUserProfile {
     /** ID of the user. */
@@ -76891,6 +76693,11 @@ export abstract class FieldBase implements IFieldBase {
         }
         if (data["kind"] === "FieldDynamicView") {
             let result = new FieldDynamicView();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "FieldTreeView") {
+            let result = new FieldTreeView();
             result.init(data);
             return result;
         }
@@ -78960,6 +78767,137 @@ export interface IFieldDynamicView extends IFieldBase {
     filterTemplate: FilterBase;
     /** Specifies sorting to be used in search with FilterBase> from FilterTemplate */
     sort: ISortInfo[];
+}
+
+/** Stores a tree structure based on tagbox fields in the same schema */
+export class FieldTreeView extends FieldBase implements IFieldTreeView {
+    /** Levels of the tree.
+At least one level is required. */
+    levels!: TreeLevelItem[];
+
+    constructor(data?: IFieldTreeView) {
+        super(data);
+        if (data) {
+            if (data.levels) {
+                this.levels = [];
+                for (let i = 0; i < data.levels.length; i++) {
+                    let item = data.levels[i];
+                    this.levels[i] = item && !(<any>item).toJSON ? new TreeLevelItem(item) : <TreeLevelItem>item;
+                }
+            }
+        }
+        if (!data) {
+            this.levels = [];
+        }
+        this._discriminator = "FieldTreeView";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["levels"])) {
+                this.levels = [] as any;
+                for (let item of _data["levels"])
+                    this.levels!.push(TreeLevelItem.fromJS(item));
+            }
+        }
+    }
+
+    static override fromJS(data: any): FieldTreeView {
+        data = typeof data === 'object' ? data : {};
+        let result = new FieldTreeView();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.levels)) {
+            data["levels"] = [];
+            for (let item of this.levels)
+                data["levels"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Stores a tree structure based on tagbox fields in the same schema */
+export interface IFieldTreeView extends IFieldBase {
+    /** Levels of the tree.
+At least one level is required. */
+    levels: ITreeLevelItem[];
+}
+
+/** Configures a level of a tree structure of a FieldTreeView */
+export class TreeLevelItem implements ITreeLevelItem {
+    /** ID of the field.
+Must be a tagbox field. */
+    fieldId!: string;
+    /** Maximum number of recursions allowed if the tagbox references the same schema it is defined in.
+Set to -1 to recurse until no more items are found. */
+    maxRecursions!: number;
+    /** Further levels of the tree based on the schema the tagbox field references. */
+    levels?: TreeLevelItem[] | undefined;
+
+    constructor(data?: ITreeLevelItem) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+            if (data.levels) {
+                this.levels = [];
+                for (let i = 0; i < data.levels.length; i++) {
+                    let item = data.levels[i];
+                    this.levels[i] = item && !(<any>item).toJSON ? new TreeLevelItem(item) : <TreeLevelItem>item;
+                }
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.fieldId = _data["fieldId"];
+            this.maxRecursions = _data["maxRecursions"];
+            if (Array.isArray(_data["levels"])) {
+                this.levels = [] as any;
+                for (let item of _data["levels"])
+                    this.levels!.push(TreeLevelItem.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): TreeLevelItem {
+        data = typeof data === 'object' ? data : {};
+        let result = new TreeLevelItem();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fieldId"] = this.fieldId;
+        data["maxRecursions"] = this.maxRecursions;
+        if (Array.isArray(this.levels)) {
+            data["levels"] = [];
+            for (let item of this.levels)
+                data["levels"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+/** Configures a level of a tree structure of a FieldTreeView */
+export interface ITreeLevelItem {
+    /** ID of the field.
+Must be a tagbox field. */
+    fieldId: string;
+    /** Maximum number of recursions allowed if the tagbox references the same schema it is defined in.
+Set to -1 to recurse until no more items are found. */
+    maxRecursions: number;
+    /** Further levels of the tree based on the schema the tagbox field references. */
+    levels?: ITreeLevelItem[] | undefined;
 }
 
 /** Base class to overwrite field's information */
@@ -81748,7 +81686,7 @@ export interface IShareDataBasic extends IShareDataBase {
 /** Share mail recipient */
 export class MailRecipient implements IMailRecipient {
     /** User information including email. */
-    userEmail!: UserEmail;
+    userEmail?: UserEmail | undefined;
     /** Recipient specific token. */
     token?: string | undefined;
     /** URL to access the share for this recipient. */
@@ -81762,14 +81700,11 @@ export class MailRecipient implements IMailRecipient {
             }
             this.userEmail = data.userEmail && !(<any>data.userEmail).toJSON ? new UserEmail(data.userEmail) : <UserEmail>this.userEmail;
         }
-        if (!data) {
-            this.userEmail = new UserEmail();
-        }
     }
 
     init(_data?: any) {
         if (_data) {
-            this.userEmail = _data["userEmail"] ? UserEmail.fromJS(_data["userEmail"]) : new UserEmail();
+            this.userEmail = _data["userEmail"] ? UserEmail.fromJS(_data["userEmail"]) : <any>undefined;
             this.token = _data["token"];
             this.url = _data["url"];
         }
@@ -81794,7 +81729,7 @@ export class MailRecipient implements IMailRecipient {
 /** Share mail recipient */
 export interface IMailRecipient {
     /** User information including email. */
-    userEmail: IUserEmail;
+    userEmail?: IUserEmail | undefined;
     /** Recipient specific token. */
     token?: string | undefined;
     /** URL to access the share for this recipient. */
