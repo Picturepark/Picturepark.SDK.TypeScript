@@ -9,14 +9,6 @@
       position: relative;
 
       .action-buttons {
-        @media (max-width: 725px) {
-          position: unset;
-          right: unset;
-          top: unset;
-          z-index: unset;
-          padding-right: 10px;
-        }
-
         position: absolute;
         right: 0px;
         top: 0;
@@ -26,6 +18,14 @@
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
+
+        @media (max-width: 725px) {
+          position: unset;
+          right: unset;
+          top: unset;
+          z-index: unset;
+          padding-right: 10px;
+        }
 
         div {
           padding-left: 8px;
