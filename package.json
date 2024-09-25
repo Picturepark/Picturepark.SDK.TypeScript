@@ -28,7 +28,7 @@
     "http-server": "14.1.1",
     "marked": "13.0.2",
     "nswag": "14.1.0",
-    "rollup": "4.19.0",
+    "rollup": "4.22.4",
     "terser": "5.31.3",
     "tslib": "2.6.3",
     "typedoc": "0.26.5",
