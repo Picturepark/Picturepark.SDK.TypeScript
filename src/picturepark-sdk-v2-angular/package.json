@@ -18,7 +18,6 @@
     "build-css": "cpx \"./projects/picturepark-sdk-v2-angular-ui/src/lib/styles/*\" \"./dist/picturepark-sdk-v2-angular-ui/lib/styles/\"",
     "test": "ng test",
     "test-nowatch": "ng test",
-    "format:fix": "pretty-quick --staged",
     "format:check-lib": "prettier --config ./.prettierrc --list-different \"./projects/**/src/{app,environments,lib,tests}/**/*{.ts,.js,.json,.css,.scss,.html}\"",
     "format:check-src": "prettier --config ./.prettierrc --list-different \"./src/**/*{.ts,.js,.json,.css,.scss,.html}\"",
     "format:check": " npm run format:check-lib && npm run format:check-src",
@@ -86,9 +85,8 @@
     "normalize.css": "^8.0.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
-    "pretty-quick": "^2.0.1",
     "protractor": "7.0.0",
-    "puppeteer": "^5.3.1",
+    "puppeteer": "23.4.0",
     "replace-in-file": "^6.3.2",
     "typescript": "5.5.4"
   }
