@@ -12,13 +12,16 @@
 .schema-content {
   display: flex;
   align-items: center;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 3px;
 
   &:hover {
+    @include mat.elevation(8);
+
     .schema-menu {
       visibility: visible;
     }
-
-    @include mat.elevation(8);
   }
 }
 
@@ -35,12 +38,6 @@
   mat-icon {
     color: #aaaaaa;
   }
-}
-
-.schema-content {
-  border-style: solid;
-  border-width: 2px;
-  border-radius: 3px;
 }
 
 .schema-info {

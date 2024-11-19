@@ -187,9 +187,9 @@ export class ShareContentDialogComponent extends DialogBaseComponent implements 
 
       (share.data as ShareDataBasic).mailRecipients.forEach(recipient =>
         this.recipients.push({
-          email: recipient.userEmail.emailAddress,
+          email: recipient.userEmail?.emailAddress ?? '',
           url: recipient.url ?? '',
-          img: `https://www.gravatar.com/avatar/${Md5.hashStr(recipient.userEmail.emailAddress)}?d=mm&s=48`,
+          img: `https://www.gravatar.com/avatar/${Md5.hashStr(recipient.userEmail?.emailAddress ?? '')}?d=mm&s=48`,
         })
       );
 

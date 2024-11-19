@@ -15,6 +15,7 @@
 
   ul {
     margin: 0px 0px;
+    list-style: none;
 
     li {
       font-size: 16px;
@@ -47,8 +48,6 @@
         }
       }
     }
-
-    list-style: none;
   }
 
   &:last-child {

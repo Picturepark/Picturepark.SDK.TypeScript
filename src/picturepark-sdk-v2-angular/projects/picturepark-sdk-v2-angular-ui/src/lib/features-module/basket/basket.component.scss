@@ -1,10 +1,11 @@
 .basket {
+  height: 100%;
+
   .mat-toolbar {
     border-bottom-style: solid;
     border-bottom-width: 1px;
   }
 
-  height: 100%;
   &__header {
     position: sticky;
     top: 0;
