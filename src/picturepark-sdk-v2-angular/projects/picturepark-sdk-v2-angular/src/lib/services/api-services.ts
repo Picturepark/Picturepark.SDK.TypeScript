@@ -28359,6 +28359,21 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "TreeAggregatorOnlyAllowedInTopLevelAggregationsException") {
+            let result = new TreeAggregatorOnlyAllowedInTopLevelAggregationsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TreeAggregatorInvalidFieldTypeException") {
+            let result = new TreeAggregatorInvalidFieldTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TreeAggregatorInnerAggregationsNotAllowedException") {
+            let result = new TreeAggregatorInnerAggregationsNotAllowedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldOverwriteTypeMismatchException") {
             let result = new SchemaFieldOverwriteTypeMismatchException();
             result.init(data);
@@ -28689,11 +28704,6 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
-        if (data["kind"] === "SchemaFieldTreeViewInvalidMaxRecursionsException") {
-            let result = new SchemaFieldTreeViewInvalidMaxRecursionsException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "SchemaFieldTreeViewTagboxFieldRequiredException") {
             let result = new SchemaFieldTreeViewTagboxFieldRequiredException();
             result.init(data);
@@ -28701,6 +28711,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
         }
         if (data["kind"] === "SchemaFieldTreeViewNotSupportedForSchemaTypeException") {
             let result = new SchemaFieldTreeViewNotSupportedForSchemaTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TagboxInUseInTreeViewFieldException") {
+            let result = new TagboxInUseInTreeViewFieldException();
             result.init(data);
             return result;
         }
@@ -30402,6 +30417,21 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "TreeAggregatorOnlyAllowedInTopLevelAggregationsException") {
+            let result = new TreeAggregatorOnlyAllowedInTopLevelAggregationsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TreeAggregatorInvalidFieldTypeException") {
+            let result = new TreeAggregatorInvalidFieldTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TreeAggregatorInnerAggregationsNotAllowedException") {
+            let result = new TreeAggregatorInnerAggregationsNotAllowedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldOverwriteTypeMismatchException") {
             let result = new SchemaFieldOverwriteTypeMismatchException();
             result.init(data);
@@ -30732,11 +30762,6 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
-        if (data["kind"] === "SchemaFieldTreeViewInvalidMaxRecursionsException") {
-            let result = new SchemaFieldTreeViewInvalidMaxRecursionsException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "SchemaFieldTreeViewTagboxFieldRequiredException") {
             let result = new SchemaFieldTreeViewTagboxFieldRequiredException();
             result.init(data);
@@ -30744,6 +30769,11 @@ export class PictureparkBusinessException extends PictureparkException implement
         }
         if (data["kind"] === "SchemaFieldTreeViewNotSupportedForSchemaTypeException") {
             let result = new SchemaFieldTreeViewNotSupportedForSchemaTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TagboxInUseInTreeViewFieldException") {
+            let result = new TagboxInUseInTreeViewFieldException();
             result.init(data);
             return result;
         }
@@ -32082,6 +32112,21 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
+        if (data["kind"] === "TreeAggregatorOnlyAllowedInTopLevelAggregationsException") {
+            let result = new TreeAggregatorOnlyAllowedInTopLevelAggregationsException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TreeAggregatorInvalidFieldTypeException") {
+            let result = new TreeAggregatorInvalidFieldTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TreeAggregatorInnerAggregationsNotAllowedException") {
+            let result = new TreeAggregatorInnerAggregationsNotAllowedException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "SchemaFieldOverwriteTypeMismatchException") {
             let result = new SchemaFieldOverwriteTypeMismatchException();
             result.init(data);
@@ -32397,11 +32442,6 @@ export class PictureparkValidationException extends PictureparkBusinessException
             result.init(data);
             return result;
         }
-        if (data["kind"] === "SchemaFieldTreeViewInvalidMaxRecursionsException") {
-            let result = new SchemaFieldTreeViewInvalidMaxRecursionsException();
-            result.init(data);
-            return result;
-        }
         if (data["kind"] === "SchemaFieldTreeViewTagboxFieldRequiredException") {
             let result = new SchemaFieldTreeViewTagboxFieldRequiredException();
             result.init(data);
@@ -32409,6 +32449,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "SchemaFieldTreeViewNotSupportedForSchemaTypeException") {
             let result = new SchemaFieldTreeViewNotSupportedForSchemaTypeException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TagboxInUseInTreeViewFieldException") {
+            let result = new TagboxInUseInTreeViewFieldException();
             result.init(data);
             return result;
         }
@@ -40483,6 +40528,112 @@ export interface IResolvedLinkedItemsThresholdReachedException extends IPicturep
     metadataItemId?: string | undefined;
 }
 
+export class TreeAggregatorOnlyAllowedInTopLevelAggregationsException extends PictureparkValidationException implements ITreeAggregatorOnlyAllowedInTopLevelAggregationsException {
+    aggregationName?: string | undefined;
+
+    constructor(data?: ITreeAggregatorOnlyAllowedInTopLevelAggregationsException) {
+        super(data);
+        this._discriminator = "TreeAggregatorOnlyAllowedInTopLevelAggregationsException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregationName = _data["aggregationName"];
+        }
+    }
+
+    static override fromJS(data: any): TreeAggregatorOnlyAllowedInTopLevelAggregationsException {
+        data = typeof data === 'object' ? data : {};
+        let result = new TreeAggregatorOnlyAllowedInTopLevelAggregationsException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ITreeAggregatorOnlyAllowedInTopLevelAggregationsException extends IPictureparkValidationException {
+    aggregationName?: string | undefined;
+}
+
+export class TreeAggregatorInvalidFieldTypeException extends PictureparkValidationException implements ITreeAggregatorInvalidFieldTypeException {
+    aggregationName?: string | undefined;
+    fieldName?: string | undefined;
+
+    constructor(data?: ITreeAggregatorInvalidFieldTypeException) {
+        super(data);
+        this._discriminator = "TreeAggregatorInvalidFieldTypeException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregationName = _data["aggregationName"];
+            this.fieldName = _data["fieldName"];
+        }
+    }
+
+    static override fromJS(data: any): TreeAggregatorInvalidFieldTypeException {
+        data = typeof data === 'object' ? data : {};
+        let result = new TreeAggregatorInvalidFieldTypeException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        data["fieldName"] = this.fieldName;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ITreeAggregatorInvalidFieldTypeException extends IPictureparkValidationException {
+    aggregationName?: string | undefined;
+    fieldName?: string | undefined;
+}
+
+export class TreeAggregatorInnerAggregationsNotAllowedException extends PictureparkValidationException implements ITreeAggregatorInnerAggregationsNotAllowedException {
+    aggregationName?: string | undefined;
+
+    constructor(data?: ITreeAggregatorInnerAggregationsNotAllowedException) {
+        super(data);
+        this._discriminator = "TreeAggregatorInnerAggregationsNotAllowedException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.aggregationName = _data["aggregationName"];
+        }
+    }
+
+    static override fromJS(data: any): TreeAggregatorInnerAggregationsNotAllowedException {
+        data = typeof data === 'object' ? data : {};
+        let result = new TreeAggregatorInnerAggregationsNotAllowedException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["aggregationName"] = this.aggregationName;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ITreeAggregatorInnerAggregationsNotAllowedException extends IPictureparkValidationException {
+    aggregationName?: string | undefined;
+}
+
 export class SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException implements ISchemaFieldOverwriteTypeMismatchException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -43351,52 +43502,6 @@ export interface ISchemaFieldTreeViewAtLeastOneLevelRequiredException extends IP
     fieldId?: string | undefined;
 }
 
-export class SchemaFieldTreeViewInvalidMaxRecursionsException extends PictureparkValidationException implements ISchemaFieldTreeViewInvalidMaxRecursionsException {
-    schemaId?: string | undefined;
-    fieldId?: string | undefined;
-    path?: string | undefined;
-    maxRecursions?: number;
-
-    constructor(data?: ISchemaFieldTreeViewInvalidMaxRecursionsException) {
-        super(data);
-        this._discriminator = "SchemaFieldTreeViewInvalidMaxRecursionsException";
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.schemaId = _data["schemaId"];
-            this.fieldId = _data["fieldId"];
-            this.path = _data["path"];
-            this.maxRecursions = _data["maxRecursions"];
-        }
-    }
-
-    static override fromJS(data: any): SchemaFieldTreeViewInvalidMaxRecursionsException {
-        data = typeof data === 'object' ? data : {};
-        let result = new SchemaFieldTreeViewInvalidMaxRecursionsException();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["schemaId"] = this.schemaId;
-        data["fieldId"] = this.fieldId;
-        data["path"] = this.path;
-        data["maxRecursions"] = this.maxRecursions;
-        super.toJSON(data);
-        return data;
-    }
-}
-
-export interface ISchemaFieldTreeViewInvalidMaxRecursionsException extends IPictureparkValidationException {
-    schemaId?: string | undefined;
-    fieldId?: string | undefined;
-    path?: string | undefined;
-    maxRecursions?: number;
-}
-
 export class SchemaFieldTreeViewTagboxFieldRequiredException extends PictureparkValidationException implements ISchemaFieldTreeViewTagboxFieldRequiredException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -43479,6 +43584,52 @@ export interface ISchemaFieldTreeViewNotSupportedForSchemaTypeException extends 
     schemaId?: string | undefined;
     fieldId?: string | undefined;
     schemaType?: SchemaType;
+}
+
+export class TagboxInUseInTreeViewFieldException extends PictureparkValidationException implements ITagboxInUseInTreeViewFieldException {
+    schemaId?: string | undefined;
+    tagboxFieldId?: string | undefined;
+    treeViewFieldSchemaId?: string | undefined;
+    treeViewFieldId?: string | undefined;
+
+    constructor(data?: ITagboxInUseInTreeViewFieldException) {
+        super(data);
+        this._discriminator = "TagboxInUseInTreeViewFieldException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.schemaId = _data["schemaId"];
+            this.tagboxFieldId = _data["tagboxFieldId"];
+            this.treeViewFieldSchemaId = _data["treeViewFieldSchemaId"];
+            this.treeViewFieldId = _data["treeViewFieldId"];
+        }
+    }
+
+    static override fromJS(data: any): TagboxInUseInTreeViewFieldException {
+        data = typeof data === 'object' ? data : {};
+        let result = new TagboxInUseInTreeViewFieldException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["schemaId"] = this.schemaId;
+        data["tagboxFieldId"] = this.tagboxFieldId;
+        data["treeViewFieldSchemaId"] = this.treeViewFieldSchemaId;
+        data["treeViewFieldId"] = this.treeViewFieldId;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ITagboxInUseInTreeViewFieldException extends IPictureparkValidationException {
+    schemaId?: string | undefined;
+    tagboxFieldId?: string | undefined;
+    treeViewFieldSchemaId?: string | undefined;
+    treeViewFieldId?: string | undefined;
 }
 
 export class DeleteContentsWithReferencesException extends PictureparkValidationException implements IDeleteContentsWithReferencesException {
@@ -49781,6 +49932,8 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
     active!: boolean;
     /** Inner aggregation results, if inner aggregations were provided in the query. */
     aggregationResults?: AggregationResult[] | undefined;
+    /** Detailed information about the aggregation result item. */
+    detail?: AggregationResultItemDetailBase | undefined;
 
     getDisplayName(locale: string) {
     let displayName: string | null;
@@ -49827,6 +49980,7 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
                 for (let item of _data["aggregationResults"])
                     this.aggregationResults!.push(AggregationResult.fromJS(item));
             }
+            this.detail = _data["detail"] ? AggregationResultItemDetailBase.fromJS(_data["detail"]) : <any>undefined;
         }
     }
 
@@ -49848,6 +50002,7 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
             for (let item of this.aggregationResults)
                 data["aggregationResults"].push(item.toJSON());
         }
+        data["detail"] = this.detail ? this.detail.toJSON() : <any>undefined;
         return data;
     }
 }
@@ -49865,6 +50020,8 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
     active: boolean;
     /** Inner aggregation results, if inner aggregations were provided in the query. */
     aggregationResults?: IAggregationResult[] | undefined;
+    /** Detailed information about the aggregation result item. */
+    detail?: AggregationResultItemDetailBase | undefined;
 }
 
 /** The filters' base class */
@@ -49958,6 +50115,11 @@ export abstract class FilterBase implements IFilterBase {
         }
         if (data["kind"] === "ParentFilter") {
             let result = new ParentFilter();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TreeFilter") {
+            let result = new TreeFilter();
             result.init(data);
             return result;
         }
@@ -50859,6 +51021,202 @@ export interface IParentFilter extends IFilterBase {
     filter: FilterBase;
 }
 
+/** Filters results based on a tree structure and a path. */
+export class TreeFilter extends FilterBase implements ITreeFilter {
+    /** Field to filter on. */
+    field?: string | undefined;
+    /** Path to filter on. */
+    path?: string | undefined;
+
+    constructor(data?: ITreeFilter) {
+        super(data);
+        this._discriminator = "TreeFilter";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.field = _data["field"];
+            this.path = _data["path"];
+        }
+    }
+
+    static override fromJS(data: any): TreeFilter {
+        data = typeof data === 'object' ? data : {};
+        let result = new TreeFilter();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["path"] = this.path;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Filters results based on a tree structure and a path. */
+export interface ITreeFilter extends IFilterBase {
+    /** Field to filter on. */
+    field?: string | undefined;
+    /** Path to filter on. */
+    path?: string | undefined;
+}
+
+/** Detail for an AggregationResultItem. */
+export abstract class AggregationResultItemDetailBase implements IAggregationResultItemDetailBase {
+
+    protected _discriminator: string;
+
+    constructor(data?: IAggregationResultItemDetailBase) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        this._discriminator = "AggregationResultItemDetailBase";
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): AggregationResultItemDetailBase {
+        data = typeof data === 'object' ? data : {};
+        if (data["kind"] === "TreeAggregationResultItemDetail") {
+            let result = new TreeAggregationResultItemDetail();
+            result.init(data);
+            return result;
+        }
+        throw new Error("The abstract class 'AggregationResultItemDetailBase' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["kind"] = this._discriminator;
+        return data;
+    }
+}
+
+/** Detail for an AggregationResultItem. */
+export interface IAggregationResultItemDetailBase {
+}
+
+/** Detail for a tree aggregation result item. */
+export class TreeAggregationResultItemDetail extends AggregationResultItemDetailBase implements ITreeAggregationResultItemDetail {
+    /** Path of the item. Use together with TreeFilter. */
+    path?: string | undefined;
+    /** Resolved path components of the path. */
+    resolvedPathComponents?: TreeAggregationResultPathComponent[] | undefined;
+    /** Indicates if the node contains children. */
+    hasChildren?: boolean;
+
+    constructor(data?: ITreeAggregationResultItemDetail) {
+        super(data);
+        if (data) {
+            if (data.resolvedPathComponents) {
+                this.resolvedPathComponents = [];
+                for (let i = 0; i < data.resolvedPathComponents.length; i++) {
+                    let item = data.resolvedPathComponents[i];
+                    this.resolvedPathComponents[i] = item && !(<any>item).toJSON ? new TreeAggregationResultPathComponent(item) : <TreeAggregationResultPathComponent>item;
+                }
+            }
+        }
+        this._discriminator = "TreeAggregationResultItemDetail";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.path = _data["path"];
+            if (Array.isArray(_data["resolvedPathComponents"])) {
+                this.resolvedPathComponents = [] as any;
+                for (let item of _data["resolvedPathComponents"])
+                    this.resolvedPathComponents!.push(TreeAggregationResultPathComponent.fromJS(item));
+            }
+            this.hasChildren = _data["hasChildren"];
+        }
+    }
+
+    static override fromJS(data: any): TreeAggregationResultItemDetail {
+        data = typeof data === 'object' ? data : {};
+        let result = new TreeAggregationResultItemDetail();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["path"] = this.path;
+        if (Array.isArray(this.resolvedPathComponents)) {
+            data["resolvedPathComponents"] = [];
+            for (let item of this.resolvedPathComponents)
+                data["resolvedPathComponents"].push(item.toJSON());
+        }
+        data["hasChildren"] = this.hasChildren;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Detail for a tree aggregation result item. */
+export interface ITreeAggregationResultItemDetail extends IAggregationResultItemDetailBase {
+    /** Path of the item. Use together with TreeFilter. */
+    path?: string | undefined;
+    /** Resolved path components of the path. */
+    resolvedPathComponents?: ITreeAggregationResultPathComponent[] | undefined;
+    /** Indicates if the node contains children. */
+    hasChildren?: boolean;
+}
+
+/** Component of a tree path. */
+export class TreeAggregationResultPathComponent implements ITreeAggregationResultPathComponent {
+    /** Raw path component. */
+    pathComponent?: string | undefined;
+    /** Display value of the path component. */
+    displayValue?: string | undefined;
+
+    constructor(data?: ITreeAggregationResultPathComponent) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.pathComponent = _data["pathComponent"];
+            this.displayValue = _data["displayValue"];
+        }
+    }
+
+    static fromJS(data: any): TreeAggregationResultPathComponent {
+        data = typeof data === 'object' ? data : {};
+        let result = new TreeAggregationResultPathComponent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pathComponent"] = this.pathComponent;
+        data["displayValue"] = this.displayValue;
+        return data;
+    }
+}
+
+/** Component of a tree path. */
+export interface ITreeAggregationResultPathComponent {
+    /** Raw path component. */
+    pathComponent?: string | undefined;
+    /** Display value of the path component. */
+    displayValue?: string | undefined;
+}
+
 export class QueryDebugInformation implements IQueryDebugInformation {
     general?: string | undefined;
     auditTrail?: string | undefined;
@@ -51130,6 +51488,11 @@ export abstract class AggregatorBase implements IAggregatorBase {
         }
         if (data["kind"] === "TermsEnumAggregator") {
             let result = new TermsEnumAggregator();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "TreeAggregator") {
+            let result = new TreeAggregator();
             result.init(data);
             return result;
         }
@@ -51859,6 +52222,70 @@ export class TermsEnumAggregator extends TermsAggregator implements ITermsEnumAg
 export interface ITermsEnumAggregator extends ITermsAggregator {
     /** Type of the enum target of the relation. It is used to resolve the enum translation. */
     enumType: string;
+}
+
+/** Aggregator for a FieldTreeView. */
+export class TreeAggregator extends AggregatorBase implements ITreeAggregator {
+    /** The fields ID to execute the aggregation on. */
+    field!: string;
+    /** Path to get buckets for.
+Remark: If this is not null, missing items will only be returned if they're a direct child of this path. */
+    path?: string | undefined;
+    /** Search string to filter the buckets. */
+    searchString?: string | undefined;
+    /** The size parameter can be set to define how many buckets should be returned out of the overall list. */
+    size?: number | undefined;
+    /** Sorting for results. If null, sorts by item count. */
+    sortDirection?: SortDirection | undefined;
+
+    constructor(data?: ITreeAggregator) {
+        super(data);
+        this._discriminator = "TreeAggregator";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.field = _data["field"];
+            this.path = _data["path"];
+            this.searchString = _data["searchString"];
+            this.size = _data["size"];
+            this.sortDirection = _data["sortDirection"];
+        }
+    }
+
+    static override fromJS(data: any): TreeAggregator {
+        data = typeof data === 'object' ? data : {};
+        let result = new TreeAggregator();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["path"] = this.path;
+        data["searchString"] = this.searchString;
+        data["size"] = this.size;
+        data["sortDirection"] = this.sortDirection;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Aggregator for a FieldTreeView. */
+export interface ITreeAggregator extends IAggregatorBase {
+    /** The fields ID to execute the aggregation on. */
+    field: string;
+    /** Path to get buckets for.
+Remark: If this is not null, missing items will only be returned if they're a direct child of this path. */
+    path?: string | undefined;
+    /** Search string to filter the buckets. */
+    searchString?: string | undefined;
+    /** The size parameter can be set to define how many buckets should be returned out of the overall list. */
+    size?: number | undefined;
+    /** Sorting for results. If null, sorts by item count. */
+    sortDirection?: SortDirection | undefined;
 }
 
 /** Represents the business rule configuration. */
@@ -67176,6 +67603,8 @@ export class LicenseInfo implements ILicenseInfo {
     contentStatistics!: StatisticsLicenseState;
     /** Licensing options for image optimization. */
     imageOptimization!: ImageOptimizationLicenseState;
+    /** License flag for enabling tree view */
+    enableTreeView?: boolean | undefined;
 
     constructor(data?: ILicenseInfo) {
         if (data) {
@@ -67197,6 +67626,7 @@ export class LicenseInfo implements ILicenseInfo {
             this.historicVersioningState = _data["historicVersioningState"];
             this.contentStatistics = _data["contentStatistics"] ? StatisticsLicenseState.fromJS(_data["contentStatistics"]) : new StatisticsLicenseState();
             this.imageOptimization = _data["imageOptimization"] ? ImageOptimizationLicenseState.fromJS(_data["imageOptimization"]) : new ImageOptimizationLicenseState();
+            this.enableTreeView = _data["enableTreeView"];
         }
     }
 
@@ -67212,6 +67642,7 @@ export class LicenseInfo implements ILicenseInfo {
         data["historicVersioningState"] = this.historicVersioningState;
         data["contentStatistics"] = this.contentStatistics ? this.contentStatistics.toJSON() : <any>undefined;
         data["imageOptimization"] = this.imageOptimization ? this.imageOptimization.toJSON() : <any>undefined;
+        data["enableTreeView"] = this.enableTreeView;
         return data;
     }
 }
@@ -67224,6 +67655,8 @@ export interface ILicenseInfo {
     contentStatistics: IStatisticsLicenseState;
     /** Licensing options for image optimization. */
     imageOptimization: IImageOptimizationLicenseState;
+    /** License flag for enabling tree view */
+    enableTreeView?: boolean | undefined;
 }
 
 export enum HistoricVersioningState {
@@ -69850,6 +70283,10 @@ export class MetadataStatus implements IMetadataStatus {
     contentOrLayerSchemaIds?: string[] | undefined;
     /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
     listSchemaIds?: string[] | undefined;
+    /** Schema IDs for which main documents need to be touched. */
+    mainDocuments?: MetadataStatusEntries | undefined;
+    /** Schema IDs for which search documents need to be touched. */
+    searchDocuments?: MetadataStatusEntries | undefined;
     /** The global state of the Contents and ListItems compared to the schema structure (Green = ok, Red = update needed). */
     state!: MetadataState;
     /** The field ids that that cannot be used and needs to be cleaned up after updating the outdated contents and list items. */
@@ -69861,6 +70298,8 @@ export class MetadataStatus implements IMetadataStatus {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.mainDocuments = data.mainDocuments && !(<any>data.mainDocuments).toJSON ? new MetadataStatusEntries(data.mainDocuments) : <MetadataStatusEntries>this.mainDocuments;
+            this.searchDocuments = data.searchDocuments && !(<any>data.searchDocuments).toJSON ? new MetadataStatusEntries(data.searchDocuments) : <MetadataStatusEntries>this.searchDocuments;
         }
     }
 
@@ -69876,6 +70315,8 @@ export class MetadataStatus implements IMetadataStatus {
                 for (let item of _data["listSchemaIds"])
                     this.listSchemaIds!.push(item);
             }
+            this.mainDocuments = _data["mainDocuments"] ? MetadataStatusEntries.fromJS(_data["mainDocuments"]) : <any>undefined;
+            this.searchDocuments = _data["searchDocuments"] ? MetadataStatusEntries.fromJS(_data["searchDocuments"]) : <any>undefined;
             this.state = _data["state"];
             if (_data["fieldIdsToCleanup"]) {
                 this.fieldIdsToCleanup = {} as any;
@@ -69906,6 +70347,8 @@ export class MetadataStatus implements IMetadataStatus {
             for (let item of this.listSchemaIds)
                 data["listSchemaIds"].push(item);
         }
+        data["mainDocuments"] = this.mainDocuments ? this.mainDocuments.toJSON() : <any>undefined;
+        data["searchDocuments"] = this.searchDocuments ? this.searchDocuments.toJSON() : <any>undefined;
         data["state"] = this.state;
         if (this.fieldIdsToCleanup) {
             data["fieldIdsToCleanup"] = {};
@@ -69924,10 +70367,76 @@ export interface IMetadataStatus {
     contentOrLayerSchemaIds?: string[] | undefined;
     /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
     listSchemaIds?: string[] | undefined;
+    /** Schema IDs for which main documents need to be touched. */
+    mainDocuments?: IMetadataStatusEntries | undefined;
+    /** Schema IDs for which search documents need to be touched. */
+    searchDocuments?: IMetadataStatusEntries | undefined;
     /** The global state of the Contents and ListItems compared to the schema structure (Green = ok, Red = update needed). */
     state: MetadataState;
     /** The field ids that that cannot be used and needs to be cleaned up after updating the outdated contents and list items. */
     fieldIdsToCleanup?: { [key: string]: string[]; } | undefined;
+}
+
+/** SchemaIDs for which metadata items need to be touched. */
+export class MetadataStatusEntries implements IMetadataStatusEntries {
+    /** The schema ids (of type Content or Layer) that need to be updated. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) that need to be updated. */
+    listSchemaIds?: string[] | undefined;
+
+    constructor(data?: IMetadataStatusEntries) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["contentOrLayerSchemaIds"])) {
+                this.contentOrLayerSchemaIds = [] as any;
+                for (let item of _data["contentOrLayerSchemaIds"])
+                    this.contentOrLayerSchemaIds!.push(item);
+            }
+            if (Array.isArray(_data["listSchemaIds"])) {
+                this.listSchemaIds = [] as any;
+                for (let item of _data["listSchemaIds"])
+                    this.listSchemaIds!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): MetadataStatusEntries {
+        data = typeof data === 'object' ? data : {};
+        let result = new MetadataStatusEntries();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.contentOrLayerSchemaIds)) {
+            data["contentOrLayerSchemaIds"] = [];
+            for (let item of this.contentOrLayerSchemaIds)
+                data["contentOrLayerSchemaIds"].push(item);
+        }
+        if (Array.isArray(this.listSchemaIds)) {
+            data["listSchemaIds"] = [];
+            for (let item of this.listSchemaIds)
+                data["listSchemaIds"].push(item);
+        }
+        return data;
+    }
+}
+
+/** SchemaIDs for which metadata items need to be touched. */
+export interface IMetadataStatusEntries {
+    /** The schema ids (of type Content or Layer) that need to be updated. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) that need to be updated. */
+    listSchemaIds?: string[] | undefined;
 }
 
 export class Notification implements INotification {
@@ -78834,9 +79343,8 @@ export class TreeLevelItem implements ITreeLevelItem {
     /** ID of the field.
 Must be a tagbox field. */
     fieldId!: string;
-    /** Maximum number of recursions allowed if the tagbox references the same schema it is defined in.
-Set to -1 to recurse until no more items are found. */
-    maxRecursions!: number;
+    /** Allow recursion if the tagbox references the same schema it is defined in. */
+    allowRecursion!: boolean;
     /** Further levels of the tree based on the schema the tagbox field references. */
     levels?: TreeLevelItem[] | undefined;
 
@@ -78859,7 +79367,7 @@ Set to -1 to recurse until no more items are found. */
     init(_data?: any) {
         if (_data) {
             this.fieldId = _data["fieldId"];
-            this.maxRecursions = _data["maxRecursions"];
+            this.allowRecursion = _data["allowRecursion"];
             if (Array.isArray(_data["levels"])) {
                 this.levels = [] as any;
                 for (let item of _data["levels"])
@@ -78878,7 +79386,7 @@ Set to -1 to recurse until no more items are found. */
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["fieldId"] = this.fieldId;
-        data["maxRecursions"] = this.maxRecursions;
+        data["allowRecursion"] = this.allowRecursion;
         if (Array.isArray(this.levels)) {
             data["levels"] = [];
             for (let item of this.levels)
@@ -78893,9 +79401,8 @@ export interface ITreeLevelItem {
     /** ID of the field.
 Must be a tagbox field. */
     fieldId: string;
-    /** Maximum number of recursions allowed if the tagbox references the same schema it is defined in.
-Set to -1 to recurse until no more items are found. */
-    maxRecursions: number;
+    /** Allow recursion if the tagbox references the same schema it is defined in. */
+    allowRecursion: boolean;
     /** Further levels of the tree based on the schema the tagbox field references. */
     levels?: ITreeLevelItem[] | undefined;
 }
