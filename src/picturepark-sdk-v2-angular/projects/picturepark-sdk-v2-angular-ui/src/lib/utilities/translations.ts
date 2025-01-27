@@ -1,32 +1,32 @@
 export const TRANSLATIONS = {
   ApplicationTitle: {
     demoApp: {
-      en: 'Picturepark Demo App',
-      de: 'Picturepark Demo App',
-      fr: 'Picturepark Demo App',
-      es: 'Picturepark Demo App',
-      pt: 'Picturepark Demo App',
+      en: 'Fotoware Demo App',
+      de: 'Fotoware Demo App',
+      fr: 'Fotoware Demo App',
+      es: 'Fotoware Demo App',
+      pt: 'Fotoware Demo App',
     },
     contentPicker: {
-      en: 'Picturepark Content Picker',
-      de: 'Picturepark Content Picker',
-      fr: 'Picturepark Content Picker',
-      es: 'Picturepark Content Picker',
-      pt: 'Picturepark Content Picker',
+      en: 'Fotoware Content Picker',
+      de: 'Fotoware Content Picker',
+      fr: 'Fotoware Content Picker',
+      es: 'Fotoware Content Picker',
+      pt: 'Fotoware Content Picker',
     },
     listBrowser: {
-      en: 'Picturepark List Browser',
-      de: 'Picturepark List Browser',
-      fr: 'Picturepark List Browser',
-      es: 'Picturepark List Browser',
-      pt: 'Picturepark List Browser',
+      en: 'Fotoware List Browser',
+      de: 'Fotoware List Browser',
+      fr: 'Fotoware List Browser',
+      es: 'Fotoware List Browser',
+      pt: 'Fotoware List Browser',
     },
     shareManager: {
-      en: 'Picturepark Share Manager',
-      de: 'Picturepark Share Manager',
-      fr: 'Picturepark Share Manager',
-      es: 'Picturepark Share Manager',
-      pt: 'Picturepark Share Manager',
+      en: 'Fotoware Share Manager',
+      de: 'Fotoware Share Manager',
+      fr: 'Fotoware Share Manager',
+      es: 'Fotoware Share Manager',
+      pt: 'Fotoware Share Manager',
     },
   },
   Basket: {
@@ -1266,6 +1266,6 @@ export function translate(key: any, locale: string) {
   return translations && translations[language]
     ? translations[language]
     : language !== fallbackLanguage
-    ? translate(key, fallbackLanguage + '-')
-    : `[!${key}]`;
+      ? translate(key, fallbackLanguage + '-')
+      : `[!${key}]`;
 }

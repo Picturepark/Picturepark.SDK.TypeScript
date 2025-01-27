@@ -1,5 +1,6 @@
 # @picturepark/sdk-v2-angular
-Contains Angular service classes to access the public Picturepark API.
+
+Contains Angular service classes to access the public Fotoware API.
 
 [More information](https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/master/docs/picturepark-sdk-v2-angular/README.md)
 
