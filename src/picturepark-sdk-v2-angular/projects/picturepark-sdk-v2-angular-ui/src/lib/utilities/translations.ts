@@ -1,32 +1,32 @@
 export const TRANSLATIONS = {
   ApplicationTitle: {
     demoApp: {
-      en: 'Picturepark Demo App',
-      de: 'Picturepark Demo App',
-      fr: 'Picturepark Demo App',
-      es: 'Picturepark Demo App',
-      pt: 'Picturepark Demo App',
+      en: 'Fotoware Alto Demo App',
+      de: 'Fotoware Alto Demo App',
+      fr: 'Fotoware Alto Demo App',
+      es: 'Fotoware Alto Demo App',
+      pt: 'Fotoware Alto Demo App',
     },
     contentPicker: {
-      en: 'Picturepark Content Picker',
-      de: 'Picturepark Content Picker',
-      fr: 'Picturepark Content Picker',
-      es: 'Picturepark Content Picker',
-      pt: 'Picturepark Content Picker',
+      en: 'Fotoware Alto Content Picker',
+      de: 'Fotoware Alto Content Picker',
+      fr: 'Fotoware Alto Content Picker',
+      es: 'Fotoware Alto Content Picker',
+      pt: 'Fotoware Alto Content Picker',
     },
     listBrowser: {
-      en: 'Picturepark List Browser',
-      de: 'Picturepark List Browser',
-      fr: 'Picturepark List Browser',
-      es: 'Picturepark List Browser',
-      pt: 'Picturepark List Browser',
+      en: 'Fotoware Alto List Browser',
+      de: 'Fotoware Alto List Browser',
+      fr: 'Fotoware Alto List Browser',
+      es: 'Fotoware Alto List Browser',
+      pt: 'Fotoware Alto List Browser',
     },
     shareManager: {
-      en: 'Picturepark Share Manager',
-      de: 'Picturepark Share Manager',
-      fr: 'Picturepark Share Manager',
-      es: 'Picturepark Share Manager',
-      pt: 'Picturepark Share Manager',
+      en: 'Fotoware Alto Share Manager',
+      de: 'Fotoware Alto Share Manager',
+      fr: 'Fotoware Alto Share Manager',
+      es: 'Fotoware Alto Share Manager',
+      pt: 'Fotoware Alto Share Manager',
     },
   },
   Basket: {
@@ -1266,6 +1266,6 @@ export function translate(key: any, locale: string) {
   return translations && translations[language]
     ? translations[language]
     : language !== fallbackLanguage
-    ? translate(key, fallbackLanguage + '-')
-    : `[!${key}]`;
+      ? translate(key, fallbackLanguage + '-')
+      : `[!${key}]`;
 }
