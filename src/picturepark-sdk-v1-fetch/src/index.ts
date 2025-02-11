@@ -25880,6 +25880,19 @@ export interface ResolvedLinkedItemsThresholdReachedException extends Picturepar
     metadataItemId?: string | undefined;
 }
 
+export interface TreeAggregatorOnlyAllowedInTopLevelAggregationsException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+}
+
+export interface TreeAggregatorInvalidFieldTypeException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+    fieldName?: string | undefined;
+}
+
+export interface TreeAggregatorInnerAggregationsNotAllowedException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+}
+
 export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -26272,13 +26285,6 @@ export interface SchemaFieldTreeViewAtLeastOneLevelRequiredException extends Pic
     fieldId?: string | undefined;
 }
 
-export interface SchemaFieldTreeViewInvalidMaxRecursionsException extends PictureparkValidationException {
-    schemaId?: string | undefined;
-    fieldId?: string | undefined;
-    path?: string | undefined;
-    maxRecursions?: number;
-}
-
 export interface SchemaFieldTreeViewTagboxFieldRequiredException extends PictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -26289,6 +26295,13 @@ export interface SchemaFieldTreeViewNotSupportedForSchemaTypeException extends P
     schemaId?: string | undefined;
     fieldId?: string | undefined;
     schemaType?: SchemaType;
+}
+
+export interface TagboxInUseInTreeViewFieldException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    tagboxFieldId?: string | undefined;
+    treeViewFieldSchemaId?: string | undefined;
+    treeViewFieldId?: string | undefined;
 }
 
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
@@ -27124,6 +27137,8 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
     active: boolean;
     /** Inner aggregation results, if inner aggregations were provided in the query. */
     aggregationResults?: AggregationResult[] | undefined;
+    /** Detailed information about the aggregation result item. */
+    detail?: AggregationResultItemDetailBase | undefined;
 }
 
 /** The filters' base class */
@@ -27283,6 +27298,37 @@ export interface ParentFilter extends FilterBase {
     parentType: string;
     /** The filter to be applied on the child document. All kinds of filters are accepted. */
     filter: FilterBase;
+}
+
+/** Filters results based on a tree structure and a path. */
+export interface TreeFilter extends FilterBase {
+    /** Field to filter on. */
+    field?: string | undefined;
+    /** Path to filter on. */
+    path?: string | undefined;
+}
+
+/** Detail for an AggregationResultItem. */
+export interface AggregationResultItemDetailBase {
+    kind: string;
+}
+
+/** Detail for a tree aggregation result item. */
+export interface TreeAggregationResultItemDetail extends AggregationResultItemDetailBase {
+    /** Path of the item. Use together with TreeFilter. */
+    path?: string | undefined;
+    /** Resolved path components of the path. */
+    resolvedPathComponents?: TreeAggregationResultPathComponent[] | undefined;
+    /** Indicates if the node contains children. */
+    hasChildren?: boolean;
+}
+
+/** Component of a tree path. */
+export interface TreeAggregationResultPathComponent {
+    /** Raw path component. */
+    pathComponent?: string | undefined;
+    /** Display value of the path component. */
+    displayValue?: string | undefined;
 }
 
 export interface QueryDebugInformation {
@@ -27469,6 +27515,21 @@ export enum TermsRelationAggregatorDocumentType {
 export interface TermsEnumAggregator extends TermsAggregator {
     /** Type of the enum target of the relation. It is used to resolve the enum translation. */
     enumType: string;
+}
+
+/** Aggregator for a FieldTreeView. */
+export interface TreeAggregator extends AggregatorBase {
+    /** The fields ID to execute the aggregation on. */
+    field: string;
+    /** Path to get buckets for.
+Remark: If this is not null, missing items will only be returned if they're a direct child of this path. */
+    path?: string | undefined;
+    /** Search string to filter the buckets. */
+    searchString?: string | undefined;
+    /** The size parameter can be set to define how many buckets should be returned out of the overall list. */
+    size?: number | undefined;
+    /** Sorting for results. If null, sorts by item count. */
+    sortDirection?: SortDirection | undefined;
 }
 
 /** Represents the business rule configuration. */
@@ -30111,6 +30172,8 @@ export interface LicenseInfo {
     contentStatistics: StatisticsLicenseState;
     /** Licensing options for image optimization. */
     imageOptimization: ImageOptimizationLicenseState;
+    /** License flag for enabling tree view */
+    enableTreeView?: boolean | undefined;
 }
 
 export enum HistoricVersioningState {
@@ -30560,10 +30623,22 @@ export interface MetadataStatus {
     contentOrLayerSchemaIds?: string[] | undefined;
     /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
     listSchemaIds?: string[] | undefined;
+    /** Schema IDs for which main documents need to be touched. */
+    mainDocuments?: MetadataStatusEntries | undefined;
+    /** Schema IDs for which search documents need to be touched. */
+    searchDocuments?: MetadataStatusEntries | undefined;
     /** The global state of the Contents and ListItems compared to the schema structure (Green = ok, Red = update needed). */
     state: MetadataState;
     /** The field ids that that cannot be used and needs to be cleaned up after updating the outdated contents and list items. */
     fieldIdsToCleanup?: { [key: string]: string[]; } | undefined;
+}
+
+/** SchemaIDs for which metadata items need to be touched. */
+export interface MetadataStatusEntries {
+    /** The schema ids (of type Content or Layer) that need to be updated. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) that need to be updated. */
+    listSchemaIds?: string[] | undefined;
 }
 
 export interface Notification {
@@ -32238,9 +32313,8 @@ export interface TreeLevelItem {
     /** ID of the field.
 Must be a tagbox field. */
     fieldId: string;
-    /** Maximum number of recursions allowed if the tagbox references the same schema it is defined in.
-Set to -1 to recurse until no more items are found. */
-    maxRecursions: number;
+    /** Allow recursion if the tagbox references the same schema it is defined in. */
+    allowRecursion: boolean;
     /** Further levels of the tree based on the schema the tagbox field references. */
     levels?: TreeLevelItem[] | undefined;
 }

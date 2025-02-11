@@ -201,7 +201,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
     if (data.length === 1) {
       const shareOutput = data[0] as IShareOutputBase;
       if (shareOutput.downloadUrl) {
-        window.location.replace(shareOutput.downloadUrl);
+        window.location.assign(shareOutput.downloadUrl);
         this.dialogRef.close(true);
         return;
       }
@@ -228,7 +228,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
       downloadLink => {
         clearTimeout(downloadTimmer);
         if (this.waitingDownload) {
-          window.location.replace(downloadLink.downloadUrl);
+          window.location.assign(downloadLink.downloadUrl);
           this.dialogRef.close();
         } else {
           snackBar.dismiss();
@@ -248,7 +248,7 @@ export class ContentDownloadDialogComponent extends DialogBaseComponent implemen
             .afterClosed()
             .subscribe(confirmDialogResult => {
               if (confirmDialogResult) {
-                window.location.replace(downloadLink.downloadUrl);
+                window.location.assign(downloadLink.downloadUrl);
               }
             });
         }
