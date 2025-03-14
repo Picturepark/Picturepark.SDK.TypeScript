@@ -12,7 +12,7 @@
       <pp-language-switch></pp-language-switch>
     }
   </div>
-  <pp-panel class="settings" [matTooltipPosition]="'left'" [matTooltip]="shareDetail.name" [title]="shareDetail.name.length > 130 ? (shareDetail.name | slice:0:130) + '...' : shareDetail.name">
+  <pp-panel class="settings" [matTooltipPosition]="'left'" [matTooltip]="shareDetail.name" [title]="shareDetail.name">
     <div pp-panel-buttons>
       @if (enableDownload) {
         <button
