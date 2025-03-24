@@ -1,7 +1,7 @@
 @if (showHeader) {
   <div class="panel-header">
     @if (title) {
-      <h3 class="panel-header-title">{{ title }}</h3>
+      <h3 class="panel-header-title u-text-ellipsis">{{ title }}</h3>
     }
     <div class="panel-buttons">
       <ng-content select="[pp-panel-buttons]"></ng-content>
