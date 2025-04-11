@@ -34194,6 +34194,21 @@ export interface TaggerStatisticsEvent extends ApplicationEvent {
     taggerName?: string | undefined;
 }
 
+export interface CdnStatisticsEvent extends ApplicationEvent {
+    traffic?: { [key: string]: CdnTrafficValues; } | undefined;
+    reportedTimeStart?: Date;
+    reportedTimeEnd?: Date;
+}
+
+export interface CdnTrafficValues {
+    originBytesFetched: number;
+    originBytesReceived: number;
+    cdnBytesReceived: number;
+    cdnBytesSent: number;
+    bytesTotal: number;
+    requests: number;
+}
+
 export interface ConsoleMessage extends Message {
     command?: string | undefined;
     arguments?: TupleOfStringAndString[] | undefined;
@@ -34353,6 +34368,10 @@ export interface DynamicViewFieldMetaWithErrorBase extends DynamicViewFieldMetaB
 
 /** Meta information for a dynamic view field where the filter could not be rendered successfully. */
 export interface DynamicViewFieldMetaWithRenderingError extends DynamicViewFieldMetaWithErrorBase {
+}
+
+/** Meta information for a dynamic view field when elastic query exception occured */
+export interface DynamicViewFieldMetaWithQueryError extends DynamicViewFieldMetaWithErrorBase {
 }
 
 export interface FileParameter {
