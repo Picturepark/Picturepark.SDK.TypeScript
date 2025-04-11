@@ -4,7 +4,7 @@
   "peerDependencies": {
     "@angular/common": "^18.0.0",
     "@angular/core": "^18.0.0",
-    "@picturepark/sdk-v2-angular": "^11.14.0-pre.0",
+    "@picturepark/sdk-v2-angular": "^11.15.0-pre.0",
     "@angular/cdk": "^18.0.0",
     "@angular/material": "^18.0.0",
     "hammerjs": "^2.0.8",
