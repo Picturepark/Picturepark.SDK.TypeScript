@@ -89559,6 +89559,11 @@ export class ApplicationEvent implements IApplicationEvent {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "CdnStatisticsEvent") {
+            let result = new CdnStatisticsEvent();
+            result.init(data);
+            return result;
+        }
         let result = new ApplicationEvent();
         result.init(data);
         return result;
@@ -90432,6 +90437,127 @@ export interface ITaggerStatisticsEvent extends IApplicationEvent {
     taggerName?: string | undefined;
 }
 
+export class CdnStatisticsEvent extends ApplicationEvent implements ICdnStatisticsEvent {
+    traffic?: { [key: string]: CdnTrafficValues; } | undefined;
+    reportedTimeStart?: Date;
+    reportedTimeEnd?: Date;
+
+    constructor(data?: ICdnStatisticsEvent) {
+        super(data);
+        if (data) {
+            if (data.traffic) {
+                this.traffic = {};
+                for (let key in data.traffic) {
+                    if (data.traffic.hasOwnProperty(key)) {
+                        let item = data.traffic[key];
+                        this.traffic[key] = item && !(<any>item).toJSON ? new CdnTrafficValues(item) : <CdnTrafficValues>item;
+                    }
+                }
+            }
+        }
+        this._discriminator = "CdnStatisticsEvent";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (_data["traffic"]) {
+                this.traffic = {} as any;
+                for (let key in _data["traffic"]) {
+                    if (_data["traffic"].hasOwnProperty(key))
+                        (<any>this.traffic)![key] = _data["traffic"][key] ? CdnTrafficValues.fromJS(_data["traffic"][key]) : new CdnTrafficValues();
+                }
+            }
+            this.reportedTimeStart = _data["reportedTimeStart"] ? new Date(_data["reportedTimeStart"].toString()) : <any>undefined;
+            this.reportedTimeEnd = _data["reportedTimeEnd"] ? new Date(_data["reportedTimeEnd"].toString()) : <any>undefined;
+        }
+    }
+
+    static override fromJS(data: any): CdnStatisticsEvent {
+        data = typeof data === 'object' ? data : {};
+        let result = new CdnStatisticsEvent();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.traffic) {
+            data["traffic"] = {};
+            for (let key in this.traffic) {
+                if (this.traffic.hasOwnProperty(key))
+                    (<any>data["traffic"])[key] = this.traffic[key] ? this.traffic[key].toJSON() : <any>undefined;
+            }
+        }
+        data["reportedTimeStart"] = this.reportedTimeStart ? this.reportedTimeStart.toISOString() : <any>undefined;
+        data["reportedTimeEnd"] = this.reportedTimeEnd ? this.reportedTimeEnd.toISOString() : <any>undefined;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ICdnStatisticsEvent extends IApplicationEvent {
+    traffic?: { [key: string]: ICdnTrafficValues; } | undefined;
+    reportedTimeStart?: Date;
+    reportedTimeEnd?: Date;
+}
+
+export class CdnTrafficValues implements ICdnTrafficValues {
+    originBytesFetched!: number;
+    originBytesReceived!: number;
+    cdnBytesReceived!: number;
+    cdnBytesSent!: number;
+    bytesTotal!: number;
+    requests!: number;
+
+    constructor(data?: ICdnTrafficValues) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.originBytesFetched = _data["originBytesFetched"];
+            this.originBytesReceived = _data["originBytesReceived"];
+            this.cdnBytesReceived = _data["cdnBytesReceived"];
+            this.cdnBytesSent = _data["cdnBytesSent"];
+            this.bytesTotal = _data["bytesTotal"];
+            this.requests = _data["requests"];
+        }
+    }
+
+    static fromJS(data: any): CdnTrafficValues {
+        data = typeof data === 'object' ? data : {};
+        let result = new CdnTrafficValues();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["originBytesFetched"] = this.originBytesFetched;
+        data["originBytesReceived"] = this.originBytesReceived;
+        data["cdnBytesReceived"] = this.cdnBytesReceived;
+        data["cdnBytesSent"] = this.cdnBytesSent;
+        data["bytesTotal"] = this.bytesTotal;
+        data["requests"] = this.requests;
+        return data;
+    }
+}
+
+export interface ICdnTrafficValues {
+    originBytesFetched: number;
+    originBytesReceived: number;
+    cdnBytesReceived: number;
+    cdnBytesSent: number;
+    bytesTotal: number;
+    requests: number;
+}
+
 export class ConsoleMessage extends Message implements IConsoleMessage {
     command?: string | undefined;
     arguments?: TupleOfStringAndString[] | undefined;
@@ -91278,6 +91404,11 @@ export abstract class DynamicViewFieldMetaBase implements IDynamicViewFieldMetaB
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DynamicViewFieldMetaWithQueryError") {
+            let result = new DynamicViewFieldMetaWithQueryError();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "DynamicViewFieldMetaWithHasItems") {
             let result = new DynamicViewFieldMetaWithHasItems();
             result.init(data);
@@ -91430,6 +91561,11 @@ export abstract class DynamicViewFieldMetaWithErrorBase extends DynamicViewField
             result.init(data);
             return result;
         }
+        if (data["kind"] === "DynamicViewFieldMetaWithQueryError") {
+            let result = new DynamicViewFieldMetaWithQueryError();
+            result.init(data);
+            return result;
+        }
         throw new Error("The abstract class 'DynamicViewFieldMetaWithErrorBase' cannot be instantiated.");
     }
 
@@ -91474,6 +91610,36 @@ export class DynamicViewFieldMetaWithRenderingError extends DynamicViewFieldMeta
 
 /** Meta information for a dynamic view field where the filter could not be rendered successfully. */
 export interface IDynamicViewFieldMetaWithRenderingError extends IDynamicViewFieldMetaWithErrorBase {
+}
+
+/** Meta information for a dynamic view field when elastic query exception occured */
+export class DynamicViewFieldMetaWithQueryError extends DynamicViewFieldMetaWithErrorBase implements IDynamicViewFieldMetaWithQueryError {
+
+    constructor(data?: IDynamicViewFieldMetaWithQueryError) {
+        super(data);
+        this._discriminator = "DynamicViewFieldMetaWithQueryError";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): DynamicViewFieldMetaWithQueryError {
+        data = typeof data === 'object' ? data : {};
+        let result = new DynamicViewFieldMetaWithQueryError();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Meta information for a dynamic view field when elastic query exception occured */
+export interface IDynamicViewFieldMetaWithQueryError extends IDynamicViewFieldMetaWithErrorBase {
 }
 
 export interface FileParameter {
