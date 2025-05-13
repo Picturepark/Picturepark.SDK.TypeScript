@@ -30,6 +30,7 @@ import { PanelComponent } from '../../../../picturepark-sdk-v2-angular-ui/src/li
 import { LanguageSwitchComponent } from '../../../../picturepark-sdk-v2-angular-ui/src/lib/features-module/language-switch/language-switch.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DatePipe, CommonModule } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-share-detail',
@@ -39,6 +40,7 @@ import { DatePipe, CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     MatProgressBarModule,
+    MatTooltipModule,
     LanguageSwitchComponent,
     PanelComponent,
     MatButtonModule,

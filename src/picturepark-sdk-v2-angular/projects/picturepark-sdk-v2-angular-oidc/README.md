@@ -1,5 +1,6 @@
 # @picturepark/sdk-v2-angular-oidc
-Contains Angular service classes to access the Picturepark authentication endpoints.
+
+Contains Angular service classes to access the Fotoware Alto authentication endpoints.
 
 [More information](https://github.com/Picturepark/Picturepark.SDK.TypeScript/blob/master/docs/picturepark-sdk-v2-angular/auth/OidcAuthService.md)
 
