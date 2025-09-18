@@ -10101,7 +10101,7 @@ class IdentityProviderClient extends PictureparkClientBase {
     /**
      * Get identity provider
      * @param id Identity provider ID.
-     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
+     * @return Represents an identity provider defined in IdentityServer and its Fotoware Alto configuration
      */
     get(id) {
         let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";
@@ -10197,7 +10197,7 @@ class IdentityProviderClient extends PictureparkClientBase {
      * Update identity provider
      * @param id Identity provider ID.
      * @param provider Update request
-     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
+     * @return Represents an identity provider defined in IdentityServer and its Fotoware Alto configuration
      */
     update(id, provider) {
         let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";

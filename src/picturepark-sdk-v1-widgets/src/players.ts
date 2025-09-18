@@ -97,7 +97,7 @@ export class PictureparkPlayers {
   static disposeVideoPlayer(player: any) {
     let existingPlayer = PictureparkPlayers.loadedPlayers.filter(p => p.element === player.id_)[0];
     if (existingPlayer) {
-      log('Picturepark Widgets > Disposed videojs player');
+      log('Fotoware Alto Widgets > Disposed videojs player');
       try {
         player.dispose();
       } catch {
@@ -106,7 +106,7 @@ export class PictureparkPlayers {
       PictureparkPlayers.loadedPlayers = PictureparkPlayers.loadedPlayers
         .filter(p => p.player !== player);
     } else {
-      log('Picturepark Widgets > Player could not be disposed' + player);
+      log('Fotoware Alto Widgets > Player could not be disposed' + player);
     }
   }
 
@@ -121,11 +121,11 @@ export class PictureparkPlayers {
           }
           return PictureparkPlayers.renderVideoPlayer(element, item, width, height).then((player) => {
             playerInfo.player = player;
-            log('Picturepark Widgets > Reloaded videojs player: ' + element.id);
+            log('Fotoware Alto Widgets > Reloaded videojs player: ' + element.id);
             return player;
           });
         } else {
-          log('Picturepark Widgets > Reused videojs player: ' + element.id);
+          log('Fotoware Alto Widgets > Reused videojs player: ' + element.id);
           return player;
         }
       });
@@ -136,7 +136,7 @@ export class PictureparkPlayers {
     playerInfo = {
       element: element.id,
       promise: PictureparkPlayers.renderVideoPlayer(element, item, width, height).then(player => {
-        log('Picturepark Widgets > Created videojs player: ' + element.id);
+        log('Fotoware Alto Widgets > Created videojs player: ' + element.id);
         return player;
       })
     };
@@ -410,14 +410,14 @@ export class PictureparkPlayers {
 
   static loadScript(url: string, globalName: string): Promise<any> {
     if ((<any>window).require) {
-      log('Picturepark Widgets > Load external script via require(): ' + url);
+      log('Fotoware Alto Widgets > Load external script via require(): ' + url);
       return new Promise(resolve => {
         (<any>window).require([url], (module) => {
           resolve(module);
         });
       });
     } else {
-      log('Picturepark Widgets > Load external script via tag: ' + url);
+      log('Fotoware Alto Widgets > Load external script via tag: ' + url);
       return new Promise<any>((resolve) => {
         var scriptTag = document.createElement('script');
         scriptTag.src = url;

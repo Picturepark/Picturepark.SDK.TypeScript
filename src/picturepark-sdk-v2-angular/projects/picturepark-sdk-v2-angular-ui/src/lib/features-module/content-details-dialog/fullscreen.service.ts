@@ -339,14 +339,14 @@ export class FullscreenService {
 
   loadScript(url: string, globalName: string): Promise<any> {
     if ((<any>window).require) {
-      this.logger.debug('Picturepark Widgets > Load external script via require(): ' + url);
+      this.logger.debug('Fotoware Alto Widgets > Load external script via require(): ' + url);
       return new Promise(resolve => {
         (<any>window).require([url], module => {
           resolve(module);
         });
       });
     } else {
-      this.logger.debug('Picturepark Widgets > Load external script via tag: ' + url);
+      this.logger.debug('Fotoware Alto Widgets > Load external script via tag: ' + url);
       return new Promise<any>(resolve => {
         const scriptTag = document.createElement('script');
         scriptTag.src = url;

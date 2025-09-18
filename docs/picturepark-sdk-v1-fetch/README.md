@@ -1,10 +1,10 @@
-# Picturepark Content Platform TypeScript SDK: Fetch Clients
+# Fotoware Alto TypeScript SDK: Fetch Clients
 
 ## picturepark-sdk-v1-fetch
 
 **NPM Package:** [@picturepark/sdk-v1-fetch](https://www.npmjs.com/package/@picturepark/sdk-v1-fetch)
 
-The `@picturepark/sdk-v1-fetch` NPM package provides client classes to access the Picturepark API by using the `window.fetch` APIs. These are common APIs which are present in modern browsers. The library is suitable for all web applications (e.g. React/Redux, JQuery, Vanilla.JS, etc.) but offers only the service clients and no controls/components. 
+The `@picturepark/sdk-v1-fetch` NPM package provides client classes to access the Fotoware Alto API by using the `window.fetch` APIs. These are common APIs which are present in modern browsers. The library is suitable for all web applications (e.g. React/Redux, JQuery, Vanilla.JS, etc.) but offers only the service clients and no controls/components. 
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-fetch/api/index.html)
 
@@ -89,7 +89,7 @@ let authClient = new AuthClient(server, customerAlias);
 
 **AccessTokenAuthClient**
 
-Token based authentication to access the Picturepark API
+Token based authentication to access the Fotoware Alto API
 
 ```js
 let authClient = new AccessTokenAuthClient(server, customerAlias, accessToken);
@@ -103,7 +103,7 @@ For authenticating with the OIDC implicit flow, you can use the JavaScript libra
 npm install oidc-client
 ```
 
-For this sample, import the Picturepark OIDC settings helper `OidcClientSettings`, the `AccessTokenAuthClient`, `ContentClient` and the oidc-client `UserManager` classes:
+For this sample, import the Fotoware Alto OIDC settings helper `OidcClientSettings`, the `AccessTokenAuthClient`, `ContentClient` and the oidc-client `UserManager` classes:
 
 ```js
 import { OidcClientSettings, AccessTokenAuthClient, ContentClient } from '@picturepark/sdk-v1-fetch';

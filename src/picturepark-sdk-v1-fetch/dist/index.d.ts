@@ -879,7 +879,7 @@ export declare class IdentityProviderClient extends PictureparkClientBase {
     /**
      * Get identity provider
      * @param id Identity provider ID.
-     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
+     * @return Represents an identity provider defined in IdentityServer and its Fotoware Alto configuration
      */
     get(id: string): Promise<IdentityProvider>;
     protected processGet(response: Response): Promise<IdentityProvider>;
@@ -887,7 +887,7 @@ export declare class IdentityProviderClient extends PictureparkClientBase {
      * Update identity provider
      * @param id Identity provider ID.
      * @param provider Update request
-     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
+     * @return Represents an identity provider defined in IdentityServer and its Fotoware Alto configuration
      */
     update(id: string, provider: IdentityProviderEditable): Promise<IdentityProvider>;
     protected processUpdate(response: Response): Promise<IdentityProvider>;
@@ -5492,7 +5492,7 @@ export interface UserAuditDetail {
     modifiedByUser?: User | undefined;
 }
 export interface User {
-    /** User's Picturepark ID. */
+    /** User's Fotoware Alto ID. */
     id: string;
     /** User's first name. */
     firstName?: string | undefined;
@@ -6802,7 +6802,7 @@ export interface IdentityProviderEditable {
     /** Optional user role ID that will be assigned to a user is none of the group mappings produce a match */
     fallbackUserRoleId?: string | undefined;
 }
-/** Represents an identity provider defined in IdentityServer and its Picturepark configuration */
+/** Represents an identity provider defined in IdentityServer and its Fotoware Alto configuration */
 export interface IdentityProvider extends IdentityProviderEditable {
     /** Identity provider ID (has to match an existing IdP defined in IdentityServer) */
     id: string;
@@ -6820,7 +6820,7 @@ export interface IdpClaimToUserAttributeMapping {
 export interface IdpGroupToUserRoleMapping {
     /** Name of the group on external identity provider */
     group?: string | undefined;
-    /** User role ID as defined in CP */
+    /** User role ID as defined in Fotoware Alto */
     userRoleId?: string | undefined;
 }
 /** Basic information about an identity provider */
@@ -9354,7 +9354,7 @@ export interface ShareDataEmbed extends ShareDataBase {
 export interface ShareDataBasic extends ShareDataBase {
     /** List of recipients added using email address */
     mailRecipients: MailRecipient[];
-    /** List of recipients that exist in Picturepark. */
+    /** List of recipients that exist in Fotoware Alto. */
     internalRecipients: InternalRecipient[];
     /** Language of share. */
     languageCode?: string | undefined;
@@ -9462,7 +9462,7 @@ export interface ShareBaseCreateRequest {
     kind: string;
 }
 export interface ShareBasicCreateRequest extends ShareBaseCreateRequest {
-    /** List of external mail recipients which are no Picturepark users. */
+    /** List of external mail recipients which are no Fotoware Alto users. */
     recipientEmails?: UserEmail[] | undefined;
     /** System language used for share (mail and detail page). en or de. */
     languageCode: string;
@@ -10034,7 +10034,7 @@ export interface UserDetail extends User {
     languageCode?: string | undefined;
     /** User's address. */
     address?: UserAddress | undefined;
-    /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
+    /** Identity provider that governs this user or null for Fotoware Alto's own IdentityServer. */
     identityProviderId?: string | undefined;
     /** Owner tokens referencing the user. */
     ownerTokens?: OwnerToken[] | undefined;
@@ -10044,7 +10044,7 @@ export interface UserDetail extends User {
     isLocked?: boolean;
     /** Life cycle state the user is currently in. */
     lifeCycle?: LifeCycle;
-    /** Support user is a user created for Picturepark support personnel. */
+    /** Support user is a user created for Fotoware support personnel. */
     isSupportUser?: boolean;
     /** Anonymous user is the automatically logged in user if public access is allowed. */
     isAnonymousUser?: boolean;
@@ -10079,7 +10079,7 @@ export interface UserUpdateRequest extends User {
     languageCode: string;
     /** User's address. */
     address?: UserAddress | undefined;
-    /** Identity provider that governs this user or null for Picturepark's own IdentityServer. */
+    /** Identity provider that governs this user or null for Fotoware Alto's own IdentityServer. */
     identityProviderId?: string | undefined;
 }
 export interface UserLockRequest {
@@ -10188,7 +10188,7 @@ export interface UserSearchResult extends SearchBehaviorWithAggregationBaseResul
 export interface UserWithRoles {
     /** IDs of user roles user is assigned to */
     userRoleIds?: string[] | undefined;
-    /** User's Picturepark ID. */
+    /** User's Fotoware Alto ID. */
     id: string;
     /** User's first name. */
     firstName?: string | undefined;
@@ -10202,7 +10202,7 @@ export interface UserWithRoles {
     lifeCycle: LifeCycle;
     /** A locked user is not allowed to log in. */
     isLocked: boolean;
-    /** A support user is a user created for Picturepark support personnel. */
+    /** A support user is a user created for Fotoware support personnel. */
     isSupportUser: boolean;
     /** Read-only users can't be removed from the system, e.g. service user. */
     isReadOnly: boolean;

@@ -2,9 +2,9 @@
 	"x-generator": "NSwag v13.13.2.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v12.0.0.0))",
 	"openapi": "3.0.0",
 	"info": {
-		"title": "Picturepark Frontend API V1",
+		"title": "Fotoware Alto Frontend API V1",
 		"contact": {
-			"name": "Picturepark sales",
+			"name": "Fotoware Alto sales",
 			"url": "https://www.picturepark.com",
 			"email": "sales@picturepark.com"
 		},
@@ -14600,7 +14600,7 @@
 				"properties": {
 					"id": {
 						"type": "string",
-						"description": "User's Picturepark ID.",
+						"description": "User's Fotoware Alto ID.",
 						"nullable": true
 					},
 					"firstName": {
@@ -17934,7 +17934,7 @@
 					},
 					{
 						"type": "object",
-						"description": "Represents an identity provider defined in IdentityServer and its Picturepark configuration",
+						"description": "Represents an identity provider defined in IdentityServer and its Fotoware Alto configuration",
 						"additionalProperties": false,
 						"properties": {
 							"id": {
@@ -18015,7 +18015,7 @@
 					},
 					"userRoleId": {
 						"type": "string",
-						"description": "User role ID as defined in CP",
+						"description": "User role ID as defined in Fotoware Alto",
 						"nullable": true
 					}
 				}
@@ -25719,7 +25719,7 @@
 							},
 							"internalRecipients": {
 								"type": "array",
-								"description": "List of recipients that exist in Picturepark.",
+								"description": "List of recipients that exist in Fotoware Alto.",
 								"items": {
 									"$ref": "#/components/schemas/InternalRecipient"
 								}
@@ -26110,7 +26110,7 @@
 						"properties": {
 							"recipientEmails": {
 								"type": "array",
-								"description": "List of external mail recipients which are no Picturepark users.",
+								"description": "List of external mail recipients which are no Fotoware Alto users.",
 								"nullable": true,
 								"items": {
 									"$ref": "#/components/schemas/UserEmail"
@@ -27927,7 +27927,7 @@
 							},
 							"identityProviderId": {
 								"type": "string",
-								"description": "Identity provider that governs this user or null for Picturepark's own IdentityServer.",
+								"description": "Identity provider that governs this user or null for Fotoware Alto's own IdentityServer.",
 								"nullable": true
 							},
 							"ownerTokens": {
@@ -27960,7 +27960,7 @@
 							},
 							"isSupportUser": {
 								"type": "boolean",
-								"description": "The support user is a user created for Picturepark support personnel."
+								"description": "The support user is a user created for Fotoware support personnel."
 							},
 							"isReadOnly": {
 								"type": "boolean",
@@ -28063,7 +28063,7 @@
 							},
 							"identityProviderId": {
 								"type": "string",
-								"description": "Identity provider that governs this user or null for Picturepark's own IdentityServer.",
+								"description": "Identity provider that governs this user or null for Fotoware Alto's own IdentityServer.",
 								"nullable": true
 							}
 						}
@@ -28421,7 +28421,7 @@
 					},
 					"id": {
 						"type": "string",
-						"description": "User's Picturepark ID.",
+						"description": "User's Fotoware Alto ID.",
 						"minLength": 1
 					},
 					"firstName": {
@@ -28461,7 +28461,7 @@
 					},
 					"isSupportUser": {
 						"type": "boolean",
-						"description": "A support user is a user created for Picturepark support personnel."
+						"description": "A support user is a user created for Fotoware support personnel."
 					},
 					"isReadOnly": {
 						"type": "boolean",
@@ -30916,7 +30916,7 @@
 		"securitySchemes": {
 			"Bearer": {
 				"type": "oauth2",
-				"description": "Picturepark uses Bearer authentication scheme. User of the API has to specify a Bearer token in Authorization header of the request.",
+				"description": "Fotoware Alto uses Bearer authentication scheme. User of the API has to specify a Bearer token in Authorization header of the request.",
 				"name": "Authorization",
 				"in": "header",
 				"flows": {
