@@ -1,4 +1,7 @@
 # Fotoware Alto TypeScript/JavaScript SDK
+
+> **Note:** The platform has been renamed from Picturepark Content Platform to **Fotoware Alto**, but the project name remains **Picturepark**. You may encounter both names in documentation, code, and resources.
+
 ## Picturepark.Sdk.TypeScript
 
 [![npm](https://img.shields.io/npm/v/@picturepark/sdk-v2-angular.svg)](https://www.npmjs.com/~picturepark)
