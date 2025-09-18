@@ -1362,21 +1362,6 @@ export declare class OutputClient extends PictureparkClientBase {
      */
     get(id: string): Promise<OutputDetail>;
     protected processGet(response: Response): Promise<OutputDetail>;
-    /**
-     * Search output documents
-     * @param request The output search request.
-     * @return Output result set
-     * @deprecated
-     */
-    search(request: OutputSearchRequest): Promise<OutputSearchResult>;
-    protected processSearch(response: Response): Promise<OutputSearchResult>;
-    /**
-     * Resets retry attempt counters.
-     * @param request Request containing options to filter which outputs should be reset.
-     * @return Business process tracking the resetting
-     */
-    resetRetryAttempts(request: OutputResetRetryAttemptsRequest): Promise<BusinessProcess>;
-    protected processResetRetryAttempts(response: Response): Promise<BusinessProcess>;
 }
 export declare class ProfileClient extends PictureparkClientBase {
     private http;
@@ -2397,6 +2382,92 @@ export interface ErrorResponse {
     /** Trace job ID. */
     traceJobId?: string | undefined;
 }
+/** Detailed representation of a business process */
+export interface BusinessProcessDetails extends BusinessProcess {
+    /** Details for the business process. */
+    details?: BusinessProcessDetailsDataBase | undefined;
+}
+/** Base class for the details of a business process */
+export interface BusinessProcessDetailsDataBase {
+    kind: string;
+}
+/** Business process detailed information regarding a batch operation */
+export interface BusinessProcessDetailsDataBatchResponse extends BusinessProcessDetailsDataBase {
+    /** The DocType on which the operation was performed. */
+    docType: string;
+    /** The response of the batch operation. */
+    response: BatchResponse;
+}
+/** Response from a batch operation */
+export interface BatchResponse {
+    /** Rows in the response. */
+    rows: BatchResponseRow[];
+}
+/** Row in a batch operation response */
+export interface BatchResponseRow {
+    /** Id of the item. */
+    id: string;
+    /** Indicates if the operation succeeded. */
+    succeeded: boolean;
+    /** Status code of the operation. */
+    status: number;
+    /** New version of the item. */
+    version: number;
+    /** If the operation did not succeed, this contains error information. */
+    error?: ErrorResponse | undefined;
+    /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
+    requestId?: string | undefined;
+}
+/** Business process detailed information regarding Schema / ListItems import operation */
+export interface BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetailsDataBase {
+    /** Result information of a schema import operation */
+    schemaImportResult?: SchemaImportResult | undefined;
+    /** Result information of a list item import operation */
+    listItemImportResult?: ListItemImportResult | undefined;
+}
+/** Result information of a schema import operation */
+export interface SchemaImportResult {
+    /** Number of schemas imported */
+    importedSchemaCount: number;
+    /** Number of schema skipped during import phase because they were already found in the system */
+    skippedSchemaCount: number;
+    /** Total number of schemas requested to be imported */
+    totalSchemaCount: number;
+    /** Ids of the schemas that were not imported because already found in the system */
+    skippedSchemaIds?: string[] | undefined;
+    /** Ids of the schemas that were successfully imported */
+    importedSchemaIds?: string[] | undefined;
+}
+/** Result information of a list item import operation */
+export interface ListItemImportResult {
+    /** Number of list items imported */
+    importedListItemCount: number;
+    /** Number of list items skipped during import phase because they were already found in the system */
+    skippedListItemCount: number;
+    /** Total number of list items requested to be imported */
+    totalListItemCount: number;
+    /** Ids of the list items that were not imported because already found in the system or due to errors */
+    skippedListItemIds?: string[] | undefined;
+    /** Ids of the list items that were successfully imported */
+    importedListItemIds?: string[] | undefined;
+}
+export interface BusinessProcessDetailsDataContentImport extends BusinessProcessDetailsDataBase {
+    /** Items that were imported. */
+    items?: ContentImportResult[] | undefined;
+}
+/** Represents an item imported during a content import */
+export interface ContentImportResult {
+    /** ID of the file transfer. */
+    fileTransferId: string;
+    /** ID of the resulting content. */
+    contentId?: string | undefined;
+    /** State of the item. */
+    state?: string | undefined;
+    /** Indicates if the operation succeeded. */
+    succeeded: boolean;
+    /** If the operation did not succeeded, this contains error related information. */
+    error?: ErrorResponse | undefined;
+}
 export interface Exception {
 }
 export interface PictureparkException extends Exception {
@@ -2739,6 +2810,9 @@ export interface RequestSizeLimitExceededException extends PictureparkValidation
 }
 export interface CronExpressionInvalidException extends PictureparkValidationException {
     cronExpression?: string | undefined;
+}
+export interface FeatureNotEnabledException extends PictureparkValidationException {
+    featureName?: string | undefined;
 }
 export interface CustomerViolationException extends PictureparkException {
     expectedCustomerId?: string | undefined;
@@ -3159,6 +3233,16 @@ export interface FilterTemplateRenderingException extends PictureparkValidationE
 export interface ResolvedLinkedItemsThresholdReachedException extends PictureparkValidationException {
     metadataItemId?: string | undefined;
 }
+export interface TreeAggregatorOnlyAllowedInTopLevelAggregationsException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+}
+export interface TreeAggregatorInvalidFieldTypeException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+    fieldName?: string | undefined;
+}
+export interface TreeAggregatorInnerAggregationsNotAllowedException extends PictureparkValidationException {
+    aggregationName?: string | undefined;
+}
 export interface SchemaFieldOverwriteTypeMismatchException extends PictureparkValidationException {
     schemaId?: string | undefined;
     fieldId?: string | undefined;
@@ -3473,6 +3557,26 @@ export interface SchemaFieldDynamicViewFieldInvalidFilterTemplateException exten
     schemaId?: string | undefined;
     fieldId?: string | undefined;
     errors?: string[] | undefined;
+}
+export interface SchemaFieldTreeViewAtLeastOneLevelRequiredException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+}
+export interface SchemaFieldTreeViewTagboxFieldRequiredException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    path?: string | undefined;
+}
+export interface SchemaFieldTreeViewNotSupportedForSchemaTypeException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    fieldId?: string | undefined;
+    schemaType?: SchemaType;
+}
+export interface TagboxInUseInTreeViewFieldException extends PictureparkValidationException {
+    schemaId?: string | undefined;
+    tagboxFieldId?: string | undefined;
+    treeViewFieldSchemaId?: string | undefined;
+    treeViewFieldId?: string | undefined;
 }
 export interface DeleteContentsWithReferencesException extends PictureparkValidationException {
     numberOfReferences?: number;
@@ -4052,92 +4156,6 @@ export interface BusinessProcessWaitForLifeCycleResult {
     /** The business process. */
     businessProcess: BusinessProcess;
 }
-/** Detailed representation of a business process */
-export interface BusinessProcessDetails extends BusinessProcess {
-    /** Details for the business process. */
-    details?: BusinessProcessDetailsDataBase | undefined;
-}
-/** Base class for the details of a business process */
-export interface BusinessProcessDetailsDataBase {
-    kind: string;
-}
-/** Business process detailed information regarding a batch operation */
-export interface BusinessProcessDetailsDataBatchResponse extends BusinessProcessDetailsDataBase {
-    /** The DocType on which the operation was performed. */
-    docType: string;
-    /** The response of the batch operation. */
-    response: BatchResponse;
-}
-/** Response from a batch operation */
-export interface BatchResponse {
-    /** Rows in the response. */
-    rows: BatchResponseRow[];
-}
-/** Row in a batch operation response */
-export interface BatchResponseRow {
-    /** Id of the item. */
-    id: string;
-    /** Indicates if the operation succeeded. */
-    succeeded: boolean;
-    /** Status code of the operation. */
-    status: number;
-    /** New version of the item. */
-    version: number;
-    /** If the operation did not succeed, this contains error information. */
-    error?: ErrorResponse | undefined;
-    /** The identifier provided by user in the corresponding request (or null if none was provided). Used only in bulk creation. */
-    requestId?: string | undefined;
-}
-/** Business process detailed information regarding Schema / ListItems import operation */
-export interface BusinessProcessDetailsDataSchemaImport extends BusinessProcessDetailsDataBase {
-    /** Result information of a schema import operation */
-    schemaImportResult?: SchemaImportResult | undefined;
-    /** Result information of a list item import operation */
-    listItemImportResult?: ListItemImportResult | undefined;
-}
-/** Result information of a schema import operation */
-export interface SchemaImportResult {
-    /** Number of schemas imported */
-    importedSchemaCount: number;
-    /** Number of schema skipped during import phase because they were already found in the system */
-    skippedSchemaCount: number;
-    /** Total number of schemas requested to be imported */
-    totalSchemaCount: number;
-    /** Ids of the schemas that were not imported because already found in the system */
-    skippedSchemaIds?: string[] | undefined;
-    /** Ids of the schemas that were successfully imported */
-    importedSchemaIds?: string[] | undefined;
-}
-/** Result information of a list item import operation */
-export interface ListItemImportResult {
-    /** Number of list items imported */
-    importedListItemCount: number;
-    /** Number of list items skipped during import phase because they were already found in the system */
-    skippedListItemCount: number;
-    /** Total number of list items requested to be imported */
-    totalListItemCount: number;
-    /** Ids of the list items that were not imported because already found in the system or due to errors */
-    skippedListItemIds?: string[] | undefined;
-    /** Ids of the list items that were successfully imported */
-    importedListItemIds?: string[] | undefined;
-}
-export interface BusinessProcessDetailsDataContentImport extends BusinessProcessDetailsDataBase {
-    /** Items that were imported. */
-    items?: ContentImportResult[] | undefined;
-}
-/** Represents an item imported during a content import */
-export interface ContentImportResult {
-    /** ID of the file transfer. */
-    fileTransferId: string;
-    /** ID of the resulting content. */
-    contentId?: string | undefined;
-    /** State of the item. */
-    state?: string | undefined;
-    /** Indicates if the operation succeeded. */
-    succeeded: boolean;
-    /** If the operation did not succeeded, this contains error related information. */
-    error?: ErrorResponse | undefined;
-}
 export interface BusinessProcessSummaryBase {
     kind: string;
 }
@@ -4220,6 +4238,8 @@ It can be passed as one of the aggregation filters of an aggregation query: it r
     active: boolean;
     /** Inner aggregation results, if inner aggregations were provided in the query. */
     aggregationResults?: AggregationResult[] | undefined;
+    /** Detailed information about the aggregation result item. */
+    detail?: AggregationResultItemDetailBase | undefined;
 }
 /** The filters' base class */
 export interface FilterBase {
@@ -4360,6 +4380,33 @@ export interface ParentFilter extends FilterBase {
     parentType: string;
     /** The filter to be applied on the child document. All kinds of filters are accepted. */
     filter: FilterBase;
+}
+/** Filters results based on a tree structure and a path. */
+export interface TreeFilter extends FilterBase {
+    /** Field to filter on. */
+    field?: string | undefined;
+    /** Path to filter on. */
+    path?: string | undefined;
+}
+/** Detail for an AggregationResultItem. */
+export interface AggregationResultItemDetailBase {
+    kind: string;
+}
+/** Detail for a tree aggregation result item. */
+export interface TreeAggregationResultItemDetail extends AggregationResultItemDetailBase {
+    /** Path of the item. Use together with TreeFilter. */
+    path?: string | undefined;
+    /** Resolved path components of the path. */
+    resolvedPathComponents?: TreeAggregationResultPathComponent[] | undefined;
+    /** Indicates if the node contains children. */
+    hasChildren?: boolean;
+}
+/** Component of a tree path. */
+export interface TreeAggregationResultPathComponent {
+    /** Raw path component. */
+    pathComponent?: string | undefined;
+    /** Display value of the path component. */
+    displayValue?: string | undefined;
 }
 export interface QueryDebugInformation {
     general?: string | undefined;
@@ -4528,6 +4575,20 @@ export declare enum TermsRelationAggregatorDocumentType {
 export interface TermsEnumAggregator extends TermsAggregator {
     /** Type of the enum target of the relation. It is used to resolve the enum translation. */
     enumType: string;
+}
+/** Aggregator for a FieldTreeView. */
+export interface TreeAggregator extends AggregatorBase {
+    /** The fields ID to execute the aggregation on. */
+    field: string;
+    /** Path to get buckets for.
+Remark: If this is not null, missing items will only be returned if they're a direct child of this path. */
+    path?: string | undefined;
+    /** Search string to filter the buckets. */
+    searchString?: string | undefined;
+    /** The size parameter can be set to define how many buckets should be returned out of the overall list. */
+    size?: number | undefined;
+    /** Sorting for results. If null, sorts by item count. */
+    sortDirection?: SortDirection | undefined;
 }
 /** Represents the business rule configuration. */
 export interface BusinessRuleConfiguration {
@@ -6904,6 +6965,8 @@ export interface LicenseInfo {
     contentStatistics: StatisticsLicenseState;
     /** Licensing options for image optimization. */
     imageOptimization: ImageOptimizationLicenseState;
+    /** License flag for enabling tree view */
+    enableTreeView?: boolean | undefined;
 }
 export declare enum HistoricVersioningState {
     Disabled = "Disabled",
@@ -7310,12 +7373,23 @@ export interface MetadataStatus {
     contentOrLayerSchemaIds?: string[] | undefined;
     /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
     listSchemaIds?: string[] | undefined;
+    /** Schema IDs for which main documents need to be touched. */
+    mainDocuments?: MetadataStatusEntries | undefined;
+    /** Schema IDs for which search documents need to be touched. */
+    searchDocuments?: MetadataStatusEntries | undefined;
     /** The global state of the Contents and ListItems compared to the schema structure (Green = ok, Red = update needed). */
     state: MetadataState;
     /** The field ids that that cannot be used and needs to be cleaned up after updating the outdated contents and list items. */
     fieldIdsToCleanup?: {
         [key: string]: string[];
     } | undefined;
+}
+/** SchemaIDs for which metadata items need to be touched. */
+export interface MetadataStatusEntries {
+    /** The schema ids (of type Content or Layer) that need to be updated. */
+    contentOrLayerSchemaIds?: string[] | undefined;
+    /** The schema ids (of type List) that need to be updated. */
+    listSchemaIds?: string[] | undefined;
 }
 export interface Notification {
     id: string;
@@ -8224,45 +8298,6 @@ export interface OutputFormatDeleteManyRequest {
     /** List of IDs of output formats to remove. */
     ids?: string[] | undefined;
 }
-/** Base class for search results */
-export interface BaseResultOfOutput {
-    /** The total number of matching documents. */
-    totalResults: number;
-    /** The matched documents. */
-    results: Output[];
-    /** The search execution time in milliseconds. */
-    elapsedMilliseconds: number;
-    /** An optional token to access the next page of results for those endpoints that support backend scrolling logic. */
-    pageToken?: string | undefined;
-}
-export interface OutputSearchResult extends BaseResultOfOutput {
-}
-export interface OutputSearchRequest {
-    /** Limits the document count of the result set. Defaults to 30. */
-    limit: number;
-    /** The token used to retrieve the next page of results. It must be null on first request and only filled with the returned pageToken to request next page of results. */
-    pageToken?: string | undefined;
-    /** List of Content ids you want to use to fetch the outputs. */
-    contentIds?: string[] | undefined;
-    /** The allowed rendering states of the outputs you want to fetch. */
-    renderingStates?: OutputRenderingState[] | undefined;
-    /** The file extension of the outputs you want to fetch. */
-    fileExtensions?: string[] | undefined;
-    /** The output format id of the outputs you want to fetch. */
-    outputFormatIds?: string[] | undefined;
-}
-export interface OutputResetRetryAttemptsRequest {
-    /** List of output IDs you want to filter on. If this field is not empty, the other will be ignored. */
-    outputIds?: string[] | undefined;
-    /** List of Content IDs you want to filter on. */
-    contentIds?: string[] | undefined;
-    /** The file extension of the outputs you want to filter on. */
-    fileExtensions?: string[] | undefined;
-    /** The IDs of the output formats you want to filter on. */
-    outputFormatIds?: string[] | undefined;
-    /** Should the successful filter results also be reset (and subsequently re-rendered)? */
-    includeCompleted: boolean;
-}
 /** User profile. */
 export interface UserProfile {
     /** ID of the user. */
@@ -8845,6 +8880,22 @@ export interface FieldDynamicView extends FieldBase {
     /** Specifies sorting to be used in search with FilterBase> from FilterTemplate */
     sort: SortInfo[];
 }
+/** Stores a tree structure based on tagbox fields in the same schema */
+export interface FieldTreeView extends FieldBase {
+    /** Levels of the tree.
+At least one level is required. */
+    levels: TreeLevelItem[];
+}
+/** Configures a level of a tree structure of a FieldTreeView */
+export interface TreeLevelItem {
+    /** ID of the field.
+Must be a tagbox field. */
+    fieldId: string;
+    /** Allow recursion if the tagbox references the same schema it is defined in. */
+    allowRecursion: boolean;
+    /** Further levels of the tree based on the schema the tagbox field references. */
+    levels?: TreeLevelItem[] | undefined;
+}
 /** Base class to overwrite field's information */
 export interface FieldOverwriteBase {
     /** The field's ID whose information need to be overwritten. */
@@ -9203,7 +9254,7 @@ export interface ShareUser {
     /** Name of user */
     displayName: string;
     /** MD5 hash of email address. Can be used to display gravatar image */
-    emailHash: string;
+    emailHash?: string | undefined;
 }
 /** Detail of shared content */
 export interface ShareContentDetail {
@@ -9311,7 +9362,7 @@ export interface ShareDataBasic extends ShareDataBase {
 /** Share mail recipient */
 export interface MailRecipient {
     /** User information including email. */
-    userEmail: UserEmail;
+    userEmail?: UserEmail | undefined;
     /** Recipient specific token. */
     token?: string | undefined;
     /** URL to access the share for this recipient. */
@@ -10533,6 +10584,21 @@ export interface TaggerStatisticsEvent extends ApplicationEvent {
     ocrCounter?: number;
     taggerName?: string | undefined;
 }
+export interface CdnStatisticsEvent extends ApplicationEvent {
+    traffic?: {
+        [key: string]: CdnTrafficValues;
+    } | undefined;
+    reportedTimeStart?: Date;
+    reportedTimeEnd?: Date;
+}
+export interface CdnTrafficValues {
+    originBytesFetched: number;
+    originBytesReceived: number;
+    cdnBytesReceived: number;
+    cdnBytesSent: number;
+    bytesTotal: number;
+    requests: number;
+}
 export interface ConsoleMessage extends Message {
     command?: string | undefined;
     arguments?: TupleOfStringAndString[] | undefined;
@@ -10677,6 +10743,9 @@ export interface DynamicViewFieldMetaWithErrorBase extends DynamicViewFieldMetaB
 }
 /** Meta information for a dynamic view field where the filter could not be rendered successfully. */
 export interface DynamicViewFieldMetaWithRenderingError extends DynamicViewFieldMetaWithErrorBase {
+}
+/** Meta information for a dynamic view field when elastic query exception occured */
+export interface DynamicViewFieldMetaWithQueryError extends DynamicViewFieldMetaWithErrorBase {
 }
 export interface FileParameter {
     data: any;
