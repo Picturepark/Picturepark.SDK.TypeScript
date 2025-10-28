@@ -1,10 +1,10 @@
-# Picturepark Content Platform TypeScript SDK: Pickers
+# Fotoware Alto TypeScript SDK: Pickers
 
 ## picturepark-sdk-v1-pickers
 
 **NPM Package:** [@picturepark/sdk-v1-pickers](https://www.npmjs.com/package/@picturepark/sdk-v1-pickers)
 
-The `picturepark-pickers.js` library provides methods to open the Picturepark content picker dialog to select a content item in a third party application. 
+The `picturepark-pickers.js` library provides methods to open the Fotoware Alto content picker dialog to select a content item in a third party application. 
 
 - [API Documentation](https://rawgit.com/Picturepark/Picturepark.SDK.TypeScript/master/docs/picturepark-sdk-v1-pickers/api/index.html)
 

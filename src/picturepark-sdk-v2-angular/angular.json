@@ -40,7 +40,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["src/favicon.svg", "src/assets"],
             "styles": ["src/styles.scss"],
             "scripts": [],
             "vendorChunk": true,
@@ -102,7 +102,7 @@
             "karmaConfig": "src/karma.conf.js",
             "styles": ["src/styles.scss"],
             "scripts": [],
-            "assets": ["src/favicon.ico", "src/assets"]
+            "assets": ["src/favicon.svg", "src/assets"]
           }
         },
         "lint": {
@@ -243,7 +243,7 @@
             "main": "projects/share-viewer/src/main.ts",
             "polyfills": "projects/share-viewer/src/polyfills.ts",
             "tsConfig": "projects/share-viewer/tsconfig.app.json",
-            "assets": ["projects/share-viewer/src/favicon.ico", "projects/share-viewer/src/assets"],
+            "assets": ["projects/share-viewer/src/favicon.svg", "projects/share-viewer/src/assets"],
             "styles": ["projects/share-viewer/src/styles.scss"],
             "scripts": [],
             "vendorChunk": true,
@@ -316,7 +316,7 @@
             "polyfills": "projects/share-viewer/src/polyfills.ts",
             "tsConfig": "projects/share-viewer/tsconfig.spec.json",
             "karmaConfig": "projects/share-viewer/karma.conf.js",
-            "assets": ["projects/share-viewer/src/favicon.ico", "projects/share-viewer/src/assets"],
+            "assets": ["projects/share-viewer/src/favicon.svg", "projects/share-viewer/src/assets"],
             "styles": ["projects/share-viewer/src/styles.scss"],
             "scripts": []
           }

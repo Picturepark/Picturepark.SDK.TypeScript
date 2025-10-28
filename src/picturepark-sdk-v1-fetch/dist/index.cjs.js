@@ -10101,7 +10101,7 @@ class IdentityProviderClient extends PictureparkClientBase {
     /**
      * Get identity provider
      * @param id Identity provider ID.
-     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
+     * @return Represents an identity provider defined in IdentityServer and its Fotoware Alto configuration
      */
     get(id) {
         let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";
@@ -10197,7 +10197,7 @@ class IdentityProviderClient extends PictureparkClientBase {
      * Update identity provider
      * @param id Identity provider ID.
      * @param provider Update request
-     * @return Represents an identity provider defined in IdentityServer and its Picturepark configuration
+     * @return Represents an identity provider defined in IdentityServer and its Fotoware Alto configuration
      */
     update(id, provider) {
         let url_ = this.baseUrl + "/v1/IdentityProviders/{id}";
@@ -15246,197 +15246,6 @@ class OutputClient extends PictureparkClientBase {
         });
     }
     processGet(response) {
-        const status = response.status;
-        let _headers = {};
-        if (response.headers && response.headers.forEach) {
-            response.headers.forEach((v, k) => _headers[k] = v);
-        }
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-                let result200 = null;
-                result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return result200;
-            });
-        }
-        else if (status === 400) {
-            return response.text().then((_responseText) => {
-                let result400 = null;
-                result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
-        }
-        else if (status === 401) {
-            return response.text().then((_responseText) => {
-                return throwException("Unauthorized", status, _responseText, _headers);
-            });
-        }
-        else if (status === 403) {
-            return response.text().then((_responseText) => {
-                let result403 = null;
-                result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Forbidden", status, _responseText, _headers, result403);
-            });
-        }
-        else if (status === 404) {
-            return response.text().then((_responseText) => {
-                let result404 = null;
-                result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Entity not found", status, _responseText, _headers, result404);
-            });
-        }
-        else if (status === 405) {
-            return response.text().then((_responseText) => {
-                return throwException("Method not allowed", status, _responseText, _headers);
-            });
-        }
-        else if (status === 409) {
-            return response.text().then((_responseText) => {
-                let result409 = null;
-                result409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Version conflict", status, _responseText, _headers, result409);
-            });
-        }
-        else if (status === 429) {
-            return response.text().then((_responseText) => {
-                let result429 = null;
-                result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Too many requests", status, _responseText, _headers, result429);
-            });
-        }
-        else if (status === 500) {
-            return response.text().then((_responseText) => {
-                let result500 = null;
-                result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Internal server error", status, _responseText, _headers, result500);
-            });
-        }
-        else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve(null);
-    }
-    /**
-     * Search output documents
-     * @param request The output search request.
-     * @return Output result set
-     * @deprecated
-     */
-    search(request) {
-        let url_ = this.baseUrl + "/v1/Outputs/search";
-        url_ = url_.replace(/[?&]$/, "");
-        const content_ = JSON.stringify(request);
-        let options_ = {
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response) => {
-            return this.processSearch(_response);
-        });
-    }
-    processSearch(response) {
-        const status = response.status;
-        let _headers = {};
-        if (response.headers && response.headers.forEach) {
-            response.headers.forEach((v, k) => _headers[k] = v);
-        }
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-                let result200 = null;
-                result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return result200;
-            });
-        }
-        else if (status === 400) {
-            return response.text().then((_responseText) => {
-                let result400 = null;
-                result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Validation exception", status, _responseText, _headers, result400);
-            });
-        }
-        else if (status === 401) {
-            return response.text().then((_responseText) => {
-                return throwException("Unauthorized", status, _responseText, _headers);
-            });
-        }
-        else if (status === 403) {
-            return response.text().then((_responseText) => {
-                let result403 = null;
-                result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Forbidden", status, _responseText, _headers, result403);
-            });
-        }
-        else if (status === 404) {
-            return response.text().then((_responseText) => {
-                let result404 = null;
-                result404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Entity not found", status, _responseText, _headers, result404);
-            });
-        }
-        else if (status === 405) {
-            return response.text().then((_responseText) => {
-                return throwException("Method not allowed", status, _responseText, _headers);
-            });
-        }
-        else if (status === 409) {
-            return response.text().then((_responseText) => {
-                let result409 = null;
-                result409 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Version conflict", status, _responseText, _headers, result409);
-            });
-        }
-        else if (status === 429) {
-            return response.text().then((_responseText) => {
-                let result429 = null;
-                result429 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Too many requests", status, _responseText, _headers, result429);
-            });
-        }
-        else if (status === 500) {
-            return response.text().then((_responseText) => {
-                let result500 = null;
-                result500 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                return throwException("Internal server error", status, _responseText, _headers, result500);
-            });
-        }
-        else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve(null);
-    }
-    /**
-     * Resets retry attempt counters.
-     * @param request Request containing options to filter which outputs should be reset.
-     * @return Business process tracking the resetting
-     */
-    resetRetryAttempts(request) {
-        let url_ = this.baseUrl + "/v1/Outputs/resetRetryAttempts";
-        url_ = url_.replace(/[?&]$/, "");
-        const content_ = JSON.stringify(request);
-        let options_ = {
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response) => {
-            return this.processResetRetryAttempts(_response);
-        });
-    }
-    processResetRetryAttempts(response) {
         const status = response.status;
         let _headers = {};
         if (response.headers && response.headers.forEach) {

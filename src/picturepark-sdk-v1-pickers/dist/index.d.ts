@@ -11,7 +11,7 @@ export interface IContentPickerSettings {
 /**
  * Opens a content picker window to select content items and create an embedded share.
  *
- * @param serverUrl The URL of the Picturepark server
+ * @param serverUrl The URL of the Fotoware Alto server
  * @param settings Settings on how to open the content picker
  */
 export declare function showContentPicker(serverUrl: string, settings?: IContentPickerSettings): Promise<IContentPickerResult>;
