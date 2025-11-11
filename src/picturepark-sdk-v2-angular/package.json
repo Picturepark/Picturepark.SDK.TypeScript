@@ -1,6 +1,6 @@
 {
   "name": "picturepark-sdk-v2-angular-app",
-  "version": "11.16.0-pre.0",
+  "version": "11.17.0-pre.0",
   "license": "MIT",
   "scripts": {
     "init": "npm ci",
