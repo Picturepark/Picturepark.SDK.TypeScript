@@ -80,7 +80,7 @@ class AggregationResultItem extends generated.AggregationResultItem {
   getDisplayName(locale: string) {
     let displayName: string | null;
 
-    // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/cp support"
+    // remove guid and show only owner name. example: name: "534e5b3763f242629eca53e764d713bf/Fotoware Alto support"
     if (this.filter && this.filter.aggregationName === 'ownerTokenId') {
       displayName = this.name.split('/').pop() || null;
     } else if (

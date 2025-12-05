@@ -7,7 +7,7 @@
     /**
      * Opens a content picker window to select content items and create an embedded share.
      *
-     * @param serverUrl The URL of the Picturepark server
+     * @param serverUrl The URL of the Fotoware Alto server
      * @param settings Settings on how to open the content picker
      */
     function showContentPicker(serverUrl, settings) {
@@ -35,7 +35,7 @@
             let callbackCalled = false;
             const messageReceived = (event) => {
                 if ((settings === null || settings === void 0 ? void 0 : settings.debug) && console) {
-                    console.log("CP Message received:");
+                    console.log("Fotoware Alto Message received:");
                     console.log(event);
                 }
                 if (serverUrl.startsWith(event.origin)) {

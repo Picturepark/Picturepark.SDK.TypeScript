@@ -6,7 +6,7 @@ const rootDir = path.resolve(__dirname, '../');
 const runTypeDoc = (src, tsconfig, out, readme, name) => {
     const typedocPath = path.resolve(rootDir, 'node_modules', '.bin', 'typedoc');
 
-    const cmd = `"${typedocPath}" "${src}" --tsconfig "${tsconfig}" --out "${out}" --readme "${readme}" --theme default --name "${name}"`;
+    const cmd = `"${typedocPath}" "${src}" --tsconfig "${tsconfig}" --out "${out}" --readme "${readme}" --theme default --name "${name}" --gitRemote "origin" --gitRevision "master"`;
     execSync(cmd, { stdio: 'inherit' });
 };
 

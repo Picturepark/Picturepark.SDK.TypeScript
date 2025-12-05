@@ -309,7 +309,7 @@ class PictureparkTemplates {
                   <path class="cls-1" d="M344.17,152.27V117.83a4.58,4.58,0,0,0-4.28-4.83h-53.6a4.58,4.58,0,0,0-4.29,4.83v34.44Z" transform="translate(-19.07 -110.92)"/>
                   <path class="cls-2" d="M282,161.87v11.31a4.58,4.58,0,0,0,4.28,4.82h53.6a4.57,4.57,0,0,0,4.28-4.82V161.87Z" transform="translate(-19.07 -110.92)"/>
                   <polygon class="cls-3" points="325.09 50.95 262.93 50.95 262.93 41.35 325.09 41.35 325.09 50.95 325.09 50.95"/>
-                  <text class="cls-4" transform="translate(347.46 57.69)">Picturepark</text>
+                  <text class="cls-4" transform="translate(347.46 57.69)">Fotoware Alto</text>
                   <text class="cls-5" transform="translate(0 57.66)">P<tspan class="cls-6" x="28.07" y="0">owered by</tspan></text>
                 </svg>
               </div>
@@ -509,7 +509,7 @@ class PictureparkPlayers {
     static disposeVideoPlayer(player) {
         let existingPlayer = PictureparkPlayers.loadedPlayers.filter(p => p.element === player.id_)[0];
         if (existingPlayer) {
-            log('Picturepark Widgets > Disposed videojs player');
+            log('Fotoware Alto Widgets > Disposed videojs player');
             try {
                 player.dispose();
             }
@@ -519,7 +519,7 @@ class PictureparkPlayers {
                 .filter(p => p.player !== player);
         }
         else {
-            log('Picturepark Widgets > Player could not be disposed' + player);
+            log('Fotoware Alto Widgets > Player could not be disposed' + player);
         }
     }
     static renderVideoPlayerIfNeeded(item, element, width, height) {
@@ -533,12 +533,12 @@ class PictureparkPlayers {
                     }
                     return PictureparkPlayers.renderVideoPlayer(element, item, width, height).then((player) => {
                         playerInfo.player = player;
-                        log('Picturepark Widgets > Reloaded videojs player: ' + element.id);
+                        log('Fotoware Alto Widgets > Reloaded videojs player: ' + element.id);
                         return player;
                     });
                 }
                 else {
-                    log('Picturepark Widgets > Reused videojs player: ' + element.id);
+                    log('Fotoware Alto Widgets > Reused videojs player: ' + element.id);
                     return player;
                 }
             });
@@ -547,7 +547,7 @@ class PictureparkPlayers {
         playerInfo = {
             element: element.id,
             promise: PictureparkPlayers.renderVideoPlayer(element, item, width, height).then(player => {
-                log('Picturepark Widgets > Created videojs player: ' + element.id);
+                log('Fotoware Alto Widgets > Created videojs player: ' + element.id);
                 return player;
             })
         };
@@ -802,7 +802,7 @@ class PictureparkPlayers {
     }
     static loadScript(url, globalName) {
         if (window.require) {
-            log('Picturepark Widgets > Load external script via require(): ' + url);
+            log('Fotoware Alto Widgets > Load external script via require(): ' + url);
             return new Promise(resolve => {
                 window.require([url], (module) => {
                     resolve(module);
@@ -810,7 +810,7 @@ class PictureparkPlayers {
             });
         }
         else {
-            log('Picturepark Widgets > Load external script via tag: ' + url);
+            log('Fotoware Alto Widgets > Load external script via tag: ' + url);
             return new Promise((resolve) => {
                 var scriptTag = document.createElement('script');
                 scriptTag.src = url;

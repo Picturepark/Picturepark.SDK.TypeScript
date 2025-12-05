@@ -1,11 +1,14 @@
-# Picturepark Content Platform TypeScript/JavaScript SDK
+# Fotoware Alto TypeScript/JavaScript SDK
+
+> **Note:** The platform has been renamed from Picturepark Content Platform to **Fotoware Alto**, but the project name remains **Picturepark**. You may encounter both names in documentation, code, and resources.
+
 ## Picturepark.Sdk.TypeScript
 
 [![npm](https://img.shields.io/npm/v/@picturepark/sdk-v2-angular.svg)](https://www.npmjs.com/~picturepark)
 
 Links:
 
-- [Picturepark Website](https://picturepark.com/)
+- [Fotoware Website](https://picturepark.com/)
 - [Available NPM packages](https://www.npmjs.com/~picturepark)
 - [Sources](src/)
 
@@ -13,19 +16,19 @@ Links:
 
 **[picturepark-sdk-v2-angular](docs/picturepark-sdk-v2-angular/README.md)** 
 
-Contains Angular service classes to access the Picturepark API.
+Contains Angular service classes to access the Fotoware Alto API.
 
 NPM package: `@picturepark/sdk-v2-angular`
 
 **[picturepark-sdk-v2-angular-oidc](docs/picturepark-sdk-v2-angular/README.md)** 
 
-Contains Angular service classes to access the Picturepark authentication endpoints.
+Contains Angular service classes to access the Fotoware Alto authentication endpoints.
 
 NPM package: `@picturepark/sdk-v2-angular-oidc`
 
 **[picturepark-sdk-v1-fetch](docs/picturepark-sdk-v1-fetch/README.md)**
 
-Contains client classes to access the Picturepark API with `window.fetch`. 
+Contains client classes to access the Fotoware Alto API with `window.fetch`. 
 
 NPM package: `@picturepark/sdk-v1-fetch`
 
@@ -37,13 +40,14 @@ NPM package: `@picturepark/sdk-v1-pickers`
 
 ## Compatibility matrix
 
-| SDK version | Picturepark CP version | Branch |
+| SDK version | Fotoware Alto version | Branch |
 | ----------- | ---------------------- | -----------
 | `11.12.x`   | `11.12.x`              | [11.12.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.12.x)
 | `11.13.x`   | `11.13.x`              | [11.13.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.13.x)
 | `11.14.x`   | `11.14.x`              | [11.14.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.14.x)
 | `11.15.x`   | `11.15.x`              | [11.15.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.15.x)
-| `11.16.x`   | `11.16.x`              | [master](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master)
+| `11.16.x`   | `11.16.x`              | [11.16.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.16.x)
+| `11.17.x`   | `11.17.x`              | [master](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master)
 	
 SDK Development
 
