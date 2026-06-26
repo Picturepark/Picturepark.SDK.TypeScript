@@ -26689,6 +26689,9 @@ export interface BusinessRuleScheduleFilterMissingException extends PictureparkV
 export interface BusinessRuleScheduleRulesMissingException extends PictureparkValidationException {
 }
 
+export interface BusinessRuleShareNameMissingException extends PictureparkValidationException {
+}
+
 export interface BusinessRuleStringContainsConditionValuesToMatchMissingException extends PictureparkValidationException {
 }
 
@@ -28108,6 +28111,19 @@ export interface EnqueueCreateEmbedAction extends BusinessRuleAction {
     expirationDate?: string | undefined;
     /** Optional variable name to store in the url of the embed that will be created. */
     storeIn?: string | undefined;
+}
+
+/** Enqueue sharing of a content item */
+export interface EnqueueShareContentAction extends BusinessRuleAction {
+    /** Name of the share where content will be added. If a share with the same name already exists, content will be added to that share. Otherwise, a new share will be created with this name if AllowShareCreation is enabled. The new share name will get a number at the end. */
+    shareName?: string | undefined;
+    /** Output format IDs that will be added to the share. Can be a single string (e.g., "Original") or an array of strings (e.g., ["Original", "Preview"]).
+Common output formats include: Original, Preview, ThumbnailSmall, ThumbnailMedium, ThumbnailLarge, Pdf. */
+    outputFormatIds?: any | undefined;
+    /** Maximum number of content items allowed in a single share. Cannot exceed 970 (if a higher value is specified, it will be set to 970). When a share reaches this limit, new content will be added to a new share if AllowShareCreation is enabled. */
+    maxContentInShare?: number | undefined;
+    /** If enabled, new shares will be created when all existing shares with the same name have reached MaxContentInShare. If disabled, content will be skipped when no share with available space exists. */
+    allowShareCreation?: boolean;
 }
 
 /** A business rule expressed as a script */
@@ -30619,10 +30635,6 @@ export interface LiveStreamSearchRequest {
 
 /** The overall status of the contents and list items in comparison to the actual schemas' structure */
 export interface MetadataStatus {
-    /** The schema ids (of type Content or Layer) for which the contents are outdated and need to be updated. */
-    contentOrLayerSchemaIds?: string[] | undefined;
-    /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
-    listSchemaIds?: string[] | undefined;
     /** Schema IDs for which main documents need to be touched. */
     mainDocuments?: MetadataStatusEntries | undefined;
     /** Schema IDs for which search documents need to be touched. */
