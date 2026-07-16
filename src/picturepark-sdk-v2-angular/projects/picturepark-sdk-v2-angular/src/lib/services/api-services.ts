@@ -29089,6 +29089,11 @@ export class PictureparkException extends Exception implements IPictureparkExcep
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleShareNameMissingException") {
+            let result = new BusinessRuleShareNameMissingException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "BusinessRuleStringContainsConditionValuesToMatchMissingException") {
             let result = new BusinessRuleStringContainsConditionValuesToMatchMissingException();
             result.init(data);
@@ -31147,6 +31152,11 @@ export class PictureparkBusinessException extends PictureparkException implement
             result.init(data);
             return result;
         }
+        if (data["kind"] === "BusinessRuleShareNameMissingException") {
+            let result = new BusinessRuleShareNameMissingException();
+            result.init(data);
+            return result;
+        }
         if (data["kind"] === "BusinessRuleStringContainsConditionValuesToMatchMissingException") {
             let result = new BusinessRuleStringContainsConditionValuesToMatchMissingException();
             result.init(data);
@@ -32739,6 +32749,11 @@ export class PictureparkValidationException extends PictureparkBusinessException
         }
         if (data["kind"] === "BusinessRuleScheduleRulesMissingException") {
             let result = new BusinessRuleScheduleRulesMissingException();
+            result.init(data);
+            return result;
+        }
+        if (data["kind"] === "BusinessRuleShareNameMissingException") {
+            let result = new BusinessRuleShareNameMissingException();
             result.init(data);
             return result;
         }
@@ -46487,6 +46502,34 @@ export class BusinessRuleScheduleRulesMissingException extends PictureparkValida
 export interface IBusinessRuleScheduleRulesMissingException extends IPictureparkValidationException {
 }
 
+export class BusinessRuleShareNameMissingException extends PictureparkValidationException implements IBusinessRuleShareNameMissingException {
+
+    constructor(data?: IBusinessRuleShareNameMissingException) {
+        super(data);
+        this._discriminator = "BusinessRuleShareNameMissingException";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): BusinessRuleShareNameMissingException {
+        data = typeof data === 'object' ? data : {};
+        let result = new BusinessRuleShareNameMissingException();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IBusinessRuleShareNameMissingException extends IPictureparkValidationException {
+}
+
 export class BusinessRuleStringContainsConditionValuesToMatchMissingException extends PictureparkValidationException implements IBusinessRuleStringContainsConditionValuesToMatchMissingException {
 
     constructor(data?: IBusinessRuleStringContainsConditionValuesToMatchMissingException) {
@@ -54639,6 +54682,11 @@ export abstract class BusinessRuleAction implements IBusinessRuleAction {
             result.init(data);
             return result;
         }
+        if (data["kind"] === "EnqueueShareContentAction") {
+            let result = new EnqueueShareContentAction();
+            result.init(data);
+            return result;
+        }
         throw new Error("The abstract class 'BusinessRuleAction' cannot be instantiated.");
     }
 
@@ -55764,6 +55812,64 @@ export interface IEnqueueCreateEmbedAction extends IBusinessRuleAction {
     expirationDate?: string | undefined;
     /** Optional variable name to store in the url of the embed that will be created. */
     storeIn?: string | undefined;
+}
+
+/** Enqueue sharing of a content item */
+export class EnqueueShareContentAction extends BusinessRuleAction implements IEnqueueShareContentAction {
+    /** Name of the share where content will be added. If a share with the same name already exists, content will be added to that share. Otherwise, a new share will be created with this name if AllowShareCreation is enabled. The new share name will get a number at the end. */
+    shareName?: string | undefined;
+    /** Output format IDs that will be added to the share. Can be a single string (e.g., "Original") or an array of strings (e.g., ["Original", "Preview"]).
+Common output formats include: Original, Preview, ThumbnailSmall, ThumbnailMedium, ThumbnailLarge, Pdf. */
+    outputFormatIds?: any | undefined;
+    /** Maximum number of content items allowed in a single share. Cannot exceed 970 (if a higher value is specified, it will be set to 970). When a share reaches this limit, new content will be added to a new share if AllowShareCreation is enabled. */
+    maxContentInShare?: number | undefined;
+    /** If enabled, new shares will be created when all existing shares with the same name have reached MaxContentInShare. If disabled, content will be skipped when no share with available space exists. */
+    allowShareCreation?: boolean;
+
+    constructor(data?: IEnqueueShareContentAction) {
+        super(data);
+        this._discriminator = "EnqueueShareContentAction";
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.shareName = _data["shareName"];
+            this.outputFormatIds = _data["outputFormatIds"];
+            this.maxContentInShare = _data["maxContentInShare"];
+            this.allowShareCreation = _data["allowShareCreation"];
+        }
+    }
+
+    static override fromJS(data: any): EnqueueShareContentAction {
+        data = typeof data === 'object' ? data : {};
+        let result = new EnqueueShareContentAction();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["shareName"] = this.shareName;
+        data["outputFormatIds"] = this.outputFormatIds;
+        data["maxContentInShare"] = this.maxContentInShare;
+        data["allowShareCreation"] = this.allowShareCreation;
+        super.toJSON(data);
+        return data;
+    }
+}
+
+/** Enqueue sharing of a content item */
+export interface IEnqueueShareContentAction extends IBusinessRuleAction {
+    /** Name of the share where content will be added. If a share with the same name already exists, content will be added to that share. Otherwise, a new share will be created with this name if AllowShareCreation is enabled. The new share name will get a number at the end. */
+    shareName?: string | undefined;
+    /** Output format IDs that will be added to the share. Can be a single string (e.g., "Original") or an array of strings (e.g., ["Original", "Preview"]).
+Common output formats include: Original, Preview, ThumbnailSmall, ThumbnailMedium, ThumbnailLarge, Pdf. */
+    outputFormatIds?: any | undefined;
+    /** Maximum number of content items allowed in a single share. Cannot exceed 970 (if a higher value is specified, it will be set to 970). When a share reaches this limit, new content will be added to a new share if AllowShareCreation is enabled. */
+    maxContentInShare?: number | undefined;
+    /** If enabled, new shares will be created when all existing shares with the same name have reached MaxContentInShare. If disabled, content will be skipped when no share with available space exists. */
+    allowShareCreation?: boolean;
 }
 
 /** A business rule expressed as a script */
@@ -70279,10 +70385,6 @@ export interface ILiveStreamSearchRequest {
 
 /** The overall status of the contents and list items in comparison to the actual schemas' structure */
 export class MetadataStatus implements IMetadataStatus {
-    /** The schema ids (of type Content or Layer) for which the contents are outdated and need to be updated. */
-    contentOrLayerSchemaIds?: string[] | undefined;
-    /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
-    listSchemaIds?: string[] | undefined;
     /** Schema IDs for which main documents need to be touched. */
     mainDocuments?: MetadataStatusEntries | undefined;
     /** Schema IDs for which search documents need to be touched. */
@@ -70305,16 +70407,6 @@ export class MetadataStatus implements IMetadataStatus {
 
     init(_data?: any) {
         if (_data) {
-            if (Array.isArray(_data["contentOrLayerSchemaIds"])) {
-                this.contentOrLayerSchemaIds = [] as any;
-                for (let item of _data["contentOrLayerSchemaIds"])
-                    this.contentOrLayerSchemaIds!.push(item);
-            }
-            if (Array.isArray(_data["listSchemaIds"])) {
-                this.listSchemaIds = [] as any;
-                for (let item of _data["listSchemaIds"])
-                    this.listSchemaIds!.push(item);
-            }
             this.mainDocuments = _data["mainDocuments"] ? MetadataStatusEntries.fromJS(_data["mainDocuments"]) : <any>undefined;
             this.searchDocuments = _data["searchDocuments"] ? MetadataStatusEntries.fromJS(_data["searchDocuments"]) : <any>undefined;
             this.state = _data["state"];
@@ -70337,16 +70429,6 @@ export class MetadataStatus implements IMetadataStatus {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (Array.isArray(this.contentOrLayerSchemaIds)) {
-            data["contentOrLayerSchemaIds"] = [];
-            for (let item of this.contentOrLayerSchemaIds)
-                data["contentOrLayerSchemaIds"].push(item);
-        }
-        if (Array.isArray(this.listSchemaIds)) {
-            data["listSchemaIds"] = [];
-            for (let item of this.listSchemaIds)
-                data["listSchemaIds"].push(item);
-        }
         data["mainDocuments"] = this.mainDocuments ? this.mainDocuments.toJSON() : <any>undefined;
         data["searchDocuments"] = this.searchDocuments ? this.searchDocuments.toJSON() : <any>undefined;
         data["state"] = this.state;
@@ -70363,10 +70445,6 @@ export class MetadataStatus implements IMetadataStatus {
 
 /** The overall status of the contents and list items in comparison to the actual schemas' structure */
 export interface IMetadataStatus {
-    /** The schema ids (of type Content or Layer) for which the contents are outdated and need to be updated. */
-    contentOrLayerSchemaIds?: string[] | undefined;
-    /** The schema ids (of type List) for which the the list items are outdated and need to be updated. */
-    listSchemaIds?: string[] | undefined;
     /** Schema IDs for which main documents need to be touched. */
     mainDocuments?: IMetadataStatusEntries | undefined;
     /** Schema IDs for which search documents need to be touched. */
