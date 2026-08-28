@@ -47,7 +47,8 @@ NPM package: `@picturepark/sdk-v1-pickers`
 | `11.14.x`   | `11.14.x`              | [11.14.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.14.x)
 | `11.15.x`   | `11.15.x`              | [11.15.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.15.x)
 | `11.16.x`   | `11.16.x`              | [11.16.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.16.x)
-| `11.17.x`   | `11.17.x`              | [master](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master)
+| `11.17.x`   | `11.17.x`              | [11.17.x](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/11.17.x)
+| `11.18.x`   | `11.18.x`              | [master](https://github.com/Picturepark/Picturepark.SDK.TypeScript/tree/master)
 	
 SDK Development
 
