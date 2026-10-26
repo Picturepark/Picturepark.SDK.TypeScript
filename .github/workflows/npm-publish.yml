@@ -46,16 +46,16 @@ jobs:
 
       - name: Publish fetch packages
         working-directory: ./src/picturepark-sdk-v1-fetch/
-        run: npm publish --access=public --dry-run
+        run: npm publish --access=public
 
       - name: Publish pickers packages
         working-directory: ./src/picturepark-sdk-v1-pickers/
-        run: npm publish --access=public --dry-run
+        run: npm publish --access=public
 
       - name: Publish angular packages
         working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular/
-        run: npm publish --access=public --dry-run
+        run: npm publish --access=public
 
       - name: Publish angular oidc packages
         working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular-oidc/
-        run: npm publish --access=public --dry-run
+        run: npm publish --access=public
