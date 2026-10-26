@@ -5,6 +5,10 @@ on:
     branches:
       - release
 
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
 jobs:
   npm-publish:
     runs-on: [ubuntu-latest]
@@ -17,9 +21,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
-          always-auth: true
-          scope: '@picturepark'
 
       - name: Build
         run: |
@@ -34,26 +35,27 @@ jobs:
           npm run lint
           npm run build-libraries
 
+      # Keep the build on Node 20; trusted publishing requires Node >=22.14.0
+      # and npm >=11.5.1, which are provided by the latest Node 24 release.
+      - name: Use Node.js 24 for trusted publishing
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@picturepark'
+
       - name: Publish fetch packages
         working-directory: ./src/picturepark-sdk-v1-fetch/
         run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
 
       - name: Publish pickers packages
         working-directory: ./src/picturepark-sdk-v1-pickers/
         run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
-          
+
       - name: Publish angular packages
         working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular/
         run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
 
       - name: Publish angular oidc packages
         working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular-oidc/
         run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
