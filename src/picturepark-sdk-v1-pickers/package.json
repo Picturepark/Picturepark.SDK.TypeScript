@@ -1,11 +1,6 @@
 {
   "name": "@picturepark/sdk-v1-pickers",
   "version": "11.18.0-pre.0",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Picturepark/Picturepark.SDK.TypeScript.git",
-    "directory": "src/picturepark-sdk-v1-pickers"
-  },
   "main": "dist/index.umd.min.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.esm.min.mjs",
