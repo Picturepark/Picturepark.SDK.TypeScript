@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - release
-      - feature/PP9-22714-Trusted-Publishing
+  workflow_dispatch:
+    
 
 permissions:
   id-token: write  # Required for OIDC
@@ -13,6 +14,10 @@ permissions:
 jobs:
   npm-publish:
     runs-on: [ubuntu-latest]
+    env:
+      # Manual runs default to prerelease publishing; release pushes use latest.
+      PRERELEASE: ${{ github.event_name == 'workflow_dispatch' }}
+      NPM_TAG: ${{ github.event_name == 'workflow_dispatch' && 'pre' || 'latest' }}
     strategy:
       matrix:
         node-version: [20.x]
@@ -23,24 +28,27 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Increase version picturepark-sdk-v2-angular
-        working-directory: ./src/picturepark-sdk-v2-angular
-        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
-      - name: Increase version picturepark-sdk-v1-fetch
-        working-directory: ./src/picturepark-sdk-v1-fetch/
-        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
-      - name: Increase version picturepark-sdk-v1-pickers
-        working-directory: ./src/picturepark-sdk-v1-pickers/
-        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
-      - name: Increase version projects/picturepark-sdk-v2-angular
-        working-directory: ./src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular
-        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
-      - name: Increase version projects/picturepark-sdk-v2-angular-oidc
-        working-directory: ./src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular-oidc
-        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
-
-
-      
+      - name: Prepare package versions
+        shell: bash
+        run: |
+          packages=(
+            src/picturepark-sdk-v1-fetch
+            src/picturepark-sdk-v1-pickers
+            src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular
+            src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular-oidc
+          )
+          for package in "${packages[@]}"; do
+            if [[ "$PRERELEASE" == "true" ]]; then
+              # Run and attempt numbers also make retries of the same commit unique.
+              (cd "$package" && npm version prerelease --preid="pre-${GITHUB_SHA::7}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}" --no-git-tag-version)
+            else
+              version=$(node -p "require('./$package/package.json').version")
+              if [[ "$version" == *-* ]]; then
+                echo "::error::Cannot publish $package@$version under latest. Set a stable version or run manually with prerelease enabled."
+                exit 1
+              fi
+            fi
+          done
 
       - name: Build
         run: |
@@ -66,16 +74,16 @@ jobs:
 
       - name: Publish fetch packages
         working-directory: ./src/picturepark-sdk-v1-fetch/
-        run: npm publish --access=public --tag pre
+        run: npm publish --access=public --tag "$NPM_TAG"
 
       - name: Publish pickers packages
         working-directory: ./src/picturepark-sdk-v1-pickers/
-        run: npm publish --access=public --tag pre
+        run: npm publish --access=public --tag "$NPM_TAG"
 
       - name: Publish angular packages
         working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular/
-        run: npm publish --access=public --tag pre
+        run: npm publish --access=public --tag "$NPM_TAG"
 
       - name: Publish angular oidc packages
         working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular-oidc/
-        run: npm publish --access=public --tag pre
+        run: npm publish --access=public --tag "$NPM_TAG"
