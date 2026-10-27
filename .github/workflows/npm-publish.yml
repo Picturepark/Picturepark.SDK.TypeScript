@@ -22,13 +22,17 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
-    steps:
+      steps:
+      - name: Block manual runs on release
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/release'
+        run: |
+          echo "::error::Manual prerelease runs are not allowed on release. Pushes to release publish under latest automatically."
+          exit 1
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-
       - name: Prepare package metadata and versions
         shell: bash
         run: |
@@ -40,15 +44,18 @@ jobs:
           )
           for package in "${packages[@]}"; do
             (cd "$package" && npm pkg set repository.type=git repository.url="$REPOSITORY_URL" repository.directory="$package")
+            version=$(node -p "require('./$package/package.json').version")
             if [[ "$PRERELEASE" == "true" ]]; then
-              # Run and attempt numbers also make retries of the same commit unique.
-              (cd "$package" && npm version prerelease --preid="pre-${GITHUB_SHA::7}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}" --no-git-tag-version)
-            else
-              version=$(node -p "require('./$package/package.json').version")
-              if [[ "$version" == *-* ]]; then
-                echo "::error::Cannot publish $package@$version under latest. Set a stable version or run manually with prerelease enabled."
+              # Bumping a stable version yields X.Y.(Z+1)-pre..., which falls outside the oidc package's ^X.Y.Z peer range.
+              if [[ "$version" != *-* ]]; then
+                echo "::error::Cannot publish a prerelease from stable $package@$version. Set a prerelease version (e.g. X.Y.Z-pre.0) first."
                 exit 1
               fi
+              # Run and attempt numbers also make retries of the same commit unique.
+              (cd "$package" && npm version prerelease --preid="pre-${GITHUB_SHA::7}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}" --no-git-tag-version)
+            elif [[ "$version" == *-* ]]; then
+              echo "::error::Cannot publish $package@$version under latest. Set a stable version or run the workflow manually to publish a prerelease."
+              exit 1
             fi
           done
 
