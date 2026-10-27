@@ -1,9 +1,7 @@
 name: NPM packages publish
 
 on:
-  push:
-    branches:
-      - release
+  workflow_dispatch:
 
 permissions:
   id-token: write  # Required for OIDC
@@ -21,6 +19,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Increase version picturepark-sdk-v2-angular
+        working-directory: ./src/picturepark-sdk-v2-angular
+        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
+      - name: Increase version projects/picturepark-sdk-v2-angular
+        working-directory: ./src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular
+        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
+      - name: Increase version projects/picturepark-sdk-v2-angular-oidc
+        working-directory: ./src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular-oidc
+        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
+      - name: Increase version projects/picturepark-sdk-v2-angular-ui
+        working-directory: ./src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular-ui
+        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
+      
 
       - name: Build
         run: |
@@ -46,16 +58,16 @@ jobs:
 
       - name: Publish fetch packages
         working-directory: ./src/picturepark-sdk-v1-fetch/
-        run: npm publish --access=public
+        run: npm publish --access=public --tag pre --dry-run
 
       - name: Publish pickers packages
         working-directory: ./src/picturepark-sdk-v1-pickers/
-        run: npm publish --access=public
+        run: npm publish --access=public --tag pre --dry-run
 
       - name: Publish angular packages
         working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular/
-        run: npm publish --access=public
+        run: npm publish --access=public --tag pre --dry-run
 
       - name: Publish angular oidc packages
         working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular-oidc/
-        run: npm publish --access=public
+        run: npm publish --access=public --tag pre --dry-run

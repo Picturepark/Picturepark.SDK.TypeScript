@@ -2,7 +2,7 @@ node_modules
 /src/picturepark-sdk-v2-angular/src/tests/config.ts
 assets/~$$angular-diagram.~vsdx
 .vs/
-
+.idea/
 config.ts
 .DS_Store
 .nx
