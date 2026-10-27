@@ -1,7 +1,10 @@
 name: NPM packages publish
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - release
+      - feature/PP9-22714-Trusted-Publishing
 
 permissions:
   id-token: write  # Required for OIDC
@@ -23,15 +26,20 @@ jobs:
       - name: Increase version picturepark-sdk-v2-angular
         working-directory: ./src/picturepark-sdk-v2-angular
         run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
+      - name: Increase version picturepark-sdk-v1-fetch
+        working-directory: ./src/picturepark-sdk-v1-fetch/
+        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
+      - name: Increase version picturepark-sdk-v1-pickers
+        working-directory: ./src/picturepark-sdk-v1-pickers/
+        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
       - name: Increase version projects/picturepark-sdk-v2-angular
         working-directory: ./src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular
         run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
       - name: Increase version projects/picturepark-sdk-v2-angular-oidc
         working-directory: ./src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular-oidc
         run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
-      - name: Increase version projects/picturepark-sdk-v2-angular-ui
-        working-directory: ./src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular-ui
-        run: npm version prerelease --preid=pre-${GITHUB_SHA::7}
+
+
       
 
       - name: Build
