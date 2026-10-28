@@ -4,22 +4,60 @@ on:
   push:
     branches:
       - release
+  workflow_dispatch:
+    
+
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
 
 jobs:
   npm-publish:
     runs-on: [ubuntu-latest]
+    env:
+      # Manual runs default to prerelease publishing; release pushes use latest.
+      PRERELEASE: ${{ github.event_name == 'workflow_dispatch' }}
+      NPM_TAG: ${{ github.event_name == 'workflow_dispatch' && 'pre' || 'latest' }}
+      REPOSITORY_URL: git+https://github.com/${{ github.repository }}.git
     strategy:
       matrix:
         node-version: [20.x]
     steps:
+      - name: Block manual runs on release
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/release'
+        run: |
+          echo "::error::Manual prerelease runs are not allowed on release. Pushes to release publish under latest automatically."
+          exit 1
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
-          always-auth: true
-          scope: '@picturepark'
+      - name: Prepare package metadata and versions
+        shell: bash
+        run: |
+          packages=(
+            src/picturepark-sdk-v1-fetch
+            src/picturepark-sdk-v1-pickers
+            src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular
+            src/picturepark-sdk-v2-angular/projects/picturepark-sdk-v2-angular-oidc
+          )
+          for package in "${packages[@]}"; do
+            (cd "$package" && npm pkg set repository.type=git repository.url="$REPOSITORY_URL" repository.directory="$package")
+            version=$(node -p "require('./$package/package.json').version")
+            if [[ "$PRERELEASE" == "true" ]]; then
+              # Bumping a stable version yields X.Y.(Z+1)-pre..., which falls outside the oidc package's ^X.Y.Z peer range.
+              if [[ "$version" != *-* ]]; then
+                echo "::error::Cannot publish a prerelease from stable $package@$version. Set a prerelease version (e.g. X.Y.Z-pre.0) first."
+                exit 1
+              fi
+              # Run and attempt numbers also make retries of the same commit unique.
+              (cd "$package" && npm version prerelease --preid="pre-${GITHUB_SHA::7}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}" --no-git-tag-version)
+            elif [[ "$version" == *-* ]]; then
+              echo "::error::Cannot publish $package@$version under latest. Set a stable version or run the workflow manually to publish a prerelease."
+              exit 1
+            fi
+          done
 
       - name: Build
         run: |
@@ -34,26 +72,27 @@ jobs:
           npm run lint
           npm run build-libraries
 
+      # Keep the build on Node 20; trusted publishing requires Node >=22.14.0
+      # and npm >=11.5.1, which are provided by the latest Node 24 release.
+      - name: Use Node.js 24 for trusted publishing
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@picturepark'
+
       - name: Publish fetch packages
         working-directory: ./src/picturepark-sdk-v1-fetch/
-        run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+        run: npm publish --access=public --tag "$NPM_TAG"
 
       - name: Publish pickers packages
         working-directory: ./src/picturepark-sdk-v1-pickers/
-        run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
-          
+        run: npm publish --access=public --tag "$NPM_TAG"
+
       - name: Publish angular packages
         working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular/
-        run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+        run: npm publish --access=public --tag "$NPM_TAG"
 
       - name: Publish angular oidc packages
         working-directory: ./src/picturepark-sdk-v2-angular/dist/picturepark-sdk-v2-angular-oidc/
-        run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+        run: npm publish --access=public --tag "$NPM_TAG"
